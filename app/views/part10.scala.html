@@ -1,0 +1,285 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+    @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+
+@main(title=Messages("project.name") +" - "+Messages("section10.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+    @form(action = dataCapturePages.routes.PageController.savePage(10), args = 'class -> "myForm", 'id -> "myFormId") {
+
+
+        <main id="content" tabindex="-1">
+        @views.html.includes.backSave()
+        @progressBar(10, Messages("section10.heading"), true, true)
+
+         @includes.errors(theForm, summary.isAgent)
+
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                @helper.CSRF.formField
+    
+
+                @inputRadioGroup(
+                    field = theForm("partRent"),
+                    options = Seq(
+                        "true" -> Messages("label.yes2"),
+                        "false" -> Messages("label.no2")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.partRent.agent")  else  Messages("label.partRent")),
+                        '_error -> theForm("partRent").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.partRent")
+                    )
+                )
+
+                @inputRadioGroup(
+                    field = theForm("otherProperty"),
+                    options = Seq(
+                        "true" -> Messages("label.yes2"),
+                        "false" -> Messages("label.no2")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages("label.otherProperty"),
+                        '_error -> theForm("otherProperty").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.otherProperty")
+                    )
+                )
+
+                @inputRadioGroup(
+                    field = theForm("livingAccomodation"),
+                    options = Seq(
+                        "true" -> Messages("label.yes2"),
+                        "false" -> Messages("label.no2")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages("label.livingAccomodation"),
+                        '_error -> theForm("livingAccomodation").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.livingAccomodation")
+                    )
+                )
+
+                @inputRadioGroup(
+                    field = theForm("landOnly"),
+                    options = Seq(
+                        "true" -> Messages("label.yes8"),
+                        "false" -> Messages("label.no8")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.landOnly.agent")  else  Messages("label.landOnly")),
+                        '_error -> theForm("landOnly").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.landOnly")
+                    )
+                )
+
+                @inputRadioGroup(
+                    field = theForm("shellUnit"),
+                    options = Seq(
+                        "true" -> Messages("label.yes8"),
+                        "false" -> Messages("label.no8")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.shellUnit.agent")  else  Messages("label.shellUnit")),
+                        '_error -> theForm("shellUnit").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.shellUnit")
+                    )
+                )
+
+                @textarea(
+                    field = theForm("rentDetails"),
+                    '_label -> Messages(if(summary.isAgent)  Messages("label.rentDetails.agent")  else  Messages("label.rentDetails")),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control input-extra-large",
+                    '_fieldsetClass -> "form-group hidden data-show-details",
+                    'rows -> "6",
+                    '_characterCount -> "249"
+                )
+              
+                @inputRadioGroup(
+                    field = theForm("parking.rentIncludeParking"),
+                    options = Seq(
+                        "true" -> Messages("label.yes2"),
+                        "false" -> Messages("label.no2")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-field", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.parking.rentIncludeParking.agent")  else  Messages("label.parking.rentIncludeParking")),
+                        '_error -> theForm("parking.rentIncludeParking").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false
+                    )
+                )
+
+                    <fieldset class="form-group hidden parking.rentIncludeParking" id="parking.rentIncludeParkingDetails">
+                        <legend class="form-label-bold">@Messages("label.parking.rentIncludeParkingDetails")</legend>
+
+                        
+                        <p class="hidden">@Messages("label.noJs.rentIncludeParkingDetails")</p>
+                        @errorWrapper(Seq(theForm("parking.rentIncludeParkingDetails")), "parking.rentIncludeParkingDetails", true, "form-field-group") {
+
+                            @inputText(
+                                field = theForm("parking.rentIncludeParkingDetails.openSpaces"),
+                                '_label -> Messages("label.openSpaces"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                            @inputText(
+                                field = theForm("parking.rentIncludeParkingDetails.coveredSpaces"),
+                                '_label -> Messages("label.coveredSpaces"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                            @inputText(
+                                field = theForm("parking.rentIncludeParkingDetails.garages"),
+                                '_label -> Messages("label.garages"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                        }
+                    </fieldset>
+
+                    @inputRadioGroup(
+                        field = theForm("parking.rentSeparateParking"),
+                        options = Seq(
+                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
+                            "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+                        ),
+                        dataAttributes = Seq(("true", "data-show-field", "true")),
+                        args = Seq(
+                            '_showConstraints -> false,
+                            '_label -> Messages(if(summary.isAgent)  Messages("label.parking.rentSeparateParking.agent")  else  Messages("label.parking.rentSeparateParking")),
+                            '_error -> theForm("parking.rentSeparateParking").error,
+                            '_legend -> true,
+                            '_fieldsetClass -> "inline",
+                            '_labelClass -> "form-label-bold",
+                            '_showConstraints -> false
+                        )
+                    )
+
+                    <fieldset class="form-group hidden parking.rentSeparateParking" id="parking.rentSeparateParkingDetails">
+                        
+                        <legend class="form-label-bold">@Messages(if(summary.isAgent)  Messages("label.parking.rentSeparateParkingDetails.agent")  else  Messages("label.parking.rentSeparateParkingDetails"))</legend>
+                        <p class="hidden">@Messages("label.noJs.rentSeparateParkingDetails")</p>
+                        
+                        @errorWrapper(Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
+
+                            @inputText(
+                                field = theForm("parking.rentSeparateParkingDetails.openSpaces"),
+                                '_label -> Messages("label.openSpaces"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                            @inputText(
+                                field = theForm("parking.rentSeparateParkingDetails.coveredSpaces"),
+                                '_label -> Messages("label.coveredSpaces"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                            @inputText(
+                                field = theForm("parking.rentSeparateParkingDetails.garages"),
+                                '_label -> Messages("label.garages"),
+                                '_labelClass -> "form-label",
+                                'class -> "form-control",
+                                '_fieldsetClass -> "form-group custom-140",
+                                Symbol("pattern") -> "[0-9]*"
+                            )
+
+                        }
+                    </fieldset>
+
+                    <div class=" hidden parking.rentSeparateParking">
+                        @inputText(
+                            field = theForm("parking.annualSeparateParking"),
+                            '_label -> Messages("label.parking.annualSeparateParking"),
+                            '_labelClass -> "form-label-bold",
+                            'class -> "form-control input-currency excludeVat",
+                            '_fieldsetClass -> "form-group custom-140",
+                            '_pound -> true
+                        )
+
+                        @includes.dateFields(theForm, "", false, "", "parking.annualSeparateParkingDate")
+
+                        <div class="panel-indent panel-indent-info hidden intel-alert parking_annualSeparateParkingDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+                        
+                    </div>
+
+                    @includes.continueButton()
+
+
+                </div>
+            
+            <div class="column-third"></div>
+        </div>
+
+    </main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+         @includes.formHelp()
+}

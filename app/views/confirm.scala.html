@@ -1,0 +1,100 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import models.pages.Summary
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+
+@(theForm: Form[_], referenceNumber: String, email: Option[String], pdfSize: PdfSize, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+    @views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name")+" - "+Messages("label.confirm.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=false) {
+
+    
+  <main id="content" tabindex="-1">
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      <h1 class="form-title heading-large heading-confirmation">
+        <span class="tick">&#10004;</span> @Messages("label.confirm.heading")
+        <div class="summary-actions">
+          <a href="@routes.Application.pdf" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download") @pdfSize.size</a>
+        </div>
+      </h1>
+
+       <h2 class="heading-medium">@Messages("label.whatNext")</h2>
+
+        <ul class="list-bullet">
+          <li>@Messages("label.weMayContactYou")</li>
+          <li>@Messages("label.anyQuestions") <a href="mailto:formhelp@@voa.gsi.gov.uk">formhelp@@voa.gsi.gov.uk</a> @Messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber))</li>
+        </ul>
+
+        <p><a href="@routes.Application.index">@Messages("label.submitAnotherForm")</a></p>
+        
+        <hr />
+        
+        <div class="clearfix"><br /></div>
+
+        @form(action = feedback.routes.Survey.formCompleteFeedback, args = 'class -> "satisfactionSurvey", 'id -> "myFormId") {
+
+          @helper.CSRF.formField
+  
+        @includes.errors(theForm, isAgent = false)
+          
+          @inputRadioGroup(
+            field = theForm("satisfaction"),
+            options = EnumOptions.options(SatisfactionTypes, lang),
+            args = Seq(
+              '_label -> Messages("label.satisfactionSurvey"),
+              '_error -> theForm("satisfaction").error,
+              '_showConstraints -> false,
+              '_showErrors -> true,
+              '_labelClass -> "form-label-bold",
+              '_legend -> true,
+              '_fieldsetClass -> "",
+              '_optional -> true
+            )
+          )
+
+          @textarea(
+            field = theForm("details"),
+            '_label -> Messages("label.satisfactionSurveyComments"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control input-extra-large",
+            '_fieldsetClass -> "form-group",
+            Symbol("rows") -> "8",
+            '_optional -> true,
+            '_characterCount -> "1200"
+          )
+
+          <p>@Messages("text.survey.bottomCopy")</p>
+
+          <p>
+            <button type="submit" id="continue" name="continue_button" class="button">
+              @Messages("button.label.submit")
+            </button>
+          </p>
+        
+
+        <div class="clearfix"></div>
+    </div>
+    <div class="column-third"></div>
+  </div>
+ </main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+}

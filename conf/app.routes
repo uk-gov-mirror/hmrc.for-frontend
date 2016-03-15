@@ -1,0 +1,65 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                          controllers.Application.index
+
+GET         /confirmation              controllers.feedback.Survey.confirmation
+GET         /declaration               controllers.Application.declaration()
+GET         /declarationError          controllers.Application.declarationError
+POST        /declaration               controllers.FORSubmissionController.submit
+GET         /fail                      controllers.Application.fail
+GET         /summary                   controllers.Application.summary
+GET         /startagain                controllers.Application.startAgain
+GET         /sessiontimeout            controllers.Application.sessionTimeout
+
+#LANGUAGE
+GET     	/language/:lang       	   controllers.CustomLanguageController.switchToLanguage(lang: String)
+
+
+#SAVE4LATER
+GET         /saved                     controllers.SaveForLater.saveForLater
+GET         /saved/login               controllers.SaveForLater.login
+GET         /savedForm                 controllers.SaveForLater.resumeOptions
+POST 		/resume					   controllers.SaveForLater.resume
+GET 		/immediateresume		   controllers.SaveForLater.immediateResume
+
+GET         /login                     controllers.LoginController.show
+POST        /login                     controllers.LoginController.submit
+GET         /loginattemptsremaining/:attemptsRemaining  controllers.LoginController.loginFailed(attemptsRemaining: Int)
+GET         /lockedout                 controllers.LoginController.lockedOut
+GET         /logout                    controllers.LoginController.logout
+
+GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)
+POST        /page/:pageNumber          controllers.dataCapturePages.PageController.savePage(pageNumber:Int)
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file              controllers.Assets.at(path="/public", file)
+
+# INFO PAGES
+GET         /cookies                   controllers.Application.cookies
+GET         /terms-and-conditions      controllers.Application.termsandconditions
+
+# ERROR PAGES
+GET         /404                       controllers.Application.error404
+GET         /408                       controllers.Application.error408
+GET         /409                       controllers.Application.error409
+GET         /410                       controllers.Application.error410
+GET         /500                       controllers.Application.error500
+
+# LOOKUP API
+GET         /lookup                    controllers.AddressLookup.getAddress(postcode:String)
+
+GET         /pdf                       controllers.Application.pdf
+
+# SURVEY
+GET         /surveyThankyou            controllers.feedback.Survey.surveyThankyou
+POST        /survey 				   controllers.feedback.Survey.formCompleteFeedback
+
+# IN-PAGE FEEDBACK
+GET         /inpagefeedback 		   controllers.feedback.Feedback.inPageFeedback
+POST 		/sendbetafeedbacktohmrc    controllers.feedback.Feedback.sendBetaFeedbackToHmrc
+POST 		/sendbetafeedbacktohmrcnologin    controllers.feedback.Feedback.sendBetaFeedbackToHmrcNoLogin
+GET         /inpagefeedbackThankyou    controllers.feedback.Feedback.inPageFeedbackThankyou
+GET 		/inpagefeedbackNoLogin	   controllers.feedback.Feedback.inPageFeedbackNoLogin

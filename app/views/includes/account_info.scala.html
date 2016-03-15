@@ -1,0 +1,12 @@
+@import models.pages.Summary
+@import _root_.template.FormatRefNum
+
+@(summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+<div class="account-info">
+  <ul>
+    <li><span>@Messages("label.account.ref"):</span> @{
+        FormatRefNum(summary.referenceNumber)
+    }</li>
+    <li><span>@Messages("label.account.property"):</span> @Html(summary.address.map(_.singleLine).getOrElse("")) @if(summary.isUnderReview){ @Messages("label.underReview") } </li>
+  </ul>
+</div>

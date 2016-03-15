@@ -1,0 +1,15 @@
+@(message: String)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts() 
+}
+
+@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd) {
+
+<h1> Something went wrong, sorry </h1>
+<p>@message</p>
+}

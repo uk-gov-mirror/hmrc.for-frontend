@@ -1,0 +1,177 @@
+@import models._
+@import models.pages.Summary
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+@agreementType = {@summary.lease.flatMap {d=>@d.leaseAgreementType.name}}
+
+@main(title=Messages("project.name")+" - "+Messages("section7.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(7), args = 'class -> "myForm", 'id -> "myFormId") {
+    <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    @progressBar(7, Messages("section7.heading"), true, true)
+
+    @includes.errors(theForm, summary.isAgent)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        @helper.CSRF.formField
+
+
+
+          <!-- Does your lease or agreement contain rent reviews? -->
+        @inputRadioGroup(
+          field = theForm("leaseContainsRentReviews"),
+          options = Seq(
+            "true" -> Messages("label.yes2"),
+            "false" -> Messages("label.no2")
+          ),
+          dataAttributes = Seq(("true", "data-show-field", "true"), ("true", "data-parent", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages(if(summary.isAgent) Messages("label.leaseContainsRentReviews.agent."+agreementType) else Messages("label.leaseContainsRentReviews."+agreementType)),
+            '_error -> theForm("leaseContainsRentReviews").error.map(_.withMessage(Messages("error.boolean_missing"))),
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_help -> Messages("hint.leaseContainsRentReviews")
+          )
+        )
+
+        <div class="leaseContainsRentReviews hidden">
+
+            <!-- At what interval is the rent reviewed? -->
+          @inputRadioGroup(
+            field = theForm("rentReviewDetails.reviewIntervalType"),
+            options = EnumOptions.options(ReviewIntervalTypes, lang),
+            args = Seq(
+              '_label -> Messages("label.rentReviewDetails.reviewIntervalType"),
+              '_error -> theForm("reviewIntervalTypes").error.map(_.withMessage(Messages("error.no_value_selected"))),
+              '_showConstraints -> false,
+              '_showErrors -> true,
+              '_labelClass -> "form-label-bold",
+              '_legend -> true,
+              '_nojsText -> Messages("label.noJs.rentReviewDetails.reviewIntervalType")
+            ),
+            dataAttributes = Seq(("other", "data-show-field", "true"))
+          )
+
+          <div class="hidden rentReviewDetails.reviewIntervalType">
+          @includes.durationYearsMonths(theForm("rentReviewDetails.reviewIntervalTypeSpecify"), "", false, "", "rentReviewDetails.reviewIntervalTypeSpecify", "", true, Messages("label.noJs.rentReviewDetails.reviewIntervalTypeSpecify"))
+          </div>
+
+
+          @includes.dateFields(theForm, "", true, Messages("hint.lastReviewDate"), "rentReviewDetails.lastReviewDate")
+
+          <div class="panel-indent panel-indent-info hidden intel-alert rentReviewDetails_lastReviewDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+
+          @inputRadioGroup(
+            field = theForm("rentReviewDetails.canRentReduced"),
+            options = Seq(
+              "true" -> Messages("label.yes5"),
+              "false" -> Messages("label.no5")
+            ),
+            args = Seq(
+              '_showConstraints -> false,
+              '_label -> Messages("label.rentReviewDetails.canRentReduced"),
+              '_error -> theForm("rentReviewDetails.canRentReduced").error.map(_.withMessage(Messages("error.boolean_missing"))),
+              '_legend -> true,
+              '_fieldsetClass -> "inline",
+              '_labelClass -> "form-label-bold",
+              '_showConstraints -> false,
+              '_help -> Html(Messages("hint.canRentReduced"))
+            )
+          )
+
+          @inputRadioGroup(
+            field = theForm("rentReviewDetails.rentResultOfRentReview"),
+            options = Seq(
+              "true" -> Messages("label.yes2"),
+              "false" -> Messages("label.no2")
+            ),
+            dataAttributes = Seq(("true", "data-show-field", "true")),
+            args = Seq(
+              '_showConstraints -> false,
+              '_label -> Messages("label.rentReviewDetails.rentResultOfRentReview"),
+              '_error -> theForm("rentReviewDetails.rentResultOfRentReview").error.map(_.withMessage(Messages("error.boolean_missing"))),
+              '_legend -> true,
+              '_fieldsetClass -> "inline",
+              '_labelClass -> "form-label-bold",
+              '_showConstraints -> false
+            )
+          )
+
+          <div class="rentReviewDetails.rentResultOfRentReview hidden">
+
+            @includes.dateFields(theForm, "", false, "", "rentReviewDetails.rentReviewResultsDetails.whenWasRentReview", "", false, true, Messages("label.noJs.rentReviewDetails.rentResultOfRentReview"))
+
+            @inputRadioGroup(
+              field = theForm("rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween"),
+              options = Seq(
+                "true" -> Messages("label.yes6"),
+                "false" -> Messages("label.no6")
+              ),
+              dataAttributes = Seq(("false", "data-show-field", "true")),
+              args = Seq(
+                '_showConstraints -> false,
+                '_label -> Messages(if(summary.isAgent) Messages("label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent") else Messages("label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween")),
+                '_error -> theForm("rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween").error.map(_.withMessage(Messages("error.boolean_missing"))),
+                '_legend -> true,
+                '_fieldsetClass -> "inline",
+                '_labelClass -> "form-label-bold",
+                '_showConstraints -> false,
+                '_showErrors -> true,
+                '_nojsText -> Messages("label.noJs.rentReviewDetails.rentResultOfRentReview")
+              )
+            )
+
+            @inputRadioGroup(
+              field = theForm("rentReviewDetails.rentReviewResultsDetails.rentFixedBy"),
+              options = EnumOptions.options(RentFixedTypes, lang),
+              args = Seq(
+                '_label -> Messages("label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy"),
+                '_error -> theForm("rentReviewDetails.rentReviewResultsDetails.rentFixedBy").error.map(_.withMessage(Messages("error.no_value_selected"))),
+                '_showConstraints -> false,
+                '_showErrors -> true,
+                '_labelClass -> "form-label-bold",
+                '_legend -> true,
+                '_fieldsetClass -> "form-group hidden rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween",
+                '_nojsText -> Messages("label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy")
+              )
+            )
+
+          </div>
+        </div>
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+ </main>
+
+    @includes.continueButtonStickyFooter()
+
+    }
+
+        @includes.formHelp()
+}

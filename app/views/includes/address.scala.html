@@ -1,0 +1,15 @@
+@import models._
+@import play.api.data._
+@import play.api.data.Forms._
+@(theForm:Form[_],fieldPrefix:String,base:Int=0)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@text(suffix:String,label:String) = {
+    @inputText(theForm, fieldPrefix + suffix,label)
+}
+
+@(base+0)@text(".buildingNameNumber","Building Name/Number")
+@(base+1)@text(".street1","Street")
+@(base+2)@text(".street2","")  
+@(base+4)@text(".postcode","Postcode")
+
+       

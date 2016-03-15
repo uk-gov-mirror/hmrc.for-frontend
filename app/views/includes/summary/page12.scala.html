@@ -1,0 +1,53 @@
+@import helpers.summary._
+@import java.text.NumberFormat
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p12: PageTwelve)(implicit requestHeader: RequestHeader,  lang: Lang)
+<li><h2 class="heading-medium no-margin-top">@Messages("section12.heading")</h2></li>
+
+@summaryBlock(Messages("label.responsibleOutsideRepairs"), 12, "responsibleOutsideRepairs") {
+    @Messages(s"responsibleType.${p12.responsibleOutsideRepairs.name}")
+
+}
+@summaryBlock(Messages("label.responsibleInsideRepairs"), 12, "responsibleInsideRepairs") {
+    @Messages(s"responsibleType.${p12.responsibleInsideRepairs.name}")
+}
+@summaryBlock(Messages("label.responsibleBuildingInsurance"), 12, "responsibleBuildingInsurance") {
+    @Messages(s"responsibleType.${p12.responsibleBuildingInsurance.name}")   
+}
+@summaryBlock(Messages("label.ndrCharges"), 12, "ndrCharges") {
+    @displayBoolean(p12.ndrCharges, "7")(lang)
+}
+@if(p12.ndrCharges) {
+    @p12.ndrDetails.map { ndrSpecifics =>
+
+        @summaryBlock(Messages("label.ndrDetails"), 12, "ndrDetails") {
+            @(s"£${NumberFormat.getNumberInstance().format(ndrSpecifics)} ")
+        }
+    }
+}
+
+@summaryBlock(Messages("label.waterCharges"), 12, "waterCharges") {
+    @displayBoolean(p12.waterCharges, "7")(lang)
+}
+@if(p12.waterCharges) {
+    @summaryBlock(Messages("label.ndrDetails"), 12, "waterChargesCost") {
+        @(s"£${NumberFormat.getNumberInstance().format(p12.waterChargesCost.getOrElse(""))} ")
+    }
+}
+
+@summaryBlock(Messages("label.includedServices"), 12, "includedServices") {
+    @displayBoolean(p12.includedServices, "7")(lang)
+}
+@if(p12.includedServices) {
+    @p12.includedServicesDetails.zipWithIndex.map { case (serviceDetails, idx) =>
+        @summaryBlock(s"${idx+1}. " + Messages("label.includedServicesDetails.chargeDescription"), 12, s"includedServicesDetails_${idx}_chargeDescription_text") {
+            @serviceDetails.chargeDescription
+            <br/>
+            @(s"£${NumberFormat.getNumberInstance().format(serviceDetails.chargeCost)}")
+        }
+
+    }
+}

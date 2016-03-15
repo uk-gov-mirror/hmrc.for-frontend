@@ -1,0 +1,137 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages.Summary
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import views.includes.FieldNamer
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+
+@headerClass = { with-proposition }
+@main(title=Messages("project.name")+" - "+Messages("section13.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(13), args = 'class -> "myForm", 'id -> "myFormId") {
+    <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    @progressBar(13, Messages("section13.heading"), true, true)
+
+    @includes.errors(theForm, summary.isAgent)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        @helper.CSRF.formField
+
+
+        @inputRadioGroup(
+          field = theForm("propertyAlterations"),
+          options = Seq(
+            "true" -> Messages("label.yes6"),
+            "false" -> Messages("label.no6")
+          ),
+          dataAttributes = Seq(("true", "data-show-field", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages(if(summary.isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")),
+            '_error -> theForm("propertyAlterations").error,
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_help -> Messages("hint.propertyAlterations")
+          )
+        )
+
+        <div class="propertyAlterations hidden">
+          <fieldset style="display:inline-block" data-limit="10">
+            @_root_.template.repeatWithIndex(theForm("propertyAlterationsDetails"), max = 10) { (propertyAlterationsDetails, idx) =>
+            
+              <div class="multi-fields-group" id=@(s"propertyAlterationsDetails_description_div_${idx}")>
+
+              @includes.dateFieldsAlternative(theForm, "", "propertyAlterationsDetails", Some(idx), true, Messages("label.noJs.section13"))
+
+              <div class="panel-indent panel-indent-info hidden intel-alert @(s"propertyAlterationsDetails_${idx}_date")" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+
+
+              @textarea(
+                field = theForm(s"propertyAlterationsDetails[$idx].description"),
+                '_label -> Messages("label.propertyAlterationsDetails.description"),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control input-extra-large",
+                Symbol("rows") -> "6",
+                '_characterCount -> "250",
+                '_nojsText -> Messages("label.noJs.section13")
+              )
+
+              @inputText(
+                field = theForm(s"propertyAlterationsDetails[$idx].cost"),
+                '_label -> Messages("label.propertyAlterationsDetails.cost"),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control input-currency excludeVat",
+                '_pound -> true,
+                '_nojsText -> Messages("label.noJs.section13")
+              )
+
+              
+
+              <a href="#" class="remove-multi-fields" role="button" style="display : none">@Messages("label.add.remove")</a>
+            </div>
+            }
+
+
+            <div class="form-group">
+              <a href="#" class="add-multi-fields" role="button">@Messages("label.add.propertyAlterations")</a>
+            </div>
+
+          </fieldset>
+
+          
+          @inputRadioGroup(
+            field = theForm("requiredAnyWorks"),
+            options = Seq(
+              "true" -> Messages("label.yes8"),
+              "false" -> Messages("label.no8")
+            ),
+            args = Seq(
+              '_showConstraints -> false,
+              '_label -> Messages(if(summary.isAgent) Messages("label.requiredAnyWorks.agent") else Messages("label.requiredAnyWorks")),
+              '_error -> theForm("requiredAnyWorks").error,
+              '_legend -> true,
+              '_fieldsetClass -> "inline",
+              '_labelClass -> "form-label-bold",
+              '_showConstraints -> false,
+              '_help -> Messages("hint.requiredAnyWorks"),
+              '_nojsText -> Messages("label.noJs.section13")
+            )
+          )
+
+        </div>
+
+        @includes.continueButton()
+
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+</main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+         @includes.formHelp()
+}

@@ -1,0 +1,27 @@
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+@views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+@views.html.includes.javascripts()
+@views.html.includes.analytics()
+}
+
+@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false) {
+
+<main id="content" tabindex="-1">
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h1 class="form-title heading-xlarge">@Messages("heading.sessionTimeout")</h1>
+
+            <p>@Messages("sessionTimeout.copy")</p>
+
+            <p><a href="@routes.LoginController.show()">@Messages("sessionTimeout.button")</a></p>
+
+        </div>
+    </div>
+</main>
+}

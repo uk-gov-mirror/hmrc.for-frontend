@@ -1,0 +1,40 @@
+@import helpers.summary._
+@import java.text.NumberFormat
+@import helpers.summary._
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+  @(p4: PageFour, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+    <li><h2 class="heading-medium no-margin-top">@Messages("section4.heading")</h2></li> 
+    @summaryBlock(Messages(if(isAgent) Messages("label.propertyIsSublet.agent") else Messages("label.propertyIsSublet")), 4, "propertyIsSublet") {
+      @displayBoolean(p4.propertyIsSublet, if(isAgent) "2" else "1")(lang)
+    }
+
+    @p4.sublet.zipWithIndex.map {  case (sl, index) => 
+
+      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.tenantFullName.agent") else Messages("label.sublet.tenantFullName")), 4, s"sublet_${index}_tenantFullName") {
+        @sl.tenantFullName
+      }
+
+      @summaryBlock(Messages("label.address"), 4, s"sublet_${index}_tenantAddress_buildingNameNumber") {
+        @Html(sl.tenantAddress.multiLine)
+      }
+      
+      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.subletPropertyPartDescription.agent") else Messages("label.sublet.subletPropertyPartDescription")), 4, s"sublet_${index}_subletPropertyPartDescription") {
+        @sl.subletPropertyPartDescription
+      }
+
+      @summaryBlock(Messages("label.sublet.subletPropertyReasonDescription"), 4, s"sublet_${index}_subletPropertyReasonDescription") {
+        @p4.sublet.map(s => s.subletPropertyReasonDescription)
+      }
+
+      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.annualRent.agent") else Messages("label.sublet.annualRent")), 4, s"sublet_${index}_annualRent") {
+        £@sl.annualRent
+      }
+
+      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.rentFixedDate.agent") else Messages("label.sublet.rentFixedDate")), 4, s"sublet_${index}_rentFixedDate_month") {
+        @displayRoughDate(sl.rentFixedDate)
+      }
+  }
+

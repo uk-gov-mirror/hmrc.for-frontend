@@ -1,0 +1,185 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm:Form[PageFour], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+
+@underReview = @{
+  if(summary.isUnderReview){" " + Messages("label.underReview") } else {""}
+}
+
+@main(title=Messages("project.name")+" - "+Messages("section4.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(4), args = 'class -> "myForm", 'id -> "myFormId") {
+    <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+
+    @progressBar(4, Messages("section4.heading"), true, true)
+
+    @includes.errors(theForm, summary.isAgent)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        @helper.CSRF.formField
+
+        @inputRadioGroup(
+          field = theForm("propertyIsSublet"),
+          options = Seq(
+            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
+            "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+          ),
+          dataAttributes = Seq(("true", "data-show-field", "true")),
+          args = Seq(
+            '_label -> Messages(if(summary.isAgent) Messages("label.propertyIsSublet.agent") else Messages("label.propertyIsSublet")),
+            '_error -> theForm("propertyIsSublet").error,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_help -> Messages("hint.propertyIsSublet")
+          )
+        )
+
+        <p class="hidden">@Messages("label.noJs.section4")</p>
+
+
+        <div class="form-group propertyIsSublet hidden">
+
+    <fieldset style="display:inline-block" data-limit="5">
+
+        @_root_.template.repeatWithIndex(theForm("sublet"), max = 5) { (sublet, idx) =>
+
+          <div class="multi-fields-group" id=@(s"sublet_description_div_${idx}")>
+
+           @inputText(
+                field = sublet("tenantFullName"),
+                '_label -> Messages(if(summary.isAgent) Messages("label.sublet.tenantFullName.agent") else Messages("label.sublet.tenantFullName")),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control"
+              )
+
+              @defining(Addresses.getAddress(summary)) { address =>
+
+                <input type="hidden" id="addressBuildingNameNumber" value="@address.buildingNameNumber" class="subletsHidden" />
+                <input type="hidden" id="addressStreet1" value="@address.street1.getOrElse("")"  class="subletsHidden" />
+                <input type="hidden" id="addressStreet2" value="@address.street2.getOrElse("")"  class="subletsHidden" />
+                <input type="hidden" id="addressPostcode" value="@address.postcode"  class="subletsHidden" />
+
+                @helpers.inputText(
+                  field = theForm(s"sublet[$idx].tenantAddress.buildingNameNumber"),
+                  '_label -> Messages("label.subletAddress"),
+                  '_labelClass -> "form-label-bold",
+                  'class -> "form-control",
+                  '_fieldsetClass -> "address-field-one address-fields",
+                  Symbol("placeholder") -> Messages("placeholder.address.1")
+                )
+
+                @helpers.inputText(
+                    field = theForm(s"sublet[$idx].tenantAddress.street1"),
+                  '_label -> Messages("label.street1"),
+                  '_labelClass -> "visuallyhidden",
+                  'class -> "form-control",
+                  '_fieldsetClass -> "address-field-two address-fields",
+                  Symbol("placeholder") -> Messages("placeholder.address.2"),
+                  '_optional -> true
+                )
+
+                @helpers.inputText(
+                  field = theForm(s"sublet[$idx].tenantAddress.street2"),
+                  '_label -> Messages("label.street2"),
+                  'class -> "form-control",
+                  '_labelClass -> "visuallyhidden",
+                  '_fieldsetClass -> "address-field-three",
+                  Symbol("placeholder") -> Messages("placeholder.address.3"),
+                  '_optional -> true
+
+                )
+
+                @helpers.inputText(
+                  field = theForm(s"sublet[$idx].tenantAddress.postcode"),
+                  '_label -> Messages("label.postcode"),
+                  '_labelClass -> "form-label-bold",
+                  'class -> s"form-control postcode postcode-+$idx",
+                  '_fieldsetClass -> "address-field-postcode"
+                )
+              }
+
+              @inputText(
+                field = sublet("subletPropertyPartDescription"),
+                '_label -> Messages(if(summary.isAgent) Messages("label.sublet.subletPropertyPartDescription.agent") else Messages("label.sublet.subletPropertyPartDescription")),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control",
+                '_help -> Messages("hint.sublet.subletPropertyPartDescription")
+              )
+
+              @inputText(
+                field = sublet("subletPropertyReasonDescription"),
+                '_label -> Messages("label.sublet.subletPropertyReasonDescription"),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control",
+                '_help -> Messages("hint.sublet.subletPropertyReasonDescription")
+              )
+
+              @inputText(
+                field = sublet("annualRent"),
+                '_label -> Messages(if(summary.isAgent) Messages("label.sublet.annualRent.agent") else Messages("label.sublet.annualRent")),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control input-currency excludeVat",
+                '_pound -> true
+              )
+
+              @if(summary.isAgent) {
+                @includes.dateFields(theForm, "", false, "", s"sublet[$idx].rentFixedDate", "agent", label = Some("label.sublet.rentFixedDate.agent"))
+              } else {
+                @includes.dateFields(theForm, "", false, "", s"sublet[$idx].rentFixedDate", "", label = Some("label.sublet.rentFixedDate"))
+              }
+
+              <div class="panel-indent panel-indent-info hidden intel-alert sublet_rentFixedDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+
+              <a href="#" class="remove-multi-fields" role="button" style="display:none">@Messages("label.add.remove")</a>
+              </div>
+           }
+
+
+            <div class="form-group">
+              <a href="#" class="add-multi-fields hide-if-no-js" role="button" >@Messages("label.add.sublet")</a>
+            </div>
+
+
+        </fieldset>
+
+
+        </div>
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+ </main>
+
+    @includes.continueButtonStickyFooter()
+
+    }
+
+        @includes.formHelp()
+}

@@ -1,0 +1,4 @@
+@(b: Boolean, suffix: String)(lang: Lang)
+
+@if(b) { @Messages("label.yes"+suffix)(lang) } else { @Messages("label.no"+suffix)(lang) } 
+

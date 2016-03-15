@@ -1,0 +1,240 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages.Summary
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name")+" - "+Messages("section6.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(6), args = 'class -> "myForm", 'id -> "myFormId") {
+    <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    @progressBar(6, Messages("section6.heading"), true, true)
+
+    @includes.errors(theForm, summary.isAgent: Boolean)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+
+        @helper.CSRF.formField
+
+          <!-- What type of lease or agreement do you have? -->
+        @inputRadioGroup(
+          field = theForm("leaseAgreementType"),
+          options = EnumOptions.options(LeaseAgreementTypes, lang),
+          args = Seq(
+            '_label -> Messages(if(summary.isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")),
+            '_error -> theForm("leaseAgreementType").errors,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true,
+            '_help -> Messages("hint.leaseAgreementType")
+          )
+        )
+
+
+        <div class="leaseAgreementVerbal hidden" >
+
+          @if(summary.isAgent) {
+            @includes.dateFields(theForm, "", false, "", "verbalAgreement.startDate", "agent",  optional = true)
+          } else {
+            @includes.dateFields(theForm, "", false, "", "verbalAgreement.startDate",  "",  optional = true)
+          }
+
+
+          @inputRadioGroup(
+            field = theForm("verbalAgreement.rentOpenEnded"),
+            options = Seq(
+              "true" -> Messages("label.yes2"),
+              "false" -> Messages("label.no2")
+            ),
+            dataAttributes = Seq(
+            ("true", "data-show-fields", ""),
+            ("false", "data-show-fields", "verbalAgreement.leaseLength.months,verbalAgreement.leaseLength.years")),
+            args = Seq(
+              '_showConstraints -> false,
+              '_label -> Messages(if(summary.isAgent) Messages("label.verbalAgreement.rentOpenEnded.agent") else Messages("label.verbalAgreement.rentOpenEnded")),
+              '_error -> theForm("verbalAgreement.rentOpenEnded").errors,
+              '_legend -> true,
+              '_fieldsetClass -> "inline",
+              '_labelClass -> "form-label-bold",
+              '_showConstraints -> false,
+              '_help -> Messages("optional"),
+              '_optional -> true
+            )
+          )
+
+
+           <div data-show-fields-group="verbalAgreement.rentOpenEnded">
+            @if(summary.isAgent) {
+              @includes.durationYearsMonths(theForm("verbalAgreement.leaseLength"), "hidden", false, "", "verbalAgreement.leaselength", "agent", true, Messages("label.noJs.verbalAgreement.startDate"))
+            } else {
+              @includes.durationYearsMonths(theForm("verbalAgreement.leaseLength"), "hidden", false, "", "verbalAgreement.leaselength", "", true, Messages("label.noJs.verbalAgreement.startDate"))
+            }
+          </div>
+
+      </div>
+
+      <div class="leaseAgreementWritten hidden">
+
+          @if(summary.isAgent) {
+            @includes.dateFields(theForm, "", false, "", "writtenAgreement.startDate", "agent",  optional = false,  true, Messages("label.noJs.verbalAgreement.startDate"))
+          } else {
+            @includes.dateFields(theForm, "", false, "", "writtenAgreement.startDate",  "",  optional = false,  true, Messages("label.noJs.verbalAgreement.startDate"))
+          }
+
+          @inputRadioGroup(
+            field = theForm("writtenAgreement.rentOpenEnded"),
+            options = Seq(
+              "true" -> Messages("label.yes2"),
+              "false" -> Messages("label.no2")
+            ),
+            dataAttributes = Seq(
+            ("true", "data-show-fields", ""),
+            ("false", "data-show-fields", "writtenAgreement.leaseLength.years,writtenAgreement.leaseLength.months")),
+            args = Seq(
+              '_showConstraints -> false,
+              '_label -> Html(Messages(if(summary.isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent") else Messages("label.writtenAgreement.rentOpenEnded"))),
+              '_error -> theForm("writtenAgreement.rentOpenEnded").errors,
+              '_legend -> true,
+              '_fieldsetClass -> "inline",
+              '_labelClass -> "form-label-bold",
+              '_showConstraints -> false,
+              '_nojsText -> Messages("label.noJs.verbalAgreement.startDate")
+            )
+          )
+
+          <div data-show-fields-group="writtenAgreement.rentOpenEnded">
+            @if(summary.isAgent) {
+              @includes.durationYearsMonths(theForm("writtenAgreement.leaseLength"), "hidden", false, "", "writtenAgreement.leaselength", "agent", true, Messages("label.noJs.writtenAgreement.leaseLength"))
+            } else {
+              @includes.durationYearsMonths(theForm("writtenAgreement.leaseLength"), "hidden", false, "", "writtenAgreement.leaselength", "",  true, Messages("label.noJs.writtenAgreement.leaseLength"))
+            }
+          </div>
+
+        @inputRadioGroup(
+          field = theForm("writtenAgreement.leaseAgreementHasBreakClause"),
+          options = Seq(
+            "true" -> Messages("label.yes4"),
+            "false" -> Messages("label.no4")
+          ),
+          dataAttributes = Seq(("true", "data-show-field", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages("label.writtenAgreement.leaseAgreementHasBreakClause"),
+            '_error -> theForm("isBreakClause").error.map(_.withMessage(Messages("error.isBreakClause"))),
+            '_legend -> true,
+            '_fieldsetClass -> "form-group inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_help -> Messages("details.answer.isBreakClause"),
+            '_nojsText -> Messages("label.noJs.verbalAgreement.startDate")
+          )
+        )
+
+
+
+        @textarea(
+          field = theForm("writtenAgreement.breakClauseDetails"),
+          '_label -> Messages("label.writtenAgreement.breakClauseDetails"),
+          '_error -> theForm("writtenAgreement.breakClauseDetails"),
+          '_labelClass -> "form-label-bold",
+          'class -> "form-control input-extra-large",
+          Symbol("rows") -> "3",
+          '_fieldsetClass -> "form-group writtenAgreement.leaseAgreementHasBreakClause hidden",
+          '_characterCount -> "124",
+          '_nojsText -> Messages("label.noJs.setepedrent")
+        )
+
+        @inputRadioGroup(
+          field = theForm("writtenAgreement.agreementIsStepped"),
+          options = Seq(
+            "true" -> Messages("label.yes2"),
+            "false" -> Messages("label.no2")
+          ),
+          dataAttributes = Seq(("true", "data-show-field", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages(if(summary.isAgent) Messages("label.writtenAgreement.agreementIsStepped.agent") else Messages("label.writtenAgreement.agreementIsStepped")),
+            '_error -> theForm("writtenAgreement.agreementIsStepped").errors,
+            '_legend -> true,
+            '_fieldsetClass -> "form-group inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_help -> Messages("details.answer.stepedRent"),
+            '_nojsText -> Messages("label.noJs.verbalAgreement.startDate")
+          )
+        )
+
+
+
+          <fieldset class="form-group writtenAgreement.agreementIsStepped hidden" data-limit="7">
+            <label class="form-label-bold">@Messages("label.writtenAgreement.steppedDetailsYear")</label>
+            <p class="hidden">@Messages("label.noJs.setepedrent")</p>
+            <span class="form-hint">@Messages("hint.writtenAgreement.steppedDetailsYear")</span>
+            @defining(theForm("writtenAgreement.steppedDetails").indexes.size) { size =>
+              @_root_.template.repeatWithIndex(theForm("writtenAgreement.steppedDetails"), max = 7) { (steppedDetail, idx) =>
+
+                @errorWrapper(fields = Seq(steppedDetail("year"), steppedDetail("amount")), id = s"writtenAgreement.steppedDetails_$idx", false, classes = "multi-fields-group") {
+
+                  @includes.dateFieldsDayMonthYearAlternative(theForm, "", "writtenAgreement.steppedDetails", "stepFrom", false, "", false, Some(idx), Messages("help.steprent.dateto"))
+
+                  @includes.dateFieldsDayMonthYearAlternative(theForm, "", "writtenAgreement.steppedDetails", "stepTo", false, "", false, Some(idx), Messages("help.steprent.datefrom"))
+
+                  @inputText(
+                    field = steppedDetail("amount"),
+                    '_label -> Messages("label.writtenAgreement.steppedDetails.amount"),
+                    '_labelClass -> "form-label-bold",
+                    '_fieldsetClass -> "field-inline",
+                    '_error -> steppedDetail("amount").errors,
+                    'class -> "form-control details-amount input-currency excludeVat",
+                    '_pound -> true,
+                    '_showErrors -> true
+                  )
+
+                <div class="clearfix"></div>
+
+                  <a href="#" class="remove-multi-fields" role="button" style="display:none">@Messages("label.add.remove")</a>
+
+                }
+
+              }
+            }
+
+            <div class="form-group">
+              <a href="#" class="add-multi-fields hide-if-no-js" role="button" >@Messages("label.add.steppedRent")</a>
+            </div>
+          </fieldset>
+      </div>
+
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+ </main>
+
+    @includes.continueButtonStickyFooter()
+
+    }
+
+        @includes.formHelp()
+}

@@ -1,0 +1,123 @@
+@import helpers.summary._
+@import includes.summary._
+@import models.journeys.Journey
+@import models.pages._
+@import models.serviceContracts.submissions._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@ifIsAgent=@{
+  summary.isAgent
+}
+
+
+@topBackButton = {
+
+    <a href="@dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary))" class="button-link link-back" role="button">
+      @Messages("button.label.back")
+    </a>
+    <span class="clearfix"></span>
+
+}
+
+@main(title=Messages("project.name")+" - "+Messages("heading.summary"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+      <main id="content" tabindex="-1">
+<div class="summary-actions-top">
+  <a href="@routes.SaveForLater.saveForLater" class="save button button-secondary pull-right" role="link">@Messages("button.label.save")</a>
+  <a href="javascript:window.print();" class="pull-right button button-secondary pdf-button hide-if-no-js" role="link">@Messages("label.print.summary")</a>
+</div>
+
+@progressBar(0, Messages("heading.summary"), false, true, Some(topBackButton))
+
+<p class="summary-text">@Messages("label.summary.text")</p>
+
+<div id="summaryList">
+  <ul class="summary">
+
+    @if(!Journey.pageIsNotApplicable(1, summary)) {
+      @summary.propertyAddress.map { x => @views.html.includes.summary.page1(x, summary) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(2, summary)) {
+      @summary.customerDetails.map { x => @views.html.includes.summary.page2(x, summary) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(3, summary)) {
+      @summary.theProperty.map { x => @views.html.includes.summary.page3(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(4, summary)) {
+      @summary.sublet.map { x => @views.html.includes.summary.page4(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(5, summary)) {
+      @summary.landlord.map { x => @views.html.includes.summary.page5(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(6, summary)) {
+      @summary.lease.map { x => @views.html.includes.summary.page6(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(7, summary)) {
+      @summary.rentReviews.map { x => @views.html.includes.summary.page7(x, isAgent = ifIsAgent, summary) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(8, summary)) {
+      @summary.rentAgreement.map { x => @views.html.includes.summary.page8(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(9, summary)) {
+      @summary.rent.map { x => @views.html.includes.summary.page9(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(10, summary)) {
+      @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(11, summary)) {
+      @summary.incentives.map { x => @views.html.includes.summary.page11(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(12, summary)) {
+      @summary.responsibilities.map { x => @views.html.includes.summary.page12(x) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(13, summary)) {
+      @summary.alterations.map { x => @views.html.includes.summary.page13(x, isAgent = ifIsAgent) }
+    }
+
+    @if(!Journey.pageIsNotApplicable(14, summary)) {
+      @summary.otherFactors.map { x => @views.html.includes.summary.page14(x, isAgent = ifIsAgent) }
+    }
+  </ul>
+
+
+
+</div>
+
+<div class="summary-actions">
+  <p>
+    <a id="continue" href="@routes.Application.declaration" class="button" role="button">@Messages("button.label.continue")</a>
+    <a href="@routes.SaveForLater.saveForLater" class="save button button-secondary" role="button">@Messages("button.label.save")</a>
+    <a href="javascript:window.print();" class="button button-secondary pdf-button hide-if-no-js" role="button">@Messages("label.print.summary")</a>
+  </p>
+
+  <p><a href="@dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary))" class="button-link link-back" role="button">@Messages("button.label.back")</a></p>
+</div>
+
+  @views.html.includes.signFooter(summary)
+</main>
+
+ @if(!forPdf) { @includes.formHelp() }
+}

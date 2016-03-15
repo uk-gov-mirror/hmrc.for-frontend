@@ -1,0 +1,29 @@
+@import helpers.summary._
+@import java.text.NumberFormat
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+<li><h2 class="heading-medium no-margin-top">@Messages("section13.heading")</h2></li>
+@summaryBlock(Messages(if(isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")), 13, "propertyAlterations") {
+    @displayBoolean(p13.propertyAlterations, "6")(lang)
+}
+
+@if(p13.propertyAlterations) {
+    @p13.propertyAlterationsDetails.zipWithIndex.map { case (details, idx) =>
+        @summaryBlock(s"${idx + 1}. " + Messages("label.propertyAlterationsDetails.description"), 13, s"propertyAlterationsDetails_description_div_${idx}") {
+            @details.description
+            <br/>
+            @(s"£${NumberFormat.getNumberInstance().format(details.cost)}")
+            <br/>
+            @displayRoughDate(details.date)
+        }
+    }
+    @summaryBlock(Messages(if(isAgent) Messages("label.requiredAnyWorks.agent") else Messages("label.requiredAnyWorks")), 13, "requiredAnyWorks") {
+        @p13.alterationsRequired.map { alterationRequiredValue =>
+            @displayBoolean(alterationRequiredValue, "8")(lang)
+        }
+    }
+}
+

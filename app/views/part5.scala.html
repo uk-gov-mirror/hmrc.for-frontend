@@ -1,0 +1,95 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[PageFive], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+    @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+    @views.html.includes.analytics(summary)
+}
+
+@surname = @{
+    val s = summary.customerDetails.map(_.fullName).getOrElse("")
+    s.split("\\s+").last
+}
+@address = @{
+    val s = summary.customerDetails
+}
+
+@main(title=Messages("project.name")+" - "+Messages("section5.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+    @form(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
+
+    <main id="content" tabindex="-1">
+        @views.html.includes.backSave()
+        @progressBar(5, Messages("section5.heading"), true, true)
+
+        @includes.errors(theForm, summary.isAgent)
+
+        <div class="grid-row">
+            <div class="column-two-thirds">
+
+                @helper.CSRF.formField
+
+                    <!-- Landlord's full name -->
+                @inputText(
+                    field = theForm("landlordFullName"),
+                    '_label -> Messages("label.landlordFullName"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                )
+
+                @includes.lookupAddress(theForm, "landlordAddress", "", true, "", false)
+
+                @inputRadioGroup(
+                    field = theForm("landlordConnectType"),
+                    options = EnumOptions.options(LandlordConnectionTypes, lang),
+                    args = Seq(
+                        '_label -> Messages(if(summary.isAgent) Messages("label.LandlordConnectionTypes.agent") else Messages("label.LandlordConnectionTypes")),
+                        '_error -> theForm("landlordConnectType").errors,
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_legend -> true,
+                        '_showErrors -> true
+                    ),
+                    dataAttributes = Seq(
+                        ("other", "data-show-field", "true"),
+                        ("noConnected", "data-intel", surname.toLowerCase()+Addresses.getAddress(summary).singleLine.replaceAll(" ", "").replaceAll(",", "").toLowerCase())
+                    )
+                )
+
+                <div class="panel-indent panel-indent-info hidden landlord-connect-type intel-alert">@Messages("intel.alert.landlordNameAddress")</div>
+
+                @inputText(
+                    field = theForm("landlordConnectText"),
+                    '_label -> Messages(if(summary.isAgent) Messages("label.landlordConnectText.agent") else Messages("label.landlordConnectText")),
+                    '_labelClass -> "form-label-bold",
+                    '_fieldsetClass -> "hidden landlordConnectType",
+                    'class -> "form-control",
+                    '_help -> Messages("hint.landlordConnect"),
+                    '_nojsText -> Messages("label.noJs.landlordConnect")
+
+                )
+
+                @includes.continueButton()
+
+            </div>
+            <div class="column-third"></div>
+        </div>
+ </main>
+
+    @includes.continueButtonStickyFooter()
+
+    }
+
+        @includes.formHelp()
+}

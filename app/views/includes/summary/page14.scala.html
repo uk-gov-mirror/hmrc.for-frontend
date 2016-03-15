@@ -1,0 +1,17 @@
+@import helpers.summary._
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p14: OtherFactors, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+<li><h2 class="heading-medium no-margin-top">@Messages("section14.heading")</h2></li>
+
+@summaryBlock(Messages(if(isAgent) Messages("label.anyOtherFactors.agent") else Messages("label.anyOtherFactors")), 14, "anyOtherFactors") {
+    @displayBoolean(p14.anyOtherFactors, "3")(lang)
+}
+
+@if(p14.anyOtherFactors) {
+    @summaryBlock(Messages("label.anyOtherFactorsDetails"), 14, "anyOtherFactorsDetails") {
+        @p14.anyOtherFactorsDetails
+    }
+}

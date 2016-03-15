@@ -1,0 +1,75 @@
+@import helpers.summary._
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p2: CustomerDetails, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@underReview = @{
+  if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}
+}
+
+<li><h2 class="heading-medium no-margin-top">@Messages("section2.heading")</h2></li>
+@summaryBlock(Messages("label.fullName"), 2, "fullName") {
+    @p2.fullName
+}
+@summaryBlock(Messages("label.userType"), 2, "userType") {
+    @Messages(s"userType.${p2.userType.name}")
+}
+@summaryBlock(Messages("label.contactType"), 2, "contactType") {
+    @Messages(s"contactType.${p2.contactType.name}")
+}
+@if(p2.contactType == ContactTypeEmail || p2.contactType == ContactTypeBoth) {
+    @summaryBlock(Messages("label.email1"), 2, "contactDetails_email1") {
+        @p2.contactDetails.email
+    }
+}
+@if(p2.contactType == ContactTypePhone || p2.contactType == ContactTypeBoth) {
+    @summaryBlock(Messages("label.phone"), 2, "contactDetails_phone") {
+        @p2.contactDetails.phone
+    }
+}
+
+@if(p2.userType == UserTypeOwner || p2.userType == UserTypeOccupier) {
+    
+    @p2.contactAddressType.map { cat =>
+        
+        @summaryBlock(Messages("label.contactAddressType"), 2, "contactAddressType") {
+            @cat match {
+                case ContactAddressTypeMain => { @Html(summary.address.get.multiLine) @Html(underReview) }
+                case ContactAddressTypeAlternativeAddress => { @Messages("label.alternativeAddress")  }
+                case ContactAddressTypeAlternativeContact => { @Messages("label.alternativeContact") }
+            }
+        }
+
+        @if(cat == ContactAddressTypeAlternativeAddress) {
+            @summaryBlock(Messages("label.alternativeAddress"), 2, "alternativeAddress_buildingNameNumber") {
+                @p2.alternativeAddress.map { altAdd =>
+                    @defining(Seq[String](altAdd.buildingNameNumber, altAdd.street1.getOrElse(""), altAdd.street2.getOrElse(""), altAdd.postcode).filter(!_.isEmpty).mkString("<br />")) { ahtml =>
+                        @Html(ahtml)
+                    }
+                }
+            }
+        }
+
+        @if(cat == ContactAddressTypeAlternativeContact) {
+            @summaryBlock(Messages("label.alternativeContact"), 2, "alternativeContact_address_buildingNameNumber_text") {
+                @p2.alternativeContact.map { contact =>
+                        @Html(contact.fullname)<br />
+                        @contact.contactDetails.phone.map { p => @Html(p)<br />}
+                        @contact.contactDetails.email.map { e => @Html(e)<br />}
+                        <br />
+                    @defining(Seq[String](contact.address.buildingNameNumber, contact.address.street1.getOrElse(""), contact.address.street2.getOrElse(""), contact.address.postcode).filter(!_.isEmpty).mkString("<br />")) { ahtml =>
+                        @Html(ahtml)
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+

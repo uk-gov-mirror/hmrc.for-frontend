@@ -1,0 +1,21 @@
+@import helpers.summary._
+@import models._
+@import models.pages.Summary
+@import models.serviceContracts.submissions._
+
+@(p8: RentAgreement, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+    <li><h2 class="heading-medium no-margin-top">@if(isAgent){ @Messages("section8.heading.agent") }else{ @Messages("section8.heading")}</h2></li> 
+    @summaryBlock(Messages(if(isAgent) Messages("label.wasRentFixedBetween.agent") else Messages("label.wasRentFixedBetween")), 8, "wasRentFixedBetween") {
+      @displayBoolean(p8.wasRentFixedBetween, "6")(lang)
+    }
+
+    @if(!p8.wasRentFixedBetween) {
+      @summaryBlock(Messages("label.notReviewRentFixed"), 8, "notReviewRentFixed") {
+        @p8.notReviewRentFixed.map(x => Messages(s"notReviewRentFixedTypes.${x.name}"))
+      }
+    }
+
+    @summaryBlock(Messages("label.rentSetByType"), 8, "rentSetByType") {
+      @Messages(s"rentSetByTypes.${p8.rentSetByType.name}")
+    }

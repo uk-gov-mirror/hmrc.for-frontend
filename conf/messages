@@ -1,0 +1,703 @@
+#COMMON
+##############################
+project.name=Submit rent and lease details
+project.header=Rent and lease details
+login.heading=Enter your reference number
+failedLogin.heading=Login error
+lockedOut.heading=Locked out
+label.continue=Continue
+button.label.submit=Submit
+optional=Optional
+help.date.month.year=For example, 3 2011
+help.optional.date.month.year=For example, 3 2011 (Optional)
+help.date.years.months=For example, 1 10
+label.date.month=Month
+label.date.year=Year
+label.date.months=Months
+label.date.day=Day
+label.date.years=Years
+label.yes=Yes
+label.no=No
+label.yes1=Yes
+label.no1=No
+label.yes2=Yes
+label.no2=No
+label.yes3=Yes
+label.no3=No
+label.yes4=Yes
+label.no4=No
+label.yes5=Yes
+label.no5=No
+label.yes6=Yes
+label.no6=No
+label.yes7=Yes
+label.no7=No
+label.yes8=Yes
+label.no8=No
+help.date.day.month.year=For example, 12 3 2011
+link.label.calculate=Help me calculate the annual rent
+button.label.calculate=Calculate
+label.excluding.vat=Excluding VAT
+label.amount=Amount
+label.year=Year
+label.add.individual=Add another individual
+label.add.steppedRent=Add another stepped rent
+label.add.sublet=Add another sublet
+label.add.remove=Remove
+label.dontknow=I don''t know
+label.openSpaces=Open spaces
+label.coveredSpaces=Covered spaces
+label.garages=Garages
+button.label.tryagain=Try again
+label.optional=Optional
+label.required=required
+label.openSpaces.summary=open space
+label.openSpaces.summary.greaterthan1=open spaces
+label.coveredSpaces.summary=covered space
+label.coveredSpaces.summary.greaterthan1=covered spaces
+label.garages.summary=garage
+label.garages.summary.greaterthan1=garages
+label.leaveEmpty=Leave empty if none
+heading.summary=Summary
+label.manualAddress=Enter address manually
+label.selectAddress=Select address
+label.addressMatches=Address matches
+label.loading=Loading ...
+label.findAddress=Find address
+label.addressAbroad=Address
+label.overseas.address=Enter an address outside the UK
+alt.newWindow=Opens in a new window
+label.underReview=(Under review)
+copy.character.count=Maximum <span>{0}</span> characters (<span class="chars" data-max-length="{0}">{0}</span> remaining)
+copy.character.count.nojs=Maximum <span>{0}</span> characters
+link.privacyPolicy=Privacy
+label.excludingVat=Is this rent exclusive of VAT?
+label.tryAgain=Try again
+label.startFormAgain=Start form again
+label.password=password
+label.totalRent=Annual rent
+label.checkTheForm=Check the form
+label.fixTheFollowing=Fix the following:
+label.phase=This is a new service – your <a href="{0}" target="_blank" id="betaFeedback">feedback <span class="visuallyhidden"> ({1})</span></a> will help us to improve it.
+label.beta=BETA
+label.section=Section {0} of {1}
+label.footer.builtBy=Built by the <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office Agency</a>
+label.footer.licence=All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated
+label.footer.ogl=Open Government Licence
+label.footer.crown=Crown copyright
+label.edit=Edit
+label.account.ref=Reference
+label.account.property=Property
+placeholder.address.1=Address line 1
+placeholder.address.2=Address line 2
+placeholder.address.3=Address line 3
+
+#BUTTON LABELS
+##############################
+button.label.back=Back
+button.label.continue=Continue
+button.label.save=Save for later
+button.label.pdf=Download PDF
+
+#LOGIN
+##############################
+label.letter=You''ll find your reference number and postcode in your rent and lease detail letter.
+label.referenceNumber=Reference number
+hint.letter=As it appears on the request for information letter
+label.referenceNumber1=First 7 characters of the reference number
+label.referenceNumber2=Last 3 characters of the reference number
+error.invalid_refnum=Please enter a valid reference number
+alt.letter=You''ll find your reference number and postcode in your rent and lease detail letter
+label.ref1=Reference number
+label.ref2=Reference number
+heading.login.lockedOut=You are now locked out
+heading.login.loginFailed=Login error
+label.retryLogin=Try to log in again
+
+#SECTION 1
+##############################
+section1.heading=Property address
+section1.intro.text=You are providing information about this address
+label.isAddressCorrect=Is this correct?
+label.address.buildingNameNumber=Address line 1
+label.buildingNameNumber=Address
+label.isAddressCorrectYes=Yes
+label.isAddressCorrectNo=No, I want to change it
+label.changedAddress=Changed address
+label.address=Address
+label.address.street1=Address line 2
+label.address.street2=Address line 3
+label.addresss.townCity=Town or city
+label.postcode=Postcode
+label.street1=Address line 2
+label.street2=Address line 3
+label.townCity=Town or city
+error.isAddressCorrect=Select a value
+label.address.townCity=Town or city
+label.address.postcode=Postcode
+label.currentAddress=Current address
+label.updatedAddress=Updated address
+label.suggestedChanges=Suggested changes to the address may not be<br />accepted by the VOA.
+
+#SECTION 2
+##############################
+section2.heading=About you
+label.fullName=Your full name
+label.contactType=How would you like us to contact you?
+label.userType=I am the
+label.email1=Email
+label.email2=Confirm email
+label.contactDetails.email2=Confirm email
+label.phone=Phone number
+label.contactDetails.phone=Phone
+label.contactAddressType=Which address would you like us to use if we need to write to you in future?
+hint.contacts=In case we need to contact them about the property
+label.contactDetails.email1=Email
+label.alternativeAddress=Alternative address
+label.alternativeAddress.buildingNameNumber=Address line 1
+label.alternativeAddress.townCity=Town or city
+label.alternativeAddress.postcode=Postcode
+label.alternativeAddress.street1=Address line 2
+label.alternativeAddress.street2=Address line 3
+label.alternativeContact=Alternative contact
+label.alternativeContact.fullName=Contact''s full name
+label.alternativeContact.number=Contact number
+label.alternativeContact.contactDetails.phone=Contact number
+label.alternativeContact.contactDetails.email1=Email
+label.alternativeContact.contactDetails.email2=Confirm email
+label.alternativeContact.address.buildingNameNumber=Address line 1
+label.alternativeContact.address.street1=Address line 2
+label.alternativeContact.address.street2=Address line 3
+label.alternativeContact.address.townCity=Town or city
+label.alternativeContact.address.postcode=Postcode
+label.alternativeContact.contactDetails=Alternative contact
+label.alternativeContact.address=Alternative contact''s address
+hint.anyQueries=For any queries about this form
+label.noJs.contactDetails.email1=Answer this only if you''ve selected ''Email'' or ''Both''
+label.noJs.contactDetails.phone=Answer this only if you''ve selected ''Phone'' or ''Both''
+label.noJs.contactDetails.contactAddressType=Answer this only if you''ve selected ''Occupier'' or ''Owner''
+label.noJs.alternativeAddress.buildingNameNumber=Answer this only if you''ve selected ''I want to be contacted at an alternative address''
+label.noJs.alternativeContact.fullName=Answer this only if you''ve selected ''I want someone else to be contacted on my behalf''
+
+#SECTION 3
+##############################
+section3.heading=About the property
+label.propertyTypes=What is the property used for?
+propertyTypes.shop=Shop
+propertyTypes.factory=Factory
+propertyTypes.office=Office
+propertyTypes.warehouse=Warehouse
+propertyTypes.other=Other
+label.otherPropertyType=Other property
+propertyTypes.help=For example, retail warehouse, workshop, restaurant, land
+label.occupierTypes=Who occupies the property?
+occupierType.individuals=One or more individuals
+occupierType.company=A company
+occupierType.nobody=Nobody, the property is empty
+label.companyName=Company name
+label.occupierCompanyContact=Name of contact
+label.firstOccupationDate=When did you / they first occupy the property?
+label.firstOccupationDate.agent=When did your client first occupy the property?
+label.mainOccupierName=Main occupier''s name
+label.propertyOwnedByYou=Do you own the property?
+label.propertyOwnedByYou.agent=Does your client own the property?
+label.propertyRentedBy=Do you pay rent on the property?
+label.propertyRentedBy.agent=Does your client pay rent on the property?
+label.propertyRentedByYou=Do you pay rent on the property?
+label.propertyRentedByYou.agent=Does your client pay rent on the property?
+label.propertyType=What is the property used for?
+label.occupierType=Who occupies the property?
+label.occupierCompanyName=Company name
+label.noJs.occupierCompanyName=Answer this only if you''ve selected ''A company''
+label.noJs.firstOccupationDate=Answer this only if you''ve selected ''One or more individuals'' or ''A company''
+label.noJs.propertyRentedBy=Answer this only if you''ve selected ''No''
+
+#SECTION 4
+###############################
+section4.heading=Lettings and sub-lettings
+label.propertyIsSublet=Do you let or sub-let all or any part of the property?
+label.propertyIsSublet.agent=Does your client let or sub-let all or any part of the property?
+hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces
+label.sublet.tenantFullName=Your tenant''s name
+label.sublet.tenantFullName.agent=The tenant''s name
+label.sublet.subletPropertyPartDescription=What part of the property do you sub-let?
+label.sublet.subletPropertyPartDescription.agent=What part of the property is sub-let?
+hint.sublet.subletPropertyPartDescription=For example, this may include areas used by other businesses, advertising hoardings, flats or mobile phone masts
+label.sublet.subletPropertyReasonDescription=What is the sub-let property used for?
+hint.sublet.subletPropertyReasonDescription=For example, residential use or commercial use
+label.sublet.annualRent=How much rent do you receive each year from this sub-let excluding VAT?
+label.sublet.annualRent.agent=How much rent does your client receive each year from this sub-let excluding VAT?
+label.sublet.annualRent.annualRentExcludingVat.generic=Sub-let rent excluding VAT
+hint.sublet.annualRentExcludingVat=Excluding VAT
+label.sublet.annualRent.rentLengthType=How do you receive your sub-let rent?
+label.sublet.annualRent.rentLengthType.agent=How does your client receive the sub-let rent?
+label.sublet.rentFixedDate=When did your sub-let start?
+label.sublet.rentFixedDate.agent=When did your client''s sub-let start?
+label.ammountPerYear=Amount per year
+label.sublet.tenantAddress.buildingNameNumber=Building name or number
+label.sublet.tenantAddress.street1=Address line 2
+label.sublet.tenantAddress.street2=Address line 3
+label.sublet.tenantAddress.townCity=Town or city
+label.sublet.tenantAddress.postcode=Tenant''s postcode
+label.sublet.isTenantsAddress=Your tenant''s address
+label.sublet.isTenantsAddress.agent=The tenant''s address
+isTenantsAddressType.differentAddress=Enter different address
+label.noJs.section4=Answer the questions below only if you've selected ''Yes''
+label.noJs.sublet.tenantAddress=Answer this only if you''ve selected ''Enter different address''
+label.subletAddress=Address of the property that is sub-let
+
+#SECTION 5
+###############################
+section5.heading=The landlord
+landlordConnectionType.noConnected=No connection
+landlordConnectionType.family=Family
+landlordConnectionType.other=Other connection
+label.landlordFullName=Landlord''s full name
+hint.landlordConnect=A business or other connection eg you/your client and the landlord may be business partners; or the company renting the property may be the landlord''s holding or subsidiary company.
+label.landlordConnectText=Your connection to the landlord
+label.landlordConnectText.agent=Their connection to the landlord
+label.landlordConnectType=How are you connected to the landlord?
+label.landlordConnectType.agent=How is your client connected to the landlord?
+label.LandlordConnectionTypes=How are you connected to the landlord?
+label.LandlordConnectionTypes.agent=How is your client connected to the landlord?
+label.overseas=Do they have an overseas address?
+label.landlordAddress.buildingNameNumber=Building name or number
+label.landlordAddress.street1=Address line 2
+label.landlordAddress.street2=Address line 3
+label.landlordAddress.townCity=Town or city
+label.landlordAddress.postcode=Building postcode
+error.landlord_connection_type_missing=You must choose one
+label.landlordOverseasAddress.buildingNameNumber=Address
+label.landlordOverseasAddress.postcode=Postcode
+label.landlordOverseasAddress.street1=Address line 2
+label.landlordOverseasAddress.street2=Address line 3
+label.noJs.landlordConnect=Answer this only if you''ve selected ''Other connection''
+intel.alert.landlordName=Are your sure this is correct - the landlords name is the same as the tenants?
+
+#SECTION 6
+###############################
+section6.heading=The lease or agreement
+label.leaseAgreementHasBreakClause=Is there a break clause?
+label.breakClauseDetails=Provide details of the break clause
+label.agreementIsStepped=Is your rent a stepped rent?
+hint.steppedDetailsYear=You will usually find these in your lease or written agreement
+label.rentOpenEnded=Is the lease or agreement open ended?
+label.writtenAgreement.leaseAgreementHasBreakClause=Is there a break clause?
+label.writtenAgreement.breakClauseDetails=Provide details of the break clause
+label.writtenAgreement.agreementIsStepped=Is your rent a stepped rent agreement?
+label.writtenAgreement.agreementIsStepped.agent=Is your client''s rent a stepped rent agreement?
+label.writtenAgreement.steppedDetailsYear=Provide details of the stepped rent
+hint.writtenAgreement.steppedDetailsYear=You will usually find these in your lease or written agreement
+label.leaseAgreementType=What type of agreement do you have?
+label.leaseAgreementType.agent=What type of agreement does your client have?
+label.writtenAgreement.startDate=When did your <span class="agreementType">lease, licence or written</span> agreement start?
+label.writtenAgreement.startDate.agent=When did your client''s <span class="agreementType">lease, licence or written</span> agreement start?
+label.writtenAgreement.startDate.leaseTenancy=When did your single lease or tenancy agreement start?
+label.writtenAgreement.startDate.agent.leaseTenancy=When did your client''s single lease or tenancy agreement start?
+label.writtenAgreement.startDate.licenceOther=When did your license or written agreement start?
+label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?
+label.writtenAgreement.rentOpenEnded=Is your <span class="agreementType">lease, license or written</span> agreement open ended?
+label.writtenAgreement.rentOpenEnded.agent=Is your client''s <span class="agreementType">lease, licence or written</span> agreement open ended?
+label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your single lease or tenancy agreement open ended?
+label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client''s single lease or tenancy agreement open ended?
+label.writtenAgreement.rentOpenEnded.licenceOther=Is your license or written agreement open ended?
+label.writtenAgreement.rentOpenEnded.agent.licenceOther=Is your client''s licence or written agreement open ended?
+label.writtenAgreement.leaselength=How long was your <span class="agreementType">lease, license or written</span> agreement granted for?
+label.writtenAgreement.leaselength.agent=How long was your client''s <span class="agreementType">lease, licence or written</span> agreement granted for?
+label.writtenAgreement.leaselength.leaseTenancy=How long was your single lease or tenancy agreement granted for?
+label.writtenAgreement.leaselength.agent.leaseTenancy=How long was your client''s single lease or tenancy agreement granted for?
+label.writtenAgreement.leaselength.licenceOther=How long was your license or written agreement granted for?
+label.writtenAgreement.leaselength.agent.licenceOther=How long was your client''s licence or written agreement granted for?
+label.verbalAgreement.startDate=When did your verbal agreement start?
+label.verbalAgreement.startDate.agent=When did your client''s verbal agreement start?
+label.verbalAgreement.rentOpenEnded=Is your verbal agreement open ended?
+label.verbalAgreement.rentOpenEnded.agent=Is your client''s verbal agreement open ended?
+label.verbalAgreement.leaselength=How long was your verbal agreement granted for?
+label.verbalAgreement.leaselength.agent=How long was your client''s verbal agreement granted for?
+label.noJs.verbalAgreement.startDate=Answer this only if you''ve selected ''A single lease or tenancy agreement'' or ''Licence or other type of written agreement''
+label.noJs.writtenAgreement.leaseLength=Answer this only if you''ve selected ''No''
+label.noJs.setepedrent=Answer this only if you''ve selected ''Yes''
+details.question.stepedRent=What is a stepped rent?
+details.answer.stepedRent=A stepped rent lets you/your client know in advance how the rent will change over the years until the next rent review or lease renewal date.
+details.question.isBreakClause=What is a break clause?
+details.answer.isBreakClause=A break clause allows you/your client and/or the landlord to end the tenancy early. You will usually find details of the break clause in the lease or written agreement.
+label.steppedDetails.stepFrom=Step from
+label.steppedDetails.stepTo=Step to
+label.steppedDetails.amount=Amount
+label.steppedDetails=Stepped rent details
+help.steprent.dateto=For example, 12 3 2011
+help.steprent.datefrom=For example, 12 3 2012
+label.writtenAgreement.steppedDetails.stepFrom=Step from
+label.writtenAgreement.steppedDetails.stepTo=Step to
+label.writtenAgreement.steppedDetails.amount=Total amount for this step excluding VAT
+label.writtenAgreement.steppedDetails=Stepped rent details
+hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details relating to the primary lease in this form then contact the Valuation Office to provide details relating to the other lease or agreements.
+
+#SECTION 7
+###############################
+section7.heading=Rent reviews
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your license or written agreement include any rent reviews?</span>
+label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
+label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or written agreement include any rent reviews?
+label.leaseContainsRentReviews.leaseTenancy=Does your single lease or tenancy agreement include any rent reviews?
+label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
+hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement
+label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
+label.rentReviewDetails.lastReviewDate=When was the last review date?
+hint.canRentReduced=The lease or agreement will have a specific clause saying whether the rent can go down as well as up. Select <span class="font-bold">''Yes''</span> if the rent can go up or down, <span class="font-bold">''No''</span> if the rent can only go up.
+label.rentReviewDetails.rentReviewResultsDetails.whenWasRentReview=When was this rent review?
+label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=It was fixed by
+label.rentReviewDetails.reviewIntervalType=How often is the rent reviewed?
+label.rentReviewDetails.canRentReduced=Can the rent be reduced on review?
+label.rentReviewDetails.rentResultOfRentReview=Is the rent on this property the result of a rent review?
+label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=Was the rent agreed between you (or your agent) and the landlord?
+label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent=Was the rent agreed between your client (or you) and the landlord?
+hint.lastReviewDate=Leave empty if not reviewed yet
+label.noJs.rentReviewDetails.reviewIntervalType=Answer this only if you''ve selected ''Yes''
+label.noJs.rentReviewDetails.rentResultOfRentReview=Answer this only if you''ve selected ''Yes''
+label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Answer this only if you''ve selected ''Yes''
+label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Answer this only if you''ve selected ''Other''
+
+#SECTION 8
+###############################
+section8.heading=How your rent was fixed, if not by a review
+section8.heading.agent=How your client''s rent was fixed, if not by review
+label.wasRentFixedBetween=Was the rent fixed between you (or your agent) and the landlord?
+label.wasRentFixedBetween.agent=Was the rent fixed between your client (or you) and the landlord?
+label.notReviewRentFixed=Was the rent fixed by
+label.rentSetByType=Is this rent
+label.noJs.notReviewRentFixed=Answer this only if you''ve selected ''No''
+
+#SECTION 9
+###############################
+section9.heading=The rent
+label.totalRent.annualRentExcludingVat=<span class="totalRent-length"></span> rent excluding VAT
+label.totalRent.annualRentExcludingVat.generic=Rent excluding VAT
+label.totalRent.rentLengthType=The rent is paid
+label.rentBecomePayable=When did you start paying this rent?
+label.rentBecomePayable.agent=When did your client start paying this rent?
+hint.rentBecomePayable=You’ll find this in the lease or agreement
+label.negotiatingNewRent=Are you or your agent negotiating a new rent?
+label.negotiatingNewRent.agent=Are you negotiating a new rent on behalf of your client?
+hint.negotiatingNewRent=For example, for a rent review or new lease
+label.rentBasedOn=What is the rent based on?
+label.rentBasedOnDetails=Provide details
+hint.rentBasedOnDetails=You’ll find this in the lease or agreement
+label.rentActuallyAgreed=When was the rent amount agreed or set?
+details.question.rentBasedOn=Learn more about what your rent is based on
+details.answer.rentBasedOn=<h3 class="font-bold">What is the open market value?</h3><p>This is the rent that a landlord can expect for a property, if it were to be rented to others on similar terms.</p><h3 class="font-bold">What is indexation?</h3><p>Indexation involves reviewing rents upwards only every year, in line with the Retail Price Index.</p>
+hint.rentActuallyAgreed=This is the date the agreement was signed
+label.noJs.rentBasedOnDetails=Answer this only if you''ve selected ''Other''
+
+#SECTION 10
+###############################
+section10.heading=What the rent includes
+label.provideDetails=Please provide details in the text box below
+label.partRent=Is the rent paid for only part of the property?
+label.partRent.agent=Does your client pay rent for part of the property only?
+hint.partRent=For example, first floor only or one room
+label.otherProperty=Does this rent include any other property?
+hint.otherProperty=For example, a neighbouring property or part of another floor
+label.livingAccomodation=Does this rent include any living accommodation?
+hint.livingAccomodation=For example, a flat over a shop or caretaker''s accommodation
+label.landOnly=Was your rent based on land use only?
+label.landOnly.agent=Was your client''s rent based on land use only?
+hint.landOnly=For example, there are no buildings on the site, or you put up your own building
+label.shellUnit=Was your rent based on an empty (shell) building without fixtures and fittings?
+label.shellUnit.agent=Was your client''s rent based on an empty (shell) building without fixtures and fittings?
+hint.shellUnit=For example, new but unfinished property which needs fitting out
+label.rentDetails=Please provide details if you have selected ‘Yes’ to any of the above questions
+label.rentDetails.agent=Please provide details if you have selected ‘Yes’ to any of the above questions
+hint.rentDetails=If you have selected ''Yes'' to any of the questions in this section,<br /> please provide details
+label.parking.rentIncludeParking=Is the cost of your parking space and garage included in your rent?
+label.parking.rentIncludeParking.agent=Is the cost of parking spaces and garages included in your client''s rent?
+label.parking.rentIncludeParkingDetails=How many parking spaces or garages are included in the rent?
+label.parking.rentSeparateParking=Do you pay extra for your parking spaces or garages?
+label.parking.rentSeparateParking.agent=Does your client pay extra for parking spaces or garages?
+label.parking.rentSeparateParkingDetails=How many extra parking spaces or garages do you pay for?
+label.parking.rentSeparateParkingDetails.agent=How many extra parking spaces or garages does your client pay for?
+label.parking.annualSeparateParking=Fixed annual amount paid for parking and garages over and above the rent excluding VAT
+label.parking.annualSeparateParkingDate=When was this payment fixed?
+label.noJs.rentIncludeParkingDetails=Answer this only if you''ve selected ''Yes''
+label.noJs.rentSeparateParkingDetails=Answer this only if you''ve selected ''Yes''
+
+#SECTION 11
+###############################
+section11.heading=Incentives and payments
+label.rentFreePeriod=Were you given a rent free period when the lease or agreement started?
+label.rentFreePeriod.agent=Was your client given a rent free period when the lease or agreement started?
+label.rentFreePeriodDetails.rentFreePeriodLength=How many months was the rent free period?
+label.rentFreePeriodDetails.rentFreePeriodDetails=Why were you given a rent-free period?
+label.rentFreePeriodDetails.rentFreePeriodDetails.agent=Why was your client given a rent-free period?
+hint.rentFreePeriodDetails.rentFreePeriodDetails=For example, repairs or fitting out works
+label.payCapitalSum=Did you pay a capital sum?
+label.payCapitalSum.agent=Did your client pay a capital sum?
+hint.payCapitalSum=This is a sum of money you paid to your landlord to take on a lease or agreement
+label.capitalPaidDetails.capitalSum=Amount of capital sum paid excluding VAT
+label.capitalPaidDetails.paymentDate=Date payment made
+label.receiveCapitalSum=Did you receive a capital sum?
+label.receiveCapitalSum.agent=Did your client receive a capital sum?
+label.capitalReceivedDetails.capitalSum=Amount of capital sum received excluding VAT
+label.capitalReceivedDetails.paymentDate=Date payment received
+hint.receiveCapitalSum=This is a sum of money received from the landlord to buy the lease or agreement
+hint.rentFreePeriodDetails.rentFreePeriodLength=For example: 36
+details.question.capitalSum=What is a capital sum?
+details.answer.capitalSum=This is a sum of money paid to the landlord to take on a lease or agreement. This is not money paid for the business itself (for example it doesn’t include any sums paid for goodwill, trade fixtures and fittings nor sums paid as returnable deposits or bonds).
+label.noJs.capitalReceivedDetails.capitalSum=Answer this only if you''ve selected ''Yes''
+label.noJs.capitalReceivedDetails.capitalSum=Answer this only if you''ve selected ''Yes''
+label.noJs.capitalPaidDetails.paymentDate=Answer this only if you''ve selected ''Yes''
+label.noJs.capitalPaidDetails.capitalSum=Answer this only if you''ve selected ''Yes''
+label.noJs.rentFreePeriodDetails.rentFreePeriodDetails=Answer this only if you''ve selected ''Yes''
+label.noJs.rentFreePeriodDetails.rentFreePeriodLength=Answer this only if you''ve selected ''Yes''
+
+#SECTION 12
+###############################
+section12.heading=Responsibilities and costs
+label.responsibleOutsideRepairs=Who is responsible for paying for repairs outside?
+label.responsibleInsideRepairs=Who is responsible for paying for repairs inside?
+label.responsibleBuildingInsurance=Who is responsible for paying for buildings insurance?
+label.ndrCharges=Are the business rates included in the rent?
+label.ndrDetails.chargeDescription=Details of service
+label.ndrDetails=Amount per year included in the rent excluding VAT
+label.waterCharges=Are water charges included in the rent?
+label.includeWaterChargesDetails=Details of service
+label.waterChargesCost=Amount per year included in the rent excluding VAT
+label.includedServices=Is the cost of services included in the rent?
+hint.includedServices=For example, lighting, heating, cleaning/maintenance of shared areas
+label.includedServicesDetails=Included Services
+label.includedServicesDetails.chargeDescription=Details of services
+label.includedServicesDetails.chargeCost=Amount per year included in the rent excluding VAT
+label.waterChargeResponsibleType.Yes=Yes
+label.waterChargeResponsibleType.No=No
+info.responsibilitiesAndCosts=This information must be supplied so that we can ensure we have the correct rateable value
+info.responsibilitiesAndCosts.paying=Paying means being responsible for the cost even if the landlord arranges payment using the tenant’s money (via a service charge).
+label.noJs.secton12=Answer this only if you''ve selected ''Yes''
+
+#SECTION 13
+###############################
+section13.heading=Alterations and improvements
+label.propertyAlterations=Have you carried out any major alterations to the property?
+label.propertyAlterations.agent=Has your client carried out any major alterations to the property?
+hint.propertyAlterations=Please tell us about any building or improvement works done (eg initial fitting out, repairs, refurbishments). Tick ''No'' if the lease began more than 15 years ago.
+label.propertyAlterationsDetails.description=Work carried out
+label.propertyAlterationsDetails.cost=Cost of work excluding VAT
+label.propertyAlterationsDetails=Approximate date of works
+label.propertyAlterationsDetails.date=Approximate date of works
+label.requiredAnyWorks=Were you required to carry out any works as a condition of the current lease or agreement?
+label.requiredAnyWorks.agent=Was your client required to carry out any works as a condition of the current lease or agreement?
+hint.requiredAnyWorks=Your lease or written agreement will state whether you are obliged to carry out any of the works mentioned above.
+label.add.propertyAlterations=Add another alteration / improvement
+hint.propertyAlterationsDetails=To enter more work use ''Add more''
+label.noJs.section13=Answer this only if you''ve selected ''Yes''
+
+#SECTION 14
+###############################
+section14.heading=Any other factors
+label.anyOtherFactors=Has anything else affected the rent you pay?
+label.anyOtherFactors.agent=Has anything else affected the rent that your client pays?
+label.anyOtherFactorsDetails=Give details
+hint.anyOtherFactorsDetails=For example, the permitted use of the property is very restricted or the rent includes an amount for trade fixtures and fittings.
+label.noJs.anyOtherFactorsDetails=Answer this only if you''ve selected ''Yes''
+
+#CONFIRMATION
+###############################
+label.confirm.heading=Thank you, your form has been successfully sent
+label.confirm.subheading=Your form submission number is:
+label.button.download=Download a copy of your form
+label.email.sent=An email will be sent to you shortly with a copy of your form to the address you provided.
+label.email.request=If you want to have a confirmation sent to your email please provide your email address.
+label.whatNext=What happens next?
+label.emailCopyWillBeSent=If you have provided us with an email address, we will send you a copy of what you have submitted shortly.
+label.weMayContactYou=We may need to contact you in future to check some of the details you have provided.
+label.anyQuestions=If you have any questions about your form please contact
+label.quoteRefNum=quoting your reference number {0}.
+label.submitAnotherForm=I would like to submit another form
+label.finish=Finish
+label.satisfactionSurvey=Overall, how would you describe your experience with the form?
+label.satisfactionSurveyComments=How could we improve this form?
+label.satisfaction=Overall, how would you describe your experience with the form?
+hint.limit=Limit is 1200 characters
+text.survey.bottomCopy=Please don''t include any personal or financial information, for example your National Insurance or credit card numbers.
+
+#SURVEY THANKYOU
+###############################
+heading.feedback.thankyou=Thank you for your feedback
+
+#DECLARATION
+###############################
+declaration.heading=Declaration
+label.declaration=I, {0} as the {1} of {2} declare that to the best of my knowledge the information I have given in this form is correct and complete.<br /><br />I understand that I could be taken to court if I knowingly submit false information.
+label.declaration.iAgree=I agree to the above declaration
+hint.declaration=Once you submit the form you will not be able to go back and make any changes.
+error.declaration=You must agree to proceed
+
+#SAVE
+###############################
+saveForLater.heading=Your information has been saved<br />but not submitted
+saveForLater.paragraph=We will keep any unsubmitted information for three months before deleting it.
+saveForLater.info=Please make a note of these details - <strong>including the new password</strong> - as you will need them to access and make changes to your information.
+saveForLater.continue=Continue completing this form
+saveForLater.return=Return to GOV.UK
+saveForLater.surveyLink=Tell us what you think?
+saveForLater.retrievalInfo=To retrieve your saved information you will need your:
+saveForLater.retrievalWarning=You will not be able to recover the password once you leave the form.
+saveForLater.refNum=Reference number
+saveForLater.postcode=Postcode
+saveForLater.password=Password
+saveForLater.print=Print this page
+saveForLater.pleaseEnterPassword=Please enter the password provided when you previously saved the form
+saveForLater.invalidPassword=Sorry, the password you have entered is not correct
+saveForLater.haveYouForgotten=If you have forgotten your password, you will need to enter all of your information again
+
+#SAVEDFORM
+###############################
+saveForm.heading=It seems this form has already been partially completed
+saveForm.content=What would you like to do next?
+saveForm.continue=Continue completing this form
+saveForm.start=Start form again
+saveForm.or=Or
+
+#SUMMARY
+###############################
+label.print.summary=Print summary
+label.summary.text=Check your answers before sending your form
+
+#PDF
+###############################
+heading.summary.pdf=Only sign below if requested by the Valuation Office Agency
+heading.summary.pdf.name=Print name (in capitals)
+heading.summary.pdf.signature=Signature
+heading.summary.pdf.date=Date signed
+heading.summary.pdf.footnote=This is a Notice served under paragraph 5(1) of schedule 9 to The Local Government Finance Act 1988 by the relevant valuation officer.  I believe the information requested will assist me in carrying out functions conferred or imposed on me by or under Part III of that Act.
+
+#FEEDBACK
+###############################
+heading.giveFeedback=Give feedback
+copy.giveFeedback=Leave your suggestions or comments about our service.
+button.label.submit.feedback=Send feedback
+link.feedback=Feedback
+label.help.link=Get help with this page
+label.help.title=Page help
+copy.form.help=If you need help completing this form, please tell us what the problem is in the comments section below.
+copy.form.help.dont.include=Don’t include any personal or financial information (such as your rent details).
+copy.form.help.thankyou=We have received your request. If you have asked for help we''ll be in touch shortly.
+label.feedback.heading=Feedback
+copy.feedback=If you need help completing this form, please use the ‘Get help with this page’ link at the bottom of each page.
+copy.feedback.thankyou=Thank you for your feedback
+label.feedback.error=There was an error sending your feedback.
+
+#TYPES
+###############################
+contactAddressType.mainAddress=Your Address
+contactAddressType.alternativeAddress=I want to be contacted at an alternative address
+contactAddressType.contactsAddress=I want someone else to be contacted on my behalf
+userType.occupier=Occupier
+userType.occupiersAgent=Occupier''s Agent
+userType.owner=Owner
+userType.ownerOccupier=Owner and occupier
+userType.ownersAgent=Owner''s Agent
+userType.ownerOccupier=Owner Occupier
+contactType.email=Email
+contactType.phone=Phone
+contactType.both=Both
+leaseAgreementTypes.verbal= No agreement, or one that is not in writing
+leaseAgreementTypes.leaseTenancy=A single lease or tenancy agreement
+leaseAgreementTypes.licenceOther=Licence or other type of written agreement
+label.reviewIntervalTypes=How often is the rent reviewed?
+reviewIntervalType.every3Years=Every 3 years
+reviewIntervalType.every5Years=Every 5 years
+reviewIntervalType.every7Years=Every 7 years
+reviewIntervalType.other=Other
+rentFixedTypes.arbitrator=Someone specifically acting as arbitrator
+rentFixedTypes.independent=An independent expert
+notReviewRentFixedTypes.interim=an interim rent set by a court under the Landlord & Tenant Acts
+notReviewRentFixedTypes.finalJudge=a final judgment by a court
+rentSetByTypes.newLease=a new lease or agreement
+rentSetByTypes.renewedLease=a renewed lease
+rentSetByTypes.leaseback=a sale and leaseback transaction
+rentSetByTypes.surrender=a surrender and renewal
+rentBaseTypes.openMarket=Open market value
+rentBaseTypes.percentageOpenMarket=A percentage of open market value
+rentBaseTypes.percentageTurnover=A percentage of turnover
+rentBaseTypes.indexation=Indexation
+rentBaseTypes.other=Other
+responsibleType.landlord=Landlord
+responsibleType.tenant=Tenant
+responsibleType.both=Both
+rentBasisType.openMarketValue=Open market value
+rentBasisType.percentageOfOpenMarketValue=A percentage of turnover
+rentBasisType.indexation=Indexation
+rentBasisType.other=Other
+waterChargeResponsibleType.Yes=Yes
+waterChargeResponsibleType.No=No
+waterChargeResponsibleType.Dontknow=Don''t know
+rentLengthTypes.annual=Annually
+rentLengthTypes.quarterly=Quarterly
+rentLengthTypes.monthly=Monthly
+rentLengthTypes.weekly=Weekly
+rentLengthTypes.lowerCase.annual=annually
+satisfactionSurveyType.verySatisfied=Very satisfied
+satisfactionSurveyType.satisfied=Satisfied
+satisfactionSurveyType.neither=Neither satisfied or dissatisfied
+satisfactionSurveyType.dissatisfied=Dissatisfied
+satisfactionSurveyType.veryDissatisfied=Very dissatisfied
+
+#ERRORS
+##############################
+error.required=This must be filled in
+error.boolean_missing=You must choose one
+error.no_value_selected=You must choose one
+contactDetails.email1.email.mismatch=email addresses must match
+contactDetails.email2.email.mismatch=email addresses must match
+error.maxLength=This must be up to a maximum of {0} characters
+error.invalid_postcode=Please enter a valid UK postcode
+error.invalid_currency = This must use numbers and , .
+error.invalid_phone=This must use numbers and - ( ) +
+error.email=This must be a valid email address
+error.invalid_date = Enter a valid date
+error.date_must_be_in_past=Date must be in the past
+error.number = This must use numbers
+error.invalid_number = This must use numbers
+error.date_before_1900=This must be from 1900 onwards
+error.duration.years=This can be no more than 999
+error.duration.months=This can be no more than 12
+error.too_many_stepped_rents=You can only provide 7 steps
+error.too_many_services=You can only provide details of 10 services
+error.too_many_alterations=You can only provide details of 10 alterations
+error.too_many_sublets=You can only provide details of 5 sublets
+error.required.parking=At least one must be filled in and greater than 0
+error.login.failed=The details you have entered do not match our records. Please try again.
+error.login.1attemptsleft=We are still having problems finding the details you have entered. You have one last chance to enter the correct details, before you are locked out for 24 hours. Please call our technical support line on 03000 508508 (8am to 5pm weekdays - local rates apply) for help.
+error.login.2attemptsleft=We are still having problems matching the details you have entered. For help, call our technical support line on 03000 508508 (8am to 5pm weekdays - local rates apply). You have two more attempts to enter the correct details, before you are locked out for 24 hours.
+error.login.3attemptsleft=We are still having problems matching the details you have entered. Please enter the reference number and postcode exactly as they are in the letter we sent you.
+error.login.lockedOut=You are now locked out. You can try again after 24 hours or call our technical support line on 03000 508508 (8am to 5pm weekdays - local rates apply) for help.
+
+#ERROR PAGES
+##############################
+error.404.heading=Sorry, the page you requested can not be found. Please try again.
+error.408.heading=Sorry, the page or service has timed out. Please re-enter your details or start again.
+error.410.heading=Sorry, the page you requested is no longer available.
+error.500.heading=Sorry, there is a problem with the page and it cannot be displayed. Please try again later.
+error.fail.heading=Sorry, the reference number you have entered does not match our records. Please check and try again.
+error.duplicate.heading=Sorry, you can no longer edit this information as it has already been submitted.
+error.duplicate.title=Duplicate submission
+error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.
+error.maxCurrencyAmountExceeded=Maximum amount exceeded - please contact the VOA
+
+#SESSION TIMEOUT
+##############################
+heading.sessionTimeout=Session timed out
+sessionTimeout.copy=You have been logged out as you have not used this form for the last 24 hours.
+sessionTimeout.button=Please log in again
+
+#INTELLIGENT VALIDATION
+##############################
+intel.alert.landlordNameAddress=Are you sure this is correct? Your surname and address is the same as the landlords
+intel.alert.notBeforeLeaseDate=This date shouldn''t be before the lease or agreement start date
+
+#INFO PAGES
+##############################
+heading.termsandconditions=Terms and conditions
+content.termsandconditions=<p>These terms and conditions govern your use of the Valuation Office Agency''s (VOA) - Rent and Lease Details online service, as governed by the laws of England and Wales. Please read these terms and conditions carefully as they affect your rights and liabilities in the law.</p><p>By using this website, you agree to the terms and conditions as provided.</p><h2 class="heading-medium">Using this online service</h2><p>We make every effort to ensure that the information published on this website is accurate. However, the VOA cannot accept any liability for the accuracy of this information, and those who use it do so at their own risk.</p><p>We cannot guarantee that the service will be fault free. If there is a problem with the service, you should use the ''Get help with this page'' link at the bottom of each page and we will come back to you as soon as we can.</p><h2 class="heading-medium">Virus protection</h2><p>We make every effort to carefully check and test all the material but we would advise users to run an anti-virus program on all material downloaded online.</p><p>The VOA accepts no responsibility for any loss, disruption or damage to your data or  computer system while using this website.</p><h2 class="heading-medium">Amendments to terms and conditions</h2><p>We may update these terms and conditions from time to time and by continuing to use the site, you confirm your continued agreement to these terms and conditions of use.</p><h2 class="heading-medium">Security</h2><p>To ensure that your data is kept safe, we use Secure Sockets Layer (SSL) protection, one of the strongest security systems, and 128 bit encryption to store and transfer your data.</p><p>SSL works by:</p><ul class="list-bullet"><li>preventing impersonation - you can tell that you are using a genuine SSL website by the padlock symbol at the bottom of the screen or your browser''s address bar</li><li>encrypting data - as soon as your computer has recognised our computer they encrypt all information that is passed between them. Data encryption means that no-one else can read or change your information as it travels over the Internet</li><li>preventing scrambling - SSL uses a Message Authentication Code (MAC) to prevent anyone tampering with our website. Your computer will always check this code before it takes a message from us. This means that if anyone tries to interfere with a message, your computer will not recognise the code and will alert you.</li></ul>
+heading.cookies=Cookies
+content.cookies=<p>The Rent and Lease Detail service (RALD) puts small files, known as ‘cookies’, onto your computer to collect information about how you browse the site.</p>Cookies are used to:<ul class="list-bullet"><li>measure how you use the website so that it can be updated and improved based on your needs</li><li>remember the notifications you’ve seen so that we don’t show them to you again</li></ul><p>RALD cookies aren’t used to identify you personally.</p>You’ll normally see a message on the site before we store a cookie on your computer.<p>Find out more about <a href="http://www.aboutcookies.org/">how to manage cookies</a>.</p><h2 class="heading-medium">How cookies are used on RALD</h2><h3 class="heading-small">Measuring website usage (Google Analytics)</h3><p>We use Google Analytics software to collect information about how you use RALD. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p>Google Analytics stores information about:</p><ul class="list-bullet"><li>the pages you visit on RALD</li><li>how long you spend on each page </li><li>how you got to the site</li></ul><p>We don’t collect or store your personal information (eg your name or address) so this information can’t be used to identify who you are.</p><p>We don’t allow Google to use or share our analytics data.</p><p>Google Analytics sets the following cookies:</p><h3 class="heading-small">Universal Analytics</h3><table><thead><tr><th>Name</th><th>Purpose</th><th>Expires</th></tr><tr><td>_ga</td><td>This helps us count how many people visit RALD by tracking if you’ve visited before</td><td>2 years</td></tr><tr><td>_gat</td><td>Used to manage the rate at which page view requests are made</td><td>10 minutes</td></tr></tbody></table><h3 class="heading-small">RALD specific cookies</h3><table><thead><tr><th>Name</th><th>Purpose</th><th>Expires</th></tr></thead><tbody><tr><td>mdtp</td><td>Stores session data</td><td>When you close your browser</td></tr><tr><td>mdtpdf</td><td>Stores session data</td><td>When you close your browser</td></tr></tbody></table><h3 class="heading-small">Our introductory message</h3><p>You may see a pop-up welcome message when you first visit. A cookie is stored so that your computer knows you’ve seen it, and knows not to show it again.</p><table><thead><tr><th>Name</th><th>Purpose</th><th>Expires</th></tr></thead><tbody><tr><td>seen_cookie_message</td><td>Saves a message to let us know that you have seen our cookie message</td><td>1 month</td></tr></tbody></table>

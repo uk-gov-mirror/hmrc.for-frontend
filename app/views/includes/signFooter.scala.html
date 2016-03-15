@@ -1,0 +1,16 @@
+@import helpers.summary._
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(summary: Summary )(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+<div class="signFooter" style="display:none;visibility: hiddden">
+  <h3>@Messages("heading.summary.pdf")</h3>
+  <p>@Html(Messages("label.declaration", summary.submitter, Messages("userType."+summary.customerDetails.map(_.userType.name).getOrElse("")).toLowerCase, summary.addressUserBelievesIsCorrect.singleLine))</p>
+  <h4>@Messages("heading.summary.pdf.name")</h4>
+  <h4>@Messages("heading.summary.pdf.signature")</h4>
+  <h4>@Messages("heading.summary.pdf.date")</h4>
+  <p class="footnote">@Messages("heading.summary.pdf.footnote")</p>
+</div>

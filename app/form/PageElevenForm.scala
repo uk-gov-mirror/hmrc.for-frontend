@@ -1,0 +1,49 @@
+/*
+ * Copyright 2016 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package form
+
+import models.serviceContracts.submissions.{CapitalDetails, FreePeriodDetails, IncentivesAndPayments}
+import play.api.data.Form
+import play.api.data.Forms._
+import uk.gov.voa.play.form.ConditionalMappings._
+
+
+object PageElevenForm {
+  import DateMappings._
+  import MappingSupport._
+
+  val freePeriodDetailsMapping = mapping(
+    "rentFreePeriodLength" -> number(min = 1),
+    "rentFreePeriodDetails" -> nonEmptyText(maxLength = 250))(FreePeriodDetails.apply)(FreePeriodDetails.unapply)
+
+
+  def capitalDetailsMapping(prefix: String) = mapping(
+    "capitalSum" -> currency,
+    "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate"))(CapitalDetails.apply)(CapitalDetails.unapply)
+
+
+  val pageElevenMapping = mapping("rentFreePeriod" -> mandatoryBoolean,
+    "rentFreePeriodDetails" -> mandatoryIfTrue("rentFreePeriod", freePeriodDetailsMapping),
+    "payCapitalSum" -> mandatoryBoolean,
+    "capitalPaidDetails" -> mandatoryIfTrue("payCapitalSum", capitalDetailsMapping("capitalPaidDetails")),
+    "receiveCapitalSum" -> mandatoryBoolean,
+    "capitalReceivedDetails" -> mandatoryIfTrue("receiveCapitalSum", capitalDetailsMapping("capitalReceivedDetails"))
+    )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
+
+
+  val pageElevenForm = Form(pageElevenMapping)
+}

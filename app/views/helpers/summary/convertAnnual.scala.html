@@ -1,0 +1,12 @@
+@import models._
+@import java.text.NumberFormat
+
+@(a: AnnualRent)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@if(a.period != RentLengthTypeAnnually)  {
+	<span class="annualAmount">
+		(£ @NumberFormat.getNumberInstance().format(a.annualRent) @Messages("rentLengthTypes.lowerCase.annual"))
+	</span>	
+}
+
+

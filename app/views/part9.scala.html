@@ -1,0 +1,140 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages._
+@import play.api.data._
+@import _root_.template.Helper._
+@import _root_.template.FormatRefNum
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+
+@main(title=Messages("project.name")+" - "+Messages("section9.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(9), args = 'class -> "myForm", 'id -> "myFormId") {
+         
+  <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    @progressBar(9, Messages("section9.heading"), true, true)
+
+     @includes.errors(theForm, summary.isAgent)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+
+        @helper.CSRF.formField
+
+
+          @helpers.inputRadioGroup(
+            field=theForm("totalRent.rentLengthType"),
+            options = EnumOptions.options(RentLengthTypes, lang),
+            args=Seq(
+              '_label -> Messages("label.totalRent.rentLengthType"),
+              '_error -> theForm("booleanMissing").errors,
+              '_showConstraints -> false,
+              '_showErrors -> true,
+              '_labelClass -> "form-label-bold",          
+              '_legend -> true,
+              Symbol("data-show-field") -> "true"
+            )
+          )
+
+          @inputText(
+            field = theForm("totalRent.annualRentExcludingVat"),
+            '_label -> Html(Messages("label.totalRent.annualRentExcludingVat")),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control input-currency total-annual-rent excludeVat",
+            '_pound -> true,
+            '_fieldsetClass -> "hidden totalRent.rentLengthType"
+          )
+
+          @if(summary.isAgent) {
+            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", true, Messages("hint.rentBecomePayable"), false, "agent")
+          } else {
+            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", true, Messages("hint.rentBecomePayable"), false, "")
+          }
+
+
+        <div class="panel-indent panel-indent-info hidden intel-alert rentBecomePayable" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+
+        @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", true,  Messages("hint.rentActuallyAgreed"), false)
+
+        @inputRadioGroup(
+          field = theForm("negotiatingNewRent"),
+          options = Seq(
+            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes1")  else  Messages("label.yes7")),
+            "false" -> Messages(if(summary.isAgent)  Messages("label.no1")  else  Messages("label.no7"))
+          ),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages(if(summary.isAgent) Messages("label.negotiatingNewRent.agent") else Messages("label.negotiatingNewRent")),
+            '_error -> theForm("negotiatingNewRent").error,
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_help -> Messages("hint.negotiatingNewRent")
+          )
+        )
+
+        @inputRadioGroup(
+          field = theForm("rentBasedOn"),
+          options = EnumOptions.options(RentBaseTypes, lang),
+          args = Seq(
+            '_label -> Messages("label.rentBasedOn"),
+            '_error -> theForm("rentBasedOn").error,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true,
+            '_fieldsetClass -> "form-group",
+            '_details -> true,
+            '_detailsQuestion -> Messages("details.question.rentBasedOn"),
+            '_detailsAnswer -> Html(Messages("details.answer.rentBasedOn"))
+          ),
+          dataAttributes = Seq(
+            ("percentageOpenMarket", "data-show-field", "true"),
+            ("percentageTurnover", "data-show-field", "true"),
+            ("indexation", "data-show-field", "true"),
+            ("other", "data-show-field", "true")
+          )
+        )
+
+        @inputText(
+          field = theForm("rentBasedOnDetails"),
+          '_label -> Messages("label.rentBasedOnDetails"),
+          '_labelClass -> "form-label-bold",
+          'class -> "form-control input-extra-large",
+          '_fieldsetClass -> "form-group hidden rentBasedOn",
+          '_help -> Messages("hint.rentBasedOnDetails"),
+          '_showConstraints -> false,
+          '_showErrors -> true,
+          '_nojsText -> Messages("label.noJs.rentBasedOnDetails")
+        )
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+</main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+        @includes.formHelp()
+}

@@ -1,0 +1,38 @@
+@import helpers._
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+@views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics()
+}
+
+@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false) {
+
+
+   <main id="content" tabindex="-1">
+       <div class="grid-row">
+           <div class="column-two-thirds">
+               <h1 class="form-title heading-large"></h1>
+               @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
+                   @helper.CSRF.formField
+
+                   <p>@Messages("saveForLater.pleaseEnterPassword")</p>
+
+                   <fieldset class="form-group">
+                       <legend class="form-label-bold">@Messages("saveForLater.password") <span class="visuallyhidden" aria-hidden="true" >(Required)</span></legend>
+                       <input name="password" id="password" type="password" autocomplete="off" />
+                   </fieldset>
+                   <div class="form-group">
+                       <input id="continue" type="submit" class="button" value="@Messages("label.continue")">
+                   </div>
+               }
+           </div>
+       </div>
+   </main>
+
+    @includes.formHelp()
+}

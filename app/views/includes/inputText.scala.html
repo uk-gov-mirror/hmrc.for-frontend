@@ -1,0 +1,6 @@
+@import models._
+@import play.api.data._
+@import play.api.data.Forms._
+
+@(theForm:Form[_],fieldName:String, label:String)(implicit requestHeader: RequestHeader,  lang: Lang)
+@helper.inputText(theForm(fieldName), '_showConstraints -> false, '_label->label)

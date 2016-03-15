@@ -1,0 +1,13 @@
+@(feedback: Call)(implicit requestHeader: RequestHeader, lang: Lang)
+
+<ul>
+	<li><a href="@feedback" target="_blank" id="footerBetaFeedback">@Messages("link.feedback")<span class="visuallyhidden"> (@Messages("alt.newWindow"))</span></a></li>
+    <li><a href="@routes.Application.cookies">@Messages("heading.cookies")</a></li>
+    <li><a href="@routes.Application.termsandconditions">@Messages("heading.termsandconditions")</a></li>
+    <li><a href="https://www.gov.uk/government/organisations/valuation-office-agency/about/personal-information-charter#your-privacy">@Messages("link.privacyPolicy")</a></li>
+    <li>@includes.languageTemplate()</li>
+</ul>
+<div class="clearfix"></div>
+<ul>
+	<li>@Html(Messages("label.footer.builtBy"))</li>
+</ul>

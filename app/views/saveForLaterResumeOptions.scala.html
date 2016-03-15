@@ -1,0 +1,42 @@
+@import models.journeys.Journey
+@import models.pages.Summary
+@import models.serviceContracts.submissions._
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics()
+}
+
+@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false) {
+
+  <main id="content" tabindex="-1">
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+    
+
+      <h1 class="form-title heading-large heading-confirmation">
+        @Messages("saveForm.heading")
+      </h1> 
+
+      <p>@Messages("saveForm.content")</p>
+
+      <p><a href="@{routes.SaveForLater.login}" class="button button-primary">@Messages("saveForm.continue")</a></p>
+
+      <p><a href="@routes.Application.startAgain" >@Messages("saveForm.start")</a></p>
+
+      
+
+    </div>
+    <div class="column-third"></div>
+   </div>  
+
+   </main>
+
+   @includes.formHelp()
+}

@@ -1,0 +1,53 @@
+@import models._
+@import play.api.data._
+@import play.api.data.Forms._
+@import _root_.template.Helper._
+
+@(theForm:Form[_],hidden:String, prefix:String)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+@displayFieldError(error:FormError) = {
+    <p class="error">@Messages(error.message,error.args:_*)</p>
+}
+
+@errorWrapper(fields:Seq[Field],classes:String*)(content:Html) = {
+	@defining(_root_.template.HtmlSupport.getErrors(fields)){ combinedErrors =>
+
+	  <div class='@classes.mkString(" ") @if(combinedErrors.isEmpty==false){ form-grouped-error }'>
+	    @if(combinedErrors.isEmpty==false){
+	    
+	       @combinedErrors.map { err => @displayFieldError(err) }
+	    
+	    }
+	@content
+		</div>
+	}
+}
+
+
+	<fieldset class="form-group @hidden ">
+	<legend class="form-label-bold">@Messages("label."+prefix+"")</legend>
+	    @errorWrapper(Seq(theForm(""+prefix+".month"),theForm(""+prefix+".year")),"form-date-dayMonth"){
+	    <p class="form-hint">@Messages("help.date.years.months")</p>
+	      @helpers.inputText(
+	        field = theForm(""+prefix+".year"),
+	        '_label -> Messages("label.date.years"),
+	        '_error -> theForm(""+prefix+".date.year").error.map(_.withMessage(Messages("error.date.year"))),
+	        '_labelClass -> "form-label",
+	        '_showConstraints -> false, '_showErrors -> false,
+	        'class -> "form-control",
+	        '_fieldsetClass ->  (hidden+ " form-group-month"),
+	        Symbol("maxLength") -> "2"
+	      )
+	      @helpers.inputText(
+	        field = theForm(""+prefix+".month"),
+	        '_label -> Messages("label.date.months"),
+	        '_error -> theForm(""+prefix+".date.month").error.map(_.withMessage(Messages("error.date.month"))),
+	        '_labelClass -> "form-label",
+	        '_showConstraints -> false, '_showErrors -> false,
+	        'class -> "form-control",
+	        '_fieldsetClass -> (hidden+ " form-group-month"),
+	        Symbol("maxLength") -> "2"
+	      )
+	  }
+	</fieldset>

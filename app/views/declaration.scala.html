@@ -1,0 +1,67 @@
+@import models._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import models.pages.Summary
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+
+@(theForm: Form[_], fullName: String, userType: String, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+    @views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name")+" - "+Messages("declaration.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false) {
+  
+  @form(action = routes.FORSubmissionController.submit, args = 'class -> "declaration", 'id -> "myFormId") {
+  
+ <main id="content" tabindex="-1">
+  <h1 class="form-title heading-large form-title-group">
+    <a href="@routes.Application.summary" id="backTop" name="back_button" class="button-link link-back declaration-back" role="button">@Messages("button.label.back")</a>
+    <span class="clearfix"></span>
+    <span class="section-title">@Messages("declaration.heading")</span>
+
+  </h1>
+
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+    
+      @helper.CSRF.formField 
+
+          @checkbox(
+            field = theForm("declaration"),
+            'id -> "agree",
+            '_label -> Html(Messages("label.declaration", fullName, Messages("userType."+userType).toLowerCase, summary.addressUserBelievesIsCorrect.singleLine)),
+            '_error -> theForm("declaration").error.map(_.withMessage(Messages("error.declaration"))),
+            '_fieldsetClass -> "inline",
+            '_legend -> true,
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_text -> Messages("label.declaration.iAgree"),
+            '_helpIndent -> Messages("hint.declaration")
+          )
+      
+
+       <p><button type="submit" id="continue" name="continue_button" class="button">@Messages("button.label.submit")</button></p>
+
+       <p><a href="@routes.Application.summary" id="back" name="back_button" class="button-link link-back" role="button">@Messages("button.label.back")</a></p>
+
+    </div>
+    <div class="column-third"></div>
+  </div>   
+ </main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+
+    @includes.formHelp()
+}

@@ -1,0 +1,65 @@
+<style>
+    .hidden {
+        display: none;
+        visibility: hidden;
+    }
+</style>
+
+<div id="radioFrag">
+    <fieldset class="form-group">
+        <legend >Question 0</legend>
+            <label class="block-label"  for="question0_true">
+            	<input id="question0_true" type="radio" name="question0" value="true">
+            	Hide element
+            </label>
+        	<label class="block-label" for="question0__false">
+            	<input id="question0_false" type="radio" name="question0" value="false" data-show-field="true">
+            	Show element
+            </label>
+    </fieldset>
+    <div class="form-group hidden question0">
+        <div id="question1" class="form-group">
+            <label class="form-label-bold" for="question1">Building name or number</label>
+            <input type="text" id="question1" value="" name="question1" class="form-control">
+        </div>
+    </div>
+
+    <fieldset class="form-group">
+        <legend >Question 2</legend>
+            <label class="block-label"  for="question2_hide">
+            	<input id="question2_hide" type="radio" name="question2" value="true">
+            	Hide
+            </label>
+        	<label class="block-label" for="question2_show">
+            	<input id="question2_show" type="radio" name="question2" value="false" data-show-fields="question3_input,question4_input">
+            	Show
+            </label>
+    </fieldset>
+
+    <div data-show-fields-group="question2">
+        <div id="question3" class="form-group hidden">
+            <label class="form-label-bold" for="question3_input">Question 3</label>
+            <input type="text" id="question3_input" value="" name="question3_input" class="form-control">
+        </div>
+        <div id="question4" class="form-group hidden">
+            <label class="form-label-bold" for="question4_input">Question 4</label>
+            <input type="text" id="question4_input" value="" name="question4_input" class="form-control">
+        </div>
+    </div>
+</div>
+
+<div class="form-group propertyIsSublet">
+    <fieldset style="display:inline-block" data-limit="4">
+          <div class="multi-fields-group" id="sublet_description_div_0">
+			<div id="sublet_0_tenantFullName" class=" form-group ">
+				<label class="form-label-bold" for="sublet_0_tenantFullName_text"><span class="label-span">Your tenant's name</span></label>
+                <input type="text" id="sublet_0_tenantFullName_text" value="" name="sublet[0].tenantFullName" class="form-control">
+            </div>
+            <a href="#" class="remove-multi-fields" role="button" style="display:none">Remove</a>
+        </div>
+
+    <div class="form-group">
+      <a href="#" class="add-multi-fields hide-if-no-js" role="button">Add another sublet</a>
+    </div>
+    </fieldset>
+</div>

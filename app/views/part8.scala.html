@@ -1,0 +1,96 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages.Summary
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name")+" - "+Messages("section8.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(8), args = 'class -> "myForm", 'id -> "myFormId") {
+      <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    
+    @progressBar(8, if(summary.isAgent){ Messages("section8.heading.agent") }else{ Messages("section8.heading")}, true, true)
+
+    @includes.errors(theForm, summary.isAgent)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+
+        @helper.CSRF.formField
+
+
+          <!-- Was the rent fixed between you (or your agent) and the landlord? -->
+        @inputRadioGroup(
+          field = theForm("wasRentFixedBetween"),
+          options = Seq(
+            "true" -> Messages("label.yes6"),
+            "false" -> Messages("label.no6")
+          ),
+          dataAttributes = Seq(("false", "data-show-field", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages(if(summary.isAgent) Messages("label.wasRentFixedBetween.agent") else Messages("label.wasRentFixedBetween")),
+            '_error -> theForm("wasRentFixedBetween").error,
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_showErrors -> true
+          )
+        )
+
+        @inputRadioGroup(
+          field = theForm("notReviewRentFixed"),
+          options = EnumOptions.options(NotReviewRentFixedTypes, lang),
+          args = Seq(
+            '_label -> Messages("label.notReviewRentFixed"),
+            '_error -> theForm("notReviewRentFixed").errors,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true,
+            '_fieldsetClass -> "form-group hidden wasRentFixedBetween",
+            '_nojsText -> Messages("label.noJs.notReviewRentFixed")
+          )
+        )
+
+        @inputRadioGroup(
+          field = theForm("rentSetByType"),
+          options = EnumOptions.options(RentSetByTypes, lang),
+          args = Seq(
+            '_label -> Messages("label.rentSetByType"),
+            '_error -> theForm("rentSetByTypes").errors,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true,
+            '_fieldsetClass -> "form-group"
+          )
+        )
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+</main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+        @includes.formHelp()
+}

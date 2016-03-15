@@ -1,0 +1,79 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages.Summary
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+   @views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name")+" - "+Messages("section14.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+    @form(action = dataCapturePages.routes.PageController.savePage(14), args = 'class -> "myForm", 'id -> "myFormId") {
+
+      <main id="content" tabindex="-1">
+        @views.html.includes.backSave()
+        @progressBar(14, Messages("section14.heading"), true, true)
+
+        @includes.errors(theForm, summary.isAgent)
+
+        <div class="grid-row">
+            <div class="column-two-thirds">
+
+
+                @helper.CSRF.formField
+
+
+                @inputRadioGroup(
+                    field = theForm("anyOtherFactors"),
+                    options = Seq(
+                        "true" -> Messages("label.yes3"),
+                        "false" -> Messages("label.no3")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-field", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent) Messages("label.anyOtherFactors.agent") else Messages("label.anyOtherFactors")),
+                        '_error -> theForm("anyOtherFactors").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.anyOtherFactorsDetails")
+                    )
+                )
+
+                @textarea(
+                    field = theForm("anyOtherFactorsDetails"),
+                    '_label -> Messages("label.anyOtherFactorsDetails"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control input-extra-large",
+                    '_fieldsetClass -> "form-group anyOtherFactors hidden",
+                    Symbol("rows") -> "3",
+                    '_characterCount -> "124",
+                    '_nojsText -> Messages("label.noJs.anyOtherFactorsDetails")
+                )
+
+
+                @includes.continueButton()
+
+            </div>
+            <div class="column-third"></div>
+        </div>
+</main>
+
+    @includes.continueButtonStickyFooter()
+
+    }
+         @includes.formHelp()
+}

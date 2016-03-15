@@ -1,0 +1,63 @@
+@import models._
+@import play.api.data._
+@import play.api.data.Forms._
+@import _root_.template.Helper._
+@import views.includes.FieldNamer
+
+@(theForm:Form[_],hidden:String, prefix:String,idx:Option[Int]=None, nojs: Boolean = false, nojsText: String = "")(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+@displayFieldError(message: String, args: Seq[Any]) = {
+    <p class="error">@Messages(message, args:_*)</p>
+}
+
+@errorWrapper(fields:Seq[Field], id: String, classes:String*)(content:Html) = {
+@defining(_root_.template.HtmlSupport.getErrors(fields)){ combinedErrors =>
+
+    <div id="@id" class='@classes.mkString(" ") @if(combinedErrors.isEmpty==false){ form-grouped-error }'>
+        @if(combinedErrors.isEmpty==false){
+
+            @combinedErrors.map(err => (err.message, err.args)).distinct.map { case (msg, args) => @displayFieldError(msg, args) }
+
+        }
+        @content
+    </div>
+}
+}
+
+
+<fieldset class="form-group @hidden ">
+    <legend class="form-label-bold">@Messages(s"label.$prefix")</legend>
+    @errorWrapper(Seq(
+        theForm(s"${FieldNamer(prefix, idx).fieldName}.date.month"),
+        theForm(s"${FieldNamer(prefix, idx).fieldName}.date.year"),
+        theForm(s"${FieldNamer(prefix, idx).fieldName}.date")
+    ),s"${prefix}_${idx.getOrElse(0)}_date", "form-date-dayMonth"){
+            
+        @if(nojs){
+            <p class="hidden">@nojsText</p>
+        }
+        <p class="form-hint">@Messages("help.date.month.year")</p>
+        @helpers.inputText(
+            field = theForm(s"${FieldNamer(prefix, idx).fieldName}.date.month"),
+            '_label -> Messages("label.date.month"),
+            '_error -> theForm(s"$prefix.date.month").error.map(_.withMessage(Messages("error.date.month"))),
+            '_labelClass -> "form-label",
+            '_showConstraints -> false, '_showErrors -> false,
+            'class -> "form-control",
+            '_fieldsetClass -> (hidden+ " form-group-month"),
+            Symbol("maxLength") -> "2"
+        )
+
+        @helpers.inputText(
+            field = theForm(s"${FieldNamer(prefix, idx).fieldName}.date.year"),
+            '_label -> Messages("label.date.year"),
+            '_error -> theForm(s"$prefix.date.year").error.map(_.withMessage(Messages("error.date.year"))),
+            '_labelClass -> "form-label",
+            '_showConstraints -> false, '_showErrors -> false,
+            'class -> "form-control",
+            '_fieldsetClass ->  (hidden+ " form-group-year"),
+            Symbol("maxLength") -> "4"
+        )
+    }
+</fieldset>

@@ -1,0 +1,59 @@
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+@views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics()
+}
+
+@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false) {
+
+ <main id="content" tabindex="-1">
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <h1 class="form-title heading-xlarge">Send your rent, lease or ownership details to the Valuation Office Agency</h1>
+
+            <p>If you rent, lease or own a business property, you need to send the <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office Agency (VOA)</a> your details if they’ve asked you by letter to do so.</P>
+
+            <p>You’ll need the following information to use this service:</P>
+
+            <ul class="list-bullet">
+                <li>your lease or agreement details (or any tenant’s details if you’re the owner)</li>
+                <li>details of any sub-lettings</li>
+                <li>details of any improvements or changes you’ve made to the property</li>
+                <li>details of your rent, including the date your rent was fixed</li>
+                <li>the name and address of your landlord, if you're a tenant</li>
+                <li>any rent review periods</li>
+                <li>any rent-free periods or other incentives</li>
+            </ul>
+
+            
+            <div class="clearfix"></div>
+            <p class="icon-important" style="font-weight:800; height:50px">You could be taken to court if you submit false information.</p>
+            <div class="clearfix"></div>
+            
+            <a href="@routes.LoginController.show()" class="button button-get-started" role="button">Start now</a>
+
+            <h2 class="heading-medium">Before you start</h2>
+            <p>It takes about 20 mins to use this service.</p>
+            <p>You don’t have to complete it in one go. You can save what you’ve done and return to finish later on.</p>
+
+            <h2 class="heading-medium">If you need help</h2>
+            <p>Contact the VOA team in your area for help with using the service.</p>
+            <p>You can find their contact details on the letter sent by the VOA.</p>
+
+
+        </div>
+    </div>
+</main>
+    
+
+
+}
+
+
+

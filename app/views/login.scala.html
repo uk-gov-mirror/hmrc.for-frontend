@@ -1,0 +1,127 @@
+@import _root_.template.Helper._
+@import helpers._
+@import play.api.data._
+@import org.joda.time.DateTime
+
+@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+    @headExtra = {
+        @views.html.includes.stylesheets()
+    }
+    @bodyEnd = {
+        @views.html.includes.javascripts()
+        @views.html.includes.analytics()
+    }
+
+
+    @displayFieldError(error:FormError) = {
+        <p class="error">@Messages(error.message,error.args:_*)</p>
+    }
+
+    @errorWrapper(fields:Seq[Field],classes:String*)(content:Html) = {
+        @defining(_root_.template.HtmlSupport.getErrors(fields)){ combinedErrors =>
+
+          <div class='@classes.mkString(" ") @if(combinedErrors.isEmpty==false){ form-grouped-error }'>
+            @if(combinedErrors.isEmpty==false){
+
+               @combinedErrors.headOption.map { err => @displayFieldError(err) }
+
+            }
+        @content
+            </div>
+        }
+    }
+
+
+    @main(title = Messages("project.name") +" - "+Messages("login.heading"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin) {
+   
+ <main id="content" tabindex="-1">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+
+                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
+
+                @helpers.form(action = routes.LoginController.submit) {
+                @helper.CSRF.formField
+        
+                @includes.errors(theForm, isAgent = false)
+
+                @failedLoginError.map { e =>
+                    <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+                        <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
+                        <p>@Messages("label.fixTheFollowing")</p>
+                        <ul>
+                            <li><a id="failedLoginError" href="#">@e</a></li>
+                        </ul>
+                    </div>
+                }
+
+                    <p class="form-label">@Messages("label.letter")</p>
+
+                    <img src="@routes.Assets.at("images/misc/letter.png")" class="letter-img" alt="">
+
+                        <!-- Reference number -->
+                    <fieldset class="form-group">
+                        <legend class="form-label-bold">@Messages("label.referenceNumber") <span class="visuallyhidden" aria-hidden="true" >(Required)</span></legend>
+                        @errorWrapper(Seq(theForm("ref1"),theForm("ref2")),"form-reference"){
+                            <div class="form-grouped">
+
+                                @inputText(
+                                    field = theForm("ref1"),
+                                    '_label -> Messages("label.referenceNumber1"),
+                                    '_labelClass -> "visuallyhidden",
+                                    '_fieldsetClass -> "form-group-reference-7",
+                                    'class -> "form-control",
+                                    'maxlength -> "8",
+                                    'pattern -> "[0-9]*",
+                                    '_showConstraints -> false, 
+                                    '_showErrors -> false
+                                )
+
+                                <span class="form-group divider">/</span>
+
+                                @inputText(
+                                    field = theForm("ref2"),
+                                    '_label -> Messages("label.referenceNumber2"),
+                                    '_labelClass -> "visuallyhidden",
+                                    '_fieldsetClass -> "form-group-reference-3",
+                                    'class -> "form-control",
+                                    'maxlength -> "3",
+                                    'pattern -> "[0-9]*",
+                                    '_showConstraints -> false, 
+                                    '_showErrors -> false
+                                )
+                            
+                            </div>
+                        }
+                    </fieldset>
+
+                    <!-- Postcode -->
+                    @inputText(
+                        field = theForm("postcode"),
+                        '_label -> Messages("label.postcode"),
+                        '_labelClass -> "form-label-bold",
+                        'class -> "form-control postcode",
+                        'maxlength -> "8",
+                        '_type -> "hidden"
+                    )
+
+                @defining(DateTime.now.toString) { now =>
+                    <input type="hidden" name="start-time" value="@now" />
+                }
+
+                   
+                        <!-- Continue -->
+                    <div class="form-group">
+                        <input id="continue" type="submit" class="button" value="@Messages("label.continue")">
+                    </div>
+
+                }
+
+            </div>
+        </div>
+</main>
+
+     
+
+      }

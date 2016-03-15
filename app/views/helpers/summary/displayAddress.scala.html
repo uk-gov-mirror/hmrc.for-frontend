@@ -1,0 +1,7 @@
+@import models.serviceContracts.submissions.Address
+
+@(a: Address)
+
+@defining(Seq[String](a.buildingNameNumber, a.street1.getOrElse(""), a.street2.getOrElse(""), a.postcode).filter(!_.isEmpty).mkString("<br />")) { st =>
+  @Html(st)
+}

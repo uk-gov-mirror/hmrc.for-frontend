@@ -1,0 +1,168 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages._
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[PageThree], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
+@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+
+@main(title=Messages("project.name")+" - "+Messages("section3.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(3), args = 'class -> "myForm", 'id -> "myFormId") {
+     
+  <main id="content" tabindex="-1">
+      @views.html.includes.backSave()
+      @progressBar(3, Messages("section3.heading"), true, true)
+
+      @includes.errors(theForm, summary.isAgent)
+
+      <div class="grid-row">
+          <div class="column-two-thirds">
+
+
+              @helper.CSRF.formField
+
+              <!-- What is the property used for? -->
+              @inputText(
+                  field = theForm("propertyType"),
+                  '_label -> Messages("label.propertyType"),
+                  '_error -> theForm("propertyTypes.property").error,
+                  '_labelClass -> "form-label-bold",
+                  'class -> "form-control",
+                  '_help -> Messages("propertyTypes.help")
+              )
+
+                  <!-- Who occupies the property? -->
+              @inputRadioGroup(
+                  field = theForm("occupierType"),
+                  options = EnumOptions.options(OccupierTypes, lang),
+                  args = Seq(
+                      '_label -> Messages("label.occupierTypes"),
+                      '_error -> theForm("occupierType").errors,
+                      '_showConstraints -> false,
+                      '_showErrors -> true,
+                      '_labelClass -> "form-label-bold",
+                      '_legend -> true
+                  ),
+                  dataAttributes = Seq(
+                      ("individuals", "data-show-fields", "firstOccupationDate.month,firstOccupationDate.year,mainOccupierName"),
+                      ("company", "data-show-fields", "occupierCompanyName,occupierCompanyContact,firstOccupationDate.month,firstOccupationDate.year"),
+                      ("nobody", "data-show-fields", "")
+                  )
+              )
+
+
+              <div data-show-fields-group="occupierType">
+
+                  @inputText(
+                      field = theForm("occupierCompanyName"),
+                      '_label -> Messages("label.companyName"),
+                      '_error -> theForm("occupierCompanyName").error,
+                      '_labelClass -> "form-label-bold",
+                      'class -> "form-control",
+                      '_fieldsetClass -> "hidden",
+                      '_nojsText -> Messages("label.noJs.occupierCompanyName")
+                  )
+
+                  @inputText(
+                      field = theForm("occupierCompanyContact"),
+                      '_label -> Messages("label.occupierCompanyContact"),
+                      '_error -> theForm("occupierCompanyContact").error,
+                      '_labelClass -> "form-label-bold",
+                      'class -> "form-control",
+                      '_fieldsetClass -> "hidden",
+                      '_help -> Messages("optional")
+                  )
+
+
+
+                  @if(summary.isAgent) {
+                      @includes.dateFields(theForm, "hidden", false, "", "firstOccupationDate", "agent", false, true, Messages("label.noJs.firstOccupationDate"))
+                  } else {
+                      @includes.dateFields(theForm, "hidden", false, "", "firstOccupationDate", "", false, true, Messages("label.noJs.firstOccupationDate"))
+                  }
+
+                  @inputText(
+                      field = theForm("mainOccupierName"),
+                      '_label -> Messages("label.mainOccupierName"),
+                      '_error -> theForm("mainOccupierName").error,
+                      '_labelClass -> "form-label-bold",
+                      'class -> "form-control",
+                      '_fieldsetClass -> "hidden"
+                  )
+
+                  <div class="panel-indent panel-indent-info hidden intel-alert firstOccupationDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+                  
+
+              </div>
+
+
+                  <!-- Do you own the property? -->
+              @inputRadioGroup(
+                  field = theForm("propertyOwnedByYou"),
+                  options = Seq(
+                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
+                      "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+                  ),
+                  dataAttributes = Seq(("false", "data-show-field", "true")),
+                  args = Seq(
+                      '_showConstraints -> false,
+                      '_label -> Messages(if(summary.isAgent)  Messages("label.propertyOwnedByYou.agent")  else  Messages("label.propertyOwnedByYou")),
+                      '_error -> theForm("propertyOwnedByYou").error,
+                      '_legend -> true,
+                      '_fieldsetClass -> "inline",
+                      '_labelClass -> "form-label-bold",
+                      '_showConstraints -> false
+                  )
+              )
+
+                  <!-- Do you pay rent for the property? -->
+              <div class="hidden propertyOwnedByYou">
+              @inputRadioGroup(
+                  field = theForm("propertyRentedByYou"),
+                  options = Seq(
+                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
+                      "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+                  ),
+                  args = Seq(
+                      '_showConstraints -> false,
+                      '_label -> Messages(if(summary.isAgent) Messages("label.propertyRentedByYou.agent") else Messages("label.propertyRentedByYou")),
+                      '_error -> theForm("propertyRentedByYou").error,
+                      '_legend -> true,
+                      '_fieldsetClass -> "inline",
+                      '_labelClass -> "form-label-bold",
+                      '_showConstraints -> false,
+                      '_showErrors -> true,
+                      '_nojsText -> Messages("label.noJs.propertyRentedBy")
+                  )
+              )
+              </div>
+
+              @includes.continueButton()
+
+          </div>
+          <div class="column-third"></div>
+      </div>
+ </main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+  
+      @includes.formHelp()    
+}

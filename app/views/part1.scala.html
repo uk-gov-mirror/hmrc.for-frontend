@@ -1,0 +1,135 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[PropertyAddress], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+
+
+@main(title=Messages("project.name")+" - "+Messages("section1.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary)) {
+  
+  @form(action = dataCapturePages.routes.PageController.savePage(1), args = 'class -> "section1", 'id -> "myFormId") {
+    
+  <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    
+    @progressBar(1, Messages("section1.heading"), true, true)
+
+    @includes.errors(theForm, isAgent = false)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        @helper.CSRF.formField
+
+        <p class="form-label-bold">@Messages("section1.intro.text")</p>
+
+        <p class="form-title heading-large heading-confirmation">
+          @summary.address.map(_.buildingNameNumber)
+          @summary.address.flatMap(_.street1.map(s => Html(s + ",<br/>")))
+          @summary.address.flatMap(_.street2.map(s => Html(s + ",<br/>")))
+          @summary.address.flatMap(_.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"))
+        </p>
+
+          <!-- Is this the correct address? -->
+        @inputRadioGroup(
+          field = theForm("isAddressCorrect"),
+          options = Seq(
+            "true" -> Messages("label.isAddressCorrectYes"),
+            "false" -> Messages("label.isAddressCorrectNo")
+          ),
+          dataAttributes = Seq(("false", "data-show-field", "true")),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages("label.isAddressCorrect"),
+            '_error -> theForm("isAddressCorrect").error,
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false
+          )
+        )
+
+          <!-- Address -->
+        <div class="form-group hidden isAddressCorrect">
+        @defining(Addresses.getAddress(summary)) { address =>
+          @inputText(
+            field = theForm("address.buildingNameNumber"),
+            '_label -> Html(Messages("label.changedAddress")),
+            '_value -> address.buildingNameNumber,
+            '_error -> theForm("address.buildingNameNumber").error,
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            Symbol("placeholder") -> Messages("placeholder.address.1"),
+            '_fieldsetClass -> "address-fields"
+          )
+
+          @inputText(
+            field = theForm("address.street1"),
+            '_label -> Messages("label.street1"),
+            '_value -> address.street1.getOrElse(""),
+            '_error -> theForm("address.street1").error,
+            '_labelClass -> "visuallyhidden",
+            'class -> "form-control",
+            Symbol("placeholder") -> Messages("placeholder.address.2"),
+            '_fieldsetClass -> "address-fields",
+            '_optional -> true
+          )
+
+          @inputText(
+            field = theForm("address.street2"),
+            '_label -> Messages("label.street2"),
+            '_value -> address.street2.getOrElse(""),
+            '_error -> theForm("address.street2").error,
+            '_labelClass -> "visuallyhidden",
+            'class -> "form-control",
+            Symbol("placeholder") -> Messages("placeholder.address.3"),
+            '_optional -> true
+          )
+
+
+          @inputText(
+            field = theForm("address.postcode"),
+            '_label -> Messages("label.postcode"),
+            '_value -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
+            '_error -> theForm("address.postcode").error,
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control postcode"
+          )
+        }
+        
+          <div class="clearfix"></div>
+          <p class="icon-important">@Html(Messages("label.suggestedChanges"))</p>
+          
+        </div>
+
+        @includes.continueButton()        
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+    
+    </main>
+   
+    @includes.continueButtonStickyFooter()
+    
+    }
+    
+    @includes.formHelp()
+}

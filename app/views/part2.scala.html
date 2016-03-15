@@ -1,0 +1,216 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[CustomerDetails], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+@underReview = @{
+  if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
+}
+  
+@main(title=Messages("project.name")+" - "+Messages("section2.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+  @form(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
+      
+    <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    
+    @progressBar(2, Messages("section2.heading"), true, true)
+
+    @includes.errors(theForm, isAgent = false)
+
+        
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+
+        @helper.CSRF.formField
+
+        
+
+          <!-- Full name -->
+        @inputText(
+          field = theForm("fullName"),
+          '_label -> Messages("label.fullName"),
+          '_labelClass -> "form-label-bold",
+          'class -> "form-control"
+        )
+
+          <!-- I am the -->
+        @inputRadioGroup(
+          field = theForm("userType"),
+          options = EnumOptions.options(UserTypes, lang),
+          args = Seq(
+            '_label -> Messages("label.userType"),
+            '_error -> theForm("userType").errors,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_labelClass -> "form-label-bold",
+            '_legend -> true
+          ),
+          dataAttributes = Seq(
+            ("occupier", "data-show-field", "true"),
+            ("owner", "data-show-field", "true"),
+            ("ownerOccupier", "data-show-field", "true")
+          )
+        )
+
+          <!-- How would you like us to contact you? -->
+        @inputRadioGroup(
+          field = theForm("contactType"),
+          options = EnumOptions.options(ContactTypes, lang),
+          args = Seq(
+            '_label -> Messages("label.contactType"),
+            '_error -> theForm("contactType").errors,
+            '_labelClass -> "form-label-bold",
+            '_fieldsetClass -> "",
+            '_showConstraints -> false,
+            '_legend -> true,
+            '_showErrors -> true,
+            '_help -> Messages("hint.anyQueries")
+          ),
+          dataAttributes = Seq(
+            ("email", "data-show-fields", "contactDetails.email1,contactDetails.email2"),
+            ("phone", "data-show-fields", "contactDetails.phone"),
+            ("both", "data-show-fields", "contactDetails.email1,contactDetails.email2,contactDetails.phone")
+          )
+        )
+
+
+
+          <!-- Contact fields -->
+        <div data-show-fields-group="contactType">
+          @inputText(
+            field = theForm("contactDetails.email1"),
+            '_label -> Messages("label.email1"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden",
+            '_nojsText -> Messages("label.noJs.contactDetails.email1")
+          )
+
+          @inputText(
+            field = theForm("contactDetails.email2"),
+            '_label -> Messages("label.email2"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden"
+          )
+
+          @inputText(
+            field = theForm("contactDetails.phone"),
+            '_label -> Messages("label.phone"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden",
+            '_nojsText -> Messages("label.noJs.contactDetails.phone")
+          )
+        </div>
+
+          <!-- Contact Address Type -->
+
+        <div class="hidden userType">  
+        @inputRadioGroup(
+          field = theForm("contactAddressType"),
+          options = EnumOptions.originalContactAddressTypeOptions(summary.address.map(_.singleLine).getOrElse("") + underReview, lang),
+          args = Seq(
+            '_label -> Messages("label.contactAddressType"),
+            '_error -> theForm("contactAddressType").errors,
+            '_showConstraints -> false,
+            '_showErrors -> true,
+            '_legend -> true,
+            '_labelClass -> "form-label-bold",
+            '_fieldsetClass -> "",
+            '_nojsText -> Messages("label.noJs.contactDetails.contactAddressType")
+            
+          ),
+          dataAttributes = Seq(
+            ("mainAddress", "data-show-fields", ""),
+            ("alternativeAddress", "data-show-fields", "alternativeAddress.addresses"),
+            ("contactsAddress", "data-show-fields", "alternativeContact.fullName,alternativeContact.contactDetails.phone,alternativeContact.contactDetails.email1,alternativeContact.contactDetails.email2,alternativeContact.address.addresses")
+          )
+        )
+
+
+          <!-- Contact Address fields -->
+        <div data-show-fields-group="contactAddressType">
+
+        <div id="alternativeAddress_address">
+          @includes.lookupAddress(theForm, "alternativeAddress", "hidden", false, Messages("label.noJs.alternativeAddress.buildingNameNumber"), false)
+        </div>
+
+
+        <div id="alternativeContact_contactDetails">
+          @inputText(
+            field = theForm("alternativeContact.fullName"),
+            '_label -> Messages("label.alternativeContact.fullName"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden",
+            '_nojsText -> Messages("label.noJs.alternativeContact.fullName")
+          )
+
+          @inputText(
+            field = theForm("alternativeContact.contactDetails.phone"),
+            '_label -> Messages("label.alternativeContact.number"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_help -> Messages("hint.contacts"),
+            '_fieldsetClass -> "hidden",
+            '_nojsText -> Messages("label.noJs.alternativeContact.fullName")
+          )
+
+          @inputText(
+            field = theForm("alternativeContact.contactDetails.email1"),
+            '_label -> Messages("label.email1"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden",
+            '_nojsText -> Messages("label.noJs.alternativeContact.fullName")
+          )
+
+          @inputText(
+            field = theForm("alternativeContact.contactDetails.email2"),
+            '_label -> Messages("label.email2"),
+            '_labelClass -> "form-label-bold",
+            'class -> "form-control",
+            '_fieldsetClass -> "hidden"
+          )
+        </div>
+
+
+        <div id="alternativeContact_address">
+          @includes.lookupAddress(theForm, "alternativeContact.address", "hidden", false, Messages("label.noJs.alternativeContact.fullName"), false)
+        </div>
+
+         </div>
+
+        </div>
+
+        @includes.continueButton()
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+ </main>
+    
+    @includes.continueButtonStickyFooter()
+    
+    }
+
+    @includes.formHelp()
+}

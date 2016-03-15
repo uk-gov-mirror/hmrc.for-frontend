@@ -1,0 +1,6 @@
+@(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, lang: Lang)
+  <li id="@linkId">
+      <div class="edit"><a href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId" role="button">@Messages("label.edit") <span class="visuallyhidden">@fieldName</span></a></div>
+      <div class="question">@fieldName</div>
+      <div class="answer">@answer</div>
+  </li>

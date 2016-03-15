@@ -1,0 +1,28 @@
+@import helpers.summary._
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p5: PageFive, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+<li><h2 class="heading-medium no-margin-top">@Messages("section5.heading")</h2></li> 
+
+@summaryBlock(Messages("label.landlordFullName"), 5, "landlordFullName") {
+  	@p5.landlordFullName
+}
+
+@p5.landlordAddress.map { la =>
+  @summaryBlock(Messages("label.address"), 5, "landlordAddress_buildingNameNumber") {
+    @displayAddress(la)
+  }
+}
+
+@summaryBlock(Messages(if(isAgent) Messages("label.LandlordConnectionTypes.agent") else Messages("label.LandlordConnectionTypes")), 5, "landlordConnectType") {
+ 	@Messages(s"landlordConnectionType.${p5.landlordConnectionType.name}")
+}
+
+@if(p5.landlordConnectionType == LandlordConnectionTypeOther) {
+  	@summaryBlock(Messages(if(isAgent) Messages("label.landlordConnectText.agent") else Messages("label.landlordConnectText")), 5, "landlordConnectText") {
+    	@p5.landlordConnectText.getOrElse("")
+  	}
+}

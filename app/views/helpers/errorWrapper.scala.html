@@ -1,0 +1,15 @@
+@import helpers._
+
+@(fields: Seq[Field], id: String, showGroupedError: Boolean, classes: String* )(content: Html)(implicit requestHeader: RequestHeader, lang: Lang)
+
+@defining(_root_.template.HtmlSupport.getErrors(fields)) { combinedErrors =>
+
+    <div id="@id.replace('.', '_')" class="@classes.mkString(" ") @if(combinedErrors.isEmpty == false && showGroupedError == true) { form-grouped-error }">
+        @if(combinedErrors.isEmpty == false && showGroupedError == true) {
+
+            @combinedErrors.map { err => @displayFieldError(err) }
+
+        }
+        @content
+    </div>
+}

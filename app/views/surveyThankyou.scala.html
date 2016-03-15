@@ -1,0 +1,29 @@
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics()
+}
+
+@main(title=Messages("project.name")  + " | " + Messages("heading.feedback.thankyou"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false) {
+
+      
+<main id="content" tabindex="-1">
+	<div class="grid-row">
+	    <div class="column-two-thirds">
+
+		    <h1 class="form-title heading-large">
+		      @Messages("heading.feedback.thankyou")
+		    </h1>
+
+@*
+		    <a href="http://www.gov.uk">@Messages("saveForLater.return")</a>
+*@
+		</div>
+	</div>
+</main>
+}

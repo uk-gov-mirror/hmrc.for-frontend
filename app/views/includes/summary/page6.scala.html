@@ -1,0 +1,81 @@
+@import helpers.summary._
+@import java.text.NumberFormat
+@import models._
+@import models.pages._
+@import models.serviceContracts.submissions._
+
+@(p6: PageSix, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+<li><h2 class="heading-medium no-margin-top">@Messages("section6.heading")</h2></li>
+    @summaryBlock(Messages(if(isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")), 6, "leaseAgreementType") {
+      @Messages(s"${LeaseAgreementTypes.all.head.key}.${p6.leaseAgreementType.name}")
+    }
+
+    @p6.writtenAgreementDetails.map { wa =>
+
+        @summaryBlock(if(isAgent) Messages("label.writtenAgreement.startDate.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.startDate."+p6.leaseAgreementType.name), 6, "writtenAgreement_startDate_month") {
+           @displayRoughDate(wa.startDate)
+        }
+
+        @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.rentOpenEnded."+p6.leaseAgreementType.name)), 6, "writtenAgreement_rentOpenEnded") {
+          @displayBoolean(wa.rentOpenEnded, "2")(lang)
+        }
+
+
+        @if(wa.rentOpenEnded == false) {
+          @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.leaselength.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.leaselength."+p6.leaseAgreementType.name)), 6, "writtenAgreement_leaseLength_years") {
+            @wa.leaseLength.map { ll => <span class="yNumber">@{ll.years}</span> <span class="yText">years</span>, <span class="mNumber">@{ll.months}</span> <span class="mText">months</span> }
+          }
+        }
+
+
+
+        @summaryBlock(Messages("label.writtenAgreement.leaseAgreementHasBreakClause"), 6, "writtenAgreement_leaseAgreementHasBreakClause") {
+          @displayBoolean(wa.leaseAgreementHasBreakClause, "4")(lang)
+        }
+
+        @if(wa.leaseAgreementHasBreakClause) {
+          @summaryBlock(Messages("label.writtenAgreement.breakClauseDetails"), 6, "writtenAgreement_breakClauseDetails") {
+            @wa.breakClauseDetails.getOrElse("")
+          }
+        }
+
+        @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.agreementIsStepped.agent") else Messages("label.writtenAgreement.agreementIsStepped")), 6, "writtenAgreement_agreementIsStepped") {
+          @displayBoolean(wa.agreementIsStepped, "2")(lang)
+        }
+
+        @if(wa.agreementIsStepped) {
+          @summaryBlock(Messages("label.writtenAgreement.steppedDetailsYear"), 6,
+            "writtenAgreement_steppedDetails_0") {
+                <ol class="list-number">
+                  @wa.steppedDetails.map { sd =>
+                    <li><span class="appleLink">@displayLocalDate(sd.stepFrom)</span> - <span class="appleLink">@displayLocalDate(sd.stepTo)</span> - £@NumberFormat.getNumberInstance().format(sd.amount)</li>
+                  }
+                </ol>
+            }
+        }
+
+    }
+
+    @if(p6.leaseAgreementType == LeaseAgreementTypesVerbal) {
+        @p6.verbalAgreementDetails.startDate.map { sd =>
+            @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.startDate.agent") else Messages("label.verbalAgreement.startDate")), 6, "verbalAgreement.startDate_month") {
+                @displayRoughDate(sd)
+            }
+        }
+
+        @p6.verbalAgreementDetails.rentOpenEnded.map { ro =>
+            @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.rentOpenEnded.agent")  else Messages("label.verbalAgreement.rentOpenEnded")), 6, "verbalAgreement.rentOpenEnded") {
+                @displayBoolean(ro, "2")(lang)
+            }
+
+        }
+
+        @if(!p6.verbalAgreementDetails.rentOpenEnded.getOrElse(true)) {
+            @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.leaselength.agent") else Messages("label.verbalAgreement.leaselength")), 6, "verbalAgreement_leaseLength_years_anchor") {
+                @p6.verbalAgreementDetails.leaseLength.map { d =>
+                    @{d.years} years, @{d.months} months
+                }
+            }
+        }
+    }

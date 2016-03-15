@@ -1,0 +1,26 @@
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+  @views.html.includes.analytics()
+}
+
+@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false) {
+<main id="content" tabindex="-1">
+	<div class="grid-row">
+	    <div class="column-two-thirds">
+
+	    <h1 class="form-title heading-large">
+	      @Messages("error.408.heading")
+	    </h1>
+
+	    <p><a href="@routes.Application.index" class="button-link link-back">@Messages("button.label.back")</a></p>
+
+		</div>
+	</div>
+</main>
+}
