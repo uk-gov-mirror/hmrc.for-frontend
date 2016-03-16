@@ -31,7 +31,7 @@ private object AppDependencies {
     "com.kenshoo" %% "metrics-play" % "2.3.0_0.1.8",
     "com.google.guava" % "guava" % "18.0",
     "uk.gov.hmrc" %% "govuk-template" % "4.0.0",
-    "uk.gov.hmrc" %% "json-encryption" % "1.7.0",
+    "uk.gov.hmrc" %% "json-encryption" % "2.0.0",
     "uk.gov.hmrc" %% "play-config" % "2.0.1",
     "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "play-health" % playHealthVersion,
