@@ -1,4 +1,3 @@
-
 logs
 project/project
 project/target
@@ -17,5 +16,9 @@ dist
 /RUNNING_PID
 /.settings
 *.iws
-
+.sass-cache
+public
+node_modules
+govuk_modules
+npm-debug.log
     

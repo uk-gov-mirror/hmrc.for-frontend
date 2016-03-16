@@ -28,7 +28,7 @@ trait MicroService {
     .settings(playSettings: _*)
     .settings(scalaSettings: _*)
     .settings(publishingSettings: _*)
-    .settings(organization := "uk.gov.voa")
+    .settings(organization := "uk.gov.hmrc")
     .settings(PlayKeys.playDefaultPort := defaultPort)
     .settings(
       targetJvm := "jvm-1.8",
