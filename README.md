@@ -11,8 +11,8 @@ This code repository contains the RALD (rent and lease details) form (aka FOR - 
 Requirements
 ------------
 * This service is written in [Scala](http://www.scala-lang.org/) and [Play](http://playframework.com/), so needs at least a [JRE](https://www.java.com/en/download/) to run.
-* [HMRC Caching Client](https://github.com/hmrc/http-caching-client)
-* [HMRC Mongo Caching](https://github.com/hmrc/mongo-caching)
+* [HMRC Caching Client](https://github.com/hmrc/http-caching-client) (or you can stub FormDocumentRepository.scala)
+* [HMRC Mongo Caching](https://github.com/hmrc/mongo-caching) (or you can stub FormDocumentRepository.scala)
 * FOR-HOD-ADAPTER (you will need to provide a stub for this or you can stub method calls in HODConnector.scala)
 
 ### License
