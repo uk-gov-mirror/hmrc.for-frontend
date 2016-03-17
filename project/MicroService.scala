@@ -23,6 +23,8 @@ trait MicroService {
 
   lazy val playSettings: Seq[Setting[_]] = Seq.empty
 
+  lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
+
   lazy val microservice = Project(appName, file("."))
     .enablePlugins(plugins: _*)
     .settings(playSettings: _*)
@@ -35,7 +37,9 @@ trait MicroService {
       libraryDependencies ++= appDependencies,
       parallelExecution in Test := false,
       fork in Test := true,
-      retrieveManaged := true
+      retrieveManaged := true,
+      compileScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Compile).toTask("").value,
+      test in Test <<= (test in Test) dependsOn compileScalastyle
     )
     .settings(inConfig(TemplateTest)(Defaults.testSettings): _*)
     .configs(IntegrationTest)

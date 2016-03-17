@@ -21,13 +21,12 @@ import models.serviceContracts.submissions.Address
 
 object Addresses {
 
- def getAddress(summary: Summary): Address = {
-	 summary.propertyAddress.flatMap(_.address) orElse summary.address match {
- 		case Some(a) => a
- 		case None => throw new AddressMissing(summary.referenceNumber)
- 	}
- }
- 
+  def getAddress(summary: Summary): Address = {
+    summary.propertyAddress.flatMap(_.address) orElse summary.address match {
+      case Some(a) => a
+      case None => throw new AddressMissing(summary.referenceNumber)
+    }
+  }
 }
 
 class AddressMissing(referenceNumber: String) extends Exception(s"Reference number: $referenceNumber")

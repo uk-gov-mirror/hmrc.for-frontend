@@ -85,7 +85,7 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "allow up to 249 letters, numbers, spaces, and special characters for rent details" in {
-    validateLettersNumsSpecCharsUptoLength(keys.rentDetails, 249, pageTenForm, fullData)
+    validateLettersNumsSpecCharsUptoLength(Keys.rentDetails, 249, pageTenForm, fullData)
   }
 
   it should "allow upto 4 digits for all car parking quantities" in {
@@ -107,18 +107,18 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "return a required error when rent details are required but not given" in {
-    val fields = Seq(keys.partRent, keys.otherProperty, keys.livingAccomodation, keys.landOnly, keys.shellUnit)
+    val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccomodation, Keys.landOnly, Keys.shellUnit)
 
     fields.foreach { field =>
-      val data = dataNoDetailsRequired.updated(field, "true") - keys.rentDetails
+      val data = dataNoDetailsRequired.updated(field, "true") - Keys.rentDetails
       val form = bind(data)
 
-      mustContainRequiredErrorFor(keys.rentDetails, form)
+      mustContainRequiredErrorFor(Keys.rentDetails, form)
     }
   }
 
   it should "bind without errors when the rent details are not required and not given" in {
-    val form = bind(dataNoDetailsRequired - keys.rentDetails)
+    val form = bind(dataNoDetailsRequired - Keys.rentDetails)
 
     doesNotContainErrors(form)
   }
@@ -153,13 +153,13 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor(annualSeparateParkingYear, form)
   }
 
-  checkMissingField(keys.partRent, Errors.booleanMissing)
-  checkMissingField(keys.otherProperty, Errors.booleanMissing)
-  checkMissingField(keys.livingAccomodation, Errors.booleanMissing)
-  checkMissingField(keys.landOnly, Errors.booleanMissing)
-  checkMissingField(keys.shellUnit, Errors.booleanMissing)
+  checkMissingField(Keys.partRent, Errors.booleanMissing)
+  checkMissingField(Keys.otherProperty, Errors.booleanMissing)
+  checkMissingField(Keys.livingAccomodation, Errors.booleanMissing)
+  checkMissingField(Keys.landOnly, Errors.booleanMissing)
+  checkMissingField(Keys.shellUnit, Errors.booleanMissing)
 
-  val fields = Seq(keys.partRent, keys.otherProperty, keys.livingAccomodation, keys.landOnly, keys.shellUnit)
+  val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccomodation, Keys.landOnly, Keys.shellUnit)
 
   object TestData {
 
@@ -184,12 +184,12 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     lazy val annualSeparateParkingYear = "parking.annualSeparateParkingDate.year"
 
     val fullData: Map[String, String] = Map(
-      keys.partRent -> "true",
-      keys.otherProperty -> "true",
-      keys.livingAccomodation -> "true",
-      keys.landOnly -> "true",
-      keys.shellUnit -> "true",
-      keys.rentDetails -> "RENT DETAILS",
+      Keys.partRent -> "true",
+      Keys.otherProperty -> "true",
+      Keys.livingAccomodation -> "true",
+      Keys.landOnly -> "true",
+      Keys.shellUnit -> "true",
+      Keys.rentDetails -> "RENT DETAILS",
       rentIncludeParkingKey -> "true",
       rentIncludedParkingGarages -> "2",
       rentSeparateParkingKey -> "true",
@@ -215,11 +215,11 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     )
 
     lazy val dataNoDetailsRequired = fullData.
-      updated(keys.partRent, "false").
-      updated(keys.otherProperty, "false").
-      updated(keys.livingAccomodation, "false").
-      updated(keys.landOnly, "false").
-      updated(keys.shellUnit, "false")
+      updated(Keys.partRent, "false").
+      updated(Keys.otherProperty, "false").
+      updated(Keys.livingAccomodation, "false").
+      updated(Keys.landOnly, "false").
+      updated(Keys.shellUnit, "false")
 
     def hasError(errors: Seq[FormError], key: String, message: String) = {
       val res = errors.exists { err => err.key == key && err.messages.contains(message) }

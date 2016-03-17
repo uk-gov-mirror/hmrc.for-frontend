@@ -20,9 +20,9 @@ import models._
 import play.api.data.Form
 import play.api.data.Forms.mapping
 import uk.gov.voa.play.form.ConditionalMappings._
+import MappingSupport._
 
 object PageOneForm {
-  import MappingSupport._
 
   lazy val basePageOneForm: Form[PropertyAddress] = Form(basePageOneMapping)
 
@@ -32,6 +32,5 @@ object PageOneForm {
   )(PropertyAddress.apply)(PropertyAddress.unapply)
 
   val pageOneForm = Form(basePageOneMapping)
-   
 
 }

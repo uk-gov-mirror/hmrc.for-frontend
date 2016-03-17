@@ -23,9 +23,9 @@ import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
+import MappingSupport._
 
 object PageThreeForm {
-  import MappingSupport._
 
   private lazy val basePageThreeForm: Form[PageThree] = Form(basePageThreeMapping)
 

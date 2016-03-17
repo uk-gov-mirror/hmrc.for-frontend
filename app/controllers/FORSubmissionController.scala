@@ -27,27 +27,33 @@ import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 import scala.concurrent.Future
 
 object FORSubmissionController extends FORSubmissionController {
-	private lazy val submitBri = SubmitBusinessRentalInformation(FormPersistence.formDocumentRepository, SubmissionBuilder, SubmissionConnector)
-	def submitBusinessRentalInformation: SubmitBusinessRentalInformation = submitBri
+  private lazy val submitBri = SubmitBusinessRentalInformation(FormPersistence.formDocumentRepository, SubmissionBuilder, SubmissionConnector)
+
+  def submitBusinessRentalInformation: SubmitBusinessRentalInformation = submitBri
 }
 
-trait FORSubmissionController extends FrontendController { 
+trait FORSubmissionController extends FrontendController {
 
   def submit: Action[AnyContent] = RefNumAction.async { implicit request =>
-		request.body.asFormUrlEncoded.flatMap { body =>
-			body.get("declaration").map { agree =>				
-				if(agree.headOption.map(_.toBoolean).getOrElse(false)) submit(request.refNum) else rejectSubmission
-			}
-		} getOrElse rejectSubmission
-	}
+    request.body.asFormUrlEncoded.flatMap { body =>
+      body.get("declaration").map { agree =>
+        if (agree.headOption.exists(_.toBoolean)) submit(request.refNum) else rejectSubmission
+      }
+    } getOrElse rejectSubmission
+  }
 
-	private def submit[T](refNum: String)(implicit request: Request[T]) = 
-		submitBusinessRentalInformation(refNum).map { sub =>
-			Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString, "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))
-			Found(feedback.routes.Survey.confirmation.url)
-		}
+  private def submit[T](refNum: String)(implicit request: Request[T]) =
+    submitBusinessRentalInformation(refNum).map { sub =>
+      Audit(
+        "FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
+        "name" -> sub.customerDetails.map(_.fullName).getOrElse(""))
+      )
+      Found(feedback.routes.Survey.confirmation.url)
+    }
 
-	private def rejectSubmission = Future.successful { Found(routes.Application.declarationError.url) }
+  private def rejectSubmission = Future.successful {
+    Found(routes.Application.declarationError.url)
+  }
 
   def submitBusinessRentalInformation: SubmitBusinessRentalInformation
 }

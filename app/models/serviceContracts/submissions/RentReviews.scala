@@ -21,12 +21,12 @@ import models.RoughDate
 case class RentReviews(leaseContainsRentReviews: Boolean, rentReviewDetails: Option[RentReviewDetails])
 
 case class RentReviewDetails(reviewIntervalTypeSpecify: Option[MonthsYearDuration],
-                             lastReviewDate: Option[RoughDate],
-                             canRentReduced: Boolean,
-                             rentResultOfRentReview: Boolean,
-                             reviewDetails: Option[RentReviewResultDetails]
-                              )
+                            lastReviewDate: Option[RoughDate],
+                            canRentReduced: Boolean,
+                            rentResultOfRentReview: Boolean,
+                            reviewDetails: Option[RentReviewResultDetails]
+                            )
 
 case class RentReviewResultDetails(whenWasRentReview: RoughDate,
-                                   rentAgreedBetween: Boolean,
-                                   rentFixedBy: Option[RentFixedType])
+                                  rentAgreedBetween: Boolean,
+                                  rentFixedBy: Option[RentFixedType])

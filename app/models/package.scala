@@ -16,12 +16,11 @@
 
 import models.pages._
 import models.serviceContracts.submissions._
+import play.api.libs.json._
 
 package object models {
 
-  import play.api.libs.json._
-
- def generateWrites[T <: NamedEnum](enumObject: NamedEnumSupport[T]): Writes[T] = new Writes[T] {
+  def generateWrites[T <: NamedEnum](enumObject: NamedEnumSupport[T]): Writes[T] = new Writes[T] {
     def writes(data: T): JsValue = {
       JsString(data.name)
     }

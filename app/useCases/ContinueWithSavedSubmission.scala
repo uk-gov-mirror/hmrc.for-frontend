@@ -37,17 +37,22 @@ object ContinueWithSavedSubmission {
     l(auth, r) map {
       case Some(doc) if matches(doc.saveForLaterPassword, p) => u(hc, r, record(doc, n())); PasswordsMatch(j(b(doc)))
       case Some(_) => IncorrectPassword
-      case None =>  ErrorRetrievingSavedDocument
+      case None => ErrorRetrievingSavedDocument
     }
 
   private def auth(implicit hc: HeaderCarrier) = hc.authorization.map(_.value).getOrElse(throw AuthorizationTokenMissing)
+
   private def matches(p1: Option[SaveForLaterPassword], p2: SaveForLaterPassword) = p1.contains(p2)
+
   private def record(d: Document, n: DateTime) = d.copy(journeyResumptions = d.journeyResumptions :+ n)
 }
 
 sealed trait SaveForLaterLoginResult
+
 case class PasswordsMatch(pageToGoTo: TargetPage) extends SaveForLaterLoginResult
+
 case object IncorrectPassword extends SaveForLaterLoginResult
+
 case object ErrorRetrievingSavedDocument extends SaveForLaterLoginResult
 
 case object AuthorizationTokenMissing extends Exception

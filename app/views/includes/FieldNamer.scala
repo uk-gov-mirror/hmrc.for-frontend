@@ -23,6 +23,5 @@ case class FieldNamer(name:String, index:Option[Int]=None) {
     case None => name
   }
 
-  def errorKey = name
-
+  val errorKey = name
 }

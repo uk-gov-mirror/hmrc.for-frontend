@@ -20,9 +20,8 @@ import models._
 import models.serviceContracts.submissions._
 
 case class PageFour(propertyIsSublet: Boolean, sublet: List[SubletDetails])
- 
+
 case class SubletDetails(tenantFullName: String,
-	//tenantsAddressType: TenantsAddressType,
   tenantAddress: Address,
   subletPropertyPartDescription: String,
   subletPropertyReasonDescription: String,

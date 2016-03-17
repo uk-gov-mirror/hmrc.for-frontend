@@ -22,9 +22,9 @@ import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
+import MappingSupport._
 
 object PageFourForm {
-  import MappingSupport._
 
   val nonMandatoryFields = Seq("sublet.annualRentExcludingVat")
 

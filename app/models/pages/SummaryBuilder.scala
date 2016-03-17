@@ -36,10 +36,11 @@ import play.api.data.Form
 trait SummaryBuilder {
   def build(doc: Document): Summary
 }
+
 object SummaryBuilder extends SummaryBuilder {
 
-	def build(doc: Document): Summary = {
-	  val p1 = findPage(doc, 1, pageOneForm)
+  def build(doc: Document): Summary = {
+    val p1 = findPage(doc, 1, pageOneForm)
     val p2 = findPage(doc, 2, pageTwoForm)
     val p3 = findPage(doc, 3, pageThreeForm)
     val p4 = findPage(doc, 4, pageFourForm)
@@ -54,11 +55,11 @@ object SummaryBuilder extends SummaryBuilder {
     val p13 = findPage(doc, 13, pageThirteenForm)
     val p14 = findPage(doc, 14, pageFourteenForm)
     Summary(doc.referenceNumber, doc.journeyStarted, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14,
-			address = doc.address, journeyResumptions = doc.journeyResumptions
-		)
-	}
+      address = doc.address, journeyResumptions = doc.journeyResumptions
+    )
+  }
 
-	private def findPage[T](doc: Document, pageNumber: Int, form: Form[T]) = doc.page(pageNumber) flatMap { p =>
+  private def findPage[T](doc: Document, pageNumber: Int, form: Form[T]) = doc.page(pageNumber) flatMap { p =>
     form.bindFromRequest(p.fields).value
   }
 }

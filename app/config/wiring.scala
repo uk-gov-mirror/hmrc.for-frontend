@@ -16,7 +16,6 @@
 
 package playconfig
 
-import com.typesafe.config.ConfigFactory
 import config.{AuditServiceConnector, ForConfig}
 import connectors.HODConnector
 import form.persistence.SessionScopedFormDocumentRepository
@@ -24,9 +23,9 @@ import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
 import play.api.Logger
-import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import uk.gov.hmrc.crypto.{ApplicationCrypto, CompositeSymmetricCrypto}
-import uk.gov.hmrc.http.cache.client.{ShortLivedHttpCaching, ShortLivedCache, SessionCache}
+import uk.gov.hmrc.http.cache.client.{ShortLivedCache, ShortLivedHttpCaching}
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.audit.model.DataEvent
@@ -39,6 +38,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases._
+import security.LoginToHOD._
 
 import scala.concurrent.Future
 
@@ -66,10 +66,9 @@ object FormPartialProvider extends FormPartialRetriever {
 }
 
 object Audit {
-  import play.api.libs.concurrent.Execution.Implicits.defaultContext
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String])= {
+  def apply(event: String, detail: Map[String, String]) = { //scalastyle:ignore
     val de = DataEvent(auditSource = "for-frontend", auditType = event, detail = detail)
     auditConnector.sendEvent(de)
     Logger.debug(de.toString)
@@ -113,13 +112,12 @@ object ContinueWithSavedSubmission {
 }
 
 object LoginToHOD {
-  import security.LoginToHOD._
   def apply(implicit hc: HeaderCarrier): LoginToHOD = security.LoginToHOD(
     HODConnector.verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
   )
 }
 
 object Environment extends uk.gov.hmrc.play.config.RunMode {
-  def isDev = env == "Dev"
+  def isDev = env == "Dev" //scalastyle:ignore
   val analytics = ForConfig.analytics
 }

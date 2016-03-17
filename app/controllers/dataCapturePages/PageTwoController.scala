@@ -32,5 +32,4 @@ object PageTwoController extends ForDataCapturePage[CustomerDetails] {
   def template(form: Form[CustomerDetails], summary: Summary)(implicit request: Request[AnyContent]): Html = {
     views.html.part2(form, summary)
   }
-  
 }

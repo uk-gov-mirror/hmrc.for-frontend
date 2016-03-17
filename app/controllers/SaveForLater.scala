@@ -35,7 +35,9 @@ import scala.concurrent.Future
 
 object SaveForLater extends FrontendController {
   lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()
+
   def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission(hc)
+
   lazy val repository: FormDocumentRepository = FormPersistence.formDocumentRepository
   val s4lIndicator = "s4l"
 
@@ -48,7 +50,7 @@ object SaveForLater extends FrontendController {
           Ok(views.html.savedForLater(sum, pw))
         }
       case None =>
-      	InternalServerError(views.html.error.error500())
+        InternalServerError(views.html.error.error500())
     }
   }
 
@@ -96,4 +98,5 @@ object SaveForLater extends FrontendController {
   )(SaveForLaterLogin.apply)(SaveForLaterLogin.unapply))
 
   case class SaveForLaterLogin(password: String)
+
 }

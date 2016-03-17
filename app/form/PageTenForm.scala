@@ -19,14 +19,15 @@ package form
 import form.DateMappings._
 import form.MappingSupport.{mandatoryBoolean, _}
 import models.serviceContracts.submissions.{Parking, WhatRentIncludes}
-import play.api.data.Form
+import play.api.data.{Mapping, Form}
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
 
+import PageTenForm._
 
 object PageTenForm {
 
-  object keys {
+  object Keys {
     val partRent = "partRent"
     val partRentDetails = "partRentDetails"
     val otherProperty = "otherProperty"
@@ -47,13 +48,13 @@ object PageTenForm {
   }
 
   val pageTenMapping = mapping(
-    keys.partRent -> mandatoryBoolean,
-    keys.otherProperty -> mandatoryBoolean,
-    keys.livingAccomodation -> mandatoryBoolean,
-    keys.landOnly -> mandatoryBoolean,
-    keys.shellUnit -> mandatoryBoolean,
-    keys.rentDetails -> mandatoryIfAnyAreTrue(
-      Seq(keys.shellUnit, keys.landOnly, keys.livingAccomodation, keys.otherProperty, keys.partRent),
+    Keys.partRent -> mandatoryBoolean,
+    Keys.otherProperty -> mandatoryBoolean,
+    Keys.livingAccomodation -> mandatoryBoolean,
+    Keys.landOnly -> mandatoryBoolean,
+    Keys.shellUnit -> mandatoryBoolean,
+    Keys.rentDetails -> mandatoryIfAnyAreTrue(
+      Seq(Keys.shellUnit, Keys.landOnly, Keys.livingAccomodation, Keys.otherProperty, Keys.partRent),
       nonEmptyText(maxLength = 249), showNestedErrors = false
     ),
     "parking" -> ParkingMapping.parkingMapping("parking")
@@ -63,26 +64,25 @@ object PageTenForm {
 }
 
 object ParkingMapping {
-  import PageTenForm._
 
-  def rentIncludeParkingMapping(prefix: String) = mandatoryIfTrue(
-    prefix + keys.rentIncludeParking, parkingDetailsMapping(s"$prefix${keys.rentIncludeParkingDetails}")
+  private def rentIncludeParkingMapping(prefix: String) = mandatoryIfTrue(
+    prefix + Keys.rentIncludeParking, parkingDetailsMapping(s"$prefix${Keys.rentIncludeParkingDetails}")
   )
 
-  def rentSeparateParkingDetailsMapping(prefix: String) = mandatoryIfTrue(
-    prefix + keys.rentSeparateParking, parkingDetailsMapping(s"$prefix${keys.rentSeparateParkingDetails}")
+  private def rentSeparateParkingDetailsMapping(prefix: String) = mandatoryIfTrue(
+    prefix + Keys.rentSeparateParking, parkingDetailsMapping(s"$prefix${Keys.rentSeparateParkingDetails}")
   )
 
-  def parkingMapping(prefix: String) = {
+  def parkingMapping(prefix: String): Mapping[Parking] = {
     val pfx = prefix + "."
     mapping(
-      (keys.rentIncludeParking, mandatoryBoolean),
-      (keys.rentIncludeParkingDetails, rentIncludeParkingMapping(pfx)),
-      (keys.rentSeparateParking, mandatoryBoolean),
-      (keys.rentSeparateParkingDetails, rentSeparateParkingDetailsMapping(pfx)),
-      (keys.annualSeparateParking, mandatoryIfTrue(pfx + keys.rentSeparateParking, currency)),
-      (keys.annualSeparateParkingDate, mandatoryIfTrue(
-        pfx + keys.rentSeparateParking, monthYearRoughDateMapping(pfx + keys.annualSeparateParkingDate)))
+      (Keys.rentIncludeParking, mandatoryBoolean),
+      (Keys.rentIncludeParkingDetails, rentIncludeParkingMapping(pfx)),
+      (Keys.rentSeparateParking, mandatoryBoolean),
+      (Keys.rentSeparateParkingDetails, rentSeparateParkingDetailsMapping(pfx)),
+      (Keys.annualSeparateParking, mandatoryIfTrue(pfx + Keys.rentSeparateParking, currency)),
+      (Keys.annualSeparateParkingDate, mandatoryIfTrue(
+        pfx + Keys.rentSeparateParking, monthYearRoughDateMapping(pfx + Keys.annualSeparateParkingDate)))
     )(Parking.apply)(Parking.unapply)
   }
 }

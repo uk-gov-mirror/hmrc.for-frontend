@@ -22,15 +22,16 @@ import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 
+import DateMappings._
+import MappingSupport._
 
 object PageThirteenForm {
-  import DateMappings._
-  import MappingSupport._
 
   val pageThirteenForm = Form(mapping(
     keys.propertyAlterations -> mandatoryBoolean,
     keys.propertyAlterationsDetails -> onlyIfTrue(
-      keys.propertyAlterations, IndexedMapping("propertyAlterationsDetails", propertyAlterationsDetailsMapping).verifying(Errors.tooManyAlterations, _.length <= 10)
+      keys.propertyAlterations,
+      IndexedMapping("propertyAlterationsDetails", propertyAlterationsDetailsMapping).verifying(Errors.tooManyAlterations, _.length <= 10)
     ),
     keys.alterationsRequired -> mandatoryBooleanIfTrue(keys.propertyAlterations, mandatoryBoolean)
   ) (PropertyAlterations.apply)(PropertyAlterations.unapply))
@@ -39,7 +40,7 @@ object PageThirteenForm {
     s"$indexed.date" -> monthYearRoughDateMapping(s"$indexed.date"),
     s"$indexed.description" -> nonEmptyText(maxLength = 250),
     s"$indexed.cost" -> currency
-  
+
   )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)
 
   lazy val keys = new {

@@ -42,15 +42,15 @@ case class IfElseMapping[T](condition: Condition, trueMapping: Mapping[T], false
     if (condition(data)) trueMapping.bind(data) else falseMapping.bind(data)
   }
 
-  def unbind(value: T) = {
+  def unbind(value: T): Map[String, String] = {
     trueMapping.unbind(value)
   }
 
-  def unbindAndValidate(value: T) = {
+  def unbindAndValidate(value: T): (Map[String, String], Seq[FormError]) = {
     trueMapping.unbindAndValidate(value)
   }
 
-  def withPrefix(prefix: String) = {
+  def withPrefix(prefix: String): IfElseMapping[T] = {
     copy(trueMapping = trueMapping.withPrefix(prefix), falseMapping = falseMapping.withPrefix(prefix))
   }
 

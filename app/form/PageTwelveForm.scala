@@ -22,10 +22,9 @@ import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
+import MappingSupport._
 
 object PageTwelveForm {
-  import MappingSupport._
-
   val chargeDetailsMapping = (index: String) => mapping(
     s"$index.chargeDescription" -> nonEmptyText(maxLength = 50),
     s"$index.chargeCost" -> currency)(ChargeDetails.apply)(ChargeDetails.unapply)
@@ -46,4 +45,3 @@ object PageTwelveForm {
 
   val pageTwelveForm = Form(pageTwelveMapping)
 }
- 

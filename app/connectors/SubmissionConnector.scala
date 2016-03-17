@@ -24,15 +24,15 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
 
 import scala.concurrent.Future
-	
-object SubmissionConnector extends SubmissionConnector with ServicesConfig {
-	lazy val serviceUrl = baseUrl("for-hod-adapter")
 
-	def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
-		WSHttp.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())
-	}
+object SubmissionConnector extends SubmissionConnector with ServicesConfig {
+  lazy val serviceUrl = baseUrl("for-hod-adapter")
+
+  def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
+    WSHttp.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())
+  }
 }
 
 trait SubmissionConnector {
-	def submit(refNum: String, submisson: Submission)(implicit hc: HeaderCarrier): Future[Unit]
+  def submit(refNum: String, submisson: Submission)(implicit hc: HeaderCarrier): Future[Unit]
 }

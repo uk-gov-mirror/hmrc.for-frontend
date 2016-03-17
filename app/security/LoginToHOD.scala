@@ -42,12 +42,12 @@ object LoginToHOD {
 
   def apply(v: VerifyCredentials, l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession)
            (r1: Ref1, r2: Ref2, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier): Future[LoginResult] =
-    for(
-      rn <- ref(r1, r2);
-      lr <- v(r1, r2, pc);
-      _  <- u(hc, rn, doc(rn, lr.address, st));
+    for {
+      rn <- ref(r1, r2)
+      lr <- v(r1, r2, pc)
+      _ <- u(hc, rn, doc(rn, lr.address, st))
       sd <- l(lr.forAuthToken, rn)
-    ) yield sd map { dps(_, lr.forAuthToken) } getOrElse ned(lr.forAuthToken)
+    } yield sd map { dps(_, lr.forAuthToken) } getOrElse ned(lr.forAuthToken)
 
   private def ref(r1: Ref1, r2: Ref2): Future[String] = s"$r1$r2"
   private def doc(r: ReferenceNumber, a: Address, d: DateTime) = Document(r, d, address = Some(a))

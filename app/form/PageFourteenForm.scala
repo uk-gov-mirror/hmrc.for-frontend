@@ -21,12 +21,11 @@ import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 
-object PageFourteenForm {
-  import MappingSupport._
+import MappingSupport._
 
+object PageFourteenForm {
   val pageFourteenForm = Form(mapping(
     "anyOtherFactors" -> mandatoryBoolean,
     "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors",nonEmptyText(maxLength = 124))
   )(OtherFactors.apply)(OtherFactors.unapply))
 }
- 

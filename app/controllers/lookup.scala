@@ -24,7 +24,6 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-
 object AddressLookup extends FrontendController {
   def getAddress(postcode: String) = RefNumAction.async { implicit request =>
     AddressLookupConnector.getAddress(postcode, hc) map { Ok(_) }

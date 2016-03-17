@@ -17,7 +17,7 @@
 package models
 
 case class AnnualRent(period: RentLengthType, amount: BigDecimal) {
-	val annualRent = period match {
+  val annualRent = period match {
     case RentLengthTypeWeekly => amount * 52
     case RentLengthTypeMonthly => amount * 12
     case RentLengthTypeQuarterly => amount * 4

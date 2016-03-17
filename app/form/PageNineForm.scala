@@ -16,17 +16,15 @@
 
 package form
 
-
 import models.pages.PageNine
 import models.serviceContracts.submissions.RentBaseTypeOpenMarket
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
-
+import DateMappings._
+import MappingSupport._
 
 object PageNineForm {
-  import DateMappings._
-  import MappingSupport._
 
   val pageNineMaping = mapping(
     "totalRent" -> annualRent,
@@ -36,7 +34,6 @@ object PageNineForm {
     "rentBasedOn" -> rentBaseTypeMapping,
     "rentBasedOnDetails" -> mandatoryIfNot("rentBasedOn", RentBaseTypeOpenMarket.name, nonEmptyText(maxLength = 250))
   )(PageNine.apply)(PageNine.unapply)
-
 
   val pageNineForm = Form(pageNineMaping)
 }

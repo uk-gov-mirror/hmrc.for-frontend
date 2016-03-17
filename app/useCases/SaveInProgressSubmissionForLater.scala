@@ -33,7 +33,7 @@ object SaveInProgressSubmissionForLater {
   type StoreInProgressSubmission = Document => Future[Unit]
 
   def apply(gp: GenerateSaveForLaterPassword, s: StoreInProgressSubmission, u: UpdateDocumentInCurrentSession)
-           (d: Document, hc: HeaderCarrier) = {
+           (d: Document, hc: HeaderCarrier): Future[String] = {
     val p = d.saveForLaterPassword getOrElse gp()
     val nd = d.copy(saveForLaterPassword = Some(p))
     s(nd) map { _ =>  u(hc, d.referenceNumber, nd) } map { _ => p }
