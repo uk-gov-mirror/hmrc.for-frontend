@@ -41,7 +41,7 @@ object ForConfig {
       lazy val refNum = prodOnlyConf("analytics.ga.refNum")
     }
   }
-  private def prodOnlyConf(key: String) = getString("key")
+  private def prodOnlyConf(key: String) = getString(key)
 
   private def getString(key: String) = config.getString(key).getOrElse(throw ConfigSettingMissing(key))
   private def getInt(key: String): Int = play.api.Play.current.configuration.getInt(key).getOrElse(throw ConfigSettingMissing(key))
