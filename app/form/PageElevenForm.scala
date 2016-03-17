@@ -20,18 +20,16 @@ import models.serviceContracts.submissions.{CapitalDetails, FreePeriodDetails, I
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
-
+import MappingSupport._
+import DateMappings._
 
 object PageElevenForm {
-  import DateMappings._
-  import MappingSupport._
 
   val freePeriodDetailsMapping = mapping(
     "rentFreePeriodLength" -> number(min = 1),
     "rentFreePeriodDetails" -> nonEmptyText(maxLength = 250))(FreePeriodDetails.apply)(FreePeriodDetails.unapply)
 
-
-  def capitalDetailsMapping(prefix: String) = mapping(
+  private def capitalDetailsMapping(prefix: String) = mapping(
     "capitalSum" -> currency,
     "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate"))(CapitalDetails.apply)(CapitalDetails.unapply)
 
@@ -43,7 +41,6 @@ object PageElevenForm {
     "receiveCapitalSum" -> mandatoryBoolean,
     "capitalReceivedDetails" -> mandatoryIfTrue("receiveCapitalSum", capitalDetailsMapping("capitalReceivedDetails"))
     )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
-
 
   val pageElevenForm = Form(pageElevenMapping)
 }

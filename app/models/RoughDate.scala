@@ -17,6 +17,7 @@
 package models
 
 case class RoughDate(day: Option[Int], month: Option[Int], year: Int) {
- def this(day:Int,month:Int,year:Int) = this(Some(day),Some(month),year)
- def this(month:Int,year:Int) = this(None,Some(month),year)
+  def this(day: Int, month: Int, year: Int) = this(Some(day), Some(month), year)
+
+  def this(month: Int, year: Int) = this(None, Some(month), year)
 }

@@ -31,5 +31,4 @@ object PageTwelveController extends ForDataCapturePage[PageTwelve] {
   def template(form: Form[PageTwelve], summary: Summary)(implicit request: Request[AnyContent]): Html = {
     views.html.part12(form, summary)
   }
- 
 }

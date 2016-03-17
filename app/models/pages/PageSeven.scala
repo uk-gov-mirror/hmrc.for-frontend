@@ -19,12 +19,11 @@ package models.pages
 import models.RoughDate
 import models.serviceContracts.submissions.{MonthsYearDuration, RentReviewResultDetails, ReviewIntervalType}
 
-case class PageSeven(leaseContainsRentReviews: Boolean, pageSevenDetails: Option[PageSevenDetails]) 
+case class PageSeven(leaseContainsRentReviews: Boolean, pageSevenDetails: Option[PageSevenDetails])
 
 case class PageSevenDetails(reviewIntervalType: ReviewIntervalType,
                             reviewIntervalTypeSpecify: Option[MonthsYearDuration],
                             lastReviewDate: Option[RoughDate],
                             canRentReduced: Boolean,
                             rentResultOfRentReview: Boolean,
-                            reviewDetails: Option[RentReviewResultDetails]
-                             )
+                            reviewDetails: Option[RentReviewResultDetails])

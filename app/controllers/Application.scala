@@ -16,10 +16,8 @@
 
 package controllers
 
-import java.util.UUID
-
-import actions.{RefNumRequest, RefNumAction}
-import controllers.dataCapturePages.PageController
+import actions.RefNumAction
+import config.ForConfig
 import form.Errors
 import form.persistence.FormDocumentRepository
 import it.innove.play.pdf.PdfGenerator
@@ -29,8 +27,6 @@ import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.SessionKeys
-import config.ForConfig
 
 object Application extends FrontendController {
   def repository: FormDocumentRepository = playconfig.FormPersistence.formDocumentRepository
@@ -45,16 +41,15 @@ object Application extends FrontendController {
       }
       case None => InternalServerError(views.html.error.error500())
     }
-  } 
+  }
 
   def declarationError = RefNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) => {
+      case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         val fn = summary.customerDetails.map(_.fullName).getOrElse("")
         val ut = summary.customerDetails.map(_.userType.name).getOrElse("")
         Ok(views.html.declaration(Form(("", text)).withError("declaration", Errors.declaration), fn, ut, summary))
-      }
       case None => InternalServerError(views.html.error.error500())
     }
   }
@@ -102,11 +97,11 @@ object Application extends FrontendController {
 
   def error410 = Action { implicit request =>
     Ok(views.html.error.error410())
-  }    
+  }
 
   def error500 = Action { implicit request =>
     Ok(views.html.error.error500())
-  }    
+  }
 
   private def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
@@ -120,16 +115,16 @@ object Application extends FrontendController {
         Ok(pdf).as("application/pdf")
       case None =>
         InternalServerError(views.html.error.error500())
-    } 
+    }
   }
 
   def summary = RefNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) => 
+      case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
         Ok(views.html.summary(sub))
       case None =>
         InternalServerError(views.html.error.error500())
-    } 
+    }
   }
 }

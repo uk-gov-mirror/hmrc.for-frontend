@@ -19,7 +19,7 @@ package models.serviceContracts.submissions
 import models.{NamedEnum, NamedEnumSupport}
 
 sealed trait ReviewIntervalType extends NamedEnum {
-  def key = "reviewIntervalType"
+  val key = "reviewIntervalType"
 }
 object ReviewIntervalTypeEvery3Years extends ReviewIntervalType {
   val name = "every3Years"

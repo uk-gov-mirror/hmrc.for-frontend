@@ -22,9 +22,9 @@ import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
+import MappingSupport._
 
 object PageTwoForm {
-  import MappingSupport._
 
   val ownerAndOccupier = Seq(UserTypeOwner.name, UserTypeOccupier.name)
   val agents = Seq(UserTypeOccupiersAgent.name, UserTypeOwnersAgent.name)

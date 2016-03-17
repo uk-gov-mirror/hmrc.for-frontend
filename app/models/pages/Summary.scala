@@ -43,13 +43,15 @@ case class Summary(
 
   lazy val addressVOABelievesIsCorrect = address.getOrElse(throw new VOAHeldAddressSelectionError(referenceNumber))
 
-  lazy val addressUserBelievesIsCorrect: Address =
-    { if(propertyAddress.exists(_.isAddressCorrect)) address else propertyAddress.flatMap(_.address) }.getOrElse(throw UsersAddressSelectionError(referenceNumber))
-  
+  lazy val addressUserBelievesIsCorrect: Address = {
+    if(propertyAddress.exists(_.isAddressCorrect)) address else propertyAddress.flatMap(_.address)
+  }.getOrElse(throw UsersAddressSelectionError(referenceNumber))
+
   lazy val submitter = customerDetails.map(_.fullName) getOrElse "No Name Supplied"
-  lazy val isAgent = customerDetails.map(c => c.userType == UserTypeOccupiersAgent || c.userType == UserTypeOwnersAgent) getOrElse false
+  lazy val isAgent = customerDetails.exists(c => c.userType == UserTypeOccupiersAgent || c.userType == UserTypeOwnersAgent)
   lazy val lastLogin = journeyResumptions.lastOption.getOrElse(journeyStarted)
-  lazy val isUnderReview = propertyAddress.map(_.isAddressCorrect == false).getOrElse(false) && address.map(_.singleLine) != propertyAddress.flatMap(_.address.map(_.singleLine))
+  lazy val isUnderReview =
+    propertyAddress.exists(_.isAddressCorrect == false) && address.map(_.singleLine) != propertyAddress.flatMap(_.address.map(_.singleLine))
 }
 
 case class NoMainAddress(refNum: String) extends Exception(refNum)

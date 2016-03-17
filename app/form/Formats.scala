@@ -18,13 +18,11 @@ package form
 
 import models._
 import models.serviceContracts.submissions._
-import scala.Left
-import scala.Right
 import play.api.data.FormError
 import play.api.data.format.Formatter
 
 object Formats {
-  
+
   def namedEnumFormatter[T <: NamedEnum](named:NamedEnumSupport[T],missingCode:String): Formatter[T] = new Formatter[T] {
 
     override val format = Some((missingCode, Nil))
@@ -39,7 +37,7 @@ object Formats {
       resOpt.getOrElse(Left(Seq(FormError(key, missingCode, Nil))))
     }
 
-    def unbind(key: String, value: T) = Map(key -> value.name)
+    def unbind(key: String, value: T): Map[String, String] = Map(key -> value.name)
   }
 
   implicit val userTypeFormat: Formatter[UserType] = namedEnumFormatter(UserTypes, Errors.noValueSelected)
@@ -56,6 +54,5 @@ object Formats {
   implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.noValueSelected)
   implicit val responsibleTypesFormat: Formatter[ResponsibleType] = namedEnumFormatter(ResponsibleTypes, Errors.noValueSelected)
   implicit val formatRentLengthType: Formatter[RentLengthType] = namedEnumFormatter(RentLengthTypes, Errors.noValueSelected)
-  //implicit val tenantsAddressType: Formatter[TenantsAddressType] = namedEnumFormatter(TenantsAddressTypes, Errors.noValueSelected)
   implicit val satisfactionFormatter: Formatter[Satisfaction] = namedEnumFormatter(SatisfactionTypes, Errors.noValueSelected)
 }

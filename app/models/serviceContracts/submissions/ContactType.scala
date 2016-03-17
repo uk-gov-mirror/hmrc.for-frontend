@@ -19,7 +19,7 @@ package models.serviceContracts.submissions
 import models.{NamedEnum, NamedEnumSupport}
 
 sealed trait ContactType extends NamedEnum {
-  def key = "contactType"
+  val key = "contactType"
 }
 
 object ContactTypeBoth extends ContactType {

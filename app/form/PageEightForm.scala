@@ -21,31 +21,9 @@ import play.api.data.Form
 import play.api.data.Forms.mapping
 import play.api.data.validation.{Constraint, Valid}
 import uk.gov.voa.play.form.ConditionalMappings._
-
+import MappingSupport._
 
 object PageEightForm {
-
-  import MappingSupport._
-
-  private val pageEightConstraint: Constraint[RentAgreement] = Constraint("constraints.pageEightData")({
-    pageEightData => {
-      def validateContainsRentReview() = {
-        def checkRentReviewDetails() = {
-          createFieldConstraintFor(
-            cond = pageEightData.notReviewRentFixed.isDefined,
-            code = Errors.required,
-            fields = Seq("notReviewRentFixed"))
-        }
-
-        if (pageEightData.wasRentFixedBetween == false) {
-          checkRentReviewDetails()
-        } else {
-          Valid
-        }
-      }
-      validateContainsRentReview()
-    }
-  })
 
   val pageEightForm = Form(mapping(
     "wasRentFixedBetween" -> mandatoryBoolean,
@@ -53,4 +31,3 @@ object PageEightForm {
     "rentSetByType" -> rentSetByTypeMapping
   )(RentAgreement.apply)(RentAgreement.unapply))
 }
- 

@@ -16,9 +16,10 @@
 
 package config
 
-import play.api.Logger
+import play.api.{Configuration, Logger}
 import play.api.mvc.Results._
 import play.api.mvc._
+import play.twirl.api.Html
 import uk.gov.hmrc.play.audit.filters.FrontendAuditFilter
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
@@ -32,38 +33,43 @@ import controllers.toFut
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import org.joda.time.DateTime
 
 object ForGlobal extends DefaultFrontendGlobal {
   def auditConnector: uk.gov.hmrc.play.audit.http.connector.AuditConnector = AuditServiceConnector
+
   def frontendAuditFilter: uk.gov.hmrc.play.audit.filters.FrontendAuditFilter = AuditFilter
+
   def loggingFilter: uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter = LoggingFilter
-  override def frontendFilters = defaultFrontendFilters ++ Seq(SessionTimeoutFilter)
-  
-  def microserviceMetricsConfig(implicit app: play.api.Application) = ForConfig.metricsConfig
 
-  def standardErrorTemplate(pageTitle: String,heading: String,message: String)(implicit request: play.api.mvc.Request[_]): play.twirl.api.Html = {
+  override def frontendFilters: Seq[EssentialFilter] = defaultFrontendFilters ++ Seq(SessionTimeoutFilter)
+
+  def microserviceMetricsConfig(implicit app: play.api.Application): Option[Configuration] = ForConfig.metricsConfig
+
+  def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: play.api.mvc.Request[_]): play.twirl.api.Html = {
     views.html.error.error500()
   }
 
-  override def notFoundTemplate(implicit request: Request[_]) = {
-    views.html.error.error404()(request,  LanguageUtils.getCurrentLang)
+  override def notFoundTemplate(implicit request: Request[_]): Html = {
+    views.html.error.error404()(request, LanguageUtils.getCurrentLang)
   }
 
-  override def badRequestTemplate(implicit request: Request[_]) = {
+  override def badRequestTemplate(implicit request: Request[_]): Html = {
     views.html.error.error500()
   }
 
-  override def resolveError(rh: RequestHeader, ex: Throwable) = {
-    
-    implicit val requestHeader: RequestHeader = rh 
-      ex.getCause match {
-        case e: BadRequestException => BadRequest(views.html.error.error500())
-        case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
-        case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(views.html.error.error408())
-        case Upstream4xxResponse(_, 410, _, _) => Gone(views.html.error.error410())
-        case e: NotFoundException => NotFound(views.html.error.error404())
-        case _ => super.resolveError(rh, ex)
-      }
+  override def resolveError(rh: RequestHeader, ex: Throwable): Result = {
+
+    implicit val requestHeader: RequestHeader = rh
+    ex.getCause match {
+      case e: BadRequestException => BadRequest(views.html.error.error500())
+      case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
+      case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(views.html.error.error408())
+      case Upstream4xxResponse(_, 410, _, _) => Gone(views.html.error.error410())
+      case e: NotFoundException => NotFound(views.html.error.error404())
+      case _ => super.resolveError(rh, ex)
+    }
   }
 }
 
@@ -75,39 +81,42 @@ object AuditFilter extends FrontendAuditFilter with AppName {
   override lazy val maskedFormFields = Seq.empty
   override lazy val applicationPort = None
   override lazy val auditConnector = AuditServiceConnector
-  override def controllerNeedsAuditing(controllerName: String) = false
+
+  override def controllerNeedsAuditing(controllerName: String): Boolean = false
 }
 
-object ControllerConfiguration extends ControllerConfig { lazy val controllerConfigs = ForConfig.controllerConfigs }
+object ControllerConfiguration extends ControllerConfig {
+  lazy val controllerConfigs = ForConfig.controllerConfigs
+}
 
 object LoggingFilter extends FrontendLoggingFilter {
-  override def controllerNeedsLogging(controllerName: String) = ControllerConfiguration.paramsForController(controllerName).needsLogging
+  override def controllerNeedsLogging(controllerName: String): Boolean = ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
 
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import org.joda.time.DateTime
-
 object SessionTimeoutFilter extends SessionTimeoutFilter {
-  def now = () => DateTime.now()
+  def now = () => DateTime.now() //scalastyle:ignore
+
   lazy val timeoutDuration = ForConfig.sessionTimeoutDuration
 }
 
 trait SessionTimeoutFilter extends Filter {
   val timestampKey = "lastrequesttimestamp"
+
   def now: Now
+
   val timeoutDuration: Duration
 
   override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] =
     timeOfLastRequest(rh) match {
       case Some(dt: DateTime) =>
         if (dt.isBefore(now().minusMinutes(timeoutDuration.toMinutes.toInt)))
-          Redirect(controllers.routes.Application.sessionTimeout).withNewSession
+          Redirect(controllers.routes.Application.sessionTimeout()).withNewSession
         else
           f(rh)
       case None => f(rh).map(_.addingToSession((timestampKey, now().toString))(rh))
     }
 
   def timeOfLastRequest(rh: RequestHeader): Option[DateTime] = rh.session.get(timestampKey) flatMap { ts =>
-      Some(DateTime.parse(ts))
+    Some(DateTime.parse(ts))
   }
 }

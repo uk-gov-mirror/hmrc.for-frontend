@@ -25,7 +25,6 @@ import play.api.data._
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 
-
 object PageSixForm {
 
   val keys = new {
@@ -50,11 +49,10 @@ object PageSixForm {
     (index + "." + keys.amount) -> nonNegativeCurrency
   )(SteppedDetails.apply)(SteppedDetails.unapply)
 
-  
   val written = keys.writtenAgreement
 
   val steppedDetailsListMapping = IndexedMapping(s"$written.steppedDetails", steppedDetailsMapping).verifying(Errors.tooManySteppedRents, _.length <= 7)
-  
+
   val writtenAgreementMapping = mapping(
     keys.startDate -> monthYearRoughDateMapping(s"$written.${keys.startDate}"),
     keys.rentOpenEnded -> mandatoryBoolean,

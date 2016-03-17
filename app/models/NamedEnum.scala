@@ -23,11 +23,10 @@ trait NamedEnum {
 }
 
 trait NamedEnumSupport[E <: NamedEnum]{
-  
+
   def all:List[E]
-  
+
   def fromName(name: String): Option[E] = {
     all.find { _.name.equalsIgnoreCase(name) }
   }
- 
 }

@@ -42,7 +42,7 @@ case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime:
 object LoginController extends FrontendController {
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
   def loginToHOD(implicit hc: HeaderCarrier): LoginToHOD = playconfig.LoginToHOD(hc)
-  
+
   val loginForm = Form(
     mapping(
       "ref1" -> text.verifying(Errors.invalidRefNum, x => Seq(7, 8).contains(x.length)),

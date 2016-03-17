@@ -19,9 +19,11 @@ package template
 import play.twirl.api.Html
 import play.api.data.Field
 
+import scala.collection.immutable.IndexedSeq
+
 object repeatWithIndex {
 
-  def apply(field: play.api.data.Field, max: Int = 1)(f: (Field,Int) => Html) = {
+  def apply(field: play.api.data.Field, max: Int = 1)(f: (Field, Int) => Html): IndexedSeq[Html] = {
     val numberOfExistingEntries = field.indexes.length
     val amountToCreate = Math.max(max, numberOfExistingEntries)
     (0 until amountToCreate) map { index => buildHtml(field, f, numberOfExistingEntries, index) }
@@ -42,5 +44,5 @@ object repeatWithIndex {
 }
 
 object IndexedFieldId {
-  def apply(key: String, index: Int) = key + "_" + index
+  def apply(key: String, index: Int): String = key + "_" + index
 }

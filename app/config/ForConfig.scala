@@ -18,7 +18,7 @@ package config
 
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
-import play.api.Play
+import play.api.{Configuration, Play}
 
 import scala.concurrent.duration._
 
@@ -26,7 +26,7 @@ object ForConfig {
   val config = Play.current.configuration
 
   lazy val controllerConfigs = config.underlying.as[Config]("controllers")
-  def metricsConfig = config.getConfig("microservice.metrics")
+  def metricsConfig: Option[Configuration] = config.getConfig("microservice.metrics")
 
   lazy val sessionTimeoutDuration = getInt("sessiontimeoutminutes") minutes
   lazy val useDummyIp = getBoolean("useDummyTrueIP")

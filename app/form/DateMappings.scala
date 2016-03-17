@@ -38,7 +38,7 @@ object DateMappings {
       Invalid(Errors.dateMustBeInPast)
     else if (lastDayOfSpecifiedMonth.isBefore(nineteenHundred))
       Invalid(Errors.dateBefore1900)
-    else 
+    else
       Valid
   }
 

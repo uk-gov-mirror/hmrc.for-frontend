@@ -29,10 +29,8 @@ object Journey {
     val path = Paths.pathFor(summary)
     path.firstIncompletePageFor(summary) match {
       case None =>
-        println(s"Path is complete: $summary")
         SummaryPage
       case Some(page) =>
-        println(s"Path is not complete: $summary")
         nextPageAllowable(page, summary)
     }
   }

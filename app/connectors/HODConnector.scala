@@ -25,16 +25,16 @@ import uk.gov.hmrc.play.http._
 import useCases.ReferenceNumber
 
 import scala.concurrent.Future
+import views.html.helper.urlEncode
 
 object HODConnector extends HODConnector with ServicesConfig {
-  import views.html.helper.urlEncode
   implicit val f: Format[Document] = Document.formats
 
   lazy val serviceUrl = baseUrl("for-hod-adapter")
 
   val http = playconfig.WSHttp
 
-  def url(path: String) = s"$serviceUrl/for/$path"
+  private def url(path: String) = s"$serviceUrl/for/$path"
 
   override def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val parts = Seq(ref1, ref2, postcode).map(urlEncode)

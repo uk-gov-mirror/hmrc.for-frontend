@@ -58,7 +58,7 @@ class Path(private val pages: Seq[Int]) {
     pages.dropWhile(p => summaryList(p - 1).isDefined && p < page).headOption
   }
 
-  def previousPageIsComplete(page: Int, summary: Summary) = {
+  def previousPageIsComplete(page: Int, summary: Summary): Boolean = {
     summaryAsList(summary)(previousPage(page) - 1).isDefined
   }
 
@@ -78,5 +78,4 @@ class Path(private val pages: Seq[Int]) {
     summary.alterations,
     summary.otherFactors
   )
- 
 }

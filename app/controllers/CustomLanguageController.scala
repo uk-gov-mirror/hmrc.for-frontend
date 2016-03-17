@@ -32,6 +32,6 @@ object CustomLanguageController extends LanguageController {
   override protected def fallbackURL: String = current.configuration.getString("language.fallbackUrl").getOrElse("/")
 
   /** Returns a mapping between strings and the corresponding Lang object. **/
- override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
-                                                    "cymraeg" -> Lang("cy"))
+  override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
+    "cymraeg" -> Lang("cy"))
 }

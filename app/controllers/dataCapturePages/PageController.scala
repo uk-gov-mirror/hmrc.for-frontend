@@ -21,7 +21,6 @@ import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 object PageController extends FrontendController {
-  val MAX_PAGE = 15
 
   def showPage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {

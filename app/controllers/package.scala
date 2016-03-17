@@ -17,7 +17,7 @@
 import scala.concurrent.Future
 
 package object controllers {
-	implicit def toOpt[A](a: A): Option[A] = Some(a)
+  implicit def toOpt[A](a: A): Option[A] = Some(a)
 
-	implicit def toFut[A](a: A): Future[A] = Future.successful(a)
+  implicit def toFut[A](a: A): Future[A] = Future.successful(a)
 }

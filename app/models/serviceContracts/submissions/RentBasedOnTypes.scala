@@ -39,6 +39,12 @@ object RentBasisTypeOther extends RentBasisType {
 
 object RentBasisTypes extends NamedEnumSupport[RentBasisType]{
 
-  val all = List(RentBasisTypeOpenMarketValue, RentBasisTypePercentageOpenMarketValue, RentBasisTypePercentageOfTurnover, RentBasisTypeIndexation, RentBasisTypeOther)
+  val all = List(
+    RentBasisTypeOpenMarketValue,
+    RentBasisTypePercentageOpenMarketValue,
+    RentBasisTypePercentageOfTurnover,
+    RentBasisTypeIndexation,
+    RentBasisTypeOther
+  )
 
 }

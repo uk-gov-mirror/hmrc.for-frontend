@@ -19,7 +19,7 @@ package models.serviceContracts.submissions
 import models.{NamedEnum, NamedEnumSupport}
 
 sealed trait ResponsibleType extends NamedEnum {
-  def key = "responsibleType"
+  val key = "responsibleType"
 }
 object ResponsibleLandlord extends ResponsibleType {
   val name = "landlord"

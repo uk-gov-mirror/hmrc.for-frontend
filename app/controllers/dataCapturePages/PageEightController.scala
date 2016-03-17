@@ -30,6 +30,6 @@ object PageEightController extends ForDataCapturePage[RentAgreement] {
   val pageNumber: Int = 8
 
   def template(form: Form[RentAgreement], summary: Summary)(implicit request: Request[AnyContent]): Html = {
-   	views.html.part8(form, summary)
- 	}
+    views.html.part8(form, summary)
+  }
 }

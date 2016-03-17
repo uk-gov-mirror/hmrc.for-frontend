@@ -34,12 +34,13 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.mvc.Results.Redirect
+import ForDataCapturePage._
+import form._
 
 trait ForDataCapturePage[T] extends FrontendController {
   implicit val format: Format[T]
   implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
-  import ForDataCapturePage._
-  import form._
 
   def emptyForm: Form[T]
 
@@ -70,7 +71,7 @@ trait ForDataCapturePage[T] extends FrontendController {
 
   private def isThisPage(page: Int) = page == pageNumber
 
-  def save = RefNumAction.async { implicit request =>
+  def save: Action[AnyContent] = RefNumAction.async { implicit request =>
     saveForm(request.body.asFormUrlEncoded, SessionId(hc), request.refNum, pageNumber) flatMap {
       case Some((savedFields, summary)) => goToNextPage(extractAction(request.body.asFormUrlEncoded), summary, savedFields)
       case None => internalServerError(request)
@@ -131,8 +132,7 @@ object UrlFor {
 }
 
 object RedirectTo {
-  import play.api.mvc.Results.Redirect 
-  def apply(p: TargetPage, hs: Headers) = Redirect(UrlFor(p, hs))
+  def apply(p: TargetPage, hs: Headers): Result = Redirect(UrlFor(p, hs))
 }
 
 object ForDataCapturePage {

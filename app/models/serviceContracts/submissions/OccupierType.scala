@@ -19,7 +19,7 @@ package models.serviceContracts.submissions
 import models.{NamedEnum, NamedEnumSupport}
 
 sealed trait OccupierType extends NamedEnum {
-  def key = "occupierType"
+  val key = "occupierType"
 }
 
 object OccupierTypeCompany extends OccupierType {

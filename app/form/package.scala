@@ -25,9 +25,9 @@ import play.api.data.Form
 import models.pages._
 
 package object form {
-  
+
   def getMappingErrors[T](dataOpt: Option[T], mapping: Mapping[T], prefix: String): ValidationResult = {
-    val form = Form(mapping.withPrefix(prefix));
+    val form = Form(mapping.withPrefix(prefix))
     val populatedForm = dataOpt match {
       case Some(data) => form.fill(data)
       case None       => form
@@ -74,21 +74,20 @@ package object form {
     ValidationError(s"fieldError|$field|$code", args: _*)
   }
 
-  def createFieldConstraintFor(cond: Boolean, code: String, fields: Seq[String]) = {
+  def createFieldConstraintFor(cond: Boolean, code: String, fields: Seq[String]): ValidationResult = {
     fields.map(field => checkFieldConstraint(cond, field, code)).reduce(_.and(_))
   }
 
   implicit class FormErrorSupport(formError: FormError) {
     def convert(): FormError =
       formError.message.split('|') match {
-        case Array("fieldError", path, code) => {
-          val newPath = if (formError.key.isEmpty()) {
+        case Array("fieldError", path, code) =>
+          val newPath = if (formError.key.isEmpty) {
             path
           } else {
             formError.key + "." + path
           }
           FormError(newPath, newPath + "." + code, formError.args)
-        }
         case _ => formError
       }
 
@@ -101,7 +100,7 @@ package object form {
       val res: Seq[String] = if (childKeys.isEmpty) {
         Seq(mapping.key)
       } else {
-        childKeys.reduce(_ ++ _).toSet.toSeq
+        childKeys.reduce(_ ++ _).distinct
       }
       res.sorted.sortBy(_.contains("."))
     }
@@ -110,7 +109,7 @@ package object form {
 
   implicit class FormHelper[T](form: Form[T]) {
     def convertGlobalToFieldErrors(): Form[T] = {
-      form.copy(errors = form.errors map (_.convert))
+      form.copy(errors = form.errors map (_.convert()))
     }
     def getConstrainedFieldNamesStartingWith(prefix: String): Seq[String] = {
       val prefixDot = s"$prefix."
@@ -120,7 +119,5 @@ package object form {
     def setFormData(formData: Map[String, String]): Form[T] = {
       new Form(mapping = form.mapping, data = formData, errors = form.errors, value = form.value)
     }
-
   }
-
 }

@@ -17,7 +17,7 @@
 package models
 
 sealed trait Satisfaction extends NamedEnum {
-  def key = "satisfactionSurveyType"
+  val key = "satisfactionSurveyType"
   val rating: Int
 }
 
