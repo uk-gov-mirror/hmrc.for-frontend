@@ -48,6 +48,14 @@ module.exports = function(grunt) {
 
         // Copies templates and assets from external modules and dirs
         copy: {
+            govukElements: {
+                files: [{
+                    expand: true,
+                    cwd: 'node_modules/govuk-elements-sass/public/sass',
+                    src: ['**', '!_govuk-elements.scss'],
+                    dest: 'frontend/sass'
+                }]
+            },
             assets: {
                 files: [{
                     expand: true,
