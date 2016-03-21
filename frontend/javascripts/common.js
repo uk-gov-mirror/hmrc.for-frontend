@@ -1,27 +1,5 @@
-/* jshint -W117 */
-
-function VoaCommon() {
-}
-
-function GOVUK() {
-}
-
 (function ($) {
     'use strict';
-    $('body').ready(function () {
-        VoaCommon.GdsSelectionButtons();
-        VoaCommon.radioDataShowField();
-        VoaCommon.radioDataShowFields();
-        VoaCommon.postcodeLookupElements();
-        VoaCommon.smoothScrollAndFocus();
-        VoaCommon.addAnchors();
-        VoaCommon.addErrorAnchors();
-        VoaCommon.anchorFocus();
-        VoaCommon.details();
-        VoaCommon.characterCount();
-        VoaCommon.stickyFooter();
-        VoaCommon.toggleHelp();
-    });
 
     VoaCommon.smoothScrollAndFocus = function () {
         $('.form-error a[href*=#]:not([href=#])').click(function (e) {
@@ -110,123 +88,22 @@ function GOVUK() {
         new GOVUK.SelectionButtons($blockLabels);
     };
 
-    VoaCommon.radioDataShowField = function () {
-        function radioDataShowFieldElement(that) {
-            var classname = $(that).attr('name').replace(/(:|\.|\[|\])/g,'\\$1');
-            if ($(that).closest('[data-show-field="true"]').is(':checked')) {
-                var element = '.' + classname + '';
-                $(element).removeClass('hidden');
-                //show full address fields
-                if (VoaCommon.showAddressfieldsCondition(element) === true) {
-                    VoaCommon.showAddressfields(element);
-                }
-
-                if ($('input:radio[name="' + $(that).attr('name') + '"]').is(':radio')) {
-                    var checkedName = $('.' + $(that).attr('name') + ' input:radio').attr('name');
-                    $('[name="' + checkedName + '"][checked]').prop('checked', true);
-                }
-
-                //show error if yes selected
-                if($('#propertyIsSublet_true').is(':checked') || $('#propertyAlterations_false').is(':checked')){
-                    $('.form-error').removeClass('hidden');
-                }
-
+    VoaCommon.linkShowManualAddress = function () {
+        $('.showHide').click(function (e) {
+            e.preventDefault();
+            var element = $(this).closest('.postcode-lookup-group');
+            if (element.find('.showHide-group').is(':visible')) {
+                element.find('.showHide-group').css('display', 'none');
+                element.find('.form-group').addClass('hidden');
+                element.find('.form-group-lookup').css('display', 'block');
+                element.find('.form-group-lookup input:first').focus();
             } else {
-
-                if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') || $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
-                    $('.' + classname + '').addClass('hidden');
-
-                    //hide error if no selected
-                    if($('#propertyIsSublet_false').is(':checked') || $('#propertyAlterations_false').is(':checked')){
-                        $('.form-error').addClass('hidden');
-                    }
-                }
-
-                $('.' + $(that).attr('name') + ' input:radio')
-                    .prop('checked', false)
-                    .closest('label')
-                    .removeClass('selected');
+                element.find('.showHide-group').css('display', 'block');
+                element.find('.form-group').removeClass('hidden');
+                element.find('.form-group-lookup').css('display', 'none');
+                element.find('.showHide-group input:first').focus();
             }
-
-            if ($('[data-show-details="true"]').is(':checked')) {
-                $('.data-show-details').removeClass('hidden');
-            } else {
-                $('.data-show-details').addClass('hidden');
-            }
-        }
-
-        //data-show-field data attribute on load
-        var selected = [];
-        $('input:radio:checked').not('[name="overseas"]').each(function () {
-            radioDataShowFieldElement(this);
-            selected.push($(this).attr('name'));
-        });
-        //data-show-field data attribute on change
-        //$('input:radio').change(function () {
-
-        $(document).on('change', 'input:radio', function () {
-            //console.log('--- '+$(this).attr('name'));
-            radioDataShowFieldElement(this);
-            $('[name="' + $(this).attr('name') + '"]').removeAttr('checked');
-            if (selected) {
-                $(this).prop('checked', true);
-
-            }
-            //console.log(selected);
-            $(this).attr('checked', 'checked');
-            $.each(selected, function (index, value) {
-                $('[name="' + value + '"][checked]').prop('checked', true);
-            });
-
-        });
-    };
-
-
-    VoaCommon.radioDataShowFields = function () {
-        function radioDataShowFieldsElement(that) {
-            var fieldsToShow = $(that).attr('data-show-fields').split(','),
-                hiddenGroup = $(that).attr('name');
-
-            //hide all inputs
-            $('[data-show-fields-group="' + hiddenGroup + '"] input').closest('.form-group').addClass('hidden');
-            $('[data-show-fields-group="' + hiddenGroup + '"] input').closest('fieldset').addClass('hidden');
-
-            $.each(fieldsToShow, function (index, value) {
-                //only show selected fields with the data-show-fields data attribute
-                var element = $('[data-show-fields-group="' + hiddenGroup + '"] [name="' + value + '"]');
-                var elementFind = element.closest('.postcode-lookup-group');
-                element.closest('.form-group').removeClass('hidden');
-                element.closest('fieldset').removeClass('hidden');
-                //show full address fields
-                elementFind.find('.form-group-lookup').css('display', 'none');
-                elementFind.find('.showHide-group').css('display', 'inline-block');
-                elementFind.find('.showHide-group .form-group').removeClass('hidden');
-                elementFind.find('.manual-address').text(VoaFor.textLabel('findPostcode'));
-            });
-        }
-
-        //data-show-fields data attribute on load
-        $('[type="radio"][data-show-fields]:checked').each(function () {
-            radioDataShowFieldsElement(this);
-        });
-        //data-show-fields data attribute on change
-        $('[type="radio"][data-show-fields]').change(function () {
-            radioDataShowFieldsElement(this);
-
-            //make sure postcode lookup fields are open
-            var hiddenGroup = $(this).attr('name');
-            var element = $('[data-show-fields-group="' + hiddenGroup + '"] .postcode-lookup-group');
-            element.find('.form-group-lookup').css('display', 'block');
-            element.find('.showHide-group').css('display', 'none');
-            element.find('.manual-address').text(VoaFor.textLabel('enterManual'));
-        });
-    };
-
-    VoaCommon.postcodeLookupElements = function () {
-        $('.postcode-lookup-group').each(function () {
-            if ($(this).find('.showHide-group .form-group').hasClass('has-error') || VoaCommon.showAddressfieldsCondition(this) === true) {
-                VoaCommon.showAddressfields(this);
-            }
+            $(this).html(element.find('.showHide-group').is(':visible') ? VoaMessages.textLabel('findPostcode') : VoaMessages.textLabel('enterManual'));
         });
     };
 
@@ -245,20 +122,20 @@ function GOVUK() {
         $(that).find('.showHide-group').css('display', 'inline-block');
         $(that).find('.showHide-group .form-group').removeClass('hidden');
         $(that).find('.form-group-lookup').css('display', 'none');
-        $(that).find('.manual-address').text(VoaFor.textLabel('findPostcode'));
+        $(that).find('.manual-address').text(VoaMessages.textLabel('findPostcode'));
     };
 
     VoaCommon.details = function(){
 
         $('details').each(function(){
-            $(this).find('summary span').after('<span class="screenDetails visuallyhidden">' + VoaFor.textLabel('labelReveal') + '</span>');
+            $(this).find('summary span').after('<span class="screenDetails visuallyhidden">' + VoaMessages.textLabel('labelReveal') + '</span>');
         });
 
         $('details').click(function(){
             if($(this).attr('open')){
-                $(this).find('summary span.screenDetails').text(VoaFor.textLabel('labelReveal'));
+                $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelReveal'));
             }else{
-                $(this).find('summary span.screenDetails').text(VoaFor.textLabel('labelHide'));
+                $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelHide'));
 
             }
 
@@ -313,14 +190,5 @@ function GOVUK() {
             footerBar.css({display:'none'});
         }
     };
-
-    VoaCommon.toggleHelp = function(){
-        $('.form-help-toggle').click(function(e){
-            e.preventDefault();
-            $('#helpForm').toggle();
-        });
-    };
-
-
 
 })(jQuery);

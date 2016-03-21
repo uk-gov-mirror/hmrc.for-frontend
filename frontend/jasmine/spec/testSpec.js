@@ -7,8 +7,8 @@ describe("Javascript test suite", function() {
 	beforeEach(function(){
 		loadFixtures('fragment.html');
 		//trigger functions
-        VoaCommon.radioDataShowField();
-		VoaCommon.radioDataShowFields();
+        VoaRadioToggle.radioDataShowField();
+		VoaRadioToggle.radioDataShowFields();
 		VoaFor.addFieldMulti();
 		VoaFor.removeFieldMulti();
 		VoaCommon.addAnchors();
@@ -20,7 +20,7 @@ describe("Javascript test suite", function() {
 	});
 
 	it('Namespace should be available on the jQuery object', function() {
-		expect(VoaCommon, VoaFor, GOVUK).toBeDefined();
+		expect(VoaCommon, VoaFor, GOVUK, VoaRadioToggle).toBeDefined();
 	});
 
   	it("It contains a spec with an expectation", function() {
