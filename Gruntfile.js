@@ -3,9 +3,17 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Clean
         clean: {
-            //start: ['public', 'govuk_modules'],
             //remove any unwanted files
-            end: ['public/javascripts/application.js', 'public/javascripts/common.js']
+            end: [
+                'public/javascripts/application.js',
+                'public/javascripts/common.js',
+                'public/javascripts/feedback.js',
+                'public/javascripts/messages.js',
+                'public/javascripts/postcodeLookup.js',
+                'public/javascripts/radioToggle.js',
+                'public/javascripts/voaFor.js',
+                'public/javascripts/intelAlerts.js'
+            ]
         },
         // Builds Sass
         sass: {

@@ -1,181 +1,8 @@
 (function ($) {
     'use strict';
-    VoaFor.linkShowManualAddress = function () {
-        $('.showHide').click(function (e) {
-            e.preventDefault();
-            var element = $(this).closest('.postcode-lookup-group');
-            if (element.find('.showHide-group').is(':visible')) {
-                element.find('.showHide-group').css('display', 'none');
-                element.find('.form-group').addClass('hidden');
-                element.find('.form-group-lookup').css('display', 'block');
-                element.find('.form-group-lookup input:first').focus();
-            } else {
-                element.find('.showHide-group').css('display', 'block');
-                element.find('.form-group').removeClass('hidden');
-                element.find('.form-group-lookup').css('display', 'none');
-                element.find('.showHide-group input:first').focus();
-            }
-            $(this).html(element.find('.showHide-group').is(':visible') ? VoaMessages.textLabel('findPostcode') : VoaMessages.textLabel('enterManual'));
-        });
-    };
-
+   
     VoaFor.service = function () {
         return 'sending-rental-information';
-    };
-
-    
-    VoaFor.postcodeLookup = function () {
-        var addressData = [], line1, line2, line3, town, pcode;
-
-        $('.findPostcode').click(function (e) {
-            e.preventDefault();
-            var postcode = $(this).closest('.form-group-lookup').find('.postcode').val().replace(/ /g, ''),
-                url = '/' + VoaFor.service() + '/lookup?postcode=' + postcode + '',
-                that = this,
-                formGroupLookup = $(that).closest('.form-group-lookup'),
-                postcodeLookupGroup = $(that).closest('.postcode-lookup-group'),
-                loading = formGroupLookup.find('.loading');
-
-            function space(i) {
-                if (i === '') {
-                    i = '';
-                } else {
-                    i = i + ' ';
-                }
-                return i;
-            }
-
-            function lookupError(message, element) {
-                element.find('.error').remove();
-                element.addClass('form-grouped-error').find('.postcode').before('<p class="error">' + message + '</p>');
-                element.find('.postcode').focus();
-            }
-
-            if (postcode !== '') {
-
-                formGroupLookup.find('.addressList option').not('option[value=""]').remove();
-
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    beforeSend: function () {
-                        loading.removeClass('hidden');
-                    },
-                    success: function (data) {
-                        if (data.length > 0 ) {
-                            addressData = data;
-                            var address = space(line1) + space(line2) + space(line3);
-                            var option = formGroupLookup.find('.addressList option:last');
-                            $.each(data, function (i, item) {
-                                line1 = item.address.lines[0],
-                                line2 = item.address.lines[1],
-                                line3 = item.address.lines[2];
-                                if(!line1){ line1 = ''; }
-                                if(!line2){ line2 = ''; }
-                                if(!line3){ line3 = ''; }
-                                town = item.address['town'],
-                                pcode = item.address['postcode'],
-                                address = space(line1) + space(line2) + space(line3),
-                                option = formGroupLookup.find('.addressList option:last');
-                                $('.addressList').append('<option value="' + i + '">' + address + '</option>');
-                            });
-                            formGroupLookup.find('.error').remove();
-                            postcodeLookupGroup.find('.showHide-group').css('display', 'none');
-                            postcodeLookupGroup.find('.postcode-results').css('display', 'block');
-                            postcodeLookupGroup.find('.manual-address').css('display', 'table');
-                            formGroupLookup.removeClass('form-grouped-error');
-                            loading.addClass('hidden');
-
-                            if (addressData.length === 1) {
-                                postcodeLookupGroup.find('.addressList').change();
-                            }
-                        } else {
-                            lookupError(VoaMessages.textLabel('errorPostcode'), formGroupLookup);
-                            postcodeLookupGroup.find('.postcode-results').css('display', 'none');
-                            loading.addClass('hidden');
-                        }
-
-                    },
-                    error: function (error) {
-
-                        lookupError(VoaMessages.textLabel('errorPostcode'), formGroupLookup);
-                        postcodeLookupGroup.find('.postcode-results').css('display', 'none');
-                        loading.addClass('hidden');
-                    }
-
-                });
-            } else {
-                lookupError(VoaMessages.textLabel('errorPostcode'), formGroupLookup);
-            }
-        });
-
-        $('.postcode-results label').text(VoaMessages.textLabel('labelSelectAddress'));
-        $('.postcode-results').css('margin-top', '30px');
-
-        $('.addressList').change(function (e) {
-            e.preventDefault();
-
-            $('.showHide-group').css('display', 'block');
-            $('.showHide-group input').closest('.form-group').removeClass('hidden');
-            var element = $(this).closest('.postcode-lookup-group');
-            var index;
-            if (addressData.length === 1) {
-                index = 0;
-            } else {
-                index = $(this).find('option:selected').index();
-            }
-            var lineOne = addressData[index]['address']['lines'][0];
-            var lineTwo = addressData[index]['address']['lines'][1];
-            var lineThree = addressData[index]['address']['lines'][2];
-            var lineTown = addressData[index]['address']['town'];
-            var linePostcode = addressData[index]['address']['postcode'];
-            if(!lineOne){ lineOne = ''; }
-            if(!lineTwo){ lineTwo = ''; }
-            if(!lineThree){ lineThree = ''; }
-
-            element.find('.showHide-group .address-field-one input').val(lineOne);
-
-            if (!lineTwo) {
-                element.find('.showHide-group .address-field-two input').val(lineTwo + lineTown);
-                element.find('.showHide-group .address-field-three input').val(lineThree);
-            } else if (!lineThree) {
-                element.find('.showHide-group .address-field-two input').val(lineTwo);
-                element.find('.showHide-group .address-field-three input').val(lineTown);
-            } else if (!lineTwo && !lineThree) {
-                element.find('.showHide-group .address-field-two input').val(lineTown);
-            } else {
-                element.find('.showHide-group .address-field-two input').val(lineTwo);
-                element.find('.showHide-group .address-field-three input').val(lineThree + ', ' + lineTown);
-            }
-
-            element.find('.showHide-group .address-field-postcode input').val(linePostcode);
-            element.find('.postcode-results, .form-group-lookup').css('display', 'none');
-            element.find('.manual-address').text(VoaMessages.textLabel('findPostcode'));
-
-            //remove field errors
-            element.find('.showHide-group').each(function () {
-                $(this).removeClass('has-error');
-                $(this).find('.error').unwrap().remove();
-            });
-
-        });
-
-        $('.manual-address').click(function () {
-            $(this).blur();
-            $('.addressAbroadDiv').addClass('hidden');
-            $('.addressAbroadDiv input').val('');
-            var element = $(this).closest('.postcode-lookup-group');
-            element.find('.showHide-group input').val('');
-
-            $('.address-abroad').removeClass('hidden');
-            $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelAddress'));
-            $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelPostcode'));
-            $('#overseas_false').prop('checked', true);
-
-            $('[name="overseas"]').closest('label').removeClass('selected');
-            $('#overseas_false').closest('label').addClass('selected');
-
-        });
     };
 
     VoaFor.addressAbroad = function () {
@@ -278,11 +105,7 @@
     };
 
     VoaFor.addFieldMulti = function () {
-        if ($('.multi-fields-group').length >= $('fieldset[data-limit]').attr('data-limit')) {
-            $('.add-multi-fields').hide();
-        } else {
-            $('.add-multi-fields').show();
-        }
+        
         $(document).on('click', '.add-multi-fields', function (e) {
             e.preventDefault();
             var limit = parseInt($(this).closest('fieldset').attr('data-limit'), 10);
@@ -328,9 +151,10 @@
                 VoaFor.changeIds(this,i);
             });
         });
-        if ($('.multi-fields-group').length > 1) {
-            $('.multi-fields-group').find('.remove-multi-fields').css('display', 'inline-block');
-        }
+
+        $('.multi-fields-group:not(:first)').find('.remove-multi-fields').css('display', 'inline-block');
+
+        
     };
 
     VoaFor.selectMobile = function () {
@@ -424,110 +248,6 @@
         });
     };
 
-    VoaFor.intelAlert = function () {
-
-        //Section 5
-        function intelCheckSection5(that){
-            var landlordName, data;
-            if($('[name="landlordFullName"]').val()){
-                landlordName = $('[name="landlordFullName"]').val().split(' ').pop().toLowerCase();
-            }
-            var landlordAddress = $('[name="landlordAddress.buildingNameNumber"]').val()+$('[name="landlordAddress.street1"]').val()+$('[name="landlordAddress.street2"]').val()+$('[name="landlordAddress.postcode"]').val();
-            if(landlordAddress){
-                data = landlordName+landlordAddress.replace(/ /g,'').toLowerCase();
-            }
-            if($('#landlordConnectType_noConnected').is(':checked')) {
-                if( data === $(that).attr('data-intel')){
-                    $('.landlord-connect-type.intel-alert').removeClass('hidden');
-                }else{
-                    $('.landlord-connect-type.intel-alert').addClass('hidden');
-                }
-            }else{
-                $('.landlord-connect-type.intel-alert').addClass('hidden');
-            }
-        }
-
-        intelCheckSection5($('input#landlordConnectType_noConnected'));
-
-        $('[name="landlordConnectType"]').change(function(){
-            intelCheckSection5(this);
-        });
-        $('[name="landlordFullName"], [name="landlordAddress.buildingNameNumber"], [name="landlordAddress.street1"], [name="landlordAddress.street2"], [name="landlordAddress.postcode"]').change(function(){
-            intelCheckSection5($('input#landlordConnectType_noConnected'));
-        });
-
-        //Section 9
-        function intelCheckSection9(element){
-
-            function intelCheckDate(element){
-                var date1, date2;
-                if($('[data-intel]').attr('data-intel')){
-                    if($('#'+element+' input:eq(0)').val() && $('#'+element+' input:eq(1)').val()  && $('#'+element+' input:eq(2)').val() ){
-                        date1 = $('#'+element+' input:eq(1)').val()+'/'+$('#'+element+' input:eq(0)').val()+'/'+$('#'+element+' input:eq(2)').val();
-                        date2 = $('[data-intel]').attr('data-intel').split('/')[0].replace(/\s/g, '')+'/01/'+$('[data-intel]').attr('data-intel').split('/')[1].replace(/\s/g, '');
-                    }
-                }
-                if (new Date(date1).getTime() < new Date(date2).getTime()) {
-                    $('.'+element+'.intel-alert').removeClass('hidden');
-                }else{
-                    $('.'+element+'.intel-alert').addClass('hidden');
-                }
-            }
-            function intelCheckDateChange(element){
-                $('#'+element+' input').change(function(){
-                    intelCheckDate(element);
-                });
-            }
-            intelCheckDate(element);
-            intelCheckDateChange(element);
-        }
-
-        function intelCheck(element){
-            function intelCheckDate(element){
-                var date1, date2;
-                if($('[data-intel]').attr('data-intel')){
-                    if($('#'+element+' input:eq(0)').val() && $('#'+element+' input:eq(1)').val()){
-                        date1 = $('#'+element+' input:eq(0)').val()+'/01/'+$('#'+element+' input:eq(1)').val();
-                        date2 = $('[data-intel]').attr('data-intel').split('/')[0].replace(/\s/g, '')+'/01/'+$('[data-intel]').attr('data-intel').split('/')[1].replace(/\s/g, '');
-                    }
-                }
-                if (new Date(date1).getTime() < new Date(date2).getTime()) {
-                    $('.'+element+'.intel-alert').removeClass('hidden');
-                }else{
-                    $('.'+element+'.intel-alert').addClass ('hidden');
-                }
-            }
-            function intelCheckDateChange(element){
-                $(document).on('change', '#'+element+' input', function (e) {
-                    intelCheckDate(element);
-                });
-            }
-            intelCheckDate(element);
-            intelCheckDateChange(element);
-        }
-
-        //Section 9
-        intelCheckSection9('rentBecomePayable');
-        //Section 3
-        intelCheck('firstOccupationDate');
-        //Section 7
-        intelCheck('rentReviewDetails_lastReviewDate');
-        //Section 4
-        intelCheck('sublet_rentFixedDate');
-        //Section 10
-        intelCheck('parking_annualSeparateParkingDate');
-        //Section 13
-        intelCheck('propertyAlterationsDetails_0_date');
-        intelCheck('propertyAlterationsDetails_1_date');
-        intelCheck('propertyAlterationsDetails_2_date');
-        intelCheck('propertyAlterationsDetails_3_date');
-        intelCheck('propertyAlterationsDetails_4_date');
-        intelCheck('propertyAlterationsDetails_5_date');
-        intelCheck('propertyAlterationsDetails_6_date');
-        intelCheck('propertyAlterationsDetails_7_date');
-        intelCheck('propertyAlterationsDetails_8_date');
-        intelCheck('propertyAlterationsDetails_9_date');
-    };
 
     VoaFor.excludeVat = function(){
         $(document).on('change', '.excludeVat', function () {
