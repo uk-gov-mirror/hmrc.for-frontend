@@ -7,6 +7,7 @@
             if ($(that).closest('[data-show-field="true"]').is(':checked')) {
                 var element = '.' + classname + '';
                 $(element).removeClass('hidden');
+
                 //show full address fields
                 if (VoaCommon.showAddressfieldsCondition(element) === true) {
                     VoaCommon.showAddressfields(element);
@@ -26,11 +27,11 @@
 
                 if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') || $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
                     $('.' + classname + '').addClass('hidden');
-
                     //hide error if no selected
                     if($('#propertyIsSublet_false').is(':checked') || $('#propertyAlterations_false').is(':checked')){
                         $('.form-error').addClass('hidden');
                     }
+
                 }
 
                 $('.' + $(that).attr('name') + ' input:radio')
@@ -41,9 +42,11 @@
 
             if ($('[data-show-details="true"]').is(':checked')) {
                 $('.data-show-details').removeClass('hidden');
+
             } else {
                 $('.data-show-details').addClass('hidden');
             }
+
         }
 
         //data-show-field data attribute on load
@@ -65,8 +68,8 @@
             $.each(selected, function (index, value) {
                 $('[name="' + value + '"][checked]').prop('checked', true);
             });
-
         });
+
     };
 
 
