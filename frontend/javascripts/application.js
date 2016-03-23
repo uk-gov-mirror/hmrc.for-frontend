@@ -41,6 +41,7 @@ var ref;
         VoaFor.toggleAgentLeaseContainsRentReviews();
         VoaFor.toggleImage();
         VoaFor.toggleYearsMonths();
+        VoaFor.addMultiButtonState();
 
         //feedback.js
         VoaFeedback.feedbackOverrides();
@@ -68,6 +69,7 @@ var ref;
         VoaCommon.details();
         VoaCommon.characterCount();
         VoaCommon.stickyFooter();
+
         
     });
 
