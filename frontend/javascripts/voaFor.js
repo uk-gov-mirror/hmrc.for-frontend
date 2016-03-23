@@ -132,8 +132,6 @@
                 $(this).show();
             }
         });
-
-    
     };
 
     VoaFor.addMultiButtonState = function(){
