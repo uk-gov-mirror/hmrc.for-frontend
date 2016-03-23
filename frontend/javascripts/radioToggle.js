@@ -62,12 +62,13 @@
             $('[name="' + $(this).attr('name') + '"]').removeAttr('checked');
             if (selected) {
                 $(this).prop('checked', true);
-
             }
             $(this).attr('checked', 'checked');
             $.each(selected, function (index, value) {
                 $('[name="' + value + '"][checked]').prop('checked', true);
             });
+            //toggle the add multi fields button visibility
+            VoaFor.addMultiButtonState();
         });
 
     };
