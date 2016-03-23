@@ -33,6 +33,7 @@ object FORSubmissionController extends FORSubmissionController {
 }
 
 trait FORSubmissionController extends FrontendController {
+  val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
 
   def submit: Action[AnyContent] = RefNumAction.async { implicit request =>
     request.body.asFormUrlEncoded.flatMap { body =>
@@ -43,16 +44,14 @@ trait FORSubmissionController extends FrontendController {
   }
 
   private def submit[T](refNum: String)(implicit request: Request[T]) =
-    submitBusinessRentalInformation(refNum).map { sub =>
-      Audit(
-        "FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
-        "name" -> sub.customerDetails.map(_.fullName).getOrElse(""))
-      )
-      Found(feedback.routes.Survey.confirmation.url)
-    }
+    for {
+      sub <- submitBusinessRentalInformation(refNum)
+      _   <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
+                   "name" -> sub.customerDetails.map(_.fullName).getOrElse("")) )
+    } yield Found(confirmationUrl)
 
   private def rejectSubmission = Future.successful {
-    Found(routes.Application.declarationError.url)
+    Found(routes.Application.declarationError().url)
   }
 
   def submitBusinessRentalInformation: SubmitBusinessRentalInformation
