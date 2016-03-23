@@ -69,7 +69,7 @@ trait PostSubmitFeedback extends FrontendController {
         val summary = SummaryBuilder.build(doc)
         Ok(views.html.confirm(
           form getOrElse completedFeedbackForm, refNum,
-          summary.customerDetails.map(_.contactDetails.email).getOrElse(""), PdfSize(100), summary))
+          summary.customerDetails.map(_.contactDetails.email).getOrElse(""), PdfSize(102400), summary))
       case None => InternalServerError(views.html.error.error500())
     }
 
