@@ -54,7 +54,7 @@ trait PostSubmitFeedback extends FrontendController {
     completedFeedbackForm.bindFromRequest.fold(
       formWithErrors => viewConfirmationPage(request.refNum, formWithErrors),
       success => {
-        sendFeedback(success, request.refNum); Redirect(routes.Survey.surveyThankyou)
+        sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
       }
     )
   }
@@ -67,16 +67,16 @@ trait PostSubmitFeedback extends FrontendController {
     repository.findById(SessionId(hc), refNum) map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val pdf = PdfGenerator.toBytes(views.html.summary(summary, forPdf = true), host)
         Ok(views.html.confirm(
           form getOrElse completedFeedbackForm, refNum,
-          summary.customerDetails.map(_.contactDetails.email).getOrElse(""), PdfSize(pdf.size), summary))
+          summary.customerDetails.map(_.contactDetails.email).getOrElse(""), PdfSize(100), summary))
       case None => InternalServerError(views.html.error.error500())
     }
 
   private def sendFeedback(f: SurveyFeedback, refNum: String) = {
-    Audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum))
-    Audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum))
+    Audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum)).flatMap { _ =>
+      Audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum))
+    }
   }
 
   def surveyThankyou = Action { implicit request =>
