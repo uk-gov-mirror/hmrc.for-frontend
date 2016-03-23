@@ -68,10 +68,9 @@ object FormPartialProvider extends FormPartialRetriever {
 object Audit {
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String]) = { //scalastyle:ignore
+  def apply(event: String, detail: Map[String, String]) = {
     val de = DataEvent(auditSource = "for-frontend", auditType = event, detail = detail)
     auditConnector.sendEvent(de)
-    Logger.debug(de.toString)
   }
 }
 
@@ -118,6 +117,6 @@ object LoginToHOD {
 }
 
 object Environment extends uk.gov.hmrc.play.config.RunMode {
-  def isDev = env == "Dev" //scalastyle:ignore
+  def isDev = env == "Dev"
   val analytics = ForConfig.analytics
 }
