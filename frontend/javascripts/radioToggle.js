@@ -54,6 +54,8 @@
         $('input:radio:checked').not('[name="overseas"]').each(function () {
             radioDataShowFieldElement(this);
             selected.push($(this).attr('name'));
+            //toggle the add multi fields button visibility
+            VoaFor.addMultiButtonState();
         });
         
         //data-show-field data attribute on change
