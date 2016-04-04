@@ -56,8 +56,7 @@ object SaveForLater extends FrontendController {
 
   def audit(sum: Summary, pw: SaveForLaterPassword) = Audit(
     "SavedForLater", Map(
-      "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter,
-      "password" -> pw
+      "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
     )
   )
 
