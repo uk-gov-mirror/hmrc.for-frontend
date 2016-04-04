@@ -17,10 +17,13 @@
 package controllers
 
 import actions.RefNumAction
+import com.codahale.metrics.JmxReporter
+import com.kenshoo.play.metrics.MetricsRegistry
 import connectors.SubmissionConnector
+import metrics.Metrics
 import org.joda.time.DateTime
 import play.api.mvc.{Action, AnyContent, Request}
-import playconfig.{FormPersistence, Audit}
+import playconfig.{Audit, FormPersistence}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 
@@ -48,7 +51,7 @@ trait FORSubmissionController extends FrontendController {
       sub <- submitBusinessRentalInformation(refNum)
       _   <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
                    "name" -> sub.customerDetails.map(_.fullName).getOrElse("")) )
-    } yield Found(confirmationUrl)
+    } yield { Metrics.submissions.mark(); Found(confirmationUrl) }
 
   private def rejectSubmission = Future.successful {
     Found(routes.Application.declarationError().url)
@@ -56,3 +59,5 @@ trait FORSubmissionController extends FrontendController {
 
   def submitBusinessRentalInformation: SubmitBusinessRentalInformation
 }
+
+
