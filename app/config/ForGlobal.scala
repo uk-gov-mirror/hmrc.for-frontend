@@ -64,8 +64,8 @@ object ForGlobal extends DefaultFrontendGlobal {
     implicit val requestHeader: RequestHeader = rh
     ex.getCause match {
       case e: BadRequestException => BadRequest(views.html.error.error500())
-      case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
       case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(views.html.error.error408())
+      case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
       case Upstream4xxResponse(_, 410, _, _) => Gone(views.html.error.error410())
       case e: NotFoundException => NotFound(views.html.error.error404())
       case _ => super.resolveError(rh, ex)

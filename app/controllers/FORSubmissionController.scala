@@ -17,14 +17,13 @@
 package controllers
 
 import actions.RefNumAction
-import com.codahale.metrics.JmxReporter
-import com.kenshoo.play.metrics.MetricsRegistry
 import connectors.SubmissionConnector
 import metrics.Metrics
 import org.joda.time.DateTime
-import play.api.mvc.{Action, AnyContent, Request}
+import play.api.mvc.{Result, Action, AnyContent, Request}
 import playconfig.{Audit, FormPersistence}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.http.Upstream4xxResponse
 import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 
 import scala.concurrent.Future
@@ -46,12 +45,15 @@ trait FORSubmissionController extends FrontendController {
     } getOrElse rejectSubmission
   }
 
-  private def submit[T](refNum: String)(implicit request: Request[T]) =
+  private def submit[T](refNum: String)(implicit request: Request[T]) = {
     for {
       sub <- submitBusinessRentalInformation(refNum)
-      _   <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
-                   "name" -> sub.customerDetails.map(_.fullName).getOrElse("")) )
-    } yield { Metrics.submissions.mark(); Found(confirmationUrl) }
+      _ <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
+        "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))
+    } yield {
+      Metrics.submissions.mark(); Found(confirmationUrl)
+    }
+  } recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
 
   private def rejectSubmission = Future.successful {
     Found(routes.Application.declarationError().url)
