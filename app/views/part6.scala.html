@@ -144,12 +144,10 @@
             '_fieldsetClass -> "form-group inline",
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false,
-            '_help -> Messages("details.answer.isBreakClause"),
+            '_help -> Messages(if(summary.isAgent) "details.answer.isBreakClause.agent" else "details.answer.isBreakClause"),
             '_nojsText -> Messages("label.noJs.verbalAgreement.startDate")
           )
         )
-
-
 
         @textarea(
           field = theForm("writtenAgreement.breakClauseDetails"),
@@ -178,7 +176,7 @@
             '_fieldsetClass -> "form-group inline",
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false,
-            '_help -> Messages("details.answer.stepedRent"),
+            '_help -> Messages(if(summary.isAgent) "details.answer.steppedRent.agent" else "details.answer.steppedRent"),
             '_nojsText -> Messages("label.noJs.verbalAgreement.startDate")
           )
         )
@@ -187,7 +185,7 @@
 
           <fieldset class="form-group writtenAgreement.agreementIsStepped hidden" data-limit="7">
             <label class="form-label-bold">@Messages("label.writtenAgreement.steppedDetailsYear")</label>
-            <p class="hidden">@Messages("label.noJs.setepedrent")</p>
+            <p class="hidden">@Messages("label.noJs.steppedrent")</p>
             <span class="form-hint">@Messages("hint.writtenAgreement.steppedDetailsYear")</span>
             @defining(theForm("writtenAgreement.steppedDetails").indexes.size) { size =>
               @_root_.template.repeatWithIndex(theForm("writtenAgreement.steppedDetails"), max = 7) { (steppedDetail, idx) =>
