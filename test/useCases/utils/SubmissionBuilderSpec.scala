@@ -152,10 +152,12 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       Some(propertyAddress), Some(customerDetails), Some(theProperty), Some(sublet), Some(landlord),
       Some(leaseOrAgreement), Some(rentReviews), Some(rentAgreement), Some(rent), Some(whatRentIncludes),
       Some(incentivesAndPayments), Some(responsibilities), Some(propertyAlterations), Some(otherFactors),
-      _id = Some("refNum1"), referenceNumber = Some("refNum1"))
+      referenceNumber = Some("refNum1"))
     lazy val submissionWithVerbalAgreement = submission1.copy(lease = Some(verbalLease))
     lazy val doc2 = doc1.copy(pages = doc1.pages.take(10))
-    lazy val submission2 = submission1.copy(incentives = None, responsibilities = None, alterations = None, otherFactors = None, _id = Some("refNum1"), referenceNumber = Some("refNum1"))
+    lazy val submission2 = submission1.copy(
+      incentives = None, responsibilities = None, alterations = None, otherFactors = None, referenceNumber = Some("refNum1")
+    )
     lazy val doc3 = Document(
       "refNum1", DateTime.now, Seq(
         Page(1,  page1FormData),
