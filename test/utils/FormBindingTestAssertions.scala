@@ -39,14 +39,14 @@ object FormBindingTestAssertions extends Matchers {
 
   def mustContainInvalidCurrencyErrorFor[T](field: String, f: Form[T]) { mustContainError(field, Errors.invalidCurrency, f) }
 
-  def mustOnlyContainRequiredErrorFor[T](field: String, f: Form[T]) { 
-    mustContainError(field, Errors.required, f) 
+  def mustOnlyContainRequiredErrorFor[T](field: String, f: Form[T]) {
+    mustContainError(field, Errors.required, f)
     if(f.errors.length > 1) {
       fail(s"Did not contain only required error for $field. Errors: ${f.errors}")
     }
   }
 
-  def mustOnlyContainRequiredErrorsFor[T](fields: Seq[String], f: Form[T]) { 
+  def mustOnlyContainRequiredErrorsFor[T](fields: Seq[String], f: Form[T]) {
     fields.map(mustContainRequiredErrorFor(_, f))
     val otherErrors = f.errors.filterNot(e => fields.exists(_ == e.key))
     if(otherErrors.length > 1) {
@@ -58,8 +58,8 @@ object FormBindingTestAssertions extends Matchers {
 
   def mustContainBooleanRequiredErrorFor[T](field: String, f: Form[T]) { mustContainError(field, Errors.booleanMissing, f) }
 
-  def mustOnlyContainBooleanRequiredErrorFor[T](field: String, f: Form[T]) { 
-    mustContainError(field, Errors.booleanMissing, f) 
+  def mustOnlyContainBooleanRequiredErrorFor[T](field: String, f: Form[T]) {
+    mustContainError(field, Errors.booleanMissing, f)
     if(f.errors.length > 1) {
       fail(s"Did not contain only boolean required error for $field. Errors: ${f.errors}")
     }
@@ -72,7 +72,7 @@ object FormBindingTestAssertions extends Matchers {
   def mustContainMaxLengthErrorFor[T](field: String, f: Form[T]) = mustContainError(field, Errors.maxLength, f)
 
   def mustOnlyContainError[T](field: String, error: String, f: Form[T]) {
-    mustContainError(field, error, f)    
+    mustContainError(field, error, f)
     if (f.errors.length > 1) {
       fail(s"Form contained too many errors. Expected only: $field - $error. ${f.errors}")
     }

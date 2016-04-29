@@ -179,6 +179,9 @@ label.noJs.contactDetails.phone=Answer this only if you''ve selected ''Phone'' o
 label.noJs.contactDetails.contactAddressType=Answer this only if you''ve selected ''Occupier'' or ''Owner''
 label.noJs.alternativeAddress.buildingNameNumber=Answer this only if you''ve selected ''I want to be contacted at an alternative address''
 label.noJs.alternativeContact.fullName=Answer this only if you''ve selected ''I want someone else to be contacted on my behalf''
+alternativeContact.contactDetails.phone.error.contact.details.missing=At least one of phone, email, or address must be provided
+alternativeContact.contactDetails.email1.error.contact.details.missing=At least one of phone, email, or address must be provided
+alternativeContact.address.buildingNameNumber.error.contact.details.missing=At least one of phone, email, or address must be provided
 
 #SECTION 3
 ##############################

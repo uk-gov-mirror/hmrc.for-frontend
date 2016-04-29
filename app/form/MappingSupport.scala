@@ -38,10 +38,10 @@ object MappingSupport {
   }
   })
 
-  val alternativeContactDetailsConstraint: Constraint[ContactDetails] = Constraint("constraints.alt.contact.contact.details")({
-    contactDetails => {
-      val cond = contactDetails.phone.isDefined || contactDetails.email.isDefined
-      val fields = Seq("phone", "email1")
+  val mustSupplyOneContactMethod: Constraint[Contact] = Constraint("constraints.alt.contact.details")({
+    contact => {
+      val cond = contact.contactDetails.map(cd => cd.phone.isDefined || cd.email.isDefined).getOrElse(contact.address.isDefined)
+      val fields = Seq("contactDetails.phone", "contactDetails.email1", "address.buildingNameNumber")
       createFieldConstraintFor(cond, Errors.contactDetailsMissing, fields)
     }
   })
@@ -125,15 +125,12 @@ object MappingSupport {
     ContactDetails(p, e1, e2)
   )(details =>
     Some((details.phone, details.email, details.emailConfirmed))
-  ) verifying emailsMatch verifying alternativeContactDetailsConstraint
+  ) verifying emailsMatch
 
   def alternativeContactMapping(prefix: String): Mapping[Contact] = mapping(
     "fullName" -> text(minLength = 1, maxLength = 50),
     "contactDetails" -> optional(alternativeContactDetailsMapping),
-    "address" -> optional(addressMapping(s"$prefix.address")))(Contact.apply)(Contact.unapply) verifying(
-    Errors.contactDetailsMissing,
-    c => c.contactDetails.isDefined || c.address.isDefined
-    )
+    "address" -> optional(addressMapping(s"$prefix.address")))(Contact.apply)(Contact.unapply) verifying mustSupplyOneContactMethod
 
   def parkingDetailsMapping(key: String): Mapping[ParkingDetails] = mapping(
     "openSpaces" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999),

@@ -147,8 +147,11 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
       .updated(errorKey.alternativeContactFullName, "11111") -
       errorKey.alternativeContactEmail1 - errorKey.alternativeContactEmail2 - errorKey.alternativeContactPhone -
       errorKey.alternativeAddressBuilding - errorKey.alternativeAddressStreet1 - errorKey.alternativeAddressPostCode
+    val form = pageTwoForm.bind(formData).convertGlobalToFieldErrors()
 
-    mustContainError("alternativeContact", Errors.contactDetailsMissing, pageTwoForm.bind(formData))
+    mustContainPrefixedError("alternativeContact.contactDetails.phone", Errors.contactDetailsMissing, form)
+    mustContainPrefixedError("alternativeContact.contactDetails.email1", Errors.contactDetailsMissing, form)
+    mustContainPrefixedError("alternativeContact.address.buildingNameNumber", Errors.contactDetailsMissing, form)
   }
 
   it should "validate alternative address when contact address type is alternative address" in {
