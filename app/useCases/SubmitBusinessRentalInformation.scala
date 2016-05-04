@@ -60,7 +60,7 @@ object SubmissionBuilder extends SubmissionBuilder {
     Submission(s.propertyAddress, s.customerDetails, s.theProperty.map(toTheProperty), s.sublet.map(toSublet), s.landlord.map(toLandlord),
       s.lease.map(toLeaseOrAgreement), s.rentReviews.map(toRentReviews), s.rentAgreement,
       s.rent.map(toRent), s.rentIncludes, s.incentives, s.responsibilities.map(toResponsibilities),
-      s.alterations, s.otherFactors,_id = Some(doc.referenceNumber),
+      s.alterations, s.otherFactors,
       referenceNumber = Some(doc.referenceNumber)
     )
   }

@@ -82,7 +82,7 @@ object StubSubmitBRI {
 
 class StubSubmitBRI extends SubmitBusinessRentalInformation with MustMatchers {
   lazy val stubSubmission = Submission(
-    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
   )
 	
   var submittedRefNums: Seq[String] = Seq.empty
