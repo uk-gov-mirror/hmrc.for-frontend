@@ -152,6 +152,7 @@ label.phone=Phone number
 label.contactDetails.phone=Phone
 label.contactAddressType=Which address would you like us to use if we need to write to you in future?
 hint.contacts=In case we need to contact them about the property
+hint.alternative.contact=Please provide a name and one or more ways to contact them
 label.contactDetails.email1=Email
 label.alternativeAddress=Alternative address
 label.alternativeAddress.buildingNameNumber=Address line 1
@@ -178,6 +179,9 @@ label.noJs.contactDetails.phone=Answer this only if you''ve selected ''Phone'' o
 label.noJs.contactDetails.contactAddressType=Answer this only if you''ve selected ''Occupier'' or ''Owner''
 label.noJs.alternativeAddress.buildingNameNumber=Answer this only if you''ve selected ''I want to be contacted at an alternative address''
 label.noJs.alternativeContact.fullName=Answer this only if you''ve selected ''I want someone else to be contacted on my behalf''
+alternativeContact.contactDetails.phone.error.contact.details.missing=At least one of phone, email, or address must be provided
+alternativeContact.contactDetails.email1.error.contact.details.missing=At least one of phone, email, or address must be provided
+alternativeContact.address.buildingNameNumber.error.contact.details.missing=At least one of phone, email, or address must be provided
 
 #SECTION 3
 ##############################
@@ -649,6 +653,9 @@ error.boolean_missing=You must choose one
 error.no_value_selected=You must choose one
 contactDetails.email1.email.mismatch=email addresses must match
 contactDetails.email2.email.mismatch=email addresses must match
+alternativeContact.contactDetails.email1.email.mismatch=email addresses must match
+alternativeContact.contactDetails.email2.email.mismatch=email addresses must match
+error.contact.details.missing=At least one of phone, email, or address must be given
 error.maxLength=This must be up to a maximum of {0} characters
 error.invalid_postcode=Please enter a valid UK postcode
 error.invalid_currency = This must use numbers and , .
