@@ -34,7 +34,7 @@
     }
 }
 
-@if(p2.userType == UserTypeOwner || p2.userType == UserTypeOccupier) {
+@if(p2.userType == UserTypeOwner || p2.userType == UserTypeOccupier || p2.userType == UserTypeOwnerOccupier) {
 
     @p2.contactAddressType.map { cat =>
 
