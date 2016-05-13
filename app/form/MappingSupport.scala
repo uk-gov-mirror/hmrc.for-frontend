@@ -102,7 +102,7 @@ object MappingSupport {
   )(Address.apply)(Address.unapply)
 
   def addressAbroadMapping(prefix: String): Mapping[Address] = mapping(
-    "buildingNameNumber" -> default(text(maxLength = 50), ""),
+    "buildingNameNumber" -> nonEmptyText(maxLength = 50),
     "street1" -> optional(text(maxLength = 50)),
     "street2" -> optional(text(maxLength = 50)),
     "postcode" -> default(text(maxLength = 10), "")
