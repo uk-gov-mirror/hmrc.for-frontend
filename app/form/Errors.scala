@@ -63,4 +63,8 @@ object Errors {
   val tooManySublets = "error.too_many_sublets"
   val parkingRequired = "error.required.parking"
   val maxCurrencyAmountExceeded = "error.maxCurrencyAmountExceeded"
+  val toDateIsAfterFromDate = "error.writtenAgreement.steppedDetails.stepTo.day"
+
+
+
 }
