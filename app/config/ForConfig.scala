@@ -24,6 +24,7 @@ import scala.concurrent.duration._
 
 object ForConfig {
   val config = Play.current.configuration
+  val http = Play.current.global.asInstanceOf[ForGlobal].forHttp
 
   lazy val controllerConfigs = config.underlying.as[Config]("controllers")
   def metricsConfig: Option[Configuration] = config.getConfig("microservice.metrics")
@@ -32,6 +33,9 @@ object ForConfig {
   lazy val useDummyIp = getBoolean("useDummyTrueIP")
   lazy val startPageRedirect = getBoolean("startPageRedirect")
   lazy val govukStartPage = getString("govukStartPage")
+  lazy val agentApiEnabled = getBoolean("agentApi.enabled")
+  lazy val apiTestAccountsOnly = getBoolean("agentApi.testAccountsOnly")
+  lazy val apiTestAccountPrefix = getString("agentApi.testAccountPrefix")
 
   val analytics = new {
     val ga = new {

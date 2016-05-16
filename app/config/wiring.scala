@@ -24,10 +24,11 @@ import models.pages.SummaryBuilder
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json.Writes
 import uk.gov.hmrc.crypto.{ApplicationCrypto, CompositeSymmetricCrypto}
 import uk.gov.hmrc.http.cache.client.{ShortLivedCache, ShortLivedHttpCaching}
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
+import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
 import uk.gov.hmrc.play.audit.model.DataEvent
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
@@ -46,7 +47,9 @@ object FORAuditConnector extends AuditConnector with AppName {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
-object WSHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
+object WSHttp extends ForHttp
+
+trait ForHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
   override val hooks = Seq.empty
   val useDummyIp = ForConfig.useDummyIp
 
@@ -54,10 +57,24 @@ object WSHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
   // An IP address needs to be injected because of the lockout mechanism
   override def doGet(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
     val hc2 = if (useDummyIp) hc.withExtraHeaders((trueClientIp, "")) else hc
-    super.doGet(url)(hc2).map { res =>
-      if (res.status == 401) throw Upstream4xxResponse(res.body, 401, 401, res.allHeaders) else res
+    get(url)(hc2).map { res =>
+      res.status match {
+        case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.allHeaders)
+        case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.allHeaders)
+        case _ => res
+      }
     }
   }
+
+  override def doPut[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = {
+    put(url, body)(rds, hc) map { res =>
+      if (res.status == 400) throw new BadRequestException(res.body) else res
+    }
+  }
+
+  protected def get(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = super.doGet(url)(hc)
+
+  protected def put[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = super.doPut(url, body)(rds, hc)
 }
 
 object FormPartialProvider extends FormPartialRetriever {
@@ -68,7 +85,7 @@ object FormPartialProvider extends FormPartialRetriever {
 object Audit {
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String]) = {
+  def apply(event: String, detail: Map[String, String]): Future[AuditResult] = {
     val de = DataEvent(auditSource = "for-frontend", auditType = event, detail = detail)
     auditConnector.sendEvent(de)
   }

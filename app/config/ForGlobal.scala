@@ -16,10 +16,14 @@
 
 package config
 
-import play.api.{Configuration, Logger}
+import controllers.toFut
+import org.joda.time.DateTime
+import play.api.Configuration
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
 import play.twirl.api.Html
+import playconfig.{ForHttp, WSHttp}
 import uk.gov.hmrc.play.audit.filters.FrontendAuditFilter
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
@@ -29,14 +33,15 @@ import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 import uk.gov.hmrc.play.language.LanguageUtils
 import useCases.Now
-import controllers.toFut
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import org.joda.time.DateTime
 
-object ForGlobal extends DefaultFrontendGlobal {
+object ForGlobal extends ForGlobal
+
+trait ForGlobal extends DefaultFrontendGlobal {
+  lazy val forHttp: ForHttp = WSHttp
+
   def auditConnector: uk.gov.hmrc.play.audit.http.connector.AuditConnector = AuditServiceConnector
 
   def frontendAuditFilter: uk.gov.hmrc.play.audit.filters.FrontendAuditFilter = AuditFilter

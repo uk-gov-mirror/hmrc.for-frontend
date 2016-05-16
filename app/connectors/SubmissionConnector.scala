@@ -16,20 +16,29 @@
 
 package connectors
 
+import config.ForConfig
 import models.serviceContracts.submissions.Submission
-import play.api.libs.json.Json
-import playconfig.WSHttp
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.iteratee.Enumerator
+import play.api.libs.json.JsValue
+import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 
 object SubmissionConnector extends SubmissionConnector with ServicesConfig {
   lazy val serviceUrl = baseUrl("for-hod-adapter")
+  val http = ForConfig.http
 
   def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
-    WSHttp.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())
+    http.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())
+  }
+
+  def submit(refNum: String, submission: JsValue)(implicit hc: HeaderCarrier): Future[Result] = {
+    http.PUT(s"$serviceUrl/for/submissions/$refNum", submission) map { r =>
+      Result(ResponseHeader(r.status), Enumerator(Option(r.body).getOrElse("").getBytes))
+    }
   }
 }
 
