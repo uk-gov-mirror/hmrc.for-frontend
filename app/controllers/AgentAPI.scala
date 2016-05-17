@@ -19,13 +19,12 @@ package controllers
 import config.ForConfig
 import connectors.{HODConnector, SubmissionConnector}
 import org.joda.time.DateTime
-import play.api.Logger
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
-import play.api.mvc._
 import play.api.mvc.Results._
+import play.api.mvc._
 import playconfig.Audit
 import uk.gov.hmrc.play.http._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 import scala.math.BigDecimal
@@ -40,7 +39,9 @@ object AgentAPI extends Controller with HeaderValidator {
   }
 
   def getSchema(name: String) = Action.async { implicit request =>
-    HODConnector.getSchema(name) map { Ok(_) }
+    HODConnector.getSchema(name) map {
+      Ok(_)
+    }
   }
 
   def submit(refNum: String, postcode: String): Action[AnyContent] = mustHaveValidAcceptHeader.async { implicit request =>
@@ -48,7 +49,11 @@ object AgentAPI extends Controller with HeaderValidator {
       case (false, _) => NotFound
       case (true, true) if !refNum.startsWith(ForConfig.apiTestAccountPrefix) => mustUseTestCredentials(refNum, postcode)
       case (true, _) =>
-        request.body.asJson.map(checkCredentialsAndSubmit(_, refNum, postcode)) getOrElse BadRequest
+        request.body.asJson.map {
+          checkCredentialsAndSubmit(_, refNum, postcode)
+        }.getOrElse(
+          BadRequest(Json.parse("""{"code": "BAD_REQUEST"}"""))
+        )
     }
   }
 
@@ -105,7 +110,7 @@ object AgentAPI extends Controller with HeaderValidator {
 
   private def invalidSubmission(msg: String): String = {
     val js = Json.parse(msg) match {
-      case JsObject(s) => JsObject(Seq("code" -> JsString("INVALID_SUBMISSION")) ++ s)
+      case JsObject(Seq((k, v))) => JsObject(Seq("code" -> JsString("INVALID_SUBMISSION"), "message" -> v))
       case other => other
     }
     Json.prettyPrint(js)
@@ -123,12 +128,11 @@ trait HeaderValidator {
   val matchHeader: String => Option[Match] = new Regex("""^application/vnd[.]hmrc[.](.*?)[+]json""", "version") findFirstMatchIn
 
   val acceptHeaderRules: Option[String] => Boolean =
-    _ flatMap { a => matchHeader(a) map { res => validateVersion(res.group("version"))} } getOrElse false
+    _ flatMap { a => matchHeader(a) map { res => validateVersion(res.group("version")) } } getOrElse false
 
   def mustHaveValidAcceptHeader = new ActionBuilder[Request] {
     def invokeBlock[A](request: Request[A], block: Request[A] => Future[Result]) = {
-      Logger.info(request.headers.get("Accept").toString)
-      if(acceptHeaderRules(request.headers.get("Accept")))
+      if (acceptHeaderRules(request.headers.get("Accept")))
         block(request)
       else
         Future.successful(
