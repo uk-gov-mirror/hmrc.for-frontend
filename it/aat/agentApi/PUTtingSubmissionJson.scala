@@ -40,14 +40,14 @@ class PUTtingSubmissionJson extends AcceptanceTest {
     "When the submission json is invalid" - {
       http.stubSubmission(valid.refNum, invalidSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(
         responseStatus = 400,
-        responseJson = Some(Json.parse(s"{$invalidSubmissionError}"))
+        responseJson = Some(Json.parse(submissionErrorFromHodAdapter))
       ))
 
       val res = AgentApi.submit(valid.refNum, valid.postcode, invalidSubmission)
 
       "A formatted 400 Bad Request response explaining the error is returned" in {
         assert(res.status === 400)
-        assert(res.body === jsonBody(s"""{"code": "INVALID_SUBMISSION", $invalidSubmissionError}"""))
+        assert(res.body === jsonBody(s"""{"code": "INVALID_SUBMISSION", "message": $invalidSubmissionError}"""))
       }
     }
 
@@ -151,13 +151,15 @@ private object TestData {
   val invalidSubmission: JsValue = Json.parse("{}")
 
   val invalidSubmissionError =
-    """"errors":[
+    """[
       |{"field":"",
       |"error":"object has missing required properties
       |([ \"alterations\",\"customerDetails\",\"incentives\",\"landlord\",\"lease\", \"otherFactors\",
       |\"propertyAddress\",\"referenceNumber\",\"rent\", \"rentAgreement\",\"rentIncludes\",\"rentReviews\",
       |\"responsibilities\", \"sublet\",\"theProperty\"])", "schemaUsed":"defaultSchema.json"}
       |]""".stripMargin.replaceAll("\n", "")
+
+  val submissionErrorFromHodAdapter = s"""{"errors": $invalidSubmissionError}"""
 }
 
 private case class Credentials(ref1: String, ref2: String, postcode: String) {
