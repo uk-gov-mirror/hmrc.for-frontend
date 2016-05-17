@@ -16,8 +16,10 @@
 
 package models.pages
 
+import models.LookupServiceAddress
 import models.serviceContracts.submissions.{Address, LandlordConnectionType}
 
 case class PageFive(overseas:Boolean,
-  landlordFullName: String, landlordAddress: Option[Address], landlordConnectionType: LandlordConnectionType,
-  landlordConnectText: Option[String])
+                    landlordFullName: String, originalLandlordAddress: Option[LookupServiceAddress],
+                    landlordAddress: Option[Address], landlordConnectionType: LandlordConnectionType,
+                    landlordConnectText: Option[String])

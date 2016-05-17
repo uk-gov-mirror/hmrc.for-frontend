@@ -108,6 +108,14 @@ object MappingSupport {
     "postcode" -> default(text(maxLength = 10), "")
   )(Address.apply)(Address.unapply)
 
+  def lookupAddressMapping(prefix: String): Mapping[LookupServiceAddress] = mapping(
+    "buildingNameNumber" -> text,
+    "street1" -> optional(text),
+    "street2" -> optional(text),
+    "postcode" -> text,
+    "id" -> text
+  )(LookupServiceAddress.apply)(LookupServiceAddress.unapply)
+
   def contactDetailsMappingFor(contactTypeField: String): Mapping[ContactDetails] = {
     mapping(
       "phone" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypePhone.name),

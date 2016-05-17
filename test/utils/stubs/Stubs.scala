@@ -18,14 +18,17 @@ package utils.stubs
 
 import connectors._
 import form.persistence.FormDocumentRepository
+import helpers.AddressAuditing
+import models.pages.Summary
 import models.serviceContracts.submissions.Submission
 import org.scalatest.Matchers
+import play.api.mvc.Request
+import playconfig.Audit
 import uk.gov.hmrc.play.http.HeaderCarrier
 import useCases.SubmissionBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.tools.cmd.Reference
 
 object StubSubmissionConnector { def apply() = new StubSubmissionConnector }
 
@@ -71,4 +74,10 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
   override def store(documentId: String, referenceNumber: String, doc: Document): Future[Unit] = ???
 
   override def clear(documentId: String, referenceNumber: String): Future[Unit] = ???
+}
+
+object StubAddressAuditing extends AddressAuditing {
+  override def apply(s: Summary, r: Request[_]): Future[Unit] = Future.successful(())
+
+  override protected val audit: Audit = null
 }

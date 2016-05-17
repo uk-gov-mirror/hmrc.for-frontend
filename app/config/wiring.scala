@@ -82,11 +82,13 @@ object FormPartialProvider extends FormPartialRetriever {
   override val crypto = SessionCookieCryptoFilter.encrypt _
 }
 
-object Audit {
+object Audit extends Audit
+
+trait Audit {
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String]): Future[AuditResult] = {
-    val de = DataEvent(auditSource = "for-frontend", auditType = event, detail = detail)
+  def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty): Future[AuditResult] = {
+    val de = DataEvent(auditSource = "for-frontend", auditType = event, tags = tags, detail = detail)
     auditConnector.sendEvent(de)
   }
 }

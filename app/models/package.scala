@@ -65,6 +65,7 @@ package object models {
   implicit val freePeriodDetailsFormat = Json.format[FreePeriodDetails]
   implicit val capitalDetailsFormat = Json.format[CapitalDetails]
   implicit val addressFormat = Json.format[Address]
+  implicit val lookupAddressFormat = Json.format[LookupServiceAddress]
   implicit val contactDetailsFormat = Json.format[ContactDetails]
   implicit val contactFormat = Json.format[Contact]
   implicit val formatParkingDetails = Json.format[ParkingDetails]

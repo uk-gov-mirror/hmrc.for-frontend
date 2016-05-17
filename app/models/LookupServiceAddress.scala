@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-package controllers.dataCapturePages
+package models
 
-import form.PageFiveForm.pageFiveForm
-import models.pages.{PageFive, Summary}
-import play.api.data.Form
-import play.api.libs.json.Json
-import play.api.mvc.{AnyContent, Request}
-import play.twirl.api.Html
+import models.serviceContracts.submissions.Address
 
-object PageFiveController extends ForDataCapturePage[PageFive] {
-  val format = Json.format[PageFive]
-  val emptyForm = pageFiveForm
-  val pageNumber: Int = 5
-
-  def template(form: Form[PageFive], summary: Summary)(implicit request: Request[AnyContent]): Html = {
-    views.html.part5(form, summary)
-  }
+case class LookupServiceAddress(buildingNameNumber: String, street1: Option[String], street2: Option[String], postcode: String, uprn: String) {
+  def toForAddress = Address(buildingNameNumber, street1, street2, postcode)
 }

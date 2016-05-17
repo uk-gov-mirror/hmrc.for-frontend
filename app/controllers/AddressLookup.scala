@@ -18,7 +18,7 @@ package controllers
 
 import actions.RefNumAction
 import connectors.HODConnector._
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsArray, JsValue, Json}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.{BadRequestException, HeaderCarrier}
 
@@ -38,7 +38,18 @@ object AddressLookupConnector {
 
   def getAddress(postcode: String, hc: HeaderCarrier): Future[JsValue] = {
     implicit val h = hc.withExtraHeaders("X-Hmrc-Origin" -> "VOA-FOR")
-    http.GET[JsValue](serviceUrl + s"/v1/uk/addresses.json?postcode=$postcode")
+    //http.GET[JsValue](serviceUrl + s"/v1/uk/addresses.json?postcode=$postcode")
+    Future.successful(
+      Json.parse("""[{"id":"GB10033548251","address":{"lines":["Basement Lg7, Admiralty Arch","The Mall"],"town":"London"
+                   |,"postcode":"SW1A 1AA","country":{"code":"UK","name":"United Kingdom"}},"language":"en"},{"id":"GB10033544614"
+                   |,"address":{"lines":["Buckingham Palace"],"town":"London","postcode":"SW1A 1AA","country":{"code":"UK"
+                   |,"name":"United Kingdom"}},"language":"en"},{"id":"GB10033562298","address":{"lines":["East, Buckingham
+                   | Palace","Buckingham Gate"],"town":"London","postcode":"SW1A 1AA","country":{"code":"UK","name":"United
+                   | Kingdom"}},"language":"en"},{"id":"GB10033598924","address":{"lines":["Royal Guard Room","The Royal
+                   | Mews"],"town":"London","postcode":"SW1A 1AA","country":{"code":"UK","name":"United Kingdom"}},"language"
+                   |:"en"},{"id":"GB10033562299","address":{"lines":["West, Buckingham Palace","Buckingham Gate"],"town"
+                   |:"London","postcode":"SW1A 1AA","country":{"code":"UK","name":"United Kingdom"}},"language":"en"}]""".stripMargin.replaceAll("\n", ""))
+    )
   }
 
 }

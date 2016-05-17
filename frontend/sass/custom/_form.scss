@@ -776,7 +776,10 @@ strong{
     margin-bottom: 0;
   }
 }
-input[disabled]{
+
+#originalAddress .form-group {
+	margin: 0
+}input[disabled]{
 	border-color: $grey-3;
 }
 input:focus[disabled] {

@@ -27,7 +27,8 @@ object PageFiveForm {
   val pageFiveForm = Form(mapping(
     "overseas" -> mandatoryBoolean,
     "landlordFullName" -> nonEmptyText(maxLength = 50),
-    "landlordAddress" -> (optional(addressAbroadMapping("landlordAddress"))),
+    "original.landlordAddress" -> optional(lookupAddressMapping("original.landlordAddress")),
+    "landlordAddress" -> optional(addressAbroadMapping("landlordAddress")),
     "landlordConnectType" -> landlordConnectionType,
     "landlordConnectText" -> mandatoryIfEqual(
       "landlordConnectType", LandlordConnectionTypeOther.name, nonEmptyText(maxLength = 100)
