@@ -556,6 +556,18 @@ saveForm.content=Beth hoffech chi ei wneud nesaf?
 saveForm.continue=Parhau i gwblhau''r ffurflen hon
 saveForm.start=Dechrau''r ffurflen eto
 saveForm.or=Neu
+month.January=Ionawr
+month.February=Chwefror
+month.March=Mawrth
+month.April=Ebrill
+month.May=Mai
+month.June=Mehefin
+month.July=Gorffennaf
+month.August=Awst
+month.September=Medi
+month.October=Hydref
+month.November=Tachwedd
+month.December=Rhagfyr
 
 #SUMMARY
 ###############################

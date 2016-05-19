@@ -17,10 +17,11 @@
 package controllers
 
 import actions.{RefNumAction, RefNumRequest}
-import controllers.dataCapturePages.{UrlFor, RedirectTo}
+import controllers.dataCapturePages.{RedirectTo, UrlFor}
 import form.persistence.FormDocumentRepository
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
+import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{AnyContent, Result}
@@ -47,7 +48,8 @@ object SaveForLater extends FrontendController {
         s4l(hc)(doc, hc).map { pw =>
           val sum = SummaryBuilder.build(doc)
           audit(sum, pw)
-          Ok(views.html.savedForLater(sum, pw))
+          val expiryDate = LocalDate.now.plusDays(90)
+          Ok(views.html.savedForLater(sum, pw, expiryDate))
         }
       case None =>
         InternalServerError(views.html.error.error500())
