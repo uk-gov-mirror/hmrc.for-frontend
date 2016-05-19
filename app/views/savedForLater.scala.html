@@ -1,13 +1,7 @@
-@import models.journeys.Journey
-@import models.serviceContracts.submissions._
-@import models.pages.Summary
-@import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
-@import controllers.dataCapturePages.UrlFor
-@import java.util.Locale
-
-@import java.time.format.DateTimeFormatter
-@(summary: Summary, password: String)(implicit requestHeader: RequestHeader,  lang: Lang)
+@import models.pages.Summary
+@import org.joda.time.LocalDate
+@(summary: Summary, password: String, expiryDate: LocalDate)(implicit requestHeader: RequestHeader,  lang: Lang)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -20,7 +14,7 @@
 
 @main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false) {
 
- 
+
       <main id="content" tabindex="-1">
   <div class="grid-row">
     <div class="column-two-thirds">
@@ -34,7 +28,7 @@
       <p><strong>@Messages("saveForLater.retrievalInfo")</strong></p>
 
       <div class="save-for-later">
-          
+
           <span>@Messages("saveForLater.refNum"):</span> <strong>@FormatRefNum(summary.referenceNumber)</strong></br>
           <span>@Messages("saveForLater.postcode"):</span> <strong>@summary.addressVOABelievesIsCorrect.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2")</strong></br>
           <span>@Messages("saveForLater.password"):</span> <strong>@password</strong>
@@ -42,7 +36,11 @@
 
       <p class="form-error alert alert-save-for-later" style="color:#b10e1e; margin-top: 1em">@Html(Messages("saveForLater.info"))</p>
 
-      <p class="icon-important" style="margin-top:2em">@Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@java.time.LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd-MMM-yyyy" + ".", new Locale("Wales", "cy_GB")))</strong> <p>
+      <p class="icon-important" style="margin-top:2em">
+          @Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@{
+          s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
+      }</strong>
+    <p>
 
       <p><a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a></p>
 
@@ -54,7 +52,7 @@
 
     </div>
     <div class="column-third"></div>
-   </div>  
+   </div>
    </main>
 
 
