@@ -78,7 +78,8 @@ object SubmissionBuilder extends SubmissionBuilder {
   }
 
   private def toTheProperty(p3: PageThree) = TheProperty(
-    p3.propertyType, p3.occupierType, occupierNameFor(p3), p3.firstOccupationDate, p3.propertyOwnedByYou, p3.propertyRentedByYou
+    p3.propertyType, p3.occupierType, occupierNameFor(p3), p3.firstOccupationDate, p3.propertyOwnedByYou,
+    if(p3.propertyOwnedByYou) None else p3.propertyRentedByYou
   )
 
   private def occupierNameFor(p3: PageThree) = p3.occupierType match {
