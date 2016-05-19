@@ -198,7 +198,7 @@
 
                   @inputText(
                     field = steppedDetail("amount"),
-                    '_label -> Messages("label.writtenAgreement.steppedDetails.amount"),
+                    '_label -> Messages(if(!summary.isAgent) "label.writtenAgreement.steppedDetails.amount" else "label.writtenAgreement.steppedDetails.amount.agent"),
                     '_labelClass -> "form-label-bold",
                     '_fieldsetClass -> "field-inline",
                     '_error -> steppedDetail("amount").errors,
