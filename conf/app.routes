@@ -67,4 +67,4 @@ GET 		/inpagefeedbackNoLogin	   controllers.feedback.Feedback.inPageFeedbackNoLo
 # AGENT API
 GET         /api/documentation         controllers.AgentAPI.getDocs
 GET         /api/schema/*name          controllers.AgentAPI.getSchema(name)
-PUT         /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, postcode)
+POST        /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, postcode)

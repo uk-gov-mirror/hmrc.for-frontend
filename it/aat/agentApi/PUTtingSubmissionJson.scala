@@ -118,14 +118,14 @@ private object AgentApi extends FutureAwaits with DefaultAwaitTimeout {
     await(WS
       .url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
       .withHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
-      .put(submission)
+      .post(submission)
     )
   }
 
   def submitWithoutAcceptHeader(refNum: String, postcode: String, submission: JsValue) = {
     await(WS
       .url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
-      .put(submission)
+      .post(submission)
     )
   }
 }
