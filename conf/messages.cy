@@ -358,6 +358,7 @@ label.noJs.rentReviewDetails.reviewIntervalType=Dylech ond ateb hwn os ydych wed
 label.noJs.rentReviewDetails.rentResultOfRentReview=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
+hint.rentOnThisPropertyTheResultOf=Os ydy y rhent wedi cael adolygiad a dim wedi newid dewisiwch ydy
 
 #SECTION 8
 ###############################
