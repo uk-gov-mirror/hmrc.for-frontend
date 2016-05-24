@@ -335,8 +335,8 @@ help.steprent.dateto=For example, 12 3 2011
 help.steprent.datefrom=For example, 12 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
-label.writtenAgreement.steppedDetails.amount=The rent you pay during this stepped-rent period excluding VAT
-label.writtenAgreement.steppedDetails.amount.agent=The rent your client pays during this stepped-rent period excluding VAT
+label.writtenAgreement.steppedDetails.amount=The rent you pay/paid during this stepped-rent period excluding VAT
+label.writtenAgreement.steppedDetails.amount.agent=The rent your client pays/paid during this stepped-rent period excluding VAT
 label.writtenAgreement.steppedDetails=Stepped rent details
 hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details relating to the primary lease in this form then contact the Valuation Office to provide details relating to the other lease or agreements.
 
