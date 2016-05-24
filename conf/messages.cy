@@ -55,7 +55,7 @@ label.openSpaces.summary=man agored
 label.openSpaces.summary.greaterthan1=o fannau agored
 label.coveredSpaces.summary=man dan do
 label.coveredSpaces.summary.greaterthan1=o fannau dan do
-label.garages.summary=garej
+label.garages.summary=modurdy
 label.garages.summary.greaterthan1=o garejis
 label.leaveEmpty=Gadewch yn wag os nad oes dim
 heading.summary=Crynodeb
@@ -71,7 +71,7 @@ label.underReview=(Yn cael ei adolygu)
 copy.character.count=Uchafswm o <span>{0}</span> o nodau (<span class="chars" data-max-length="{0}">{0}</span> yn weddill)
 copy.character.count.nojs=Uchafswm o {0} o nodau
 link.privacyPolicy=Preifatrwydd
-label.excludingVat=A yw''r rhent hwn yn eithrio TAW? 
+label.excludingVat=A yw''r rhent hwn yn eithrio TAW?
 label.tryAgain=Cynnig eto
 label.startFormAgain=Dechrau''r ffurflen eto
 label.password=cyfrinair
@@ -93,21 +93,21 @@ placeholder.address.2=Ail linell y cyfeiriad
 placeholder.address.3=Trydedd linell y cyfeiriad
 
 #BUTTON LABELS
-##############################		
+##############################
 button.label.back=Yn ôl
 button.label.continue=Parhau
 button.label.save=Cadw ar gyfer nes ymlaen
-button.label.pdf=Lawrlwytho PDF	
+button.label.pdf=Lawrlwytho PDF
 
 #LOGIN
-##############################		
+##############################
 label.letter=Gallwch weld eich rhif cyfeirnod a''ch cod post yn eich llythyr manylion rhent a phrydles.
 label.referenceNumber=Rhif cyfeirnod
 hint.letter=Fel y mae''n ymddangos ar y llythyr cais am wybodaeth
 label.referenceNumber1=7 nod cyntaf y rhif cyfeirnod
 label.referenceNumber2=3 nod olaf y rhif cyfeirnod
 error.invalid_refnum=Rhowch rif cyfeirnod dilys
-alt.letter=Gallwch weld eich rhif cyfeirnod a''ch cod post yn eich llythyr manylion rhent a phrydles 
+alt.letter=Gallwch weld eich rhif cyfeirnod a''ch cod post yn eich llythyr manylion rhent a phrydles
 label.ref1=Rhif cyfeirnod
 label.ref2=Rhif cyfeirnod
 heading.login.lockedOut=Rydych wedi eich cloi allan nawr
@@ -411,13 +411,13 @@ hint.shellUnit=E.e. Eiddo newydd heb ei ddodrefnu sydd angen gwaith fel waliau m
 label.rentDetails=Rhowch fanylion os gwnaethoch ddewis ''Ydy/Oedd'' i unrhyw un o''r cwestiynau uchod
 label.rentDetails.agent=Rhowch fanylion os gwnaethoch ddewis ''Ydy/Oedd'' i unrhyw un o''r cwestiynau uchod
 hint.rentDetails=Os gwnaethoch ddewis ‘Ydy/Oedd’ i unrhyw o''r cwestiynau yn yr adran hon, rhowch fanylion
-label.parking.rentIncludeParking=A yw cost lle parcio a garej wedi''i chynnwys yn eich rhent?
-label.parking.rentIncludeParking.agent=A yw cost lle parcio a garej wedi''i chynnwys yn rhent eich cleient?
-label.parking.rentIncludeParkingDetails=Sawl lle parcio neu garej sydd wedi''u cynnwys yn y rhent?
+label.parking.rentIncludeParking=A yw cost lle parcio a modurdy wedi''i chynnwys yn eich rhent?
+label.parking.rentIncludeParking.agent=A yw cost lle parcio a modurdy wedi''i chynnwys yn rhent eich cleient?
+label.parking.rentIncludeParkingDetails=Sawl lle parcio neu modurdy sydd wedi''u cynnwys yn y rhent?
 label.parking.rentSeparateParking=A ydych yn talu mwy am le parcio neu modurdai?
 label.parking.rentSeparateParking.agent=A yw eich cleient yn talu mwy am le parcio neu modurdai?
-label.parking.rentSeparateParkingDetails=Sawl lle parcio neu garej ychwanegol ydych chi''n talu amdanynt?
-label.parking.rentSeparateParkingDetails.agent=Sawl lle parcio neu garej ychwanegol mae eich cleient yn talu amdanynt?
+label.parking.rentSeparateParkingDetails=Sawl lle parcio neu modurdy ychwanegol ydych chi''n talu amdanynt?
+label.parking.rentSeparateParkingDetails.agent=Sawl lle parcio neu modurdy ychwanegol mae eich cleient yn talu amdanynt?
 label.parking.annualSeparateParking=Telir swm blynyddol sefydlog am lefydd parcio a modurdai yn ychwanegol at y rhent heb gynnwys TAW
 label.parking.annualSeparateParkingDate=Pryd cafodd y taliad hwn ei bennu?
 label.noJs.rentIncludeParkingDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Ydy/Ydw’
