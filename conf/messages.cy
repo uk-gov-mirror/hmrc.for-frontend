@@ -59,11 +59,11 @@ label.garages.summary=modurdy
 label.garages.summary.greaterthan1=o modurdai
 label.leaveEmpty=Gadewch yn wag os nad oes dim
 heading.summary=Crynodeb
-label.manualAddress=Rhoi''r cyfeiriad â llaw
+label.manualAddress=Cofnodwch cyfeiriad tramor neu Deyrnas Unedig a llaw
 label.selectAddress=Dewiswch gyfeiriad
 label.addressMatches=Mae''r cyfeiriad yn cyfateb
 label.loading=Yn llwytho ...
-label.findAddress=Dewch o hyd i gyfeiriad
+label.findAddress=Dod o hyd i gyfeiriad yn y Deyrnas Unedig
 label.addressAbroad=Cyfeiriad
 label.overseas.address=Rhowch gyfeiriad y tu allan i''r DU
 alt.newWindow=Mae''n agor mewn ffenestr arall
@@ -144,7 +144,7 @@ label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i''r cyfeiriad eu
 section2.heading=Amdanoch chi
 label.fullName=Eich enw llawn
 label.contactType=Sut hoffech chi i ni gysylltu â chi?
-label.userType=Fi yw
+label.userType=Fi ydi/cynrychiolydd
 label.email1=E-bost
 label.email2=Cadarnhau E-bost
 label.contactDetails.email2=Cadarnhau E-bost
@@ -330,7 +330,7 @@ help.steprent.dateto=Er enghraifft, 12 3 2011
 help.steprent.datefrom=Er enghraifft, 12 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Gris o
 label.writtenAgreement.steppedDetails.stepTo=Gris i
-label.writtenAgreement.steppedDetails.amount=Cyfanswm ar gyfer y gris hwn heb gynnwys TAW
+label.writtenAgreement.steppedDetails.amount=Y rhent a dalwyd yn ystod cyfnod rhent grisiog ac eithrio TAW
 label.writtenAgreement.steppedDetails=Manylion rhent gris
 hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, rhowch fanylion y brydles sylfaenol yn y ffurflen hon ac yna cysylltwch â''r Swyddfa Brisio i roi manylion yn ymwneud â phrydlesi neu gytundebau eraill.
 
@@ -358,7 +358,7 @@ label.noJs.rentReviewDetails.reviewIntervalType=Dylech ond ateb hwn os ydych wed
 label.noJs.rentReviewDetails.rentResultOfRentReview=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
-hint.rentOnThisPropertyTheResultOf=Os ydy y rhent wedi cael adolygiad a dim wedi newid dewisiwch ydy
+hint.rentOnThisPropertyTheResultOf=Os ydi eich rhent wedi cael adolygiad ond ddim wedi newid, a wnewch chi ddewis ''Ia''
 
 #SECTION 8
 ###############################
@@ -387,7 +387,7 @@ label.rentBasedOnDetails=Rhowch fanylion
 hint.rentBasedOnDetails=Gallwch weld hyn yn y brydles neu''r cytundeb
 label.rentActuallyAgreed=Pryd cytunwyd ar y rhent neu pryd cafodd ei bennu?
 details.question.rentBasedOn=Dysgwch ragor am yr hyn y seiliwyd eich rhent arno
-details.answer.rentBasedOn=<h3 class="font-bold">Beth yw''r gwerth ar y farchnad agored?</h3><p>Dyma''r rhent y gall landlord ei ddisgwyl ar gyfer eiddo, petai''n cael ei osod ar rent i eraill ar delerau tebyg.</p><h3 class="font-bold">Beth yw mynegio?</h3><p> Mae mynegio yn cynnwys adolygu rhenti at i fyny yn unig bob blwyddyn, yn unol â''r Mynegai Prisiau Manwerthu.</p>
+details.answer.rentBasedOn=<h3 class="font-bold">Beth yw''r gwerth ar y farchnad agored?</h3><p>Dyma''r rhent y gall landlord ei ddisgwyl ar gyfer eiddo, petai''n cael ei osod ar rent i eraill ar delerau tebyg.</p><h3 class="font-bold">Beth yw canran o''r trosiant?</h3><p>Dyma pryd mae’r rhent yn cael ei gyfrifo gan gyfeirio at yr elw busnes a gynhyrchir gan y tenant, fel canran o''r trosiant blynyddol y tenant</p><h3 class="font-bold">Beth yw mynegio?</h3><p> Mae mynegio yn cynnwys adolygu rhenti at i fyny yn unig bob blwyddyn, yn unol â''r Mynegai Prisiau Manwerthu.</p>
 hint.rentActuallyAgreed=Dyma''r dyddiad y cafodd y cytundeb ei lofnodi
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 
@@ -397,7 +397,7 @@ section10.heading=Beth mae''r rhent yn ei gynnwys
 label.provideDetails=Rhowch fanylion yn y blwch testun isod
 label.partRent=A yw''r rhent a delir ar gyfer rhan o''r eiddo yn unig?
 label.partRent.agent=A yw''ch cleient yn talu rhent ar gyfer rhan o''r eiddo yn unig?
-hint.partRent=Er enghraifft, llawr cyntaf yn unig neu un ystafell yn unig
+hint.partRent=Fel “rhan o’r eiddo”, rydym yn meddwl y rhan sydd wedi ei gynnwys yn eich rhent/ eich cytyndeb Tenantiaeth.
 label.otherProperty=A yw''r rhent hwn yn cynnwys unrhyw eiddo arall?
 hint.otherProperty=Er enghraifft, eiddo cyfagos neu ran o lawr arall
 label.livingAccomodation=A yw''r rhent hwn yn cynnwys unrhyw lety byw?
@@ -442,7 +442,7 @@ label.receiveCapitalSum.agent=A gafodd eich cleient swm cyfalaf?
 label.capitalReceivedDetails.capitalSum=Swm cyfalaf a gafwyd heb gynnwys TAW
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
 hint.receiveCapitalSum=Dyma swm o arian a geir gan y landlord i brynu''r brydles neu''r cytundeb
-hint.rentFreePeriodDetails.rentFreePeriodLength=Er enghraifft: 36
+hint.rentFreePeriodDetails.rentFreePeriodLength=Er engrhaifft: 36 (Am gyfnod di-rent o lai na 1 mis , rhowch: 1 a darparu manylion yn yr adran testun rhydd isod
 details.question.capitalSum=Beth yw swm cyfalaf?
 details.answer.capitalSum=Dyma swm o arian a delir i''r landlord er mwyn cymryd prydles neu gytundeb. Nid arian a delir am y busnes ei hun yw hwn (er enghraifft nid yw''n cynnwys unrhyw symiau a delir ar gyfer ewyllys da, gosodiadau a ffitiadau masnachol na symiau a delir fel blaendaliadau neu fondiau ad-daladwy)
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
@@ -573,7 +573,7 @@ month.December=Rhagfyr
 #SUMMARY
 ###############################
 label.print.summary=Argraffu crynodeb
-label.summary.text=Gwiriwch eich atebion cyn anfon eich ffurflen
+label.summary.text=Archwiliwch eich atebion cyn cyflwyno eich ffurflen
 
 #PDF
 ###############################
@@ -714,3 +714,4 @@ heading.termsandconditions=Telerau ac Amodau
 content.termsandconditions=<p>Mae''r telerau ac amodau hyn yn llywodraethu eich defnydd o wasanaeth Manylion Rhent a Phrydles ar-lein Asiantaeth y Swyddfa Brisio, fel y''i llywodraethir gan ddeddfau Cymru a Lloegr. Darllenwch y telerau ac amodau hyn yn ofalus gan eu bod yn effeithio ar eich hawliau a''ch cyfrifoldebau yn y gyfraith.</p><p>Wrth ddefnyddio''r wefan hon, rydych yn cytuno ar y telerau ac amodau fel y''u darparwyd.</p><h2 class="heading-medium">Defnyddio''r gwasanaeth ar-lein hwn</h2><p>Rydym yn gwneud pob ymdrech i sicrhau bod y wybodaeth a gyhoeddir ar y wefan yn gywir. Fodd bynnag, ni all Asiantaeth y Swyddfa Brisio dderbyn unrhyw gyfrifoldeb am gywirdeb y wybodaeth hon, ac mae''r rhai sy''n ei defnyddio yn gwneud hynny ar eu menter eu hunain.</p> <p>Ni allwn warantu y bydd y gwasanaeth heb unrhyw ddiffygion. Os bydd problem gyda''r gwasanaeth, dylech ddefnyddio''r ddolen ‘Cael help gyda''r dudalen hon’ ar waelod pob tudalen a byddwn yn cysylltu â chi cyn gynted ag y gallwn.</p> <h2 class="heading-medium">Diogelu rhag feirysau</h2> <p>Rydym yn gwneud pob ymdrech i wirio a phrofi''r holl ddeunydd yn ofalus, ond byddem yn cynghori defnyddwyr i redeg rhaglen gwrthfeirysau ar bob deunydd a lawrlwythir ar-lein.</p> <p>Nid yw Asiantaeth y Swyddfa Brisio yn derbyn unrhyw gyfrifoldeb am unrhyw golled, amhariad na difrod i''ch data na''ch system gyfrifiadurol tra byddwch yn defnyddio''r wefan hon.</p> <h2 class="heading-medium">Diwygiadau i''r telerau ac amodau</h2> <p>Gallwn ddiweddaru''r telerau ac amodau o bryd i''w gilydd a drwy barhau i ddefnyddio''r wefan rydych yn cadarnhau eich bod yn parhau i gytuno ar y telerau ac amodau defnydd hyn.</p> <h2 class="heading-medium">Diogelwch</h2> <p>Er mwyn sicrhau bod eich data''n cael eu cadw''n ddiogel, rydym yn defnyddio diogelwch Haen Socedi Diogel (SSL), un o''r systemau diogelwch cryfaf, ac amgryptiad 128 bit i storio a throsglwyddo eich data.</p> <p>Mae SSL yn gweithio drwy wneud y canlynol:</p> <ul class="list-bullet"> <li>atal pobl rhag dynwared rhywun arall - gallwch weld eich bod yn defnyddio gwefan SSL go iawn drwy''r symbol clo clap ar waelod y sgrin neu ym mar cyfeiriad eich porwr</li> <li>amgryptio data - cyn gynted ag y bydd eich cyfrifiadur wedi adnabod eich cyfrifiadur ni, bydd yn amgryptio''r holl wybodaeth a drosglwyddir rhyngddynt. Mae amgryptio data yn golygu na all unrhyw un arall ddarllen eich gwybodaeth wrth iddo deithio ar draws y Rhyngrwyd na''i newid </li> <li>atal anhrefnu (scrambling) - mae SSL yn defnyddio Cod Dilysu Neges (MAC) i atal unrhyw un rhag ymyrryd â''n gwefan. Bydd eich cyfrifiadur yn gwirio''r cod hwn bob tro cyn derbyn neges gennym. Golyga hyn, os bydd rhywun yn ceisio ymyrryd â neges, na fydd eich cyfrifiadur yn adnabod y cod a bydd yn eich rhybuddio.</li> </ul>
 heading.cookies=Cwcis
 content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ffeiliau bach, a elwir yn ‘cookies’, ar eich cyfrifiadur er mwyn casglu gwybodaeth ynglŷn â sut rydych yn pori''r wefan.</p>Defnyddir cwcis er mwyn:<ul class="list-bullet"><li>mesur sut rydych yn defnyddio''r wefan fel ei bod yn cael ei diweddaru a''i gwella yn seiliedig ar eich anghenion</li><li>cofio''r hysbysiadau rydych wedi''u gweld fel nad ydym yn eu dangos i chi eto</li></ul><p>Ni ddefnyddir cwcis RALD i''ch adnabod chi''n bersonol.</p> Byddwch fel arfer yn gweld neges ar y safle cyn y byddwn yn storio cwcis ar eich cyfrifiadur. <p>Rhagor o wybodaeth ynglŷn â <a href="http://www.aboutcookies.org/">sut rydym yn rheoli cwcis</a>.</p> <h2 class="heading-medium">Sut y defnyddir cwcis ar RALD</h2> <h3 class="heading-small">Mesur defnydd o''r wefan (Google Analytics)</h3> <p>Rydym yn defnyddio meddalwedd Google Analytics i gasglu gwybodaeth ynglŷn â sut rydych yn defnyddio RALD. Rydym yn gwneud hyn er mwyn helpu i wneud yn siŵr bod y safle''n diwallu anghenion ei defnyddiwr ac i''n helpu i wneud gwelliannau.</p> <p>Mae Google Analytics yn storio gwybodaeth am y canlynol:</p> <ul class="list-bullet"> <li>y tudalennau y gwnaethoch ymweld â nhw ar RALD</li> <li>faint o amser y gwnaethoch ei dreulio ar bob tudalen</li> <li>sut y daethoch i''r safle</li> </ul> <p>Nid ydym yn casglu nac yn storio eich gwybodaeth bersonol (e.e. eich enw neu eich cyfeiriad) felly ni ellir defnyddio''r wybodaeth i nodi pwy ydych.</p> <p>Nid ydym yn caniatáu i Google ddefnyddio na rhannu ein data dadansoddi.</p> <p>Mae Google Analytics yn gosod y cwcis canlynol:</p> <h3 class="heading-small">Universal Analytics</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> <tr> <td>_ga</td> <td>Mae hyn yn ei helpu i gyfrif faint o bobl sy''n ymweld â RALD drwy weld a ydych wedi ymweld o''r blaen</td> <td>2 flynedd</td> </tr> <tr> <td>_gat</td> <td>Fe''i defnyddir i reoli''r raddfa y gwneir ceisiadau i weld tudalen newydd</td> <td>10 munud</td> </tr> </tbody> </table> <h3 class="heading-small">Cwcis sy''n benodol ar gyfer RALD</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>mdtp</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> <tr> <td>mdtpdf</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> </tbody> </table> <h3 class="heading-small">Ein neges ragarweiniol</h3> <p>Efallai y byddwch yn gweld neges groeso naid pan fyddwch yn ymweld am y tro cyntaf. Storir cwcis ar eich porwr fel bod eich cyfrifiadur yn gwybod eich bod wedi ei gweld, a''i fod yn gwybod i beidio â''i dangos eto.</p> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>seen_cookie_message</td> <td>Mae''n cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwcis.</td> <td>1 mis</td> </tr> </tbody> </table>
+hint.if0thenenter1=Os nad oedd unrhyw gost,rhowch £1 yma a dywedwch fwy wrthym yn y disgrifiad o''r gwaith a wnaed, uchod
