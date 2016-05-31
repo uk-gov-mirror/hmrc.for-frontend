@@ -147,6 +147,7 @@ section2.heading=About you
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
 label.userType=I am the / I represent the
+hint.userType=If you are no longer the owner/occupier, please click on the '"feedback"' link at the top of this page and tell us more
 label.email1=Email
 label.email2=Confirm email
 label.contactDetails.email2=Confirm email
