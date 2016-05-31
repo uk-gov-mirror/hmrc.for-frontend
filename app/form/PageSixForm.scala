@@ -54,7 +54,7 @@ object PageSixForm {
   val steppedDetailsMapping = (index: String) => mapping(
     (index + "." + keys.from) -> dateFieldsMapping(s"$index.stepFrom", allowFutureDates = true),
     (index + "." + keys.to) -> dateFieldsMapping(s"$index.stepTo", allowFutureDates = true),
-    (index + "." + keys.amount) -> nonNegativeCurrency
+    (index + "." + keys.amount) -> currency
   )(SteppedDetails.apply)(SteppedDetails.unapply).verifying(toDateIsAfterFromDate(index))
 
   val written = keys.writtenAgreement
