@@ -183,7 +183,7 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "validate stepped rent amount as currency allowing non-negative amounts" in {
-    validateNonNegativeCurrency(getKeyStepped(0).amount, pageSixForm, fullData)
+    validateCurrency(getKeyStepped(0).amount, pageSixForm, fullData)
   }
 
   it should "validate stepped rent from date as a date" in {
