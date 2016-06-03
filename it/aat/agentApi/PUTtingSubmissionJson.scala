@@ -58,6 +58,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
       "A 200 Ok response is returned" in {
         assert(res.status === 200)
+        assert(res.body === jsonBody(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference ${valid.refNum}"}"""))
       }
     }
   }

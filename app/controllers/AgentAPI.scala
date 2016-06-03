@@ -63,7 +63,12 @@ object AgentAPI extends Controller with HeaderValidator {
       hc = withAuthToken(request, lr.forAuthToken)
       res <- SubmissionConnector.submit(refNum, submission)(hc)
       _ <- Audit("APISubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString))
-    } yield res
+    } yield {
+      res.header.status match {
+        case 200 => Ok(validSubmission(refNum))
+        case _ => res
+      }
+    }
   } recover {
     case b: BadRequestException => BadRequest(invalidSubmission(b.message))
     case Upstream4xxResponse(body, 401, _, _) => Unauthorized(badCredentialsError(body, refNum, postcode))
@@ -119,6 +124,12 @@ object AgentAPI extends Controller with HeaderValidator {
   private def duplicateSubmission(refNum: String): String = {
     Json.prettyPrint(
       Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for $refNum"}""")
+    )
+  }
+
+  private def validSubmission(refNum: String) = {
+    Json.prettyPrint(
+      Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference $refNum"}""")
     )
   }
 }
