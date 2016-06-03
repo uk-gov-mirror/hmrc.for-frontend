@@ -13,7 +13,7 @@
     </h1>
     <p>This endpoint allows Forms of Return to be submitted to the VOA without using the web form.</p>
     <section id="resource" class="section flush--bottom">
-        <h2 class="heading-medium">Resource (Not yet live)</h2>
+        <h2 class="heading-medium">Resource (Currently for testing only)</h2>
         <pre class="snippet--block">POST /sending-rental-information/submit/{refNum}/{postcode}</pre>
     </section>
     <section id="path-parameters" class="section flush--bottom">
@@ -23,13 +23,13 @@
         </td><td class="snippet--inline">
             String
         </td><td class="snippet--inline">
-            9999000123
+            9999000998
         </td><td>The 10 or 11 digit reference number on the letter, without the slash.</td></tr><tr><td class="snippet--inline">
             postcode
         </td><td class="snippet--inline">
             String
         </td><td class="snippet--inline">
-            AA11+1AA
+            BN12+4AX
         </td><td>The post code from the letter. Must be a valid UK postcode. Must be separated by a "+" instead of a space</td></tr></tbody></table>
     </section>
     <section id="content-types" class="section flush--bottom">
@@ -397,7 +397,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"How much rent does your client receive each year from this sub-let excluding VAT?"</td><td>Required for each sublet</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>"How much rent does your client receive each year from this sub-let excluding VAT?"</td><td>Required for each sublet</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             sublets[].rentFixedDate
         </td><td>
             RoughDate
@@ -489,7 +489,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"Total amount for this step excluding VAT"</td><td>Required for each rent step</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>"Total amount for this step excluding VAT"</td><td>Required for each rent step</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             lease.startDate
         </td><td class="snippet--inline">
             RoughDate
@@ -607,7 +607,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>Annual rent paid, excluding VAT</td><td>Required as part of rent</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>Annual rent paid, excluding VAT</td><td>Required as part of rent</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             rent.rentBecomePayable
         </td><td class="snippet--inline">
             String
@@ -754,7 +754,7 @@
         </td><td class="snippet--inline">
             999.99
         </td><td>"Fixed annual amount paid for parking and garages over and above the rent excluding VAT"
-        </td><td>Only required if rentHasSeparateParking is true</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>Only required if rentHasSeparateParking is true</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             parking.annualSeparateParkingFixedDate
         </td><td class="snippet--inline">
             RoughDate
@@ -800,7 +800,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"Amount of capital sum paid excluding VAT"</td><td>Required as part of capitalPaidDetails</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>"Amount of capital sum paid excluding VAT"</td><td>Required as part of capitalPaidDetails</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             capitalPaidDetails.paymentDate
         </td><td class="snippet--inline">
             RoughDate
@@ -822,7 +822,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"Amount of capital sum received excluding VAT"</td><td>Required as part of capitalReceivedDetails</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>"Amount of capital sum received excluding VAT"</td><td>Required as part of capitalReceivedDetails</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             capitalReceivedDetails.paymentDate
         </td><td class="snippet--inline">
             RoughDate
@@ -886,7 +886,7 @@
             includedServicesDetails[].chargeCost
         </td><td class="snippet--inline">
             Currency
-        </td><td class="snippet--inline">999.99</td><td>"Amount per year included in the rent excluding VAT"</td><td>Required for each service</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td class="snippet--inline">999.99</td><td>"Amount per year included in the rent excluding VAT"</td><td>Required for each service</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             alterations
         </td><td class="snippet--inline">
             Object
@@ -914,7 +914,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"Cost of work excluding VAT"</td><td>Required for each alteration</td><td>Maximum value of 9,999,999.99. Must be positive. Maximum of 2 decimal places.</td></tr><tr><td class="snippet--inline">
+        </td><td>"Cost of work excluding VAT"</td><td>Required for each alteration</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             propertyAlterationsDetails[].date
         </td><td class="snippet--inline">
             RoughDate
