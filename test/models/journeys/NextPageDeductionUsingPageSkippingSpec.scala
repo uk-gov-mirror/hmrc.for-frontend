@@ -25,17 +25,19 @@ import org.scalatest.{FlatSpec, Matchers, OptionValues}
 
 class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with OptionValues {
 
-  "next pageAllowable for Page 2" should "return summary when you say you are no longer occuper / recently vacated" in {
-    val pageTwoUSerVacated = CustomerDetails("Zeus", userType = UserNoRelationVacated,contactType = ContactTypePhone, ContactDetails(None,None,None))
-    val doc = summaryBuilder(Some(pageOneData), Some(pageTwoUSerVacated) )
+  "nextPageAllowable for page two" should "return summary when you say you no longer have a relationship with the property" in {
+    val pageTwoUserVacated = CustomerDetails("Zeus", UserTypeVacated, ContactTypePhone, ContactDetails(None, None, None))
+    val doc = summaryBuilder(Some(pageOneData), Some(pageTwoUserVacated))
     nextPageAllowable(3, doc, Some(2)) shouldBe SummaryPage
   }
 
 
-  "next pageAllowable for Page 2" should "return page 3 when you not say you are no longer occuper / recently vacated" in {
-    val pageTwoUSerVacated = CustomerDetails("Zeus", userType = UserTypeOccupier ,contactType = ContactTypePhone, ContactDetails(None,None,None))
-    val doc = summaryBuilder(Some(pageOneData), Some(pageTwoUSerVacated) )
-    nextPageAllowable(3, doc, Some(2)) shouldBe PageToGoTo(3)
+  it should "return page 3 when you do not say you no longer have a relationship with the property" in {
+    Seq(UserTypeOwner, UserTypeOccupier, UserTypeOwnerOccupier, UserTypeOwnersAgent, UserTypeOccupiersAgent) foreach { ut =>
+      val p2data = CustomerDetails("Zeus", ut, ContactTypePhone, ContactDetails(None, None, None))
+      val doc = summaryBuilder(Some(pageOneData), Some(p2data))
+      nextPageAllowable(3, doc, Some(2)) shouldBe PageToGoTo(3)
+    }
   }
 
   "nextPageAllowable for page four" should "return summary when you say you own property and do not sublet" in {

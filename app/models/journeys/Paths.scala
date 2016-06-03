@@ -17,7 +17,7 @@
 package models.journeys
 
 import models.pages.Summary
-import models.serviceContracts.submissions.{LeaseAgreementTypesVerbal, UserNoRelationVacated}
+import models.serviceContracts.submissions.{LeaseAgreementTypesVerbal, UserTypeVacated}
 
 object Paths {
   val standardPath = new Path(1 to 14)
@@ -31,7 +31,7 @@ object Paths {
     if (isShortPath(summary)) shortPath
     else if (summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal) verbalAgreementPath
     else if (summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews) rentReviewPaths
-    else if(summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserNoRelationVacated) vacatedPath
+    else if(summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserTypeVacated) vacatedPath
     else standardPath
   }
 
