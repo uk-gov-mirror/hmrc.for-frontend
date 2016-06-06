@@ -665,6 +665,7 @@ contactDetails.email1.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 contactDetails.email2.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 error.maxLength=Mae''n rhaid i hwn fod hyd at uchafswm o {0} o nodau
 error.invalid_postcode=Nodwch god post dilys yn y DU
+error.invalid_currency = Rhaid i hyn fod nifer uwch na'r 0
 error.invalid_currency =Mae''n rhaid i hwn ddefnyddio rhifau a , .
 error.invalid_phone=Mae''n rhaid i hwn ddefnyddio rhifau a - ( ) + 
 error.email=Mae''n rhaid i hwn fod yn gyfeiriad e-bost dilys
