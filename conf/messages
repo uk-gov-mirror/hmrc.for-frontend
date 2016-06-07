@@ -198,6 +198,7 @@ propertyTypes.other=Other
 label.otherPropertyType=Other property
 propertyTypes.help=For example, retail warehouse, workshop, restaurant, land
 label.occupierTypes=Who occupies the property?
+occupierType.help=If you are a non-commercial organisation such as a community venture, a trust or a charity please select "a company"
 occupierType.individuals=One or more individuals
 occupierType.company=A company
 occupierType.nobody=Nobody, the property is empty
