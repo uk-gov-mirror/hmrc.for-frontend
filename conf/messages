@@ -144,6 +144,7 @@ label.suggestedChanges=Suggested changes to the address may not be<br />accepted
 #SECTION 2
 ##############################
 section2.heading=About you
+hint.yourFullName=For partnerships or if there is more than one occupier or owner, please enter all their names
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
 label.userType=I am the / I represent the
