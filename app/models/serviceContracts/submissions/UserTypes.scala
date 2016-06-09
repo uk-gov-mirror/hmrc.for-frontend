@@ -40,7 +40,7 @@ object UserTypeVacated extends UserType {
   val name = "vacated"
 }
 object UserTypes extends NamedEnumSupport[UserType] {
-  val all = List(UserTypeOccupier, UserTypeOwner, UserTypeOwnerOccupier, UserTypeOccupiersAgent, UserTypeOwnersAgent, UserTypeVacated)
+  val all = List(UserTypeOccupier, UserTypeOwner, UserTypeOwnerOccupier, UserTypeOccupiersAgent, UserTypeOwnersAgent)
 }
 
 

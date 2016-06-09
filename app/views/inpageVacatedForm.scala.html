@@ -1,0 +1,44 @@
+@import models._
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import models.pages.Summary
+
+@import playconfig.FormPartialProvider
+
+@(contactPartialUrl: Option[String] = None, error: Option[Html] = None, summary: Summary )(implicit requestHeader: RequestHeader,  lang: Lang)
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+  	@views.html.includes.analytics(summary)
+}
+
+@main(title=Messages("project.name") + " | " + Messages("label.help.title.vacated"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,  summary = Some(summary) ) {
+	 <main id="content" tabindex="-1">  
+	 	<div class="grid-row">
+    		<div class="column-two-thirds">
+	 			<div class="help__wrapper">
+					<div class="help-content">
+						
+						<div class="form-title heading-large">
+    						<h1>@Messages("label.help.title.vacated")</h1>
+						</div>
+
+						<p>@Messages("hint.vacated.form")</p>
+
+						<div class="element-hidden vacated-form">
+						@error
+						@contactPartialUrl.map { url =>
+							@FormPartialProvider.getPartialContent(url)	
+						}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</main>
+}

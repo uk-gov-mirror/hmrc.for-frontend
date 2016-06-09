@@ -52,7 +52,11 @@
                 labelYears3: 'years',
                 labelYears4: 'years',
                 labelMonths1: 'months',
-                labelMonths2: 'months'
+                labelMonths2: 'months',
+                vacateFormName: 'Your full name',
+                vacatecontactnumber:'Your contact number',
+                vacateFormEmail:'Your email address',
+                vacateFormGiveDeatils:'Please provide details below:'
 
             };
         }else{
@@ -105,7 +109,10 @@
                 labelYears3: 'mlynedd',
                 labelYears4: 'o flynyddoedd',
                 labelMonths1: 'mis',
-                labelMonths2: 'fis'
+                labelMonths2: 'fis',
+                vacateFormName: 'Your full name',
+                vacatecontactnumber:'Your contact number',
+                vacateFormEmail:'Your email address'
             };
         }
         return text[t];

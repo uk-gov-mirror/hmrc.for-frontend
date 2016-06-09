@@ -33,6 +33,24 @@
         $('.form--feedback label[for="feedback-comments"] .error-notification').text(VoaMessages.textLabel('errorHelpCommentsRequired'));
         $('.form--feedback fieldset.form-field--error span.error-notification').text(VoaMessages.textLabel('errorHelpRequired'));
 
+        //vacate form
+        $('.vacated-form [for="report-name"]').text(VoaMessages.textLabel('vacateFormName'));
+        $('.vacated-form [for="report-email"]').text(VoaMessages.textLabel('vacateFormEmail'));
+        $('.vacated-form [for="report-action"]').text(VoaMessages.textLabel('vacatecontactnumber'));
+        $('.vacated-form [for="report-error"]').text(VoaMessages.textLabel('vacateFormGiveDeatils'));
+
+        $('#report-error').each(function () {
+            var   textbox = $(document.createElement('textarea'));
+            $(this).replaceWith(textbox);
+            textbox.attr('id', 'report-error')
+                .attr('class', 'form-control')
+                .attr('maxlength', '1000')
+                .attr('name', 'report-error')
+                .attr('data-rule-required','true')
+                .attr('data-msg-required','Please enter details of what went wrong.');
+
+        });
+
         var needle  =  $('.form--feedback label[for="feedback-comments"]').html();
         if(needle){
             $('.form--feedback label[for="feedback-comments"]').html(needle.replace(/Comments/g, VoaMessages.textLabel('labelFeedbackComments')));
