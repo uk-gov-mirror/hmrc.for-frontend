@@ -1,0 +1,34 @@
+@import  playconfig.FormPartialProvider
+
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
+
+<div class="help-container">
+	<div class="grid-row">
+		<div class="column-two-thirds">
+			<div class="help-with-form-container hide-if-no-js">
+
+				
+				<div id="helpForm" class="help__wrapper" style="display:none">
+					<div class="help-content">
+						<div class="form-title heading-large">
+							<h2>@Messages("label.help.title.vacated")</h2>
+						</div>
+
+						<div class="contact-form-copy">
+							<p>@Messages("copy.form.help")</p>
+							<p>@Messages("copy.form.help.dont.include")</p>
+						</div>
+
+
+
+						<p class="feedback-thankyou hidden">@Messages("copy.form.help.thankyou")</p>
+
+                        <div id="helpFormWrapper" class="element-hidden">
+						    @FormPartialProvider.getPartialContent(controllers.feedback.HMRCContact.hmrcHelpWithPageFormUrl)
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

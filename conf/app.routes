@@ -63,6 +63,7 @@ POST 		/sendbetafeedbacktohmrc    controllers.feedback.Feedback.sendBetaFeedback
 POST 		/sendbetafeedbacktohmrcnologin    controllers.feedback.Feedback.sendBetaFeedbackToHmrcNoLogin
 GET         /inpagefeedbackThankyou    controllers.feedback.Feedback.inPageFeedbackThankyou
 GET 		/inpagefeedbackNoLogin	   controllers.feedback.Feedback.inPageFeedbackNoLogin
+GET         /inpageVacatedForm 		   controllers.feedback.Feedback.inpageVacatedForm
 
 # AGENT API
 GET         /api/documentation         controllers.AgentAPI.getDocs

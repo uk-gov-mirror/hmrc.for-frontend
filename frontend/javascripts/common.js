@@ -34,7 +34,7 @@
     };
 
     VoaCommon.addAnchors = function () {
-        $('fieldset input, fieldset textarea').not('fieldset .multi-fields-group input, fieldset .multi-fields-group textarea').each(function () {
+        $('fieldset input, fieldset textarea').not('fieldset .multi-fields-group input, fieldset .multi-fields-group textarea, .form--feedback input, .form--feedback textarea').each(function () {
             var name = $(this).attr('name');
             var spanId = name.replace(/[_\[\].]/g, '_').replace('__', '_');
             $(this).closest('fieldset').prepend('<span id="' + spanId + '_anchor"></span>');
