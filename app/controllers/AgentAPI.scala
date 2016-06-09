@@ -80,8 +80,8 @@ object AgentAPI extends Controller with HeaderValidator {
     HeaderCarrier.fromHeadersAndSession(request.headers, request.session + (SessionKeys.authToken -> authToken))
   }
 
-  private def badCredentialsError(body: String, refNum: String, postcode: String): String = {
-    val js = Json.parse(body) match {
+  private def badCredentialsError(body: String, refNum: String, postcode: String) = {
+    Json.parse(body) match {
       case JsObject(s) if s.headOption.contains("numberOfRemainingTriesUntilIPLockout" -> JsNumber(BigDecimal(0))) =>
         JsObject(
           Seq(
@@ -98,14 +98,11 @@ object AgentAPI extends Controller with HeaderValidator {
         )
       case other => other
     }
-    Json.prettyPrint(js)
   }
 
   private def mustUseTestCredentials(refNum: String, postcode: String): Result = {
     Unauthorized(
-      Json.prettyPrint(
-        Json.parse(s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: $refNum - $postcode"}""")
-      )
+      Json.parse(s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: $refNum - $postcode"}""")
     )
   }
 
@@ -113,24 +110,19 @@ object AgentAPI extends Controller with HeaderValidator {
     InternalServerError(Json.prettyPrint(Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}""")))
   }
 
-  private def invalidSubmission(msg: String): String = {
-    val js = Json.parse(msg) match {
+  private def invalidSubmission(msg: String) = {
+    Json.parse(msg) match {
       case JsObject(Seq((k, v))) => JsObject(Seq("code" -> JsString("INVALID_SUBMISSION"), "message" -> v))
       case other => other
     }
-    Json.prettyPrint(js)
   }
 
-  private def duplicateSubmission(refNum: String): String = {
-    Json.prettyPrint(
-      Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for $refNum"}""")
-    )
+  private def duplicateSubmission(refNum: String) = {
+    Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for $refNum"}""")
   }
 
   private def validSubmission(refNum: String) = {
-    Json.prettyPrint(
-      Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference $refNum"}""")
-    )
+    Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference $refNum"}""")
   }
 }
 
@@ -148,9 +140,8 @@ trait HeaderValidator {
       else
         Future.successful(
           NotAcceptable(
-            Json.prettyPrint(Json.parse(
+            Json.parse(
               """{"code": "ACCEPT_HEADER_INVALID", "message": "The header Accept is missing or invalid"}""")
-            )
           )
         )
     }
