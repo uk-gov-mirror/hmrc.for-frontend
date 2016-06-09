@@ -56,7 +56,7 @@
                 vacateFormName: 'Your full name',
                 vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details below:'
+                vacateFormGiveDeatils:'Please provide details (including your reference number(s) and postcode(s) below'
 
             };
         }else{
