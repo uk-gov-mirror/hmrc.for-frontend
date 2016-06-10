@@ -41,18 +41,6 @@ object Feedback extends HeaderCarrierForPartialsConverter {
   override val crypto = SessionCookieCryptoFilter.encrypt _
   val http = playconfig.WSHttp
 
-//  def inpageVacatedForm = RefNumAction.async { implicit request =>
-//    repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
-//      case Some(doc) => {
-//        val summary = SummaryBuilder.build(doc)
-//        Ok(views.html.inpageVacatedForm(hmrcHelpWithPageFormUrl, None, summary)(request, LanguageUtils.getCurrentLang))
-//      }
-//    }
-//  }
-
-
-
-
   def inPageFeedback = RefNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
