@@ -38,7 +38,7 @@
         $('.vacated-form [for="report-email"]').text(VoaMessages.textLabel('vacateFormEmail'));
         $('.vacated-form [for="report-action"]').text(VoaMessages.textLabel('vacatecontactnumber'));
         $('.vacated-form [for="report-error"]').text(VoaMessages.textLabel('vacateFormGiveDeatils'));
-       // $('.vacated-form [for="vacated-form.h2-heading"]').text(VoaMessages.textLabel('zzz'));
+        
 
         $('#report-error').each(function () {
             var   textbox = $(document.createElement('textarea'));
