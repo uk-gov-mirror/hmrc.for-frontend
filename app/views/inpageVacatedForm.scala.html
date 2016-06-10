@@ -1,44 +1,44 @@
-@import models._
-@import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
-@import models.pages.Summary
+@import  playconfig.FormPartialProvider
 
-@import playconfig.FormPartialProvider
-
-@(contactPartialUrl: Option[String] = None, error: Option[Html] = None, summary: Summary )(implicit requestHeader: RequestHeader,  lang: Lang)
+@()(implicit requestHeader: RequestHeader,  lang: Lang)
 
 @headExtra = {
-  @views.html.includes.stylesheets()
+@views.html.includes.stylesheets()
 }
 
 @bodyEnd = {
-    @views.html.includes.javascripts()
-  	@views.html.includes.analytics(summary)
+@views.html.includes.javascripts()
+@views.html.includes.analytics()
 }
 
-@main(title=Messages("project.name") + " | " + Messages("label.help.title.vacated"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,  summary = Some(summary) ) {
-	 <main id="content" tabindex="-1">  
-	 	<div class="grid-row">
-    		<div class="column-two-thirds">
-	 			<div class="help__wrapper">
-					<div class="help-content">
-						
-						<div class="form-title heading-large">
-    						<h1>@Messages("label.help.title.vacated")</h1>
-						</div>
+@main(title=Messages("project.name") +" | "+Messages("label.help.title.vacated"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false) {
+	<main id="content" tabindex="-1">
+		<div class="help-container">
+			<div class="grid-row">
+				<div class="column-two-thirds">
+					<div class="help-with-form-container">
 
-						<p>@Messages("hint.vacated.form")</p>
+						<div id="helpForm" class="help__wrapper">
+							<div class="help-content">
 
-						<div class="element-hidden vacated-form">
-						@error
-						@contactPartialUrl.map { url =>
-							@FormPartialProvider.getPartialContent(url)	
-						}
+								<div class="form-title heading-large">
+									<h2>@Messages("label.help.title.vacated")</h2>
+								</div>
+
+								<div class="contact-form-copy">
+									<p>@Messages("hint.vacated.form")</p>
+								</div>
+
+								<p class="feedback-thankyou hidden">@Messages("copy.form.help.thankyou")</p>
+
+								<div id="helpFormWrapper" class="element-hidden vacated-form">
+								@FormPartialProvider.getPartialContent(controllers.feedback.HMRCContact.hmrcHelpWithPageFormUrl)
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</main>
 }

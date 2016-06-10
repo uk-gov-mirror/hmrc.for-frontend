@@ -41,14 +41,17 @@ object Feedback extends HeaderCarrierForPartialsConverter {
   override val crypto = SessionCookieCryptoFilter.encrypt _
   val http = playconfig.WSHttp
 
-  def inpageVacatedForm = RefNumAction.async { implicit request =>
-    repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
-      case Some(doc) => {
-        val summary = SummaryBuilder.build(doc)
-        Ok(views.html.inpageVacatedForm(hmrcHelpWithPageFormUrl, None, summary)(request, LanguageUtils.getCurrentLang))
-      }
-    }
-  }
+//  def inpageVacatedForm = RefNumAction.async { implicit request =>
+//    repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
+//      case Some(doc) => {
+//        val summary = SummaryBuilder.build(doc)
+//        Ok(views.html.inpageVacatedForm(hmrcHelpWithPageFormUrl, None, summary)(request, LanguageUtils.getCurrentLang))
+//      }
+//    }
+//  }
+
+
+
 
   def inPageFeedback = RefNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
@@ -108,6 +111,7 @@ object HMRCContact extends ServicesConfig {
   val hmrcBetaFeedbackFormNoLoginUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?service=$serviceIdentifier&submitUrl=${urlEncode(betaFeedbackSubmitUrlNoLogin)}"
 
   val hmrcHelpWithPageFormUrl = s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
+
 
   // The default HTTPReads will wrap the response in an exception and make the body inaccessible
   implicit val readPartialsForm: HttpReads[HttpResponse] = new HttpReads[HttpResponse] {

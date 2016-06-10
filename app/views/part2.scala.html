@@ -19,6 +19,10 @@
   @views.html.includes.analytics(summary)
 }
 
+@inpagehelp = @{
+  routes.Application.inpageVacatedForm
+}
+
 @underReview = @{
   if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
 }
@@ -33,7 +37,8 @@
 
     @includes.errors(theForm, isAgent = false)
 
-        
+
+
     <div class="grid-row">
       <div class="column-two-thirds">
 
@@ -60,7 +65,7 @@
             '_showErrors -> true,
             '_labelClass -> "form-label-bold",
             '_legend -> true,
-            '_help -> Html(Messages("hint.userType", "/sending-rental-information/inpageVacatedForm"))
+            '_help -> Html(Messages("hint.userType", s"$inpagehelp"))
           ),
           dataAttributes = Seq(
             ("occupier", "data-show-field", "true"),

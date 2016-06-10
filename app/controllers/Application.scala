@@ -18,7 +18,6 @@ package controllers
 
 import actions.RefNumAction
 import config.ForConfig
-import connectors.HODConnector
 import form.Errors
 import form.persistence.FormDocumentRepository
 import it.innove.play.pdf.PdfGenerator
@@ -102,6 +101,10 @@ object Application extends FrontendController {
 
   def error500 = Action { implicit request =>
     Ok(views.html.error.error500())
+  }
+
+  def inpageVacatedForm  = Action { implicit request =>
+    Ok(views.html.inpageVacatedForm())
   }
 
   private def host(implicit request: RequestHeader): String = {
