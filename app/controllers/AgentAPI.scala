@@ -107,7 +107,7 @@ object AgentAPI extends Controller with HeaderValidator {
   }
 
   private def internalServerError: Result = {
-    InternalServerError(Json.prettyPrint(Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}""")))
+    InternalServerError(Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}"""))
   }
 
   private def invalidSubmission(msg: String) = {

@@ -18,7 +18,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
     "A formatted 406 Not Acceptable response is returned" in {
       assert(res.status === 406)
-      assert(res.body === Json.parse("""{"code": "ACCEPT_HEADER_INVALID", "message": "The header Accept is missing or invalid"}"""))
+      assert(res.body === Json.parse("""{"code": "ACCEPT_HEADER_INVALID", "message": "The header Accept is missing or invalid"}""").toString)
     }
   }
 
@@ -29,7 +29,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
     "A formatted 401 Unauthorised response is returned" in {
       assert(res.status === 401)
       assert(res.body === Json.parse(
-        s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${invalid.refNum} - ${invalid.postcode}; 4 tries remaining until IP lockout"}""")
+        s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${invalid.refNum} - ${invalid.postcode}; 4 tries remaining until IP lockout"}""").toString
       )
     }
   }
@@ -47,7 +47,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
       "A formatted 400 Bad Request response explaining the error is returned" in {
         assert(res.status === 400)
-        assert(res.body === Json.parse(s"""{"code": "INVALID_SUBMISSION", "message": $invalidSubmissionError}"""))
+        assert(res.body === Json.parse(s"""{"code": "INVALID_SUBMISSION", "message": $invalidSubmissionError}""").toString)
       }
     }
 
@@ -58,7 +58,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
       "A 200 Ok response is returned" in {
         assert(res.status === 200)
-        assert(res.body === Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference ${valid.refNum}"}"""))
+        assert(res.body === Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference ${valid.refNum}"}""").toString)
       }
     }
   }
@@ -70,7 +70,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
     "A formatted 500 Internal Server Error response is returned" in {
       assert(res.status === 500)
-      assert(res.body === Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}"""))
+      assert(res.body === Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}""").toString)
     }
   }
 
@@ -81,7 +81,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
     "A formatted 409 Conflict response explaining the error is returned" in {
       assert(res.status === 409)
-      assert(res.body === Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for ${conflicting.refNum}"}"""))
+      assert(res.body === Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for ${conflicting.refNum}"}""").toString)
     }
   }
 
@@ -92,7 +92,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
     "A formatted 401 Unauthorised response explaining that the IP is locked out is returned" in {
       assert(res.status === 401)
-      assert(res.body === Json.parse("""{"code": "IP_LOCKOUT", "message":"This IP address is locked out for 24 hours due to too many failed login attempts"}"""))
+      assert(res.body === Json.parse("""{"code": "IP_LOCKOUT", "message":"This IP address is locked out for 24 hours due to too many failed login attempts"}""").toString)
     }
   }
 
@@ -104,7 +104,7 @@ class PUTtingSubmissionJson extends AcceptanceTest {
     "A formatted 401 Unauthorised response explaining that the credentials are invalid is returned" in {
       assert(res.status === 401)
       assert(res.body === Json.parse(
-        s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${nonTestAccount.refNum} - ${nonTestAccount.postcode}"}""")
+        s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${nonTestAccount.refNum} - ${nonTestAccount.postcode}"}""").toString
       )
     }
   }
