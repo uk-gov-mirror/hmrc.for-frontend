@@ -5,7 +5,7 @@
         if($('html').attr('lang') === 'en'){
             text = {
                 findPostcode: 'Find the UK address by postcode',
-                enterManual: 'Enter UK/International address manually',
+                enterManual: 'Enter overseas or UK address manually',
                 buttonUpdate: 'Update',
                 buttonContinue: 'Continue',
                 labelReveal: 'Press to reveal answer',
