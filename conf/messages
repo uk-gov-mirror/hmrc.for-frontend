@@ -149,7 +149,7 @@ hint.yourFullName=For partnerships or if there is more than one occupier or owne
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
 label.userType=I am the (I represent the)
-hint.userType=If you are no longer the owner/occupier, please click  <a href="{0}" target="_blank" id="inpageVacatedForm"> here <span class="visuallyhidden"> ({1})</span></a>
+hint.userType=If you are no longer the owner/occupier, please click  <a href="{0}" target="_self" id="inpageVacatedForm"> here <span class="visuallyhidden"> ({1})</span></a>
 label.email1=Email
 label.email2=Confirm email
 label.contactDetails.email2=Confirm email
@@ -615,7 +615,7 @@ label.feedback.error=There was an error sending your feedback.
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
 label.help.title.vacated=Ex-owners/occupiers form
-hint.vacated.form=If you no longer have any relation or have recently vacated the property please give us more details about the property if known below e.g.your dates of stay, agents name, owners contact details etc
+hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form only by giving us more details about it e.g.your dates of stay, agents name, owners contact details etc
 
 
 #TYPES

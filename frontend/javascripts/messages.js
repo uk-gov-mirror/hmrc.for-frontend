@@ -56,7 +56,7 @@
                 vacateFormName: 'Your full name',
                 vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details (including your reference number(s) and postcode(s) below'
+                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated on your letter) below'
 
             };
         }else{
@@ -112,7 +112,8 @@
                 labelMonths2: 'fis',
                 vacateFormName: 'Your full name',
                 vacatecontactnumber:'Your contact number',
-                vacateFormEmail:'Your email address'
+                vacateFormEmail:'Your email address',
+                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated on your letter) below'
             };
         }
         return text[t];
