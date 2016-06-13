@@ -194,11 +194,6 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
     validateCurrency(getKeyStepped(1).amount, pageSixForm, fullDataWithSecondRentStep)
   }
 
-  it should "validate the second stepped rent step from date as a date" in {
-    validateDate(getKeyStepped(1).stepFrom, pageSixForm, fullDataWithSecondRentStep)
-  }
-
-
   it should "not allow more than 7 stepped rents" in {
     val with7SteppedRents = addSteppedRents(6, fullData)
     mustBind(bind(with7SteppedRents)) { _ => () }
@@ -212,7 +207,14 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
     val data = fullData.updated(getKeyStepped(0).stepFrom +".year", "2019")
     val f = bind(data)
     mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day",Errors.toDateIsAfterFromDate,f)
+  }
 
+  it should "validate the stepped rent dates do not overlap" in {
+    val data = fullDataWithSecondRentStep.updated(
+      getKeyStepped(0).stepTo + ".year", "2019"
+    )
+    val f = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[1].stepFrom.day", Errors.overlappingDates, f)
   }
 
   object TestData {
@@ -263,20 +265,20 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
       updated(getKeyStepped(1).amount, "456.78").
       updated(getKeyStepped(1).stepFrom + ".day", "1").
       updated(getKeyStepped(1).stepFrom + ".month", "1").
-      updated(getKeyStepped(1).stepFrom + ".year", "1900").
+      updated(getKeyStepped(1).stepFrom + ".year", "2019").
       updated(getKeyStepped(1).stepTo + ".day", "1").
       updated(getKeyStepped(1).stepTo + ".month", "1").
-      updated(getKeyStepped(1).stepTo + ".year", "2018")
+      updated(getKeyStepped(1).stepTo + ".year", "2020")
 
     def addSteppedRents(n: Int, data: Map[String, String]): Map[String, String] = {
       (1 to n).foldLeft(data) { (s, v) =>
         s.updated(getKeyStepped(v).amount, "456.78")
          .updated(getKeyStepped(v).stepFrom + ".day", "1")
          .updated(getKeyStepped(v).stepFrom + ".month", "1")
-         .updated(getKeyStepped(v).stepFrom + ".year", "1900")
+         .updated(getKeyStepped(v).stepFrom + ".year", (v + 2021).toString)
          .updated(getKeyStepped(v).stepTo + ".day", "1")
          .updated(getKeyStepped(v).stepTo + ".month", "1")
-         .updated(getKeyStepped(v).stepTo + ".year", "2018")
+         .updated(getKeyStepped(v).stepTo + ".year", (v + 2022).toString)
       }
     }
   }
