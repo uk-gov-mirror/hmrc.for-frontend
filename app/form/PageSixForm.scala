@@ -46,10 +46,23 @@ object PageSixForm {
 
   def toDateIsAfterFromDate(index: String): Constraint[SteppedDetails] = Constraint("constraints.steppedDetails.toAfterFrom") { steppedDetails => {
     val cond = steppedDetails.stepTo.isAfter(steppedDetails.stepFrom)
-    createFieldConstraintFor(cond,  Errors.toDateIsAfterFromDate, Seq (s"$index.${keys.to}.day"))
+    createFieldConstraintFor(cond, Errors.toDateIsAfterFromDate, Seq(s"$index.${keys.to}.day"))
   }
   }
 
+  def noOverlappingSteps: Constraint[WrittenAgreement] = Constraint("constraints.steppedDetails.overlappingSteps") { writtenAgreement => {
+    val steppedDetails = writtenAgreement.steppedDetails
+    lazy val s = steppedDetails.zipWithIndex.tail.filterNot { p =>
+      p._1.stepFrom.isAfter(steppedDetails(p._2 - 1).stepTo) || p._1.stepFrom.isEqual(steppedDetails(p._2 - 1).stepTo)
+    }
+
+    lazy val f = s.map { p =>
+      s"steppedDetails[${p._2}].${keys.from}.day"
+    }
+    createFieldConstraintFor(steppedDetails.isEmpty || s.isEmpty, Errors.overlappingDates,
+      if(steppedDetails.nonEmpty && f.nonEmpty) f else Seq("needs one field to run"))
+  }
+  }
 
   val steppedDetailsMapping = (index: String) => mapping(
     (index + "." + keys.from) -> dateFieldsMapping(s"$index.stepFrom", allowFutureDates = true),
@@ -69,7 +82,7 @@ object PageSixForm {
     keys.breakClauseDetails -> mandatoryIfTrue(s"$written.${keys.leaseAgreementHasBreakClause}", nonEmptyText(maxLength = 124)),
     keys.agreementIsStepped -> mandatoryBoolean,
     keys.steppedDetails -> onlyIfTrue(s"$written.${keys.agreementIsStepped}", steppedDetailsListMapping)
-  )(WrittenAgreement.apply)(WrittenAgreement.unapply)
+  )(WrittenAgreement.apply)(WrittenAgreement.unapply).verifying(noOverlappingSteps)
 
   val verbal = keys.verbalAgreement
 

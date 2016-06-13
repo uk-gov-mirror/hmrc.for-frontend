@@ -64,4 +64,5 @@ object Errors {
   val parkingRequired = "error.required.parking"
   val maxCurrencyAmountExceeded = "error.maxCurrencyAmountExceeded"
   val toDateIsAfterFromDate = "error.writtenAgreement.steppedDetails.stepTo.day"
+  val overlappingDates = "error.steppedDetails.overlappingDates"
 }
