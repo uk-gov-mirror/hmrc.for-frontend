@@ -56,7 +56,7 @@
                 vacateFormName: 'Your full name',
                 vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated on your letter) below'
+                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated in your letter) below'
 
             };
         }else{
@@ -113,7 +113,7 @@
                 vacateFormName: 'Your full name',
                 vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated on your letter) below'
+                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated in your letter) below'
             };
         }
         return text[t];
