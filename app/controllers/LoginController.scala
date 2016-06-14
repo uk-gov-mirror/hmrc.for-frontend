@@ -20,20 +20,22 @@ import form.ConditionalMapping._
 import form.Errors
 import form.MappingSupport._
 import form.persistence.FormDocumentRepository
+import org.joda.time.DateTime
 import play.Logger
+import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
+import play.api.i18n.Lang
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{Format, Json}
 import play.api.mvc.{Action, AnyContent, Request, Result}
 import playconfig.FormPersistence
 import security.LoginToHOD._
 import security.{DocumentPreviouslySaved, NoExistingDocument}
-import org.joda.time.DateTime
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.logging.{SessionId, Authorization}
+import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.concurrent.Future
 
@@ -41,6 +43,7 @@ case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime:
 
 object LoginController extends FrontendController {
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
+
   def loginToHOD(implicit hc: HeaderCarrier): LoginToHOD = playconfig.LoginToHOD(hc)
 
   val loginForm = Form(
@@ -53,6 +56,14 @@ object LoginController extends FrontendController {
 
   def show = Action { implicit request =>
     Ok(views.html.login(loginForm))
+  }
+
+  def showEnglish = Action { implicit request =>
+    Redirect(routes.CustomLanguageController.switchToLanguage("english"))
+  }
+
+  def showWelsh = Action { implicit request =>
+    Redirect(routes.CustomLanguageController.switchToLanguage("cymraeg"))
   }
 
   def logout = Action { implicit request =>
@@ -101,4 +112,5 @@ object LoginController extends FrontendController {
 object FailedLoginResponse {
   implicit val f: Format[FailedLoginResponse] = Json.format[FailedLoginResponse]
 }
+
 case class FailedLoginResponse(numberOfRemainingTriesUntilIPLockout: Int)
