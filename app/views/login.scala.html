@@ -12,7 +12,9 @@
         @views.html.includes.javascripts()
         @views.html.includes.analytics()
     }
-
+    @inpagehelp = @{
+        routes.Application.inpageVacatedForm
+    }
 
     @displayFieldError(error:FormError) = {
         <p class="error">@Messages(error.message,error.args:_*)</p>
@@ -39,8 +41,15 @@
         <div class="grid-row">
             <div class="column-two-thirds">
 
-                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
 
+
+               <div id="before-you-start">
+                <h2 class="form-title heading-medium">@Messages("hint.beforeyoustart")</h2>
+                <p class="panel-indent">
+                   @Html(Messages("hint.userType", s"$inpagehelp"))
+                </p>
+               </div>
+                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
                 @helpers.form(action = routes.LoginController.submit) {
                 @helper.CSRF.formField
         
