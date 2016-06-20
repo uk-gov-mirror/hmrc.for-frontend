@@ -17,6 +17,7 @@
 package controllers.feedback
 
 import actions.RefNumAction
+import controllers.Application._
 import controllers._
 import form.Formats._
 import form.persistence.FormDocumentRepository
@@ -57,6 +58,16 @@ trait PostSubmitFeedback extends FrontendController {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
       }
     )
+  }
+
+  def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
+
+    val completedFeedbackForm = Form(mapping(
+      "satisfaction" -> Forms.of[Satisfaction],
+      "details" -> text(maxLength = 1200)
+    )(SurveyFeedback.apply)(SurveyFeedback.unapply))
+
+    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackForm))
   }
 
   private def host(implicit request: RequestHeader): String = {

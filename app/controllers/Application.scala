@@ -18,18 +18,15 @@ package controllers
 
 import actions.RefNumAction
 import config.ForConfig
-import controllers.feedback.SurveyFeedback
 import form.Errors
 import form.persistence.FormDocumentRepository
 import it.innove.play.pdf.PdfGenerator
-import models.Satisfaction
 import models.pages._
-import play.api.data.{Forms, Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import form.Formats._
 
 object Application extends FrontendController {
   def repository: FormDocumentRepository = playconfig.FormPersistence.formDocumentRepository
@@ -108,16 +105,6 @@ object Application extends FrontendController {
 
   def inpageVacatedForm  = Action { implicit request =>
     Ok(views.html.inpageVacatedForm())
-  }
-
-  def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
-
-    val completedFeedbackForm = Form(mapping(
-      "satisfaction" -> Forms.of[Satisfaction],
-      "details" -> text(maxLength = 1200)
-    )(SurveyFeedback.apply)(SurveyFeedback.unapply))
-
-    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackForm))
   }
 
   private def host(implicit request: RequestHeader): String = {
