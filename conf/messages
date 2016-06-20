@@ -526,6 +526,9 @@ label.weMayContactYou=We may need to contact you in future to check some of the 
 label.anyQuestions=If you have any questions about your form please contact
 label.quoteRefNum=quoting your reference number {0}.
 label.submitAnotherForm=I would like to submit another form
+label.FeedbackLastPage=To help us improve our services please provide your feedback by clicking here
+label.giveFeedback=Click here to send us a feeback
+label.feedback.headingAfterSubmitting=Feedback
 label.finish=Finish
 label.satisfactionSurvey=Overall, how would you describe your experience with the form?
 label.satisfactionSurveyComments=How could we improve this form?
@@ -587,6 +590,7 @@ month.December=December
 ###############################
 label.print.summary=Print summary
 label.summary.text=Check your answers before submitting your form
+label.print.printorsave=Print or Save a copy of your summary before submitting
 
 #PDF
 ###############################
@@ -618,7 +622,7 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
 label.help.title.vacated=Ex-owners/occupiers form
-hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form only by giving us more details about it e.g.your dates of stay, agents name, owners contact details etc
+hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form by giving us more details about it e.g.your dates of stay, agents name, owners contact details etc
 
 
 #TYPES

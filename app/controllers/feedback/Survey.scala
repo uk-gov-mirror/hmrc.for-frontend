@@ -17,6 +17,7 @@
 package controllers.feedback
 
 import actions.RefNumAction
+import controllers.Application._
 import controllers._
 import form.Formats._
 import form.persistence.FormDocumentRepository
@@ -52,11 +53,15 @@ trait PostSubmitFeedback extends FrontendController {
 
   def formCompleteFeedback = RefNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest.fold(
-      formWithErrors => viewConfirmationPage(request.refNum, formWithErrors),
+      formWithErrors => BadRequest(views.html.inpageAfterSubmissionFeedbackForm(formWithErrors)),
       success => {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
       }
     )
+  }
+
+  def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
+    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackForm))
   }
 
   private def host(implicit request: RequestHeader): String = {
