@@ -52,7 +52,7 @@ trait PostSubmitFeedback extends FrontendController {
 
   def formCompleteFeedback = RefNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest.fold(
-      formWithErrors => viewConfirmationPage(request.refNum, formWithErrors),
+      formWithErrors => BadRequest(views.html.inpageAfterSubmissionFeedbackForm(formWithErrors)),
       success => {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
       }

@@ -74,3 +74,4 @@ POST        /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, p
 
 
 GET         /inpage-vacated-form       controllers.Application.inpageVacatedForm
+GET         /inpage-AfterSubmissionFeedback-form       controllers.Application.inpageAfterSubmissionFeedbackForm

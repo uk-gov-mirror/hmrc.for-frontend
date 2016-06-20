@@ -34,7 +34,7 @@
 @main(title=Messages("project.name")+" - "+Messages("heading.summary"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
       <main id="content" tabindex="-1">
 <div class="summary-actions-top">
- 
+
 </div>
 
 @progressBar(0, Messages("heading.summary"), false, true, Some(topBackButton))
@@ -100,9 +100,6 @@
       @summary.otherFactors.map { x => @views.html.includes.summary.page14(x, isAgent = ifIsAgent) }
     }
   </ul>
-
-
-
 </div>
 
 <div class="summary-actions">
