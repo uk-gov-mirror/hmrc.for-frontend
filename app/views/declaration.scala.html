@@ -33,68 +33,6 @@
     <span class="section-title">@Messages("declaration.heading")</span>
 
   </h1>
-     <div id="summaryList" class="hidden">
-         <ul class="summary">
-
-             @if(!Journey.pageIsNotApplicable(1, summary)) {
-                 @summary.propertyAddress.map { x => @views.html.includes.summary.page1(x, summary) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(2, summary)) {
-                 @summary.customerDetails.map { x => @views.html.includes.summary.page2(x, summary) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(3, summary)) {
-                 @summary.theProperty.map { x => @views.html.includes.summary.page3(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(4, summary)) {
-                 @summary.sublet.map { x => @views.html.includes.summary.page4(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(5, summary)) {
-                 @summary.landlord.map { x => @views.html.includes.summary.page5(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(6, summary)) {
-                 @summary.lease.map { x => @views.html.includes.summary.page6(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(7, summary)) {
-                 @summary.rentReviews.map { x => @views.html.includes.summary.page7(x, isAgent = ifIsAgent, summary) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(8, summary)) {
-                 @summary.rentAgreement.map { x => @views.html.includes.summary.page8(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(9, summary)) {
-                 @summary.rent.map { x => @views.html.includes.summary.page9(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(10, summary)) {
-                 @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(11, summary)) {
-                 @summary.incentives.map { x => @views.html.includes.summary.page11(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(12, summary)) {
-                 @summary.responsibilities.map { x => @views.html.includes.summary.page12(x) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(13, summary)) {
-                 @summary.alterations.map { x => @views.html.includes.summary.page13(x, isAgent = ifIsAgent) }
-             }
-
-             @if(!Journey.pageIsNotApplicable(14, summary)) {
-                 @summary.otherFactors.map { x => @views.html.includes.summary.page14(x, isAgent = ifIsAgent) }
-             }
-         </ul>
-         <br/>
-         <br/>
-     </div>
 
   <div class="grid-row">
     <div class="column-two-thirds">

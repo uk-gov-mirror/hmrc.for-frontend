@@ -110,7 +110,7 @@ object Application extends FrontendController {
     Ok(views.html.inpageVacatedForm())
   }
 
-  def inpageAfterSubmissionFeedbackForm  = Action { implicit request =>
+  def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
 
     val completedFeedbackForm = Form(mapping(
       "satisfaction" -> Forms.of[Satisfaction],
