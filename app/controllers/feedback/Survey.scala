@@ -61,12 +61,6 @@ trait PostSubmitFeedback extends FrontendController {
   }
 
   def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
-
-    val completedFeedbackForm = Form(mapping(
-      "satisfaction" -> Forms.of[Satisfaction],
-      "details" -> text(maxLength = 1200)
-    )(SurveyFeedback.apply)(SurveyFeedback.unapply))
-
     Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackForm))
   }
 
