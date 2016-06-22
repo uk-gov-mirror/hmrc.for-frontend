@@ -143,7 +143,6 @@ label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i''r cyfeiriad eu
 ##############################
 section2.heading=Amdanoch chi
 label.fullName=Eich enw llawn
-hint.yourFullName=Am Bartneriaeth neu mwy na un deiliaid/ perchennog, rhestrwch pob un
 label.contactType=Sut hoffech chi i ni gysylltu â chi?
 label.userType=Fi ydi (cynrychiolydd)
 label.email1=E-bost
