@@ -53,7 +53,7 @@ trait FORSubmissionController extends FrontendController {
     } yield {
       Metrics.submissions.mark(); Found(confirmationUrl)
     }
-  } recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
+  }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
 
   private def rejectSubmission = Future.successful {
     Found(routes.Application.declarationError().url)
