@@ -59,7 +59,7 @@ object MappingSupport {
   )(AnnualRent.apply)(AnnualRent.unapply).verifying(Errors.maxCurrencyAmountExceeded, _.annualRent <= cdbMaxCurrencyAmount)
 
   val currency: Mapping[BigDecimal] = text
-    .verifying(Errors.invalidCurrency, x => (x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) > 0.000)
+    .verifying(Errors.invalidCurrency, x => (x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000)
     .transform({ s: String => BigDecimal(s.replace(",", "")) }, { v: BigDecimal => v.toString })
     .verifying(Errors.maxCurrencyAmountExceeded, _ <= cdbMaxCurrencyAmount)
 
