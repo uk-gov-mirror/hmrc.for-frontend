@@ -58,14 +58,6 @@ object LoginController extends FrontendController {
     Ok(views.html.login(loginForm))
   }
 
-  def showEnglish = Action { implicit request =>
-    Redirect(routes.CustomLanguageController.switchToLanguage("english"))
-  }
-
-  def showWelsh = Action { implicit request =>
-    Redirect(routes.CustomLanguageController.switchToLanguage("cymraeg"))
-  }
-
   def logout = Action { implicit request =>
     Redirect(routes.LoginController.show()).withNewSession
   }
