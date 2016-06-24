@@ -25,6 +25,14 @@ import uk.gov.hmrc.play.language.LanguageUtils.{English, Welsh}
 
 object CustomLanguageController extends LanguageController {
 
+  def showEnglish = Action { implicit request =>
+    Redirect(routes.CustomLanguageController.switchToLanguage("english"))
+  }
+
+  def showWelsh = Action { implicit request =>
+    Redirect(routes.CustomLanguageController.switchToLanguage("cymraeg"))
+  }
+
   /** Converts a string to a URL, using the route to this controller. **/
   def langToCall(lang: String): Call = controllers.routes.CustomLanguageController.switchToLanguage(lang)
 

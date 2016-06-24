@@ -18,7 +18,7 @@ package config
 
 import controllers.toFut
 import org.joda.time.DateTime
-import play.api.Configuration
+import play.api.{Configuration, Logger, Routes}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
@@ -106,22 +106,31 @@ object SessionTimeoutFilter extends SessionTimeoutFilter {
 
 trait SessionTimeoutFilter extends Filter {
   val timestampKey = "lastrequesttimestamp"
+  lazy val whiteList = Seq(
+    "controllers.CustomLanguageController"
+  )
 
   def now: Now
 
   val timeoutDuration: Duration
 
-  override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] =
-    timeOfLastRequest(rh) match {
-      case Some(dt: DateTime) =>
-        if (dt.isBefore(now().minusMinutes(timeoutDuration.toMinutes.toInt)))
-          Redirect(controllers.routes.Application.sessionTimeout()).withNewSession
-        else
-          f(rh)
-      case None => f(rh).map(_.addingToSession((timestampKey, now().toString))(rh))
+  override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] = {
+    val r = rh.tags.get(Routes.ROUTE_CONTROLLER) match {
+      case Some(controller) if whiteList.contains(controller) => f(rh)
+      case _ => checkSessionTimeout(f, rh)
     }
+    r.map(_.addingToSession((timestampKey, now().toString))(rh))
+  }
 
-  def timeOfLastRequest(rh: RequestHeader): Option[DateTime] = rh.session.get(timestampKey) flatMap { ts =>
+  private def checkSessionTimeout(f: (RequestHeader) => Future[Result], rh: RequestHeader): Future[Result] = {
+    timeOfLastRequest(rh) match {
+      case Some(dt: DateTime) if dt.isBefore(now().minusMinutes(timeoutDuration.toMinutes.toInt)) =>
+          Redirect(controllers.routes.Application.sessionTimeout()).withNewSession
+      case _ => f(rh)
+    }
+  }
+
+  private def timeOfLastRequest(rh: RequestHeader): Option[DateTime] = rh.session.get(timestampKey) flatMap { ts =>
     Some(DateTime.parse(ts))
   }
 }

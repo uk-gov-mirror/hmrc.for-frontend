@@ -16,14 +16,15 @@
 
 package filters
 
-import config.SessionTimeoutFilter
+import config.{ForGlobal, SessionTimeoutFilter}
 import org.joda.time.DateTime
 import org.scalatest.OptionValues._
 import play.api.Play
 import play.api.mvc.Results._
-import play.api.mvc.{RequestHeader, Result}
+import play.api.mvc.{EssentialFilter, RequestHeader, Result}
+import play.api.test.Helpers._
 import play.api.test.{FakeApplication, FakeHeaders, FakeRequest}
-import play.filters.csrf.CSRFConf
+import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import useCases.Now
 import utils.UnitTest
 
@@ -40,6 +41,7 @@ class SessionTimeoutFilterSpec extends UnitTest {
     Play.start(FakeApplication())
     val f = new SessionTimeoutFilter {
       override def now: Now = () => now_
+
       override val timeoutDuration: Duration = timeout
     }
 
@@ -49,7 +51,7 @@ class SessionTimeoutFilterSpec extends UnitTest {
         FakeHeaders(), ""
       ).withSession()
 
-      "set the current time as the time of the last request in the sesion" in {
+      "set the current time as the time of the last request in the session" in {
         val res = await(f(returnOk)(req))
         val ts = res.session(null).get(lastRequestTsKey)
         assert(ts.value === now_.toString)
@@ -57,24 +59,19 @@ class SessionTimeoutFilterSpec extends UnitTest {
     }
 
     "the session already has a last request timestamp" should {
-      val req = FakeRequest(
-        "GET", controllers.dataCapturePages.routes.PageController.showPage(3).url,
-        FakeHeaders(), ""
-      ).withSession(lastRequestTsKey -> now_.minusSeconds(30).toString)
+      val req = FakeRequest("GET", controllers.dataCapturePages.routes.PageController.showPage(3).url)
+                  .withSession(lastRequestTsKey -> now_.minusSeconds(30).toString)
+      val res = await(f(returnOk)(req))
 
       "overwrite the last request timestamp with the current time" in {
-        val res = await(f(returnOk)(req))
         val ts = res.session(null).get(lastRequestTsKey)
-        assert(ts.value === now_.minusSeconds(30).toString)
+        assert(ts.value === now_.toString)
       }
     }
 
     "the time since the last request timestamp exceeds the timeout window" should {
-      val req = FakeRequest(
-        "GET", controllers.dataCapturePages.routes.PageController.showPage(3).url,
-        FakeHeaders(), ""
-      ).withSession(lastRequestTsKey -> now_.minusMinutes(timeout.toMinutes.toInt + 1).toString)
-
+      val req = FakeRequest("GET", controllers.dataCapturePages.routes.PageController.showPage(3).url)
+                  .withSession(lastRequestTsKey -> now_.minusMinutes(timeout.toMinutes.toInt + 1).toString)
       val res = await(f(returnOk)(req))
 
       "redirect to the session timeout page" in {
@@ -83,8 +80,37 @@ class SessionTimeoutFilterSpec extends UnitTest {
         assert(res.header.headers.get("location").value === loginUrl)
       }
 
-      "clear the session" in {
-        assert(res.session(FakeRequest()).isEmpty)
+      "clear the session and add the request timestamp" in {
+        assert(res.session(FakeRequest()).data === Map(lastRequestTsKey -> now_.toString))
+      }
+    }
+  }
+
+  "Session timeout filter" when {
+    val g = new ForGlobal {
+      override def frontendFilters: Seq[EssentialFilter] = super.frontendFilters.filterNot(_.getClass == SessionCookieCryptoFilter.getClass)
+    }
+    Play.start(FakeApplication(withGlobal = Some(g)))
+
+    "trying to switch to Welsh languages after a session has timed out" should {
+      val req = FakeRequest("GET", controllers.routes.CustomLanguageController.showWelsh().url)
+                  .withSession(lastRequestTsKey -> now_.minusMinutes(timeout.toMinutes.toInt + 1).toString)
+      val Some(res) = route(req)
+
+      "still continue to change the language" in {
+        assert(status(res) === 303)
+        assert(header("location", res).value === controllers.routes.CustomLanguageController.switchToLanguage("cymraeg").url)
+      }
+    }
+
+    "trying to switch to English languages after a session has timed out" should {
+      val req = FakeRequest("GET", controllers.routes.CustomLanguageController.showEnglish().url)
+                  .withSession(lastRequestTsKey -> now_.minusMinutes(timeout.toMinutes.toInt + 1).toString)
+      val Some(res) = route(req)
+
+      "still continue to change the language" in {
+        assert(status(res) === 303)
+        assert(header("location", res).value === controllers.routes.CustomLanguageController.switchToLanguage("english").url)
       }
     }
   }
