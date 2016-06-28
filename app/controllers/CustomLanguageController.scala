@@ -33,13 +33,10 @@ object CustomLanguageController extends LanguageController {
     switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
   }
 
-  /** Converts a string to a URL, using the route to this controller. **/
   def langToCall(lang: String): Call = controllers.routes.CustomLanguageController.switchToLanguage(lang)
 
-  /** Provides a fallback URL if there is no referer in the request header. **/
   override protected def fallbackURL: String = current.configuration.getString("language.fallbackUrl").getOrElse("/")
 
-  /** Returns a mapping between strings and the corresponding Lang object. **/
   override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
     "cymraeg" -> Lang("cy"))
 }
