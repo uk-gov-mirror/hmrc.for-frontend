@@ -16,21 +16,21 @@
 
 package controllers
 
+import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.mvc._
-import play.api.Play.current
 import uk.gov.hmrc.play.language.LanguageController
-import uk.gov.hmrc.play.language.LanguageUtils.{English, Welsh}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 
 object CustomLanguageController extends LanguageController {
 
-  def showEnglish = Action { implicit request =>
-    Redirect(routes.CustomLanguageController.switchToLanguage("english"))
+  def showEnglish = Action.async { implicit request =>
+    switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
   }
 
-  def showWelsh = Action { implicit request =>
-    Redirect(routes.CustomLanguageController.switchToLanguage("cymraeg"))
+  def showWelsh = Action.async { implicit request =>
+    switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
   }
 
   /** Converts a string to a URL, using the route to this controller. **/

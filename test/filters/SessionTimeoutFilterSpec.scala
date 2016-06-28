@@ -99,7 +99,8 @@ class SessionTimeoutFilterSpec extends UnitTest {
 
       "still continue to change the language" in {
         assert(status(res) === 303)
-        assert(header("location", res).value === controllers.routes.CustomLanguageController.switchToLanguage("cymraeg").url)
+        assert(header("location", res).value === controllers.routes.LoginController.show().url)
+        assert(cookies(res).get("PLAY_LANG").value.value === "cy")
       }
     }
 
@@ -110,7 +111,8 @@ class SessionTimeoutFilterSpec extends UnitTest {
 
       "still continue to change the language" in {
         assert(status(res) === 303)
-        assert(header("location", res).value === controllers.routes.CustomLanguageController.switchToLanguage("english").url)
+        assert(header("location", res).value === controllers.routes.LoginController.show().url)
+        assert(cookies(res).get("PLAY_LANG").value.value === "en")
       }
     }
   }
