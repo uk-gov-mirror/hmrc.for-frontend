@@ -13,7 +13,7 @@ Requirements
 * [HMRC Caching Client](https://github.com/hmrc/http-caching-client) (or you can stub FormDocumentRepository.scala)
 * [HMRC Mongo Caching](https://github.com/hmrc/mongo-caching) (or you can stub FormDocumentRepository.scala)
 * FOR-HOD-ADAPTER (you will need to provide a stub for this or you can stub method calls in HODConnector.scala)
-* Node JS for frontend assets
+* Node JS and npm for frontend assets
 
 ### License
 
