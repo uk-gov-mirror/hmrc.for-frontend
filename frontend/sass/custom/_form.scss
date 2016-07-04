@@ -776,3 +776,9 @@ strong{
     margin-bottom: 0;
   }
 }
+input[disabled]{
+	border-color: $grey-3;
+}
+input:focus[disabled] {
+	outline: none;
+}

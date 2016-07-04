@@ -54,9 +54,8 @@
                 labelMonths1: 'months',
                 labelMonths2: 'months',
                 vacateFormName: 'Your full name',
-                vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated in your letter) below'
+                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number'
 
             };
         }else{
@@ -111,9 +110,8 @@
                 labelMonths1: 'mis',
                 labelMonths2: 'fis',
                 vacateFormName: 'Your full name',
-                vacatecontactnumber:'Your contact number',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDeatils:'Please provide details (including your reference number and postcode - as stated in your letter) below'
+                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number'
             };
         }
         return text[t];
