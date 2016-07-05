@@ -45,7 +45,7 @@ object MappingSpecs extends DateMappingSpecs with DurationMappingSpecs with Addr
   }
 
   private def canOnlyContainDigits[T](field: String, maxLength: Int, form: Form[T], formData: Map[String, String]) {
-    val invalid = Seq( (1 to maxLength).map(_ => "a").mkString(""), "b", "C" )    
+    val invalid = Seq( (1 to maxLength).map(_ => "a").mkString(""), "b", "C" )
     validateError(field, invalid, Errors.number, form, formData)
 
     val valid = Seq( (1 to maxLength).map(_ => "1").mkString(""), "1", "9")
@@ -393,9 +393,9 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
   }
 
   private def validateAddressLine[T](field: String, form: Form[T], formData: Map[String, String], isMandatory: Boolean = false) {
-    if (isMandatory) 
+    if (isMandatory)
       verifyIsMandatory(field, form, formData)
-    else 
+    else
       verifyIsNotMandatory(field, form, formData)
 
     canContainsLettersNumbersSpacesSpecialAccentCharacters(field, form, formData)
@@ -484,7 +484,7 @@ trait CommonSpecs {
 
   def validateLettersNumsSpecCharsUptoLength[T](field: String, maxLength: Int, form: Form[T], data: Map[String, String]) {
     canContainsLettersNumbersSpacesSpecialAccentCharacters(field, form, data, maxLength)
-    limitedToNChars(field, maxLength, form, data) 
+    limitedToNChars(field, maxLength, form, data)
   }
 
   def verifyIsMandatory[T](field: String, form: Form[T], formData: Map[String, String]) {
