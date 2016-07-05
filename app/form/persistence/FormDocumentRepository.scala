@@ -45,7 +45,6 @@ class SessionScopedFormDocumentRepository(cache: ShortLivedCache)(implicit ec: E
         Some(addBackDotsIntoKeyNames(doc))
       case None => None
     } recoverWith {
-      // TODO: Short-term solution for backwards compatibility. Can be deleted a day after being deployed
       case _ =>
         cache.fetchAndGetEntry[Document](documentId, referenceNumber).map {
           case Some(doc) => Some(addBackDotsIntoKeyNames(doc))
@@ -73,7 +72,6 @@ class SessionScopedFormDocumentRepository(cache: ShortLivedCache)(implicit ec: E
     val dw = DocumentWrapper(toB64Blob(stripDotsOutOfKeyNamesToAppeaseMongo(doc)))
     cache.cache[DocumentWrapper](documentId, referenceNumber, dw) recoverWith {
       case e: Exception =>
-        Logger.error(s"Json version: ${Json.stringify(Json.toJson(doc))}")
         Future.failed(e)
     } map { _ => () }
   }
