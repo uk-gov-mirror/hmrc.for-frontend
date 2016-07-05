@@ -38,6 +38,20 @@
             <code class="snippet--inline">application/vnd.hmrc.1.0+json</code>
         </li></ul>
     </section>
+    <section id="schemas" class="section flush--bottom">
+        <h2 class="heading-medium">Json schemas</h2>
+        <p>Basic data validation is performed using json schemas, that may be found at /sending-rental-information/api/schema/{schemaName.json},
+            e.g. <a href="/sending-rental-information/api/schema/defaultSchema.json">/sending-rental-information/api/schema/defaultSchema.json</a>.</p>
+
+        <p>The schema used for validation depends on the client's relationship with the property and their rental agreement,
+            i.e. if they own the property, or do not own or rent the property, the schema used is <a href="/sending-rental-information/api/schema/doesNotRentSchema.json">doesNotRentSchema.json</a>.
+            If the client has a verbal rental agreement, the schema used is <a href="/sending-rental-information/api/schema/verbalAgreementSchema.json">verbalAgreementSchema.json</a>.
+            If the client's rent agreement has rent reviews, the schema used is <a href="/sending-rental-information/api/schema/rentReviewSchema.json">rentReviewSchema.json</a></p>
+
+        <p>These schemas reference other schemas, which can be found using the same url structure, e.g.
+            <a href="/sending-rental-information/api/schema/propertyAddress.json">/sending-rental-information/api/schema/propertyAddress.json</a>
+        </p>
+    </section>
     <section id="data-types" class="section flush--bottom">
         <h2 class="heading-medium">Additional Data Types Defined in the Schema</h2>
         <p>Address</p>
@@ -914,7 +928,7 @@
             Currency
         </td><td class="snippet--inline">
             999.99
-        </td><td>"Cost of work excluding VAT"</td><td>Required for each alteration</td><td>Maximum value of 9999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
+        </td><td>"Cost of work excluding VAT"</td><td>Required for each alteration</td><td>Maximum value of 99999999.99. Must be positive. Maximum of 2 decimal places. Does not allow commas or currency symbols</td></tr><tr><td class="snippet--inline">
             propertyAlterationsDetails[].date
         </td><td class="snippet--inline">
             RoughDate
