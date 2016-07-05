@@ -36,8 +36,10 @@
         //vacate form
         $('.vacated-form [for="report-name"]').text(VoaMessages.textLabel('vacateFormName'));
         $('.vacated-form [for="report-email"]').text(VoaMessages.textLabel('vacateFormEmail'));
-        $('.vacated-form [for="report-action"]').text(VoaMessages.textLabel('vacatecontactnumber'));
-        $('.vacated-form [for="report-error"]').text(VoaMessages.textLabel('vacateFormGiveDeatils'));
+        $('.vacated-form [for="report-error"]').text(VoaMessages.textLabel('vacateFormGiveDetails'));
+
+        $('.vacated-form [name="report-action"]').closest('div').show();
+        $('.vacated-form [name="report-action"]').val('Ex-Owners/Occupiers or Vacated').attr('disabled', '');
         
 
         $('#report-error').each(function () {
