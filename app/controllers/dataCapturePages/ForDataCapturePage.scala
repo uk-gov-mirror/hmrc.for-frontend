@@ -78,7 +78,7 @@ trait ForDataCapturePage[T] extends FrontendController {
     }
   }
 
-  private def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])
+  def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])
     (implicit request: RefNumRequest[AnyContent]) = {
     action match {
       case Continue => bindForm(savedFields).fold(
