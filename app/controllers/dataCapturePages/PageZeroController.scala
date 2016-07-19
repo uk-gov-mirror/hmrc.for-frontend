@@ -26,7 +26,7 @@ import play.api.libs.json._
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
 
-object PageZeroController extends ForDataCapturePage[Boolean] {
+trait PageZeroController extends ForDataCapturePage[Boolean] {
   override implicit val format: Format[Boolean] = Format(Reads.BooleanReads, Writes.BooleanWrites)
 
   val emptyForm = pageZeroForm
@@ -42,3 +42,5 @@ object PageZeroController extends ForDataCapturePage[Boolean] {
       case _ => super.goToNextPage(action, summary, savedFields)
     }
 }
+
+object PageZeroController extends PageZeroController
