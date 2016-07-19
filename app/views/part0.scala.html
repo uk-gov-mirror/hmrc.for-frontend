@@ -1,0 +1,82 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+
+
+@headExtra = {
+  @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+  @views.html.includes.javascripts()
+  @views.html.includes.analytics(summary)
+}
+
+
+
+@main(title=Messages("project.name")+" - "+Messages("section1.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary)) {
+  
+  @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
+    
+  <main id="content" tabindex="-1">
+    @views.html.includes.backSave()
+    
+   @progressBar(0, Messages("section1.heading"), false, true)
+
+    @includes.errors(theForm, isAgent = false)
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        @helper.CSRF.formField
+
+        <p class="form-label-bold">@Messages("section1.intro.text")</p>
+
+        <p class="form-title heading-large heading-confirmation">
+          @summary.address.map(_.buildingNameNumber)
+          @summary.address.flatMap(_.street1.map(s => Html(s + ",<br/>")))
+          @summary.address.flatMap(_.street2.map(s => Html(s + ",<br/>")))
+          @summary.address.flatMap(_.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"))
+        </p>
+
+        @inputRadioGroup(
+          field = theForm("isRelated"),
+          options = Seq(
+            "true" -> Messages("label.isRelatedYes"),
+            "false" -> Messages("label.isRelatedNo")
+          ),
+          args = Seq(
+            '_showConstraints -> false,
+            '_label -> Messages("label.areYourRelated"),
+            '_error -> theForm("isAddressCorrect").error,
+            '_legend -> true,
+            '_fieldsetClass -> "inline",
+            '_labelClass -> "form-label-bold",
+            '_showConstraints -> false,
+            '_help -> Messages("label.relatedHelptext")
+          )
+        )
+
+
+        @includes.continueButton()        
+
+      </div>
+      <div class="column-third"></div>
+    </div>
+    
+    </main>
+   
+    @includes.continueButtonStickyFooter()
+    
+    }
+    
+    @includes.formHelp()
+}
