@@ -44,3 +44,9 @@
         @p3.propertyRentedByYou.map(x => displayBoolean(x, if(isAgent) "2" else "1")(lang))
       }
     }
+
+    @p3.noRentDetails.map { z =>
+        @summaryBlock(Messages("label.noRentDetails"), 3, "noRentDetails") {
+            @z
+        }
+    }

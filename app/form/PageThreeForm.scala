@@ -38,6 +38,7 @@ object PageThreeForm {
     val mainOccupierName = "mainOccupierName"
     val propertyOwnedByYou = "propertyOwnedByYou"
     val propertyRentedByYou = "propertyRentedByYou"
+    val noRentDetails =  "noRentDetails"
   }
 
   private val basePageThreeMapping = mapping(
@@ -50,7 +51,8 @@ object PageThreeForm {
         monthYearRoughDateMapping(keys.firstOccupationDate)),
     keys.mainOccupierName -> mandatoryIfEqual(keys.occupierType, OccupierTypeIndividuals.name, nonEmptyText(maxLength = 50)) ,
     keys.propertyOwnedByYou -> mandatoryBoolean,
-    keys.propertyRentedByYou -> mandatoryIfFalse(keys.propertyOwnedByYou, mandatoryBoolean)
+    keys.propertyRentedByYou -> mandatoryIfFalse(keys.propertyOwnedByYou, mandatoryBoolean),
+    keys.noRentDetails -> mandatoryIfFalse(keys.propertyRentedByYou, nonEmptyText(maxLength=249))
   )(PageThree.apply)(PageThree.unapply)
 
   val pageThreeForm = Form(basePageThreeMapping)

@@ -120,7 +120,7 @@ label.retryLogin=Try to log in again
 label.areYourRelated=Do you still have a relationship with this property?
 label.isRelatedYes=Yes
 label.isRelatedNo=No
-label.relatedHelptext=If you are no longer the owner/occupier or have recently vacated the property, please select ''No''
+label.relatedHelptext=If you no longer have anything to do with this property (i.e. you are no longer the owner/occupier or have recently vacated the property), please select ''No''
 
 #SECTION 1
 ##############################
@@ -228,6 +228,8 @@ label.occupierCompanyName=Company name
 label.noJs.occupierCompanyName=Answer this only if you''ve selected ''A company''
 label.noJs.firstOccupationDate=Answer this only if you''ve selected ''One or more individuals'' or ''A company''
 label.noJs.propertyRentedBy=Answer this only if you''ve selected ''No''
+label.noRentDetails.agent=Tell us why your client does not have to pay rent on this property
+label.noRentDetails=Tell us why you do not pay rent on this property
 
 #SECTION 4
 ###############################
