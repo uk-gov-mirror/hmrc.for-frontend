@@ -148,7 +148,8 @@ class PathingLogicSpec extends FlatSpec with Matchers {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = true,
-    propertyRentedByYou = None
+    propertyRentedByYou = None,
+    noRentDetails = None
   )
 
   lazy val propertyRented = PageThree(
@@ -159,7 +160,8 @@ class PathingLogicSpec extends FlatSpec with Matchers {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = false,
-    propertyRentedByYou = Some(true)
+    propertyRentedByYou = Some(true),
+    noRentDetails = None
   )
 
   lazy val propertyNotOwnedOrRented = PageThree(
@@ -170,7 +172,8 @@ class PathingLogicSpec extends FlatSpec with Matchers {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = false,
-    propertyRentedByYou = Some(false)
+    propertyRentedByYou = Some(false),
+    noRentDetails = None
   )
 
   lazy val propertyNotSublet = PageFour(
