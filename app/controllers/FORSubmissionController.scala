@@ -18,23 +18,30 @@ package controllers
 
 import actions.RefNumAction
 import connectors.SubmissionConnector
+import form.persistence.FormDocumentRepository
+import helpers.AddressAuditing
 import metrics.Metrics
+import models.pages.SummaryBuilder
 import org.joda.time.DateTime
-import play.api.mvc.{Result, Action, AnyContent, Request}
-import playconfig.{Audit, FormPersistence}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.Upstream4xxResponse
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.mvc._
+import playconfig.{Audit, FormPersistence, SessionId}
+import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
 import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 
 import scala.concurrent.Future
 
 object FORSubmissionController extends FORSubmissionController {
-  private lazy val submitBri = SubmitBusinessRentalInformation(FormPersistence.formDocumentRepository, SubmissionBuilder, SubmissionConnector)
+  protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
+  protected lazy val auditAddresses = AddressAuditing
+  private lazy val submitBri = SubmitBusinessRentalInformation(documentRepo, SubmissionBuilder, SubmissionConnector)
 
   def submitBusinessRentalInformation: SubmitBusinessRentalInformation = submitBri
 }
 
-trait FORSubmissionController extends FrontendController {
+trait FORSubmissionController extends Controller {
+  protected val documentRepo: FormDocumentRepository
+  protected val auditAddresses: AddressAuditing
   val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
 
   def submit: Action[AnyContent] = RefNumAction.async { implicit request =>
@@ -45,15 +52,27 @@ trait FORSubmissionController extends FrontendController {
     } getOrElse rejectSubmission
   }
 
-  private def submit[T](refNum: String)(implicit request: Request[T]) = {
+  private def submit[T](refNum: String)(implicit request: Request[T]): Future[Result] = {
+    val hc = HeaderCarrier.fromHeadersAndSession(request.headers, Some(request.session))
     for {
-      sub <- submitBusinessRentalInformation(refNum)
+      sub <- submitBusinessRentalInformation(refNum)(hc)
       _ <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
         "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))
+      _ <- auditAddress(refNum, request)
     } yield {
       Metrics.submissions.mark(); Found(confirmationUrl)
     }
   }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
+
+  protected def auditAddress[T](refNum: String, request: Request[_]): Future[Unit] = {
+    val hc = HeaderCarrier.fromHeadersAndSession(request.headers, Some(request.session))
+    documentRepo.findById(SessionId(hc), refNum) flatMap {
+      case Some(doc) =>
+        val s = SummaryBuilder.build(doc)
+        auditAddresses(s, request)
+      case None => ()
+    }
+  }
 
   private def rejectSubmission = Future.successful {
     Found(routes.Application.declarationError().url)

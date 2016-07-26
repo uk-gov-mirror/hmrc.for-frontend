@@ -16,18 +16,18 @@
 
 package controllers
 
-import scala.concurrent.{Future, Await, ExecutionContext}
-import scala.concurrent.duration._
-import org.scalatest.{ FreeSpec, Matchers, MustMatchers }
-import play.api.test.{FakeRequest, FakeApplication}
-import play.api.mvc.{ Action, AnyContent, Request, Controller }
-import play.api.mvc.Results._
-import play.api.mvc.Results
+import form.persistence.FormDocumentRepository
+import helpers.AddressAuditing
 import models.serviceContracts.submissions.Submission
-
-import uk.gov.hmrc.play.http.HeaderCarrier
-import actions.{ RefNumRequest, RefNumAction }
+import org.scalatest.{FreeSpec, Matchers, MustMatchers}
+import play.api.mvc.Controller
+import play.api.test.{FakeApplication, FakeRequest}
+import uk.gov.hmrc.play.http.{HeaderCarrier, HeaderNames}
 import useCases.SubmitBusinessRentalInformation
+import utils.stubs.{StubAddressAuditing, StubFormDocumentRepo}
+
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 class FORSubmissionControllerSpec extends FreeSpec with Matchers {
 	import TestData._
@@ -35,7 +35,7 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers {
   "When a submission is received and the declaration has been agreed to" - {
     val submit = StubSubmitBRI()
   	val controller = createController(submit)
-    val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "true"))
+    val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
     val response = Await.result(controller.submit()(request), 5 seconds)
 
     "The Business rental information submission process is initiated" in {
@@ -62,12 +62,16 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers {
 
   object TestData {
   	lazy val refNum = "adfiwerq08342kfad"
+    lazy val sessionId = "sessionid"
   	def confirmationUrl = controllers.feedback.routes.Survey.confirmation.url
     def declarationErrorUrl = controllers.routes.Application.declarationError.url
 
   	class TestController(val x: SubmitBusinessRentalInformation) extends FORSubmissionController with Controller {
-			def submitBusinessRentalInformation = x
-		}
+      override protected val documentRepo: FormDocumentRepository = StubFormDocumentRepo()
+      override protected val auditAddresses: AddressAuditing = StubAddressAuditing
+
+      def submitBusinessRentalInformation = x
+    }
 
     def createController(submitter: StubSubmitBRI = null) = {
       play.api.Play.start(FakeApplication(additionalConfiguration = Map("auditing.enabled" -> false)))

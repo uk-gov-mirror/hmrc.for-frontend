@@ -106,6 +106,7 @@
             var lineThree = addressData[index]['address']['lines'][2];
             var lineTown = addressData[index]['address']['town'];
             var linePostcode = addressData[index]['address']['postcode'];
+            var lineId = addressData[index]['id'];
             if(!lineOne){ lineOne = ''; }
             if(!lineTwo){ lineTwo = ''; }
             if(!lineThree){ lineThree = ''; }
@@ -126,6 +127,8 @@
             }
 
             element.find('.showHide-group .address-field-postcode input').val(linePostcode);
+            console.log(lineId);
+            element.find('.showHide-group .address-field-id input').val(lineId);
             element.find('.postcode-results, .form-group-lookup').css('display', 'none');
             element.find('.manual-address').text(VoaMessages.textLabel('findPostcode'));
 
