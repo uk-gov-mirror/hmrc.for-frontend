@@ -42,9 +42,7 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
       firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
       None,
       propertyOwnedByYou = false,
-      propertyRentedByYou = Some(false),
-      None
-    )
+      propertyRentedByYou = Some(false))
 
     val doc = summaryBuilder(propertyAddress = Some(pageOneData),customerDetails= Some(pageTwoData),theProperty = Some(pageThreeData), sublet = Some(pageFourData))
 
@@ -62,9 +60,8 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
       firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
       None,
       propertyOwnedByYou = false,
-      propertyRentedByYou = Some(true),
-      None
-    )
+      propertyRentedByYou = Some(true))
+
     val doc = summaryBuilder(propertyAddress = Some(pageOneData),customerDetails= Some(pageTwoData),theProperty = Some(pageThreeData), sublet = Some(pageFourData))
 
     nextPageAllowable(5, doc, Some(4)) shouldBe PageToGoTo(5)
@@ -256,8 +253,7 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = false,
-    propertyRentedByYou = Some(true),
-    None
+    propertyRentedByYou = Some(true)
   )
 
   lazy val propertyOwned = PageThree(
@@ -268,8 +264,7 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = true,
-    propertyRentedByYou = None,
-    noRentDetails = None
+    propertyRentedByYou = None
   )
 
   lazy val pageFourData = PageFour(

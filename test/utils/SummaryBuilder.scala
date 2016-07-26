@@ -65,8 +65,7 @@ object SummaryBuilder {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = true,
-    propertyRentedByYou = None,
-    noRentDetails = None
+    propertyRentedByYou = None
   )
 
   private lazy val propertyRented = PageThree(
@@ -77,8 +76,7 @@ object SummaryBuilder {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = false,
-    propertyRentedByYou = Some(true),
-    noRentDetails = None
+    propertyRentedByYou = Some(true)
   )
 
   private lazy val propertyNotOwnedOrRented = PageThree(
@@ -89,8 +87,7 @@ object SummaryBuilder {
     firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
     None,
     propertyOwnedByYou = false,
-    propertyRentedByYou = Some(false),
-    noRentDetails = None
+    propertyRentedByYou = Some(false)
   )
 
   private lazy val propertyNotSublet = PageFour(
