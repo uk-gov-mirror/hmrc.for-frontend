@@ -20,11 +20,11 @@ import models.pages.Summary
 import models.serviceContracts.submissions.{LeaseAgreementTypesVerbal, UserTypeVacated}
 
 object Paths {
-  val standardPath = new Path(0 to 14)
-  val shortPath = new Path(0 to 4)
-  val verbalAgreementPath = new Path((0 to 14).filterNot(_ == 7))
-  val rentReviewPaths = new Path((0 to 14).filterNot(_ == 8))
-  val vacatedPath = new Path((0 to 2))
+  val standardPath = new Path(1 to 14)
+  val shortPath = new Path(1 to 4)
+  val verbalAgreementPath = new Path((1 to 14).filterNot(_ == 7))
+  val rentReviewPaths = new Path((1 to 14).filterNot(_ == 8))
+  val vacatedPath = new Path((1 to 2))
 
 
   def pathFor(summary: Summary): Path = {
@@ -49,7 +49,7 @@ class Path(private val pages: Seq[Int]) {
 
   def firstIncompletePageFor(summary: Summary): Option[Int] = {
     val asList = summaryAsList(summary)
-    pages.find(n => n != 0 && asList(n - 1).isEmpty)
+    pages.find(n => asList(n - 1).isEmpty)
   }
 
   def contains(page: Int): Boolean = pages.contains(page)
@@ -58,14 +58,11 @@ class Path(private val pages: Seq[Int]) {
 
   def nextPage(page: Int, summary: Summary): Option[Int] = {
     val summaryList = summaryAsList(summary)
-    pages.dropWhile(p => p == 0 || (summaryList(p - 1).isDefined && p < page)).headOption
+    pages.dropWhile(p => summaryList(p - 1).isDefined && p < page).headOption
   }
 
   def previousPageIsComplete(page: Int, summary: Summary): Boolean = {
-    page match {
-      case 0 => true
-      case _ => summaryAsList(summary)(previousPage(page) - 1).isDefined
-    }
+    summaryAsList(summary)(previousPage(page) - 1).isDefined
   }
 
   private def summaryAsList(summary: Summary): List[Option[_]] = List(
