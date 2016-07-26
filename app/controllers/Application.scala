@@ -33,12 +33,11 @@ object Application extends FrontendController {
 
   def declaration = RefNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) => {
+      case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         val fn = summary.customerDetails.map(_.fullName).getOrElse("")
         val ut = summary.customerDetails.map(_.userType.name).getOrElse("")
         Ok(views.html.declaration(Form(("", text)), fn, ut, summary: Summary))
-      }
       case None => InternalServerError(views.html.error.error500())
     }
   }
