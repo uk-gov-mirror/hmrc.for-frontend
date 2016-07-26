@@ -39,7 +39,8 @@
         $('.vacated-form [for="report-error"]').text(VoaMessages.textLabel('vacateFormGiveDetails'));
 
         $('.vacated-form [name="report-action"]').closest('div').show();
-        $('.vacated-form [name="report-action"]').val('Ex-Owners/Occupiers or Vacated').attr('disabled', '');
+        $('.vacated-form label[for="report-action"]').addClass('visuallyhidden');
+        $('.vacated-form [name="report-action"]').val('Ex-Owners/Occupiers or Vacated').attr('hidden', '');
         
 
         $('#report-error').each(function () {
