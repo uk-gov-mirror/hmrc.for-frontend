@@ -18,7 +18,7 @@ package useCases
 
 import connectors.{Document, SubmissionConnector}
 import form.persistence.FormDocumentRepository
-import models.journeys.{Journey, Paths}
+import models.journeys.Paths
 import models.pages._
 import models.serviceContracts.submissions._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -79,7 +79,7 @@ object SubmissionBuilder extends SubmissionBuilder {
 
   private def toTheProperty(p3: PageThree) = TheProperty(
     p3.propertyType, p3.occupierType, occupierNameFor(p3), p3.firstOccupationDate, p3.propertyOwnedByYou,
-    if(p3.propertyOwnedByYou) None else p3.propertyRentedByYou
+    if(p3.propertyOwnedByYou) None else p3.propertyRentedByYou, p3.noRentDetails
   )
 
   private def occupierNameFor(p3: PageThree) = p3.occupierType match {

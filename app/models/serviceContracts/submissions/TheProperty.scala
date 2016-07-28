@@ -20,4 +20,4 @@ import models.RoughDate
 
 case class TheProperty(
   propertyType: String,  occupierType: OccupierType, occupierName: Option[String], firstOccupationDate: Option[RoughDate],
-  propertyOwnedByYou: Boolean, propertyRentedByYou: Option[Boolean])
+  propertyOwnedByYou: Boolean, propertyRentedByYou: Option[Boolean], noRentDetails: Option[String])
