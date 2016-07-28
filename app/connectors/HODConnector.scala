@@ -45,12 +45,12 @@ object HODConnector extends HODConnector with ServicesConfig {
     http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))
   }
 
-  def sendEmail(refNumber: String, postcode: String)(implicit hc: HeaderCarrier, lang: Lang) = {
+  def sendEmail(refNumber: String, postcode: String, email: String)(implicit hc: HeaderCarrier, lang: Lang) = {
     val expiryDate = LocalDate.now.plusDays(90)
     val formattedExpiryDate = s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
     val json = Json.parse(
       s"""{
-          |"to": ["example@gmail.com"],
+          |"to": ["$email"],
           |"templateId": "rald_alert",
           |"parameters": {
           | "referenceNumber": "${Messages("saveForLater.refNum")}: $refNumber",

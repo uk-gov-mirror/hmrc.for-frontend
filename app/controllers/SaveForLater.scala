@@ -50,7 +50,8 @@ object SaveForLater extends FrontendController {
           val sum = SummaryBuilder.build(doc)
           audit(sum, pw)
           val expiryDate = LocalDate.now.plusDays(90)
-          HODConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode) map { _ =>
+          val email = sum.customerDetails.flatMap(_.contactDetails.email).getOrElse("")
+          HODConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email) map { _ =>
             Ok(views.html.savedForLater(sum, pw, expiryDate))
           }
         }
