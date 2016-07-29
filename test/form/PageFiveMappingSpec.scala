@@ -41,7 +41,7 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     validateFullName(pageFiveForm, baseData, "landlordFullName")
   }
 
-  it should "allow address to be otional when address is not marked as overseas" in {
+  it should "allow address to be optional when address is not marked as overseas" in {
     val data = baseData.updated("overseas", "false") -- addressFields
     mustBind(bind(data)){ x => assert(x.landlordAddress.isDefined === false)}
   }
@@ -101,6 +101,17 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     val form  = bind(data)
 
     mustContainBooleanRequiredErrorFor("overseas", form)
+  }
+
+  it should "successfully bind when an original address is present (for auditing)" in {
+    val data = baseData
+      .updated("original.landlordAddress.buildingNameNumber", "1")
+      .updated("original.landlordAddress.street1", "The Road")
+      .updated("original.landlordAddress.postcode", "AA11 1AA")
+      .updated("original.landlordAddress.uprn", "1234567890")
+    val form = bind(data)
+
+    doesNotContainErrors(form)
   }
 
   object TestData {

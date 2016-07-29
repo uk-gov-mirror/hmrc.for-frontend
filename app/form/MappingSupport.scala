@@ -113,7 +113,7 @@ object MappingSupport {
     "street1" -> optional(text),
     "street2" -> optional(text),
     "postcode" -> text,
-    "id" -> text
+    "uprn" -> text
   )(LookupServiceAddress.apply)(LookupServiceAddress.unapply)
 
   def contactDetailsMappingFor(contactTypeField: String): Mapping[ContactDetails] = {
