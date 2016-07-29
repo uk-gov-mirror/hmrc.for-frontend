@@ -115,7 +115,6 @@ class PageThreeFormMappingSpec extends FlatSpec with Matchers {
       val firstOccupationDateMonth = "firstOccupationDate.month"
       val firstOccupationDateYear = "firstOccupationDate.year"
       val mainOccupierName = "mainOccupierName"
-      val noRentDetails = "noRentDetails"
     }
 
     def bind(dataMap: Map[String, String]) = {
@@ -142,8 +141,7 @@ class PageThreeFormMappingSpec extends FlatSpec with Matchers {
       firstOccupationDate = Some(RoughDate(None, Some(2), 2015)),
       None,
       propertyOwnedByYou = false,
-      propertyRentedByYou = Some(true),
-      noRentDetails = None)
+      propertyRentedByYou = Some(true))
   }
 
 }

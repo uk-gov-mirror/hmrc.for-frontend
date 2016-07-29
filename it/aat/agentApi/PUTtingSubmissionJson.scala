@@ -2,7 +2,7 @@ package aat.agentApi
 
 import aat.AcceptanceTest
 import models.serviceContracts.submissions._
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsNull, JsValue, Json}
 import play.api.libs.ws.WS
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import uk.gov.hmrc.play.http.{HeaderNames, HttpResponse}
@@ -143,7 +143,7 @@ private object TestData {
     Submission(
       Some(PropertyAddress(true, None)),
       Some(CustomerDetails("bob", UserTypeOwnersAgent, ContactTypePhone, ContactDetails(Some("1"), None, None))),
-      Some(TheProperty("shop", OccupierTypeNobody, None, None, true, None,None)),
+      Some(TheProperty("shop", OccupierTypeNobody, None, None, true, None)),
       Some(Sublet(false, Nil)),
       None, None, None, None, None, None, None, None, None, None, Some("9999000123"))
   )
