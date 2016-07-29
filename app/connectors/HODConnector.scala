@@ -45,12 +45,13 @@ object HODConnector extends HODConnector with ServicesConfig {
     http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))
   }
 
-  def sendEmail(refNumber: String, postcode: String, email: String)(implicit hc: HeaderCarrier, lang: Lang) = {
+  def sendEmail(refNumber: String, postcode: String, email: Option[String])(implicit hc: HeaderCarrier, lang: Lang) = {
+    email.map { e =>
     val expiryDate = LocalDate.now.plusDays(90)
     val formattedExpiryDate = s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
     val json = Json.parse(
       s"""{
-          |"to": ["$email"],
+          |"to": ["$e"],
           |"templateId": "rald_alert",
           |"parameters": {
           | "referenceNumber": "${Messages("saveForLater.refNum")}: $refNumber",
@@ -59,8 +60,13 @@ object HODConnector extends HODConnector with ServicesConfig {
           |},
           |"force": false
           |}""".stripMargin)
-    http.POST(s"$emailUrl/send-templated-email/", json)
+    println(json)
+    http.POST(s"$emailUrl/send-templated-email/", json).map( _ => ())
+    } getOrElse Future.successful()
   }
+
+
+
 
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
