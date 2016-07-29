@@ -24,7 +24,6 @@ object PageController extends FrontendController {
 
   def showPage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => PageZeroController.show
       case 1 => PageOneController.show
       case 2 => PageTwoController.show
       case 3 => PageThreeController.show
@@ -45,7 +44,6 @@ object PageController extends FrontendController {
 
   def savePage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => PageZeroController.save
       case 1 => PageOneController.save
       case 2 => PageTwoController.save
       case 3 => PageThreeController.save

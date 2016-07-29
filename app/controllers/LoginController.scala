@@ -22,8 +22,10 @@ import form.MappingSupport._
 import form.persistence.FormDocumentRepository
 import org.joda.time.DateTime
 import play.Logger
+import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.i18n.Lang
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{Format, Json}
 import play.api.mvc.{Action, AnyContent, Request, Result}
@@ -33,6 +35,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.concurrent.Future
 
@@ -73,7 +76,7 @@ object LoginController extends FrontendController {
       case DocumentPreviouslySaved(doc, token) =>
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)
       case NoExistingDocument(token) =>
-        withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
+        withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(1)), token, s"$ref1$ref2", sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
       case Upstream4xxResponse(_, 403, _, _) => Redirect(routes.Application.fail())
