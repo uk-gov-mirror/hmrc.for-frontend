@@ -114,6 +114,14 @@ heading.login.lockedOut=Rydych wedi eich cloi allan nawr
 heading.login.loginFailed=Gwall mewngofnodi
 label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
+#SECTION 0
+##############################
+label.areYourRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
+label.isRelatedYes=Oes
+label.isRelatedNo=Nag Oes
+label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda
+
+
 #SECTION 1
 ##############################
 section1.heading=Cyfeiriad yr eiddo
@@ -212,6 +220,7 @@ label.occupierCompanyName=Enw''r cwmni
 label.noJs.occupierCompanyName=Dylech ond ateb hyn os ydych wedi dewis ‘Cwmni’
 label.noJs.firstOccupationDate=Dylech ond ateb hyn os ydych wedi dewis ‘Un neu fwy o unigolion’ neu ‘Cwmni’
 label.noJs.propertyRentedBy=Dylech ond ateb hyn os ydych wedi dewis ‘Nac ydy ’
+
 
 #SECTION 4
 ###############################
@@ -598,6 +607,12 @@ label.feedback.heading=Adborth
 copy.feedback=Os oes angen help arnoch i gwblhau''r ffurflen hon, defnyddiwch y ddolen ‘Cael help gyda''r dudalen hon’ ar waelod pob tudalen.
 copy.feedback.thankyou=Diolch am eich adborth
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
+
+#VACATED FORM
+###############################
+label.help.title.vacated=Ffurflen cyn-berchennog/ddeiliad
+hint.vacated.form=Cwblhewch y ffurflen os gwelwch yn dda os nad oes gennych unrhyw berthynas gyda''r eiddo bellach neu wedi''i adael yn ddiweddar, gan roi mwy o fanylion amdano e.e dyddiadau eich arhosiad, enw''r asiant, manylion cyswllt y perchennog ac ati.
+
 
 #TYPES
 ###############################
