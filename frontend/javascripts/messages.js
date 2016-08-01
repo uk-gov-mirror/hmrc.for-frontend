@@ -109,9 +109,9 @@
                 labelYears4: 'o flynyddoedd',
                 labelMonths1: 'mis',
                 labelMonths2: 'fis',
-                vacateFormName: 'Your full name',
-                vacateFormEmail:'Your email address',
-                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number'
+                vacateFormName: 'Eich enw llawn',
+                vacateFormEmail:'Eich e-bost cyfeiriad',
+                vacateFormGiveDetails:'Darperwch fanylion os gwelwch yn dda (gan gynnwys rhif cyfeirnod a\'r côd post dangosir yn eich llythyr gwahodd) a\'ch rhif teleffôn cyswllt.'
             };
         }
         return text[t];

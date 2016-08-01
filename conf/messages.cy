@@ -599,6 +599,13 @@ copy.feedback=Os oes angen help arnoch i gwblhau''r ffurflen hon, defnyddiwch y 
 copy.feedback.thankyou=Diolch am eich adborth
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 
+#VACATED FORM
+###############################
+heading.vacatedFeedback=No longer relation or recently vacated
+label.help.title.vacated=Ffurflen cyn-berchennog/ddeiliad
+hint.vacated.form=Cwblhewch y ffurflen os gwelwch yn dda os nad oes gennych unrhyw berthynas gyda''r eiddo bellach neu wedi''i adael yn ddiweddar, gan roi mwy o fanylion amdano e.e dyddiadau eich arhosiad, enw''r asiant, manylion cyswllt y perchennog ac ati.
+
+
 #TYPES
 ###############################
 contactAddressType.mainAddress=Eich Cyfeiriad
