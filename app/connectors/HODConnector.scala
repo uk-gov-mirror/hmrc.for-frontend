@@ -19,10 +19,8 @@ package connectors
 import config.ForConfig
 import controllers.toFut
 import models.FORLoginResponse
-import org.joda.time.LocalDate
-import play.api.i18n.{Lang, Messages}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.{Format, JsValue, Json}
+import play.api.libs.json.{Format, JsValue}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http._
 import useCases.ReferenceNumber
@@ -44,28 +42,6 @@ object HODConnector extends HODConnector with ServicesConfig {
     val parts = Seq(ref1, ref2, postcode).map(urlEncode)
     http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))
   }
-
-  def sendEmail(refNumber: String, postcode: String, email: Option[String])(implicit hc: HeaderCarrier, lang: Lang) = {
-    email.map { e =>
-    val expiryDate = LocalDate.now.plusDays(90)
-    val formattedExpiryDate = s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
-    val json = Json.parse(
-      s"""{
-          |"to": ["$e"],
-          |"templateId": "rald_alert",
-          |"parameters": {
-          | "referenceNumber": "${Messages("saveForLater.refNum")}: $refNumber",
-          | "postcode": "${Messages("saveForLater.postcode")}: $postcode",
-          | "expiryDate": "${Messages("saveForLater.paragraph")} $formattedExpiryDate"
-          |},
-          |"force": false
-          |}""".stripMargin)
-    http.POST(s"$emailUrl/send-templated-email/", json).map( _ => ())
-    } getOrElse Future.successful()
-  }
-
-
-
 
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
