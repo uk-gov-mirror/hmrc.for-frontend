@@ -60,7 +60,7 @@ object Application extends FrontendController {
 
   def startAgain = RefNumAction.async { implicit request =>
     repository.clear(SessionId(hc), request.refNum) map { _ =>
-      Redirect(dataCapturePages.routes.PageController.showPage(1))
+      Redirect(dataCapturePages.routes.PageController.showPage(0))
     }
   }
 

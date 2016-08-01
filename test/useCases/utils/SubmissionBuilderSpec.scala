@@ -206,13 +206,13 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       p3ks.mainOccupierName -> Seq("Mike Ington"),
       p3ks.occupierCompanyName -> Seq("company name"), p3ks.firstOccupationDate + ".month" -> Seq("7"),
       p3ks.firstOccupationDate + ".year" -> Seq("2013"), p3ks.propertyOwnedByYou -> Seq("false"),
-      p3ks.propertyRentedByYou -> Seq("true"))
+      p3ks.propertyRentedByYou -> Seq("true"), p3ks.noRentDetails -> Seq("Coz I live with my rents!"))
 
     lazy val page3ShortPath = Map(p3ks.propertyType -> Seq("Stuff"), p3ks.occupierType -> Seq("individuals"),
       p3ks.mainOccupierName -> Seq("Mike Ington"),
       p3ks.occupierCompanyName -> Seq("company name"), p3ks.firstOccupationDate + ".month" -> Seq("7"),
       p3ks.firstOccupationDate + ".year" -> Seq("2013"), p3ks.propertyOwnedByYou -> Seq("false"),
-      p3ks.propertyRentedByYou -> Seq("false"))
+      p3ks.propertyRentedByYou -> Seq("false"), p3ks.noRentDetails -> Seq("Coz I live with my rents!"))
 
     lazy val page4FormData = Map("propertyIsSublet" -> Seq("true"), "sublet[0].tenantFullName" -> Seq("Jake Smythe"),
       "sublet[0].tenantAddress.buildingNameNumber" -> Seq("Some Company"),
@@ -324,7 +324,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val propertyAddress = PropertyAddress(true, None)
     val alternatePropertyAddress = PropertyAddress(true, Some(tenantsPropertyAddress))
     val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, Some("abc@mailinator.com"), Some("abc@mailinator.com")))
-    val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true))
+    val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
     val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), "basement", "commercial", Some(200), RoughDate(None, Some(2), 2011))))
     val landlord = Landlord("Graham Goose", Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
     val leaseOrAgreement = LeaseOrAgreement(
