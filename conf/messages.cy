@@ -114,6 +114,14 @@ heading.login.lockedOut=Rydych wedi eich cloi allan nawr
 heading.login.loginFailed=Gwall mewngofnodi
 label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
+#SECTION 0
+##############################
+label.areYourRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
+label.isRelatedYes=Oes
+label.isRelatedNo=Nag Oes
+label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda
+
+
 #SECTION 1
 ##############################
 section1.heading=Cyfeiriad yr eiddo
@@ -212,6 +220,7 @@ label.occupierCompanyName=Enw''r cwmni
 label.noJs.occupierCompanyName=Dylech ond ateb hyn os ydych wedi dewis ‘Cwmni’
 label.noJs.firstOccupationDate=Dylech ond ateb hyn os ydych wedi dewis ‘Un neu fwy o unigolion’ neu ‘Cwmni’
 label.noJs.propertyRentedBy=Dylech ond ateb hyn os ydych wedi dewis ‘Nac ydy ’
+
 
 #SECTION 4
 ###############################
