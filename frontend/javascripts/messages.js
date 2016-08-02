@@ -55,7 +55,8 @@
                 labelMonths2: 'months',
                 vacateFormName: 'Your full name',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number'
+                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number',
+                labelWhatWereYouDoing:'Ex-Owners/Occupiers or Vacated'
 
             };
         }else{
@@ -111,7 +112,8 @@
                 labelMonths2: 'fis',
                 vacateFormName: 'Eich enw llawn',
                 vacateFormEmail:'Eich e-bost cyfeiriad',
-                vacateFormGiveDetails:'Darperwch fanylion os gwelwch yn dda (gan gynnwys rhif cyfeirnod a\'r côd post dangosir yn eich llythyr gwahodd) a\'ch rhif teleffôn cyswllt.'
+                vacateFormGiveDetails:'Darperwch fanylion os gwelwch yn dda (gan gynnwys rhif cyfeirnod a\'r côd post dangosir yn eich llythyr gwahodd) a\'ch rhif teleffôn cyswllt.',
+                labelWhatWereYouDoing:'Cyn-berchenogion/Ddeiliaid neu wedi i’w adael yn wag'
             };
         }
         return text[t];
