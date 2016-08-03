@@ -114,6 +114,26 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     doesNotContainErrors(form)
   }
 
+  it should "never return validation errors for original address" in {
+    val data = baseData
+      .updated("original.landlordAddress.buildingNameNumber", "1")
+      .updated("original.landlordAddress.street1", "The Road")
+      .updated("original.landlordAddress.postcode", "AA11 1AA") - "original.landlordAddress.uprn"
+    val form = bind(data)
+
+    doesNotContainErrors(form)
+  }
+
+  it should "not bind any value to original address when the address lookup is not used" in {
+    val data = baseData -
+      "original.landlordAddress.buildingNameNumber" -
+      "original.landlordAddress.street1" -
+      "original.landlordAddress.postcode" -
+      "original.landlordAddress.uprn"
+
+    bind(data).value.flatMap(_.originalLandlordAddress) should equal (None)
+  }
+
   object TestData {
     lazy val landlordFullName = "landlordFullName" -> "Some Guy"
     lazy val overseas= "overseas" -> "false"

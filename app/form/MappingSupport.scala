@@ -109,11 +109,11 @@ object MappingSupport {
   )(Address.apply)(Address.unapply)
 
   def lookupAddressMapping(prefix: String): Mapping[LookupServiceAddress] = mapping(
-    "buildingNameNumber" -> text,
+    "buildingNameNumber" -> default(text, "MISSING"),
     "street1" -> optional(text),
     "street2" -> optional(text),
-    "postcode" -> text,
-    "uprn" -> text
+    "postcode" -> default(text, "MISSING"),
+    "uprn" -> default(text, "MISSING")
   )(LookupServiceAddress.apply)(LookupServiceAddress.unapply)
 
   def contactDetailsMappingFor(contactTypeField: String): Mapping[ContactDetails] = {
