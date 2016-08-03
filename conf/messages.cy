@@ -546,7 +546,7 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=Byddwn yn cadw unrhyw wybodaeth sydd heb ei chyflwyno am dri mis cyn ei dileu.
+saveForLater.paragraph=Byddwn yn cadw unrhyw wybodaeth sydd heb ei chyflwyno am dri mis cyn ei dileu 
 saveForLater.info=Gwnewch nodyn o''r manylion hyn - <strong>gan gynnwys y cyfrinair newydd</strong> - gan y bydd eu hangen arnoch er mwyn cael gafael ar eich gwybodaeth.
 saveForLater.continue=Parhau i gwblhau''r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
