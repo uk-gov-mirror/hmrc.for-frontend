@@ -116,7 +116,7 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
 #SECTION 0
 ##############################
-label.areYourRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
+label.isRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
 label.isRelatedYes=Oes
 label.isRelatedNo=Nag Oes
 label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda

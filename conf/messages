@@ -117,7 +117,7 @@ label.retryLogin=Try to log in again
 
 #SECTION 0
 ##############################
-label.areYourRelated=Do you still have a relationship with this property?
+label.isRelated=Do you still have a relationship with this property?
 label.isRelatedYes=Yes
 label.isRelatedNo=No
 label.relatedHelptext=If you no longer have anything to do with this property (i.e. you are no longer the owner/occupier or have recently vacated the property), please select ''No''
