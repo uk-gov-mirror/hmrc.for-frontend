@@ -17,17 +17,15 @@
 package controllers.feedback
 
 import actions.RefNumAction
-import controllers.Application._
 import controllers._
 import form.Formats._
 import form.persistence.FormDocumentRepository
-import it.innove.play.pdf.PdfGenerator
-import models.{PdfSize, Satisfaction}
 import models.pages.SummaryBuilder
+import models.{PdfSize, Satisfaction}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
 import play.api.mvc.{Action, RequestHeader}
-import playconfig.{Audit, SessionId, FormPersistence}
+import playconfig.{Audit, FormPersistence, SessionId}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -53,7 +51,7 @@ trait PostSubmitFeedback extends FrontendController {
 
   def formCompleteFeedback = RefNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.inpageAfterSubmissionFeedbackForm(formWithErrors)),
+      formWithErrors => viewConfirmationPage(request.refNum, Some(formWithErrors)),
       success => {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
       }

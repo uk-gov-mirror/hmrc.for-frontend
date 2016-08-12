@@ -29,12 +29,13 @@
 
       <div class="save-for-later">
 
-          <span>@Messages("saveForLater.refNum"):</span> <strong>@FormatRefNum(summary.referenceNumber)</strong></br>
-          <span>@Messages("saveForLater.postcode"):</span> <strong>@summary.addressVOABelievesIsCorrect.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2")</strong></br>
           <span>@Messages("saveForLater.password"):</span> <strong>@password</strong>
       </div>
 
-      <p class="form-error alert alert-save-for-later" style="color:#b10e1e; margin-top: 1em">@Html(Messages("saveForLater.info"))</p>
+      <div class="form-error alert alert-save-for-later" style="color:#b10e1e; margin-top: 1em">
+        <p>@Html(Messages("saveForLater.info"))</p>
+        <p>@Html(Messages("saveForLater.info.p.2"))</p>
+      </div>
 
       <p class="icon-important" style="margin-top:2em">
           @Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@{
@@ -43,6 +44,8 @@
     <p>
 
       <p><a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a></p>
+
+        <p><a href="@routes.SaveForLater.logout" class="button button-secondary">@Messages("saveForLater.logout")</a></p>
 
       <form action="@routes.SaveForLater.resume()" method="post">
           @helper.CSRF.formField

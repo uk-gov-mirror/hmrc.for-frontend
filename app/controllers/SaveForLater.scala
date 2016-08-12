@@ -91,6 +91,10 @@ object SaveForLater extends FrontendController {
     }
   }
 
+  def logout = RefNumAction.async { implicit request =>
+    Redirect(routes.LoginController.show()).withNewSession
+  }
+
   private def resumeSavedJourney(p: SaveForLaterPassword, r: ReferenceNumber)(implicit re: RefNumRequest[AnyContent]): Future[Result] = {
     continue(hc)(p, r) flatMap {
       case PasswordsMatch(pageToResumeAt) => RedirectTo(pageToResumeAt, re.headers).flashing((s4lIndicator, s4lIndicator))

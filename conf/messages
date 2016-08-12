@@ -558,13 +558,14 @@ error.declaration=You must agree to proceed
 
 #SAVE
 ###############################
-saveForLater.heading=Your information has been saved<br />but not submitted
+saveForLater.heading=Your information has been saved<br/>but not submitted
 saveForLater.paragraph=We will delete any unsubmitted information on
-saveForLater.info=Please make a note of these details - <strong>including the new password</strong> - as you will need them to access and make changes to your information.
+saveForLater.info=<strong>Please make a note of this password</strong> as you will need it to access and make changes to your information.
+saveForLater.info.p.2=You will also need your reference number and the postcode shown on the letter.
 saveForLater.continue=Continue completing this form
 saveForLater.return=Return to GOV.UK
 saveForLater.surveyLink=Tell us what you think?
-saveForLater.retrievalInfo=To retrieve your saved information you will need your:
+saveForLater.retrievalInfo=To retrieve your saved information you will need this password:
 saveForLater.retrievalWarning=You will not be able to recover the password once you leave the form.
 saveForLater.refNum=Reference number
 saveForLater.postcode=Postcode
@@ -573,6 +574,7 @@ saveForLater.print=Print this page
 saveForLater.pleaseEnterPassword=Please enter the password provided when you previously saved the form
 saveForLater.invalidPassword=Sorry, the password you have entered is not correct
 saveForLater.haveYouForgotten=If you have forgotten your password, you will need to enter all of your information again
+saveForLater.logout=Log out
 
 #SAVEDFORM
 ###############################
