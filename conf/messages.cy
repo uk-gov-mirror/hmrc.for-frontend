@@ -547,8 +547,8 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
 saveForLater.paragraph=Byddwn yn cadw unrhyw wybodaeth sydd heb ei chyflwyno am dri mis cyn ei dileu 
-saveForLater.info=Gwnewch nodyn o''r manylion hyn - <strong>gan gynnwys y cyfrinair newydd</strong> - gan y bydd eu hangen arnoch er mwyn cael gafael ar eich gwybodaeth.
-saveForLater.info.p.2=
+saveForLater.info=<strong>Gwnewch nodyn o’r cyfrinair hon os gwelwch yn dda</strong> gan y bydd ei hangen arnoch er mwyn cyrchu a gwneud newidiadau i’ch gwybodaeth.
+saveForLater.info.p.2=Hefyd bydd arnoch angen eich rhif cyfeirnod a’r côd post ddangosir ar y llythyr.
 saveForLater.continue=Parhau i gwblhau''r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
@@ -561,7 +561,8 @@ saveForLater.print=Argraffu''r dudalen hon
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
-saveForLater.logout=Allgofnodi
+saveForLater.logout=Logio allan
+saveForLater.or=neu
 
 #SAVEDFORM
 ###############################
