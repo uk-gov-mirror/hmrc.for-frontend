@@ -78,7 +78,7 @@ label.password=password
 label.totalRent=Annual rent
 label.checkTheForm=Check the form
 label.fixTheFollowing=Fix the following:
-label.phase=This is a new service – your <a href="{0}" target="_blank" id="betaFeedback">feedback <span class="visuallyhidden"> ({1})</span></a> will help us to improve it.
+label.phase=This is a new service – your <a href="{0}" target="_blank" id="betaFeedback">feedback <span class="visuallyhidden"> (Opens in a new window)</span></a> will help us to improve it.
 label.beta=BETA
 label.section=Section {0} of {1}
 label.footer.builtBy=Built by the <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office Agency</a>
@@ -102,7 +102,6 @@ button.label.pdf=Download PDF
 
 #LOGIN
 ##############################
-warning.loginIssues=This service is currently not accepting reference numbers issued after August 17 2016 . If you have received a letter issued on or after that date please try again later.
 label.letter=You''ll find your reference number and postcode in your rent and lease detail letter.
 label.referenceNumber=Reference number
 hint.letter=As it appears on the request for information letter
@@ -647,7 +646,6 @@ userType.occupiersAgent=Occupier''s Agent
 userType.owner=Owner / Trustee for owner
 userType.ownerOccupier=Owner and occupier
 userType.ownersAgent=Owner''s Agent
-userType.ownerOccupier=Owner Occupier
 userType.vacated=No longer the occupier / Recently vacated
 contactType.email=Email
 contactType.phone=Phone

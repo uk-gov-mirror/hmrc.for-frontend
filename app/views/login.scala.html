@@ -3,7 +3,8 @@
 @import play.api.data._
 @import org.joda.time.DateTime
 
-@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader,  lang: Lang)
+@import config.ForConfig
+@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader, lang: Lang)
 
     @headExtra = {
         @views.html.includes.stylesheets()
@@ -41,12 +42,21 @@
         <div class="grid-row">
             <div class="column-two-thirds">
 
-                <div id="before-you-start">
-                    <h2 class="form-title heading-medium">@Messages("hint.beforeyoustart")</h2>
-                    <p class="icon-important">
-                    @Messages("warning.loginIssues")
-                    </p>
-                </div>
+                @if(ForConfig.loginPageNotice.enabled) {
+                    <div id="before-you-start">
+                        <h2 class="form-title heading-medium">@Messages("hint.beforeyoustart")</h2>
+                        <p class="icon-important">
+                        @lang.language match {
+                            case "cy" => {
+                                @Html(ForConfig.loginPageNotice.welshText)
+                            }
+                            case _ => {
+                                @Html(ForConfig.loginPageNotice.englishText)
+                            }
+                        }
+                        </p>
+                    </div>
+                }
 
                 <h1 class="form-title heading-large">@Messages("login.heading")</h1>
                 @helpers.form(action = routes.LoginController.submit) {

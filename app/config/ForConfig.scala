@@ -45,6 +45,13 @@ object ForConfig {
       lazy val refNum = prodOnlyConf("analytics.ga.refNum")
     }
   }
+
+  val loginPageNotice = new {
+    val enabled = getBoolean("loginPageNotice.enabled")
+    val englishText = getString("loginPageNotice.englishText")
+    val welshText = getString("loginPageNotice.welshText")
+  }
+
   private def prodOnlyConf(key: String) = getString(key)
 
   private def getString(key: String) = config.getString(key).getOrElse(throw ConfigSettingMissing(key))
