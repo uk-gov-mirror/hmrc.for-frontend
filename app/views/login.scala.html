@@ -44,14 +44,23 @@
 
                 @if(ForConfig.loginPageNotice.enabled) {
                     <div id="before-you-start">
-                        <h2 class="form-title heading-medium">@Messages("hint.beforeyoustart")</h2>
+                        <h2 class="form-title heading-medium">
+                            @lang.language match {
+                                case "cy" => {
+                                    @Html(ForConfig.loginPageNotice.welshTitle)
+                                }
+                                case _ => {
+                                    @Html(ForConfig.loginPageNotice.englishTitle)
+                                }
+                            }
+                        </h2>
                         <p class="icon-important">
                         @lang.language match {
                             case "cy" => {
-                                @Html(ForConfig.loginPageNotice.welshText)
+                                @Html(ForConfig.loginPageNotice.welshBody)
                             }
                             case _ => {
-                                @Html(ForConfig.loginPageNotice.englishText)
+                                @Html(ForConfig.loginPageNotice.englishBody)
                             }
                         }
                         </p>
