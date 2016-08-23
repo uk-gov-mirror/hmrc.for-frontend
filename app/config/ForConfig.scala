@@ -48,8 +48,9 @@ object ForConfig {
 
   val loginPageNotice = new {
     val enabled = getBoolean("loginPageNotice.enabled")
-    val englishText = getString("loginPageNotice.englishText")
-    val welshText = getString("loginPageNotice.welshText")
+    //app configs don't allow spaces in values
+    val englishText = getString("loginPageNotice.englishText").replaceAll("_", " ")
+    val welshText = getString("loginPageNotice.welshText").replaceAll("_", " ")
   }
 
   private def prodOnlyConf(key: String) = getString(key)
