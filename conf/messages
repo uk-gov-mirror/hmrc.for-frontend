@@ -633,7 +633,7 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
 label.help.title.vacated=Ex-owners/occupiers form
-hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form by giving us more details about it e.g.your dates of stay, agents name, owners contact details etc
+hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form below.
 
 
 #TYPES
@@ -641,9 +641,9 @@ hint.vacated.form=If you no longer have any relation with the property or have r
 contactAddressType.mainAddress=Your Address
 contactAddressType.alternativeAddress=I want to be contacted at an alternative address
 contactAddressType.contactsAddress=I want someone else to be contacted on my behalf
-userType.occupier=Occupier / Trustee for occupier
+userType.occupier=Occupier or Trustee for occupier
 userType.occupiersAgent=Occupier''s Agent
-userType.owner=Owner / Trustee for owner
+userType.owner=Owner or Trustee for owner
 userType.ownerOccupier=Owner and occupier
 userType.ownersAgent=Owner''s Agent
 userType.vacated=No longer the occupier / Recently vacated
