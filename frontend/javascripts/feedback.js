@@ -43,18 +43,6 @@
         $('.vacated-form [name="report-action"]').val(VoaMessages.textLabel('labelWhatWereYouDoing')).attr('hidden', '');
         
 
-        $('#report-error').each(function () {
-            var   textbox = $(document.createElement('textarea'));
-            $(this).replaceWith(textbox);
-            textbox.attr('id', 'report-error')
-                .attr('class', 'form-control')
-                .attr('maxlength', '1000')
-                .attr('name', 'report-error')
-                .attr('data-rule-required','true')
-                .attr('data-msg-required','Please enter details of what went wrong.');
-
-        });
-
         var needle  =  $('.form--feedback label[for="feedback-comments"]').html();
         if(needle){
             $('.form--feedback label[for="feedback-comments"]').html(needle.replace(/Comments/g, VoaMessages.textLabel('labelFeedbackComments')));

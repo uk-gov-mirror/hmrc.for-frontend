@@ -53,9 +53,9 @@
                 labelYears4: 'years',
                 labelMonths1: 'months',
                 labelMonths2: 'months',
-                vacateFormName: 'Your full name',
+                vacateFormName: 'Your reference number (as quoted on your letter)',
                 vacateFormEmail:'Your email address',
-                vacateFormGiveDetails:'Please provide details (including the reference number and postcode stated in your invitation letter) and your contact phone number',
+                vacateFormGiveDetails:'Your phone number',
                 labelWhatWereYouDoing:'Ex-Owners/Occupiers or Vacated'
 
             };
@@ -110,9 +110,9 @@
                 labelYears4: 'o flynyddoedd',
                 labelMonths1: 'mis',
                 labelMonths2: 'fis',
-                vacateFormName: 'Eich enw llawn',
+                vacateFormName: 'Eich cyfeirnod (Fel ddyfynnir ar eich llythyr)',
                 vacateFormEmail:'Eich e-bost cyfeiriad',
-                vacateFormGiveDetails:'Darperwch fanylion os gwelwch yn dda (gan gynnwys rhif cyfeirnod a\'r côd post dangosir yn eich llythyr gwahodd) a\'ch rhif teleffôn cyswllt.',
+                vacateFormGiveDetails:'Eich rhif ffôn',
                 labelWhatWereYouDoing:'Cyn-berchenogion/Ddeiliaid neu wedi i’w adael yn wag'
             };
         }

@@ -616,7 +616,7 @@ label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 #VACATED FORM
 ###############################
 label.help.title.vacated=Ffurflen cyn-berchennog/ddeiliad
-hint.vacated.form=Cwblhewch y ffurflen os gwelwch yn dda os nad oes gennych unrhyw berthynas gyda''r eiddo bellach neu wedi''i adael yn ddiweddar, gan roi mwy o fanylion amdano e.e dyddiadau eich arhosiad, enw''r asiant, manylion cyswllt y perchennog ac ati.
+hint.vacated.form=Os nad oes gennych unrhyw perthynas â''r eiddo neu yn ddiweddar wedi gadael llenwch y ffurflen isod.
 
 
 #TYPES
