@@ -181,6 +181,7 @@ label.alternativeContact.address.postcode=Cod post
 label.alternativeContact.contactDetails=Person cyswllt amgen
 label.alternativeContact.address=Cyfeiriad y person cyswllt amgen
 hint.anyQueries=Ar gyfer unrhyw ymholiadau ynglŷn â''r ffurflen hon
+hint.occupierExplanation=Os ydych yn rhentu neu brydlesu eiddo, megis siop, rydych yn cael eu hystyried ''Y Deiliad''
 label.noJs.contactDetails.email1=Dylech ond ateb hyn os ydych wedi dewis ‘E-bost’ neu ‘Y ddau’
 label.noJs.contactDetails.phone=Dylech ond ateb hyn os ydych wedi dewis ‘Ffôn’ neu ‘Y ddau’
 label.noJs.contactDetails.contactAddressType=Dylech ond ateb hyn os ydych wedi dewis ‘Y Deiliad’ neu ‘Y Perchennog’
