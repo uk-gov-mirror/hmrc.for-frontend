@@ -152,6 +152,7 @@ label.suggestedChanges=Suggested changes to the address may not be<br />accepted
 #SECTION 2
 ##############################
 section2.heading=About you
+section2.heading.1=Due to data security, we are unable to pre-populate this form
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
 label.userType=I am the (I represent the)
@@ -237,7 +238,7 @@ label.noRentDetails=Tell us why you do not pay rent on this property
 section4.heading=Lettings and sub-lettings
 label.propertyIsSublet=Do you let or sub-let all or any part of the property?
 label.propertyIsSublet.agent=Does your client let or sub-let all or any part of the property?
-hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces
+hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls please select the No option.
 label.sublet.tenantFullName=Your tenant''s name
 label.sublet.tenantFullName.agent=The tenant''s name
 label.sublet.subletPropertyPartDescription=What part of the property do you let or sub-let?
@@ -349,8 +350,9 @@ help.steprent.dateto=For example, 12 3 2011
 help.steprent.datefrom=For example, 12 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
-label.writtenAgreement.steppedDetails.amount=The rent you will pay or have paid during this stepped-rent period excluding VAT
-label.writtenAgreement.steppedDetails.amount.agent=The rent your client pays/paid during this stepped-rent period excluding VAT
+label.writtenAgreement.steppedDetails.amount=The rent you will pay or have paid during this stepped-rent period excluding VAT.
+label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period excluding VAT.
+label.writtenAgreement.steppedDetails.hint=Please enter your stepped rent amount as an annual total
 label.writtenAgreement.steppedDetails=Stepped rent details
 hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details relating to the primary lease in this form then contact the Valuation Office to provide details relating to the other lease or agreements.
 
@@ -488,10 +490,11 @@ hint.includedServices=For example, lighting, heating, cleaning/maintenance of sh
 label.includedServicesDetails=Included Services
 label.includedServicesDetails.chargeDescription=Details of services
 label.includedServicesDetails.chargeCost=Amount per year included in the rent excluding VAT
+label.includedServicesDetails.chargeCost.hint=If you cannot provide any cost amounts, please enter £''1'' and tell us which services are included in your rent. If you need to tell us more, please continue in ''Any other factors'' in Section 14.
 label.waterChargeResponsibleType.Yes=Yes
 label.waterChargeResponsibleType.No=No
 info.responsibilitiesAndCosts=This information must be supplied so that we can ensure we have the correct rateable value
-info.responsibilitiesAndCosts.paying=Paying means being responsible for the cost even if the landlord arranges payment using the tenant’s money (via a service charge).
+info.responsibilitiesAndCosts.paying=Paying means being responsible for the cost even if the landlord arranges payment using the tenant’s money (via a service charge)
 info.responsibilitiesAndCosts.surcharge=If your landlord passes on the cost of insurance to you (within your rent or as a surcharge) please select "tenant"
 label.noJs.secton12=Answer this only if you''ve selected ''Yes''
 
