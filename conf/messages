@@ -152,6 +152,7 @@ label.suggestedChanges=Suggested changes to the address may not be<br />accepted
 #SECTION 2
 ##############################
 section2.heading=About you
+section2.heading.1=Due to data security, we are unable to pre-populate this form
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
 label.userType=I am the (I represent the)
@@ -237,22 +238,22 @@ label.noRentDetails=Tell us why you do not pay rent on this property
 section4.heading=Lettings and sub-lettings
 label.propertyIsSublet=Do you let or sub-let all or any part of the property?
 label.propertyIsSublet.agent=Does your client let or sub-let all or any part of the property?
-hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces
+hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls please select the No option.
 label.sublet.tenantFullName=Your tenant''s name
 label.sublet.tenantFullName.agent=The tenant''s name
-label.sublet.subletPropertyPartDescription=What part of the property do you sub-let?
-label.sublet.subletPropertyPartDescription.agent=What part of the property is sub-let?
+label.sublet.subletPropertyPartDescription=What part of the property do you let or sub-let?
+label.sublet.subletPropertyPartDescription.agent=What part of the property is let or sub-let?
 hint.sublet.subletPropertyPartDescription=For example, this may include areas used by other businesses, advertising hoardings, flats or mobile phone masts
-label.sublet.subletPropertyReasonDescription=What is the sub-let property used for?
+label.sublet.subletPropertyReasonDescription=What is the let or sub-let property used for?
 hint.sublet.subletPropertyReasonDescription=For example, residential use or commercial use
-label.sublet.annualRent=How much rent do you receive each year from this sub-let excluding VAT?
-label.sublet.annualRent.agent=How much rent does your client receive each year from this sub-let excluding VAT?
+label.sublet.annualRent=How much rent do you receive each year from this let or sub-let excluding VAT?
+label.sublet.annualRent.agent=How much rent does your client receive each year from this let or sub-let excluding VAT?
 label.sublet.annualRent.annualRentExcludingVat.generic=Sub-let rent excluding VAT
 hint.sublet.annualRentExcludingVat=Excluding VAT
 label.sublet.annualRent.rentLengthType=How do you receive your sub-let rent?
 label.sublet.annualRent.rentLengthType.agent=How does your client receive the sub-let rent?
-label.sublet.rentFixedDate=When did your sub-let start?
-label.sublet.rentFixedDate.agent=When did your client''s sub-let start?
+label.sublet.rentFixedDate=When did your let or sub-let start?
+label.sublet.rentFixedDate.agent=When did your client''s let or sub-let start?
 label.ammountPerYear=Amount per year
 label.sublet.tenantAddress.buildingNameNumber=Building name or number
 label.sublet.tenantAddress.street1=Address line 2
@@ -264,7 +265,7 @@ label.sublet.isTenantsAddress.agent=The tenant''s address
 isTenantsAddressType.differentAddress=Enter different address
 label.noJs.section4=Answer the questions below only if you've selected ''Yes''
 label.noJs.sublet.tenantAddress=Answer this only if you''ve selected ''Enter different address''
-label.subletAddress=Address of the property that is sub-let
+label.subletAddress=Address of the property that is let or sub-let
 
 #SECTION 5
 ###############################
@@ -349,8 +350,9 @@ help.steprent.dateto=For example, 12 3 2011
 help.steprent.datefrom=For example, 12 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
-label.writtenAgreement.steppedDetails.amount=The rent you pay/paid during this stepped-rent period excluding VAT
-label.writtenAgreement.steppedDetails.amount.agent=The rent your client pays/paid during this stepped-rent period excluding VAT
+label.writtenAgreement.steppedDetails.amount=The rent you will pay or have paid during this stepped-rent period excluding VAT.
+label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period excluding VAT.
+label.writtenAgreement.steppedDetails.hint=Please enter your stepped rent amount as an annual total
 label.writtenAgreement.steppedDetails=Stepped rent details
 hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details relating to the primary lease in this form then contact the Valuation Office to provide details relating to the other lease or agreements.
 
@@ -362,11 +364,11 @@ label.leaseContainsRentReviews.licenceOther=Does your license or written agreeme
 label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or written agreement include any rent reviews?
 label.leaseContainsRentReviews.leaseTenancy=Does your single lease or tenancy agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
-hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement
+hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
 label.rentReviewDetails.lastReviewDate=When was the last review date?
 hint.canRentReduced=The lease or agreement will have a specific clause saying whether the rent can go down as well as up. Select <span class="font-bold">''Yes''</span> if the rent can go up or down, <span class="font-bold">''No''</span> if the rent can only go up.
-hint.rentOnThisPropertyTheResultOf=If your rent has been reviewed but remains unchanged, please select ''Yes''
+hint.rentOnThisPropertyTheResultOf=If your rent has changed or remains unchanged after the review, please select ''yes''.
 label.rentReviewDetails.rentReviewResultsDetails.whenWasRentReview=When was this rent review?
 label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=It was fixed by
 label.rentReviewDetails.reviewIntervalType=How often is the rent reviewed?
@@ -488,10 +490,11 @@ hint.includedServices=For example, lighting, heating, cleaning/maintenance of sh
 label.includedServicesDetails=Included Services
 label.includedServicesDetails.chargeDescription=Details of services
 label.includedServicesDetails.chargeCost=Amount per year included in the rent excluding VAT
+label.includedServicesDetails.chargeCost.hint=If you cannot provide any cost amounts, please enter £''1'' and tell us which services are included in your rent. If you need to tell us more, please continue in ''Any other factors'' in Section 14.
 label.waterChargeResponsibleType.Yes=Yes
 label.waterChargeResponsibleType.No=No
 info.responsibilitiesAndCosts=This information must be supplied so that we can ensure we have the correct rateable value
-info.responsibilitiesAndCosts.paying=Paying means being responsible for the cost even if the landlord arranges payment using the tenant’s money (via a service charge).
+info.responsibilitiesAndCosts.paying=Paying means being responsible for the cost even if the landlord arranges payment using the tenant’s money (via a service charge)
 info.responsibilitiesAndCosts.surcharge=If your landlord passes on the cost of insurance to you (within your rent or as a surcharge) please select "tenant"
 label.noJs.secton12=Answer this only if you''ve selected ''Yes''
 
