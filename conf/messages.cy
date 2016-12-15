@@ -702,10 +702,10 @@ error.too_many_alterations=Gallwch ond rhoi manylion 10 o addasiadau
 error.too_many_sublets=Gallwch ond rhoi manylion 5 o is-osodiadau
 error.required.parking=Rhaid llenwi o leiaf un a gyda gwerth sy''n fwy na 0
 error.login.failed=Nid yw''r manylion a roddwyd gennych yn cyd-fynd â''n cofnodion. Rhowch gynnig arall arni.
-error.login.1attemptsleft=Rydym yn dal i gael trafferth dod o hyd i''r manylion rydych wedi''u rhoi. Mae gennych un cyfle arall i roi''r manylion cywir, cyn y cewch eich cloi allan am 24 awr. Ffoniwch ein llinell cymorth technegol ar 03000 508508 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
-error.login.2attemptsleft=Rydym yn dal i gael trafferth paru''r manylion rydych wedi''u rhoi. Ffoniwch ein llinell cymorth technegol ar 03000 508508 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help. Mae gennych ddau gyfle arall i roi''r manylion cywir, cyn y cewch eich cloi allan am 24 awr.
+error.login.1attemptsleft=Rydym yn dal i gael trafferth dod o hyd i''r manylion rydych wedi''u rhoi. Mae gennych un cyfle arall i roi''r manylion cywir, cyn y cewch eich cloi allan am 24 awr. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
+error.login.2attemptsleft=Rydym yn dal i gael trafferth paru''r manylion rydych wedi''u rhoi. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help. Mae gennych ddau gyfle arall i roi''r manylion cywir, cyn y cewch eich cloi allan am 24 awr.
 error.login.3attemptsleft=Rydym yn dal i gael trafferth paru''r manylion rydych wedi''u rhoi. Rhowch y rhif cyfeirnod a''r cod post yn union fel y''u nodir yn y llythyr y gwnaethom ei anfon atoch.
-error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 neu ffoniwch ein llinell cymorth technegol ar 03000 508508 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
+error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 neu ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
 
 #ERROR PAGES
 ##############################
