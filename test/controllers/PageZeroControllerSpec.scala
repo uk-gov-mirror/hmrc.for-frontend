@@ -80,7 +80,7 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
       val res2 = route(followUp).getOrElse(throw new Exception(""))
 
       header("location", res2).value mustBe "mailto:formhelp@voa.gsi.gov.uk" +
-        "?subject=Ex-occupier form" +
+        "?subject=Ex-owners/occupiers form" +
         "&body=Please email us your reference number, email address and/or telephone number only. We will then contact you for further details."
     }
   }
