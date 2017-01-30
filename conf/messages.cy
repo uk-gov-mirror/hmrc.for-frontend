@@ -119,8 +119,10 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 label.isRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
 label.isRelatedYes=Oes
 label.isRelatedNo=Nag Oes
-label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda
-
+label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach \
+neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda \
+ac e-bost at <a href="{0}">formhelp@voa.gsi.gov.uk</a>. \
+Rhowch <strong>yn unig</strong> eich cyfeirnod a''ch manylion cyswllt, byddwn yn cysylltu â chi am fwy o wybodaeth.
 
 #SECTION 1
 ##############################

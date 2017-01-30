@@ -61,12 +61,19 @@
             '_fieldsetClass -> "inline",
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false,
-            '_help -> Messages("label.relatedHelptext")
+            '_help -> Html(
+              Messages("label.relatedHelptext",
+                Messages("ex-occupier.mail.link",
+                  Messages("ex-occupier.mail.subject"),
+                  Messages("ex-occupier.mail.body")
+                )
+              )
+            )
           )
         )
 
 
-        @includes.continueButton()        
+        @includes.continueButton()
 
       </div>
       <div class="column-third"></div>

@@ -120,7 +120,15 @@ label.retryLogin=Try to log in again
 label.isRelated=Do you still have a relationship with this property?
 label.isRelatedYes=Yes
 label.isRelatedNo=No
-label.relatedHelptext=If you no longer have anything to do with this property (i.e. you are no longer the owner/occupier or have recently vacated the property), please select ''No''
+label.relatedHelptext=If you no longer have anything to do with this property \
+(i.e. you are no longer the owner/occupier or have recently vacated the property), please select ''No'' \
+and email us at <a href="{0}">formhelp@voa.gsi.gov.uk</a>. \
+Please provide <strong>only</strong> your reference number and contact details, we will then contact you for more information.
+
+ex-occupier.mail.link=mailto:formhelp@voa.gsi.gov.uk?subject={0}&body={1}
+ex-occupier.mail.subject=Ex-occupier form
+ex-occupier.mail.body=Please email us your reference number, email address and/or telephone number only. \
+We will then contact you for further details.
 
 #SECTION 1
 ##############################
