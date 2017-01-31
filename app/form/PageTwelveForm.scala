@@ -26,7 +26,7 @@ import MappingSupport._
 
 object PageTwelveForm {
   val chargeDetailsMapping = (index: String) => mapping(
-    s"$index.chargeDescription" -> nonEmptyText(maxLength = 50),
+    s"$index.chargeDescription" -> nonEmptyText(maxLength = 150),
     s"$index.chargeCost" -> currency)(ChargeDetails.apply)(ChargeDetails.unapply)
 
   val pageTwelveMapping = mapping(
