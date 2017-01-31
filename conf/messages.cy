@@ -122,7 +122,10 @@ label.isRelatedNo=Na
 label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach \
 neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Na'' os gwelwch yn dda \
 ag anfon e-bost i <a href="{0}">formhelp@voa.gsi.gov.uk</a>. \
-Darperwch eich rhif cyfeirnod a manylion cyswllt <strong>yn unig</strong> os gwelwch yn dda, wedyn cysylltwn ȃ chi am fwy o wybodaeth.
+Darperwch eich rhif cyfeirnod a manylion cyswllt <strong>yn unig</strong> os gwelwch yn dda, wedyn cysylltwn ȃ chi am fwy o wybodaeth. \
+<p></p>
+
+ex-occupier.close-hint=Petaech wedi dethol Na ac wedi ein e-bostio gyda''ch manylion cyswllt cewch gau''r dudalen yma nawr
 
 ex-occupier.mail.subject=Ffurflen cyn-berchennog/ddeiliad
 ex-occupier.mail.body=E-bostiwch eich rhif cyfeirnod, cyfeiriad e-bost ac/neu rhif teleffôn yn unig atom os gwelwch yn dda. \
@@ -187,7 +190,7 @@ label.alternativeContact.address.postcode=Cod post
 label.alternativeContact.contactDetails=Person cyswllt amgen
 label.alternativeContact.address=Cyfeiriad y person cyswllt amgen
 hint.anyQueries=Ar gyfer unrhyw ymholiadau ynglŷn â''r ffurflen hon
-hint.occupierExplanation=Os ydych yn rhentu neu brydlesu eiddo, megis siop, rydych yn cael eu hystyried ''Y Deiliad''
+hint.occupierExplanation=Os ydych yn rhentu neu yn prydlesio''r eiddo, megis siop neu fel elusen/di-elw, fe''ch ystyrir fel y deiliad
 label.noJs.contactDetails.email1=Dylech ond ateb hyn os ydych wedi dewis ‘E-bost’ neu ‘Y ddau’
 label.noJs.contactDetails.phone=Dylech ond ateb hyn os ydych wedi dewis ‘Ffôn’ neu ‘Y ddau’
 label.noJs.contactDetails.contactAddressType=Dylech ond ateb hyn os ydych wedi dewis ‘Y Deiliad’ neu ‘Y Perchennog’
@@ -206,7 +209,7 @@ propertyTypes.other=Arall
 label.otherPropertyType=Eiddo arall
 propertyTypes.help=Er enghraifft, warws manwerthu, gweithdy, bwyty, tir
 label.occupierTypes=Pwy yw deiliad yr eiddo?
-occupierType.help=Os ydych yn sefydliad anfasnachol fel menter gymunedol, ymddiriedolaeth neu elusen, dewiswch "cwmni"
+occupierType.help=O ydych yn gwmni an-fasnachol megis menter cymunedol yn gosod stafelloedd, neuadd bentref, ymddiriedolaeth neu elusen, detholwch "cwmni" os gwelwch yn dda
 occupierType.individuals=Un neu fwy o unigolion
 occupierType.company=Cwmni
 occupierType.nobody=Neb, mae''r eiddo yn wag
@@ -272,7 +275,7 @@ landlordConnectionType.noConnected=Dim cysylltiad
 landlordConnectionType.family=Teulu
 landlordConnectionType.other=Cysylltiad arall
 label.landlordFullName=Enw llawn y landlord
-hint.landlordConnect=Busnes neu gysylltiad arall e.e. efallai eich bod chi/eich cleient a''r landlord yn bartneriaid busnes; neu efallai bod y cwmni sy''n rhentu''r eiddo yn gwmni daliannol neu''n is-gwmni i''r landlord.
+hint.landlordConnect=Busnes neu gysylltiad arall er enghraifft efallai eich bod chi/eich cleient a''r landlord yn bartneriaid busnes; neu efallai bod y cwmni sy''n rhentu''r eiddo yn gwmni daliannol neu''n is-gwmni i''r landlord.
 label.landlordConnectText=Eich cysylltiad â''r landlord
 label.landlordConnectText.agent=Eu cysylltiad â''r landlord
 label.landlordConnectType=Beth yw''r cysylltiad rhyngoch chi a''r landlord?
@@ -430,10 +433,10 @@ hint.shellUnit=E.e. Eiddo newydd heb ei ddodrefnu sydd angen gwaith fel waliau m
 label.rentDetails=Rhowch fanylion os gwnaethoch ddewis ''Ydy/Oedd'' i unrhyw un o''r cwestiynau uchod
 label.rentDetails.agent=Rhowch fanylion os gwnaethoch ddewis ''Ydy/Oedd'' i unrhyw un o''r cwestiynau uchod
 hint.rentDetails=Os gwnaethoch ddewis ‘Ydy/Oedd’ i unrhyw o''r cwestiynau yn yr adran hon, rhowch fanylion
-label.parking.rentIncludeParking=A yw cost lle parcio a modurdy wedi''i chynnwys yn eich rhent?
+label.parking.rentIncludeParking=A yw cost eich man barcio neu garej wedi’'i gynnwys yn eich rhent?
 label.parking.rentIncludeParking.agent=A yw cost lle parcio a modurdy wedi''i chynnwys yn rhent eich cleient?
 label.parking.rentIncludeParkingDetails=Sawl lle parcio neu modurdy sydd wedi''u cynnwys yn y rhent?
-label.parking.rentSeparateParking=A ydych yn talu mwy am le parcio neu modurdai?
+label.parking.rentSeparateParking=A ydych yn talu yn ychwanegol ar gyfer eich mannau parcio neu garejys?
 label.parking.rentSeparateParking.agent=A yw eich cleient yn talu mwy am le parcio neu modurdai?
 label.parking.rentSeparateParkingDetails=Sawl lle parcio neu modurdy ychwanegol ydych chi''n talu amdanynt?
 label.parking.rentSeparateParkingDetails.agent=Sawl lle parcio neu modurdy ychwanegol mae eich cleient yn talu amdanynt?
@@ -498,7 +501,7 @@ label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
 section13.heading=Addasiadau a gwelliannau
 label.propertyAlterations=A ydych wedi cynnal unrhyw addasiadau mawr i''r eiddo?
 label.propertyAlterations.agent=A yw eich cleient wedi cynnal unrhyw addasiadau mawr i''r eiddo?
-hint.propertyAlterations=Dywedwch am unrhyw waith adeiladu neu welliannau (e.e ffitio allan cychwynnol, trwsio mawr, ail-wampio, estyniadau, dymchwel, lloriau mezzanine) Ticiwch ''Na'' lle dechreuodd y prydles mwy na 15 mlynedd yn ol os gwewch yn dda.
+hint.propertyAlterations=Dywedwch am unrhyw waith adeiladu neu welliannau (er enghraifft ffitio allan cychwynnol, trwsio mawr, ail-wampio, estyniadau, dymchwel, lloriau mezzanine) Ticiwch ''Na'' lle dechreuodd y prydles mwy na 15 mlynedd yn ol os gwewch yn dda.
 label.propertyAlterationsDetails.description=Gwaith a wnaed
 label.propertyAlterationsDetails.cost=Cost y gwaith heb gynnwys TAW
 label.propertyAlterationsDetails=Amcan o ddyddiad y gwaith
@@ -632,16 +635,15 @@ contactAddressType.mainAddress=Eich Cyfeiriad
 contactAddressType.alternativeAddress=Rwyf am i chi gysylltu â mi mewn cyfeiriad amgen
 contactAddressType.contactsAddress=Rwyf am i chi gysylltu â rhywun arall ar fy rhan
 userType.occupier=Y Deiliad / Ymddiriedolwr dros y deiliaid
-userType.occupiersAgent=Asiant y Deiliad 
+userType.occupiersAgent=Asiant y Deiliad
 userType.owner=Y Perchennog / Ymddiriedolwr dros y perchennog
 userType.ownerOccupier=Y Perchenog-ddeiliad
 userType.ownersAgent=Asiant y Perchennog
-userType.ownerOccupier=Y Perchennog-ddeiliad
 userType.vacated=No longer the occupier / Recently vacated
 contactType.email=E-bost
 contactType.phone=Ffôn
 contactType.both=Y ddau
-leaseAgreementTypes.verbal= Dim cytundeb, neu un nad yw''n ysgrifenedig
+leaseAgreementTypes.verbal= Dim cytundeb neu cytundeb ar lafar
 leaseAgreementTypes.leaseTenancy=Prydles sengl neu gytundeb tenantiaeth
 leaseAgreementTypes.licenceOther=Trwydded neu fath arall o gytundeb ysgrifenedig
 label.reviewIntervalTypes=Pa mor aml y caiff y rhent ei adolygu?
@@ -741,6 +743,8 @@ intel.alert.notBeforeLeaseDate=Ni ddylai''r dyddiad hwn fod cyn dyddiad dechrau'
 heading.termsandconditions=Telerau ac Amodau
 content.termsandconditions=<p>Mae''r telerau ac amodau hyn yn llywodraethu eich defnydd o wasanaeth Manylion Rhent a Phrydles ar-lein Asiantaeth y Swyddfa Brisio, fel y''i llywodraethir gan ddeddfau Cymru a Lloegr. Darllenwch y telerau ac amodau hyn yn ofalus gan eu bod yn effeithio ar eich hawliau a''ch cyfrifoldebau yn y gyfraith.</p><p>Wrth ddefnyddio''r wefan hon, rydych yn cytuno ar y telerau ac amodau fel y''u darparwyd.</p><h2 class="heading-medium">Defnyddio''r gwasanaeth ar-lein hwn</h2><p>Rydym yn gwneud pob ymdrech i sicrhau bod y wybodaeth a gyhoeddir ar y wefan yn gywir. Fodd bynnag, ni all Asiantaeth y Swyddfa Brisio dderbyn unrhyw gyfrifoldeb am gywirdeb y wybodaeth hon, ac mae''r rhai sy''n ei defnyddio yn gwneud hynny ar eu menter eu hunain.</p> <p>Ni allwn warantu y bydd y gwasanaeth heb unrhyw ddiffygion. Os bydd problem gyda''r gwasanaeth, dylech ddefnyddio''r ddolen ‘Cael help gyda''r dudalen hon’ ar waelod pob tudalen a byddwn yn cysylltu â chi cyn gynted ag y gallwn.</p> <h2 class="heading-medium">Diogelu rhag feirysau</h2> <p>Rydym yn gwneud pob ymdrech i wirio a phrofi''r holl ddeunydd yn ofalus, ond byddem yn cynghori defnyddwyr i redeg rhaglen gwrthfeirysau ar bob deunydd a lawrlwythir ar-lein.</p> <p>Nid yw Asiantaeth y Swyddfa Brisio yn derbyn unrhyw gyfrifoldeb am unrhyw golled, amhariad na difrod i''ch data na''ch system gyfrifiadurol tra byddwch yn defnyddio''r wefan hon.</p> <h2 class="heading-medium">Diwygiadau i''r telerau ac amodau</h2> <p>Gallwn ddiweddaru''r telerau ac amodau o bryd i''w gilydd a drwy barhau i ddefnyddio''r wefan rydych yn cadarnhau eich bod yn parhau i gytuno ar y telerau ac amodau defnydd hyn.</p> <h2 class="heading-medium">Diogelwch</h2> <p>Er mwyn sicrhau bod eich data''n cael eu cadw''n ddiogel, rydym yn defnyddio diogelwch Haen Socedi Diogel (SSL), un o''r systemau diogelwch cryfaf, ac amgryptiad 128 bit i storio a throsglwyddo eich data.</p> <p>Mae SSL yn gweithio drwy wneud y canlynol:</p> <ul class="list-bullet"> <li>atal pobl rhag dynwared rhywun arall - gallwch weld eich bod yn defnyddio gwefan SSL go iawn drwy''r symbol clo clap ar waelod y sgrin neu ym mar cyfeiriad eich porwr</li> <li>amgryptio data - cyn gynted ag y bydd eich cyfrifiadur wedi adnabod eich cyfrifiadur ni, bydd yn amgryptio''r holl wybodaeth a drosglwyddir rhyngddynt. Mae amgryptio data yn golygu na all unrhyw un arall ddarllen eich gwybodaeth wrth iddo deithio ar draws y Rhyngrwyd na''i newid </li> <li>atal anhrefnu (scrambling) - mae SSL yn defnyddio Cod Dilysu Neges (MAC) i atal unrhyw un rhag ymyrryd â''n gwefan. Bydd eich cyfrifiadur yn gwirio''r cod hwn bob tro cyn derbyn neges gennym. Golyga hyn, os bydd rhywun yn ceisio ymyrryd â neges, na fydd eich cyfrifiadur yn adnabod y cod a bydd yn eich rhybuddio.</li> </ul>
 heading.cookies=Cwcis
-content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ffeiliau bach, a elwir yn ‘cookies’, ar eich cyfrifiadur er mwyn casglu gwybodaeth ynglŷn â sut rydych yn pori''r wefan.</p>Defnyddir cwcis er mwyn:<ul class="list-bullet"><li>mesur sut rydych yn defnyddio''r wefan fel ei bod yn cael ei diweddaru a''i gwella yn seiliedig ar eich anghenion</li><li>cofio''r hysbysiadau rydych wedi''u gweld fel nad ydym yn eu dangos i chi eto</li></ul><p>Ni ddefnyddir cwcis RALD i''ch adnabod chi''n bersonol.</p> Byddwch fel arfer yn gweld neges ar y safle cyn y byddwn yn storio cwcis ar eich cyfrifiadur. <p>Rhagor o wybodaeth ynglŷn â <a href="http://www.aboutcookies.org/">sut rydym yn rheoli cwcis</a>.</p> <h2 class="heading-medium">Sut y defnyddir cwcis ar RALD</h2> <h3 class="heading-small">Mesur defnydd o''r wefan (Google Analytics)</h3> <p>Rydym yn defnyddio meddalwedd Google Analytics i gasglu gwybodaeth ynglŷn â sut rydych yn defnyddio RALD. Rydym yn gwneud hyn er mwyn helpu i wneud yn siŵr bod y safle''n diwallu anghenion ei defnyddiwr ac i''n helpu i wneud gwelliannau.</p> <p>Mae Google Analytics yn storio gwybodaeth am y canlynol:</p> <ul class="list-bullet"> <li>y tudalennau y gwnaethoch ymweld â nhw ar RALD</li> <li>faint o amser y gwnaethoch ei dreulio ar bob tudalen</li> <li>sut y daethoch i''r safle</li> </ul> <p>Nid ydym yn casglu nac yn storio eich gwybodaeth bersonol (e.e. eich enw neu eich cyfeiriad) felly ni ellir defnyddio''r wybodaeth i nodi pwy ydych.</p> <p>Nid ydym yn caniatáu i Google ddefnyddio na rhannu ein data dadansoddi.</p> <p>Mae Google Analytics yn gosod y cwcis canlynol:</p> <h3 class="heading-small">Universal Analytics</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> <tr> <td>_ga</td> <td>Mae hyn yn ei helpu i gyfrif faint o bobl sy''n ymweld â RALD drwy weld a ydych wedi ymweld o''r blaen</td> <td>2 flynedd</td> </tr> <tr> <td>_gat</td> <td>Fe''i defnyddir i reoli''r raddfa y gwneir ceisiadau i weld tudalen newydd</td> <td>10 munud</td> </tr> </tbody> </table> <h3 class="heading-small">Cwcis sy''n benodol ar gyfer RALD</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>mdtp</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> <tr> <td>mdtpdf</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> </tbody> </table> <h3 class="heading-small">Ein neges ragarweiniol</h3> <p>Efallai y byddwch yn gweld neges groeso naid pan fyddwch yn ymweld am y tro cyntaf. Storir cwcis ar eich porwr fel bod eich cyfrifiadur yn gwybod eich bod wedi ei gweld, a''i fod yn gwybod i beidio â''i dangos eto.</p> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>seen_cookie_message</td> <td>Mae''n cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwcis.</td> <td>1 mis</td> </tr> </tbody> </table>
-hint.if0thenenter1=Os nad oedd cost, rhowch swm 0 yma gan ddweud paham yn y disgrifiad o''r gwaith a wnaed uchod (e.e fe wnaethoch y gwaith eich hunan) os gwelwch yn dda
+content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ffeiliau bach, a elwir yn ‘cookies’, ar eich cyfrifiadur er mwyn casglu gwybodaeth ynglŷn â sut rydych yn pori''r wefan.</p>Defnyddir cwcis er mwyn:<ul class="list-bullet"><li>mesur sut rydych yn defnyddio''r wefan fel ei bod yn cael ei diweddaru a''i gwella yn seiliedig ar eich anghenion</li><li>cofio''r hysbysiadau rydych wedi''u gweld fel nad ydym yn eu dangos i chi eto</li></ul><p>Ni ddefnyddir cwcis RALD i''ch adnabod chi''n bersonol.</p> Byddwch fel arfer yn gweld neges ar y safle cyn y byddwn yn storio cwcis ar eich cyfrifiadur. <p>Rhagor o wybodaeth ynglŷn â <a href="http://www.aboutcookies.org/">sut rydym yn rheoli cwcis</a>.</p> <h2 class="heading-medium">Sut y defnyddir cwcis ar RALD</h2> <h3 class="heading-small">Mesur defnydd o''r wefan (Google Analytics)</h3> <p>Rydym yn defnyddio meddalwedd Google Analytics i gasglu gwybodaeth ynglŷn â sut rydych yn defnyddio RALD. Rydym yn gwneud hyn er mwyn helpu i wneud yn siŵr bod y safle''n diwallu anghenion ei defnyddiwr ac i''n helpu i wneud gwelliannau.</p> <p>Mae Google Analytics yn storio gwybodaeth am y canlynol:</p> <ul class="list-bullet"> <li>y tudalennau y gwnaethoch ymweld â nhw ar RALD</li> <li>faint o amser y gwnaethoch ei dreulio ar bob tudalen</li> <li>sut y daethoch i''r safle</li> </ul> <p>Nid ydym yn casglu nac yn storio eich gwybodaeth bersonol (er enghraifft eich enw neu eich cyfeiriad) felly ni ellir defnyddio''r wybodaeth i nodi pwy ydych.</p> <p>Nid ydym yn caniatáu i Google ddefnyddio na rhannu ein data dadansoddi.</p> <p>Mae Google Analytics yn gosod y cwcis canlynol:</p> <h3 class="heading-small">Universal Analytics</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> <tr> <td>_ga</td> <td>Mae hyn yn ei helpu i gyfrif faint o bobl sy''n ymweld â RALD drwy weld a ydych wedi ymweld o''r blaen</td> <td>2 flynedd</td> </tr> <tr> <td>_gat</td> <td>Fe''i defnyddir i reoli''r raddfa y gwneir ceisiadau i weld tudalen newydd</td> <td>10 munud</td> </tr> </tbody> </table> <h3 class="heading-small">Cwcis sy''n benodol ar gyfer RALD</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>mdtp</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> <tr> <td>mdtpdf</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> </tbody> </table> <h3 class="heading-small">Ein neges ragarweiniol</h3> <p>Efallai y byddwch yn gweld neges groeso naid pan fyddwch yn ymweld am y tro cyntaf. Storir cwcis ar eich porwr fel bod eich cyfrifiadur yn gwybod eich bod wedi ei gweld, a''i fod yn gwybod i beidio â''i dangos eto.</p> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>seen_cookie_message</td> <td>Mae''n cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwcis.</td> <td>1 mis</td> </tr> </tbody> </table>
+hint.if0thenenter1=Os nad oedd cost, rhowch swm 0 yma gan ddweud paham yn y disgrifiad o''r gwaith a wnaed uchod (er enghraifft fe wnaethoch y gwaith eich hunan) os gwelwch yn dda
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent a dalwyd gan eich cleient yn ystod cyfnod rhent grisiog ac eithrio TAW
+section2.heading.1=Oherwydd diogelwch data, ni allwn cyn-boblogi y ffurflen hon
+label.writtenAgreement.rentOpenEnded.help=Rhowch Na lle mae''n rhedeg am gyfnod penodol neu mae dyddiad terfynol wedi''i gytuno

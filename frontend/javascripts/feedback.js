@@ -60,6 +60,7 @@
     VoaFeedback.helpForm = function() {
         $('#helpForm').on('submit', 'form', function(event) {
             event.preventDefault();
+            $('#report-submit').prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url:  $(this).attr('action'),
