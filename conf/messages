@@ -327,9 +327,10 @@ label.writtenAgreement.startDate.agent=When did your client''s <span class="agre
 label.writtenAgreement.startDate.leaseTenancy=When did your single lease or tenancy agreement start?
 label.writtenAgreement.startDate.agent.leaseTenancy=When did your client''s single lease or tenancy agreement start?
 label.writtenAgreement.startDate.licenceOther=When did your license or written agreement start?
-label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?
+label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?0
 label.writtenAgreement.rentOpenEnded=Is your <span class="agreementType">lease, license or written</span> agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent=Is your client''s <span class="agreementType">lease, licence or written</span> agreement open ended?
+label.writtenAgreement.rentOpenEnded.help=Please record No if it runs for a defined term or has an agreed end date
 label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your single lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client''s single lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.licenceOther=Is your license or written agreement open ended?
