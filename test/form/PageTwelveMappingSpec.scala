@@ -119,15 +119,15 @@ class PageTwelveMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "validate the details of the first included service" in {
-    validateLettersNumsSpecCharsUptoLength(getKeyService(0).description, 150, pageTwelveForm, baseData)
+    validateLettersNumsSpecCharsUptoLength(getKeyService(0).description, 50, pageTwelveForm, baseData)
   }
 
   it should "validate the cost of the first included service" in {
     validateCurrency(getKeyService(0).cost, pageTwelveForm, baseData)
   }
 
-  it should "validate the description of services is no more than 150 characters" in {
-    validateLettersNumsSpecCharsUptoLength(getKeyService(0).description, 150, pageTwelveForm, dataWithSecondService)
+  it should "validate the description of services is no more than 50 characters" in {
+    validateLettersNumsSpecCharsUptoLength(getKeyService(0).description, 50, pageTwelveForm, dataWithSecondService)
   }
 
   it should "validate the cost of the second included service" in {
