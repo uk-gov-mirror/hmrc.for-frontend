@@ -32,6 +32,7 @@ trait MicroService {
     .settings(publishingSettings: _*)
     .settings(organization := "uk.gov.hmrc")
     .settings(PlayKeys.playDefaultPort := defaultPort)
+    .settings(javaOptions += "-Xmx1G")
     .settings(
       targetJvm := "jvm-1.8",
       libraryDependencies ++= appDependencies,
