@@ -125,7 +125,7 @@ ag anfon e-bost i <a href="{0}">formhelp@voa.gsi.gov.uk</a>. \
 Darperwch eich rhif cyfeirnod a manylion cyswllt <strong>yn unig</strong> os gwelwch yn dda, wedyn cysylltwn ȃ chi am fwy o wybodaeth. \
 <p></p>
 
-ex-occupier.close-hint=???
+ex-occupier.close-hint=Petaech wedi dethol Na ac wedi ein e-bostio gyda''ch manylion cyswllt cewch gau''r dudalen yma nawr
 
 ex-occupier.mail.subject=Ffurflen cyn-berchennog/ddeiliad
 ex-occupier.mail.body=E-bostiwch eich rhif cyfeirnod, cyfeiriad e-bost ac/neu rhif teleffôn yn unig atom os gwelwch yn dda. \
