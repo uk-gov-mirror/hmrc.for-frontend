@@ -61,14 +61,7 @@
             '_fieldsetClass -> "inline",
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false,
-            '_help -> Html(
-              Messages("label.relatedHelptext",
-                Messages("ex-occupier.mail.link",
-                  Messages("ex-occupier.mail.subject"),
-                  Messages("ex-occupier.mail.body")
-                )
-              )
-            )
+            '_help -> Messages("label.relatedHelptext")
           )
         )
 
@@ -77,7 +70,7 @@
         </p>
 
 
-        @includes.continueButton()
+        @includes.continueButton()        
 
       </div>
       <div class="column-third"></div>

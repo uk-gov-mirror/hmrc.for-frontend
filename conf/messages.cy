@@ -118,18 +118,9 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 ##############################
 label.isRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
 label.isRelatedYes=Oes
-label.isRelatedNo=Na
-label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach \
-neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Na'' os gwelwch yn dda \
-ag anfon e-bost i <a href="{0}">formhelp@voa.gsi.gov.uk</a>. \
-Darperwch eich rhif cyfeirnod a manylion cyswllt <strong>yn unig</strong> os gwelwch yn dda, wedyn cysylltwn ȃ chi am fwy o wybodaeth. \
-<p></p>
+label.isRelatedNo=Nag Oes
+label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda
 
-ex-occupier.close-hint=Petaech wedi dethol Na ac wedi ein e-bostio gyda''ch manylion cyswllt cewch gau''r dudalen yma nawr
-
-ex-occupier.mail.subject=Ffurflen cyn-berchennog/ddeiliad
-ex-occupier.mail.body=E-bostiwch eich rhif cyfeirnod, cyfeiriad e-bost ac/neu rhif teleffôn yn unig atom os gwelwch yn dda. \
-Wedyn cysylltwn ȃ chi am fwy o wybodaeth.
 
 #SECTION 1
 ##############################
