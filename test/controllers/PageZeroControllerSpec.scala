@@ -16,25 +16,23 @@
 
 package controllers
 
-import connectors.Document
+import connectors.{Document, Page}
 import controllers.dataCapturePages.PageZeroController
 import form.persistence.{FormDocumentRepository, SaveForm, SaveFormInRepository}
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
 import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
-import play.api.test.Helpers._
-import play.api.test.{DefaultAwaitTimeout, FakeApplication, FakeRequest, FutureAwaits}
+import play.api.test.{DefaultAwaitTimeout, FakeRequest, FutureAwaits}
 import play.filters.csrf.CSRF
 import play.filters.csrf.CSRF.SignedTokenProvider
 import uk.gov.hmrc.play.http.HeaderNames
 import utils.stubs.StubFormDocumentRepo
+import play.api.test.Helpers._
 
 class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwaits with DefaultAwaitTimeout with OptionValues {
 
   val testRefNum = "1234567890"
   val sessionId = java.util.UUID.randomUUID().toString
-
-  play.api.Play.start(FakeApplication(additionalConfiguration = Map("auditing.enabled" -> false)))
 
   private object TestPageZeroController extends PageZeroController {
 
@@ -73,15 +71,9 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
 
     val res = await(TestPageZeroController.save()(request))
 
-    "Then they are redirected to a mailto link" in {
+    "Then they are directed to the vacated form" in {
       status(res) mustBe SEE_OTHER
-
-      val followUp = FakeRequest("GET", header("location", res).value)
-      val res2 = route(followUp).getOrElse(throw new Exception(""))
-
-      header("location", res2).value mustBe "mailto:formhelp@voa.gsi.gov.uk" +
-        "?subject=Ex-owners/occupiers form" +
-        "&body=Please email us your reference number, email address and/or telephone number only. We will then contact you for further details."
+      header("location", res).value mustBe "/sending-rental-information/inpage-vacated-form"
     }
   }
 

@@ -25,7 +25,6 @@ import it.innove.play.pdf.PdfGenerator
 import models.pages._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -104,8 +103,8 @@ object Application extends FrontendController {
     Ok(views.html.error.error500())
   }
 
-  def inpageVacatedForm = Action { implicit request =>
-    Redirect(Messages("ex-occupier.mail.link", Messages("ex-occupier.mail.subject"), Messages("ex-occupier.mail.body")))
+  def inpageVacatedForm  = Action { implicit request =>
+    Ok(views.html.inpageVacatedForm())
   }
 
   private def host(implicit request: RequestHeader): String = {

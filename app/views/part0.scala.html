@@ -60,22 +60,9 @@
             '_legend -> true,
             '_fieldsetClass -> "inline",
             '_labelClass -> "form-label-bold",
-            '_showConstraints -> false,
-            '_help -> Html(
-              Messages("label.relatedHelptext",
-                Messages("ex-occupier.mail.link",
-                  Messages("ex-occupier.mail.subject"),
-                  Messages("ex-occupier.mail.body")
-                )
-              )
-            )
+            '_showConstraints -> false
           )
         )
-
-        <p class="form-hint">
-          @Messages("ex-occupier.close-hint")
-        </p>
-
 
         @includes.continueButton()
 
