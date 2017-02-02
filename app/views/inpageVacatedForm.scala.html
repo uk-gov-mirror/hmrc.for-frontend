@@ -1,0 +1,35 @@
+@import models._
+@import models.serviceContracts.submissions._
+@import models.pages.Summary
+@import play.api.data._
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@()(implicit requestHeader: RequestHeader, lang: Lang)
+
+@headExtra = {
+@views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+@views.html.includes.javascripts()
+@views.html.includes.analytics()
+}
+
+@main(title = Messages("project.name") + " | " + Messages("label.help.title.vacated"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false) {
+    @form(action = dataCapturePages.routes.PageController.showPage(0)) {
+        <main id="content" tabindex="-1">
+            @progressBar(1, Messages("label.help.title.vacated"), showSection = false, showTopBackButton = true)
+            @helper.CSRF.formField
+
+            <div class="grid-row">
+                <div class="column-two-thirds">
+                    <p>@Html(Messages("hint.vacated.form"))</p>
+                </div>
+            </div>
+
+        </main>
+    }
+}

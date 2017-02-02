@@ -119,8 +119,6 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 label.isRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
 label.isRelatedYes=Oes
 label.isRelatedNo=Nag Oes
-label.relatedHelptext=Os nad oes gennych unrhywbeth a wnelo ȃ''r eiddo yma (h.y. nid y chi yw''r perchennog/deiliad bellach neu ''rydych wedi gadael yr eiddo yn ddiweddar), dewiswch ''Nag Oes'' os gwelwch yn dda
-
 
 #SECTION 1
 ##############################
@@ -616,9 +614,19 @@ label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 
 #VACATED FORM
 ###############################
-label.help.title.vacated=Ffurflen cyn-berchennog/ddeiliad
-hint.vacated.form=Os nad oes gennych unrhyw perthynas â''r eiddo neu yn ddiweddar wedi gadael llenwch y ffurflen isod.
-
+label.help.title.vacated=Nid oes gennych berthynas gyda''r eiddo ar hyn o bryd
+hint.vacated.form=<p>Anfonwch:</p>\
+  <p>\
+  <ul class="list-bullet">\
+  <li>Y rhif cyfeirnod ar eich llythyr</li>\
+  <li>Eich rhif teleffôn cyswllt</li>\
+  <li>Manylion y deiliad presennol (os yn hysbys)</li>\
+  </ul>\
+  </p>\
+  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk\
+?subject=Ffurflen cyn-berchennog/ddeiliad\
+&body=E-bostiwch eich rhif cyfeirnod, cyfeiriad e-bost ac/neu rhif teleffôn yn unig atom os gwelwch yn dda. \
+Wedyn cysylltwn ȃ chi am fwy o wybodaeth.">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda,.</p>
 
 #TYPES
 ###############################

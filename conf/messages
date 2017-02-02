@@ -120,7 +120,6 @@ label.retryLogin=Try to log in again
 label.isRelated=Do you still have a relationship with this property?
 label.isRelatedYes=Yes
 label.isRelatedNo=No
-label.relatedHelptext=If you no longer have anything to do with this property (i.e. you are no longer the owner/occupier or have recently vacated the property), please select ''No''
 
 #SECTION 1
 ##############################
@@ -637,9 +636,19 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 #VACATED FORM
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
-label.help.title.vacated=Ex-owners/occupiers form
-hint.vacated.form=If you no longer have any relation with the property or have recently vacated it please fill in this form below.
-
+label.help.title.vacated=You do not have a current relationship with this property
+hint.vacated.form=<p>Please send:</p>\
+  <p>\
+  <ul class="list-bullet">\
+  <li>The reference number from your letter</li>\
+  <li>Your contact telephone number</li>\
+  <li>Details of the current occupier (if known)</li>\
+  </ul>\
+  </p>\
+  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk\
+?subject=Ex-owners/occupiers form\
+&body=Please email us your reference number, email address and/or telephone number only. \
+We will then contact you for further details.">formhelp@voa.gsi.gov.uk</a></p>
 
 #TYPES
 ###############################
