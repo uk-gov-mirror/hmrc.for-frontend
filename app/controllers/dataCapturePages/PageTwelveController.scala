@@ -22,6 +22,8 @@ import models.pages.{PageTwelve, Summary}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object PageTwelveController extends ForDataCapturePage[PageTwelve] {
   val format = p12f

@@ -9,7 +9,7 @@
 @import _root_.template.FormatRefNum
 
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -37,7 +37,7 @@
           <!-- What type of lease or agreement do you have? -->
         @inputRadioGroup(
           field = theForm("leaseAgreementType"),
-          options = EnumOptions.options(LeaseAgreementTypes, lang),
+          options = EnumOptions.options(LeaseAgreementTypes),
           args = Seq(
             '_label -> Messages(if(summary.isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")),
             '_error -> theForm("leaseAgreementType").errors,

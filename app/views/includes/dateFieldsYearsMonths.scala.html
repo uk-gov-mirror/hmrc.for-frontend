@@ -3,7 +3,7 @@
 @import play.api.data.Forms._
 @import _root_.template.Helper._
 
-@(theForm:Form[_],hidden:String, prefix:String)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm:Form[_],hidden:String, prefix:String)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @displayFieldError(error:FormError) = {

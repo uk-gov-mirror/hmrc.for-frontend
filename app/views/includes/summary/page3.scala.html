@@ -3,7 +3,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p3: PageThree, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p3: PageThree, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <li><h2 class="heading-medium no-margin-top">@Messages("section3.heading")</h2></li> 
     @summaryBlock(Messages("label.propertyType"), 3, "propertyType") { 
@@ -36,12 +36,12 @@
     }
 
     @summaryBlock(Messages(if(isAgent) Messages("label.propertyOwnedByYou.agent") else Messages("label.propertyOwnedByYou")), 3, "propertyOwnedByYou") {
-      @displayBoolean(p3.propertyOwnedByYou, if(isAgent) "2" else "1")(lang)
+      @displayBoolean(p3.propertyOwnedByYou, if(isAgent) "2" else "1")
     }
 
     @if(!p3.propertyOwnedByYou) {
       @summaryBlock(Messages(if(isAgent) Messages("label.propertyRentedBy.agent") else Messages("label.propertyRentedBy")), 3, "propertyRentedByYou") {
-        @p3.propertyRentedByYou.map(x => displayBoolean(x, if(isAgent) "2" else "1")(lang))
+        @p3.propertyRentedByYou.map(x => displayBoolean(x, if(isAgent) "2" else "1"))
       }
     }
 

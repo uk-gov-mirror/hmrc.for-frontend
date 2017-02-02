@@ -30,6 +30,8 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object Survey extends PostSubmitFeedback {
   val repository = FormPersistence.formDocumentRepository

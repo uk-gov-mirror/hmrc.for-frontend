@@ -7,7 +7,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -55,7 +55,7 @@
 
         @inputRadioGroup(
           field = theForm("notReviewRentFixed"),
-          options = EnumOptions.options(NotReviewRentFixedTypes, lang),
+          options = EnumOptions.options(NotReviewRentFixedTypes),
           args = Seq(
             '_label -> Messages("label.notReviewRentFixed"),
             '_error -> theForm("notReviewRentFixed").errors,
@@ -70,7 +70,7 @@
 
         @inputRadioGroup(
           field = theForm("rentSetByType"),
-          options = EnumOptions.options(RentSetByTypes, lang),
+          options = EnumOptions.options(RentSetByTypes),
           args = Seq(
             '_label -> Messages("label.rentSetByType"),
             '_error -> theForm("rentSetByTypes").errors,

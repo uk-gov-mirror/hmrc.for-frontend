@@ -1,7 +1,7 @@
 @import models._
 @import play.api.data._
 @import play.api.data.Forms._
-@(theForm:Form[_],fieldPrefix:String,base:Int=0)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm:Form[_],fieldPrefix:String,base:Int=0)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @text(suffix:String,label:String) = {
     @inputText(theForm, fieldPrefix + suffix,label)

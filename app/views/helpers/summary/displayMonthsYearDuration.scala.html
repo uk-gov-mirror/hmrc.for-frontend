@@ -1,6 +1,6 @@
 @import helpers.summary._
 @import models.serviceContracts.submissions._
 
-@(d: MonthsYearDuration)(implicit  requestHeader: RequestHeader, lang: Lang)
+@(d: MonthsYearDuration)(implicit  requestHeader: RequestHeader, messages: Messages)
 
 @{s"${d.years} years, ${d.months} months"}

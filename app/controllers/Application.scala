@@ -28,6 +28,8 @@ import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object Application extends FrontendController {
   def repository: FormDocumentRepository = playconfig.FormPersistence.formDocumentRepository
@@ -118,7 +120,7 @@ object Application extends FrontendController {
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val pdf = PdfGenerator.toBytes(views.html.summary(summary), host)
+        val pdf = current.injector.instanceOf[PdfGenerator].toBytes(views.html.summary(summary), host)
         Ok(pdf).as("application/pdf")
       case None =>
         InternalServerError(views.html.error.error500())

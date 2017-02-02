@@ -3,7 +3,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p2: CustomerDetails, summary: Summary)(implicit requestHeader: RequestHeader, lang: Lang)
+@(p2: CustomerDetails, summary: Summary)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @underReview = @{
     if(summary.isUnderReview) {

@@ -3,30 +3,28 @@ package aat.agentApi
 import aat.AcceptanceTest
 import models.serviceContracts.submissions._
 import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.WS
+import play.api.libs.ws.WSClient
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import uk.gov.hmrc.play.http.{HeaderNames, HttpResponse}
 
-class PUTtingSubmissionJson extends AcceptanceTest {
+class POSTingSubmissionJson extends AcceptanceTest {
   import TestData._
 
-  startApp()
-
-  "When PUTting a submission without a valid accept header" - {
-    http.stubValidCredentials(valid.ref1, valid.ref2, valid.postcode)
-    val res = AgentApi.submitWithoutAcceptHeader(valid.refNum, valid.postcode, validSubmission)
-
+  "When POSTting a submission without a valid accept header" - {
     "A formatted 406 Not Acceptable response is returned" in {
+      http.stubValidCredentials(valid.ref1, valid.ref2, valid.postcode)
+      val res = AgentApi.submitWithoutAcceptHeader(valid.refNum, valid.postcode, validSubmission)
+
       assert(res.status === 406)
       assert(res.body === Json.parse("""{"code": "ACCEPT_HEADER_INVALID", "message": "The header Accept is missing or invalid"}""").toString)
     }
   }
 
-  "When PUTting a submission using invalid credentials" - {
-    http.stubInvalidCredentials(invalid.ref1, invalid.ref2, invalid.postcode)
-    val res = AgentApi.submit(invalid.refNum, invalid.postcode, validSubmission)
-
+  "When POSTting a submission using invalid credentials" - {
     "A formatted 401 Unauthorised response is returned" in {
+      http.stubInvalidCredentials(invalid.ref1, invalid.ref2, invalid.postcode)
+      val res = AgentApi.submit(invalid.refNum, invalid.postcode, validSubmission)
+
       assert(res.status === 401)
       assert(res.body === Json.parse(
         s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${invalid.refNum} - ${invalid.postcode}; 4 tries remaining until IP lockout"}""").toString
@@ -34,10 +32,10 @@ class PUTtingSubmissionJson extends AcceptanceTest {
     }
   }
 
-  "When PUTting a submission using valid credentials" - {
-    http.stubValidCredentials(valid.ref1, valid.ref2, valid.postcode)
+  "When POSTting a submission using valid credentials" - {
+    "When the submission json is invalid, a formatted 400 Bad Request response explaining the error is returned" in {
+      http.stubValidCredentials(valid.ref1, valid.ref2, valid.postcode)
 
-    "When the submission json is invalid" - {
       http.stubSubmission(valid.refNum, invalidSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(
         responseStatus = 400,
         responseJson = Some(Json.parse(submissionErrorFromHodAdapter))
@@ -45,87 +43,81 @@ class PUTtingSubmissionJson extends AcceptanceTest {
 
       val res = AgentApi.submit(valid.refNum, valid.postcode, invalidSubmission)
 
-      "A formatted 400 Bad Request response explaining the error is returned" in {
-        assert(res.status === 400)
-        assert(res.body === Json.parse(s"""{"code": "INVALID_SUBMISSION", "message": $invalidSubmissionError}""").toString)
-      }
+      assert(res.status === 400)
+      assert(res.body === Json.parse(s"""{"code": "INVALID_SUBMISSION", "message": $invalidSubmissionError}""").toString)
     }
 
     "When the submission json is valid" - {
-      http.stubSubmission(valid.refNum, validSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(200, responseJson = Some(Json.parse("{}"))))
-
-      val res = AgentApi.submit(valid.refNum, valid.postcode, validSubmission)
-
       "A 200 Ok response is returned" in {
+        http.stubSubmission(valid.refNum, validSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(200, responseJson = Some(Json.parse("{}"))))
+
+        val res = AgentApi.submit(valid.refNum, valid.postcode, validSubmission)
+
         assert(res.status === 200)
         assert(res.body === Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference ${valid.refNum}"}""").toString)
       }
     }
   }
 
-  "When PUTting a submission and there is an internal server error" - {
-    http.stubInternalServerError(internalServerError.ref1, internalServerError.ref2, internalServerError.postcode)
-
-    val res = AgentApi.submit(internalServerError.refNum, internalServerError.postcode, validSubmission)
-
+  "When POSTting a submission and there is an internal server error" - {
     "A formatted 500 Internal Server Error response is returned" in {
+      http.stubInternalServerError(internalServerError.ref1, internalServerError.ref2, internalServerError.postcode)
+
+      val res = AgentApi.submit(internalServerError.refNum, internalServerError.postcode, validSubmission)
+
       assert(res.status === 500)
       assert(res.body === Json.parse("""{"code": "INTERNAL_SERVER_ERROR", "message": "Internal server error"}""").toString)
     }
   }
 
-  "When PUTting a submission using credentials that have already been used" - {
-    http.stubConflictingCredentials(conflicting.ref1, conflicting.ref2, conflicting.postcode)
-
-    val res = AgentApi.submit(conflicting.refNum, conflicting.postcode, validSubmission)
-
+  "When POSTting a submission using credentials that have already been used" - {
     "A formatted 409 Conflict response explaining the error is returned" in {
+      http.stubConflictingCredentials(conflicting.ref1, conflicting.ref2, conflicting.postcode)
+
+      val res = AgentApi.submit(conflicting.refNum, conflicting.postcode, validSubmission)
+
       assert(res.status === 409)
       assert(res.body === Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for ${conflicting.refNum}"}""").toString)
     }
   }
 
-  "When PUTting a submission using a locked out IP" - {
-    http.stubIPLockout(lockedOut.ref1, lockedOut.ref2, lockedOut.postcode)
-
-    val res = AgentApi.submit(lockedOut.refNum, lockedOut.postcode, validSubmission)
-
+  "When POSTting a submission using a locked out IP" - {
     "A formatted 401 Unauthorised response explaining that the IP is locked out is returned" in {
+      http.stubIPLockout(lockedOut.ref1, lockedOut.ref2, lockedOut.postcode)
+
+      val res = AgentApi.submit(lockedOut.refNum, lockedOut.postcode, validSubmission)
+
       assert(res.status === 401)
       assert(res.body === Json.parse("""{"code": "IP_LOCKOUT", "message":"This IP address is locked out for 24 hours due to too many failed login attempts"}""").toString)
     }
   }
 
-  "When PUTting a submission using a non-test account when only test accounts are allowed" - {
-    http.stubValidCredentials(nonTestAccount.ref1, nonTestAccount.ref2, nonTestAccount.postcode)
-
-    val res = AgentApi.submit(nonTestAccount.refNum, nonTestAccount.postcode, validSubmission)
-
+  "When POSTting a submission using a non-test account when only test accounts are allowed" - {
     "A formatted 401 Unauthorised response explaining that the credentials are invalid is returned" in {
+      http.stubValidCredentials(nonTestAccount.ref1, nonTestAccount.ref2, nonTestAccount.postcode)
+
+      val res = AgentApi.submit(nonTestAccount.refNum, nonTestAccount.postcode, validSubmission)
+
       assert(res.status === 401)
       assert(res.body === Json.parse(
         s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: ${nonTestAccount.refNum} - ${nonTestAccount.postcode}"}""").toString
       )
     }
   }
-}
 
-private object AgentApi extends FutureAwaits with DefaultAwaitTimeout {
-  import play.api.Play.current
+  private object AgentApi extends FutureAwaits with DefaultAwaitTimeout {
+    val WS = app.injector.instanceOf(classOf[WSClient])
 
-  def submit(refNum: String, postcode: String, submission: JsValue) = {
-    await(WS
-      .url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
-      .withHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
-      .post(submission)
-    )
-  }
+    def submit(refNum: String, postcode: String, submission: JsValue) =
+      await(WS.url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
+        .withHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+        .withHeaders("X-Requested-With" -> "IT-Test")
+        .post(submission))
 
-  def submitWithoutAcceptHeader(refNum: String, postcode: String, submission: JsValue) = {
-    await(WS
-      .url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
-      .post(submission)
-    )
+    def submitWithoutAcceptHeader(refNum: String, postcode: String, submission: JsValue) =
+      await(WS.url(s"http://localhost:9521/sending-rental-information/api/submit/$refNum/$postcode")
+        .withHeaders("X-Requested-With" -> "IT-Test")
+        .post(submission))
   }
 }
 

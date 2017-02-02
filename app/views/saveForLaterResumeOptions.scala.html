@@ -1,7 +1,7 @@
 @import models.journeys.Journey
 @import models.pages.Summary
 @import models.serviceContracts.submissions._
-@()(implicit requestHeader: RequestHeader,  lang: Lang)
+@()(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()

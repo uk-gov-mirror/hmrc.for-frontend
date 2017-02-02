@@ -31,7 +31,7 @@ object EmailConnector extends ServicesConfig {
   lazy val emailUrl = baseUrl("email")
   val http = ForConfig.http
 
-  def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, lang: Lang) = {
+  def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, messages: Messages) = {
     email.map { e =>
       val formattedExpiryDate = s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
       val json = Json.obj(

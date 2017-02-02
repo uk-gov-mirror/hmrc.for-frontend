@@ -5,7 +5,7 @@
 
 @import playconfig.FormPartialProvider
 
-@(contactPartialUrl: Option[String] = None, error: Option[Html] = None)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(contactPartialUrl: Option[String] = None, error: Option[Html] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()

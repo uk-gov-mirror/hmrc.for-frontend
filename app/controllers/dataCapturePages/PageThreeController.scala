@@ -22,6 +22,8 @@ import models.pages.{PageThree, Summary}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object PageThreeController extends ForDataCapturePage[PageThree] {
   val format = p3f

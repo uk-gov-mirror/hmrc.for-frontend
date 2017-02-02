@@ -3,37 +3,27 @@ package aat
 import config.ForGlobal
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
-import org.scalatest.{BeforeAndAfterAll, FreeSpecLike, Matchers}
+import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
+import org.scalatestplus.play.guice._
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
-import play.api.test.{FakeApplication, TestServer}
 import playconfig.ForHttp
-import uk.gov.hmrc.play.http.hooks.HttpHook
 import uk.gov.hmrc.play.http.{HeaderCarrier, _}
 
 import scala.concurrent.Future
 
-trait AcceptanceTest extends FreeSpecLike with Matchers with BeforeAndAfterAll {
+trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite {
   private lazy val testConfigs = Map("auditing.enabled" -> false, "agentApi.testAccountsOnly" -> true)
 
   lazy val http: TestHttpClient = new TestHttpClient()
 
-  val port = 9521
-
-  private var server: TestServer = null
-
-  protected def startApp() = {
-    val global = new ForGlobal {
-      override lazy val forHttp = http
-    }
-
-    val app = FakeApplication(withGlobal = Some(global), additionalConfiguration = testConfigs)
-    server = TestServer(port, app)
-    server.start()
+  val global = new ForGlobal {
+    override lazy val forHttp = http
   }
 
-  override def afterAll() = {
-    server.stop()
-  }
+  override lazy val port = 9521
+
+  override def fakeApplication() = new GuiceApplicationBuilder().global(global).configure(testConfigs).build()
 }
 
 class TestHttpClient extends ForHttp {

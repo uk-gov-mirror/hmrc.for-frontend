@@ -3,7 +3,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p9: PageNine, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p9: PageNine, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <li><h2 class="heading-medium no-margin-top">@Messages("section9.heading")</h2></li> 
 
@@ -27,7 +27,7 @@
 	}
 
 	@summaryBlock(Messages(if(isAgent) Messages("label.negotiatingNewRent.agent") else Messages("label.negotiatingNewRent")), 9, "negotiatingNewRent") {
-		@displayBoolean(p9.negotiatingNewRent, if(isAgent) "1" else "7")(lang)
+		@displayBoolean(p9.negotiatingNewRent, if(isAgent) "1" else "7")
 	}
 
 	@summaryBlock(Messages("label.rentBasedOn"), 9, "rentBasedOn") {

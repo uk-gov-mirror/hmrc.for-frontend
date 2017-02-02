@@ -4,7 +4,7 @@
 @import _root_.template.Helper._
 @import helpers._
 
-@(theForm: Form[_], prefix: String, hidden: String, abroadAddress: Boolean, nojs: String = "", Optional: Boolean)(implicit requestHeader: RequestHeader, lang: Lang)
+@(theForm: Form[_], prefix: String, hidden: String, abroadAddress: Boolean, nojs: String = "", Optional: Boolean)(implicit requestHeader: RequestHeader, messages: Messages)
 
     @isOptional = @{
         if(Optional) {

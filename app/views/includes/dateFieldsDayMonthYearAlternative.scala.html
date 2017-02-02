@@ -3,7 +3,7 @@
 @import views.includes.FieldNamer
 
 
-@(theForm: Form[_], hidden: String, prefix: String, suffix: String, help: Boolean, helpText: String, inline: Boolean, idx: Option[Int] = None, hintDate: String)(implicit requestHeader: RequestHeader, lang: Lang)
+@(theForm: Form[_], hidden: String, prefix: String, suffix: String, help: Boolean, helpText: String, inline: Boolean, idx: Option[Int] = None, hintDate: String)(implicit requestHeader: RequestHeader, messages: Messages)
 
     @stripIndices(field: String) = @{
         field.replaceAll("""\[[0-9]\]""", "")

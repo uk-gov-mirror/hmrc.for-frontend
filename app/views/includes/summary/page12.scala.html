@@ -4,7 +4,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p12: PageTwelve)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p12: PageTwelve)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section12.heading")</h2></li>
 
 @summaryBlock(Messages("label.responsibleOutsideRepairs"), 12, "responsibleOutsideRepairs") {
@@ -18,7 +18,7 @@
     @Messages(s"responsibleType.${p12.responsibleBuildingInsurance.name}")   
 }
 @summaryBlock(Messages("label.ndrCharges"), 12, "ndrCharges") {
-    @displayBoolean(p12.ndrCharges, "7")(lang)
+    @displayBoolean(p12.ndrCharges, "7")
 }
 @if(p12.ndrCharges) {
     @p12.ndrDetails.map { ndrSpecifics =>
@@ -30,7 +30,7 @@
 }
 
 @summaryBlock(Messages("label.waterCharges"), 12, "waterCharges") {
-    @displayBoolean(p12.waterCharges, "7")(lang)
+    @displayBoolean(p12.waterCharges, "7")
 }
 @if(p12.waterCharges) {
     @summaryBlock(Messages("label.ndrDetails"), 12, "waterChargesCost") {
@@ -39,7 +39,7 @@
 }
 
 @summaryBlock(Messages("label.includedServices"), 12, "includedServices") {
-    @displayBoolean(p12.includedServices, "7")(lang)
+    @displayBoolean(p12.includedServices, "7")
 }
 @if(p12.includedServices) {
     @p12.includedServicesDetails.zipWithIndex.map { case (serviceDetails, idx) =>

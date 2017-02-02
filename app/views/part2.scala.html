@@ -7,7 +7,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[CustomerDetails], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[CustomerDetails], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @headExtra = {
@@ -56,7 +56,7 @@
           <!-- I am the -->
         @inputRadioGroup(
           field = theForm("userType"),
-          options = EnumOptions.options(UserTypes, lang),
+          options = EnumOptions.options(UserTypes),
           args = Seq(
             '_label -> Messages("label.userType"),
             '_error -> theForm("userType").errors,
@@ -76,7 +76,7 @@
           <!-- How would you like us to contact you? -->
         @inputRadioGroup(
           field = theForm("contactType"),
-          options = EnumOptions.options(ContactTypes, lang),
+          options = EnumOptions.options(ContactTypes),
           args = Seq(
             '_label -> Messages("label.contactType"),
             '_error -> theForm("contactType").errors,

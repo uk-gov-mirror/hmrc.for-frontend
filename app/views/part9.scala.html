@@ -9,7 +9,7 @@
 @import org.joda.time.DateTime
 
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -41,7 +41,7 @@
 
           @helpers.inputRadioGroup(
             field=theForm("totalRent.rentLengthType"),
-            options = EnumOptions.options(RentLengthTypes, lang),
+            options = EnumOptions.options(RentLengthTypes),
             args=Seq(
               '_label -> Messages("label.totalRent.rentLengthType"),
               '_error -> theForm("booleanMissing").errors,
@@ -93,7 +93,7 @@
 
         @inputRadioGroup(
           field = theForm("rentBasedOn"),
-          options = EnumOptions.options(RentBaseTypes, lang),
+          options = EnumOptions.options(RentBaseTypes),
           args = Seq(
             '_label -> Messages("label.rentBasedOn"),
             '_error -> theForm("rentBasedOn").error,

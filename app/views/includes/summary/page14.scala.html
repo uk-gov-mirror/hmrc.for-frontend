@@ -3,11 +3,11 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p14: OtherFactors, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p14: OtherFactors, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section14.heading")</h2></li>
 
 @summaryBlock(Messages(if(isAgent) Messages("label.anyOtherFactors.agent") else Messages("label.anyOtherFactors")), 14, "anyOtherFactors") {
-    @displayBoolean(p14.anyOtherFactors, "3")(lang)
+    @displayBoolean(p14.anyOtherFactors, "3")
 }
 
 @if(p14.anyOtherFactors) {

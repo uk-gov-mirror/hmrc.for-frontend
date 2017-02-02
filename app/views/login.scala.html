@@ -4,7 +4,7 @@
 @import org.joda.time.DateTime
 
 @import config.ForConfig
-@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader, lang: Lang)
+@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader, messages: Messages)
 
     @headExtra = {
         @views.html.includes.stylesheets()
@@ -45,7 +45,7 @@
                 @if(ForConfig.loginPageNotice.enabled) {
                     <div id="before-you-start">
                         <h2 class="form-title heading-medium">
-                            @lang.language match {
+                            @messages.lang.language match {
                                 case "cy" => {
                                     @Html(ForConfig.loginPageNotice.welshTitle)
                                 }
@@ -55,7 +55,7 @@
                             }
                         </h2>
                         <p class="icon-important">
-                        @lang.language match {
+                        @messages.lang.language match {
                             case "cy" => {
                                 @Html(ForConfig.loginPageNotice.welshBody)
                             }

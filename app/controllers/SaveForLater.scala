@@ -34,6 +34,8 @@ import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLate
 import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLaterPassword}
 
 import scala.concurrent.Future
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object SaveForLater extends FrontendController {
   lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()

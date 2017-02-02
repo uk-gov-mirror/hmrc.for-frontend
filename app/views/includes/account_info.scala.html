@@ -1,7 +1,7 @@
 @import models.pages.Summary
 @import _root_.template.FormatRefNum
 
-@(summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 <div class="account-info">
   <ul>
     <li><span>@Messages("label.account.ref"):</span> @{

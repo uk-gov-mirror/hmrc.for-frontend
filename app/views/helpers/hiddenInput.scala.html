@@ -13,7 +13,7 @@
 * @param handler The field constructor.
 *@
 
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit  requestHeader: RequestHeader, handler: FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit  requestHeader: RequestHeader, handler: FieldConstructor, messages: Messages)
 
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
     <input type="hidden" id="@(id)_text" value="@getValue(value, args)" name="@name" @toHtmlArgs(htmlArgs) />

@@ -10,7 +10,7 @@
 @import models.journeys.Journey
 
 
-@(theForm: Form[_])(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_])(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
@@ -40,7 +40,7 @@
 
 					@inputRadioGroup(
 						field = theForm("satisfaction"),
-						options = EnumOptions.options(SatisfactionTypes, lang),
+						options = EnumOptions.options(SatisfactionTypes),
 						args = Seq(
 							'_label -> Messages("label.satisfactionSurvey"),
 							'_error -> theForm("satisfaction").error,

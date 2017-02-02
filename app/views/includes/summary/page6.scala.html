@@ -4,7 +4,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p6: PageSix, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p6: PageSix, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <li><h2 class="heading-medium no-margin-top">@Messages("section6.heading")</h2></li>
     @summaryBlock(Messages(if(isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")), 6, "leaseAgreementType") {
@@ -18,7 +18,7 @@
         }
 
         @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.rentOpenEnded."+p6.leaseAgreementType.name)), 6, "writtenAgreement_rentOpenEnded") {
-          @displayBoolean(wa.rentOpenEnded, "2")(lang)
+          @displayBoolean(wa.rentOpenEnded, "2")
         }
 
 
@@ -31,7 +31,7 @@
 
 
         @summaryBlock(Messages("label.writtenAgreement.leaseAgreementHasBreakClause"), 6, "writtenAgreement_leaseAgreementHasBreakClause") {
-          @displayBoolean(wa.leaseAgreementHasBreakClause, "4")(lang)
+          @displayBoolean(wa.leaseAgreementHasBreakClause, "4")
         }
 
         @if(wa.leaseAgreementHasBreakClause) {
@@ -41,7 +41,7 @@
         }
 
         @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.agreementIsStepped.agent") else Messages("label.writtenAgreement.agreementIsStepped")), 6, "writtenAgreement_agreementIsStepped") {
-          @displayBoolean(wa.agreementIsStepped, "2")(lang)
+          @displayBoolean(wa.agreementIsStepped, "2")
         }
 
         @if(wa.agreementIsStepped) {
@@ -66,7 +66,7 @@
 
         @p6.verbalAgreementDetails.rentOpenEnded.map { ro =>
             @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.rentOpenEnded.agent")  else Messages("label.verbalAgreement.rentOpenEnded")), 6, "verbalAgreement.rentOpenEnded") {
-                @displayBoolean(ro, "2")(lang)
+                @displayBoolean(ro, "2")
             }
 
         }

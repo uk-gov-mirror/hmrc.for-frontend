@@ -4,10 +4,10 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section13.heading")</h2></li>
 @summaryBlock(Messages(if(isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")), 13, "propertyAlterations") {
-    @displayBoolean(p13.propertyAlterations, "6")(lang)
+    @displayBoolean(p13.propertyAlterations, "6")
 }
 
 @if(p13.propertyAlterations) {
@@ -22,7 +22,7 @@
     }
     @summaryBlock(Messages(if(isAgent) Messages("label.requiredAnyWorks.agent") else Messages("label.requiredAnyWorks")), 13, "requiredAnyWorks") {
         @p13.alterationsRequired.map { alterationRequiredValue =>
-            @displayBoolean(alterationRequiredValue, "8")(lang)
+            @displayBoolean(alterationRequiredValue, "8")
         }
     }
 }

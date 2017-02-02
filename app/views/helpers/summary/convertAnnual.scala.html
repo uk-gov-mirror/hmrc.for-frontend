@@ -1,7 +1,7 @@
 @import models._
 @import java.text.NumberFormat
 
-@(a: AnnualRent)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(a: AnnualRent)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @if(a.period != RentLengthTypeAnnually)  {
 	<span class="annualAmount">

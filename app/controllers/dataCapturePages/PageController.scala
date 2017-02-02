@@ -19,6 +19,8 @@ package controllers.dataCapturePages
 import controllers._
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object PageController extends FrontendController {
 

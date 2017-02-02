@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package metrics
+package models
 
-import uk.gov.hmrc.play.graphite.MicroserviceMetrics
+import play.api.libs.json.Json
 
-object Metrics extends MicroserviceMetrics {
-  lazy val submissions = metrics.defaultRegistry.meter("forsubmissions")
+case class IpLockout(numberOfRemainingTriesUntilIPLockout: Int)
+
+object IpLockout {
+  implicit val format = Json.format[IpLockout]
 }

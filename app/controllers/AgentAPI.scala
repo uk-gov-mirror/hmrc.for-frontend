@@ -18,7 +18,10 @@ package controllers
 
 import config.ForConfig
 import connectors.{HODConnector, SubmissionConnector}
+import models._
 import org.joda.time.DateTime
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
 import play.api.mvc.Results._
@@ -27,7 +30,6 @@ import playconfig.Audit
 import uk.gov.hmrc.play.http._
 
 import scala.concurrent.Future
-import scala.math.BigDecimal
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
@@ -57,7 +59,7 @@ object AgentAPI extends Controller with HeaderValidator {
     }
   }
 
-  private def checkCredentialsAndSubmit(submission: JsValue, refNum: String, postcode: String)(implicit request: Request[_]) = {
+  private def checkCredentialsAndSubmit(submission: JsValue, refNum: String, postcode: String)(implicit request: Request[_]): Future[Result] = {
     for {
       lr <- HODConnector.verifyCredentials(refNum.dropRight(3), refNum.takeRight(3), postcode)
       hc = withAuthToken(request, lr.forAuthToken)
@@ -81,22 +83,14 @@ object AgentAPI extends Controller with HeaderValidator {
   }
 
   private def badCredentialsError(body: String, refNum: String, postcode: String) = {
-    Json.parse(body) match {
-      case JsObject(s) if s.headOption.contains("numberOfRemainingTriesUntilIPLockout" -> JsNumber(BigDecimal(0))) =>
-        JsObject(
-          Seq(
-            "code" -> JsString("IP_LOCKOUT"),
-            "message" -> JsString(s"This IP address is locked out for 24 hours due to too many failed login attempts")
-          )
-        )
-      case JsObject(Seq(("numberOfRemainingTriesUntilIPLockout", n))) =>
-        JsObject(
-          Seq(
-            "code" -> JsString("INVALID_CREDENTIALS"),
-            "message" -> JsString(s"Invalid credentials: $refNum - $postcode; $n tries remaining until IP lockout")
-          )
-        )
-      case other => other
+    val jsonBody = Json.parse(body)
+
+    jsonBody.validate[IpLockout] match {
+      case JsSuccess(IpLockout(0), _) =>
+        Json.parse("""{"code": "IP_LOCKOUT", "message": "This IP address is locked out for 24 hours due to too many failed login attempts"}""")
+      case JsSuccess(IpLockout(count), _) =>
+        Json.parse(s"""{"code": "INVALID_CREDENTIALS", "message": "Invalid credentials: $refNum - $postcode; $count tries remaining until IP lockout"}""")
+      case other => jsonBody
     }
   }
 
@@ -111,19 +105,23 @@ object AgentAPI extends Controller with HeaderValidator {
   }
 
   private def invalidSubmission(msg: String) = {
-    Json.parse(msg) match {
-      case JsObject(Seq((k, v))) => JsObject(Seq("code" -> JsString("INVALID_SUBMISSION"), "message" -> v))
-      case other => other
+    val jsonBody = Json.parse(msg)
+
+    jsonBody.validate[UpstreamError] match {
+      case JsSuccess(UpstreamError(errors), _) =>
+        Json.parse(s"""{"code": "INVALID_SUBMISSION", "message": ${Json.toJson(errors map buildJsonError)}}""")
+      case other => jsonBody
     }
   }
 
-  private def duplicateSubmission(refNum: String) = {
-    Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for $refNum"}""")
-  }
+  private def buildJsonError: Error => Map[String, String] = e =>
+    Map("field" -> e.field, "error" -> e.error, "schemaUsed" -> e.schemaUsed)
 
-  private def validSubmission(refNum: String) = {
+  private def duplicateSubmission(refNum: String) =
+    Json.parse(s"""{"code": "DUPLICATE_SUBMISSION", "message": "A submission already exists for $refNum"}""")
+
+  private def validSubmission(refNum: String) =
     Json.parse(s"""{"code": "VALID_SUBMISSION", "message": "Accepted submission with reference $refNum"}""")
-  }
 }
 
 trait HeaderValidator {

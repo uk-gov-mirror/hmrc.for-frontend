@@ -9,7 +9,7 @@
 @import _root_.template.FormatRefNum
 
 
-@(theForm: Form[_], referenceNumber: String, email: Option[String], pdfSize: PdfSize, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], referenceNumber: String, email: Option[String], pdfSize: PdfSize, summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()

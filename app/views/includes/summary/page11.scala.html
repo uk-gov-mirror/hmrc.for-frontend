@@ -4,12 +4,12 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p11: IncentivesAndPayments, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p11: IncentivesAndPayments, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <li><h2 class="heading-medium no-margin-top">@Messages("section11.heading")</h2></li> 
 
 @summaryBlock(Messages(if(isAgent) Messages("label.rentFreePeriod.agent") else Messages("label.rentFreePeriod")), 11, "rentFreePeriod") {
-	@displayBoolean(p11.rentFreePeriod, "6")(lang)
+	@displayBoolean(p11.rentFreePeriod, "6")
 }
 
 @if(p11.rentFreePeriod) {
@@ -26,7 +26,7 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.payCapitalSum.agent") else Messages("label.payCapitalSum")), 11, "payCapitalSum") {
-	@displayBoolean(p11.payCapitalSum, "6")(lang)
+	@displayBoolean(p11.payCapitalSum, "6")
 }
 
 @if(p11.payCapitalSum) {
@@ -43,7 +43,7 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.receiveCapitalSum.agent") else Messages("label.receiveCapitalSum")), 11, "receiveCapitalSum") {
-	@displayBoolean(p11.receiveCapitalSum, "6")(lang)
+	@displayBoolean(p11.receiveCapitalSum, "6")
 }
 
 @if(p11.receiveCapitalSum) {

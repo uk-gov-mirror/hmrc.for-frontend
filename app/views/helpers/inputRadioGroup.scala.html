@@ -1,6 +1,6 @@
 @import helper._
 
-@(field: play.api.data.Field, options: Seq[(String,String)], dataAttributes:Seq[(String,String,Any)]=Seq(), args: Seq[(Symbol,Any)])(implicit handler: FieldConstructor, requestHeader: RequestHeader,  lang: Lang)
+@(field: play.api.data.Field, options: Seq[(String,String)], dataAttributes:Seq[(String,String,Any)]=Seq(), args: Seq[(Symbol,Any)])(implicit handler: FieldConstructor, requestHeader: RequestHeader,  messages: Messages)
 
 @input(field, args.map{ x => if(x._2 == '_label) '_name -> x._2 else x }:_*) { (id, name, value, htmlArgs) =>
 
