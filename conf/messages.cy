@@ -620,7 +620,6 @@ hint.vacated.form=<p>Anfonwch:</p>\
   <ul class="list-bullet">\
   <li>Y rhif cyfeirnod ar eich llythyr</li>\
   <li>Eich rhif teleffôn cyswllt</li>\
-  <li>Manylion y deiliad presennol (os yn hysbys)</li>\
   </ul>\
   </p>\
   <p>i <a href="mailto:formhelp@voa.gsi.gov.uk\
