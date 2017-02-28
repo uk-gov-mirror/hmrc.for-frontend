@@ -102,11 +102,14 @@
   </ul>
 </div>
 
+<div>
+  <p>@Messages("label.summary.submit")</p>
+</div>
+
 <div class="summary-actions">
   <p>
     <a id="continue" href="@routes.Application.declaration" class="button" role="button">@Messages("button.label.continue")</a>
     <a href="@routes.SaveForLater.saveForLater" class="save button button-secondary" role="button">@Messages("button.label.save")</a>
-    <a href="javascript:window.print();" class="button button-secondary pdf-button hide-if-no-js" role="button">@Messages("label.print.summary")</a>
   </p>
 
   <p><a href="@dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary))" class="button-link link-back" role="button">@Messages("button.label.back")</a></p>

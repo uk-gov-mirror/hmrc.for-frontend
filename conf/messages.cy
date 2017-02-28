@@ -58,7 +58,7 @@ label.coveredSpaces.summary.greaterthan1=o fannau dan do
 label.garages.summary=modurdy
 label.garages.summary.greaterthan1=o modurdai
 label.leaveEmpty=Gadewch yn wag os nad oes dim
-heading.summary=Crynodeb
+heading.summary=Gwiriwch eich atebion cyn eu hanfon
 label.manualAddress=Cofnodwch cyfeiriad tramor neu Deyrnas Unedig a llaw
 label.selectAddress=Dewiswch gyfeiriad
 label.addressMatches=Mae''r cyfeiriad yn cyfateb
@@ -587,6 +587,7 @@ month.December=Rhagfyr
 ###############################
 label.print.summary=Argraffu crynodeb
 label.summary.text=Archwiliwch eich atebion cyn cyflwyno eich ffurflen
+label.summary.submit=Parhewch i anfon eich manylion os gwelwch yn dda
 
 #PDF
 ###############################
