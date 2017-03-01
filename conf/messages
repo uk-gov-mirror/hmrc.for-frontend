@@ -58,7 +58,7 @@ label.coveredSpaces.summary.greaterthan1=covered spaces
 label.garages.summary=garage
 label.garages.summary.greaterthan1=garages
 label.leaveEmpty=Leave empty if none
-heading.summary=Summary
+heading.summary=Check your answers before submitting
 label.manualAddress=Enter overseas or UK address manually
 label.selectAddress=Select address
 label.addressMatches=Address matches
@@ -606,6 +606,7 @@ month.December=December
 label.print.summary=Print summary
 label.summary.text=Check your answers before submitting your form
 label.print.printorsave=Print or Save a copy of your summary before submitting
+label.summary.submit=Please continue to submit your details
 
 #PDF
 ###############################

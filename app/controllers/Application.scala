@@ -103,8 +103,11 @@ object Application extends FrontendController {
     Ok(views.html.error.error500())
   }
 
-  def inpageVacatedForm  = Action { implicit request =>
-    Ok(views.html.inpageVacatedForm())
+  def inpageVacatedForm = RefNumAction.async { implicit request =>
+    repository.findById(SessionId(hc), request.refNum).map {
+      case Some(doc) => Ok(views.html.inpageVacatedForm(Some(SummaryBuilder.build(doc))))
+      case _ => InternalServerError(views.html.error.error500())
+    }
   }
 
   private def host(implicit request: RequestHeader): String = {
