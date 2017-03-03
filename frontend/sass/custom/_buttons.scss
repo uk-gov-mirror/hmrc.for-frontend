@@ -142,8 +142,8 @@ h1.form-title a.link-back{
 
 @-moz-document url-prefix() {
   .link-back::before {
-    border-top: 5px dotted rgba(255, 0, 0, 0);
-    border-bottom: 5px dotted rgba(255, 0, 0, 0);
+    border-top: 5px solid rgba(255, 0, 0, 0);
+    border-bottom: 5px solid rgba(255, 0, 0, 0);
   }
 }
 
