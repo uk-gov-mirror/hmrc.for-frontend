@@ -35,9 +35,8 @@ trait BehaviourVerification extends Matchers {
     if (aa == a && bb == b && cc == c) Future.successful(d) else throw ArgumentsDidNotMatch(Seq(a, b, c), Seq(aa, bb, cc))
   }
 
-  def expect[A](a: A): A => Future[Unit] = x => {
-    assert(x === a)
-  }
+  def expect[A](a: A): A => Future[Unit] =
+    x => Future.successful(assert(x === a))
 
   def set[A,R](x: A => R): A => Future[R] =
     a => Future.successful(x(a))

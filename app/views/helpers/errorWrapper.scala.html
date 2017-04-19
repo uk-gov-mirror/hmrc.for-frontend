@@ -1,6 +1,6 @@
 @import helpers._
 
-@(fields: Seq[Field], id: String, showGroupedError: Boolean, classes: String* )(content: Html)(implicit requestHeader: RequestHeader, lang: Lang)
+@(fields: Seq[Field], id: String, showGroupedError: Boolean, classes: String* )(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @defining(_root_.template.HtmlSupport.getErrors(fields)) { combinedErrors =>
 

@@ -3,7 +3,7 @@
 @import play.api.data._
 @import org.joda.time.DateTime
 
-@(remainingAttempts: Int)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(remainingAttempts: Int)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()

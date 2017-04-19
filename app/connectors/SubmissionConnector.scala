@@ -16,10 +16,12 @@
 
 package connectors
 
+import akka.stream.scaladsl.Source
+import akka.util.ByteString
 import config.ForConfig
 import models.serviceContracts.submissions.Submission
+import play.api.http.HttpEntity
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.iteratee.Enumerator
 import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.config.ServicesConfig
@@ -37,7 +39,7 @@ object SubmissionConnector extends SubmissionConnector with ServicesConfig {
 
   def submit(refNum: String, submission: JsValue)(implicit hc: HeaderCarrier): Future[Result] = {
     http.PUT(s"$serviceUrl/for/submissions/$refNum", submission) map { r =>
-      Result(ResponseHeader(r.status), Enumerator(Option(r.body).getOrElse("").getBytes))
+      Result(ResponseHeader(r.status), HttpEntity.Streamed(Source.single(ByteString(Option(r.body).getOrElse(""))), None, None))
     }
   }
 }

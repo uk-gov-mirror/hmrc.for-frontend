@@ -23,6 +23,8 @@ import models.serviceContracts.submissions.{IncentivesAndPayments, UserTypeOccup
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object PageElevenController extends ForDataCapturePage[IncentivesAndPayments] {
   val format = incf

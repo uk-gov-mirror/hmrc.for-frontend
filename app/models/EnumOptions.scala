@@ -22,15 +22,15 @@ import play.api.i18n.Lang
 
 object EnumOptions {
 
-  def options[E <: NamedEnum](e: NamedEnumSupport[E], lang: Lang): Seq[(String, String)] = {
+  def options[E <: NamedEnum](e: NamedEnumSupport[E])(implicit messages: Messages): Seq[(String, String)] = {
     e.all.map { ut =>
-      (ut.name, Messages(ut.msgKey)(lang))
+      (ut.name, Messages(ut.msgKey))
     }
   }
 
-  def contactAddressTypeOptions(address: Address, lang: Lang): Seq[(String, String)] = {
+  def contactAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] = {
     ContactAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey)(lang))
+      val base = (ut.name, Messages(ut.msgKey))
       if (ut == ContactAddressTypeMain) {
         (ut.name, address.singleLine)
       } else {
@@ -39,9 +39,9 @@ object EnumOptions {
     }
   }
 
-  def originalContactAddressTypeOptions(address: String, lang: Lang): List[(String, String)] = {
+  def originalContactAddressTypeOptions(address: String)(implicit messages: Messages): List[(String, String)] = {
     ContactAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey)(lang))
+      val base = (ut.name, Messages(ut.msgKey))
       if (ut == ContactAddressTypeMain) {
         (ut.name, address)
       } else {
@@ -50,9 +50,9 @@ object EnumOptions {
     }
   }
 
-  def isTenantsAddressTypeOptions(address: Address, lang: Lang): Seq[(String, String)] = {
+  def isTenantsAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] = {
     TenantsAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey)(lang))
+      val base = (ut.name, Messages(ut.msgKey))
       if (ut == TenantsAddressTypeMain) {
         (ut.name, address.singleLine)
       } else {
@@ -61,9 +61,9 @@ object EnumOptions {
     }
   }
 
-  def isTenantsAddressTypeOptionsOriginal(address: String, lang: Lang): Seq[(String, String)] = {
+  def isTenantsAddressTypeOptionsOriginal(address: String)(implicit messages: Messages): Seq[(String, String)] = {
     TenantsAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey)(lang))
+      val base = (ut.name, Messages(ut.msgKey))
       if (ut == TenantsAddressTypeMain) {
         (ut.name, address)
       } else {

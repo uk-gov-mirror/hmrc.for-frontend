@@ -2,7 +2,7 @@
 @import _root_.template.FormatRefNum
 @import org.joda.time.DateTime
 
-@(summary: Option[Summary] = None)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(summary: Option[Summary] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @defining(summary.map(s => FormatRefNum(s.referenceNumber)).getOrElse("")) { ref =>
     @defining(summary.map(_.journeyResumptions.length).getOrElse(0)) { timesReturned =>

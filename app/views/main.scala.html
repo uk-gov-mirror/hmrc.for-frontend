@@ -9,7 +9,7 @@ headerClass:Html=Html("with-proposition"),
 propositionHeader:Html=Html(""),
 showBackButton:Boolean=true,
 showAccountInfo:Boolean=true,
-feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback)(content: Html)(implicit requestHeader: RequestHeader, lang: Lang)
+feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback)(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 
 @head = {

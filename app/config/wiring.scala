@@ -51,7 +51,7 @@ object WSHttp extends ForHttp
 
 trait ForHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
   override val hooks = Seq.empty
-  val useDummyIp = ForConfig.useDummyIp
+  lazy val useDummyIp = ForConfig.useDummyIp
 
   // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
   // An IP address needs to be injected because of the lockout mechanism
@@ -79,7 +79,7 @@ trait ForHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
 
 object FormPartialProvider extends FormPartialRetriever {
   override val httpGet = WSHttp
-  override val crypto = SessionCookieCryptoFilter.encrypt _
+  override lazy val crypto = SessionCookieCryptoFilter.encrypt _
 }
 
 object Audit extends Audit
@@ -102,7 +102,7 @@ object ShortLivedCacher extends ShortLivedHttpCaching with AppName with Services
 }
 
 object S4L extends ShortLivedCache {
-  override implicit val crypto: CompositeSymmetricCrypto = ApplicationCrypto.JsonCrypto
+  override implicit lazy val crypto: CompositeSymmetricCrypto = ApplicationCrypto.JsonCrypto
   override def shortLiveCache: ShortLivedHttpCaching = ShortLivedCacher
 }
 

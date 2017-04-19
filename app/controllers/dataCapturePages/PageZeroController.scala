@@ -25,6 +25,8 @@ import play.api.data.Form
 import play.api.libs.json._
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 trait PageZeroController extends ForDataCapturePage[Boolean] {
   override implicit val format: Format[Boolean] = Format(Reads.BooleanReads, Writes.BooleanWrites)

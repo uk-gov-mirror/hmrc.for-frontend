@@ -1,4 +1,4 @@
-@(b: Boolean, suffix: String)(lang: Lang)
+@(b: Boolean, suffix: String)(implicit messages: Messages)
 
-@if(b) { @Messages("label.yes"+suffix)(lang) } else { @Messages("label.no"+suffix)(lang) } 
+@if(b) { @Messages("label.yes"+suffix) } else { @Messages("label.no"+suffix) }
 

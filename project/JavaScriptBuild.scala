@@ -4,7 +4,7 @@ import sbt.Keys._
 
 object JavaScriptBuild {
 
-  import play.PlayImport.PlayKeys._
+  import play.sbt.PlayImport.PlayKeys._
 
   val uiDirectory = SettingKey[File]("ui-directory")
   val gruntBuild = TaskKey[Int]("grunt-build")

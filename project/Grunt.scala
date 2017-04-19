@@ -1,5 +1,5 @@
 
-import play.PlayRunHook
+import play.sbt.PlayRunHook
 import sbt._
 
 object Grunt {

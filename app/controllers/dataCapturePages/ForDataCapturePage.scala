@@ -37,6 +37,8 @@ import scala.concurrent.{ExecutionContext, Future}
 import play.api.mvc.Results.Redirect
 import ForDataCapturePage._
 import form._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 trait ForDataCapturePage[T] extends FrontendController {
   implicit val format: Format[T]

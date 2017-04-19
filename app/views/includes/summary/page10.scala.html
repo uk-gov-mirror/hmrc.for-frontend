@@ -4,27 +4,27 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p10: WhatRentIncludes, isAgent: Boolean)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p10: WhatRentIncludes, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2></li>
 
 @summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent")), 10, "partRent") {
-    @displayBoolean(p10.partRent, "2")(lang)
+    @displayBoolean(p10.partRent, "2")
 }
 
 @summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
-    @displayBoolean(p10.otherProperty, "2")(lang)
+    @displayBoolean(p10.otherProperty, "2")
 }
 
 @summaryBlock(Messages("label.livingAccomodation"), 10, "livingAccomodation") {
-    @displayBoolean(p10.livingAccommodation, "2")(lang)
+    @displayBoolean(p10.livingAccommodation, "2")
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {
-    @displayBoolean(p10.landOnly, "8")(lang)
+    @displayBoolean(p10.landOnly, "8")
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.shellUnit.agent") else Messages("label.shellUnit")), 10, "shellUnit") {
-    @displayBoolean(p10.shellUnit, "8")(lang)
+    @displayBoolean(p10.shellUnit, "8")
 }
 
 @if(p10.rentDetails) {
@@ -34,7 +34,7 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentIncludeParking.agent") else Messages("label.parking.rentIncludeParking")), 10, "parking_rentIncludeParking") {
-    @displayBoolean(p10.parking.rentIncludesParking, "2")(lang)
+    @displayBoolean(p10.parking.rentIncludesParking, "2")
 }
 
 @if(p10.parking.rentIncludesParking) {
@@ -48,7 +48,7 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParking.agent") else Messages("label.parking.rentSeparateParking")), 10, "parking_rentSeparateParking") {
-    @displayBoolean(p10.parking.rentHasSeparateParking, if(isAgent) "2" else "1")(lang)
+    @displayBoolean(p10.parking.rentHasSeparateParking, if(isAgent) "2" else "1")
 }
 
 @if(p10.parking.rentHasSeparateParking) {

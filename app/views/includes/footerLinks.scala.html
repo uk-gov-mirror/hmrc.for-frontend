@@ -1,4 +1,4 @@
-@(feedback: Call)(implicit requestHeader: RequestHeader, lang: Lang)
+@(feedback: Call)(implicit requestHeader: RequestHeader, messages: Messages)
 
 <ul>
 	<li><a href="@feedback" target="_blank" id="footerBetaFeedback">@Messages("link.feedback")<span class="visuallyhidden"> (@Messages("alt.newWindow"))</span></a></li>

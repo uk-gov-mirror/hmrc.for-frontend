@@ -1,3 +1,3 @@
-@(error:FormError)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(error:FormError)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <p class="error">@Messages(error.message, error.args:_*)</p>

@@ -35,6 +35,8 @@ import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 
 import scala.concurrent.Future
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
 

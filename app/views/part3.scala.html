@@ -8,7 +8,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[PageThree], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[PageThree], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -50,7 +50,7 @@
                   <!-- Who occupies the property? -->
               @inputRadioGroup(
                   field = theForm("occupierType"),
-                  options = EnumOptions.options(OccupierTypes, lang),
+                  options = EnumOptions.options(OccupierTypes),
                   args = Seq(
                       '_label -> Messages("label.occupierTypes"),
                       '_error -> theForm("occupierType").errors,

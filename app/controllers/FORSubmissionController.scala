@@ -23,6 +23,7 @@ import helpers.AddressAuditing
 import metrics.Metrics
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
+import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 import playconfig.{Audit, FormPersistence, SessionId}
@@ -30,6 +31,8 @@ import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
 import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 
 import scala.concurrent.Future
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object FORSubmissionController extends FORSubmissionController {
   protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
@@ -42,7 +45,7 @@ object FORSubmissionController extends FORSubmissionController {
 trait FORSubmissionController extends Controller {
   protected val documentRepo: FormDocumentRepository
   protected val auditAddresses: AddressAuditing
-  val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
+  lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
 
   def submit: Action[AnyContent] = RefNumAction.async { implicit request =>
     request.body.asFormUrlEncoded.flatMap { body =>
@@ -60,7 +63,8 @@ trait FORSubmissionController extends Controller {
         "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))
       _ <- auditAddress(refNum, request)
     } yield {
-      Metrics.submissions.mark(); Found(confirmationUrl)
+      Metrics.submissions.mark()
+      Found(confirmationUrl)
     }
   }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
 

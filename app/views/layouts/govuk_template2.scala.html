@@ -2,7 +2,7 @@
 @import play.api.mvc.{RequestHeader}
 
 
-@(title: Option[String], bodyClasses: Option[String], htmlLang: Option[String] = None)(head:Html = Html(""), bodyStart:Html = Html(""), bodyEnd:Html = Html(""), insideHeader:Html = Html(""), afterHeader:Html = Html(""), footerTop:Html = Html(""), footerLinks:Html = Html(""), headerClass:Html = Html(""), propositionHeader:Html = Html(""))(content:Html)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(title: Option[String], bodyClasses: Option[String], htmlLang: Option[String] = None)(head:Html = Html(""), bodyStart:Html = Html(""), bodyEnd:Html = Html(""), insideHeader:Html = Html(""), afterHeader:Html = Html(""), footerTop:Html = Html(""), footerLinks:Html = Html(""), headerClass:Html = Html(""), propositionHeader:Html = Html(""))(content:Html)(implicit requestHeader: RequestHeader,  messages: Messages)
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="@requestHeader.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")" class="no-js"><![endif]-->
 <!--[if gt IE 8]><!--><html lang="@requestHeader.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")" class="no-js"><!--<![endif]-->

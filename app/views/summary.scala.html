@@ -6,7 +6,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()

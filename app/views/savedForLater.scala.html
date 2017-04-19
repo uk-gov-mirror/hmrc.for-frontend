@@ -1,6 +1,6 @@
 @import models.pages.Summary
 @import org.joda.time.LocalDate
-@(summary: Summary, password: String, expiryDate: LocalDate)(implicit requestHeader: RequestHeader, lang: Lang)
+@(summary: Summary, password: String, expiryDate: LocalDate)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()

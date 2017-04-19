@@ -32,20 +32,23 @@ import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.language.LanguageUtils
 import uk.gov.hmrc.play.partials._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.i18n.Messages
 
 object Feedback extends HeaderCarrierForPartialsConverter {
   import controllers.feedback.HMRCContact._ // scalastyle:ignore
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  override val crypto = SessionCookieCryptoFilter.encrypt _
+  override lazy val crypto = SessionCookieCryptoFilter.encrypt _
   val http = playconfig.WSHttp
 
   def inPageFeedback = RefNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
-        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary)(request, LanguageUtils.getCurrentLang))
+        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary)(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
       }
     }
   }
@@ -58,7 +61,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
           http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData) map { res => res.status match {
             case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
             case 400 => BadRequest(views.html.inpagefeedback(None, Html(res.body), summary))
-            case _ => InternalServerError(views.html.feedbackError()(request, LanguageUtils.getCurrentLang))
+            case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
           }
           }
         }.getOrElse(throw new Exception("Empty Feedback Form"))
@@ -71,7 +74,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData) map { res => res.status match {
         case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
         case 400 => BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
-        case _ => InternalServerError(views.html.feedbackError()(request, LanguageUtils.getCurrentLang))
+        case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
       }
       }
     }.getOrElse(throw new Exception("Empty Feedback Form"))

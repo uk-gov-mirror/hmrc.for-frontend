@@ -3,7 +3,7 @@
 @import play.api.data.Forms._
 @import _root_.template.Helper._
 
-@(theField:Field, hidden:String, help: Boolean=true, helpText: String, prefix: String, suffix: String = "", nojs: Boolean = false, nojsText: String = "")(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theField:Field, hidden:String, help: Boolean=true, helpText: String, prefix: String, suffix: String = "", nojs: Boolean = false, nojsText: String = "")(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @displayFieldError(message: String, args: Seq[Any]) = {

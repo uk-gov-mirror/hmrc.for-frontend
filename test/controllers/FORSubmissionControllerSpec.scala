@@ -20,8 +20,11 @@ import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
 import models.serviceContracts.submissions.Submission
 import org.scalatest.{FreeSpec, Matchers, MustMatchers}
+import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerTest, GuiceOneServerPerSuite}
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Controller
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.{HeaderCarrier, HeaderNames}
 import useCases.SubmitBusinessRentalInformation
 import utils.stubs.{StubAddressAuditing, StubFormDocumentRepo}
@@ -29,44 +32,51 @@ import utils.stubs.{StubAddressAuditing, StubFormDocumentRepo}
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class FORSubmissionControllerSpec extends FreeSpec with Matchers {
-	import TestData._
+class FORSubmissionControllerSpec extends FreeSpec with Matchers with GuiceOneAppPerTest with GuiceFakeApplicationFactory {
+
+  import TestData._
+
+  override def fakeApplication() = new GuiceApplicationBuilder()
+    .configure(Map("auditing.enabled" -> false)).build()
 
   "When a submission is received and the declaration has been agreed to" - {
     val submit = StubSubmitBRI()
-  	val controller = createController(submit)
-    val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
-    val response = Await.result(controller.submit()(request), 5 seconds)
-
-    "The Business rental information submission process is initiated" in {
-      submit.assertBRISubmittedFor(refNum)
-    }
+    val controller = createController(submit)
 
     "A 302 response redirecting to the confirmation page is returned" in {
+      val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
+      val response = Await.result(controller.submit()(request), 5 seconds)
+
       response.header.status should equal(302)
       assert(response.header.headers("Location") === confirmationUrl)
     }
 
+    "The Business rental information submission process is initiated" in {
+      submit.assertBRISubmittedFor(refNum)
+    }
   }
 
   "When a submission is received and the declaration has not been agreed to" - {
     val controller = createController()
-    val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "false"))
-    val response = Await.result(controller.submit()(request), 5 seconds)
 
     "A redirect to the declaration error page is returned" in {
+      val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "false"))
+      val response = Await.result(controller.submit()(request), 5 seconds)
+
       response.header.status should equal(302)
       assert(response.header.headers("Location") === declarationErrorUrl)
     }
   }
 
   object TestData {
-  	lazy val refNum = "adfiwerq08342kfad"
+    lazy val refNum = "adfiwerq08342kfad"
     lazy val sessionId = "sessionid"
-  	def confirmationUrl = controllers.feedback.routes.Survey.confirmation.url
-    def declarationErrorUrl = controllers.routes.Application.declarationError.url
 
-  	class TestController(val x: SubmitBusinessRentalInformation) extends FORSubmissionController with Controller {
+    lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation.url
+
+    lazy val declarationErrorUrl = controllers.routes.Application.declarationError.url
+
+    class TestController(val x: SubmitBusinessRentalInformation) extends FORSubmissionController with Controller {
       override protected val documentRepo: FormDocumentRepository = StubFormDocumentRepo()
       override protected val auditAddresses: AddressAuditing = StubAddressAuditing
 
@@ -74,28 +84,31 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers {
     }
 
     def createController(submitter: StubSubmitBRI = null) = {
-      play.api.Play.start(FakeApplication(additionalConfiguration = Map("auditing.enabled" -> false)))
       new TestController(submitter)
     }
   }
+
 }
 
 object StubSubmitBRI {
-	def apply() = new StubSubmitBRI
+  def apply() = new StubSubmitBRI
 }
 
 class StubSubmitBRI extends SubmitBusinessRentalInformation with MustMatchers {
   lazy val stubSubmission = Submission(
     None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
   )
-	
+
   var submittedRefNums: Seq[String] = Seq.empty
 
-	def apply(refNum: String)(implicit hc: HeaderCarrier): Future[Submission] = {
-		Future.successful { submittedRefNums = submittedRefNums :+ refNum; stubSubmission }
-	}
+  def apply(refNum: String)(implicit hc: HeaderCarrier): Future[Submission] = {
+    Future.successful {
+      submittedRefNums = submittedRefNums :+ refNum;
+      stubSubmission
+    }
+  }
 
-	def assertBRISubmittedFor(refNum: String) {
-		submittedRefNums must equal(Seq(refNum))
-	}
+  def assertBRISubmittedFor(refNum: String) {
+    submittedRefNums must equal(Seq(refNum))
+  }
 }

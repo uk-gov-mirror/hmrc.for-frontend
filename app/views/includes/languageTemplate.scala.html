@@ -1,20 +1,20 @@
 @import uk.gov.hmrc.urls.Link
-@import controllers.CustomLanguageController
+@import controllers.CustomLanguageController.Implicits._
 @import play.api.mvc.{RequestHeader}
 
-@()(implicit requestHeader: RequestHeader, lang: Lang)
+@()(implicit requestHeader: RequestHeader, messages: Messages)
 
 <div class="lang-@requestHeader.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")">
-    @CustomLanguageController.languageMap.map { case (key: String, value: Lang) =>
-        @if(lang.code != value.code) {
+    @customLanguageController.languageMap.map { case (key: String, value: Lang) =>
+        @if(messages.lang.code != value.code) {
             @Link.toInternalPage(
                 id      = Some(s"$key-switch"),
-                url     = s"${CustomLanguageController.langToCall(key)}",
+                url     = s"${customLanguageController.langToCall(key)}",
                 value   = Some(key.capitalize)
             ).toHtml
         } else {
            <span class="lang-hide">@key.capitalize</span>
         }
-        @if(key != CustomLanguageController.languageMap.last._1) { @Html(" <span class=\"lang-spacer\">|</span> ") }
+        @if(key != customLanguageController.languageMap.last._1) { @Html(" <span class=\"lang-spacer\">|</span> ") }
     }
 </div>

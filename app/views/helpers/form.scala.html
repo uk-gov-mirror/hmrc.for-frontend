@@ -18,7 +18,7 @@
  *@
 
 
-@(action: play.api.mvc.Call, args: (Symbol,String)*)(body: => Html)(implicit  requestHeader: RequestHeader, handler: FieldConstructor, lang: Lang)
+@(action: play.api.mvc.Call, args: (Symbol,String)*)(body: => Html)(implicit  requestHeader: RequestHeader, handler: FieldConstructor, messages: Messages)
 
 <form action="@action.url" method="@action.method" @toHtmlArgs(args.toMap)>
     @body

@@ -8,7 +8,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -62,7 +62,7 @@
             <!-- At what interval is the rent reviewed? -->
           @inputRadioGroup(
             field = theForm("rentReviewDetails.reviewIntervalType"),
-            options = EnumOptions.options(ReviewIntervalTypes, lang),
+            options = EnumOptions.options(ReviewIntervalTypes),
             args = Seq(
               '_label -> Messages("label.rentReviewDetails.reviewIntervalType"),
               '_error -> theForm("reviewIntervalTypes").error.map(_.withMessage(Messages("error.no_value_selected"))),
@@ -147,7 +147,7 @@
 
             @inputRadioGroup(
               field = theForm("rentReviewDetails.rentReviewResultsDetails.rentFixedBy"),
-              options = EnumOptions.options(RentFixedTypes, lang),
+              options = EnumOptions.options(RentFixedTypes),
               args = Seq(
                 '_label -> Messages("label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy"),
                 '_error -> theForm("rentReviewDetails.rentReviewResultsDetails.rentFixedBy").error.map(_.withMessage(Messages("error.no_value_selected"))),

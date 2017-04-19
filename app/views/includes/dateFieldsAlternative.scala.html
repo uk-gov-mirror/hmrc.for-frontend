@@ -4,7 +4,7 @@
 @import _root_.template.Helper._
 @import views.includes.FieldNamer
 
-@(theForm:Form[_],hidden:String, prefix:String,idx:Option[Int]=None, nojs: Boolean = false, nojsText: String = "")(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm:Form[_],hidden:String, prefix:String,idx:Option[Int]=None, nojs: Boolean = false, nojsText: String = "")(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @displayFieldError(message: String, args: Seq[Any]) = {

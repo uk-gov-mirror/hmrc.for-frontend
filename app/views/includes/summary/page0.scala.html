@@ -3,7 +3,7 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p1: PropertyAddress, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p1: PropertyAddress, summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @underReview = @{
   if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}

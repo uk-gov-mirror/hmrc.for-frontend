@@ -18,7 +18,7 @@ package config
 
 import controllers.toFut
 import org.joda.time.DateTime
-import play.api.{Configuration, Logger, Routes}
+import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
@@ -36,6 +36,10 @@ import useCases.Now
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.routing.Router.Tags.RouteActionMethod
+import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
 
 object ForGlobal extends ForGlobal
 
@@ -53,15 +57,15 @@ trait ForGlobal extends DefaultFrontendGlobal {
   def microserviceMetricsConfig(implicit app: play.api.Application): Option[Configuration] = ForConfig.metricsConfig
 
   def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: play.api.mvc.Request[_]): play.twirl.api.Html = {
-    views.html.error.error500()
+    views.html.error.error500()(request, applicationMessages)
   }
 
   override def notFoundTemplate(implicit request: Request[_]): Html = {
-    views.html.error.error404()(request, LanguageUtils.getCurrentLang)
+    views.html.error.error404()(request, applicationMessages)
   }
 
   override def badRequestTemplate(implicit request: Request[_]): Html = {
-    views.html.error.error500()
+    views.html.error.error500()(request, applicationMessages)
   }
 
   override def resolveError(rh: RequestHeader, ex: Throwable): Result = {
@@ -82,7 +86,7 @@ object AuditServiceConnector extends AuditConnector with AppName {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
-object AuditFilter extends FrontendAuditFilter with AppName {
+object AuditFilter extends FrontendAuditFilter with AppName with MicroserviceFilterSupport {
   override lazy val maskedFormFields = Seq.empty
   override lazy val applicationPort = None
   override lazy val auditConnector = AuditServiceConnector
@@ -94,17 +98,17 @@ object ControllerConfiguration extends ControllerConfig {
   lazy val controllerConfigs = ForConfig.controllerConfigs
 }
 
-object LoggingFilter extends FrontendLoggingFilter {
+object LoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSupport {
   override def controllerNeedsLogging(controllerName: String): Boolean = ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
 
-object SessionTimeoutFilter extends SessionTimeoutFilter {
+object SessionTimeoutFilter extends SessionTimeoutFilter with MicroserviceFilterSupport {
   def now = () => DateTime.now() //scalastyle:ignore
 
   lazy val timeoutDuration = ForConfig.sessionTimeoutDuration
 }
 
-trait SessionTimeoutFilter extends Filter {
+trait SessionTimeoutFilter extends Filter with MicroserviceFilterSupport {
   val timestampKey = "lastrequesttimestamp"
   lazy val whiteList = Seq(
     "controllers.CustomLanguageController"
@@ -115,7 +119,7 @@ trait SessionTimeoutFilter extends Filter {
   val timeoutDuration: Duration
 
   override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] = {
-    val r = rh.tags.get(Routes.ROUTE_CONTROLLER) match {
+    val r = rh.tags.get(RouteActionMethod) match {
       case Some(controller) if whiteList.contains(controller) => f(rh)
       case _ => checkSessionTimeout(f, rh)
     }

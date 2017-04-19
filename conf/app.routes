@@ -15,9 +15,9 @@ GET         /startagain                controllers.Application.startAgain
 GET         /sessiontimeout            controllers.Application.sessionTimeout
 
 #LANGUAGE
-GET     	/language/:lang       	   controllers.CustomLanguageController.switchToLanguage(lang: String)
-GET         /login/en                  controllers.CustomLanguageController.showEnglish
-GET         /login/cy                  controllers.CustomLanguageController.showWelsh
+GET     	/language/:lang       	   @controllers.CustomLanguageController.switchToLanguage(lang: String)
+GET         /login/en                  @controllers.CustomLanguageController.showEnglish
+GET         /login/cy                  @controllers.CustomLanguageController.showWelsh
 
 #SAVE4LATER
 GET         /saved                     controllers.SaveForLater.saveForLater

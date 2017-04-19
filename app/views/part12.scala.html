@@ -8,7 +8,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
@@ -46,7 +46,7 @@
 
                 @inputRadioGroup(
                     field = theForm("responsibleOutsideRepairs"),
-                    options = EnumOptions.options(ResponsibleTypes, lang),
+                    options = EnumOptions.options(ResponsibleTypes),
                     args = Seq(
                         '_label -> Messages("label.responsibleOutsideRepairs"),
                         '_error -> theForm("responsibleOutsideRepairs").errors,
@@ -60,7 +60,7 @@
 
                 @inputRadioGroup(
                     field = theForm("responsibleInsideRepairs"),
-                    options = EnumOptions.options(ResponsibleTypes, lang),
+                    options = EnumOptions.options(ResponsibleTypes),
                     args = Seq(
                         '_label -> Messages("label.responsibleInsideRepairs"),
                         '_error -> theForm("responsibleInsideRepairs").errors,
@@ -74,7 +74,7 @@
 
                 @inputRadioGroup(
                     field = theForm("responsibleBuildingInsurance"),
-                    options = EnumOptions.options(ResponsibleTypes, lang),
+                    options = EnumOptions.options(ResponsibleTypes),
                     args = Seq(
                         '_label -> Messages("label.responsibleBuildingInsurance"),
                         '_error -> theForm("responsibleBuildingInsurance").errors,

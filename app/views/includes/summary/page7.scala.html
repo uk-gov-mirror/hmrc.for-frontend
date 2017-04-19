@@ -3,13 +3,13 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p7: PageSeven, isAgent: Boolean, summary: Summary)(implicit requestHeader: RequestHeader,  lang: Lang)
+@(p7: PageSeven, isAgent: Boolean, summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @agreementType = {@summary.lease.flatMap {d=>@d.leaseAgreementType.name}}
 
 <li><h2 class="heading-medium no-margin-top">@Messages("section7.heading")</h2></li>
 @summaryBlock(Messages(if(isAgent) Messages("label.leaseContainsRentReviews.agent."+agreementType) else Messages("label.leaseContainsRentReviews."+agreementType)), 7, "leaseContainsRentReviews") {
-	@displayBoolean(p7.leaseContainsRentReviews, "2")(lang)
+	@displayBoolean(p7.leaseContainsRentReviews, "2")
 }
 
 @if(p7.leaseContainsRentReviews) {
@@ -29,11 +29,11 @@
 
 
 		@summaryBlock(Messages("label.rentReviewDetails.canRentReduced"), 7, "rentReviewDetails_canRentReduced") {
-			@displayBoolean(rrd.canRentReduced, "5")(lang)
+			@displayBoolean(rrd.canRentReduced, "5")
 		}
 
 		@summaryBlock(Messages("label.rentReviewDetails.rentResultOfRentReview"), 7, "rentReviewDetails_rentResultOfRentReview") {
-			@displayBoolean(rrd.rentResultOfRentReview, "2")(lang)
+			@displayBoolean(rrd.rentResultOfRentReview, "2")
 		}
 
 		@rrd.reviewDetails.map { rd =>
@@ -43,7 +43,7 @@
 			}
 
 			@summaryBlock(Messages(if(isAgent) Messages("label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent") else Messages("label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween")), 7, "rentReviewDetails_rentReviewResultsDetails_rentAgreedBetween") {
-				@displayBoolean(rd.rentAgreedBetween, "6")(lang)
+				@displayBoolean(rd.rentAgreedBetween, "6")
 			}
 
 			@if(!rd.rentAgreedBetween) {

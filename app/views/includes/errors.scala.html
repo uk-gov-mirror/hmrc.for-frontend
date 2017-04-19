@@ -1,5 +1,5 @@
 @import play.api.data._
-@(form: Form[_], isAgent: Boolean)(implicit requestHeader: RequestHeader, lang: Lang)
+@(form: Form[_], isAgent: Boolean)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @showError(error: FormError) = {
 
