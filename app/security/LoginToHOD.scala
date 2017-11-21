@@ -22,11 +22,11 @@ import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import uk.gov.hmrc.play.http.HeaderCarrier
 import useCases.{Now, ReferenceNumber}
 import useCases.SaveInProgressSubmissionForLater.UpdateDocumentInCurrentSession
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object LoginToHOD {
   type Ref1 = String

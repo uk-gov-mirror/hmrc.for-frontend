@@ -36,7 +36,7 @@ trait MicroService {
     .settings(playDefaultPort := defaultPort)
     .settings(javaOptions += "-Xmx1G")
     .settings(
-      targetJvm := "jvm-1.8",
+        targetJvm := "jvm-1.8",
       libraryDependencies ++= appDependencies,
       parallelExecution in Test := false,
       fork in Test := true,

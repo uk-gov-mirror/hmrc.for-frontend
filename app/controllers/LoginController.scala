@@ -31,12 +31,12 @@ import playconfig.FormPersistence
 import security.LoginToHOD._
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.logging.SessionId
-import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.http.{ HeaderCarrier, SessionKeys, Upstream4xxResponse }
+import uk.gov.hmrc.http.logging.SessionId
 
 case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
 

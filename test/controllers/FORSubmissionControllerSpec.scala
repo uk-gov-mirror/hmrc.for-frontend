@@ -25,12 +25,12 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Controller
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.{HeaderCarrier, HeaderNames}
 import useCases.SubmitBusinessRentalInformation
 import utils.stubs.{StubAddressAuditing, StubFormDocumentRepo}
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.{ HeaderCarrier, HeaderNames }
 
 class FORSubmissionControllerSpec extends FreeSpec with Matchers with GuiceOneAppPerTest with GuiceFakeApplicationFactory {
 
