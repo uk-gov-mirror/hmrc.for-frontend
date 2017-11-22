@@ -27,6 +27,7 @@ import useCases.ReferenceNumber
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ HeaderCarrier, NotFoundException }
 
 object HODConnector extends HODConnector with ServicesConfig {
   implicit val f: Format[Document] = Document.formats

@@ -26,7 +26,6 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
 import play.twirl.api.Html
-import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http._
@@ -35,6 +34,10 @@ import uk.gov.hmrc.play.partials._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.i18n.Messages
+import playconfig.{FormPersistence, SessionId}
+import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Feedback extends HeaderCarrierForPartialsConverter {
   import controllers.feedback.HMRCContact._ // scalastyle:ignore

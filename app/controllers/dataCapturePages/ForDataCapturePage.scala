@@ -30,7 +30,6 @@ import play.api.mvc._
 import play.twirl.api.Html
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,6 +38,7 @@ import ForDataCapturePage._
 import form._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.http.HeaderCarrier
 
 trait ForDataCapturePage[T] extends FrontendController {
   implicit val format: Format[T]

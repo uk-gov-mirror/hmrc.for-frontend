@@ -24,9 +24,10 @@ import play.api.Logger
 import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import uk.gov.hmrc.play.config.AppName
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.ExecutionContext.Implicits.global
 
 trait FormDocumentRepository {
   def findById(documentId: String, referenceNumber: String): Future[Option[Document]]

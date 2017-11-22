@@ -32,9 +32,11 @@ import uk.gov.hmrc.play.http._
 import scala.concurrent.Future
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, SessionKeys, Upstream4xxResponse, Upstream5xxResponse}
+import uk.gov.hmrc.play.HeaderCarrierConverter
 
 object AgentAPI extends Controller with HeaderValidator {
-  implicit def hc(implicit request: Request[_]): HeaderCarrier = HeaderCarrier.fromHeadersAndSession(request.headers, request.session)
+  implicit def hc(implicit request: Request[_]): HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, request.session)
 
   def getDocs = Action { implicit request =>
     Ok(views.html.api.apidoc())
@@ -79,7 +81,7 @@ object AgentAPI extends Controller with HeaderValidator {
   }
 
   private def withAuthToken(request: Request[_], authToken: String): HeaderCarrier = {
-    HeaderCarrier.fromHeadersAndSession(request.headers, request.session + (SessionKeys.authToken -> authToken))
+    HeaderCarrierConverter.fromHeadersAndSession(request.headers, request.session + (SessionKeys.authToken -> authToken))
   }
 
   private def badCredentialsError(body: String, refNum: String, postcode: String) = {

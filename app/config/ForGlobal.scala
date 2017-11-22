@@ -24,13 +24,10 @@ import play.api.mvc.Results._
 import play.api.mvc._
 import play.twirl.api.Html
 import playconfig.{ForHttp, WSHttp}
-import uk.gov.hmrc.play.audit.filters.FrontendAuditFilter
-import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.config.{AppName, ControllerConfig}
 import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http._
-import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 import uk.gov.hmrc.play.language.LanguageUtils
 import useCases.Now
 
@@ -39,7 +36,9 @@ import scala.concurrent.duration.Duration
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.routing.Router.Tags.RouteActionMethod
-import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
+import uk.gov.hmrc.http.{ BadRequestException, NotFoundException, Upstream4xxResponse }
+import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
+import uk.gov.hmrc.play.frontend.filters.{ FrontendAuditFilter, FrontendLoggingFilter, MicroserviceFilterSupport }
 
 object ForGlobal extends ForGlobal
 
@@ -48,9 +47,9 @@ trait ForGlobal extends DefaultFrontendGlobal {
 
   def auditConnector: uk.gov.hmrc.play.audit.http.connector.AuditConnector = AuditServiceConnector
 
-  def frontendAuditFilter: uk.gov.hmrc.play.audit.filters.FrontendAuditFilter = AuditFilter
+  def frontendAuditFilter: uk.gov.hmrc.play.frontend.filters.FrontendAuditFilter = AuditFilter
 
-  def loggingFilter: uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter = LoggingFilter
+  def loggingFilter: _root_.uk.gov.hmrc.play.frontend.filters.FrontendLoggingFilter = LoggingFilter
 
   override def frontendFilters: Seq[EssentialFilter] = defaultFrontendFilters ++ Seq(SessionTimeoutFilter)
 

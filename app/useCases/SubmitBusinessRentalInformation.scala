@@ -23,9 +23,9 @@ import models.pages._
 import models.serviceContracts.submissions._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import playconfig.SessionId
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 trait SubmitBusinessRentalInformation {
   def apply(refNum: String)(implicit hs: HeaderCarrier): Future[Submission]

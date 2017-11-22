@@ -27,12 +27,13 @@ import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 import playconfig.{Audit, FormPersistence, SessionId}
-import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
 import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
 
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
+import uk.gov.hmrc.play.HeaderCarrierConverter
 
 object FORSubmissionController extends FORSubmissionController {
   protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
@@ -56,7 +57,7 @@ trait FORSubmissionController extends Controller {
   }
 
   private def submit[T](refNum: String)(implicit request: Request[T]): Future[Result] = {
-    val hc = HeaderCarrier.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
     for {
       sub <- submitBusinessRentalInformation(refNum)(hc)
       _ <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
@@ -69,7 +70,7 @@ trait FORSubmissionController extends Controller {
   }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
 
   protected def auditAddress[T](refNum: String, request: Request[_]): Future[Unit] = {
-    val hc = HeaderCarrier.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
     documentRepo.findById(SessionId(hc), refNum) flatMap {
       case Some(doc) =>
         val s = SummaryBuilder.build(doc)

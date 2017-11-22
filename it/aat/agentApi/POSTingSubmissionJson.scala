@@ -5,7 +5,7 @@ import models.serviceContracts.submissions._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.WSClient
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
-import uk.gov.hmrc.play.http.{HeaderNames, HttpResponse}
+import uk.gov.hmrc.http.{HeaderNames, HttpResponse}
 
 class POSTingSubmissionJson extends AcceptanceTest {
   import TestData._

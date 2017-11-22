@@ -18,15 +18,13 @@ package helpers
 
 import form.MappingSupport
 import models.LookupServiceAddress
-import models.pages.{PageFive, Summary}
+import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.mvc.Request
 import playconfig.Audit
-import uk.gov.hmrc.play.audit.model.{DeviceFingerprint, DeviceId}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.Future
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 object AddressAuditing extends AddressAuditing {
   override protected val audit = Audit
@@ -106,12 +104,10 @@ trait AddressAuditing {
   }
 
   private def auditAddressChange(auditType: String, address: Address, request: Request[_], additionalDetails: Map[String, String] = Map.empty) = {
-    val hc = HeaderCarrier.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
     audit(
       auditType,
       detail = Map(
-        "deviceId" -> DeviceId(request).map(_.id).getOrElse(""),
-        "deviceFingerprint" -> DeviceFingerprint.deviceFingerprintFrom(request),
         "submittedLine1" -> address.buildingNameNumber,
         "submittedLine2" -> address.street1.getOrElse(""),
         "submittedLine3" -> address.street2.getOrElse(""),

@@ -20,11 +20,12 @@ import actions.RefNumAction
 import connectors.HODConnector._
 import play.api.libs.json.JsValue
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.{BadRequestException, HeaderCarrier}
 
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ BadRequestException, HeaderCarrier }
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object AddressLookup extends FrontendController {
   def getAddress(postcode: String) = RefNumAction.async { implicit request =>

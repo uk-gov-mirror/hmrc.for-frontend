@@ -25,9 +25,9 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object SubmissionConnector extends SubmissionConnector with ServicesConfig {
   lazy val serviceUrl = baseUrl("for-hod-adapter")

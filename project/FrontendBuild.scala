@@ -19,7 +19,7 @@ private object AppDependencies {
   private val logbackJsonLoggerVersion = "3.1.0"
   private val govukTemplateVersion = "5.0.0"
   private val playUiVersion = "7.0.0"
-  private val playPartialsVersion = "5.2.0"
+  private val playPartialsVersion = "6.1.0"
   private val playAuthorisedFrontendVersion = "6.2.0"
   private val playConfigVersion = "3.0.0"
   private val hmrcTestVersion = "2.1.0"
@@ -30,14 +30,9 @@ private object AppDependencies {
     filters,
     ws,
     "uk.gov.hmrc" %% "json-encryption" % "3.1.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "6.1.0",
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "7.25.0",
+    "uk.gov.hmrc" %% "http-caching-client" % "7.0.0",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.11.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
-    "uk.gov.hmrc" %% "play-config" % playConfigVersion,
-    "uk.gov.hmrc" %% "logback-json-logger" % logbackJsonLoggerVersion,
-    "uk.gov.hmrc" %% "govuk-template" % govukTemplateVersion,
-    "uk.gov.hmrc" %% "play-health" % playHealthVersion,
-    "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "url-builder" % "2.0.0",
     "it.innove" %  "play2-pdf" % "1.5.2",
     "joda-time" % "joda-time" % "2.8.2",

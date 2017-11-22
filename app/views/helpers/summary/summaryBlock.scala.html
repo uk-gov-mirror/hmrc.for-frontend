@@ -1,3 +1,19 @@
+@*
+ * Copyright 2017 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
 @(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, messages: Messages)
   <li id="@linkId">
       <div class="edit"><a href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId" role="button">@Messages("label.edit") <span class="visuallyhidden">@fieldName</span></a></div>

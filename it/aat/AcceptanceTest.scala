@@ -8,7 +8,7 @@ import org.scalatestplus.play.guice._
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import playconfig.ForHttp
-import uk.gov.hmrc.play.http.{HeaderCarrier, _}
+import uk.gov.hmrc.http.{HeaderCarrier, _}
 
 import scala.concurrent.Future
 

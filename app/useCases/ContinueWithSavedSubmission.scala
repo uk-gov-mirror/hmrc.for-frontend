@@ -22,10 +22,10 @@ import models.pages.Summary
 import org.joda.time.DateTime
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import security.LoginToHOD.LoadSavedForLaterDocument
-import uk.gov.hmrc.play.http.HeaderCarrier
 import useCases.SaveInProgressSubmissionForLater.UpdateDocumentInCurrentSession
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object ContinueWithSavedSubmission {
   type ContinueWithSavedSubmission = (SaveForLaterPassword, ReferenceNumber) => Future[SaveForLaterLoginResult]

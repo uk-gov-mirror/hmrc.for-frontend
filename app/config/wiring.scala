@@ -27,12 +27,11 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Writes
 import uk.gov.hmrc.crypto.{ApplicationCrypto, CompositeSymmetricCrypto}
 import uk.gov.hmrc.http.cache.client.{ShortLivedCache, ShortLivedHttpCaching}
-import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
 import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
+import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
-import uk.gov.hmrc.play.http.HeaderNames._
+import _root_.uk.gov.hmrc.http.HeaderNames._
 import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -42,14 +41,19 @@ import useCases._
 import security.LoginToHOD._
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http._
+import uk.gov.hmrc.http.hooks.HttpHook
+import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 
 object FORAuditConnector extends AuditConnector with AppName {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
+trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost with WSPost with HttpDelete with WSDelete  with AppName with RunMode
+
 object WSHttp extends ForHttp
 
-trait ForHttp extends WSGet with WSPut with WSPost with WSDelete with AppName {
+trait ForHttp extends WSHttp {
   override val hooks = Seq.empty
   lazy val useDummyIp = ForConfig.useDummyIp
 

@@ -20,11 +20,11 @@ import connectors.{Document, HODConnector}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import playconfig.{FormPersistence, SessionId}
 import security.LoginToHOD.AuthToken
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.Authorization
 
 import scala.concurrent.Future
 import scala.util.Random
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.Authorization
 
 object SaveInProgressSubmissionForLater {
   type SaveInProgressSubmissionForLater = HeaderCarrier => (Document, HeaderCarrier) => Future[SaveForLaterPassword]

@@ -22,11 +22,11 @@ import models._
 import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{FreeSpec, Matchers}
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.SessionId
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
 
 class SubmitBusinessRentalInformationSpec extends FreeSpec with Matchers {
 	import TestData._

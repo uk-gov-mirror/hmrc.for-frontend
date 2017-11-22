@@ -21,10 +21,10 @@ import org.joda.time.LocalDate
 import play.api.i18n.{Lang, Messages}
 import play.api.libs.json._
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object EmailConnector extends ServicesConfig {
 

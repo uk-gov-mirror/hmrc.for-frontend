@@ -28,8 +28,8 @@ import play.api.test.Helpers._
 import play.api.test.{DefaultAwaitTimeout, FakeRequest, FutureAwaits}
 import play.filters.csrf.CSRF.Token
 import play.filters.csrf._
-import uk.gov.hmrc.play.http.HeaderNames
 import utils.stubs.StubFormDocumentRepo
+import uk.gov.hmrc.http.HeaderNames
 
 class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwaits with DefaultAwaitTimeout with OptionValues with OneServerPerSuite {
   implicit override lazy val app: play.api.Application = new GuiceApplicationBuilder().configure(Map("auditing.enabled" -> false)).build()
