@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.language.LanguageController
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 @Singleton
-class CustomLanguageController @Inject()(override val messagesApi: MessagesApi, configuration: Configuration) extends LanguageController {
+class CustomLanguageController @Inject()(configuration: Configuration)(implicit messagesApi: MessagesApi) extends LanguageController {
 
   def showEnglish = Action.async { implicit request =>
     switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))

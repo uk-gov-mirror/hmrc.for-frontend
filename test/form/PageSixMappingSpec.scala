@@ -19,7 +19,7 @@ package form
 import models._
 import models.pages._
 import models.serviceContracts.submissions._
-import org.joda.time.LocalDate
+import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.data.Form
 
@@ -187,7 +187,8 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "validate stepped rent from date as a date" in {
-    validateDate(getKeyStepped(0).stepFrom, pageSixForm, fullData)
+    val formData = fullData + (getKeyStepped(0).stepTo + ".year" -> "2019")
+    validateDate(getKeyStepped(0).stepFrom, pageSixForm, formData)
   }
 
   it should "validate the second stepped rent step amount as currency" in {

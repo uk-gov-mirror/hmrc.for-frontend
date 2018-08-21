@@ -22,21 +22,22 @@ private object AppDependencies {
   private val playPartialsVersion = "6.1.0"
   private val playAuthorisedFrontendVersion = "6.2.0"
   private val playConfigVersion = "3.0.0"
-  private val hmrcTestVersion = "2.1.0"
-  private val scalaTestVersion = "3.0.1"
+  private val hmrcTestVersion = "3.0.0"
+  private val scalaTestVersion = "3.0.5"
   private val pegdownVersion = "1.6.0"
+  private val scalatestPlusPlayVersion = "2.0.1"
 
   val compile = Seq(
     filters,
     ws,
-    "uk.gov.hmrc" %% "json-encryption" % "3.1.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "7.0.0",
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.11.0",
+    "uk.gov.hmrc" %% "json-encryption" % "3.3.0",
+    "uk.gov.hmrc" %% "http-caching-client" % "7.1.0",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.27.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
-    "uk.gov.hmrc" %% "url-builder" % "2.0.0",
+    "uk.gov.hmrc" %% "url-builder" % "2.1.0",
     "it.innove" %  "play2-pdf" % "1.5.2",
     "joda-time" % "joda-time" % "2.8.2",
-    "uk.gov.hmrc" %% "play-language" % "3.0.0",
+    "uk.gov.hmrc" %% "play-language" % "3.4.0",
     "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0"
   )
 
@@ -53,7 +54,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % pegdownVersion % scope,
         "org.jsoup" % "jsoup" % "1.8.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope
+        "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope
       )
     }.test
   }
@@ -68,7 +69,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % pegdownVersion % scope,
         "org.jsoup" % "jsoup" % "1.8.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope
+        "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope
       )
     }.test
   }
