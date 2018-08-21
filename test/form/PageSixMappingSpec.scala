@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package form
 import models._
 import models.pages._
 import models.serviceContracts.submissions._
-import org.joda.time.LocalDate
+import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.data.Form
 
@@ -187,7 +187,8 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "validate stepped rent from date as a date" in {
-    validateDate(getKeyStepped(0).stepFrom, pageSixForm, fullData)
+    val formData = fullData + (getKeyStepped(0).stepTo + ".year" -> DateTime.now().plusYears(1).getYear.toString)
+    validateDate(getKeyStepped(0).stepFrom, pageSixForm, formData)
   }
 
   it should "validate the second stepped rent step amount as currency" in {

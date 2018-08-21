@@ -23,7 +23,7 @@ module.exports = function(grunt) {
                         'govuk_modules/govuk_template/assets/stylesheets',
                         'govuk_modules/govuk_frontend_toolkit/stylesheets'
                     ],
-                    lineNumbers: true,
+                    lineNumbers: false,
                     style: 'expanded'
                 },
                 files: [{
