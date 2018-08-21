@@ -187,7 +187,7 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "validate stepped rent from date as a date" in {
-    val formData = fullData + (getKeyStepped(0).stepTo + ".year" -> "2019")
+    val formData = fullData + (getKeyStepped(0).stepTo + ".year" -> DateTime.now().plusYears(1).getYear.toString)
     validateDate(getKeyStepped(0).stepFrom, pageSixForm, formData)
   }
 
