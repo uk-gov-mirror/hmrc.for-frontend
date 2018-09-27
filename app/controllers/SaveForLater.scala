@@ -17,7 +17,7 @@
 package controllers
 
 import actions.{RefNumAction, RefNumRequest}
-import connectors.{EmailConnector, HODConnector}
+import connectors.EmailConnector
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
 import form.persistence.FormDocumentRepository
 import models.journeys._
@@ -25,7 +25,7 @@ import models.pages.{Summary, SummaryBuilder}
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.mvc.{AnyContent, Result}
+import play.api.mvc.{Action, AnyContent, Result}
 import playconfig.{Audit, FormPersistence, SessionId}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
@@ -95,6 +95,10 @@ object SaveForLater extends FrontendController {
 
   def logout = RefNumAction.async { implicit request =>
     Redirect(routes.LoginController.show()).withNewSession
+  }
+
+  def timeout = Action.async(parse.empty) { implicit request =>
+    Ok(views.html.timeout())
   }
 
   private def resumeSavedJourney(p: SaveForLaterPassword, r: ReferenceNumber)(implicit re: RefNumRequest[AnyContent]): Future[Result] = {

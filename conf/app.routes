@@ -26,6 +26,7 @@ GET         /savedForm                 controllers.SaveForLater.resumeOptions
 POST 		/resume					   controllers.SaveForLater.resume
 GET 		/immediateresume		   controllers.SaveForLater.immediateResume
 GET         /logout                    controllers.SaveForLater.logout
+GET         /timeout                   controllers.SaveForLater.timeout
 
 GET         /login                     controllers.LoginController.show
 POST        /login                     controllers.LoginController.submit

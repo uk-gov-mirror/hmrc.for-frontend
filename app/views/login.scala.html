@@ -52,7 +52,7 @@
     }
 
 
-    @main(title = Messages("project.name") +" - "+Messages("login.heading"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin) {
+    @main(title = Messages("project.name") +" - "+Messages("login.heading"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false) {
    
  <main id="content" tabindex="-1">
         <div class="grid-row">
@@ -70,15 +70,21 @@
                                 }
                             }
                         </h2>
-                        <p class="icon-important">
-                        @messages.lang.language match {
-                            case "cy" => {
-                                @Html(ForConfig.loginPageNotice.welshBody)
-                            }
-                            case _ => {
-                                @Html(ForConfig.loginPageNotice.englishBody)
-                            }
-                        }
+
+                        <p class="notice">
+                            <i class="icon icon-important">
+                                <span class="visually-hidden">Warning</span>
+                            </i>
+                            <strong class="bold-small">
+                                @messages.lang.language match {
+                                    case "cy" => {
+                                    @Html(ForConfig.loginPageNotice.welshBody)
+                                    }
+                                    case _ => {
+                                    @Html(ForConfig.loginPageNotice.englishBody)
+                                    }
+                                }
+                            </strong>
                         </p>
                     </div>
                 }

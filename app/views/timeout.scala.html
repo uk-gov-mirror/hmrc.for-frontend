@@ -17,26 +17,28 @@
 @()(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
-  @views.html.includes.stylesheets()
+@views.html.includes.stylesheets()
 }
 
 @bodyEnd = {
-    @views.html.includes.javascripts()
-  	@views.html.includes.analytics()
+@views.html.includes.javascripts()
+@views.html.includes.analytics()
 }
 
 @main(title=Messages("project.name") +" | "+Messages("heading.cookies"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,needsTimeoutWarning=false) {
 <main id="content" tabindex="-1">
-	<div class="grid-row">
-	    <div class="column-two-thirds">
+ <div class="grid-row">
+  <div class="column-two-thirds">
 
-	    <h1 class="form-title heading-large">
-	      @Messages("heading.cookies")
-	    </h1>
+   <h1 class="heading-xlarge">@messages("heading.timeout")</h1>
 
-	    @Html(Messages("content.cookies"))
+   <div class="panel panel-border-wide">
+    <p>
+     @messages("content.timeout")
+    </p>
+   </div>
 
-		</div>
-	</div>
+  </div>
+ </div>
 </main>
 }
