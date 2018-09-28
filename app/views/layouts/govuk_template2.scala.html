@@ -36,6 +36,17 @@
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
     </script>
 
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i) {w[l]=w[l]\\\\\\|
+      |[];w[l].push( {'gtm.start': new Date().getTime(),event:'gtm.js'}
+      );var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-@{current.configuration.getString("analytics.ga.GMT").get}');
+    </script>
+    <!-- End Google Tag Manager →
+
     @uiLayouts.head(
     linkElem = None,
     headScripts = None)
@@ -90,6 +101,10 @@
   </head>
 
   <body class="@bodyClasses.getOrElse("")">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-GTM-@{current.configuration.getString("analytics.ga.GMT").get}"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     @if(needsTimeoutWarning){
       <input type="hidden" id="signOutUrl" value=@current.configuration.getString("signout.url").get />
       <input type="hidden" id="signOutTimeout" value=@current.configuration.getInt("signout.timeout").get />
@@ -173,16 +188,6 @@
     scriptElem = None,
     gaCalls = None)
     <script src="@routes.Assets.at("javascripts/govuk-template.min.js")" type="text/javascript"></script>
-    <!-- Google Tag Manager -->
-    <script>
-      (function(w,d,s,l,i) {w[l]=w[l]\\\\\\|
-      |[];w[l].push( {'gtm.start': new Date().getTime(),event:'gtm.js'}
-      );var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-@{current.configuration.getString("analytics.ga.GMT").get}');
-    </script>
-    <!-- End Google Tag Manager →
 
     @bodyEnd
     
