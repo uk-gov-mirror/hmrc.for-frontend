@@ -773,5 +773,6 @@ content.cookies=<p>The Rent and Lease Detail service (RALD) puts small files, kn
 
 #TIMEOUT
 #############################
-heading.timeout=You have been logout due to inactivity
-content.timeout=Timed out due to inactivity & your answers have not been saved.
+heading.timeout=You have been logged out due to inactivity.
+content.timeout=Your answers have not been saved.
+content.timeout.login=Log in again
