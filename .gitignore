@@ -24,5 +24,4 @@ govuk_modules
 npm-debug.log
 *.DS_Store
 frontend/sass/elements
-package-lock.json
 _SpecRunner.html

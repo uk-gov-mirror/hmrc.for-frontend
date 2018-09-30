@@ -97,7 +97,7 @@ object SaveForLater extends FrontendController {
     Redirect(routes.LoginController.show()).withNewSession
   }
 
-  def timeout = Action.async(parse.empty) { implicit request =>
+  def timeout = Action { implicit request =>
     Ok(views.html.timeout())
   }
 
