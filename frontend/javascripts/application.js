@@ -42,6 +42,7 @@ var ref;
         VoaFor.toggleImage();
         VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
+        VoaFor.timeOutReminder();
 
         //feedback.js
         VoaFeedback.feedbackOverrides();

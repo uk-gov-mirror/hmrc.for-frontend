@@ -131,7 +131,16 @@
         }
         
           <div class="clearfix"></div>
-          <p class="icon-important">@Html(Messages("label.suggestedChanges"))</p>
+
+
+          <p class="notice">
+            <i class="icon icon-important">
+              <span class="visually-hidden">Warning</span>
+            </i>
+            <strong class="bold-small">
+              @Html(Messages("label.suggestedChanges"))
+            </strong>
+          </p>
           
         </div>
 

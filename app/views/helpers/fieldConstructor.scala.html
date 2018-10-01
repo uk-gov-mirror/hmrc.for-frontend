@@ -66,8 +66,15 @@ Example usage:
     }
 
 
-    @elements.args.get('_helpIndent).map { helpText => 
-            <p class="icon-important">@helpText</p>
+    @elements.args.get('_helpIndent).map { helpText =>
+                <p class="notice">
+                    <i class="icon icon-important">
+                        <span class="visually-hidden">Warning</span>
+                    </i>
+                    <strong class="bold-small">
+                        @helpText
+                    </strong>
+                </p>
     }
     @elements.args.get('_details) match {
         case Some(true) => { 

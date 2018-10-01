@@ -17,7 +17,6 @@ private object AppDependencies {
 
   private val playHealthVersion = "2.0.0"
   private val logbackJsonLoggerVersion = "3.1.0"
-  private val govukTemplateVersion = "5.0.0"
   private val playUiVersion = "7.0.0"
   private val playPartialsVersion = "6.1.0"
   private val playAuthorisedFrontendVersion = "6.2.0"
@@ -26,6 +25,7 @@ private object AppDependencies {
   private val scalaTestVersion = "3.0.5"
   private val pegdownVersion = "1.6.0"
   private val scalatestPlusPlayVersion = "2.0.1"
+  private val playUIVersion = "7.21.0"
 
   val compile = Seq(
     filters,
@@ -34,6 +34,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "http-caching-client" % "7.1.0",
     "uk.gov.hmrc" %% "frontend-bootstrap" % "8.27.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
+    "uk.gov.hmrc" %% "play-ui" % playUIVersion,
     "uk.gov.hmrc" %% "url-builder" % "2.1.0",
     "it.innove" %  "play2-pdf" % "1.5.2",
     "joda-time" % "joda-time" % "2.8.2",

@@ -53,11 +53,16 @@
                     <p>@Html(Messages("saveForLater.info.p.2"))</p>
                 </div>
 
-                <p class="icon-important" style="margin-top: 2em">
-                    @Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@{
-                    s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
-                }</strong>
-            <p>
+                <p class="notice">
+                    <i class="icon icon-important">
+                        <span class="visually-hidden">Warning</span>
+                    </i>
+                    <strong class="bold-small">
+                        @Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@{
+                        s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
+                        }</strong>
+                    </strong>
+                </p>
 
                 <p>
                     <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>

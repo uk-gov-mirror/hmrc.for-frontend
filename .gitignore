@@ -24,3 +24,4 @@ govuk_modules
 npm-debug.log
 *.DS_Store
 frontend/sass/elements
+_SpecRunner.html
