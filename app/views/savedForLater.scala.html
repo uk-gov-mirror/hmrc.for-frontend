@@ -65,8 +65,8 @@
                 </p>
 
                 <p>
-                    <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>
                     @if(!hasTimedout) {
+                        <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>
                         <a href="@routes.SaveForLater.logout" class="button button-primary">@Messages("saveForLater.logout")</a>
                     }
                 </p>
