@@ -16,7 +16,7 @@
 
 @import models.pages.Summary
 @import org.joda.time.LocalDate
-@(summary: Summary, password: String, expiryDate: LocalDate)(implicit requestHeader: RequestHeader, messages: Messages)
+@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedout: Boolean = false)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
@@ -27,7 +27,7 @@
 @views.html.includes.analytics(summary)
 }
 
-@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false) {
+@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, needsTimeoutWarning=false) {
 
 
     <main id="content" tabindex="-1">
@@ -66,7 +66,9 @@
 
                 <p>
                     <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>
-                    <a href="@routes.SaveForLater.logout" class="button button-primary">@Messages("saveForLater.logout")</a>
+                    @if(!hasTimedout) {
+                        <a href="@routes.SaveForLater.logout" class="button button-primary">@Messages("saveForLater.logout")</a>
+                    }
                 </p>
                 
                 <form action="@routes.SaveForLater.resume()" method="post">
