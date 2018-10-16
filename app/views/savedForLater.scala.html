@@ -68,6 +68,8 @@
                     @if(!hasTimedout) {
                         <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>
                         <a href="@routes.SaveForLater.logout" class="button button-primary">@Messages("saveForLater.logout")</a>
+                    } else {
+                        <a class="button" href=@routes.LoginController.show>@Messages("content.timeout.login")</a>
                     }
                 </p>
                 
