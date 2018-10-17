@@ -51,7 +51,7 @@ object SaveForLater extends FrontendController {
         s4l(hc)(doc, hc).flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
           audit(sum, pw)
-          val expiryDate = LocalDate.now.plusDays(90)
+          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
           EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
             Ok(views.html.savedForLater(sum, pw, expiryDate))

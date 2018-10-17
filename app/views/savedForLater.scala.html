@@ -36,32 +36,34 @@
 
                 <a href="@routes.Application.summary" id="back" name="back_button" class="button-link link-back declaration-back" role="button">@Messages("button.label.back")</a>
 
+
                 <h1 class="form-title heading-large">
-                @Html(Messages("saveForLater.heading"))
+                    <p class="font-xsmall">@Messages("saveForLater.preHeader")</p>
+                    @Html(Messages("saveForLater.heading"))
                 </h1>
 
-                <p><strong>@Messages("saveForLater.retrievalInfo")</strong></p>
+                <div class="notice">
+                    <i class="icon icon-important">
+                        <span class="visually-hidden">Warning</span>
+                    </i>
+                    <strong>
+                        @Html(Messages("saveForLater.info"))
+                    </strong>
+                </div>
 
                 <div class="save-for-later">
 
                     <span>@Messages("saveForLater.password"):</span> <strong>@password</strong>
                 </div>
 
-                <div class="form-error alert alert-save-for-later" style="color: #b10e1e;
-                    margin-top: 1em">
-                    <p>@Html(Messages("saveForLater.info"))</p>
-                    <p>@Html(Messages("saveForLater.info.p.2"))</p>
-                </div>
-
-                <p class="notice">
-                    <i class="icon icon-important">
-                        <span class="visually-hidden">Warning</span>
-                    </i>
-                    <strong class="bold-small">
-                        @Messages("saveForLater.retrievalWarning") @Html(Messages("saveForLater.paragraph")) <strong>@{
+                <p>
+                    @Html(Messages("saveForLater.info.p.2"))
+                </p>
+                <p>
+                    @Html(Messages("saveForLater.paragraph"))
+                    @{
                         s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
-                        }</strong>
-                    </strong>
+                    }
                 </p>
 
                 <p>
