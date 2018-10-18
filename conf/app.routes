@@ -21,6 +21,7 @@ GET         /login/cy                  @controllers.CustomLanguageController.sho
 
 #SAVE4LATER
 GET         /saved                     controllers.SaveForLater.saveForLater
+POST        /saved                     controllers.SaveForLater.customPasswordSaveForLater
 GET         /saved/login               controllers.SaveForLater.login
 GET         /savedForm                 controllers.SaveForLater.resumeOptions
 POST 		/resume					   controllers.SaveForLater.resume

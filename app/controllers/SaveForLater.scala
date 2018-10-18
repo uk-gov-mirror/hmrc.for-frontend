@@ -46,6 +46,24 @@ object SaveForLater extends FrontendController {
   val s4lIndicator = "s4l"
 
   def saveForLater = RefNumAction.async { implicit request =>
+//    repository.findById(SessionId(hc), request.refNum).flatMap {
+//      case Some(doc) =>
+//        s4l(hc)(doc, hc).flatMap { pw =>
+//          val sum = SummaryBuilder.build(doc)
+//          audit(sum, pw)
+//          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+//          val email = sum.customerDetails.flatMap(_.contactDetails.email)
+//          EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+//            Ok(views.html.savedForLater(sum, pw, expiryDate))
+//          }
+//        }
+//      case None =>
+//        InternalServerError(views.html.error.error500())
+//    }
+    Ok(customPasswordSaveForLater)
+  }
+
+  def customPasswordSaveForLater = RefNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
       case Some(doc) =>
         s4l(hc)(doc, hc).flatMap { pw =>
@@ -60,6 +78,7 @@ object SaveForLater extends FrontendController {
       case None =>
         InternalServerError(views.html.error.error500())
     }
+    ???
   }
 
   def audit(sum: Summary, pw: SaveForLaterPassword) = Audit(
