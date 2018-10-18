@@ -562,7 +562,7 @@ error.declaration=You must agree to proceed
 
 #SAVE
 ###############################
-saveForLater.heading=Your information has been saved<br/>but not submitted
+saveForLater.heading=Make a note of this password
 saveForLater.paragraph=We will delete any unsubmitted information on
 saveForLater.info=Please make a note of this password as you will need it to retrieve your saved information and you will not be able to recover it once you leave this form.
 saveForLater.info.p.2=You will also need your reference number and the postcode shown on the letter to access and make changes to your information.
