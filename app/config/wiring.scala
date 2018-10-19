@@ -123,8 +123,12 @@ case class SessionIdMissing() extends Exception
 
 object SaveForLater {
   def apply(): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
-    Generate7LengthLowercaseAlphaNumPassword.apply, StoreInProgressSubmissionFor90Days.apply,
-    UpdateDocumentInCurrentSession.apply
+    Generate7LengthLowercaseAlphaNumPassword.apply, StoreInProgressSubmissionFor90Days.apply _,
+    UpdateDocumentInCurrentSession.apply _
+  )
+  def apply(pwd: String): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
+    UseUserAlphaNumPassword(pwd), StoreInProgressSubmissionFor90Days.apply _,
+    UpdateDocumentInCurrentSession.apply _
   )
 }
 
