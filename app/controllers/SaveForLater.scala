@@ -52,7 +52,13 @@ object SaveForLater extends FrontendController {
         val sum = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
-            Ok(views.html.savedForLater(sum, doc.saveForLaterPassword.get, expiryDate))
+            playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
+              audit(sum, pw)
+              val email = sum.customerDetails.flatMap(_.contactDetails.email)
+              EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+                Ok(views.html.savedForLater(sum, pw, expiryDate))
+              }
+            }
           } else {
             Ok(views.html.customPasswordSaveForLater(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
           }
@@ -69,7 +75,7 @@ object SaveForLater extends FrontendController {
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
             formErrors => {
-              Ok(views.html.customPasswordSaveForLater(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
+              Ok(views.html.customPasswordSaveForLater(sum, expiryDate, formErrors))
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
@@ -127,11 +133,7 @@ object SaveForLater extends FrontendController {
       case Some(doc) =>
         s4l(hc)(doc, hc).flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
-          Audit(
-            "SavedForLater", Map(
-              "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
-            )
-          )
+          audit(sum, pw)
           val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
           EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
