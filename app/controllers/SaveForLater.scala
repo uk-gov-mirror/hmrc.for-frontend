@@ -53,7 +53,7 @@ object SaveForLater extends FrontendController {
         val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
-              audit(sum, pw)
+              audit(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                 Ok(views.html.savedForLater(sum, pw, expiryDate))
@@ -79,7 +79,7 @@ object SaveForLater extends FrontendController {
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
-                audit(sum, pw)
+                audit(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                   Ok(views.html.savedForLater(sum, pw, expiryDate))
@@ -93,7 +93,7 @@ object SaveForLater extends FrontendController {
       }
   }
 
-  def audit(sum: Summary, pw: SaveForLaterPassword) = Audit(
+  def audit(sum: Summary) = Audit(
     "SavedForLater", Map(
       "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
     )
@@ -133,7 +133,7 @@ object SaveForLater extends FrontendController {
       case Some(doc) =>
         s4l(hc)(doc, hc).flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
-          audit(sum, pw)
+          audit(sum)
           val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
           EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
