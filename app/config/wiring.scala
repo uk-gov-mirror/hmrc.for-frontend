@@ -105,9 +105,11 @@ object ShortLivedCacher extends ShortLivedHttpCaching with AppName with Services
   override def http: HttpGet with HttpPut with HttpDelete = WSHttp
 }
 
-object S4L extends ShortLivedCache {
+object S4L extends ShortLivedCache with AppName with ServicesConfig {
   override implicit lazy val crypto: CompositeSymmetricCrypto = ApplicationCrypto.JsonCrypto
   override def shortLiveCache: ShortLivedHttpCaching = ShortLivedCacher
+  def expiryDateInDays: Int = appNameConfiguration.getInt("savedForLaterExpiryDays")
+    .getOrElse(throw new Exception("No config setting for expiry days"))
 }
 
 object FormPersistence {
@@ -121,8 +123,12 @@ case class SessionIdMissing() extends Exception
 
 object SaveForLater {
   def apply(): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
-    Generate7LengthLowercaseAlphaNumPassword.apply, StoreInProgressSubmissionFor90Days.apply,
-    UpdateDocumentInCurrentSession.apply
+    Generate7LengthLowercaseAlphaNumPassword.apply, StoreInProgressSubmissionFor90Days.apply _,
+    UpdateDocumentInCurrentSession.apply _
+  )
+  def apply(pwd: String): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
+    UseUserAlphaNumPassword(pwd), StoreInProgressSubmissionFor90Days.apply _,
+    UpdateDocumentInCurrentSession.apply _
   )
 }
 

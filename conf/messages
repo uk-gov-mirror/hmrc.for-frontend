@@ -562,24 +562,30 @@ error.declaration=You must agree to proceed
 
 #SAVE
 ###############################
-saveForLater.heading=Your information has been saved<br/>but not submitted
+saveForLater.heading=Make a note of this password
 saveForLater.paragraph=We will delete any unsubmitted information on
-saveForLater.info=<strong>Please make a note of this password</strong> as you will need it to access and make changes to your information.
-saveForLater.info.p.2=You will also need your reference number and the postcode shown on the letter.
+saveForLater.info=Please make a note of this password as you will need it to retrieve your saved information and you will not be able to recover it once you leave this form.
+saveForLater.info.p.2=You will also need your reference number and the postcode shown on the letter to access and make changes to your information.
 saveForLater.continue=Continue completing this form
 saveForLater.return=Return to GOV.UK
 saveForLater.surveyLink=Tell us what you think?
 saveForLater.retrievalInfo=To retrieve your saved information you will need this password:
 saveForLater.retrievalWarning=You will not be able to recover the password once you leave the form.
+saveForLater.preHeader=Your information have been saved but not submitted.
+saveForLater.preHeaderTimeout=For security purposes you have been logged out, but your information has been saved.
 saveForLater.refNum=Reference number
 saveForLater.postcode=Postcode
 saveForLater.password=Password
+saveForLater.passwordsDontMatch=Passwords do not match
+saveForLater.confirmPassword=Confirm password
+saveForLater.validPassword=The password must be at least 7 characters long
 saveForLater.print=Print this page
 saveForLater.pleaseEnterPassword=Please enter the password provided when you previously saved the form
 saveForLater.invalidPassword=Sorry, the password you have entered is not correct
 saveForLater.haveYouForgotten=If you have forgotten your password, you will need to enter all of your information again
 saveForLater.logout=Log out
 saveForLater.or=or
+saveForLater.createPassword=Create a password to retrieve your saved information
 
 #SAVEDFORM
 ###############################

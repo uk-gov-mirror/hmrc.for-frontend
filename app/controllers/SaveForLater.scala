@@ -19,6 +19,7 @@ package controllers
 import actions.{RefNumAction, RefNumRequest}
 import connectors.EmailConnector
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
+import form.CustomUserPasswordForm
 import form.persistence.FormDocumentRepository
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
@@ -47,22 +48,52 @@ object SaveForLater extends FrontendController {
 
   def saveForLater = RefNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
-      case Some(doc) =>
-        s4l(hc)(doc, hc).flatMap { pw =>
-          val sum = SummaryBuilder.build(doc)
-          audit(sum, pw)
-          val expiryDate = LocalDate.now.plusDays(90)
-          val email = sum.customerDetails.flatMap(_.contactDetails.email)
-          EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-            Ok(views.html.savedForLater(sum, pw, expiryDate))
+      case Some(doc) => {
+        val sum = SummaryBuilder.build(doc)
+        val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+          if (doc.saveForLaterPassword.isDefined) {
+            playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
+              audit(sum)
+              val email = sum.customerDetails.flatMap(_.contactDetails.email)
+              EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+                Ok(views.html.savedForLater(sum, pw, expiryDate))
+              }
+            }
+          } else {
+            Ok(views.html.customPasswordSaveForLater(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
           }
-        }
+      }
       case None =>
         InternalServerError(views.html.error.error500())
     }
   }
 
-  def audit(sum: Summary, pw: SaveForLaterPassword) = Audit(
+  def customPasswordSaveForLater = RefNumAction.async { implicit request =>
+    repository.findById(SessionId(hc), request.refNum).flatMap {
+        case Some(doc) => {
+          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+          val sum = SummaryBuilder.build(doc)
+          CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
+            formErrors => {
+              Ok(views.html.customPasswordSaveForLater(sum, expiryDate, formErrors))
+            },
+            validData => {
+              playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
+                audit(sum)
+                val email = sum.customerDetails.flatMap(_.contactDetails.email)
+                EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+                  Ok(views.html.savedForLater(sum, pw, expiryDate))
+                }
+              }
+            }
+          )
+        }
+        case None =>
+          InternalServerError(views.html.error.error500())
+      }
+  }
+
+  def audit(sum: Summary) = Audit(
     "SavedForLater", Map(
       "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
     )
@@ -97,8 +128,21 @@ object SaveForLater extends FrontendController {
     Redirect(routes.LoginController.show()).withNewSession
   }
 
-  def timeout = Action { implicit request =>
-    Ok(views.html.timeout())
+  def timeout = RefNumAction.async { implicit request =>
+    repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
+      case Some(doc) =>
+        s4l(hc)(doc, hc).flatMap { pw =>
+          val sum = SummaryBuilder.build(doc)
+          audit(sum)
+          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+          val email = sum.customerDetails.flatMap(_.contactDetails.email)
+          EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+            Ok(views.html.savedForLater(sum, pw, expiryDate, hasTimedout = true))
+          }
+        }
+      case None =>
+        InternalServerError(views.html.error.error500())
+    }
   }
 
   private def resumeSavedJourney(p: SaveForLaterPassword, r: ReferenceNumber)(implicit re: RefNumRequest[AnyContent]): Future[Result] = {
