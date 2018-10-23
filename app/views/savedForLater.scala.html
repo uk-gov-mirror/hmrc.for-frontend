@@ -38,7 +38,11 @@
 
 
                 <h1 class="form-title heading-large">
-                    <p class="font-xsmall">@Messages("saveForLater.preHeader")</p>
+                    @if(!hasTimedout) {
+                        <p class="font-xsmall">@Messages("saveForLater.preHeader")</p>
+                    } else {
+                        <p class="font-xsmall">@Messages("saveForLater.preHeaderTimeout")</p>
+                    }
                     @Html(Messages("saveForLater.heading"))
                 </h1>
 
