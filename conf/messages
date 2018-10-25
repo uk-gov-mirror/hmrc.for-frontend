@@ -88,6 +88,7 @@ label.footer.crown=Crown copyright
 label.edit=Edit
 label.account.ref=Reference
 label.account.property=Property
+label.confirmPassword=Error on confirm password
 placeholder.address.1=Address line 1
 placeholder.address.2=Address line 2
 placeholder.address.3=Address line 3
@@ -586,7 +587,7 @@ saveForLater.haveYouForgotten=If you have forgotten your password, you will need
 saveForLater.logout=Log out
 saveForLater.or=or
 saveForLater.createPassword=Create a password to retrieve your saved information
-saveForLater.next=Save for later
+saveForLater.next=Save password
 
 #SAVEDFORM
 ###############################
