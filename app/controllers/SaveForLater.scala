@@ -134,7 +134,7 @@ object SaveForLater extends FrontendController {
         val save4laterResponse = (if (doc.saveForLaterPassword.isDefined) {
           playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc)
         } else {
-          playconfig.SaveForLater()(hc)(doc, hc)
+          s4l(hc)(doc, hc)
         })
         save4laterResponse.flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
