@@ -130,8 +130,13 @@ object SaveForLater extends FrontendController {
 
   def timeout = RefNumAction.async { implicit request =>
     repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
-      case Some(doc) =>
-        s4l(hc)(doc, hc).flatMap { pw =>
+      case Some(doc) => {
+        val save4laterResponse = (if (doc.saveForLaterPassword.isDefined) {
+          playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc)
+        } else {
+          playconfig.SaveForLater()(hc)(doc, hc)
+        })
+        save4laterResponse.flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
           audit(sum)
           val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
@@ -140,6 +145,7 @@ object SaveForLater extends FrontendController {
             Ok(views.html.savedForLater(sum, pw, expiryDate, hasTimedout = true))
           }
         }
+      }
       case None =>
         InternalServerError(views.html.error.error500())
     }
