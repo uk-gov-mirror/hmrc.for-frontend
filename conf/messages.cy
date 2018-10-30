@@ -555,15 +555,15 @@ saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
-saveForLater.preHeader=Mae eichgwybodaethwedicaeleichadwondhebeichyflwyno.
+saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
 saveForLater.preHeaderTimeout=	At ddibeniondiogelwch, rydych chi wedicaeleichallgofnodi, ondmaeeichgwybodaethwedi'ichadw
 saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
-saveForLater.passwordsDontMatch=Nidyw'rcyfrineiriauyncyfateb
+saveForLater.passwordsDontMatch=Nidyw’rcyfrineiriauyncyfateb
 saveForLater.confirmPassword=Cadarnhaucyfrinair
-saveForLater.validPassword=Rhaidi'rcyfrinairfod o leiaf 7 nodyn hir
-saveForLater.print=Argraffu’r dudalen hon
+saveForLater.validPassword=Rhaidi’rcyfrinairfod o leiaf 7 nodyn hir
+saveForLater.print=Argraffu’r tudalen
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
@@ -612,7 +612,7 @@ heading.giveFeedback=Rhoi adborth
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â''n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
-label.help.link=Help gyda’r ffurflen hon
+label.help.link=Cael help gyda'r ffurflen
 label.help.title=Help ar gyfer y dudalen
 copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau isod.
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
@@ -757,3 +757,7 @@ hint.if0thenenter1=Os nad oedd cost, rhowch swm 0 yma gan ddweud paham yn y disg
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent a dalwyd gan eich cleient yn ystod cyfnod rhent grisiog ac eithrio TAW
 section2.heading.1=Oherwydd diogelwch data, ni allwn cyn-boblogi y ffurflen hon
 label.writtenAgreement.rentOpenEnded.help=Rhowch Na lle mae''n rhedeg am gyfnod penodol neu mae dyddiad terfynol wedi''i gytuno
+
+#TIMEOUT
+#############################
+content.timeout.login=Mewngofnodwch eto
