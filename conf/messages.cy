@@ -545,27 +545,32 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=Byddwn yn cadw unrhyw wybodaeth sydd heb ei chyflwyno am dri mis cyn ei dileu 
-saveForLater.info=<strong>Gwnewch nodyn o’r cyfrinair hon os gwelwch yn dda</strong> gan y bydd ei hangen arnoch er mwyn cyrchu a gwneud newidiadau i’ch gwybodaeth.
-saveForLater.info.p.2=Hefyd bydd arnoch angen eich rhif cyfeirnod a’r côd post ddangosir ar y llythyr.
-saveForLater.continue=Parhau i gwblhau''r ffurflen hon
+saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
+saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn oherwydd ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
+saveForLater.info.p.2=Byddwch angen eich cyfeirnod a’r cod post a ddangosir ar y llythyr er mwyn cyrchu’ch gwybodaeth a gwneud newidiadau.
+saveForLater.continue=Parhau i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
+saveForLater.preHeaderTimeout=Rydych wedi eich allgofnodi at ddibenion diogelwch, ond mae’ch gwybodaeth wedi’i chadw.
 saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
-saveForLater.print=Argraffu''r dudalen hon
+saveForLater.confirmPassword=Cadarnhau’r cyfrinair
+saveForLater.validPassword=Rhaid i’r cyfrinair fod o leiaf 7 cymeriad.
+saveForLater.print=Argraffu’r dudalen hon
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
-saveForLater.logout=Logio allan
+saveForLater.logout=Allgofnodi
 saveForLater.or=neu
+saveForLater.createPassword=Creu cyfrinair er mwyn adalw eich gwybodaeth sydd wedi’i chadw
+saveForLater.next=Cadw cyfrinair
 
 #SAVEDFORM
 ###############################
-saveForm.heading=Ymddengys bod y ffurflen hon wedi’i chwblhau''n rhannol eisoes
+saveForm.heading=Gwneud nodyn o’r cyfrinair hwn
 saveForm.content=Beth hoffech chi ei wneud nesaf?
 saveForm.continue=Parhau i gwblhau''r ffurflen hon
 saveForm.start=Dechrau''r ffurflen eto
@@ -603,7 +608,7 @@ heading.giveFeedback=Rhoi adborth
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â''n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
-label.help.link=Cael help gyda''r dudalen hon
+label.help.link=Help gyda’r ffurflen hon
 label.help.title=Help ar gyfer y dudalen
 copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau isod.
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
@@ -730,7 +735,7 @@ error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio''r terfyn - cysylltwch a
 ##############################
 heading.sessionTimeout=Daeth amser y sesiwn i ben
 sessionTimeout.copy=Cawsoch eich allgofnodi gan nad ydych wedi defnyddio''r ffurflen hon am y 24 awr ddiwethaf.
-sessionTimeout.button=Mewngofnodwch eto
+sessionTimeout.button=Mewngofnodi eto
 
 #INTELLIGENT VALIDATION
 #############################
