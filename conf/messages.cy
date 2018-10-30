@@ -546,7 +546,7 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=We will delete any unsubmitted information on
+saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar dd mis bbbb
 saveForLater.info=Gwnewch nodyn o'ch cyfrinair gan ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
 saveForLater.info.p.2=Bydd angen eich cyfeirnod a'r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i'ch gwybodaeth.
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
