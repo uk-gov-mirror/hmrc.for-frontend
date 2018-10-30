@@ -545,27 +545,28 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
-saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn oherwydd ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
-saveForLater.info.p.2=Byddwch angen eich cyfeirnod a’r cod post a ddangosir ar y llythyr er mwyn cyrchu’ch gwybodaeth a gwneud newidiadau.
+saveForLater.paragraph=We will delete any unsubmitted information on
+saveForLater.info=Gwnewch nodyn o'ch cyfrinair gan ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
+saveForLater.info.p.2=Bydd angen eich cyfeirnod a'r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i'ch gwybodaeth.
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
-saveForLater.preHeaderTimeout=Rydych wedi eich allgofnodi at ddibenion diogelwch, ond mae’ch gwybodaeth wedi’i chadw.
+saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
+saveForLater.preHeaderTimeout=At ddibenion diogelwch, rydych chi wedi cael eich allgofnodi, ond mae eich gwybodaeth wedi'i chadw.
 saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
 saveForLater.confirmPassword=Cadarnhau’r cyfrinair
-saveForLater.validPassword=Rhaid i’r cyfrinair fod o leiaf 7 cymeriad.
+saveForLater.validPassword=Rhaid i'r cyfrinair fod o leiaf 7 nod yn hir.
 saveForLater.print=Argraffu’r dudalen hon
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
 saveForLater.logout=Allgofnodi
 saveForLater.or=neu
-saveForLater.createPassword=Creu cyfrinair er mwyn adalw eich gwybodaeth sydd wedi’i chadw
+saveForLater.createPassword=Creu cyfrinair i adfer eich gwybodaeth
 saveForLater.next=Cadw cyfrinair
 
 #SAVEDFORM
