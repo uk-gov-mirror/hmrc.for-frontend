@@ -757,3 +757,7 @@ hint.if0thenenter1=Os nad oedd cost, rhowch swm 0 yma gan ddweud paham yn y disg
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent a dalwyd gan eich cleient yn ystod cyfnod rhent grisiog ac eithrio TAW
 section2.heading.1=Oherwydd diogelwch data, ni allwn cyn-boblogi y ffurflen hon
 label.writtenAgreement.rentOpenEnded.help=Rhowch Na lle mae''n rhedeg am gyfnod penodol neu mae dyddiad terfynol wedi''i gytuno
+
+#TIMEOUT
+#############################
+content.timeout.login=Mewngofnodwch eto
