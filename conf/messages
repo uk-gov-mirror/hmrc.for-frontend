@@ -92,6 +92,7 @@ label.confirmPassword=Error on confirm password
 placeholder.address.1=Address line 1
 placeholder.address.2=Address line 2
 placeholder.address.3=Address line 3
+label. = Error
 
 
 #BUTTON LABELS
@@ -725,6 +726,7 @@ alternativeContact.contactDetails.email1.email.mismatch=email addresses must mat
 alternativeContact.contactDetails.email2.email.mismatch=email addresses must match
 error.contact.details.missing=At least one of phone, email, or address must be given
 error.maxLength=This must be up to a maximum of {0} characters
+error.minLength=Minimum length is {0} characters
 error.invalid_postcode=Please enter a valid UK postcode
 error.invalid_currency = This must be a number greater than 0
 error.invalid_phone=This must use numbers and - ( ) +

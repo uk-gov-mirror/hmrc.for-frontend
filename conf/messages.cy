@@ -88,9 +88,11 @@ label.footer.crown=Hawlfraint y Goron
 label.edit=Golygu
 label.account.ref=Cyfeirnod
 label.account.property=Eiddo
+label.confirmPassword=Gwall ar cyfrinair cadarnhau
 placeholder.address.1=Llinell gyntaf y cyfeiriad
 placeholder.address.2=Ail linell y cyfeiriad
 placeholder.address.3=Trydedd linell y cyfeiriad
+label. = Gwall
 
 #BUTTON LABELS
 ##############################
@@ -545,7 +547,7 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=We will delete any unsubmitted information on
+saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar dd mis bbbb
 saveForLater.info=Gwnewch nodyn o'ch cyfrinair gan ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
 saveForLater.info.p.2=Bydd angen eich cyfeirnod a'r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i'ch gwybodaeth.
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
@@ -553,20 +555,21 @@ saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
-saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
-saveForLater.preHeaderTimeout=At ddibenion diogelwch, rydych chi wedi cael eich allgofnodi, ond mae eich gwybodaeth wedi'i chadw.
+saveForLater.preHeader=Mae eichgwybodaethwedicaeleichadwondhebeichyflwyno.
+saveForLater.preHeaderTimeout=	At ddibeniondiogelwch, rydych chi wedicaeleichallgofnodi, ondmaeeichgwybodaethwedi'ichadw
 saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
-saveForLater.confirmPassword=Cadarnhau’r cyfrinair
-saveForLater.validPassword=Rhaid i'r cyfrinair fod o leiaf 7 nod yn hir.
+saveForLater.passwordsDontMatch=Nidyw'rcyfrineiriauyncyfateb
+saveForLater.confirmPassword=Cadarnhaucyfrinair
+saveForLater.validPassword=Rhaidi'rcyfrinairfod o leiaf 7 nodyn hir
 saveForLater.print=Argraffu’r dudalen hon
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
 saveForLater.logout=Allgofnodi
 saveForLater.or=neu
-saveForLater.createPassword=Creu cyfrinair i adfer eich gwybodaeth
+saveForLater.createPassword=Creuwchcyfrinair i adfereichgwybodaeth a gadwyd
 saveForLater.next=Cadw cyfrinair
 
 #SAVEDFORM
@@ -698,6 +701,7 @@ error.no_value_selected=Mae''n rhaid i chi ddewis un
 contactDetails.email1.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 contactDetails.email2.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 error.maxLength=Mae''n rhaid i hwn fod hyd at uchafswm o {0} o nodau
+error.minLength=Hydlleiafyw {0}
 error.invalid_postcode=Nodwch god post dilys yn y DU
 error.invalid_currency = Rhaid i hyn fod nifer uwch na''r 0
 error.invalid_phone=Mae''n rhaid i hwn ddefnyddio rhifau a - ( ) + 
