@@ -547,8 +547,8 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 #SAVE
 ###############################
 saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
-saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar dd mis bbbb
-saveForLater.info=Gwnewch nodyn o'ch cyfrinair gan ni fyddwch yn gallu ei adfer ar ôl i chi adael y ffurflen hon.
+saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
+saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn gan y bydd ei angen arnoch i adfer eich gwybodaeth wedi’i chadw ac ni fyddwch yn gallu ei hadfer ar ôl i chi adael y ffurflen hon.
 saveForLater.info.p.2=Bydd angen eich cyfeirnod a'r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i'ch gwybodaeth.
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
@@ -556,20 +556,20 @@ saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
 saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
-saveForLater.preHeaderTimeout=	At ddibeniondiogelwch, rydych chi wedicaeleichallgofnodi, ondmaeeichgwybodaethwedi'ichadw
+saveForLater.preHeaderTimeout=At ddibenion diogelwch, rydych chi wedi cael eich allgofnodi, ond mae eich gwybodaeth wedi’i chadw.
 saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
 saveForLater.passwordsDontMatch=Nidyw’rcyfrineiriauyncyfateb
 saveForLater.confirmPassword=Cadarnhaucyfrinair
-saveForLater.validPassword=Rhaidi’rcyfrinairfod o leiaf 7 nodyn hir
+saveForLater.validPassword=Rhaid i''r cyfrinair fod o leiaf 7 nod yn hir.
 saveForLater.print=Argraffu’r tudalen
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
 saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
 saveForLater.logout=Allgofnodi
 saveForLater.or=neu
-saveForLater.createPassword=Creuwchcyfrinair i adfereichgwybodaeth a gadwyd
+saveForLater.createPassword=Creu cyfrinair i adfer eich gwybodaeth
 saveForLater.next=Cadw cyfrinair
 
 #SAVEDFORM
@@ -612,7 +612,7 @@ heading.giveFeedback=Rhoi adborth
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â''n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
-label.help.link=Cael help gyda'r ffurflen
+label.help.link=Cael help gyda''r ffurflen
 label.help.title=Help ar gyfer y dudalen
 copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau isod.
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
