@@ -546,7 +546,7 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 
 #SAVE
 ###############################
-saveForLater.heading=Mae eich gwybodaeth wedi cael ei chadw ond nid yw wedi''i chyflwyno
+saveForLater.heading=Gwnewch nodyn o''r cyfrinair hwn
 saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
 saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn gan y bydd ei angen arnoch i adfer eich gwybodaeth wedi’i chadw ac ni fyddwch yn gallu ei hadfer ar ôl i chi adael y ffurflen hon.
 saveForLater.info.p.2=Bydd angen eich cyfeirnod a'r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i'ch gwybodaeth.
@@ -561,7 +561,7 @@ saveForLater.refNum=Rhif cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
 saveForLater.passwordsDontMatch=Nidyw’rcyfrineiriauyncyfateb
-saveForLater.confirmPassword=Cadarnhaucyfrinair
+saveForLater.confirmPassword=Cadarnhau''r cyfrinair
 saveForLater.validPassword=Rhaid i''r cyfrinair fod o leiaf 7 nod yn hir.
 saveForLater.print=Argraffu’r tudalen
 saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
