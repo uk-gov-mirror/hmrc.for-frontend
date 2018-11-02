@@ -31,20 +31,20 @@
     <div class="grid-row">
         <div class="column-two-thirds">
 
-            <h1 class="form-title heading-xlarge">Send your rent, lease or ownership details to the Valuation Office Agency</h1>
+            <h1 class="form-title heading-xlarge">@messages("index.title")</h1>
 
-            <p>If you rent, lease or own a business property, you need to send the <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office Agency (VOA)</a> your details if they’ve asked you by letter to do so.</P>
+            <p>@Html(messages("index.subheader"))</p>
 
-            <p>You’ll need the following information to use this service:</P>
+            <p>@messages("index.info")</P>
 
             <ul class="list-bullet">
-                <li>your lease or agreement details (or any tenant’s details if you’re the owner)</li>
-                <li>details of any sub-lettings</li>
-                <li>details of any improvements or changes you’ve made to the property</li>
-                <li>details of your rent, including the date your rent was fixed</li>
-                <li>the name and address of your landlord, if you're a tenant</li>
-                <li>any rent review periods</li>
-                <li>any rent-free periods or other incentives</li>
+                <li>@messages("index.leaseAgreement")</li>
+                <li>@messages("index.subLettingDetails")</li>
+                <li>@messages("index.improvementsDetails")</li>
+                <li>@messages("index.rentDetails")</li>
+                <li>@messages("index.landlordDetails")</li>
+                <li>@messages("index.reviewDetails")</li>
+                <li>@messages("index.rentFreePeriodDetails")</li>
             </ul>
 
             
@@ -54,20 +54,20 @@
                     <span class="visually-hidden">Warning</span>
                 </i>
                 <strong class="bold-small">
-                    You could be taken to court if you submit false information.
+                    @messages("index.takenToCourt")
                 </strong>
             </p>
             <div class="clearfix"></div>
             
-            <a href="@routes.LoginController.show()" class="button button-get-started" role="button">Start now</a>
+            <a href="@routes.LoginController.show()" class="button button-get-started" role="button">@messages("index.start")</a>
 
-            <h2 class="heading-medium">Before you start</h2>
-            <p>It takes about 20 mins to use this service.</p>
-            <p>You don’t have to complete it in one go. You can save what you’ve done and return to finish later on.</p>
+            <h2 class="heading-medium">@messages("index.before")</h2>
+            <p>@messages("index.before.p1")</p>
+            <p>@messages("index.before.p2")</p>
 
-            <h2 class="heading-medium">If you need help</h2>
-            <p>Contact the VOA team in your area for help with using the service.</p>
-            <p>You can find their contact details on the letter sent by the VOA.</p>
+            <h2 class="heading-medium">@messages("index.help")</h2>
+            <p>@messages("index.help.p1")</p>
+            <p>@messages("index.help.p2")</p>
 
 
         </div>

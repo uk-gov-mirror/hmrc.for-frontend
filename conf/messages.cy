@@ -761,3 +761,24 @@ label.writtenAgreement.rentOpenEnded.help=Rhowch Na lle mae''n rhedeg am gyfnod 
 #TIMEOUT
 #############################
 content.timeout.login=Mewngofnodwch eto
+
+#INDEX
+#############################
+index.title=Anfonwch eich manylion rhent, prydles neu berchenogaeth at Asiantaeth y Swyddfa Brisio
+index.subheader=Mae angen i chi yrru gwybodaeth ynglyn ȃ’ch eiddo busnes i <a href="https://www.gov.uk/government/organisations/valuation-office-agency" target="_blank">Asiantaeth y Swyddfa Brisio (VOA)</a> os ydynt wedi gofyn i chi.
+index.takenToCourt=Gallech orfod fynd i’r llys os byddwch yn cyflwyno gwybodaeth ffug.
+index.info=‘Rydych angen gwybodaeth ar y canlynol:
+index.leaseAgreement=eich prydles neu gytundeb, ynglyn ag unrhyw adolygiad rhent neu cyfnod rhent rhad ac am ddim (neu unrhyw wybodaeth am y tenant os chi yw’r perchennog)
+index.subLettingDetails=unrhyw is- osodiadau
+index.improvementsDetails=unrhyw newidiadau sydd wedi eu wneud i’r eiddo, gan gynnwys y cost
+index.rentDetails=eich rhent, yn cynnwys dyddiad a osodiwyd
+index.landlordDetails=enw eich landlord, os chi yw y tenant
+index.reviewDetails=unrhyw gyfnodau adolygu rhent
+index.rentFreePeriodDetails=unrhyw gyfnodau di-rent neu gymhellion eraill
+index.start=Dechrau nawr
+index.before=Cyn i chi ddechrau
+index.before.p1=Mae hi yn cymeryd 20 munud i ddefnyddio y gwasanaeth hwn.
+index.before.p2=Nid oes rhaid i chi ei gwblhau mewn un cam. Gallwch safio yr hyn rydych chi wedi’i wneud a dychwelyd i orffen yn nes ymlaen.
+index.help=Os oes angen help
+index.help.p1=Cysylltwch ȃ’ch Swyddfa Brisio leol ynglyn ȃ help i ddefnyddio y gwasanaeth.
+index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
