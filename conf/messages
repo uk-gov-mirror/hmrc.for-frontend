@@ -786,3 +786,24 @@ content.cookies=<p>The Rent and Lease Detail service (RALD) puts small files, kn
 heading.timeout=You have been logged out due to inactivity.
 content.timeout=Your answers have not been saved.
 content.timeout.login=Log in again
+
+#INDEX
+#############################
+index.title=Send your rent, lease or ownership details to the Valuation Office Agency
+index.subheader=If you rent, lease or own a business property, you need to send the <a href="https://www.gov.uk/government/organisations/valuation-office-agency" target="_blank">Valuation Office Agency (VOA)</a> your details if they’ve asked you by letter to do so.
+index.takenToCourt=You could be taken to court if you submit false information.
+index.info=You’ll need the following information to use this service:
+index.leaseAgreement=your lease or agreement details (or any tenant’s details if you’re the owner)
+index.subLettingDetails=details of any sub-lettings
+index.improvementsDetails=details of any improvements or changes you’ve made to the property
+index.rentDetails=details of your rent, including the date your rent was fixed
+index.landlordDetails=the name and address of your landlord, if you're a tenant
+index.reviewDetails=any rent review periods
+index.rentFreePeriodDetails=any rent-free periods or other incentives
+index.start=Start now
+index.before=Before you start
+index.before.p1=It takes about 20 mins to use this service.
+index.before.p2=You don’t have to complete it in one go. You can save what you’ve done and return to finish later on.
+index.help=If you need help
+index.help.p1=Contact the VOA team in your area for help with using the service.
+index.help.p2=You can find their contact details on the letter sent by the VOA.
