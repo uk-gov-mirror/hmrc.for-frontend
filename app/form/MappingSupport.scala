@@ -23,6 +23,7 @@ import play.api.data.validation._
 import play.api.data.{FormError, Forms, Mapping}
 import uk.gov.voa.play.form.ConditionalMappings._
 import ConditionalMapping._
+import play.data.validation.Constraints.MaxLength
 
 object MappingSupport {
 
@@ -35,6 +36,12 @@ object MappingSupport {
   val emailsMatch: Constraint[ContactDetails] = Constraint("constraints.emails.match")({ contactDetails => {
     val cond = contactDetails.email == contactDetails.emailConfirmed
     createFieldConstraintFor(cond, "email.mismatch", Seq("email1", "email2"))
+  }
+  })
+  def emailsNotTooLong(maxLength: Int): Constraint[ContactDetails] = Constraint("constraints.emails.tooLong")({ contactDetails => {
+    val cond = (contactDetails.email.isEmpty || contactDetails.email.get.length <= maxLength) &&
+      (contactDetails.emailConfirmed.isEmpty || contactDetails.emailConfirmed.get.length <= maxLength)
+    createFieldConstraintFor(cond, "email.tooLong", Seq("email1", "email2"))
   }
   })
 
@@ -122,7 +129,7 @@ object MappingSupport {
         nonEmptyTextOr("contactDetails.phone", phoneNumber)),
       "email1" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypeEmail.name), email),
       "email2" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypeEmail.name), email)
-    )(ContactDetails.apply)(ContactDetails.unapply) verifying emailsMatch
+    )(ContactDetails.apply)(ContactDetails.unapply) verifying (emailsMatch, emailsNotTooLong(50))
   }
 
   val alternativeContactDetailsMapping = mapping(

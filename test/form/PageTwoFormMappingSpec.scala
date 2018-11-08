@@ -103,6 +103,19 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
     }
   }
 
+  it should "error if email adress is longer than 50 characters" in {
+    submissions.ContactTypes.all.filter(_ != ContactTypePhone).foreach { ct =>
+      val formData: Map[String, String] = baseFormData
+        .updated("contactType", ct.name)
+        .updated("contactDetails.email1", tooLongEmail)
+        .updated("contactDetails.email2", tooLongEmail)
+      val form = pageTwoForm.bind(formData).convertGlobalToFieldErrors()
+
+      mustContainError(errorKey.email1, errorKey.email1TooLong, form)
+      mustContainError(errorKey.email2, errorKey.email2TooLong, form)
+    }
+  }
+
   it should "validate the phone number when the preferred contact method is phone" in {
     validatePhone(pageTwoForm, baseFormData, "contactDetails")
   }
@@ -151,6 +164,8 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
       val phone = "contactDetails.phone"
       val email1 = "contactDetails.email1"
       val email2 = "contactDetails.email2"
+      val email1TooLong = "contactDetails.email1.email.tooLong"
+      val email2TooLong = "contactDetails.email2.email.tooLong"
       val alternativeAddressBuilding = "alternativeAddress.buildingNameNumber"
       val alternativeAddressStreet1 = "alternativeAddress.street1"
       val alternativeAddressStreet2 = "alternativeAddress.street2"
@@ -172,6 +187,7 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
       }
     }
 
+    val tooLongEmail = "email_too_long_for_validation_againt_business_rules_specify_but_DB_constraints@something.co.uk"
     val baseFormData: Map[String, String] = Map(
       "userType" -> "owner",
       "contactType" -> "phone",
