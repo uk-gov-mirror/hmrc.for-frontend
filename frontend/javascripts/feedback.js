@@ -13,11 +13,6 @@
         $('<p class="feedbackLabelFooter">'+VoaMessages.textLabel('labelBetaFeedbackDontInclude')+'</p>').insertAfter($('[for="feedback-comments"]'));
         $('<p class="feedbackLabelFooter">'+VoaMessages.textLabel('labelBetaFeedbackDontInclude')+'</p>').insertAfter($('[for="contact-comments"]'));
         $('#feedback-form [type="submit"]').text(VoaMessages.textLabel('labelBetaFeedbackButton'));
-        $('[for="feedback-rating-5"]').html(VoaMessages.textLabel('labelBetaFeedback5')+'<input type="radio" id="feedback-rating-5" name="feedback-rating" value="5">');
-        $('[for="feedback-rating-4"]').html(VoaMessages.textLabel('labelBetaFeedback4')+'<input type="radio" id="feedback-rating-4" name="feedback-rating" value="4">');
-        $('[for="feedback-rating-3"]').html(VoaMessages.textLabel('labelBetaFeedback3')+'<input type="radio" id="feedback-rating-3" name="feedback-rating" value="3">');
-        $('[for="feedback-rating-2"]').html(VoaMessages.textLabel('labelBetaFeedback2')+'<input type="radio" id="feedback-rating-2" name="feedback-rating" value="2">');
-        $('[for="feedback-rating-1"]').html(VoaMessages.textLabel('labelBetaFeedback1')+'<input type="radio" id="feedback-rating-1" name="feedback-rating" value="1">');
         $('.form--feedback label[for="report-name"], .form--feedback label[for="feedback-name"] span:not(".form-field--error")').text(VoaMessages.textLabel('labelHelpName'));
         $('.form--feedback label[for="report-email"], .form--feedback label[for="feedback-email"] span:not(".form-field--error")').text(VoaMessages.textLabel('labelHelpEmail'));
         $('.form--feedback label[for="report-action"]').text(VoaMessages.textLabel('labelHelpAction'));
