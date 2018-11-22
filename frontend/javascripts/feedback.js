@@ -28,6 +28,14 @@
         $('.form--feedback label[for="feedback-comments"] .error-notification').text(VoaMessages.textLabel('errorHelpCommentsRequired'));
         $('.form--feedback fieldset.form-field--error span.error-notification').text(VoaMessages.textLabel('errorHelpRequired'));
 
+        //removed email and name from form, comments optional and bigger
+        $('#feedback-form [for="feedback-comments"]').html($('#feedback-form [for="feedback-comments"]').html().replace('Comments', 'Comments (Optional)'));
+        $('#feedback-form [for="feedback-email"]').css('display', 'none');
+        $('#feedback-form [for="feedback-name"]').css('display', 'none');
+        $('#feedback-form [name="feedback-name"]').val('Anonymous user');
+        $('#feedback-form [name="feedback-email"]').val('anonymous@anonymous.com');
+        //
+
         //vacate form
         $('.vacated-form [for="report-name"]').text(VoaMessages.textLabel('vacateFormName'));
         $('.vacated-form [for="report-email"]').text(VoaMessages.textLabel('vacateFormEmail'));
