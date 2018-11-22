@@ -29,7 +29,10 @@
         $('.form--feedback fieldset.form-field--error span.error-notification').text(VoaMessages.textLabel('errorHelpRequired'));
 
         //removed email and name from form, comments optional and bigger
-        $('#feedback-form [for="feedback-comments"]').html($('#feedback-form [for="feedback-comments"]').html().replace('Comments', 'Comments (Optional)'));
+        var comments = $('#feedback-form [for="feedback-comments"]').html();
+        if (comments) {
+            $('#feedback-form [for="feedback-comments"]').html(comments.replace('Comments', 'Comments (Optional)'));
+        }
         $('#feedback-form [for="feedback-email"]').css('display', 'none');
         $('#feedback-form [for="feedback-name"]').css('display', 'none');
         $('#feedback-form [name="feedback-name"]').val('Anonymous user');
