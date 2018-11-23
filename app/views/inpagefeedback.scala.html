@@ -34,13 +34,13 @@
 }
 
 @main(title=Messages("project.name") + " | " + Messages("heading.giveFeedback"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,  summary = Some(summary) ) {
-	 <main id="content" tabindex="-1">  
+	 <main id="content" tabindex="-1">
 	 	<div class="grid-row">
     		<div class="column-two-thirds">
 	 			<div class="help__wrapper">
 					<div class="help-content">
-						<a href="javascript: history.back()" class="link-back">Back</a>
 						<div class="form-title heading-large">
+							<a href="javascript: window.close()" class="link-back">@Messages("button.label.back")</a>
     						<h1>@Messages("label.feedback.heading")</h1>
 						</div>
 
@@ -49,12 +49,12 @@
 						<div class="element-hidden">
 						@error
 						@contactPartialUrl.map { url =>
-							@FormPartialProvider.getPartialContent(url)	
+							@FormPartialProvider.getPartialContent(url)
 						}
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</main>
 }
