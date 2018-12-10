@@ -614,7 +614,7 @@ month.December=December
 ###############################
 label.print.summary=Print summary
 label.summary.text=Check your answers before submitting your form
-label.print.printorsave=Print or save a copy of your summary before submitting
+label.print.printorsave=Print this page
 label.summary.submit=Please continue to submit your details
 
 #PDF
