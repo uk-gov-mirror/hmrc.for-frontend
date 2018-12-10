@@ -596,7 +596,7 @@ month.December=Rhagfyr
 ###############################
 label.print.summary=Argraffu crynodeb
 label.summary.text=Archwiliwch eich atebion cyn cyflwyno eich ffurflen
-label.print.printorsave=Argraffwch neu arbed copi o''ch crynodeb cyn ei gyflwyno
+label.print.printorsave=Argraffwch y dudalen
 label.summary.submit=Parhewch i anfon eich manylion os gwelwch yn dda
 
 #PDF
