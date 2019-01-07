@@ -635,8 +635,8 @@ hint.vacated.form=<p>Anfonwch:</p>\
   </p>\
   <p>i <a href="mailto:formhelp@voa.gsi.gov.uk\
 ?subject=Ffurflen cyn-berchennog/ddeiliad\
-&body=E-bostiwch eich rhif cyfeirnod, cyfeiriad e-bost ac/neu rhif teleffôn yn unig atom os gwelwch yn dda. \
-Wedyn cysylltwn ȃ chi am fwy o wybodaeth.">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda,.</p>
+&body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. \
+Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law.">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
 
 #TYPES
 ###############################
