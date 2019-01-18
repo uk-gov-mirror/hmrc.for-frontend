@@ -17,6 +17,7 @@
 package config
 
 import controllers.toFut
+import helpers.AppNameHelper
 import org.joda.time.DateTime
 import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -36,9 +37,9 @@ import scala.concurrent.duration.Duration
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.routing.Router.Tags.RouteActionMethod
-import uk.gov.hmrc.http.{ BadRequestException, NotFoundException, Upstream4xxResponse }
+import uk.gov.hmrc.http.{BadRequestException, NotFoundException, Upstream4xxResponse}
 import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
-import uk.gov.hmrc.play.frontend.filters.{ FrontendAuditFilter, FrontendLoggingFilter, MicroserviceFilterSupport }
+import uk.gov.hmrc.play.frontend.filters.{FrontendAuditFilter, FrontendLoggingFilter, MicroserviceFilterSupport}
 
 object ForGlobal extends ForGlobal
 
@@ -81,11 +82,11 @@ trait ForGlobal extends DefaultFrontendGlobal {
   }
 }
 
-object AuditServiceConnector extends AuditConnector with AppName {
+object AuditServiceConnector extends AuditConnector with AppName with AppNameHelper {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
-object AuditFilter extends FrontendAuditFilter with AppName with MicroserviceFilterSupport {
+object AuditFilter extends FrontendAuditFilter with AppName with MicroserviceFilterSupport with AppNameHelper {
   override lazy val maskedFormFields = Seq.empty
   override lazy val applicationPort = None
   override lazy val auditConnector = AuditServiceConnector

@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-import scala.concurrent.Future
+package helpers
 
-package object testutils {
-  implicit def toFut[A](a: A): Future[A] = Future.successful(a)
+import play.api.{Configuration, Play}
+import uk.gov.hmrc.play.config.AppName
+
+trait AppNameHelper extends AppName {
+  override protected def appNameConfiguration: Configuration = Play.current.configuration
 }

@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-import scala.concurrent.Future
+package helpers
 
-package object testutils {
-  implicit def toFut[A](a: A): Future[A] = Future.successful(a)
+import play.api.{Configuration, Play}
+import play.api.Mode.Mode
+import uk.gov.hmrc.play.config.RunMode
+
+
+trait RunModeHelper extends RunMode {
+
+
+  override protected def mode: Mode = Play.current.mode
+
+  override protected def runModeConfiguration: Configuration = Play.current.configuration
+
+
 }

@@ -21,6 +21,7 @@ import java.net.URLEncoder
 import actions.RefNumAction
 import controllers._
 import form.persistence.FormDocumentRepository
+import helpers.RunModeHelper
 import models.pages.SummaryBuilder
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
@@ -44,7 +45,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  override lazy val crypto = SessionCookieCryptoFilter.encrypt _
+  override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
   val http = playconfig.WSHttp
 
   def inPageFeedback = RefNumAction.async { implicit request =>
@@ -93,7 +94,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
 }
 
 //scalastyle:off line.size.limit
-object HMRCContact extends ServicesConfig {
+object HMRCContact extends ServicesConfig with RunModeHelper {
   val contactFrontendPartialBaseUrl = baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
 

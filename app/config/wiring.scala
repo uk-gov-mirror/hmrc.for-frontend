@@ -22,7 +22,7 @@ import form.persistence.SessionScopedFormDocumentRepository
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
-import play.api.Logger
+import play.api.{Logger, Play}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Writes
 import uk.gov.hmrc.crypto.{ApplicationCrypto, CompositeSymmetricCrypto}
@@ -32,6 +32,8 @@ import uk.gov.hmrc.play.audit.model.DataEvent
 import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import _root_.uk.gov.hmrc.http.HeaderNames._
+import com.typesafe.config.Config
+import helpers.{AppNameHelper, RunModeHelper}
 import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -45,13 +47,15 @@ import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 
-object FORAuditConnector extends AuditConnector with AppName {
+object FORAuditConnector extends AuditConnector with AppName with AppNameHelper {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
 trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost with WSPost with HttpDelete with WSDelete  with AppName with RunMode
 
-object WSHttp extends ForHttp
+object WSHttp extends ForHttp with AppNameHelper with RunModeHelper {
+  override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
+}
 
 trait ForHttp extends WSHttp {
   override val hooks = Seq.empty
@@ -83,10 +87,15 @@ trait ForHttp extends WSHttp {
 
 object FormPartialProvider extends FormPartialRetriever {
   override val httpGet = WSHttp
-  override lazy val crypto = SessionCookieCryptoFilter.encrypt _
+  override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
 }
 
 object Audit extends Audit
+
+object SessionCrypto {
+  val applicationCrypto = new ApplicationCrypto(Play.current.configuration.underlying)
+  val crypto = new SessionCookieCryptoFilter(applicationCrypto)
+}
 
 trait Audit {
   val auditConnector = AuditServiceConnector
@@ -98,15 +107,15 @@ trait Audit {
 }
 
 // We need save4Later and not keystore because keystore sessions expire after 60 minutes and ours last longer
-object ShortLivedCacher extends ShortLivedHttpCaching with AppName with ServicesConfig  {
+object ShortLivedCacher extends ShortLivedHttpCaching with AppName with AppNameHelper with ServicesConfig with RunModeHelper {
   override def defaultSource: String = appName
   override def baseUri: String = baseUrl("cachable.short-lived-cache")
   override def domain: String = getConfString("cachable.short-lived-cache.domain", throw new Exception("No config setting for cache domain"))
   override def http: HttpGet with HttpPut with HttpDelete = WSHttp
 }
 
-object S4L extends ShortLivedCache with AppName with ServicesConfig {
-  override implicit lazy val crypto: CompositeSymmetricCrypto = ApplicationCrypto.JsonCrypto
+object S4L extends ShortLivedCache with AppName with AppNameHelper with ServicesConfig with RunModeHelper {
+  override implicit lazy val crypto: CompositeSymmetricCrypto = playconfig.SessionCrypto.applicationCrypto.JsonCrypto
   override def shortLiveCache: ShortLivedHttpCaching = ShortLivedCacher
   def expiryDateInDays: Int = appNameConfiguration.getInt("savedForLaterExpiryDays")
     .getOrElse(throw new Exception("No config setting for expiry days"))
@@ -145,7 +154,7 @@ object LoginToHOD {
   )
 }
 
-object Environment extends uk.gov.hmrc.play.config.RunMode {
+object Environment extends uk.gov.hmrc.play.config.RunMode with RunModeHelper {
   def isDev = env == "Dev"
   val analytics = ForConfig.analytics
 }

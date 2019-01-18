@@ -18,6 +18,7 @@ package connectors
 
 import config.ForConfig
 import controllers.toFut
+import helpers.RunModeHelper
 import models.FORLoginResponse
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{Format, JsValue}
@@ -27,9 +28,9 @@ import useCases.ReferenceNumber
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ HeaderCarrier, NotFoundException }
+import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
 
-object HODConnector extends HODConnector with ServicesConfig {
+object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
 
   lazy val serviceUrl = baseUrl("for-hod-adapter")
