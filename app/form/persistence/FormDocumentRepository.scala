@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.Base64
 
 import connectors.{Document, Page}
 import controllers.toFut
+import helpers.AppNameHelper
 import play.api.Logger
 import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.http.cache.client.ShortLivedCache
@@ -27,6 +28,7 @@ import uk.gov.hmrc.play.config.AppName
 
 import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait FormDocumentRepository {
@@ -36,7 +38,7 @@ trait FormDocumentRepository {
   def clear(documentId: String, referenceNumber: String): Future[Unit]
 }
 
-class SessionScopedFormDocumentRepository(cache: ShortLivedCache)(implicit ec: ExecutionContext) extends FormDocumentRepository with AppName {
+class SessionScopedFormDocumentRepository(cache: ShortLivedCache)(implicit ec: ExecutionContext) extends FormDocumentRepository with AppNameHelper {
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   override def findById(documentId: String, referenceNumber: String): Future[Option[Document]] = {

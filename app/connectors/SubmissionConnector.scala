@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package connectors
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import config.ForConfig
+import helpers.RunModeHelper
 import models.serviceContracts.submissions.Submission
 import play.api.http.HttpEntity
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -29,7 +30,7 @@ import uk.gov.hmrc.play.config.ServicesConfig
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object SubmissionConnector extends SubmissionConnector with ServicesConfig {
+object SubmissionConnector extends SubmissionConnector with ServicesConfig with RunModeHelper {
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   val http = ForConfig.http
 

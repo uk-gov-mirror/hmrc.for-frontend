@@ -18,21 +18,24 @@ private object AppDependencies {
   private val playHealthVersion = "2.0.0"
   private val logbackJsonLoggerVersion = "3.1.0"
   private val playUiVersion = "7.0.0"
-  private val playPartialsVersion = "6.1.0"
+  private val playPartialsVersion = "6.3.0"
   private val playAuthorisedFrontendVersion = "6.2.0"
   private val playConfigVersion = "3.0.0"
   private val hmrcTestVersion = "3.0.0"
   private val scalaTestVersion = "3.0.5"
   private val pegdownVersion = "1.6.0"
   private val scalatestPlusPlayVersion = "2.0.1"
-  private val playUIVersion = "7.21.0"
+  private val playUIVersion = "7.27.0-play-25"
 
   val compile = Seq(
     filters,
     ws,
-    "uk.gov.hmrc" %% "json-encryption" % "3.3.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "7.1.0",
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.27.0",
+    "uk.gov.hmrc" %% "json-encryption" % "4.1.0",
+    "uk.gov.hmrc" %% "http-caching-client" % "7.1.0" excludeAll (
+      ExclusionRule("uk.gov.hmrc",  "http-core_2.11") // This library is deprecated - everything is in http-verbs
+    ),
+    "uk.gov.hmrc" %% "http-verbs" % "8.10.0-play-25",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "11.3.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
     "uk.gov.hmrc" %% "play-ui" % playUIVersion,
     "uk.gov.hmrc" %% "url-builder" % "2.1.0",

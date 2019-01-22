@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package models
+package helpers
 
-case class RoughDate(day: Option[Int], month: Option[Int], year: Int) {
-  def this(day: Int, month: Int, year: Int) = this(Some(day), Some(month), year)
+import play.api.{Configuration, Play}
+import play.api.Mode.Mode
+import uk.gov.hmrc.play.config.RunMode
 
-  def this(month: Int, year: Int) = this(None, Some(month), year)
+
+trait RunModeHelper extends RunMode {
+
+
+  override protected def mode: Mode = Play.current.mode
+
+  override protected def runModeConfiguration: Configuration = Play.current.configuration
+
+
 }

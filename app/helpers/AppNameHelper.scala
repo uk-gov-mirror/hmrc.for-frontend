@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package models
+package helpers
 
-case class RoughDate(day: Option[Int], month: Option[Int], year: Int) {
-  def this(day: Int, month: Int, year: Int) = this(Some(day), Some(month), year)
+import play.api.{Configuration, Play}
+import uk.gov.hmrc.play.config.AppName
 
-  def this(month: Int, year: Int) = this(None, Some(month), year)
+trait AppNameHelper extends AppName {
+  override protected def appNameConfiguration: Configuration = Play.current.configuration
 }

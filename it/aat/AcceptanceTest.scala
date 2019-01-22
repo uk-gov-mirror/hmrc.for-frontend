@@ -1,6 +1,8 @@
 package aat
 
+import com.typesafe.config.Config
 import config.ForGlobal
+import helpers.{AppNameHelper, RunModeHelper}
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
@@ -26,8 +28,10 @@ trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite 
   override def fakeApplication() = new GuiceApplicationBuilder().global(global).configure(testConfigs).build()
 }
 
-class TestHttpClient extends ForHttp {
+class TestHttpClient extends ForHttp with RunModeHelper with AppNameHelper {
   import views.html.helper.urlEncode
+
+  override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
