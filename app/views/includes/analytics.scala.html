@@ -22,43 +22,52 @@
 
 @defining(summary.map(s => FormatRefNum(s.referenceNumber)).getOrElse("")) { ref =>
     @defining(summary.map(_.journeyResumptions.length).getOrElse(0)) { timesReturned =>
-        @defining(summary.map(_.lastLogin).getOrElse("")) { lastLogin =>
-            @defining(summary.map(_.journeyStarted.toString).getOrElse(DateTime.now.toString)) { startDate =>
-                <script type="text/javascript">
-                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-                    ga('create', '@playconfig.Environment.analytics.ga.trackingCode', 'auto');
-                    
-                    var d1 = "@playconfig.Environment.analytics.ga.startDate",
-                    d2 = "@playconfig.Environment.analytics.ga.returnCount",
-                    d3 = "@playconfig.Environment.analytics.ga.refNum",
-                    ref = "@ref",
-                    startDate  = "@startDate",
-                    timesReturned = "@timesReturned";
-                    
-                    ga('set', d1, startDate, 'Start Date');
-                    ga('set', d2, timesReturned, 'Times Returned');
-                    ga('set', d3, ref, 'Reference Number');
-                    ga('send', 'pageview');
+        @defining(summary.map(_.journeyStarted.toString).getOrElse(DateTime.now.toString)) { startDate =>
+            <script type="text/javascript">
 
-                    if(VoaCommon.getSegment(2) === "login"){
-                        $('#continue[type="submit"]').click(function(){
-                            var d = new Date();
-                            $('[name="start-time"]').val(d.toISOString());
-                            ref = $('[name="ref1"]').val() +'/'+ $('[name="ref2"]').val();
-                            ga('send', 'event', d1, $('[name="start-time"]').val(), 'Start Date');
-                            ga('send', 'event', d2, "@timesReturned", 'Times Returned');
-                            ga('send', 'event', d3, ref, 'Reference Number');
-                        });
-                    }else{
-                        ga('send', 'event', d1, startDate, 'Start Date');
-                        ga('send', 'event', d2, timesReturned, 'Times Returned');
+                @*Track custom dimensions in GTM *@
+                window.dataLayer = window.dataLayer || [];
+
+                window.dataLayer.push({
+                    'event' : 'pageview',
+                    '@playconfig.Environment.analytics.ga.startDate':'@startDate',
+                    '@playconfig.Environment.analytics.ga.returnCount': '@timesReturned',
+                    '@playconfig.Environment.analytics.ga.refNum': '@ref'
+                });
+
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                ga('create', '@playconfig.Environment.analytics.ga.trackingCode', 'auto');
+
+                var d1 = "@playconfig.Environment.analytics.ga.startDate",
+                d2 = "@playconfig.Environment.analytics.ga.returnCount",
+                d3 = "@playconfig.Environment.analytics.ga.refNum",
+                ref = "@ref",
+                startDate  = "@startDate",
+                timesReturned = "@timesReturned";
+
+                ga('set', d1, startDate, 'Start Date');
+                ga('set', d2, timesReturned, 'Times Returned');
+                ga('set', d3, ref, 'Reference Number');
+                ga('send', 'pageview');
+
+                if(VoaCommon.getSegment(2) === "login"){
+                    $('#continue[type="submit"]').click(function(){
+                        var d = new Date();
+                        $('[name="start-time"]').val(d.toISOString());
+                        ref = $('[name="ref1"]').val() +'/'+ $('[name="ref2"]').val();
+                        ga('send', 'event', d1, $('[name="start-time"]').val(), 'Start Date');
+                        ga('send', 'event', d2, "@timesReturned", 'Times Returned');
                         ga('send', 'event', d3, ref, 'Reference Number');
-                    }
-                </script>
-            }
+                    });
+                }else{
+                    ga('send', 'event', d1, startDate, 'Start Date');
+                    ga('send', 'event', d2, timesReturned, 'Times Returned');
+                    ga('send', 'event', d3, ref, 'Reference Number');
+                }
+            </script>
         }
     }
 }
