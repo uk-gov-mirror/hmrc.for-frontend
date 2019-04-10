@@ -118,7 +118,7 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
 #SECTION 0
 ##############################
-label.isRelated=A oes gennych berthynas o hyd gyda’r eiddo yma ?
+label.isRelated=A oes gennych gysylltiad o hyd â’r eiddo hwn?
 label.isRelatedYes=Oes
 label.isRelatedNo=Nag Oes
 
@@ -150,9 +150,10 @@ label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i''r cyfeiriad eu
 #SECTION 2
 ##############################
 section2.heading=Amdanoch chi
+section2.subheading=Dylai’r rhain fod yn fanylion y sawl sy’n llenwi hwn
 label.fullName=Eich enw llawn
 label.contactType=Sut hoffech chi i ni gysylltu â chi?
-label.userType=Fi ydi (cynrychiolydd)
+label.userType=Fi yw’r (neu rwyf yn cynrychioli’r)
 label.email1=E-bost
 label.email2=Cadarnhau E-bost
 label.contactDetails.email2=Cadarnhau E-bost
@@ -181,7 +182,7 @@ label.alternativeContact.address.postcode=Cod post
 label.alternativeContact.contactDetails=Person cyswllt amgen
 label.alternativeContact.address=Cyfeiriad y person cyswllt amgen
 hint.anyQueries=Ar gyfer unrhyw ymholiadau ynglŷn â''r ffurflen hon
-hint.occupierExplanation=Os ydych yn rhentu neu yn prydlesio''r eiddo, megis siop neu fel elusen/di-elw, fe''ch ystyrir fel y deiliad
+hint.occupierExplanation=Os ydych yn rhentu neu’n prydlesu’r eiddo, hyd yn oed fel elusen neu sefydliad di-elw, ystyrir mai chi yw’r meddiannydd. Os mai chi yw’r perchennog a’r meddiannydd, dewiswch ‘Perchennog’
 label.noJs.contactDetails.email1=Dylech ond ateb hyn os ydych wedi dewis ‘E-bost’ neu ‘Y ddau’
 label.noJs.contactDetails.phone=Dylech ond ateb hyn os ydych wedi dewis ‘Ffôn’ neu ‘Y ddau’
 label.noJs.contactDetails.contactAddressType=Dylech ond ateb hyn os ydych wedi dewis ‘Y Deiliad’ neu ‘Y Perchennog’
