@@ -292,7 +292,7 @@ intel.alert.landlordName=A ydych chi''n siŵr bod hyn yn gywir - mae enw''r land
 
 #SECTION 6
 ###############################
-section6.heading=Y brydles neu''r cytundeb
+section6.heading=Y brydles neu''r cytundeb presennol
 label.leaseAgreementHasBreakClause=A geir cymal torri?
 label.breakClauseDetails=Rhowch fanylion y cymal torri
 label.agreementIsStepped=A yw eich rhent yn rhent gris?
@@ -303,8 +303,8 @@ label.writtenAgreement.breakClauseDetails=Rhowch fanylion y cymal torri
 label.writtenAgreement.agreementIsStepped=A yw eich rhent yn gytundeb rhent gris?
 label.writtenAgreement.agreementIsStepped.agent=A yw rhent eich cleient yn gytundeb rhent gris?
 label.writtenAgreement.steppedDetailsYear=Rhowch fanylion y rhent gris
-hint.writtenAgreement.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i''r rhain yn eich prydles neu eich cytundeb ysgrifenedig
-label.leaseAgreementType=Pa fath o gytundeb sydd gennych?
+hint.writtenAgreement.steppedDetailsYear=Mae''r rhain i''w gweld ym mhrydles neu gytundeb ysgrifenedig eich cleient fel arfer
+label.leaseAgreementType=Pa fath o brydles neu gytundeb sydd gennych?
 label.leaseAgreementType.agent=Pa fath o gytundeb sydd gan eich cleient?
 label.writtenAgreement.startDate=Pryd dechreuodd eich <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span>?
 label.writtenAgreement.startDate.agent=Pryd dechreuodd <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> eich cleient?
@@ -334,9 +334,9 @@ label.noJs.verbalAgreement.startDate=Dylech ond ateb hyn os ydych wedi dewis ‘
 label.noJs.writtenAgreement.leaseLength=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 label.noJs.steppedrent=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
 details.question.steppedRent=Beth yw rhent gris?
-details.answer.steppedRent=Mae rhent gris yn rhoi gwybod i chi/eich cleient ymlaen llaw sut y bydd y rhent yn newid dros y blynyddoedd hyd at yr adolygiad rhent nesaf neu ddyddiad adnewyddu''r brydles.
+details.answer.steppedRent=Rhent grisiog yw cytundeb ymlaen llaw o ran sut y bydd y rhent yn newid dros y blynyddoedd tan yr adolygiad rhent nesaf neu ddyddiad adnewyddu''r brydles
 details.question.isBreakClause=Beth yw cymal torri?
-details.answer.isBreakClause=Mae cymal torri yn fodd i''ch cleient ac/neu''r landlord ddod ȃ''r tenantiaeth i ben yn gynnar. Fel arfer fe ddewch o hyd i fanylion y cymal torri yn y prydles neu''r cytundeb ysgrifennedig.
+details.answer.isBreakClause=Mae cymal terfynu yn caniatáu i''r landlord neu''r tenant ddod â''r denantiaeth i ben yn gynnar. Bydd manylion y cymal terfynu i''w gweld yn y brydles neu''r cytundeb ysgrifenedig fel arfer.
 details.answer.isBreakClause.agent=Mae cymal torri yn fodd i'ch cleient ac/neu''r landlord ddod ȃ''r tenantiaeth i ben yn gynnar. Fel arfer fe ddewch o hyd i fanylion y cymal torri yn y prydles neu''r cytundeb ysgrifennedig.
 label.steppedDetails.stepFrom=Gris o
 label.steppedDetails.stepTo=Gris i
@@ -347,6 +347,7 @@ help.steprent.datefrom=Er enghraifft, 12 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Gris o
 label.writtenAgreement.steppedDetails.stepTo=Gris i
 label.writtenAgreement.steppedDetails.amount=Y rhent a dalwyd yn ystod cyfnod rhent grisiog ac eithrio TAW
+label.writtenAgreement.steppedDetails.hint=Nodwch swm y rhent grisiog
 label.writtenAgreement.steppedDetails=Manylion rhent gris
 hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, rhowch fanylion y brydles sylfaenol yn y ffurflen hon ac yna cysylltwch â''r Swyddfa Brisio i roi manylion yn ymwneud â phrydlesi neu gytundebau eraill.
 
@@ -764,7 +765,7 @@ content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ff
 hint.if0thenenter1=Os nad oedd cost, rhowch swm 0 yma gan ddweud paham yn y disgrifiad o''r gwaith a wnaed uchod (er enghraifft fe wnaethoch y gwaith eich hunan) os gwelwch yn dda
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent a dalwyd gan eich cleient yn ystod cyfnod rhent grisiog ac eithrio TAW
 section2.heading.1=Oherwydd diogelwch data, ni allwn cyn-boblogi y ffurflen hon
-label.writtenAgreement.rentOpenEnded.help=Rhowch Na lle mae''n rhedeg am gyfnod penodol neu mae dyddiad terfynol wedi''i gytuno
+label.writtenAgreement.rentOpenEnded.help=Dewiswch ''Na'' os yw''n rhedeg am dymor wedi''i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno
 
 #TIMEOUT
 #############################
