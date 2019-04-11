@@ -209,6 +209,7 @@ label.companyName=Enw''r cwmni
 label.occupierCompanyContact=Enw Cyswllt y meddiannydd
 label.firstOccupationDate=Pa bryd y gwnaeth feddiannu’r eiddo i ddechrau?
 label.firstOccupationDate.agent=Pryd wnaeth eich cleient feddiannu''r eiddo am y tro cyntaf?
+label.firstOccupationDate.help=Nodwch y dyddiad y daeth y person neu’r cwmni''n feddiannydd yr eiddo, hyd yn oed os na ddechreuodd fasnachu neu dalu rhent ar y dyddiad hwnnw.
 label.mainOccupierName=Enw''r prif ddeiliad
 label.propertyOwnedByYou=A yw’n berchen ar yr eiddo?
 label.propertyOwnedByYou.agent=A yw eich cleient yn berchen ar yr eiddo?
@@ -263,6 +264,7 @@ label.subletAddress=Cyfeiriad yr eiddo sy''n cael ei isosod
 #SECTION 5
 ###############################
 section5.heading=Y landlord
+section5.heading.help=Rhowch fanylion y landlord, hyd yn oed os ydych yn talu eich rhent i asiant.
 landlordConnectionType.noConnected=Dim cysylltiad
 landlordConnectionType.family=Teulu
 landlordConnectionType.other=Cysylltiad arall
@@ -273,7 +275,7 @@ label.landlordConnectText.agent=Eu cysylltiad â''r landlord
 label.landlordConnectType=Beth yw''r cysylltiad rhyngoch chi a''r landlord?
 label.landlordConnectType.agent=Beth yw''r cysylltiad rhwng eich cleient a''r landlord?
 label.LandlordConnectionTypes=Arwahȃn i''ch perthynnas gyda''r landlord/tenant a oes gennych unrhyw gysylltiad personol neu fusnes?
-label.LandlordConnectionTypes.agent=Arwahȃn i''r perthynas sydd rhwng y cleient landlord/tenant, a oes unrhyw gysylltiad personol neu fusnes?
+label.LandlordConnectionTypes.agent=Ar wahân i''ch perthynas fel landlord a thenant, a oes gennych gysylltiad personol neu fusnes?
 label.overseas=A oes ganddynt gyfeiriad tramor?
 label.landlordAddress.buildingNameNumber=Enw neu rif yr adeilad
 label.landlordAddress.street1=Ail linell y cyfeiriad
