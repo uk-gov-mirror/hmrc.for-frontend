@@ -219,6 +219,7 @@ label.companyName=Company name
 label.occupierCompanyContact=Name of Contact for occupier
 label.firstOccupationDate=When did they first occupy the property?
 label.firstOccupationDate.agent=When did your client first occupy the property?
+label.firstOccupationDate.help=Enter the date the person or company took on the property, even if they did not start trading or paying rent from that date.
 label.mainOccupierName=Main occupier''s name
 label.propertyOwnedByYou=Do they own the property?
 label.propertyOwnedByYou.agent=Does your client own the property?
@@ -272,6 +273,7 @@ label.subletAddress=Address of the property that is let or sub-let
 #SECTION 5
 ###############################
 section5.heading=The landlord
+section5.heading.help=Please give the landlord's details, even if you pay your rent to an agent.
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family
 landlordConnectionType.other=Other connection
@@ -282,7 +284,7 @@ label.landlordConnectText.agent=Their connection to the landlord
 label.landlordConnectType=How are you connected to the landlord?
 label.landlordConnectType.agent=How is your client connected to the landlord?
 label.LandlordConnectionTypes=Aside from your landlord/tenant relationship, do you have any personal or business connection?
-label.LandlordConnectionTypes.agent=Aside from your client''s landlord/tenant relationship, do they have any personal or business connection?
+label.LandlordConnectionTypes.agent=Aside from your relationship as landlord and tenant, do you have any personal or business connection?
 label.overseas=Do they have an overseas address?
 label.landlordAddress.buildingNameNumber=Building name or number
 label.landlordAddress.street1=Address line 2
