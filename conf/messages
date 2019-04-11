@@ -238,7 +238,7 @@ label.noRentDetails=Tell us why you do not pay rent on this property
 #SECTION 4
 ###############################
 section4.heading=Lettings and sub-lettings
-label.propertyIsSublet=Do you let or sub-let all or any part of the property?
+label.propertyIsSublet=Do you currently let (or sub-let) all or any part of the property to anyone else?
 label.propertyIsSublet.agent=Does your client let or sub-let all or any part of the property?
 hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls please select the No option. Holiday lets should be submitted on <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">form 6048</a>.
 label.sublet.tenantFullName=Your tenant''s name
@@ -254,7 +254,7 @@ label.sublet.annualRent.annualRentExcludingVat.generic=Sub-let rent excluding VA
 hint.sublet.annualRentExcludingVat=Excluding VAT
 label.sublet.annualRent.rentLengthType=How do you receive your sub-let rent?
 label.sublet.annualRent.rentLengthType.agent=How does your client receive the sub-let rent?
-label.sublet.rentFixedDate=When did your let or sub-let start?
+label.sublet.rentFixedDate=When did the let or sub-let start?
 label.sublet.rentFixedDate.agent=When did your client''s let or sub-let start?
 label.ammountPerYear=Amount per year
 label.sublet.tenantAddress.buildingNameNumber=Building name or number

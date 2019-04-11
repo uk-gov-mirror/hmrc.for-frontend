@@ -229,8 +229,8 @@ label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rh
 #SECTION 4
 ###############################
 section4.heading=Gosodiadau ac is-osodiadau
-label.propertyIsSublet=A ydych yn gosod neu''n isosod yr holl eiddo neu ran ohono?
-label.propertyIsSublet.agent=A yw eich cleient yn gosod neu''n isosod yr holl eiddo neu ran ohono?
+label.propertyIsSublet=A ydych yn gosod (neu''n isosod) yr eiddo cyfan neu ran ohono i unrhyw un arall ar hyn o bryd?
+label.propertyIsSublet.agent=A yw''ch cleient yn gosod (neu''n isosod) yr eiddo cyfan neu ran ohono i unrhyw un arall ar hyn o bryd?
 hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir
 label.sublet.tenantFullName=Enw eich tenant
 label.sublet.tenantFullName.agent=Enw''r tenant
@@ -245,7 +245,7 @@ label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod heb gynnwys 
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
 label.sublet.annualRent.rentLengthType=Sut rydych chi''n cael eich rhent isosod?
 label.sublet.annualRent.rentLengthType.agent=Sut mae eich cleient yn cael y rhent isosod?
-label.sublet.rentFixedDate=Pryd dechreuodd eich is-osodiad?
+label.sublet.rentFixedDate=Pa bryd y dechreuodd y trefniant gosod neu isosod?
 label.sublet.rentFixedDate.agent=Pryd dechreuodd is-osodiad eich cleient?
 label.ammountPerYear=Swm bob blwyddyn
 label.sublet.tenantAddress.buildingNameNumber=Enw neu rif yr adeilad
