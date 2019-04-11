@@ -354,10 +354,10 @@ hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, rh
 #SECTION 7
 ###############################
 section7.heading=Adolygiadau rhent
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?</span>
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw''ch prydles neu''ch cytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?</span>
 label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn cynnwys unrhyw adolygiadau rhent?
-label.leaseContainsRentReviews.leaseTenancy=A yw eich prydles sengl neu gytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?
+label.leaseContainsRentReviews.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn cynnwys unrhyw adolygiadau rhent?
 hint.leaseContainsRentReviews=Mae adolygiadau rhent fel arfer wedi eu cynnwys yn y brydles neu''r cytundeb
 label.rentReviewDetails.reviewIntervalTypeSpecify=Nodwch y cyfnod rhwng adolygiadau rhent
@@ -368,14 +368,14 @@ label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Cafodd ei bennu gan
 label.rentReviewDetails.reviewIntervalType=Pa mor aml y caiff y rhent ei adolygu?
 label.rentReviewDetails.canRentReduced=A all y rhent gael ei ostwng mewn adolygiad?
 label.rentReviewDetails.rentResultOfRentReview=A yw''r rhent am yr eiddo hwn yn deillio o adolygiad rhent?
-label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=A gytunwyd ar y rhent rhyngoch chi (neu eich asiant) a''r landlord?
+label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=A gafodd y rhent ei bennu rhyngoch chi (neu''ch asiant) a''r landlord?
 label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent=A gytunwyd ar y rhent rhwng eich cleient (neu chi) a''r landlord?
 hint.lastReviewDate=Gadewch yn wag os na chafodd ei adolygu eto
 label.noJs.rentReviewDetails.reviewIntervalType=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentResultOfRentReview=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
-hint.rentOnThisPropertyTheResultOf=Os ydi eich rhent wedi cael adolygiad ond ddim wedi newid, a wnewch chi ddewis ''Ia''
+hint.rentOnThisPropertyTheResultOf=Dewiswch ''Ydy'' hyd yn oed os na newidiodd y rhent o ganlyniad i''r adolygiad.
 
 #SECTION 8
 ###############################
