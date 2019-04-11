@@ -364,22 +364,22 @@ hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details
 #SECTION 7
 ###############################
 section7.heading=Rent reviews
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your license or written agreement include any rent reviews?</span>
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your lease or tenancy agreement include any rent reviews?</span>
 label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or written agreement include any rent reviews?
-label.leaseContainsRentReviews.leaseTenancy=Does your single lease or tenancy agreement include any rent reviews?
+label.leaseContainsRentReviews.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
 hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
 label.rentReviewDetails.lastReviewDate=When was the last review date?
 hint.canRentReduced=The lease or agreement will have a specific clause saying whether the rent can go down as well as up. Select <span class="font-bold">''Yes''</span> if the rent can go up or down, <span class="font-bold">''No''</span> if the rent can only go up.
-hint.rentOnThisPropertyTheResultOf=If your rent has changed or remains unchanged after the review, please select ''yes''.
+hint.rentOnThisPropertyTheResultOf=Select ''Yes'' even if the rent remained unchanged as a result of the review.
 label.rentReviewDetails.rentReviewResultsDetails.whenWasRentReview=When was this rent review?
 label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=It was fixed by
 label.rentReviewDetails.reviewIntervalType=How often is the rent reviewed?
 label.rentReviewDetails.canRentReduced=Can the rent be reduced on review?
 label.rentReviewDetails.rentResultOfRentReview=Is the rent on this property the result of a rent review?
-label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=Was the rent agreed between you (or your agent) and the landlord?
+label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=Was the rent fixed between you (or your agent) and the landlord?
 label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent=Was the rent agreed between your client (or you) and the landlord?
 hint.lastReviewDate=Leave empty if not reviewed yet
 label.noJs.rentReviewDetails.reviewIntervalType=Answer this only if you''ve selected ''Yes''
