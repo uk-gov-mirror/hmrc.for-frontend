@@ -119,7 +119,7 @@ label.retryLogin=Try to log in again
 
 #SECTION 0
 ##############################
-label.isRelated=Do you still have a relationship with this property?
+label.isRelated=Do you still have a connection to this property?
 label.isRelatedYes=Yes
 label.isRelatedNo=No
 
@@ -153,10 +153,11 @@ label.suggestedChanges=Suggested changes to the address may not be<br />accepted
 #SECTION 2
 ##############################
 section2.heading=About you
+section2.subheading=These should be the details of the person completing this
 section2.heading.1=Due to data security, we are unable to pre-populate this form
 label.fullName=Your full name
 label.contactType=How would you like us to contact you?
-label.userType=I am the (I represent the)
+label.userType=I am (or represent) the
 hint.userType=If you are no longer the owner/occupier or have recently vacated the property, please click <a href="{0}" target="_self" id="inpageVacatedForm">here<span class="visuallyhidden"> ({1})</span></a> or continue below.
 hint.beforeyoustart=Before you start
 label.email1=Email
@@ -188,7 +189,7 @@ label.alternativeContact.address.postcode=Postcode
 label.alternativeContact.contactDetails=Alternative contact
 label.alternativeContact.address=Alternative contact''s address
 hint.anyQueries=For any queries about this form
-hint.occupierExplanation=If you are renting or leasing the property, such as a shop or in a charitable/non-profit capacity, you are considered the occupier
+hint.occupierExplanation=If you are renting or leasing the property, even as a charity or non-profit organisation, you are considered the occupier. If you are both the owner and occupier select 'Owner'
 label.noJs.contactDetails.email1=Answer this only if you''ve selected ''Email'' or ''Both''
 label.noJs.contactDetails.phone=Answer this only if you''ve selected ''Phone'' or ''Both''
 label.noJs.contactDetails.contactAddressType=Answer this only if you''ve selected ''Occupier'' or ''Owner''
