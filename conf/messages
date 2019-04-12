@@ -486,6 +486,7 @@ section12.heading=Responsibilities and costs
 label.responsibleOutsideRepairs=Who is responsible for paying for repairs outside?
 label.responsibleInsideRepairs=Who is responsible for paying for repairs inside?
 label.responsibleBuildingInsurance=Who is responsible for paying for buildings insurance?
+hint.label.responsibleBuildingInsurance=If rent is paid for the use of land only, select ''Tenant''
 label.ndrCharges=Are the business rates included in the rent?
 label.ndrDetails.chargeDescription=Details of service
 label.ndrDetails=Total amount per year included in the rent (excluding VAT)

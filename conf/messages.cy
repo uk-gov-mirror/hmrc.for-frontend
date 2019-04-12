@@ -476,6 +476,7 @@ section12.heading=Cyfrifoldebau a chostau
 label.responsibleOutsideRepairs=Pwy sy''n gyfrifol am dalu am atgyweiriadau allanol?
 label.responsibleInsideRepairs=Pwy sy''n gyfrifol am dalu am atgyweiriadau mewnol?
 label.responsibleBuildingInsurance=Pwy sy''n gyfrifol am dalu yswiriant adeiladau?
+hint.label.responsibleBuildingInsurance=Os mai dim ond am ddefnydd o dir y mae''r rhent yn cael ei dalu, dewiswch ''Tenant''.
 label.ndrCharges=A yw''r ardrethi busnes wedi''u cynnwys yn y rhent?
 label.ndrDetails.chargeDescription=Manylion gwasanaethau
 label.ndrDetails=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
