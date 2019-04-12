@@ -49,12 +49,18 @@
         @views.html.includes.backSave()
         @progressBar(5, Messages("section5.heading"), true, true)
 
+        <p>Messages("section5.heading")</p>
+
         @includes.errors(theForm, summary.isAgent)
 
         <div class="grid-row">
             <div class="column-two-thirds">
 
                 @helper.CSRF.formField
+
+                <p>
+                    Messages("section5.heading.help")
+                </p>
 
                     <!-- Landlord's full name -->
                 @inputText(
