@@ -403,7 +403,7 @@ section9.heading=The rent
 label.totalRent.annualRentExcludingVat=<span class="totalRent-length"></span> rent excluding VAT
 label.totalRent.annualRentExcludingVat.generic=Rent excluding VAT
 label.totalRent.rentLengthType=The rent is paid
-label.rentBecomePayable=When did you start paying this rent?
+label.rentBecomePayable=When did you start paying the current rent?
 label.rentBecomePayable.agent=When did your client start paying this rent?
 hint.rentBecomePayable=You’ll find this in the lease or agreement
 label.negotiatingNewRent=Are you or your agent negotiating a new rent?

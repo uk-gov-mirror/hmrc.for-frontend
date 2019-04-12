@@ -393,7 +393,7 @@ section9.heading=Y rhent
 label.totalRent.annualRentExcludingVat=Rhent <span class="totalRent-length"></span> heb gynnwys TAW
 label.totalRent.annualRentExcludingVat.generic=Rhent heb gynnwys TAW
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
-label.rentBecomePayable=Pryd dechreuoch chi dalu''r rhent hwn?
+label.rentBecomePayable=Pa bryd y dechreuoch dalu''r rhent presennol?
 label.rentBecomePayable.agent=Pryd dechreuodd eich cleient dalu''r rhent hwn?
 hint.rentBecomePayable=Gallwch weld hyn yn y brydles neu''r cytundeb
 label.negotiatingNewRent=A ydych chi neu''ch asiant yn trafod rhent newydd?
