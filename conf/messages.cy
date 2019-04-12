@@ -513,7 +513,7 @@ section14.heading=Unrhyw ffactorau eraill
 label.anyOtherFactors=A oes unrhyw beth arall wedi effeithio ar y rhent rydych yn ei dalu?
 label.anyOtherFactors.agent=A oes unrhyw beth arall wedi effeithio ar y rhent y mae eich cleient yn ei dalu?
 label.anyOtherFactorsDetails=Rhowch fanylion
-hint.anyOtherFactorsDetails=Er enghraifft, mae''r defnydd a ganiateir o''r eiddo yn gyfyngedig iawn neu mae''r rhent yn cynnwys swm ar gyfer gosodiadau a ffitiadau masnach.
+hint.anyOtherFactorsDetails=Er enghraifft, bod cyfyngiadau llym ar y defnydd a ganiateir o''r eiddo, neu fod y rhent yn cynnwys swm ar gyfer darnau gosod ac addurniadau masnach. Cofiwch gynnwys unrhyw beth nad oedd gennych le i roi gwybod i ni amdano mewn adran flaenorol.
 label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes’
 
 #CONFIRMATION
