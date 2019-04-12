@@ -23,16 +23,16 @@
 @(p10: WhatRentIncludes, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2></li>
 
+@summaryBlock(Messages(if(isAgent)  Messages("label.livingAccomodation.agent") else Messages("label.livingAccomodation")), 10, "livingAccomodation") {
+    @displayBoolean(p10.livingAccommodation, "2")
+}
+
 @summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent")), 10, "partRent") {
     @displayBoolean(p10.partRent, "2")
 }
 
 @summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
     @displayBoolean(p10.otherProperty, "2")
-}
-
-@summaryBlock(Messages("label.livingAccomodation"), 10, "livingAccomodation") {
-    @displayBoolean(p10.livingAccommodation, "2")
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {

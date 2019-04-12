@@ -51,7 +51,25 @@
         <div class="grid-row">
             <div class="column-two-thirds">
                 @helper.CSRF.formField
-    
+
+                @inputRadioGroup(
+                    field = theForm("livingAccomodation"),
+                    options = Seq(
+                        "true" -> Messages("label.yes2"),
+                        "false" -> Messages("label.no2")
+                    ),
+                    dataAttributes = Seq(("true", "data-show-details", "true")),
+                    args = Seq(
+                        '_showConstraints -> false,
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.livingAccomodation.agent")  else  Messages("label.livingAccomodation")),
+                        '_error -> theForm("livingAccomodation").error,
+                        '_legend -> true,
+                        '_fieldsetClass -> "inline",
+                        '_labelClass -> "form-label-bold",
+                        '_showConstraints -> false,
+                        '_help -> Messages("hint.livingAccomodation")
+                    )
+                )
 
                 @inputRadioGroup(
                     field = theForm("partRent"),
@@ -68,7 +86,7 @@
                         '_fieldsetClass -> "inline",
                         '_labelClass -> "form-label-bold",
                         '_showConstraints -> false,
-                        '_help -> Messages("hint.partRent")
+                        '_help -> Messages(if(summary.isAgent)  Messages("hint.partRent.agent")  else  Messages("hint.partRent"))
                     )
                 )
 
@@ -88,25 +106,6 @@
                         '_labelClass -> "form-label-bold",
                         '_showConstraints -> false,
                         '_help -> Messages("hint.otherProperty")
-                    )
-                )
-
-                @inputRadioGroup(
-                    field = theForm("livingAccomodation"),
-                    options = Seq(
-                        "true" -> Messages("label.yes2"),
-                        "false" -> Messages("label.no2")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages("label.livingAccomodation"),
-                        '_error -> theForm("livingAccomodation").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.livingAccomodation")
                     )
                 )
 
