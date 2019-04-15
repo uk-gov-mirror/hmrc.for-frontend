@@ -54,28 +54,14 @@
 
         @helper.CSRF.formField
 
-
-          @helpers.inputRadioGroup(
-            field=theForm("totalRent.rentLengthType"),
-            options = EnumOptions.options(RentLengthTypes),
-            args=Seq(
-              '_label -> Messages("label.totalRent.rentLengthType"),
-              '_error -> theForm("booleanMissing").errors,
-              '_showConstraints -> false,
-              '_showErrors -> true,
-              '_labelClass -> "form-label-bold",          
-              '_legend -> true,
-              Symbol("data-show-field") -> "true"
-            )
-          )
-
           @inputText(
             field = theForm("totalRent.annualRentExcludingVat"),
             '_label -> Html(Messages("label.totalRent.annualRentExcludingVat")),
             '_labelClass -> "form-label-bold",
             'class -> "form-control input-currency total-annual-rent excludeVat",
             '_pound -> true,
-            '_fieldsetClass -> "hidden totalRent.rentLengthType"
+            '_fieldsetClass -> "inline",
+            '_help -> Messages("hint.totalRent.annualRentExcludingVat")
           )
 
           @if(summary.isAgent) {

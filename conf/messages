@@ -399,8 +399,8 @@ label.noJs.notReviewRentFixed=Answer this only if you''ve selected ''No''
 #SECTION 9
 ###############################
 section9.heading=The rent
-label.totalRent.annualRentExcludingVat=<span class="totalRent-length"></span> rent excluding VAT
-label.totalRent.annualRentExcludingVat.generic=Rent excluding VAT
+label.totalRent.annualRentExcludingVat=What is your current annual rent?
+hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if you pay monthly or quarterly. Ignore any rent free period.
 label.totalRent.rentLengthType=The rent is paid
 label.rentBecomePayable=When did you start paying the current rent?
 label.rentBecomePayable.agent=When did your client start paying this rent?

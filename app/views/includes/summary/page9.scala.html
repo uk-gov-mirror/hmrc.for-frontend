@@ -21,17 +21,10 @@
 
 @(p9: PageNine, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section9.heading")</h2></li> 
+<li><h2 class="heading-medium no-margin-top">@Messages("section9.heading")</h2></li>
 
-	 
-	@summaryBlock(Messages("label.totalRent.rentLengthType"), 9, "totalRent_rentLengthType") {
-		@Messages(s"${RentLengthTypes.all.head.key}.${p9.totalRent.period.name}")
-	}
-
-	@summaryBlock(Messages("label.totalRent.annualRentExcludingVat.generic"), 9, "totalRent_annualRentExcludingVat") {
-	   <span class='rentAmount'>£@NumberFormat.getNumberInstance().format(p9.totalRent.amount)
-	   </span>
-	   @convertAnnual(p9.totalRent)
+    @summaryBlock(Messages("label.totalRent.annualRentExcludingVat"), 9, "totalRent_annualRentExcludingVat") {
+	   <span class='rentAmount'>£@NumberFormat.getNumberInstance().format(p9.totalRent.amount)</span>
 	}
 
 	@summaryBlock(Messages(if(isAgent) Messages("label.rentBecomePayable.agent") else Messages("label.rentBecomePayable")), 9, "rentBecomePayable_day") {
