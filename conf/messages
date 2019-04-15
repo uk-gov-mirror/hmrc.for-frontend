@@ -661,10 +661,10 @@ hint.vacated.form=<p>Please send:</p>\
   <li>Your contact telephone number</li>\
   </ul>\
   </p>\
-  <p>to <a href="mailto:formhelp@voa.gov.uk\
+  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk\
 ?subject=Ex-owners/occupiers form\
 &body=Please email us your reference number, email address and/or telephone number only. \
-If we require any further information we will contact you in due course.">formhelp@voa.gov.uk</a></p>
+If we require any further information we will contact you in due course.">formhelp@voa.gsi.gov.uk</a></p>
 
 #TYPES
 ###############################
@@ -771,7 +771,7 @@ error.500.heading=Sorry, there is a problem with the page and it cannot be displ
 error.fail.heading=Sorry, the reference number you have entered does not match our records. Please check and try again.
 error.duplicate.heading=Sorry, you can no longer edit this information as it has already been submitted.
 error.duplicate.title=Duplicate submission
-error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gov.uk">formhelp@voa.gov.uk</a> if you need further help.
+error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.
 error.maxCurrencyAmountExceeded=Maximum amount exceeded - please contact the VOA
 
 #SESSION TIMEOUT

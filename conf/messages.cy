@@ -641,10 +641,10 @@ hint.vacated.form=<p>Anfonwch:</p>\
   <li>Eich rhif teleffôn cyswllt</li>\
   </ul>\
   </p>\
-  <p>i <a href="mailto:formhelp@voa.gov.uk\
+  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk\
 ?subject=Ffurflen cyn-berchennog/ddeiliad\
 &body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. \
-Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law.">formhelp@voa.gov.uk</a> os gwelwch yn dda.</p>
+Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law.">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
 
 #TYPES
 ###############################
@@ -746,7 +746,7 @@ error.500.heading=Mae''n ddrwg gennym, mae problem gyda''r dudalen ac ni ellir e
 error.fail.heading=Mae''n ddrwg gennym, nid yw''r rhif cyfeirnod rydych wedi''i roi yn cyd-fynd â''n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
 error.duplicate.heading=Mae''n ddrwg gennym, ni allwch olygu''r wybodaeth hon mwyach gan ei bod wedi''i chyflwyno eisoes.
 error.duplicate.title=Cyflwyno dyblyg
-error.duplicate.copy=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gov.uk">formhelp@voa.gov.uk</a> os bydd angen rhagor o help arnoch.
+error.duplicate.copy=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
 error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio''r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
 
 #SESSION TIMEOUT
