@@ -74,7 +74,7 @@
                     field = theForm("landlordConnectType"),
                     options = EnumOptions.options(LandlordConnectionTypes),
                     args = Seq(
-                        '_label -> Messages(if(summary.isAgent) Messages("label.LandlordConnectionTypes.agent") else Messages("label.LandlordConnectionTypes")),
+                        '_label -> Messages("label.LandlordConnectionTypes"),
                         '_error -> theForm("landlordConnectType").errors,
                         '_labelClass -> "form-label-bold",
                         '_showConstraints -> false,
