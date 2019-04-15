@@ -399,8 +399,8 @@ label.noJs.notReviewRentFixed=Answer this only if you''ve selected ''No''
 #SECTION 9
 ###############################
 section9.heading=The rent
-label.totalRent.annualRentExcludingVat=<span class="totalRent-length"></span> rent excluding VAT
-label.totalRent.annualRentExcludingVat.generic=Rent excluding VAT
+label.totalRent.annualRentExcludingVat=What is your current annual rent?
+hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if you pay monthly or quarterly. Ignore any rent free period.
 label.totalRent.rentLengthType=The rent is paid
 label.rentBecomePayable=When did you start paying the current rent?
 label.rentBecomePayable.agent=When did your client start paying this rent?
@@ -437,7 +437,7 @@ label.shellUnit=Is this rent based on an empty (shell) building without fixtures
 label.shellUnit.agent=Is your client''s rent based on an empty (shell) building without fixtures & fittings?
 hint.shellUnit=For example, a new but unfinished property which needs fitting out with items such as internal walls, toilets, services (heating, lighting, etc), or finishes (plaster, paint, carpet, etc)
 label.rentDetails=Please provide details if you have replied yes to any of these questions
-label.rentDetails.agent=Please provide details if you have selected ‘Yes’ to any of the above questions
+label.rentDetails.agent=Please provide details if you have replied yes to any of these questions
 hint.rentDetails=If you have selected ''Yes'' to any of the questions in this section,<br /> please provide details
 label.parking.rentIncludeParking=Is the use of parking spaces or garages included in this rent?
 label.parking.rentIncludeParking.agent=Is the use of parking spaces or garages included in your client''s rent?

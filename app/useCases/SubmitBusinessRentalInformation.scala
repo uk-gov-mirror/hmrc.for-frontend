@@ -131,7 +131,7 @@ object SubmissionBuilder extends SubmissionBuilder {
   )
 
   private def toRent(p9: PageNine) = Rent(
-    Some(p9.totalRent.annualRent), p9.rentBecomePayable, p9.rentActuallyAgreed,
+    Some(p9.totalRent.amount), p9.rentBecomePayable, p9.rentActuallyAgreed,
     p9.negotiatingNewRent, p9.rentBasis, p9.rentBasisOtherDetails
   )
 

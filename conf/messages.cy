@@ -389,8 +389,8 @@ label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 #SECTION 9
 ###############################
 section9.heading=Y rhent
-label.totalRent.annualRentExcludingVat=Rhent <span class="totalRent-length"></span> heb gynnwys TAW
-label.totalRent.annualRentExcludingVat.generic=Rhent heb gynnwys TAW
+label.totalRent.annualRentExcludingVat=Beth yw’ch rhent blynyddol ar hyn o bryd?
+hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (ac eithrio TAW) hyd yn oed os ydych yn talu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod pan nad ydych yn talu rhent.
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
 label.rentBecomePayable=Pa bryd y dechreuoch dalu''r rhent presennol?
 label.rentBecomePayable.agent=Pryd dechreuodd eich cleient dalu''r rhent hwn?
@@ -427,7 +427,7 @@ label.shellUnit=Ai ar adeilad gwag (cragen) heb ddarnau gosod ac addurniadau y m
 label.shellUnit.agent=Ai ar adeilad gwag (cragen) heb ddarnau gosod ac addurniadau y mae rhent eich cleient yn seiliedig?
 hint.shellUnit=E.e. Eiddo newydd heb ei ddodrefnu sydd angen gwaith fel waliau mewnol, toiled, gwasanaethau (gwres, golau a.y.y.b) neu orffeniadau (plastro, carpedi a.y.y.b).
 label.rentDetails=Nodwch fanylion os ydych chi wedi ateb yn gadarnhaol i unrhyw un o''r cwestiynau hyn
-label.rentDetails.agent=Rhowch fanylion os gwnaethoch ddewis ''Ydy/Oedd'' i unrhyw un o''r cwestiynau uchod
+label.rentDetails.agent=Nodwch fanylion os ydych chi wedi ateb yn gadarnhaol i unrhyw un o''r cwestiynau hyn
 hint.rentDetails=Os gwnaethoch ddewis ‘Ydy/Oedd’ i unrhyw o''r cwestiynau yn yr adran hon, rhowch fanylion
 label.parking.rentIncludeParking=A yw defnyddio garejis neu fannau parcio wedi''i gynnwys yn y rhent hwn?
 label.parking.rentIncludeParking.agent=A yw defnyddio garejis neu fannau parcio wedi''i gynnwys yn rhent eich cleient?

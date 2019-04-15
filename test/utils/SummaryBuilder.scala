@@ -123,7 +123,7 @@ object SummaryBuilder {
   private lazy val hasNoRentReviews = PageSeven(false, None)
   private lazy val hasRentReviews = PageSeven(true, None)
   private lazy val pageNineData = PageNine(
-    AnnualRent(RentLengthTypeMonthly, 8.99), rentBecomePayable = new LocalDate(2010, 2, 27), rentActuallyAgreed = new LocalDate(2005, 4, 2), 
+    AnnualRent( 8.99), rentBecomePayable = new LocalDate(2010, 2, 27), rentActuallyAgreed = new LocalDate(2005, 4, 2),
     negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None
   )
   private lazy val pageTenData = WhatRentIncludes(false, false, false, false, false, None, Parking(false, None, false, None, None, None))

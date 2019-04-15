@@ -19,10 +19,9 @@
 
 @(a: AnnualRent)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-@if(a.period != RentLengthTypeAnnually)  {
-	<span class="annualAmount">
-		(£ @NumberFormat.getNumberInstance().format(a.annualRent) @Messages("rentLengthTypes.lowerCase.annual"))
-	</span>	
-}
+<span class="annualAmount">
+    (£ @NumberFormat.getNumberInstance().format(a.amount) @Messages("rentLengthTypes.lowerCase.annual"))
+</span>
+
 
 
