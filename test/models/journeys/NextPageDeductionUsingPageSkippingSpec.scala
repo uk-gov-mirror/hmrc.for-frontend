@@ -286,7 +286,7 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
   lazy val pageEightData = RentAgreement(true, None, RentSetByTypeNewLease)
   lazy val hasNoRentReviews = PageSeven(false, None)
   lazy val hasRentReviews = PageSeven(true, None)
-  lazy val pageNineData = PageNine(AnnualRent(RentLengthTypeMonthly, 8.99), rentBecomePayable = new LocalDate(2010, 2, 27), rentActuallyAgreed = new LocalDate(2005, 4, 2), negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None)
+  lazy val pageNineData = PageNine(AnnualRent(8.99), rentBecomePayable = new LocalDate(2010, 2, 27), rentActuallyAgreed = new LocalDate(2005, 4, 2), negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None)
 
 
   private def summaryBuilder(propertyAddress: Option[PropertyAddress] = None,

@@ -48,7 +48,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     assert(SubmissionBuilder.build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
   }
 
-  it should "calculate an annual rent from a weekly rent when mapping rent" in {
+/*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
     val sub = SubmissionBuilder.build(docWithWeeklyRent)
     val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
     assert(annualRent === 5200)
@@ -64,7 +64,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val sub = SubmissionBuilder.build(docWithQuarterlyRent)
     val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
     assert(annualRent === 1000)
-  }
+  }*/
 
   it should "create ndr and water charges services if their details are supplied" in {
     val sub = SubmissionBuilder.build(docWithNdrChargesAndWaterCharges)
@@ -271,7 +271,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
 
     lazy val page8FormData = Map("wasRentFixedBetween" -> Seq("true"), "rentSetByType" -> Seq("renewedLease"))
 
-    lazy val page9FormData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat" -> Seq("1299"),
+    lazy val page9FormData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat" -> Seq("15588"),
       "rent-paid" -> Seq(""),"rentBecomePayable.day" -> Seq("1"), "rentBecomePayable.month" -> Seq("11"), "rentBecomePayable.year" -> Seq("2013"),
       "rentActuallyAgreed.day" -> Seq("1"), "rentActuallyAgreed.month" -> Seq("11"), "rentActuallyAgreed.year" -> Seq("2013"),
       "negotiatingNewRent" -> Seq("true"), "rentBasedOn" -> Seq("other"), "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on"))
