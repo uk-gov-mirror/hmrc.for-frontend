@@ -492,7 +492,7 @@ label.waterChargeResponsibleType.Yes=Ydyn
 label.waterChargeResponsibleType.No=Nac ydyn
 info.responsibilitiesAndCosts=Rhaid darparu''r wybodaeth hon fel y gallwn sicrhau bod gennym y gwerth ardrethol cywir
 info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw''r landlord yn talu biliau''r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
-info.responsibilitiesAndCosts.surcharge=Os yw''r Landlord yn pasio ''r gost yswiriant ymlaen i chi (oddifewn eich rhent neu gordal) dewisiwch "tenant"
+info.responsibilitiesAndCosts.surcharge=Dewiswch ''Tenant'' os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu''n talu swm fel tâl gwasanaeth er mwyn talu''r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
 
 #SECTION 13
