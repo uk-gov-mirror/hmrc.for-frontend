@@ -389,7 +389,7 @@ label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 #SECTION 9
 ###############################
 section9.heading=Y rhent
-label.totalRent.annualRentExcludingVat=Rhent <span class="totalRent-length"></span> heb gynnwys TAW
+label.totalRent.annualRentExcludingVat=Beth yw’ch rhent blynyddol ar hyn o bryd?
 hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (ac eithrio TAW) hyd yn oed os ydych yn talu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod pan nad ydych yn talu rhent.
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
 label.rentBecomePayable=Pa bryd y dechreuoch dalu''r rhent presennol?
