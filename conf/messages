@@ -370,6 +370,8 @@ label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or
 label.leaseContainsRentReviews.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
 hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
+A rent review is a time when a change to the rent can be discussed by the landlord and the tenant. It's different from a stepped rent which has been agreed at the beginning of the lease or tenancy.’
+
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
 label.rentReviewDetails.lastReviewDate=When was the last review date?
 hint.canRentReduced=The lease or agreement will have a specific clause saying whether the rent can go down as well as up. Select <span class="font-bold">''Yes''</span> if the rent can go up or down, <span class="font-bold">''No''</span> if the rent can only go up.
@@ -442,6 +444,8 @@ label.rentDetails.agent=Please provide details if you have selected ‘Yes’ t
 hint.rentDetails=If you have selected ''Yes'' to any of the questions in this section,<br /> please provide details
 label.parking.rentIncludeParking=Is the use of parking spaces or garages included in this rent?
 label.parking.rentIncludeParking.agent=Is the use of parking spaces or garages included in your client''s rent?
+hint.label.parking.rentIncludeParking=If you have use of an unspecified number of spaces in a communal car park, please provide an approximate number of spaces available to you.
+hint.label.parking.rentIncludeParking.agent=If your client has use of an unspecified number of spaces in a communal car park please provide an approximate number of spaces available to them.
 label.parking.rentIncludeParkingDetails=How many parking spaces or garages are included in the rent?
 label.parking.rentSeparateParking=Do you pay extra for the use of parking spaces or garages?
 label.parking.rentSeparateParking.agent=Does your client pay extra for the use of parking spaces or garages?
