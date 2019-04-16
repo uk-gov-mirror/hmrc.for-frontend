@@ -357,8 +357,13 @@ label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw
 label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
-label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn cynnwys unrhyw adolygiadau rhent?
-hint.leaseContainsRentReviews=Mae adolygiadau rhent fel arfer wedi eu cynnwys yn y brydles neu''r cytundeb
+label.leaseContainsRentReviews.agent.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
+
+hint.leaseContainsRentReviews.licenceOther=Mae adolygiadau rhent fel arfer wedi eu cynnwys yn y brydles neu''r cytundeb
+hint.leaseContainsRentReviews.agent.licenceOther=Mae adolygiadau rhent fel arfer wedi eu cynnwys yn y brydles neu''r cytundeb
+hint.leaseContainsRentReviews.leaseTenancy=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae’n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth
+hint.leaseContainsRentReviews.agent.leaseTenancy=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae’n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth.
+
 label.rentReviewDetails.reviewIntervalTypeSpecify=Nodwch y cyfnod rhwng adolygiadau rhent
 label.rentReviewDetails.lastReviewDate=Beth oedd dyddiad yr adolygiad diwethaf?
 hint.canRentReduced=Bydd cymal penodol yn y brydles neu''r cytundeb a fydd yn nodi pa un a all y rhent ostwng yn ogystal â chodi. Dewiswch <span class="font-bold">‘Gall’</span> os gall y rhent godi neu ostwng, <span class="font-bold">‘Na all’</span> os mai dim ond codi y gall y rhent ei wneud.

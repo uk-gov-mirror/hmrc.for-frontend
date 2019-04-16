@@ -367,8 +367,13 @@ label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does
 label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or written agreement include any rent reviews?
 label.leaseContainsRentReviews.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
-label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
-hint.leaseContainsRentReviews=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
+label.leaseContainsRentReviews.agent.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
+
+hint.leaseContainsRentReviews.licenceOther=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
+hint.leaseContainsRentReviews.agent.licenceOther=Rent reviews are usually written in the lease or agreement. If you have reviewed your lease or tenancy, please use the date of review.
+hint.leaseContainsRentReviews.leaseTenancy=A rent review is a time when a change to the rent can be discussed by the landlord and the tenant. It''s different from a stepped rent which has been agreed at the beginning of the lease or tenancy.
+hint.leaseContainsRentReviews.agent.leaseTenancy=A rent review is a time when a change to the rent can be discussed by the landlord and the tenant. It''s different from a stepped rent which has been agreed at the beginning of the lease or tenancy.
+
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
 label.rentReviewDetails.lastReviewDate=When was the last review date?
 hint.canRentReduced=The lease or agreement will have a specific clause saying whether the rent can go down as well as up. Select <span class="font-bold">''Yes''</span> if the rent can go up or down, <span class="font-bold">''No''</span> if the rent can only go up.
