@@ -109,9 +109,9 @@
 
 
                   @if(summary.isAgent) {
-                      @includes.dateFields(theForm, "hidden", false, "", "firstOccupationDate", "agent", false, true, Messages("label.noJs.firstOccupationDate"))
+                      @includes.dateFields(theForm, "hidden", true, Messages("label.firstOccupationDate.help"), "firstOccupationDate", "agent", false, true, Messages("label.noJs.firstOccupationDate"))
                   } else {
-                      @includes.dateFields(theForm, "hidden", false, "", "firstOccupationDate", "", false, true, Messages("label.noJs.firstOccupationDate"))
+                      @includes.dateFields(theForm, "hidden", true, Messages("label.firstOccupationDate.help"), "firstOccupationDate", "", false, true, Messages("label.noJs.firstOccupationDate"))
                   }
 
                   @inputText(
