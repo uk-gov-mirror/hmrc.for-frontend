@@ -360,7 +360,7 @@ label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgr
 label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn cynnwys unrhyw adolygiadau rhent?
-hint.leaseContainsRentReviews=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae’n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth
+hint.leaseContainsRentReviews=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae''n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Nodwch y cyfnod rhwng adolygiadau rhent
 label.rentReviewDetails.lastReviewDate=Beth oedd dyddiad yr adolygiad diwethaf?
 hint.canRentReduced=Bydd cymal penodol yn y brydles neu''r cytundeb a fydd yn nodi pa un a all y rhent ostwng yn ogystal â chodi. Dewiswch <span class="font-bold">‘Gall’</span> os gall y rhent godi neu ostwng, <span class="font-bold">‘Na all’</span> os mai dim ond codi y gall y rhent ei wneud.
@@ -708,8 +708,8 @@ satisfactionSurveyType.veryDissatisfied=Anfodlon iawn
 #ERRORS
 ##############################
 error.required=Mae''n rhaid llenwi hwn
-error.boolean_missing=Mae''n rhaid i chi ddewis un
-error.no_value_selected=Mae''n rhaid i chi ddewis un
+error.boolean_missing=Rhaid i chi ddewis un
+error.no_value_selected=Rhaid i chi ddewis un
 contactDetails.email1.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 contactDetails.email2.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 contactDetails.email1.email.tooLong=Mae''r e-bost a ddarperir yn rhy hir. Ceisiwch ddarparu rhif ffôn yn lle hynny
