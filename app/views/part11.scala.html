@@ -78,7 +78,7 @@
               'class -> "form-control input-extra-small",
               '_fieldsetClass -> ("form-group"),
               Symbol("maxLength") -> "3",
-              '_help -> Messages("hint.rentFreePeriodDetails.rentFreePeriodLength"),
+              '_help -> Messages(if(summary.isAgent) Messages("hint.rentFreePeriodDetails.rentFreePeriodLength.agent") else Messages("hint.rentFreePeriodDetails.rentFreePeriodLength")),
               '_nojsText -> Messages("label.noJs.rentFreePeriodDetails.rentFreePeriodLength")
           )
           
