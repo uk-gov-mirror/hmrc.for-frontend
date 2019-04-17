@@ -493,13 +493,8 @@ label.includedServices=Ydy''r gost o wasanaethau wedi''i chynnwys yn eich rhent?
 hint.includedServices=Er enghraifft, goleuadau, gwres, glanhau/cynnal a chadw mannau a rennir
 label.includedServicesDetails.chargeDescription=Manylion gwasanaethau
 label.includedServicesDetails.chargeCost=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
-
-
 #label.includedServicesDetails.chargeCost.hint=Os ydych yn gwybod y swm ar gyfer cyfraddau a chostau dŵr neu wasanaethau, nodwch y cyfanswm yn y maes hwn. Fel arall, nodwch £1 a rhoi manylion y gwasanaethau, y cyfraddau neu''r costau dŵr sydd wedi''u cynnwys yn y rhent.
 label.includedServicesDetails.chargeCost.hint=If you cannot provide any cost amounts, please enter £''1'' and tell us which services are included in your rent. If you need to tell us more, please continue in ''Any other factors'' in Section 14.
-
-
-
 label.waterChargeResponsibleType.Yes=Ydyn
 label.waterChargeResponsibleType.No=Nac ydyn
 info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw''r landlord yn talu biliau''r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
