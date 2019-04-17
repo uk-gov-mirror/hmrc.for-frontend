@@ -56,7 +56,7 @@
 
           @inputText(
             field = theForm("totalRent.annualRentExcludingVat"),
-            '_label -> Html(Messages("label.totalRent.annualRentExcludingVat")),
+            '_label -> Html(Messages(if(summary.isAgent) Messages("label.totalRent.annualRentExcludingVat.agent") else Messages("label.totalRent.annualRentExcludingVat"))),
             '_labelClass -> "form-label-bold",
             'class -> "form-control input-currency total-annual-rent excludeVat",
             '_pound -> true,

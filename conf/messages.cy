@@ -392,6 +392,7 @@ label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 ###############################
 section9.heading=Y rhent
 label.totalRent.annualRentExcludingVat=Beth yw’ch rhent blynyddol ar hyn o bryd?
+label.totalRent.annualRentExcludingVat.agent=Faint yw rhent cyfredol eich cleient?
 hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (ac eithrio TAW) hyd yn oed os ydych yn talu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod pan nad ydych yn talu rhent.
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
 label.rentBecomePayable=Pa bryd y dechreuoch dalu''r rhent presennol?
@@ -417,7 +418,8 @@ label.partRent=Ai dim ond ar gyfer rhan o''r eiddo hwn mae''r rhent yn cael ei d
 label.partRent.agent=Ai dim ond am ran o''r eiddo hwn y mae''ch cleient yn talu rhent?
 hint.partRent=Ystyr ''eiddo'' yw''r cyfeiriad a roddwyd yn Adran 1. Er enghraifft, os mai ''Lloriau 1 i 3'' yw''ch cyfeiriad, ond dim ond ar gyfer Llawr 1 rydych yn talu rhent, dewiswch ''Ie''.
 hint.partRent.agent=Ystyr ''eiddo'' yw''r cyfeiriad a roddwyd yn Adran 1. Er enghraifft, os mai ''Lloriau 1 i 3'' yw cyfeiriad eich cleient, ond dim ond ar gyfer Llawr 1 mae''n talu eiddo, dewiswch ''Ie''.
-label.otherProperty=A yw rhent eich cleient yn cynnwys unrhyw eiddo arall?
+label.otherProperty=A yw''r rhent hwn yn cynnwys unrhyw eiddo arall?
+label.otherProperty.agent=A yw rhent eich cleient yn cynnwys unrhyw eiddo arall?
 hint.otherProperty=Er enghraifft, eiddo cyfagos neu ran o lawr arall nad yw''n rhan o''r cyfeiriad a roddwyd yn Adran 1.
 label.livingAccomodation=A yw''r rhent hwn yn cynnwys unrhyw lety byw?
 label.livingAccomodation.agent=A yw rhent eich cleient yn cynnwys unrhyw lety preswyl?
@@ -438,7 +440,7 @@ hint.label.parking.rentIncludeParking.agent=Os oes gan eich cleient nifer amheno
 label.parking.rentIncludeParkingDetails=Sawl lle parcio neu modurdy sydd wedi''u cynnwys yn y rhent?
 label.parking.rentSeparateParking=A ydych yn talu''n ychwanegol am ddefnyddio garejis neu fannau parcio?
 label.parking.rentSeparateParking.agent=A yw''ch cleient yn talu''n ychwanegol am ddefnyddio garejis neu fannau parcio?
-label.parking.rentSeparateParkingDetails=Sawl lle parcio neu modurdy ychwanegol ydych chi''n talu amdanynt?
+label.parking.rentSeparateParkingDetails=Am sawl garej neu fan parcio ydych chi''n talu’n ychwanegol?
 label.parking.rentSeparateParkingDetails.agent=Am sawl garej neu fan parcio y mae''ch cleient yn talu''n ychwanegol?
 label.parking.annualSeparateParking=Telir swm blynyddol sefydlog am lefydd parcio a modurdai yn ychwanegol at y rhent heb gynnwys TAW
 label.parking.annualSeparateParkingDate=Pryd cafodd y taliad hwn ei bennu?
@@ -464,7 +466,8 @@ label.receiveCapitalSum.agent=A gafodd eich cleient swm cyfalaf?
 label.capitalReceivedDetails.capitalSum=Swm cyfalaf a gafwyd heb gynnwys TAW
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
 hint.receiveCapitalSum=Mae hwn yn swm o arian a roddwyd gan y landlord neu''r tenant blaenorol ar ddechrau''r brydles.
-hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd cyfnod heb dalu rhent eich cleient wedi para am lai nag 1 mis, nodwch “1” a rhoi rhagor o wybodaeth o dan ''Pam cafodd eich cleient gyfnod heb dalu rhent?''
+hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd eich cyfnod di-rent am lai nag 1 mis, atebwch “1” os gwelwch yn dda gan ddweud mwy o dan ''Pam cafodd eich cleient gyfnod heb dalu rhent?''
+hint.rentFreePeriodDetails.rentFreePeriodLength.agents=Os oedd cyfnod heb dalu rhent eich cleient wedi para am lai nag 1 mis, nodwch “1” a rhoi rhagor o wybodaeth o dan ''Pam cafodd eich cleient gyfnod heb dalu rhent?''
 details.question.capitalSum=Beth yw swm cyfalaf?
 details.answer.capitalSum=Dyma swm o arian a delir i''r landlord er mwyn cymryd prydles neu gytundeb. Nid arian a delir am y busnes ei hun yw hwn (er enghraifft nid yw''n cynnwys unrhyw symiau a delir ar gyfer ewyllys da, gosodiadau a ffitiadau masnachol na symiau a delir fel blaendaliadau neu fondiau ad-daladwy)
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
@@ -490,10 +493,15 @@ label.includedServices=Ydy''r gost o wasanaethau wedi''i chynnwys yn eich rhent?
 hint.includedServices=Er enghraifft, goleuadau, gwres, glanhau/cynnal a chadw mannau a rennir
 label.includedServicesDetails.chargeDescription=Manylion gwasanaethau
 label.includedServicesDetails.chargeCost=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
-label.includedServicesDetails.chargeCost.hint=Os ydych yn gwybod y swm ar gyfer cyfraddau a chostau dŵr neu wasanaethau, nodwch y cyfanswm yn y maes hwn. Fel arall, nodwch £1 a rhoi manylion y gwasanaethau, y cyfraddau neu''r costau dŵr sydd wedi''u cynnwys yn y rhent.
+
+
+#label.includedServicesDetails.chargeCost.hint=Os ydych yn gwybod y swm ar gyfer cyfraddau a chostau dŵr neu wasanaethau, nodwch y cyfanswm yn y maes hwn. Fel arall, nodwch £1 a rhoi manylion y gwasanaethau, y cyfraddau neu''r costau dŵr sydd wedi''u cynnwys yn y rhent.
+label.includedServicesDetails.chargeCost.hint=If you cannot provide any cost amounts, please enter £''1'' and tell us which services are included in your rent. If you need to tell us more, please continue in ''Any other factors'' in Section 14.
+
+
+
 label.waterChargeResponsibleType.Yes=Ydyn
 label.waterChargeResponsibleType.No=Nac ydyn
-info.responsibilitiesAndCosts=Rhaid darparu''r wybodaeth hon fel y gallwn sicrhau bod gennym y gwerth ardrethol cywir
 info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw''r landlord yn talu biliau''r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
 info.responsibilitiesAndCosts.surcharge=Dewiswch ''Tenant'' os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu''n talu swm fel tâl gwasanaeth er mwyn talu''r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
@@ -510,7 +518,8 @@ label.propertyAlterationsDetails=Amcan o ddyddiad y gwaith
 label.propertyAlterationsDetails.date=Amcan o ddyddiad y gwaith
 label.requiredAnyWorks=A oedd yn ofynnol i chi gynnal unrhyw waith fel un o amodau''r brydles neu''r cytundeb presennol?
 label.requiredAnyWorks.agent=A oedd yn ofynnol i''ch cleient gynnal unrhyw waith fel un o amodau''r brydles neu''r cytundeb presennol?
-hint.requiredAnyWorks=Bydd prydles neu gytundeb ysgrifenedig eich cleient yn nodi a oes rhaid iddo gyflawni unrhyw ran o''r gwaith
+hint.requiredAnyWorks=Bydd eich prydles neu gytundeb ysgrifenedig yn nodi p''un a oedd yn ofynnol i chi gynnal unrhyw waith a nodir uchod.
+hint.requiredAnyWorks.agent=Bydd prydles neu gytundeb ysgrifenedig eich cleient yn nodi a oes rhaid iddo gyflawni unrhyw ran o''r gwaith
 label.add.propertyAlterations=Ychwanegu addasiad / gwelliant arall
 label.noJs.section13=Dylech ond ateb hyn os ydych wedi dewis ‘Oedd’
 

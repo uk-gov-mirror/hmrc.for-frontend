@@ -99,7 +99,7 @@
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
                         '_showConstraints -> false,
-                        '_label -> Messages("label.otherProperty"),
+                        '_label -> Messages(if(summary.isAgent)  Messages("label.otherProperty.agent")  else  Messages("label.otherProperty")),
                         '_error -> theForm("otherProperty").error,
                         '_legend -> true,
                         '_fieldsetClass -> "inline",
