@@ -49,10 +49,30 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply) recoverWith {
+    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeRentLengthType) recoverWith {
       case n: NotFoundException => None
     }
   }
+
+  def removeRentLengthType(maybeDocument: Option[Document]): Option[Document] = {
+
+    val removedPage9 = for {
+      doc <- maybeDocument
+      page9 <- doc.page(9)
+      _ <- page9.fields.get("totalRent.rentLengthType")
+    } yield {
+      val newPage9 = page9.copy(fields = page9.fields - ("totalRent.annualRentExcludingVat", "totalRent.rentLengthType" ))
+      doc.copy(pages = doc.pages.filterNot(_.pageNumber == 9))
+    }
+
+    if(removedPage9.isDefined) {
+      removedPage9
+    }else {
+      maybeDocument
+    }
+
+  }
+
 
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] = {
     http.GET[JsValue](url(s"schema/$schemaName"))
