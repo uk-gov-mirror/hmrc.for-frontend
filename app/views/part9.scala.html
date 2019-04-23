@@ -55,7 +55,7 @@
         @helper.CSRF.formField
 
           @inputText(
-            field = theForm("totalRent.annualRentExcludingVat"),
+            field = theForm("totalRent.annualRentExcludingVat2"),
             '_label -> Html(Messages(if(summary.isAgent) Messages("label.totalRent.annualRentExcludingVat.agent") else Messages("label.totalRent.annualRentExcludingVat"))),
             '_labelClass -> "form-label-bold",
             'class -> "form-control input-currency total-annual-rent excludeVat",

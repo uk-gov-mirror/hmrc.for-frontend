@@ -271,22 +271,22 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
 
     lazy val page8FormData = Map("wasRentFixedBetween" -> Seq("true"), "rentSetByType" -> Seq("renewedLease"))
 
-    lazy val page9FormData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat" -> Seq("15588"),
+    lazy val page9FormData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat2" -> Seq("15588"),
       "rent-paid" -> Seq(""),"rentBecomePayable.day" -> Seq("1"), "rentBecomePayable.month" -> Seq("11"), "rentBecomePayable.year" -> Seq("2013"),
       "rentActuallyAgreed.day" -> Seq("1"), "rentActuallyAgreed.month" -> Seq("11"), "rentActuallyAgreed.year" -> Seq("2013"),
       "negotiatingNewRent" -> Seq("true"), "rentBasedOn" -> Seq("other"), "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on"))
 
-    lazy val page9WeeklyRentData = Map("totalRent.rentLengthType" -> Seq("weekly"), "totalRent.annualRentExcludingVat" -> Seq("100"),
+    lazy val page9WeeklyRentData = Map("totalRent.rentLengthType" -> Seq("weekly"), "totalRent.annualRentExcludingVat2" -> Seq("100"),
       "rent-paid" -> Seq(""), "rentBecomePayable.day" -> Seq("1"), "rentBecomePayable.month" -> Seq("11"), "rentBecomePayable.year" -> Seq("2013"),
       "rentActuallyAgreed.day" -> Seq("1"), "rentActuallyAgreed.month" -> Seq("11"), "rentActuallyAgreed.year" -> Seq("2013"),
       "negotiatingNewRent" -> Seq("true"), "rentBasedOn" -> Seq("other"), "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on"))
 
-    lazy val page9MonthlyRentData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat" -> Seq("5000"),
+    lazy val page9MonthlyRentData = Map("totalRent.rentLengthType" -> Seq("monthly"), "totalRent.annualRentExcludingVat2" -> Seq("5000"),
       "rent-paid" -> Seq(""), "rentBecomePayable.day" -> Seq("1"), "rentBecomePayable.month" -> Seq("11"), "rentBecomePayable.year" -> Seq("2013"),
       "rentActuallyAgreed.day" -> Seq("1"), "rentActuallyAgreed.month" -> Seq("11"), "rentActuallyAgreed.year" -> Seq("2013"),
       "negotiatingNewRent" -> Seq("true"), "rentBasedOn" -> Seq("other"), "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on"))
 
-    lazy val page9QuarterlyRentData = Map("totalRent.rentLengthType" -> Seq("quarterly"), "totalRent.annualRentExcludingVat" -> Seq("250"),
+    lazy val page9QuarterlyRentData = Map("totalRent.rentLengthType" -> Seq("quarterly"), "totalRent.annualRentExcludingVat2" -> Seq("250"),
       "rent-paid" -> Seq(""), "rentBecomePayable.day" -> Seq("1"), "rentBecomePayable.month" -> Seq("11"), "rentBecomePayable.year" -> Seq("2013"),
       "rentActuallyAgreed.day" -> Seq("1"), "rentActuallyAgreed.month" -> Seq("11"), "rentActuallyAgreed.year" -> Seq("2013"),
       "negotiatingNewRent" -> Seq("true"), "rentBasedOn" -> Seq("other"), "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on"))

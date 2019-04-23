@@ -24,31 +24,34 @@ import org.scalatest.{FlatSpec, Matchers, OptionValues}
 
 class SummaryDeserializationSpec extends FlatSpec with Matchers with OptionValues {
 
-  val pages: Seq[Page] = Seq(
-    Page(3, Map(
-      "propertyType" -> Seq("hotel"),
-      "occupierType" -> Seq("individuals"),
-      "firstOccupationDate.month" -> Seq("02"),
-      "firstOccupationDate.year" -> Seq("2018"),
-      "mainOccupierName" -> Seq("John John"),
-      "propertyOwnedByYou" -> Seq("true")
-    )),
 
-    Page(9, Map(
-      "totalRent.annualRentExcludingVat" -> Seq("10000"),
-      "totalRent.rentLengthType" -> Seq("quarterly"),
-      "totalRent.SomethingForTest" -> Seq("testing value"),
-      "rentBecomePayable.day" -> Seq("20"),
-      "rentBecomePayable.month" -> Seq("12"),
-      "rentBecomePayable.year" -> Seq("2018"),
-      "rentActuallyAgreed.day" -> Seq("20"),
-      "rentActuallyAgreed.month" -> Seq("12"),
-      "rentActuallyAgreed.year" -> Seq("2018"),
-      "negotiatingNewRent" -> Seq("false"),
-      "rentBasedOn" -> Seq("other"),
-      "rentBasedOnDetails" -> Seq("vvsdfsd sdf")
-    ))
+  val page9Map = Map(
+    "totalRent.annualRentExcludingVat" -> Seq("10000"),
+    "totalRent.rentLengthType" -> Seq("quarterly"),
+    "totalRent.SomethingForTest" -> Seq("testing value"),
+    "rentBecomePayable.day" -> Seq("20"),
+    "rentBecomePayable.month" -> Seq("12"),
+    "rentBecomePayable.year" -> Seq("2018"),
+    "rentActuallyAgreed.day" -> Seq("20"),
+    "rentActuallyAgreed.month" -> Seq("12"),
+    "rentActuallyAgreed.year" -> Seq("2018"),
+    "negotiatingNewRent" -> Seq("false"),
+    "rentBasedOn" -> Seq("other"),
+    "rentBasedOnDetails" -> Seq("vvsdfsd sdf")
   )
+
+  val page9 = Page(9, page9Map)
+
+  val page3 = Page(3, Map(
+    "propertyType" -> Seq("hotel"),
+    "occupierType" -> Seq("individuals"),
+    "firstOccupationDate.month" -> Seq("02"),
+    "firstOccupationDate.year" -> Seq("2018"),
+    "mainOccupierName" -> Seq("John John"),
+    "propertyOwnedByYou" -> Seq("true")
+  ))
+
+  val pages: Seq[Page] = Seq(page3,page9)
 
   val doc: Document = Document(
     referenceNumber = "1111",
@@ -60,8 +63,17 @@ class SummaryDeserializationSpec extends FlatSpec with Matchers with OptionValue
   )
 
   "Summary builder" should "deserialize document with redundant fields " in {
+    val aDocument = Document(
+      referenceNumber = "1111",
+      journeyStarted = DateTime.now(),
+      pages = Seq(page3, Page(9, page9Map + ("totalRent.annualRentExcludingVat2" -> Seq("10000")))),
+      address = None,
+      saveForLaterPassword = None,
+      journeyResumptions = Seq()
+    )
+
      val summaryBuilder: SummaryBuilder = SummaryBuilder
-     val summary = summaryBuilder.build(doc)
+     val summary = summaryBuilder.build(aDocument)
 
     summary.theProperty shouldBe defined
     summary.theProperty.value.propertyType shouldBe "hotel"
@@ -72,6 +84,18 @@ class SummaryDeserializationSpec extends FlatSpec with Matchers with OptionValue
     summary.rent.value.totalRent.amount shouldBe BigDecimal("10000")
 
    }
+
+  "Summary builder" should "not deserialize data in old format" in {
+    val summaryBuilder: SummaryBuilder = SummaryBuilder
+    val summary = summaryBuilder.build(doc)
+
+    summary.theProperty shouldBe defined
+    summary.theProperty.value.propertyType shouldBe "hotel"
+    summary.theProperty.value.occupierType shouldBe OccupierTypeIndividuals
+
+    summary.rent shouldBe None
+
+  }
 
 
 

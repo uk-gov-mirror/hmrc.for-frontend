@@ -95,7 +95,7 @@ class PageNineMappingSpec extends FlatSpec with Matchers {
     val keys = new {
       val totalRent = "totalRent"
       val rentLengthType = "totalRent.rentLengthType"
-      val annualRentExcludingVat = "totalRent.annualRentExcludingVat"
+      val annualRentExcludingVat = "totalRent.annualRentExcludingVat2"
       val rentBecomePayableDay = "rentBecomePayable.day"
       val rentBecomePayableMonth = "rentBecomePayable.month"
       val rentBecomePayableYear = "rentBecomePayable.year"
