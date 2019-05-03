@@ -302,7 +302,7 @@ intel.alert.landlordName=Are your sure this is correct - the landlords name is t
 #SECTION 6
 ###############################
 section6.heading=The current lease or agreement
-label.leaseAgreementHasBreakClause=Is there a break clause?
+#label.leaseAgreementHasBreakClause=Is there a break clause?
 label.breakClauseDetails=Provide details of the break clause
 label.agreementIsStepped=Is your rent a stepped rent?
 hint.steppedDetailsYear=You will usually find these in your lease or written agreement
