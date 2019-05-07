@@ -59,8 +59,8 @@
         @inputRadioGroup(
           field = theForm("propertyIsSublet"),
           options = Seq(
-            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
-            "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes1")),
+            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no1"))
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(

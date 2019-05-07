@@ -94,6 +94,23 @@ placeholder.address.2=Address line 2
 placeholder.address.3=Address line 3
 label. = Error
 
+#WELSH YES/NO
+#############
+label.yes.oes=Yes
+label.no.nac.oes=No
+label.no.nac=No
+label.yes.ie=Yes
+label.no.nage=No
+label.yes.ydy=Yes
+label.no.nac.ydy=No
+label.yes.ydw=Yes
+label.no.nac.ydw=No
+label.yes.do=Yes
+label.no.naddo=No
+label.yes.ydyn=Yes
+label.no.nac.ydyn=No
+label.yes.oedd=yes
+label.no.nac.oedd=No
 
 #BUTTON LABELS
 ##############################
@@ -120,8 +137,6 @@ label.retryLogin=Try to log in again
 #SECTION 0
 ##############################
 label.isRelated=Do you still have a connection to this property?
-label.isRelatedYes=Yes
-label.isRelatedNo=No
 
 #SECTION 1
 ##############################
@@ -130,7 +145,6 @@ section1.intro.text=You are providing information about this address
 label.isAddressCorrect=Is this correct?
 label.address.buildingNameNumber=Address line 1
 label.buildingNameNumber=Address
-label.isAddressCorrectYes=Yes
 label.isAddressCorrectNo=No, I want to change it
 label.changedAddress=Changed address
 label.address=Address
@@ -228,7 +242,6 @@ label.propertyRentedBy.agent=Does your client pay rent on the property?
 label.propertyRentedByYou=Do you pay rent on the property?
 label.propertyRentedByYou.agent=Does your client pay rent on the property?
 label.propertyType=What is the property used for?
-label.occupierType=Who occupies the property?
 label.occupierCompanyName=Company name
 label.noJs.occupierCompanyName=Answer this only if you''ve selected ''A company''
 label.noJs.firstOccupationDate=Answer this only if you''ve selected ''One or more individuals'' or ''A company''
@@ -302,7 +315,6 @@ intel.alert.landlordName=Are your sure this is correct - the landlords name is t
 #SECTION 6
 ###############################
 section6.heading=The current lease or agreement
-label.leaseAgreementHasBreakClause=Is there a break clause?
 label.breakClauseDetails=Provide details of the break clause
 label.agreementIsStepped=Is your rent a stepped rent?
 hint.steppedDetailsYear=You will usually find these in your lease or written agreement
@@ -505,8 +517,6 @@ label.includedServicesDetails=Included Services
 label.includedServicesDetails.chargeDescription=Details of services
 label.includedServicesDetails.chargeCost=Total amount per year included in the rent (excluding VAT)
 hint.includedServicesDetails.chargeCost=If you cannot provide any cost amounts, please enter "£1" and tell us which services are included in your rent. If you need to tell us more, please continue in ''Any other factors'' in Section 14.
-label.waterChargeResponsibleType.Yes=Yes
-label.waterChargeResponsibleType.No=No
 info.responsibilitiesAndCosts.paying=Select ''Landlord'' if the landlord directly pays the bills for these items without asking for any contribution from the tenant.
 info.responsibilitiesAndCosts.surcharge=Select ''Tenant'' if the tenant pays directly for these items or pays an amount such as a service charge, to cover the costs.
 label.noJs.secton12=Answer this only if you''ve selected ''Yes''
@@ -714,8 +724,6 @@ rentBasisType.openMarketValue=Open market value
 rentBasisType.percentageOfOpenMarketValue=A percentage of turnover
 rentBasisType.indexation=Indexation
 rentBasisType.other=Other
-waterChargeResponsibleType.Yes=Yes
-waterChargeResponsibleType.No=No
 waterChargeResponsibleType.Dontknow=Don''t know
 rentLengthTypes.annual=Annually
 rentLengthTypes.quarterly=Quarterly
