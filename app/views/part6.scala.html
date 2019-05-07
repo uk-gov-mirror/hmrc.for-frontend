@@ -119,8 +119,8 @@
           @inputRadioGroup(
             field = theForm("writtenAgreement.rentOpenEnded"),
             options = Seq(
-              "true" -> Messages("label.yes2"),
-              "false" -> Messages("label.no2")
+              "true" -> Messages("label.yes.ydy"),
+              "false" -> Messages("label.no.nac.ydy")
             ),
             dataAttributes = Seq(
             ("true", "data-show-fields", ""),
@@ -149,8 +149,8 @@
         @inputRadioGroup(
           field = theForm("writtenAgreement.leaseAgreementHasBreakClause"),
           options = Seq(
-            "true" -> Messages("label.yes4"),
-            "false" -> Messages("label.no4")
+            "true" -> Messages("label.yes.oes"),
+            "false" -> Messages("label.no.nac")
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(
@@ -181,8 +181,8 @@
         @inputRadioGroup(
           field = theForm("writtenAgreement.agreementIsStepped"),
           options = Seq(
-            "true" -> Messages("label.yes2"),
-            "false" -> Messages("label.no2")
+            "true" -> Messages("label.yes.ydy"),
+            "false" -> Messages("label.no.nac.ydy")
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(

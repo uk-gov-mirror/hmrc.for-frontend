@@ -20,20 +20,20 @@ label.yes=Ie
 label.no=Na
 label.yes1=Ydw
 label.no1=Nac ydw
-label.yes2=le
-label.no2=Nage
+label.yes2=Ydy
+label.no2=Nac ydy
 label.yes3=Oes
 label.no3=Nac oes
-label.yes4=Oes
-label.no4=Nac oes
+label.yes4=Ceir
+label.no4=Na cheir
 label.yes5=Gall
 label.no5=Na all
-label.yes6=Ydy
-label.no6=Nac ydy
+label.yes6=Do
+label.no6=Naddo
 label.yes7=Ydyn
 label.no7=Nac ydyn
-label.yes8=le
-label.no8=Nage
+label.yes8=Oedd
+label.no8=Nac oedd
 help.date.day.month.year=Er enghraifft, 12 3 2011
 link.label.calculate=Helpwch fi i gyfrifo’r rhent blynyddol
 button.label.calculate=Cyfrifo
@@ -94,6 +94,26 @@ placeholder.address.2=Ail linell y cyfeiriad
 placeholder.address.3=Trydedd linell y cyfeiriad
 label. = Gwall
 
+#WELSH YES/NO
+#############
+label.yes.oes=Oes
+label.no.nac.oes=Nac oes
+label.no.nac=Nac
+label.yes.ie=Ie
+label.no.nage=Nage
+label.yes.ydy=Ydy
+label.no.nac.ydy=Nac ydy
+label.yes.ydw=Ydw
+label.no.nac.ydw=Nac ydw
+label.yes.gall=Gall
+label.no.na.all=Na all
+label.yes.do=Do
+label.no.naddo=Naddo
+label.yes.ydyn=Ydyn
+label.no.nac.ydyn=Nac ydyn
+label.yes.oedd=Oedd
+label.no.nac.oedd=Nac oedd
+
 #BUTTON LABELS
 ##############################
 button.label.back=Yn ôl
@@ -119,8 +139,6 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 #SECTION 0
 ##############################
 label.isRelated=A oes gennych gysylltiad o hyd â''r eiddo hwn?
-label.isRelatedYes=Oes
-label.isRelatedNo=Nac oes
 
 #SECTION 1
 ##############################
@@ -129,7 +147,6 @@ section1.intro.text=Rydych yn darparu gwybodaeth am y cyfeiriad hwn
 label.isAddressCorrect=A yw hyn yn gywir?
 label.address.buildingNameNumber=Llinell gyntaf y cyfeiriad
 label.buildingNameNumber=Cyfeiriad
-label.isAddressCorrectYes=Ydy
 label.isAddressCorrectNo=Nac ydy, rwyf am ei newid
 label.changedAddress=Newid cyfeiriad
 label.address=Cyfeiriad
@@ -218,7 +235,6 @@ label.propertyRentedBy.agent=A yw eich cleient yn talu rhent am yr eiddo?
 label.propertyRentedByYou=A ydych yn talu rhent am yr eiddo?
 label.propertyRentedByYou.agent=A yw eich cleient yn talu rhent am yr eiddo?
 label.propertyType=At ba ddiben y defnyddir yr eiddo?
-#label.occupierType=Pwy yw deiliad yr eiddo?
 label.occupierCompanyName=Enw''r cwmni
 label.noJs.occupierCompanyName=Dylech ond ateb hyn os ydych wedi dewis ‘Cwmni’
 label.noJs.firstOccupationDate=Dylech ond ateb hyn os ydych wedi dewis ‘Un neu fwy o unigolion’ neu ‘Cwmni’
@@ -293,7 +309,6 @@ intel.alert.landlordName=A ydych chi''n siŵr bod hyn yn gywir - mae enw''r land
 #SECTION 6
 ###############################
 section6.heading=Y brydles neu''r cytundeb presennol
-#label.leaseAgreementHasBreakClause=A geir cymal torri?
 label.breakClauseDetails=Rhowch fanylion y cymal torri
 label.agreementIsStepped=A yw eich rhent yn rhent gris?
 hint.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i''r rhain yn eich prydles neu eich cytundeb ysgrifenedig
@@ -495,8 +510,6 @@ hint.includedServices=Er enghraifft, goleuadau, gwres, glanhau/cynnal a chadw ma
 label.includedServicesDetails.chargeDescription=Manylion gwasanaethau
 label.includedServicesDetails.chargeCost=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
 hint.includedServicesDetails.chargeCost=Os na allwch ddarparu unrhyw symiau cost, rhowch "£1" a dywedwch wrthym pa wasanaethau sydd wedi''u cynnwys yn eich rhent. Os oes angen i chi ddweud rhagor wrthym, parhewch yn ''unrhyw ffactorau eraill'' yn adran 14 os gwelwch yn dda.
-label.waterChargeResponsibleType.Yes=Ydy
-label.waterChargeResponsibleType.No=Nac ydy
 info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw''r landlord yn talu biliau''r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
 info.responsibilitiesAndCosts.surcharge=Dewiswch ''Tenant'' os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu''n talu swm fel tâl gwasanaeth er mwyn talu''r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’

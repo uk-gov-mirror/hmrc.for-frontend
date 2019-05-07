@@ -57,8 +57,8 @@
         @inputRadioGroup(
           field = theForm("propertyAlterations"),
           options = Seq(
-            "true" -> Messages("label.yes6"),
-            "false" -> Messages("label.no6")
+            "true" -> Messages("label.yes.ydy"),
+            "false" -> Messages("label.no.nac.ydy")
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(
@@ -121,8 +121,8 @@
           @inputRadioGroup(
             field = theForm("requiredAnyWorks"),
             options = Seq(
-              "true" -> Messages("label.yes8"),
-              "false" -> Messages("label.no8")
+              "true" -> Messages("label.yes.oedd"),
+              "false" -> Messages("label.no.nac.oedd")
             ),
             args = Seq(
               '_showConstraints -> false,

@@ -58,8 +58,8 @@
         @inputRadioGroup(
           field = theForm("leaseContainsRentReviews"),
           options = Seq(
-            "true" -> Messages("label.yes2"),
-            "false" -> Messages("label.no2")
+            "true" -> Messages("label.yes.ydy"),
+            "false" -> Messages("label.no.nac.ydy")
           ),
           dataAttributes = Seq(("true", "data-show-field", "true"), ("true", "data-parent", "true")),
           args = Seq(
@@ -103,8 +103,8 @@
           @inputRadioGroup(
             field = theForm("rentReviewDetails.canRentReduced"),
             options = Seq(
-              "true" -> Messages("label.yes5"),
-              "false" -> Messages("label.no5")
+              "true" -> Messages("label.yes.gall"),
+              "false" -> Messages("label.no.na.all")
             ),
             args = Seq(
               '_showConstraints -> false,
@@ -121,8 +121,8 @@
           @inputRadioGroup(
             field = theForm("rentReviewDetails.rentResultOfRentReview"),
             options = Seq(
-              "true" -> Messages("label.yes2"),
-              "false" -> Messages("label.no2")
+              "true" -> Messages("label.yes.ydy"),
+              "false" -> Messages("label.no.nac.ydy")
             ),
             dataAttributes = Seq(("true", "data-show-field", "true")),
             args = Seq(
@@ -144,8 +144,8 @@
             @inputRadioGroup(
               field = theForm("rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween"),
               options = Seq(
-                "true" -> Messages("label.yes6"),
-                "false" -> Messages("label.no6")
+                "true" -> Messages("label.yes.do"),
+                "false" -> Messages("label.no.naddo")
               ),
               dataAttributes = Seq(("false", "data-show-field", "true")),
               args = Seq(

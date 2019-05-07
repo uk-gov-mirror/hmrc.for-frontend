@@ -55,8 +55,8 @@
                 @inputRadioGroup(
                     field = theForm("livingAccomodation"),
                     options = Seq(
-                        "true" -> Messages("label.yes2"),
-                        "false" -> Messages("label.no2")
+                        "true" -> Messages("label.yes.ydy"),
+                        "false" -> Messages("label.no.nac.ydy")
                     ),
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
@@ -74,8 +74,8 @@
                 @inputRadioGroup(
                     field = theForm("partRent"),
                     options = Seq(
-                        "true" -> Messages("label.yes2"),
-                        "false" -> Messages("label.no2")
+                        "true" -> Messages("label.yes.ie"),
+                        "false" -> Messages("label.no.nage")
                     ),
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
@@ -93,8 +93,8 @@
                 @inputRadioGroup(
                     field = theForm("otherProperty"),
                     options = Seq(
-                        "true" -> Messages("label.yes2"),
-                        "false" -> Messages("label.no2")
+                        "true" -> Messages("label.yes.ydy"),
+                        "false" -> Messages("label.no.nac.ydy")
                     ),
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
@@ -112,8 +112,8 @@
                 @inputRadioGroup(
                     field = theForm("landOnly"),
                     options = Seq(
-                        "true" -> Messages("label.yes8"),
-                        "false" -> Messages("label.no8")
+                        "true" -> Messages("label.yes.ie"),
+                        "false" -> Messages("label.no.nage")
                     ),
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
@@ -131,8 +131,8 @@
                 @inputRadioGroup(
                     field = theForm("shellUnit"),
                     options = Seq(
-                        "true" -> Messages("label.yes8"),
-                        "false" -> Messages("label.no8")
+                        "true" -> Messages("label.yes.ie"),
+                        "false" -> Messages("label.no.nage")
                     ),
                     dataAttributes = Seq(("true", "data-show-details", "true")),
                     args = Seq(
@@ -160,8 +160,8 @@
                 @inputRadioGroup(
                     field = theForm("parking.rentIncludeParking"),
                     options = Seq(
-                        "true" -> Messages("label.yes2"),
-                        "false" -> Messages("label.no2")
+                        "true" -> Messages("label.yes.ydy"),
+                        "false" -> Messages("label.no.nac.ydy")
                     ),
                     dataAttributes = Seq(("true", "data-show-field", "true")),
                     args = Seq(
@@ -216,8 +216,8 @@
                     @inputRadioGroup(
                         field = theForm("parking.rentSeparateParking"),
                         options = Seq(
-                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes2")  else  Messages("label.yes1")),
-                            "false" -> Messages(if(summary.isAgent)  Messages("label.no2")  else  Messages("label.no1"))
+                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes1")),
+                            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no1"))
                         ),
                         dataAttributes = Seq(("true", "data-show-field", "true")),
                         args = Seq(
