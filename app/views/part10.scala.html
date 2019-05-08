@@ -216,8 +216,8 @@
                     @inputRadioGroup(
                         field = theForm("parking.rentSeparateParking"),
                         options = Seq(
-                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes1")),
-                            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no1"))
+                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes.ydw")),
+                            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no.nac.ydw"))
                         ),
                         dataAttributes = Seq(("true", "data-show-field", "true")),
                         args = Seq(

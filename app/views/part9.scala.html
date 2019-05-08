@@ -78,8 +78,8 @@
         @inputRadioGroup(
           field = theForm("negotiatingNewRent"),
           options = Seq(
-            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes7")),
-            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no7"))
+            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes.ydw.ydy")),
+            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no.nac.ydw.ydy"))
           ),
           args = Seq(
             '_showConstraints -> false,
