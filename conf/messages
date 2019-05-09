@@ -228,6 +228,7 @@ label.propertyRentedBy.agent=Does your client pay rent on the property?
 label.propertyRentedByYou=Do you pay rent on the property?
 label.propertyRentedByYou.agent=Does your client pay rent on the property?
 label.propertyType=What is the property used for?
+label.occupierType=Who occupies the property?
 label.occupierCompanyName=Company name
 label.noJs.occupierCompanyName=Answer this only if you''ve selected ''A company''
 label.noJs.firstOccupationDate=Answer this only if you''ve selected ''One or more individuals'' or ''A company''
