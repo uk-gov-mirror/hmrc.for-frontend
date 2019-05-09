@@ -236,8 +236,8 @@ label.propertyIsSublet.agent=A yw''ch cleient yn gosod (neu’n isosod) yr eiddo
 hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ''Nac ydy''. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
 label.sublet.tenantFullName=Enw eich tenant
 label.sublet.tenantFullName.agent=Enw''r tenant
-label.sublet.subletPropertyPartDescription=Pa ran o''r eiddo rydych yn ei hisosod?
-label.sublet.subletPropertyPartDescription.agent=Pa ran o''r eiddo s''n cael ei gosod neu isosod?
+label.sublet.subletPropertyPartDescription=Pa ran o''r eiddo rydych yn ei gosod neu isosod?
+label.sublet.subletPropertyPartDescription.agent=Pa ran o''r eiddo sy''n cael ei gosod neu isosod?
 hint.sublet.subletPropertyPartDescription=Er enghraifft, gall hyn gynnwys ardaloedd a gaiff eu defnyddio gan fusnesau eraill, hysbysfyrddau, fflatiau neu fastiau ffonau symudol
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy''n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
