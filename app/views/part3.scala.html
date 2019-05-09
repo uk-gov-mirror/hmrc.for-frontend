@@ -133,8 +133,8 @@
               @inputRadioGroup(
                   field = theForm("propertyOwnedByYou"),
                   options = Seq(
-                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes1")),
-                      "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no1"))
+                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes.ydw")),
+                      "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no.nac.ydw"))
                   ),
                   dataAttributes = Seq(("false", "data-show-field", "true")),
                   args = Seq(
@@ -153,8 +153,8 @@
               @inputRadioGroup(
                   field = theForm("propertyRentedByYou"),
                   options = Seq(
-                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes1")),
-                      "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no1"))
+                      "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes.ydw")),
+                      "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no.nac.ydw"))
                   ),
                   dataAttributes = Seq(("false", "data-show-details", "true")),
                   args = Seq(
