@@ -1,0 +1,99 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import helpers.summary._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+
+@(propertySummary: Option[Summary])(implicit requestHeader: RequestHeader, messages: Messages)
+
+
+    @headExtra = {
+    @views.html.includes.stylesheets()
+    }
+
+    @bodyEnd = {
+    @views.html.includes.javascripts()
+
+    }
+
+    @main(title = Messages("project.name") + " - " + Messages("section1.heading"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = true, summary = propertySummary) {
+
+        @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
+            <main id="content" tabindex="-1">
+                <h1 class="form-title heading-large form-title-group">
+                    <span class="section-title">About you</span>
+                </h1>
+
+                <div class="grid-row">
+                    <div class="column-full">
+
+                        <div id="fullName" class=" form-group ">
+                            <label class="form-label-bold" for="fullName_text"><span class="label-span">Your full name</span>
+                                <span class="visuallyhidden">(required)</span>
+                            </label>
+                            <input type="text" id="fullName_text" value="" name="fullName" class="form-control">
+                        </div>
+
+
+                        <div id="contactDetails_email1" class="form-group">
+                            <label class="form-label-bold" for="contactDetails_email1_text"><span class="label-span">Email</span>
+                                <span class="visuallyhidden">(required)</span>
+                            </label>
+                            <input type="text" id="contactDetails_email1_text" value="" name="contactDetails.email1" class="form-control"/>
+                        </div>
+
+                        <div id="contactDetails_phone" class="form-group">
+                            <label class="form-label-bold" for="contactDetails_phone_text"><span class="label-span">
+                                Phone number</span>
+
+                                <span class="visuallyhidden">(required)</span>
+                            </label>
+                            <input type="text" id="contactDetails_phone_text" value="" name="contactDetails.phone" class="form-control"/>
+                        </div>
+
+                        <div id="contactDetails_phone" class="form-group">
+                            <label class="form-label-bold" for="contactDetails_details">
+                                <span class="label-span">
+                                    Please provide any further details<br />
+                                    (including new occupier)
+                                </span>
+
+
+                                <span class="visuallyhidden">(required)</span>
+                            </label>
+                            <textarea id="contactDetails_details" value="" name="contactDetails.details" class="form-control" rows="8"></textarea>
+                        </div>
+
+                        <a id="continue" href="/sending-rental-information/declaration" class="button" role="button">Submit</a>
+
+                    </div>
+                </div>
+
+            </main>
+
+            @includes.continueButtonStickyFooter()
+
+        }
+
+
+    }
