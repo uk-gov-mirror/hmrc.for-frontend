@@ -647,10 +647,7 @@ hint.vacated.form=<p>Anfonwch:</p>\
   <li>Eich rhif teleffôn cyswllt</li>\
   </ul>\
   </p>\
-  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk\
-?subject=Ffurflen cyn-berchennog/ddeiliad\
-&body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. \
-Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law.">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
+  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="ga(‘send’,’event’,’Mailto Link Clicked’,’Email link clicked - Welsh’,’No relationship to property - Welsh’);">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
 
 #TYPES
 ###############################
