@@ -219,6 +219,7 @@ label.propertyRentedBy.agent=A yw eich cleient yn talu rhent am yr eiddo?
 label.propertyRentedByYou=A ydych yn talu rhent am yr eiddo?
 label.propertyRentedByYou.agent=A yw eich cleient yn talu rhent am yr eiddo?
 label.propertyType=At ba ddiben y defnyddir yr eiddo?
+label.occupierType=Pwy yw meddiannydd yr eiddo?
 label.occupierCompanyName=Enw''r cwmni
 label.noJs.occupierCompanyName=Dylech ond ateb hyn os ydych wedi dewis ‘Cwmni’
 label.noJs.firstOccupationDate=Dylech ond ateb hyn os ydych wedi dewis ‘Un neu fwy o unigolion’ neu ‘Cwmni’
@@ -235,12 +236,12 @@ label.propertyIsSublet.agent=A yw''ch cleient yn gosod (neu’n isosod) yr eiddo
 hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ''Nac ydy''. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
 label.sublet.tenantFullName=Enw eich tenant
 label.sublet.tenantFullName.agent=Enw''r tenant
-label.sublet.subletPropertyPartDescription=Pa ran o''r eiddo rydych yn ei hisosod?
-label.sublet.subletPropertyPartDescription.agent=Pa ran o''r eiddo s''n cael ei gosod neu isosod?
+label.sublet.subletPropertyPartDescription=Pa ran o''r eiddo rydych yn ei gosod neu isosod?
+label.sublet.subletPropertyPartDescription.agent=Pa ran o''r eiddo sy''n cael ei gosod neu isosod?
 hint.sublet.subletPropertyPartDescription=Er enghraifft, gall hyn gynnwys ardaloedd a gaiff eu defnyddio gan fusnesau eraill, hysbysfyrddau, fflatiau neu fastiau ffonau symudol
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy''n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
-label.sublet.annualRent=Faint o rent rydych yn ei gael bob blwyddyn am yr is-osodiad hwn heb gynnwys TAW?
+label.sublet.annualRent=Faint o rent rydych yn ei gael bob blwyddyn am y gosodiad neu''r is-osodiad hwn heb gynnwys TAW?
 label.sublet.annualRent.agent=Faint o rent mae eich cleient yn ei gael bob blwyddyn am y gosodiad neu''r is-osodiad hwn heb gynnwys TAW?
 label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod heb gynnwys TAW
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
@@ -272,10 +273,10 @@ label.landlordFullName=Enw llawn y landlord
 hint.landlordConnect=Busnes neu gysylltiad arall er enghraifft efallai eich bod chi/eich cleient a''r landlord yn bartneriaid busnes; neu efallai bod y cwmni sy''n rhentu''r eiddo yn gwmni daliannol neu''n is-gwmni i''r landlord.
 label.landlordConnectText=Eich cysylltiad â''r landlord
 label.landlordConnectText.agent=Eu cysylltiad â''r landlord
-label.landlordConnectType=Beth yw''r cysylltiad rhyngoch chi a''r landlord?
-label.landlordConnectType.agent=Beth yw''r cysylltiad rhwng eich cleient a''r landlord?
+label.landlordConnectType=Ar wahân i''ch perthynas fel landlord a thenant, a oes gennych gysylltiad personol neu fusnes?
+label.landlordConnectType.agent=Ar wahân i berthynas landlord/tenant eich cleient, a oes unrhyw gysylltiad personol neu fusnes?
 label.LandlordConnectionTypes=Ar wahân i''ch perthynas fel landlord a thenant, a oes gennych gysylltiad personol neu fusnes?
-label.LandlordConnectionTypes.agent=Ar wahân i''w perthynas fel landlord a thenant, a oes gan eich cleient gysylltiad personol neu fusnes â''i landlord?
+label.LandlordConnectionTypes.agent=Ar wahân i berthynas landlord/tenant eich cleient, a oes unrhyw gysylltiad personol neu fusnes?
 label.overseas=A oes ganddynt gyfeiriad tramor?
 label.landlordAddress.buildingNameNumber=Enw neu rif yr adeilad
 label.landlordAddress.street1=Ail linell y cyfeiriad
@@ -306,26 +307,16 @@ hint.writtenAgreement.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i''r rha
 hint.writtenAgreement.steppedDetailsYear.agent=Mae''r rhain i''w gweld ym mhrydles neu gytundeb ysgrifenedig eich cleient fel arfer
 label.leaseAgreementType=Pa fath o brydles neu gytundeb sydd gennych?
 label.leaseAgreementType.agent=Pa fath o gytundeb sydd gan eich cleient?
-
-# Pryd gwnaeth eich prydles neu’ch cytundeb tenantiaeth presennol ddechrau?
-label.writtenAgreement.startDate=Pryd gwnaeth eich prydles neu’ch cytundeb <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> ddechrau?
-
-# Pryd gwnaeth prydles neu gytundeb tenantiaeth presennol eich cleient ddechrau?
-label.writtenAgreement.startDate.agent=Pryd gwnaeth prydles neu gytundeb <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> eich cleient ddechrau?
-
-label.writtenAgreement.startDate.leaseTenancy=Pryd gwnaeth eich prydles neu’ch cytundeb tenantiaeth presennol ddechrau?
-label.writtenAgreement.startDate.agent.leaseTenancy=Pryd gwnaeth prydles neu gytundeb tenantiaeth presennol eich cleient ddechrau?
+label.writtenAgreement.startDate=Pryd dechreuodd eich <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span>?
+label.writtenAgreement.startDate.agent=Pryd dechreuodd <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> eich cleient?
+label.writtenAgreement.startDate.leaseTenancy=Pryd dechreuodd eich prydles sengl neu gytundeb tenantiaeth?
+label.writtenAgreement.startDate.agent.leaseTenancy=Pryd dechreuodd prydles sengl neu gytundeb tenantiaeth eich cleient?
 label.writtenAgreement.startDate.licenceOther=Pryd dechreuodd eich trwydded neu gytundeb ysgrifenedig?
 label.writtenAgreement.startDate.agent.licenceOther=Pryd dechreuodd trwydded neu gytundeb ysgrifenedig eich cleient?
-
-# A yw’ch prydles neu’ch cytundeb tenantiaeth presennol yn benagored?
-label.writtenAgreement.rentOpenEnded=A yw’ch prydles neu’ch cytundeb <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> yn benagored?
-
-# A yw prydles neu gytundeb tenantiaeth presennol eich cleient yn benagored?
-label.writtenAgreement.rentOpenEnded.agent=A yw prydles neu gytundeb <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> eich cleient yn benagored?
-
-label.writtenAgreement.rentOpenEnded.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn benagored?
-label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=A yw prydles neu gytundeb tenantiaeth presennol eich cleient yn benagored?
+label.writtenAgreement.rentOpenEnded=A yw eich <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> yn benagored?
+label.writtenAgreement.rentOpenEnded.agent=A yw <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> eich cleient yn benagored?
+label.writtenAgreement.rentOpenEnded.leaseTenancy=A yw eich prydles sengl neu gytundeb tenantiaeth yn benagored?
+label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn benagored?
 label.writtenAgreement.rentOpenEnded.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn benagored?
 label.writtenAgreement.rentOpenEnded.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn benagored?
 label.writtenAgreement.leaselength=Am ba hyd y rhoddwyd eich <span class="agreementType"> prydles trwydded neu gytundeb ysgrifenedig</span>?
@@ -347,7 +338,7 @@ details.question.steppedRent=Beth yw rhent gris?
 details.answer.steppedRent=Rhent grisiog yw cytundeb ymlaen llaw o ran sut y bydd y rhent yn newid dros y blynyddoedd tan yr adolygiad rhent nesaf neu ddyddiad adnewyddu''r brydles
 details.answer.steppedRent.agent=Mae rhent grisiog yn galluogi''ch cleient i wybod ymlaen llaw sut y bydd y rhent yn newid dros y blynyddoedd tan yr adolygiad rhent nesaf neu''r dyddiad adnewyddu''r brydles.
 details.question.isBreakClause=Beth yw cymal torri?
-details.answer.isBreakClause=Mae cymal terfynu yn caniatáu i''r landlord neu''r tenant ddod â''r denantiaeth i ben yn gynnar. Bydd manylion y cymal terfynu i''w gweld yn y brydles neu''r cytundeb ysgrifenedig fel arfer.
+details.answer.isBreakClause=Mae cymal torri yn caniatáu i''r landlord neu''r tenant ddod â''r denantiaeth i ben yn gynnar. Bydd manylion y cymal torri i''w gweld yn y brydles neu''r cytundeb ysgrifenedig fel arfer.
 details.answer.isBreakClause.agent=Mae cymal torri yn caniatáu i''r landlord neu''r tenant ddod â''r denantiaeth i ben yn gynnar. Bydd manylion y cymal torri i''w gweld yn y brydles neu''r cytundeb ysgrifenedig fel arfer.
 label.steppedDetails.stepFrom=Gris o
 label.steppedDetails.stepTo=Gris i
@@ -367,9 +358,9 @@ hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, rh
 section7.heading=Adolygiadau rhent
 label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw''ch prydles neu''ch cytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?</span>
 label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?
-label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
+label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
-label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles neu gytundeb tenantiaeth presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
+label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn cynnwys unrhyw adolygiadau rhent?
 hint.leaseContainsRentReviews=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae''n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Nodwch y cyfnod rhwng adolygiadau rhent
 label.rentReviewDetails.lastReviewDate=Beth oedd dyddiad yr adolygiad diwethaf?
@@ -477,7 +468,7 @@ label.capitalReceivedDetails.capitalSum=Swm cyfalaf a gafwyd heb gynnwys TAW
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
 hint.receiveCapitalSum=Mae hwn yn swm o arian a roddwyd gan y landlord neu''r tenant blaenorol ar ddechrau''r brydles.
 hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd eich cyfnod di-rent am lai nag 1 mis, atebwch “1” os gwelwch yn dda gan roi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i chi?''
-hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch “1” a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i''ch cleient?''
+hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i''ch cleient?''
 details.question.capitalSum=Beth yw swm cyfalaf?
 details.answer.capitalSum=Dyma swm o arian a delir i''r landlord er mwyn cymryd prydles neu gytundeb. Nid arian a delir am y busnes ei hun yw hwn (er enghraifft nid yw''n cynnwys unrhyw symiau a delir ar gyfer ewyllys da, gosodiadau a ffitiadau masnachol na symiau a delir fel blaendaliadau neu fondiau ad-daladwy)
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
@@ -489,7 +480,6 @@ label.noJs.rentFreePeriodDetails.rentFreePeriodLength=Dylech ond ateb hyn os ydy
 #SECTION 12
 ###############################
 section12.heading=Cyfrifoldebau a chostau
-section12.under.terms.text=O dan delerau''r brydles, y drwydded neu''r cytundeb:
 label.responsibleOutsideRepairs=Pwy sy''n gyfrifol am dalu am atgyweiriadau allanol?
 label.responsibleInsideRepairs=Pwy sy''n gyfrifol am dalu am atgyweiriadau mewnol?
 label.responsibleBuildingInsurance=Pwy sy''n gyfrifol am dalu yswiriant adeiladau?
@@ -516,7 +506,7 @@ label.propertyAlterations=A ydych wedi cynnal unrhyw addasiadau mawr i''r eiddo?
 label.propertyAlterations.agent=A yw eich cleient wedi cynnal unrhyw addasiadau mawr i''r eiddo?
 hint.propertyAlterations=Rhowch wybod i ni am unrhyw waith adeiladu neu welliannau a gyflawnwyd (er enghraifft, dodrefnu yn y lle cyntaf, atgyweiriadau mawr, adnewyddiadau, estyniadau, dymchweliadau, lloriau mesanîn). Dewiswch ''Nac ydw'' os dechreuodd y brydles dros 15 mlynedd yn ôl.
 hint.propertyAlterations.agent=Rhowch wybod i ni am unrhyw waith adeiladu neu welliannau a gyflawnwyd (er enghraifft, dodrefnu yn y lle cyntaf, atgyweiriadau mawr, adnewyddiadau, estyniadau, dymchweliadau, lloriau mesanîn). Dewiswch ''Nac ydy'' os dechreuodd y brydles dros 15 mlynedd yn ôl.
-label.propertyAlterationsDetails.description=Rhowch fanylion y gwaith a wnaed
+label.propertyAlterationsDetails.description=Gwaith a wnaed
 label.propertyAlterationsDetails.cost=Cyfanswm cost y gwaith (ac eithrio TAW)
 label.propertyAlterationsDetails=Amcan o ddyddiad y gwaith
 label.propertyAlterationsDetails.date=Amcan o ddyddiad y gwaith
@@ -577,7 +567,7 @@ saveForLater.info.p.2=Bydd angen eich cyfeirnod a''r cod post a ddangosir ar y l
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
-saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch: 
+saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch:
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
 saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
 saveForLater.preHeaderTimeout=At ddibenion diogelwch, rydych chi wedi cael eich allgofnodi, ond mae eich gwybodaeth wedi’i chadw.
@@ -677,7 +667,7 @@ contactType.email=E-bost
 contactType.phone=Ffôn
 contactType.both=Y ddau
 leaseAgreementTypes.verbal=Dim cytundeb neu gytundeb ar lafar
-leaseAgreementTypes.leaseTenancy=Prydles neu gytundeb tenantiaeth
+leaseAgreementTypes.leaseTenancy=Prydles sengl neu gytundeb tenantiaeth
 leaseAgreementTypes.licenceOther=Trwydded neu fath arall o gytundeb ysgrifenedig
 label.reviewIntervalTypes=Pa mor aml y caiff y rhent ei adolygu?
 reviewIntervalType.every3Years=Bob 3 blynedd
@@ -733,10 +723,10 @@ error.maxLength=Mae''n rhaid i hwn fod hyd at uchafswm o {0} o nodau
 error.minLength=Hyd lleiaf yw {0}
 error.invalid_postcode=Nodwch god post dilys yn y DU
 error.invalid_currency = Rhaid i hyn fod nifer uwch na''r 0
-error.invalid_phone=Mae''n rhaid i hwn ddefnyddio rhifau a - ( ) + 
+error.invalid_phone=Mae''n rhaid i hwn ddefnyddio rhifau a - ( ) +
 error.email=Mae''n rhaid i hwn fod yn gyfeiriad e-bost dilys
 error.invalid_date = Rhowch ddyddiad dilys
-error.date_must_be_in_past=Mae''n rhaid i''r dyddiad fod yn y gorffennol 
+error.date_must_be_in_past=Mae''n rhaid i''r dyddiad fod yn y gorffennol
 error.number = Mae''n rhaid i hwn ddefnyddio rhifau
 error.invalid_number = Mae''n rhaid i hwn ddefnyddio rhifau
 error.date_before_1900=Mae''n rhaid i hwn fod o 1900 ymlaen
@@ -785,7 +775,7 @@ content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ff
 hint.if0thenenter1=Os nad oedd cost, nodwch ''0'' a rhoi gwybod i ni pam o dan ''Rhowch fanylion y gwaith a gyflawnwyd.''
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent y bydd eich cleient yn ei dalu, neu wedi''i dalu, yn ystod y cyfnod rhent grisiog hwn, ac eithrio TAW
 section2.heading.1=Oherwydd diogelwch data, ni allwn gyn-boblogi''r ffurflen hon
-label.writtenAgreement.rentOpenEnded.help=Dewiswch ''Nac ydy'' os yw'n rhedeg am dymor wedi''i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno
+label.writtenAgreement.rentOpenEnded.help=Dewiswch ''Nac ydy'' os yw''n rhedeg am dymor wedi''i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno
 
 #TIMEOUT
 #############################

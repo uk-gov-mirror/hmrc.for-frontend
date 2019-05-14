@@ -55,6 +55,8 @@ object ForConfig {
     val welshBody = getString("loginPageNotice.welshBody").replaceAll("_", " ")
   }
 
+  lazy val optimizelyId = config.getString(s"optimizely.projectId").getOrElse("")
+
   private def prodOnlyConf(key: String) = getString(key)
 
   private def getString(key: String) = config.getString(key).getOrElse(throw ConfigSettingMissing(key))
