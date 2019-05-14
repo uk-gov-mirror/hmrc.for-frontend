@@ -663,7 +663,7 @@ hint.vacated.form=<p>Please send:</p>\
   <li>Your contact telephone number</li>\
   </ul>\
   </p>\
-  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course." ga-event-category="Mailto Link Clicked" ga-event-action="Email link clicked" ga-event-label="No relationship to property">formhelp@voa.gsi.gov.uk</a></p>
+  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course." ga-on="click" ga-event-category="Mailto Link Clicked" ga-event-action="Email link clicked" ga-event-label="No relationship to property">formhelp@voa.gsi.gov.uk</a></p>
 
 #TYPES
 ###############################
