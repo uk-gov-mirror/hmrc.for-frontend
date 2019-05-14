@@ -41,7 +41,7 @@
         @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
             <main id="content" tabindex="-1">
                 <h1 class="form-title heading-large form-title-group">
-                    <span class="section-title">About you</span>
+                    <span class="section-title">Not connected with property</span>
                 </h1>
 
                 <div class="grid-row">
@@ -74,17 +74,16 @@
                         <div id="contactDetails_phone" class="form-group">
                             <label class="form-label-bold" for="contactDetails_details">
                                 <span class="label-span">
-                                    Please provide any further details<br />
-                                    (including new occupier)
+                                    Please provide any further details
                                 </span>
-
+                                <span class="form-hint">For example the name of the new occupier</span>
 
                                 <span class="visuallyhidden">(required)</span>
                             </label>
-                            <textarea id="contactDetails_details" value="" name="contactDetails.details" class="form-control" rows="8"></textarea>
+                            <textarea id="contactDetails_details" value="" name="contactDetails.details" class="form-control" rows="4"></textarea>
                         </div>
 
-                        <a id="continue" href="/sending-rental-information/declaration" class="button" role="button">Submit</a>
+                        <a id="continue" href="/sending-rental-information/notConnectedSummary" class="button" role="button">Submit</a>
 
                     </div>
                 </div>

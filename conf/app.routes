@@ -79,3 +79,4 @@ GET         /inpage-vacated-form       controllers.Application.inpageVacatedForm
 GET         /inpage-AfterSubmissionFeedback-form      controllers.feedback.Survey.inpageAfterSubmissionFeedbackForm
 
 GET         /notConnected              controllers.NotConnectedController.onPageView
+GET         /notConnectedSummary       controllers.NotConnectedController.onPageSubmitView()
