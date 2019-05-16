@@ -28,7 +28,7 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent")), 10, "partRent") {
-    @displayBoolean(p10.partRent, "2")
+    @displayBoolean(p10.partRent, "9")
 }
 
 @summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
@@ -36,11 +36,11 @@
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {
-    @displayBoolean(p10.landOnly, "8")
+    @displayBoolean(p10.landOnly, "9")
 }
 
 @summaryBlock(Messages(if(isAgent) Messages("label.shellUnit.agent") else Messages("label.shellUnit")), 10, "shellUnit") {
-    @displayBoolean(p10.shellUnit, "8")
+    @displayBoolean(p10.shellUnit, "9")
 }
 
 @if(p10.rentDetails) {

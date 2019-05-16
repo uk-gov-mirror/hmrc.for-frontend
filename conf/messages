@@ -625,6 +625,24 @@ label.print.summary=Print summary
 label.summary.text=Check your answers before submitting your form
 label.print.printorsave=Print this page
 label.summary.submit=Please continue to submit your details
+label.yes1=Yes
+label.no1=No
+label.yes2=Yes
+label.no2=No
+label.yes3=Yes
+label.no3=No
+label.yes4=Yes
+label.no4=No
+label.yes5=Yes
+label.no5=No
+label.yes6=Yes
+label.no6=No
+label.yes7=Yes
+label.no7=No
+label.yes8=Yes
+label.no8=No
+label.yes9=Yes
+label.no9=No
 
 #PDF
 ###############################
