@@ -613,6 +613,24 @@ label.print.summary=Argraffu crynodeb
 label.summary.text=Archwiliwch eich atebion cyn cyflwyno eich ffurflen
 label.print.printorsave=Argraffwch y dudalen
 label.summary.submit=Parhewch i anfon eich manylion os gwelwch yn dda
+label.yes1=Ydw
+label.no1=Nac ydw
+label.yes2=Ydy
+label.no2=Nac ydy
+label.yes3=Oes
+label.no3=Nac oes
+label.yes4=Ceir
+label.no4=Na cheir
+label.yes5=Gall
+label.no5=Na all
+label.yes6=Do
+label.no6=Naddo
+label.yes7=Ydyn
+label.no7=Nac ydyn
+label.yes8=Oedd
+label.no8=Nac oedd
+label.yes9=Ie
+label.no9=Nage
 
 #PDF
 ###############################

@@ -23,7 +23,7 @@
 @(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section13.heading")</h2></li>
 @summaryBlock(Messages(if(isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")), 13, "propertyAlterations") {
-    @displayBoolean(p13.propertyAlterations, "6")
+    @displayBoolean(p13.propertyAlterations, if(isAgent) "2" else "1")
 }
 
 @if(p13.propertyAlterations) {
