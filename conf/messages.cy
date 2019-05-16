@@ -629,7 +629,7 @@ label.yes7=Ydyn
 label.no7=Nac ydyn
 label.yes8=Oedd
 label.no8=Nac oedd
-label.yes9=Le
+label.yes9=Ie
 label.no9=Nage
 
 #PDF
