@@ -506,7 +506,6 @@ section13.heading=Addasiadau a gwelliannau
 label.propertyAlterations=A ydych wedi cynnal unrhyw addasiadau mawr i''r eiddo?
 label.propertyAlterations.agent=A yw eich cleient wedi cynnal unrhyw addasiadau mawr i''r eiddo?
 hint.propertyAlterations=Rhowch wybod i ni am unrhyw waith adeiladu neu welliannau a gyflawnwyd (er enghraifft, dodrefnu yn y lle cyntaf, atgyweiriadau mawr, adnewyddiadau, estyniadau, dymchweliadau, lloriau mesanîn). Dewiswch ''Nac ydw'' os dechreuodd y brydles dros 15 mlynedd yn ôl.
-hint.propertyAlterations.agent=Rhowch wybod i ni am unrhyw waith adeiladu neu welliannau a gyflawnwyd (er enghraifft, dodrefnu yn y lle cyntaf, atgyweiriadau mawr, adnewyddiadau, estyniadau, dymchweliadau, lloriau mesanîn). Dewiswch ''Nac ydy'' os dechreuodd y brydles dros 15 mlynedd yn ôl.
 label.propertyAlterationsDetails.description=Rhowch fanylion y gwaith a wnaed
 label.propertyAlterationsDetails.cost=Cyfanswm cost y gwaith (ac eithrio TAW)
 label.propertyAlterationsDetails=Amcan o ddyddiad y gwaith
