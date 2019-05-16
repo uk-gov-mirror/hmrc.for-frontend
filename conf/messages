@@ -283,7 +283,7 @@ label.landlordConnectText.agent=Their connection to the landlord
 label.landlordConnectType=How are you connected to the landlord?
 label.landlordConnectType.agent=How is your client connected to the landlord?
 label.LandlordConnectionTypes=Aside from your relationship as landlord and tenant, do you have any personal or business connection?
-label.LandlordConnectionTypes.agent=Aside from your client''s landlord/tenant relationship, do they have any personal or business connection?
+label.LandlordConnectionTypes.agent=Aside from their relationship as landlord and tenant, does your client have any personal or business connection to their landlord?
 label.overseas=Do they have an overseas address?
 label.landlordAddress.buildingNameNumber=Building name or number
 label.landlordAddress.street1=Address line 2
@@ -316,15 +316,15 @@ label.leaseAgreementType=What type of lease or agreement do you have?
 label.leaseAgreementType.agent=What type of agreement does your client have?
 label.writtenAgreement.startDate=When did your <span class="agreementType">lease, licence or written</span> agreement start?
 label.writtenAgreement.startDate.agent=When did your client''s <span class="agreementType">lease, licence or written</span> agreement start?
-label.writtenAgreement.startDate.leaseTenancy=When did your single lease or tenancy agreement start?
-label.writtenAgreement.startDate.agent.leaseTenancy=When did your client''s single lease or tenancy agreement start?
+label.writtenAgreement.startDate.leaseTenancy=When did your current lease or tenancy agreement start?
+label.writtenAgreement.startDate.agent.leaseTenancy=When did your client''s current lease or tenancy agreement start?
 label.writtenAgreement.startDate.licenceOther=When did your license or written agreement start?
-label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?0
+label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?
 label.writtenAgreement.rentOpenEnded=Is your <span class="agreementType">lease, license or written</span> agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent=Is your client''s <span class="agreementType">lease, licence or written</span> agreement open ended?
 label.writtenAgreement.rentOpenEnded.help=Select ''No'' if it runs for a defined term or has an agreed end date
-label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your single lease or tenancy agreement open ended?
-label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client''s single lease or tenancy agreement open ended?
+label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your current lease or tenancy agreement open ended?
+label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client''s current lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.licenceOther=Is your license or written agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent.licenceOther=Is your client''s licence or written agreement open ended?
 label.writtenAgreement.leaselength=How long was your <span class="agreementType">lease, license or written</span> agreement granted for?
@@ -345,7 +345,7 @@ label.noJs.steppedrent=Answer this only if you''ve selected ''Yes''
 details.answer.steppedRent=A stepped rent is an agreement in advance of how the rent will change over the years until the next rent review or lease renewal date
 details.answer.steppedRent.agent=A stepped rent lets your client know in advance how the rent will change over the years until the next rent review or lease renewal date
 details.answer.isBreakClause=A break clause allows the landlord or tenant to end the tenancy early. You will usually find details of the break clause in the lease or written agreement.
-details.answer.isBreakClause.agent=A break clause allows your client and/or the landlord to end the tenancy early. Your client will usually find details of the break clause in the lease or written agreement
+details.answer.isBreakClause.agent=A break clause allows the landlord or tenant to end the tenancy early. You will usually find details of the break clause in the lease or written agreement.
 label.steppedDetails.stepFrom=Step from
 label.steppedDetails.stepTo=Step to
 label.steppedDetails.amount=Amount
@@ -365,9 +365,9 @@ hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details
 section7.heading=Rent reviews
 label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your lease or tenancy agreement include any rent reviews?</span>
 label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
-label.leaseContainsRentReviews.agent.licenceOther=Does your client''s licence or written agreement include any rent reviews?
+label.leaseContainsRentReviews.agent.licenceOther=Does your client''s current licence or written agreement include any rent reviews?
 label.leaseContainsRentReviews.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
-label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s single lease or tenancy agreement include any rent reviews?
+label.leaseContainsRentReviews.agent.leaseTenancy=Does your client''s current lease or tenancy agreement include any rent reviews?
 hint.leaseContainsRentReviews=A rent review is a time when a change to the rent can be discussed by the landlord and the tenant. It''s different from a stepped rent which has been agreed at the beginning of the lease or tenancy.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
 label.rentReviewDetails.lastReviewDate=When was the last review date?
@@ -487,6 +487,7 @@ label.noJs.rentFreePeriodDetails.rentFreePeriodLength=Answer this only if you''v
 #SECTION 12
 ###############################
 section12.heading=Responsibilities and costs
+section12.under.terms.text=Under the terms of the lease, licence or agreement:
 label.responsibleOutsideRepairs=Who is responsible for paying for repairs outside?
 label.responsibleInsideRepairs=Who is responsible for paying for repairs inside?
 label.responsibleBuildingInsurance=Who is responsible for paying for buildings insurance?
@@ -513,7 +514,7 @@ section13.heading=Alterations and improvements
 label.propertyAlterations=Have you carried out any major alterations to the property?
 label.propertyAlterations.agent=Has your client carried out any major alterations to the property?
 hint.propertyAlterations=Please tell us about any building or improvement works carried out (for example: initial fitting out, major repairs, refurbishments, extensions, demolitions, mezzanine floors). Select ''No'' if the lease began more than 15 years ago.
-label.propertyAlterationsDetails.description=Work carried out
+label.propertyAlterationsDetails.description=Provide details of work carried out
 label.propertyAlterationsDetails.cost=Total cost of work (excluding VAT)
 label.propertyAlterationsDetails=Approximate date of works
 label.propertyAlterationsDetails.date=Approximate date of works
@@ -655,7 +656,7 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 #VACATED FORM
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
-label.help.title.vacated=You do not have a current relationship with this property
+label.help.title.vacated=You do not have a current relatcionship with this property
 hint.vacated.form=<p>Please send:</p>\
   <p>\
   <ul class="list-bullet">\
@@ -663,7 +664,7 @@ hint.vacated.form=<p>Please send:</p>\
   <li>Your contact telephone number</li>\
   </ul>\
   </p>\
-  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course." ga-on="click" ga-event-category="Mailto Link Clicked" ga-event-action="Email link clicked" ga-event-label="No relationship to property">formhelp@voa.gsi.gov.uk</a></p>
+  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course. " target="_blank" id="mailto" onclick="ga(‘send’,’event’,’Mailto Link Clicked’,’Email link clicked - English’,’No relationship to property - English’);">formhelp@voa.gsi.gov.uk</a></p>
 
 #TYPES
 ###############################
@@ -680,7 +681,7 @@ contactType.email=Email
 contactType.phone=Phone
 contactType.both=Both
 leaseAgreementTypes.verbal= No agreement or a verbal agreement
-leaseAgreementTypes.leaseTenancy=A single lease or tenancy agreement
+leaseAgreementTypes.leaseTenancy=A lease or tenancy agreement
 leaseAgreementTypes.licenceOther=Licence or other type of written agreement
 label.reviewIntervalTypes=How often is the rent reviewed?
 reviewIntervalType.every3Years=Every 3 years
