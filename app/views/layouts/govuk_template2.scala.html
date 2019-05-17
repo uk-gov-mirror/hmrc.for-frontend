@@ -47,6 +47,15 @@
     <!-- End Google Tag Manager →
 
         <!------Optimizely----->
+    <script>
+     function gasend() {
+      ga('send','event',"Mailto Link Clicked","Email link clicked","No relationship to property");
+     }
+     function gasendWelsh() {
+      ga('send','event',"Mailto Link Clicked","Email link clicked","No relationship to property - Welsh");
+     }
+    </script>
+
     <script src="https://cdn.optimizely.com/js/@{current.configuration.getString("optimizely.projectId").getOrElse("")}.js"></script>
     <!------Optimizely Ends-->
 

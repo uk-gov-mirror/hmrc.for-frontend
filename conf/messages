@@ -674,7 +674,7 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 #VACATED FORM
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
-label.help.title.vacated=You do not have a current relatcionship with this property
+label.help.title.vacated=You do not have a current relationship with this property
 hint.vacated.form=<p>Please send:</p>\
   <p>\
   <ul class="list-bullet">\
@@ -682,7 +682,7 @@ hint.vacated.form=<p>Please send:</p>\
   <li>Your contact telephone number</li>\
   </ul>\
   </p>\
-  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course. " target="_blank" id="mailto" onclick="ga(‘send’,’event’,’Mailto Link Clicked’,’Email link clicked - English’,’No relationship to property - English’);">formhelp@voa.gsi.gov.uk</a></p>
+  <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course. " target="_blank" id="mailto" onclick="gasend()">formhelp@voa.gsi.gov.uk</a></p>
 
 #TYPES
 ###############################
