@@ -14,11 +14,16 @@
  * limitations under the License.
  *@
 
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
 @import models.pages.Summary
-@import _root_.views.html.helpers.{form, inputText, textarea}
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
 
-
-@(theForm: Form[NotConnectedProperty], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
     @views.html.includes.stylesheets()
@@ -38,15 +43,20 @@
 }
 
 
-@main(title = Messages("project.name") + " - " + Messages("section2.heading"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
+@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
 
     @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
         <main id="content" tabindex="-1">
+            <h1 class="form-title heading-large form-title-group">
+                @Messages("notConnected.heading")
+            </h1>
+
             @includes.errors(theForm, isAgent = false)
 
             <div class="grid-row">
                 <div class="column-full">
-                    <p>@Messages("notconnected.subheading")</p>
+                    <p>@Messages("notConnected.subheading")</p>
+
 
                     @helper.CSRF.formField
 
@@ -60,7 +70,7 @@
 
                     @inputText(
                     field = theForm("email"),
-                    '_label -> Messages("label.email"),
+                    '_label ->  Messages("label.email"),
                     '_labelClass -> "form-label-bold",
                     'class -> "form-control"
                     )
@@ -74,8 +84,9 @@
 
                     @textarea(
                     field = theForm("additionalInformation"),
-                    '_label -> Messages("label.additionalInformation"),
+                    '_label -> Messages("notConnected.additionalInformation"),
                     '_labelClass -> "form-label-bold",
+                    '_help -> Messages("notConnected.additionalInformationHelp"),
                     'class -> "form-control"
                     )
 

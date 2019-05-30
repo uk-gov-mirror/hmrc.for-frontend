@@ -16,38 +16,39 @@
 
 package controllers
 
+import actions.{RefNumAction, RefNumRequest}
 import form.MappingSupport
+import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
-import models.pages.Summary
-import models.serviceContracts.submissions.Address
-import org.joda.time.DateTime
-import play.api.Configuration
-import play.api.data.Form
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.mvc.{Action, Controller}
-import play.api.data._
+import models.pages.SummaryBuilder
+import org.apache.commons.lang3.StringUtils
 import play.api.data.Forms._
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
-import play.api.data.validation.Constraints._
-import uk.gov.voa.play.form.ConditionalMappings
-import uk.gov.voa.play.form.ConditionalMappings._
-import play.api.data.format.Formats._
+import play.api.data.{Form, _}
 import play.api.data.format.Formatter
+import play.api.data.validation.Constraints._
+import play.api.data.validation.{Constraint, Valid}
+import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.{Configuration, Logger}
+import playconfig.{FormPersistence, SessionId}
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration)(implicit val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class NotConnectedController @Inject()(configuration: Configuration)(implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
 
-  def stringOptionFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
+  val logger = Logger(classOf[NotConnectedController])
+
+  def atLeastOneKeyFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
+
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
-      if("" == data.get(key).getOrElse("")) {
-        if("" == data.get(anotherKey).getOrElse("")) {
-          Left(Seq(FormError(key, s"key.for.message.bundle${anotherKey}")))
+      if(data.get(key).exists(value => StringUtils.isBlank(value))) {
+        if(data.get(anotherKey).exists(value => StringUtils.isBlank(value))) {
+          Left(Seq(FormError(key, "notConnected.emailOrPhone")))
         }else {
           Right(None)
         }
       }else {
-        Right(Some(data(key)))
+        Right(Some(data(key).trim))
       }
     }
 
@@ -58,63 +59,61 @@ class NotConnectedController @Inject()(configuration: Configuration)(implicit va
   def atLeastOneMapping(anotherKey: String, constraints: Constraint[String]*): Mapping[Option[String]] = {
     def optConstraint[T](constraint: Constraint[T]): Constraint[Option[T]] = Constraint[Option[T]] { (parameter: Option[T]) =>
       parameter match {
-        case a: Some[T] => constraint.apply(a.get)
+        case Some(value) => constraint(value)
         case None => Valid
       }
     }
-
-    FieldMapping(key = "", constraints.map(optConstraint(_)))(stringOptionFormatter(anotherKey))
-    of[Option[String]](stringOptionFormatter(anotherKey))
+    FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
   }
-
 
   val form = Form(
     mapping(
-      "fullName" -> text,
+      "fullName" -> nonEmptyText,
       "email" -> atLeastOneMapping("phoneNumber", emailAddress),
       "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
       "additionalInformation" -> text
-    )(NotConnectedProperty.apply)(NotConnectedProperty.unapply)
+    )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
   )
 
-  val summary = Summary (
-      referenceNumber = "10643313719",
-      journeyStarted = DateTime.now(),
-      propertyAddress = None,
-      customerDetails = None,
-      theProperty = None,
-      sublet = None,
-      landlord = None,
-      lease = None,
-      rentReviews = None,
-      rentAgreement = None,
-      rent = None,
-      rentIncludes = None,
-      incentives = None,
-      responsibilities = None,
-      alterations = None,
-      otherFactors = None,
-      address = Option(Address("Unit 7", Option("Maltings Industrial Estate"), Option("Charmley"), "CH1 1AA"))
-      )
+  def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  def onPageView = Action { implicit request =>
-
-
-    Ok(views.html.notConnected(form, summary))
+  def findSummary(implicit request: RefNumRequest[_]) = {
+    repository.findById(SessionId(hc), request.refNum) flatMap {
+      case Some(doc) => Option(SummaryBuilder.build(doc))
+      case None => None
+    }
   }
 
-  def onPageSubmit = Action { implicit request =>
+  def onPageView = RefNumAction.async { implicit request =>
+    findSummary.map {
+      case Some(summary) => Ok(views.html.notConnected(form, summary))
+      case None => {
+        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        InternalServerError(views.html.error.error500())
+      }
+    }
+  }
 
-    form.bindFromRequest().fold({ formWithErrors =>
-      Ok(views.html.notConnected(formWithErrors, summary))
-    }, { formWithData =>
-      Ok("stored in db")
-    })
+  def onPageSubmit = RefNumAction.async { implicit request =>
+
+    findSummary.map {
+      case Some(summary) => {
+        form.bindFromRequest().fold({ formWithErrors =>
+          Ok(views.html.notConnected(formWithErrors, summary))
+        }, { formWithData =>
+          Ok("stored in db")
+        })
+      }
+      case None => {
+        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        InternalServerError(views.html.error.error500())
+      }
+    }
   }
 
 }
 
-case class NotConnectedProperty(
+case class NotConnectedPropertyForm(
                                  fullName: String,
                                  email: Option[String],
                                  phoneNumber: Option[String],

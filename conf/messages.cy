@@ -667,6 +667,20 @@ hint.vacated.form=<p>Anfonwch:</p>\
   </p>\
   <p>i <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="gasendWelsh()">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
 
+
+
+#NOT connected journey
+######################
+label.email=Cyfeiriad e-bost
+label.phoneNumber=Rhif ffôn
+notConnected.heading = Dileu eich cysylltiad â’r eiddo hwn
+notConnected.subheading = Byddwn yn defnyddio’r manylion hyn os bydd angen i ni gysylltu â chi
+notConnected.additionalInformation = Gwybodaeth ychwanegol
+notConnected.additionalInformationHelp = Er enghraifft, enw’r perchennog neu’r meddiannydd presennol
+notConnected.emailOrPhone = Rhaid i chi roi rhif ffôn neu gyfeiriad e-bost
+
+
+
 #TYPES
 ###############################
 contactAddressType.mainAddress=Eich Cyfeiriad
