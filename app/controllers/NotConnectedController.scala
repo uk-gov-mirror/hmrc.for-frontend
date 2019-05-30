@@ -17,11 +17,14 @@
 package controllers
 
 import actions.{RefNumAction, RefNumRequest}
-import form.MappingSupport
+import connectors.SubmissionConnector
+import form.{MappingSupport, NotConnectedPropertyForm}
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
-import models.pages.SummaryBuilder
+import models.pages.{Summary, SummaryBuilder}
+import models.serviceContracts.submissions.NotConnectedSubmission
 import org.apache.commons.lang3.StringUtils
+import org.joda.time.DateTime
 import play.api.data.Forms._
 import play.api.data.{Form, _}
 import play.api.data.format.Formatter
@@ -30,50 +33,18 @@ import play.api.data.validation.{Constraint, Valid}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
 import playconfig.{FormPersistence, SessionId}
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import models.serviceContracts.submissions.NotConnectedSubmission.form
+
+import scala.concurrent.Future
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration)(implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
+class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector)
+                                      (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
 
   val logger = Logger(classOf[NotConnectedController])
-
-  def atLeastOneKeyFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
-
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
-      if(data.get(key).exists(value => StringUtils.isBlank(value))) {
-        if(data.get(anotherKey).exists(value => StringUtils.isBlank(value))) {
-          Left(Seq(FormError(key, "notConnected.emailOrPhone")))
-        }else {
-          Right(None)
-        }
-      }else {
-        Right(Some(data(key).trim))
-      }
-    }
-
-    override def unbind(key: String, value: Option[String]): Map[String, String] = value.map(x => Map(key -> x))
-      .getOrElse(Map.empty[String, String])
-  }
-
-  def atLeastOneMapping(anotherKey: String, constraints: Constraint[String]*): Mapping[Option[String]] = {
-    def optConstraint[T](constraint: Constraint[T]): Constraint[Option[T]] = Constraint[Option[T]] { (parameter: Option[T]) =>
-      parameter match {
-        case Some(value) => constraint(value)
-        case None => Valid
-      }
-    }
-    FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
-  }
-
-  val form = Form(
-    mapping(
-      "fullName" -> nonEmptyText,
-      "email" -> atLeastOneMapping("phoneNumber", emailAddress),
-      "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
-      "additionalInformation" -> text
-    )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
-  )
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
@@ -96,13 +67,20 @@ class NotConnectedController @Inject()(configuration: Configuration)(implicit va
 
   def onPageSubmit = RefNumAction.async { implicit request =>
 
-    findSummary.map {
+    findSummary.flatMap {
       case Some(summary) => {
         form.bindFromRequest().fold({ formWithErrors =>
-          Ok(views.html.notConnected(formWithErrors, summary))
+          Future.successful(Ok(views.html.notConnected(formWithErrors, summary)))
         }, { formWithData =>
-          Redirect(routes.NotConnectedController.onConfirmationView)
-          //Ok(views.html.confirmNotConnected(summary))       //TODO redirect
+          submitToHod(formWithData, summary).map { _ =>
+            //TODO - invalidate session?
+            Redirect(routes.NotConnectedController.onConfirmationView)
+          }.recover {
+            case e: Exception => {
+              logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
+              InternalServerError(views.html.error.error500())
+            }
+          }
         })
       }
       case None => {
@@ -123,11 +101,17 @@ class NotConnectedController @Inject()(configuration: Configuration)(implicit va
     }
   }
 
-}
+  private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
+    val submission = NotConnectedSubmission(
+      summary.referenceNumber,
+      summary.address.get.toString,
+      submissionForm.fullName,
+      submissionForm.phoneNumber,
+      Option(submissionForm.additionalInformation),
+      submissionForm.email,
+      DateTime.now()
+    )
+    submissionConnector.submitNotConnected(summary.referenceNumber, submission)
+  }
 
-case class NotConnectedPropertyForm(
-                                 fullName: String,
-                                 email: Option[String],
-                                 phoneNumber: Option[String],
-                                 additionalInformation: String
-                               )
+}

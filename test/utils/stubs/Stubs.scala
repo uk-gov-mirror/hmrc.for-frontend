@@ -20,7 +20,7 @@ import connectors._
 import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
 import models.pages.Summary
-import models.serviceContracts.submissions.Submission
+import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import org.scalatest.Matchers
 import play.api.mvc.Request
 import playconfig.Audit
@@ -46,6 +46,8 @@ class StubSubmissionConnector extends SubmissionConnector with Matchers {
       case Some(x) => assert(x === sub)
     }
   }
+
+  override def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit] = ???
 }
 
 object StubSubmissionBuilder { def apply() = new StubSubmissionBuilder() }

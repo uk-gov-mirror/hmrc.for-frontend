@@ -17,9 +17,10 @@
 package controllers
 
 import config.ForConfig
-import connectors.{HODConnector, SubmissionConnector}
+import connectors.{HODConnector, HodSubmissionConnector, SubmissionConnector}
 import models._
 import org.joda.time.DateTime
+import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -37,6 +38,8 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 
 object AgentAPI extends Controller with HeaderValidator {
   implicit def hc(implicit request: Request[_]): HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, request.session)
+
+  lazy val submissionConnector = Play.current.injector.instanceOf(classOf[HodSubmissionConnector])
 
   def getDocs = Action { implicit request =>
     Ok(views.html.api.apidoc())
@@ -65,7 +68,7 @@ object AgentAPI extends Controller with HeaderValidator {
     for {
       lr <- HODConnector.verifyCredentials(refNum.dropRight(3), refNum.takeRight(3), postcode)
       hc = withAuthToken(request, lr.forAuthToken)
-      res <- SubmissionConnector.submit(refNum, submission)(hc)
+      res <- submissionConnector.submit(refNum, submission)(hc)
       _ <- Audit("APISubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString))
     } yield {
       res.header.status match {

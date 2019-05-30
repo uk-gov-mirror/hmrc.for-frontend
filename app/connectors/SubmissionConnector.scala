@@ -18,9 +18,12 @@ package connectors
 
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
+import com.google.inject.ImplementedBy
 import config.ForConfig
-import helpers.RunModeHelper
-import models.serviceContracts.submissions.Submission
+import javax.inject.{Inject, Singleton}
+import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
+import play.api.Mode.Mode
+import play.api.{Application, Configuration, Play}
 import play.api.http.HttpEntity
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.JsValue
@@ -30,7 +33,8 @@ import uk.gov.hmrc.play.config.ServicesConfig
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object SubmissionConnector extends SubmissionConnector with ServicesConfig with RunModeHelper {
+@Singleton
+class HodSubmissionConnector @Inject() (application: Application) extends SubmissionConnector with ServicesConfig {
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   val http = ForConfig.http
 
@@ -43,8 +47,25 @@ object SubmissionConnector extends SubmissionConnector with ServicesConfig with 
       Result(ResponseHeader(r.status), HttpEntity.Streamed(Source.single(ByteString(Option(r.body).getOrElse(""))), None, None))
     }
   }
+
+  override def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit] = {
+    http.PUT(s"$serviceUrl/for/submissions/notConnected/${submission._id}", submission).map(_ => ())
+  }
+
+  override protected def mode: Mode = application.mode
+
+  override protected def runModeConfiguration: Configuration = application.configuration
+
 }
 
+object SubmissionConnector {
+  def apply():SubmissionConnector = {
+    Play.current.injector.instanceOf(classOf[SubmissionConnector])
+  }
+}
+
+@ImplementedBy(classOf[HodSubmissionConnector])
 trait SubmissionConnector {
   def submit(refNum: String, submisson: Submission)(implicit hc: HeaderCarrier): Future[Unit]
+  def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit]
 }
