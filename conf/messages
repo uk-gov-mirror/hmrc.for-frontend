@@ -695,6 +695,13 @@ notConnected.additionalInformation = Additional information
 notConnected.additionalInformationHelp = For example, the name of the current owner or occupier
 notConnected.emailOrPhone = You must provide a phone number or email address
 
+notConnected.thankYou = Thank you, your details have been sent.
+notConnected.whatNext1 = We’ll remove your name from our records of the property. We may contact you to check some of the details.
+notConnected.whatNext2 = You will not receive any further letters unless they have already been sent.
+notConnected.whatNext3 = You should also tell your local authority that you are no longer connected to \
+  this property or you may be asked to provide these details again.
+
+
 
 
 #TYPES

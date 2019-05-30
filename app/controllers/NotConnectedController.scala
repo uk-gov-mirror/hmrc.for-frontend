@@ -101,9 +101,21 @@ class NotConnectedController @Inject()(configuration: Configuration)(implicit va
         form.bindFromRequest().fold({ formWithErrors =>
           Ok(views.html.notConnected(formWithErrors, summary))
         }, { formWithData =>
-          Ok("stored in db")
+          Redirect(routes.NotConnectedController.onConfirmationView)
+          //Ok(views.html.confirmNotConnected(summary))       //TODO redirect
         })
       }
+      case None => {
+        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        InternalServerError(views.html.error.error500())
+      }
+    }
+  }
+
+  def onConfirmationView() =  RefNumAction.async { implicit request =>
+    findSummary.map {
+      case Some(summary) => Ok(views.html.confirmNotConnected(summary))
+
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(views.html.error.error500())

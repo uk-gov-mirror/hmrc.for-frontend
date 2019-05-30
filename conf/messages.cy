@@ -679,6 +679,13 @@ notConnected.additionalInformation = Gwybodaeth ychwanegol
 notConnected.additionalInformationHelp = Er enghraifft, enw’r perchennog neu’r meddiannydd presennol
 notConnected.emailOrPhone = Rhaid i chi roi rhif ffôn neu gyfeiriad e-bost
 
+notConnected.thankYou = Diolch, mae eich manylion wedi eu cyflwyno.
+notConnected.whatNext1 = Byddwn yn dileu eich enw o’n cofnodion o’r eiddo. Mae’n bosibl y byddwn yn cysylltu â chi er mwyn gwirio rhai o’r manylion.
+notConnected.whatNext2 = Ni fyddwch yn cael unrhyw lythyrau pellach oni bai eu bod eisoes wedi eu hanfon.
+notConnected.whatNext3 = Dylech hefyd roi gwybod i’ch awdurdod lleol am y ffaith nad ydych yn gysylltiedig â’r \
+  eiddo hwn bellach neu efallai y gofynnir i chi roi’r manylion hyn eto.
+
+
 
 
 #TYPES
