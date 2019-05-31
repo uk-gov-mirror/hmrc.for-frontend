@@ -84,6 +84,16 @@
               <div class="panel-indent panel-indent-info hidden intel-alert @(s"propertyAlterationsDetails_${idx}_date")" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
 
 
+              @inputText(
+                field = theForm(s"propertyAlterationsDetails[$idx].cost"),
+                '_label -> Messages("label.propertyAlterationsDetails.cost"),
+                '_labelClass -> "form-label-bold",
+                'class -> "form-control input-currency excludeVat",
+                '_pound -> true,
+                '_help -> Messages("hint.if0thenenter1"),
+                '_nojsText -> Messages("label.noJs.section13")
+              )
+
               @textarea(
                 field = theForm(s"propertyAlterationsDetails[$idx].description"),
                 '_label -> Messages("label.propertyAlterationsDetails.description"),
@@ -94,15 +104,7 @@
                 '_nojsText -> Messages("label.noJs.section13")
               )
 
-              @inputText(
-                field = theForm(s"propertyAlterationsDetails[$idx].cost"),
-                '_label -> Messages("label.propertyAlterationsDetails.cost"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-currency excludeVat",
-                '_pound -> true,
-                '_help -> Messages("hint.if0thenenter1"),
-                '_nojsText -> Messages("label.noJs.section13")
-              )
+
 
               
 
