@@ -60,7 +60,7 @@ class SubmitBusinessRentalInformationSpec extends FreeSpec with Matchers {
       Some(CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, None, None))),
       Some(TheProperty("Stuff", OccupierTypeIndividuals, None, None, false, None, None)),
       Some(Sublet(false, List.empty)),
-      Some(Landlord("abc", Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
+      Some(Landlord(Some("abc"), Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
       Some(LeaseOrAgreement(LeaseAgreementTypesVerbal, Some(false), None, Some(false), List.empty, Some(RoughDate(None, None, 2011)), Some(false), None)),
       Some(RentReviews(false, None)),
       Some(RentAgreement(false, None, RentSetByTypeNewLease)),

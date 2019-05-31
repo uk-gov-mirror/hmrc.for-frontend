@@ -186,7 +186,7 @@ class PathingLogicSpec extends FlatSpec with Matchers {
     )
   )
 
-  lazy val pageFiveData = PageFive(false, "name", None, Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
+  lazy val pageFiveData = PageFive(false, Some("name"), None, Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
   lazy val pageSixData = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
   lazy val pageSixNoVerbal = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
   lazy val leaseAgreementTenancy = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
