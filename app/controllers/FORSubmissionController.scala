@@ -17,7 +17,7 @@
 package controllers
 
 import actions.RefNumAction
-import connectors.SubmissionConnector
+import connectors.{HodSubmissionConnector, SubmissionConnector}
 import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
 import metrics.Metrics
@@ -38,7 +38,7 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 object FORSubmissionController extends FORSubmissionController {
   protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
   protected lazy val auditAddresses = AddressAuditing
-  private lazy val submitBri = SubmitBusinessRentalInformation(documentRepo, SubmissionBuilder, SubmissionConnector)
+  private lazy val submitBri = SubmitBusinessRentalInformation(documentRepo, SubmissionBuilder, SubmissionConnector())
 
   def submitBusinessRentalInformation: SubmitBusinessRentalInformation = submitBri
 }

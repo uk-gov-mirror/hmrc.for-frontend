@@ -684,6 +684,26 @@ hint.vacated.form=<p>Please send:</p>\
   </p>\
   <p>to <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ex-owners/occupiers form&body=Please email us your reference number, email address and/or telephone number only. If we require any further information we will contact you in due course. " target="_blank" id="mailto" onclick="gasend()">formhelp@voa.gsi.gov.uk</a></p>
 
+
+#NOT connected journey
+######################
+label.email=Email
+label.phoneNumber=Phone number
+notConnected.heading = Remove connection to this property.
+notConnected.subheading = We’ll use these details if we need to contact you
+notConnected.additionalInformation = Additional information
+notConnected.additionalInformationHelp = For example, the name of the current owner or occupier
+notConnected.emailOrPhone = You must provide a phone number or email address
+
+notConnected.thankYou = Thank you, your details have been sent.
+notConnected.whatNext1 = We’ll remove your name from our records of the property. We may contact you to check some of the details.
+notConnected.whatNext2 = You will not receive any further letters unless they have already been sent.
+notConnected.whatNext3 = You should also tell your local authority that you are no longer connected to \
+  this property or you may be asked to provide these details again.
+
+
+
+
 #TYPES
 ###############################
 contactAddressType.mainAddress=Your Address
