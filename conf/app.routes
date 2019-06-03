@@ -35,6 +35,12 @@ GET         /loginattemptsremaining/:attemptsRemaining  controllers.LoginControl
 GET         /lockedout                 controllers.LoginController.lockedOut
 GET         /logout                    controllers.LoginController.logout
 
+# not connected form
+GET         /not-connected             @controllers.NotConnectedController.onPageView
+POST        /not-connected             @controllers.NotConnectedController.onPageSubmit
+GET         /not-connected-confirmation @controllers.NotConnectedController.onConfirmationView
+
+
 GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)
 POST        /page/:pageNumber          controllers.dataCapturePages.PageController.savePage(pageNumber:Int)
 

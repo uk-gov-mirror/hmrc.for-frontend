@@ -1,0 +1,102 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models._
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+@import _root_.form.NotConnectedPropertyForm
+
+@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+
+@headExtra = {
+    @views.html.includes.stylesheets()
+}
+
+@bodyEnd = {
+    @views.html.includes.javascripts()
+    @views.html.includes.analytics(summary)
+}
+
+@inpagehelp = @{
+    routes.Application.inpageVacatedForm
+}
+
+@underReview = @{
+    if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
+}
+
+
+@main(title = Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
+
+    @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+        <main id="content" tabindex="-1">
+            <h1 class="form-title heading-large form-title-group">
+                @Messages("notConnected.heading")
+            </h1>
+
+            @includes.errors(theForm, isAgent = false)
+
+            <div class="grid-row">
+                <div class="column-full">
+                    <p>@Messages("notConnected.subheading")</p>
+
+
+                    @helper.CSRF.formField
+
+                    <!-- Full name -->
+                    @inputText(
+                    field = theForm("fullName"),
+                    '_label -> Messages("label.fullName"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                    )
+
+                    @inputText(
+                    field = theForm("email"),
+                    '_label ->  Messages("label.email"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                    )
+
+                    @inputText(
+                    field = theForm("phoneNumber"),
+                    '_label -> Messages("label.phoneNumber"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                    )
+
+                    @textarea(
+                    field = theForm("additionalInformation"),
+                    '_label -> Messages("notConnected.additionalInformation"),
+                    '_labelClass -> "form-label-bold",
+                    '_help -> Messages("notConnected.additionalInformationHelp"),
+                    'class -> "form-control"
+                    )
+
+                    <button type="submit" id="continue" name="continue_button" class="button">
+                        @Messages("button.label.submit")
+                    </button>
+                </div>
+            </div>
+        </main>
+    }
+
+}

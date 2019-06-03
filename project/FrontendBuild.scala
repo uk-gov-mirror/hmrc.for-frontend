@@ -34,6 +34,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "http-caching-client" % "7.1.0" excludeAll (
       ExclusionRule("uk.gov.hmrc",  "http-core_2.11") // This library is deprecated - everything is in http-verbs
     ),
+    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0",
     "uk.gov.hmrc" %% "http-verbs" % "8.10.0-play-25",
     "uk.gov.hmrc" %% "frontend-bootstrap" % "11.3.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
