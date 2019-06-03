@@ -16,9 +16,58 @@
 
 package form
 
+import org.apache.commons.lang3.StringUtils
+import play.api.data.Forms.mapping
+import play.api.data.{FieldMapping, Form, FormError, Mapping}
+import play.api.data.format.Formatter
+import play.api.data.validation.Constraints.emailAddress
+import play.api.data.validation.{Constraint, Valid}
+import play.api.data.Forms._
+
 case class NotConnectedPropertyForm(
                                      fullName: String,
                                      email: Option[String],
                                      phoneNumber: Option[String],
                                      additionalInformation: String
                                    )
+
+
+object NotConnectedPropertyForm {
+  def atLeastOneKeyFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
+
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
+      if (data.get(key).exists(value => StringUtils.isNotBlank(value))) {
+        Right(data.get(key).map(_.trim))
+      } else {
+        if (data.get(anotherKey).exists(value => StringUtils.isNotBlank(value))) {
+          Right(None)
+        } else {
+          Left(Seq(FormError(key, "notConnected.emailOrPhone")))
+        }
+      }
+    }
+
+    override def unbind(key: String, value: Option[String]): Map[String, String] = value.map(x => Map(key -> x))
+      .getOrElse(Map.empty[String, String])
+  }
+
+  def atLeastOneMapping(anotherKey: String, constraints: Constraint[String]*): Mapping[Option[String]] = {
+    def optConstraint[T](constraint: Constraint[T]): Constraint[Option[T]] = Constraint[Option[T]] { (parameter: Option[T]) =>
+      parameter match {
+        case Some(value) => constraint(value)
+        case None => Valid
+      }
+    }
+    FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
+  }
+
+  val form = Form(
+    mapping(
+      "fullName" -> nonEmptyText,
+      "email" -> atLeastOneMapping("phoneNumber", emailAddress),
+      "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
+      "additionalInformation" -> text
+    )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
+  )
+
+}
