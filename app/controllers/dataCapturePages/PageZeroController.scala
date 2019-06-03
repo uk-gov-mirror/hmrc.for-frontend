@@ -21,6 +21,7 @@ import controllers.dataCapturePages.ForDataCapturePage.FormAction
 import form.PageZeroForm.pageZeroForm
 import models._
 import models.pages.Summary
+import play.api.Play
 import play.api.data.Form
 import play.api.libs.json._
 import play.api.mvc.{AnyContent, Request}
@@ -34,12 +35,15 @@ trait PageZeroController extends ForDataCapturePage[Boolean] {
   val emptyForm = pageZeroForm
   val pageNumber: Int = 0
 
+  val showNewNotConnectedPage = Play.current.configuration.getBoolean("showNewNotConnectedPage").getOrElse(false)
+
   def template(form: Form[Boolean], summary: Summary)(implicit request: Request[AnyContent]): Html = {
     views.html.part0(form, summary)
   }
 
   override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) =
     savedFields.get("isRelated") match {
+      case Some(Seq("false")) if showNewNotConnectedPage => Redirect(controllers.routes.NotConnectedController.onPageView())
       case Some(Seq("false")) => Redirect(controllers.routes.Application.inpageVacatedForm())
       case _ => super.goToNextPage(action, summary, savedFields)
     }
