@@ -32,6 +32,7 @@ import uk.gov.hmrc.play.audit.model.DataEvent
 import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import _root_.uk.gov.hmrc.http.HeaderNames._
+import akka.actor.ActorSystem
 import com.typesafe.config.Config
 import helpers.{AppNameHelper, RunModeHelper}
 import uk.gov.hmrc.play.http._
@@ -55,6 +56,8 @@ trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost wi
 
 object WSHttp extends ForHttp with AppNameHelper with RunModeHelper {
   override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
+
+  override protected def actorSystem: ActorSystem = Play.current.actorSystem
 }
 
 trait ForHttp extends WSHttp {
@@ -71,13 +74,13 @@ trait ForHttp extends WSHttp {
         case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.allHeaders)
         case _ => res
       }
-    }
+    }(this.ec)
   }
 
   override def doPut[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = {
-    put(url, body)(rds, hc) map { res =>
+    put(url, body)(rds, hc).map { res =>
       if (res.status == 400) throw new BadRequestException(res.body) else res
-    }
+    }(this.ec)
   }
 
   protected def get(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = super.doGet(url)(hc)

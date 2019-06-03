@@ -1,5 +1,6 @@
 package aat
 
+import akka.actor.ActorSystem
 import com.typesafe.config.Config
 import config.ForGlobal
 import helpers.{AppNameHelper, RunModeHelper}
@@ -7,6 +8,7 @@ import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
 import org.scalatestplus.play.guice._
+import play.api.Play
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import playconfig.ForHttp
@@ -95,6 +97,8 @@ class TestHttpClient extends ForHttp with RunModeHelper with AppNameHelper {
       case _ => throw new HttpRequestNotStubbed(url, hc)
     }
   }
+
+  override protected def actorSystem: ActorSystem = Play.current.actorSystem
 }
 
 class HttpRequestNotStubbed[A](url: String, hc: HeaderCarrier, data: Option[A] = None)
