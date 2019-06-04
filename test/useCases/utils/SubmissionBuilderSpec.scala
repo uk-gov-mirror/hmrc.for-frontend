@@ -326,7 +326,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, Some("abc@mailinator.com"), Some("abc@mailinator.com")))
     val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
     val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), "basement", "commercial", Some(200), RoughDate(None, Some(2), 2011))))
-    val landlord = Landlord("Graham Goose", Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
+    val landlord = Landlord(Some("Graham Goose"), Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
     val leaseOrAgreement = LeaseOrAgreement(
       LeaseAgreementTypesLeaseTenancy, Some(true), Some("adjf asdklfj a;sdljfa dsflk"), Some(true), List(SteppedDetails(new LocalDate(2010, 11, 8), new LocalDate(2011, 12, 9),500)), Some(RoughDate(None, Some(3), 2011)), Some(false), Some(MonthsYearDuration(2, 10))
     )

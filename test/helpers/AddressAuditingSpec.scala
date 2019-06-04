@@ -147,7 +147,7 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
 
   private def summaryWithLandlordAddress(original: Option[LookupServiceAddress], submitted: Option[Address]): Summary = {
     Summary("1234567890", DateTime.now, None, None, None, None,
-      Some(PageFive(false, "Mr Landlord", original, submitted, LandlordConnectionTypeNone, None)),
+      Some(PageFive(false, Some("Mr Landlord"), original, submitted, LandlordConnectionTypeNone, None)),
       None, None, None, None, None, None, None, None, None, None, Nil)
   }
 }

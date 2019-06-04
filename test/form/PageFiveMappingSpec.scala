@@ -30,11 +30,11 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     mustBind(bind(baseData)) { _ => () }
   }
 
-  it should "bind with the fields and return issue saying that the landlord name being missing when it is missing" in {
+  it should "bind with the fields landlordFulName and does not return any errors" in {
     val data = baseData - "landlordFullName"
     val form = bind(data)
 
-    mustOnlyContainRequiredErrorFor("landlordFullName", form)
+    doesNotContainErrors(form)
   }
 
   it should "allow letters, numbers, spaces and special chars with upto 50 chars for landlord's name" in {

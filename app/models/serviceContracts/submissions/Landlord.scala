@@ -17,7 +17,7 @@
 package models.serviceContracts.submissions
 
 case class Landlord(
-  landlordFullName: String,
+  landlordFullName: Option[String],
   landlordAddress: Option[Address],
   landlordConnectionType: LandlordConnectionType,
   landlordConnectText: Option[String])
