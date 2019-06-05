@@ -186,7 +186,7 @@
 
                         @_root_.template.repeatWithIndex(theForm("includedServicesDetails"), max = 8) { (includedServicesDetails, idx) =>
 
-                            <div class="multi-fields-group" id=@(s"includedServicesDetails_description_div_${idx}")>
+                            <div id=@(s"includedServicesDetails_description_div_${idx}")>
 
                                 @textarea(
                                     field = theForm(s"includedServicesDetails[$idx].chargeDescription"),
