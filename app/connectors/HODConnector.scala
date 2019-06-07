@@ -33,6 +33,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
 object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
 
+  val PAGENO = 2
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   lazy val emailUrl = baseUrl("email")
 
@@ -49,7 +50,7 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeRentLengthType) recoverWith {
+    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeOwnerAndOccupiers).map(removeRentLengthType) recoverWith {
       case n: NotFoundException => None
     }
   }
@@ -71,6 +72,29 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
       maybeDocument
     }
 
+  }
+
+  def removeOwnerAndOccupiers (savedDocument: Option[Document]) :Option[Document] = {
+    val changedPage2 = for {
+      document <- savedDocument
+      page2 <- document.page(PAGENO)
+
+    } yield  {
+        val userType = page2.fields("userType")(0)
+        userType match {
+          case "ownerOccupier" =>  {
+            val updatedfields = (page2.fields - "userType") + ("userType" -> Seq("owner") )
+            val page_2 = page2.copy(fields = updatedfields)
+            val allPages = ((document.pages.filterNot(_.pageNumber == 2)) :+ page_2).sortBy(_.pageNumber)
+            document.copy(pages = allPages)
+          }
+          case _ => document
+        }
+      }
+      changedPage2  match {
+        case Some(x) => changedPage2
+        case _ => savedDocument
+      }
   }
 
 
