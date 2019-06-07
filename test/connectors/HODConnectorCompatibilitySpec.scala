@@ -70,6 +70,37 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     "propertyOwnedByYou" -> Seq("true")
   ))
 
+  val oldPage2 = Page(2,Map(
+    "fullName" -> Seq("David Smith"),
+    "contactDetails.email1" -> Seq("mike1@gmail.com"),
+    "contactDetails.email2" -> Seq ("mike1@gmail.com"),
+    "contactType" -> Seq ("email"),
+    "userType" -> Seq ("ownerOccupier")
+  ))
+
+  val newPage2 = Page(2,Map(
+    "fullName" -> Seq("David Smith"),
+    "contactDetails.email1" -> Seq("mike1@gmail.com"),
+    "contactDetails.email2" -> Seq ("mike1@gmail.com"),
+    "contactType" -> Seq ("email"),
+    "userType" -> Seq ("owner")
+  ))
+
+  val newPageTwoOtherValue = Page(2,Map(
+    "fullName" -> Seq("David Smith"),
+    "contactDetails.email1" -> Seq("mike1@gmail.com"),
+    "contactDetails.email2" -> Seq ("mike1@gmail.com"),
+    "contactType" -> Seq ("email"),
+    "userType" -> Seq ("agent")
+  ))
+
+  val newPageWithoutUserType = Page(2,Map(
+    "fullName" -> Seq("David Smith"),
+    "contactDetails.email1" -> Seq("mike1@gmail.com"),
+    "contactDetails.email2" -> Seq ("mike1@gmail.com"),
+    "contactType" -> Seq ("email")
+  ))
+
   val journeyStarted = DateTime.now()
 
   val oldDocument = Some(Document(
@@ -84,6 +115,21 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     "referenceNumber", journeyStarted, Seq(page3, newPage9), None, None, Seq.empty
   ))
 
+  val oldDocForUserTypeTest = Some(Document(
+    "referenceNumber", journeyStarted, Seq(oldPage2,page3), None, None, Seq.empty
+  ))
+
+  val newDocForUserTypeTest = Some(Document(
+    "referenceNumber", journeyStarted, Seq(newPage2, page3 ), None, None, Seq.empty
+  ))
+
+  val oldDocForAgent = Some(Document(
+    "referenceNumber", journeyStarted, Seq(newPageTwoOtherValue, page3 ), None, None, Seq.empty
+  ))
+
+  val newDocWithoutUserType = Some(Document(
+    "referenceNumber", journeyStarted, Seq(newPageWithoutUserType, page3 ), None, None, Seq.empty
+  ))
 
 
   "HODConnecter" should "remove page 9 from document when rentLengthType exist in page 9" in {
@@ -104,6 +150,42 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     testDocument shouldBe newDocument
 
     testDocument should be theSameInstanceAs newDocument
+
+  }
+
+  "HODConnector" should "change the userType to ownner when value is ownerOccupier" in {
+    val connector = HODConnector
+
+    val testDocument = connector.removeOwnerAndOccupiers(oldDocForUserTypeTest)
+
+    testDocument shouldBe newDocForUserTypeTest
+
+  }
+
+  "HODConnector" should "keep the same value if other than ownerOccupier" in {
+    val connector = HODConnector
+
+    val testDocument = connector.removeOwnerAndOccupiers(oldDocForAgent)
+
+    testDocument shouldBe oldDocForAgent
+
+  }
+
+  "HODConnector" should "keep the same data if Page2 does Not exit" in {
+    val connector = HODConnector
+
+    val testDocument = connector.removeOwnerAndOccupiers(newDocument)
+
+    testDocument shouldBe newDocument
+
+  }
+
+  "HODConnector" should "keep the same data if Page2 does exit but userType Missing" in {
+    val connector = HODConnector
+
+    val testDocument = connector.removeOwnerAndOccupiers(newDocWithoutUserType)
+
+    testDocument shouldBe newDocWithoutUserType
 
   }
 

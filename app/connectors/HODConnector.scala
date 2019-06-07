@@ -25,6 +25,7 @@ import play.api.libs.json.{Format, JsValue}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http._
 import useCases.ReferenceNumber
+import util.Constant
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
@@ -33,7 +34,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
 object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
 
-  val PAGENO = 2
+
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   lazy val emailUrl = baseUrl("email")
 
@@ -77,15 +78,19 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
   def removeOwnerAndOccupiers (savedDocument: Option[Document]) :Option[Document] = {
     val changedPage2 = for {
       document <- savedDocument
-      page2 <- document.page(PAGENO)
+      page2 <- document.page(Constant.PAGETWO)
 
     } yield  {
-        val userType = page2.fields("userType")(0)
+        val userType = page2.fields.contains(Constant.USER_TYPE) match {
+          case true => page2.fields(Constant.USER_TYPE)(Constant.ZERO)
+          case false => None
+        }
+        //val userType = page2.fields(Constant.USER_TYPE)(Constant.ZERO)
         userType match {
-          case "ownerOccupier" =>  {
-            val updatedfields = (page2.fields - "userType") + ("userType" -> Seq("owner") )
+          case Constant.OWNER_OCCUPIER =>  {
+            val updatedfields = (page2.fields - Constant.USER_TYPE) + (Constant.USER_TYPE -> Seq(Constant.OWNER) )
             val page_2 = page2.copy(fields = updatedfields)
-            val allPages = ((document.pages.filterNot(_.pageNumber == 2)) :+ page_2).sortBy(_.pageNumber)
+            val allPages = ((document.pages.filterNot(_.pageNumber == Constant.TWO)) :+ page_2).sortBy(_.pageNumber)
             document.copy(pages = allPages)
           }
           case _ => document
