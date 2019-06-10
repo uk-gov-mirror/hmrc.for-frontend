@@ -85,7 +85,6 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
           case true => page2.fields(Constant.USER_TYPE)(Constant.ZERO)
           case false => None
         }
-        //val userType = page2.fields(Constant.USER_TYPE)(Constant.ZERO)
         userType match {
           case Constant.OWNER_OCCUPIER =>  {
             val updatedfields = (page2.fields - Constant.USER_TYPE) + (Constant.USER_TYPE -> Seq(Constant.OWNER) )
