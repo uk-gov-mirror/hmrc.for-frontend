@@ -25,6 +25,7 @@ import play.api.libs.json.{Format, JsValue}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http._
 import useCases.ReferenceNumber
+import util.Constant
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
@@ -32,6 +33,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
 
 object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
+
 
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   lazy val emailUrl = baseUrl("email")
@@ -49,7 +51,7 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeRentLengthType) recoverWith {
+    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeOwnerAndOccupiers).map(removeRentLengthType) recoverWith {
       case n: NotFoundException => None
     }
   }
@@ -71,6 +73,32 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
       maybeDocument
     }
 
+  }
+
+  def removeOwnerAndOccupiers (savedDocument: Option[Document]) :Option[Document] = {
+    val changedPage2 = for {
+      document <- savedDocument
+      page2 <- document.page(Constant.PAGETWO)
+
+    } yield  {
+        val userType = page2.fields.contains(Constant.USER_TYPE) match {
+          case true => page2.fields(Constant.USER_TYPE)(Constant.ZERO)
+          case false => None
+        }
+        userType match {
+          case Constant.OWNER_OCCUPIER =>  {
+            val updatedfields = (page2.fields - Constant.USER_TYPE) + (Constant.USER_TYPE -> Seq(Constant.OWNER) )
+            val page_2 = page2.copy(fields = updatedfields)
+            val allPages = ((document.pages.filterNot(_.pageNumber == Constant.TWO)) :+ page_2).sortBy(_.pageNumber)
+            document.copy(pages = allPages)
+          }
+          case _ => document
+        }
+      }
+      changedPage2  match {
+        case Some(x) => changedPage2
+        case _ => savedDocument
+      }
   }
 
 
