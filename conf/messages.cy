@@ -152,7 +152,7 @@ label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i''r cyfeiriad eu
 ##############################
 section2.heading=Amdanoch chi
 section2.subheading=Dylai''r rhain fod yn fanylion y sawl sy''n llenwi hwn
-label.fullName=Eich enw llawn
+label.fullName=Enw llawn
 label.contactType=Sut hoffech chi i ni gysylltu â chi?
 label.userType=Fi yw''r (neu rwyf yn cynrychioli''r)
 label.email1=E-bost
@@ -674,13 +674,13 @@ hint.vacated.form=<p>Anfonwch:</p>\
 label.email=Cyfeiriad e-bost
 label.phoneNumber=Rhif ffôn
 notConnected.heading = Dileu eich cysylltiad â’r eiddo hwn
-notConnected.subheading = Byddwn yn defnyddio’r manylion hyn os bydd angen i ni gysylltu â chi
+notConnected.subheading = Byddwn yn defnyddio’r manylion hyn os bydd angen i ni gysylltu â chi.
 notConnected.additionalInformation = Gwybodaeth ychwanegol
 notConnected.additionalInformationHelp = Er enghraifft, enw’r perchennog neu’r meddiannydd presennol
 notConnected.emailOrPhone = Rhaid i chi roi rhif ffôn neu gyfeiriad e-bost
 
 notConnected.thankYou = Diolch, mae eich manylion wedi eu cyflwyno.
-notConnected.whatNext1 = Byddwn yn dileu eich enw o’n cofnodion o’r eiddo. Mae’n bosibl y byddwn yn cysylltu â chi er mwyn gwirio rhai o’r manylion.
+notConnected.whatNext1 = Mae’n bosibl y byddwn yn cysylltu â chi er mwyn gwirio rhai o’r manylion.
 notConnected.whatNext2 = Ni fyddwch yn cael unrhyw lythyrau pellach oni bai eu bod eisoes wedi eu hanfon.
 notConnected.whatNext3 = Dylech hefyd roi gwybod i’ch awdurdod lleol am y ffaith nad ydych yn gysylltiedig â’r \
   eiddo hwn bellach neu efallai y gofynnir i chi roi’r manylion hyn eto.

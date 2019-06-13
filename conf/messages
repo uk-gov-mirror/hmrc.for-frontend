@@ -154,7 +154,7 @@ label.suggestedChanges=Suggested changes to the address may not be<br />accepted
 section2.heading=About you
 section2.subheading=These should be the details of the person completing this
 section2.heading.1=Due to data security, we are unable to pre-populate this form
-label.fullName=Your full name
+label.fullName=Full name
 label.contactType=How would you like us to contact you?
 label.userType=I am (or represent) the
 hint.userType=If you are no longer the owner/occupier or have recently vacated the property, please click <a href="{0}" target="_self" id="inpageVacatedForm">here<span class="visuallyhidden"> ({1})</span></a> or continue below.
@@ -690,13 +690,13 @@ hint.vacated.form=<p>Please send:</p>\
 label.email=Email
 label.phoneNumber=Phone number
 notConnected.heading = Remove connection to this property
-notConnected.subheading = We’ll use these details if we need to contact you
+notConnected.subheading = We’ll use these details if we need to contact you.
 notConnected.additionalInformation = Additional information
 notConnected.additionalInformationHelp = For example, the name of the current owner or occupier
 notConnected.emailOrPhone = You must provide a phone number or email address
 
 notConnected.thankYou = Thank you, your details have been sent.
-notConnected.whatNext1 = We’ll remove your name from our records of the property. We may contact you to check some of the details.
+notConnected.whatNext1 = We may contact you to check some of the details.
 notConnected.whatNext2 = You will not receive any further letters unless they have already been sent.
 notConnected.whatNext3 = You should also tell your local authority that you are no longer connected to \
   this property or you may be asked to provide these details again.
