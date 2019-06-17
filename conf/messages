@@ -272,7 +272,7 @@ label.subletAddress=Address of the property that is let or sub-let
 #SECTION 5
 ###############################
 section5.heading=The landlord
-section5.heading.help=Please give the landlord''s details, even if you pay your rent to an agent.
+section5.heading.help=Give the landlord''s details, even if you pay your rent to an agent.
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family
 landlordConnectionType.other=Other connection
@@ -296,22 +296,22 @@ label.landlordOverseasAddress.postcode=Postcode
 label.landlordOverseasAddress.street1=Address line 2
 label.landlordOverseasAddress.street2=Address line 3
 label.noJs.landlordConnect=Answer this only if you''ve selected ''Other connection''
-intel.alert.landlordName=Are your sure this is correct - the landlords name is the same as the tenants?
+intel.alert.landlordName=Are you sure this is correct? The landlord''s name is the same as the tenant''s.
 
 #SECTION 6
 ###############################
 section6.heading=The current lease or agreement
 label.breakClauseDetails=Provide details of the break clause
 label.agreementIsStepped=Is your rent a stepped rent?
-hint.steppedDetailsYear=You will usually find these in your lease or written agreement
+hint.steppedDetailsYear=You''ll usually find these in your lease or written agreement.
 label.rentOpenEnded=Is the lease or agreement open ended?
 label.writtenAgreement.leaseAgreementHasBreakClause=Is there a break clause?
 label.writtenAgreement.breakClauseDetails=Provide details of the break clause
 label.writtenAgreement.agreementIsStepped=Is your rent a stepped rent agreement?
 label.writtenAgreement.agreementIsStepped.agent=Is your client''s rent a stepped rent agreement?
 label.writtenAgreement.steppedDetailsYear=Provide details of the stepped rent
-hint.writtenAgreement.steppedDetailsYear=You will usually find these in your lease or written agreement
-hint.writtenAgreement.steppedDetailsYear.agent=You will usually find these in your client''s lease or written agreement
+hint.writtenAgreement.steppedDetailsYear=You''ll usually find these in your lease or written agreement.
+hint.writtenAgreement.steppedDetailsYear.agent=You''ll usually find these in your client''s lease or written agreement.
 label.leaseAgreementType=What type of lease or agreement do you have?
 label.leaseAgreementType.agent=What type of agreement does your client have?
 label.writtenAgreement.startDate=When did your <span class="agreementType">lease, licence or written</span> agreement start?
@@ -322,7 +322,7 @@ label.writtenAgreement.startDate.licenceOther=When did your license or written a
 label.writtenAgreement.startDate.agent.licenceOther=When did your client''s licence or written agreement start?
 label.writtenAgreement.rentOpenEnded=Is your <span class="agreementType">lease, license or written</span> agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent=Is your client''s <span class="agreementType">lease, licence or written</span> agreement open ended?
-label.writtenAgreement.rentOpenEnded.help=Select ''No'' if it runs for a defined term or has an agreed end date
+label.writtenAgreement.rentOpenEnded.help=Select ''No'' if it runs for a defined term or has an agreed end date.
 label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your current lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client''s current lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.licenceOther=Is your license or written agreement open ended?
@@ -342,23 +342,23 @@ label.verbalAgreement.leaselength.agent=How long was your client''s verbal agree
 label.noJs.verbalAgreement.startDate=Answer this only if you''ve selected ''A single lease or tenancy agreement'' or ''Licence or other type of written agreement''
 label.noJs.writtenAgreement.leaseLength=Answer this only if you''ve selected ''No''
 label.noJs.steppedrent=Answer this only if you''ve selected ''Yes''
-details.answer.steppedRent=A stepped rent is an agreement in advance of how the rent will change over the years until the next rent review or lease renewal date
-details.answer.steppedRent.agent=A stepped rent lets your client know in advance how the rent will change over the years until the next rent review or lease renewal date
+details.answer.steppedRent=A stepped rent is an agreement in advance of how the rent will change over the years until the next rent review or lease renewal date.
+details.answer.steppedRent.agent=A stepped rent is an agreement in advance of how the rent will change over the years until the next rent review or lease renewal date.
 details.answer.isBreakClause=A break clause allows the landlord or tenant to end the tenancy early. You will usually find details of the break clause in the lease or written agreement.
 details.answer.isBreakClause.agent=A break clause allows the landlord or tenant to end the tenancy early. You will usually find details of the break clause in the lease or written agreement.
 label.steppedDetails.stepFrom=Step from
 label.steppedDetails.stepTo=Step to
 label.steppedDetails.amount=Amount
-label.steppedDetails=Stepped rent details
-help.steprent.dateto=For example, 12 3 2011
-help.steprent.datefrom=For example, 12 3 2012
+label.steppedDetails=Stepped-rent details
+help.steprent.dateto=For example, 28 3 2011
+help.steprent.datefrom=For example, 28 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
-label.writtenAgreement.steppedDetails.amount=The rent you will pay or have paid during this stepped-rent period excluding VAT.
-label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period excluding VAT.
-label.writtenAgreement.steppedDetails.hint=Please enter the stepped rent amount
-label.writtenAgreement.steppedDetails=Stepped rent details
-hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details relating to the primary lease in this form then contact the Valuation Office to provide details relating to the other lease or agreements.
+label.writtenAgreement.steppedDetails.amount=The rent you''ll pay or have paid during this stepped-rent period (excluding VAT).
+label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period (excluding VAT).
+label.writtenAgreement.steppedDetails.hint=Enter the stepped-rent amount.
+label.writtenAgreement.steppedDetails=Stepped-rent details
+hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details of the primary lease then contact the Valuation Office Agency to provide details of the other lease or agreements.
 
 #SECTION 7
 ###############################
