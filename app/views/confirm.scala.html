@@ -26,7 +26,7 @@
 @import models.journeys.Journey
 
 
-@(theForm: Form[_], referenceNumber: String, email: Option[String], pdfSize: PdfSize, summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
@@ -47,7 +47,7 @@
       <h1 class="form-title heading-large heading-confirmation">
         <span class="tick">&#10004;</span> @Messages("label.confirm.heading")
         <div class="summary-actions">
-            <a href="@routes.Application.pdf" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download") @pdfSize.size</a><br/>
+            <a href="@routes.Application.pdf" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download")</a><br/>
         </div>
       </h1>
 
