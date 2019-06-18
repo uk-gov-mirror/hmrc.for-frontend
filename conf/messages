@@ -568,32 +568,32 @@ heading.feedback.thankyou=Thank you for your feedback
 declaration.heading=Declaration
 label.declaration=I, {0} as the {1} of {2} declare that to the best of my knowledge the information I have given in this form is correct and complete.<br /><br />I understand that I could be taken to court if I knowingly submit false information.
 label.declaration.iAgree=I agree to the above declaration
-hint.declaration=Once you submit the form you will not be able to go back and make any changes.
+hint.declaration=You will not be able to make any changes after you submit the form.
 error.declaration=You must agree to proceed
 
 #SAVE
 ###############################
 saveForLater.heading=Make a note of this password
-saveForLater.paragraph=We will delete any unsubmitted information on
-saveForLater.info=Please make a note of this password as you will need it to retrieve your saved information and you will not be able to recover it once you leave this form.
-saveForLater.info.p.2=You will also need your reference number and the postcode shown on the letter to access and make changes to your information.
+saveForLater.paragraph=We’ll delete unsubmitted information on
+saveForLater.info=Make a note of this password because you'll need it to retrieve your saved information
+saveForLater.info.p.2=You’ll also need your reference number and the postcode shown on the letter to view and change your information.
 saveForLater.continue=Continue completing this form
 saveForLater.return=Return to GOV.UK
 saveForLater.surveyLink=Tell us what you think?
-saveForLater.retrievalInfo=To retrieve your saved information you will need this password:
+saveForLater.retrievalInfo=To retrieve your saved information you need this password:
 saveForLater.retrievalWarning=You will not be able to recover the password once you leave the form.
-saveForLater.preHeader=Your information have been saved but not submitted.
-saveForLater.preHeaderTimeout=For security purposes you have been logged out, but your information has been saved.
+saveForLater.preHeader=Your information has been saved but not submitted.
+saveForLater.preHeaderTimeout=You have been logged out, but your information has been saved.
 saveForLater.refNum=Reference number
 saveForLater.postcode=Postcode
 saveForLater.password=Password
 saveForLater.passwordsDontMatch=Passwords do not match
 saveForLater.confirmPassword=Confirm password
-saveForLater.validPassword=The password must be at least 7 characters long
+saveForLater.validPassword=Password must be at least 7 characters.
 saveForLater.print=Print this page
-saveForLater.pleaseEnterPassword=Please enter the password provided when you previously saved the form
-saveForLater.invalidPassword=Sorry, the password you have entered is not correct
-saveForLater.haveYouForgotten=If you have forgotten your password, you will need to enter all of your information again
+saveForLater.pleaseEnterPassword=Enter the password provided when you saved the form
+saveForLater.invalidPassword=The password you entered is not correct
+saveForLater.haveYouForgotten=If you have forgotten your password, you’ll need to enter all of your information again
 saveForLater.logout=Log out
 saveForLater.or=or
 saveForLater.createPassword=Create a password to retrieve your saved information
@@ -650,7 +650,7 @@ heading.summary.pdf=Only sign below if requested by the Valuation Office Agency
 heading.summary.pdf.name=Print name (in capitals)
 heading.summary.pdf.signature=Signature
 heading.summary.pdf.date=Date signed
-heading.summary.pdf.footnote=This is a Notice served under paragraph 5(1) of schedule 9 to The Local Government Finance Act 1988 by the relevant valuation officer.  I believe the information requested will assist me in carrying out functions conferred or imposed on me by or under Part III of that Act.
+heading.summary.pdf.footnote=This is a Notice served under paragraph 5(1) of schedule 9 to The Local Government Finance Act 1988 by the relevant valuation officer. I believe the information requested will assist me in carrying out functions conferred or imposed on me by or under Part III of that Act.
 
 #FEEDBACK
 ###############################
@@ -660,11 +660,11 @@ button.label.submit.feedback=Send feedback
 link.feedback=Feedback
 label.help.link=Get help with this form
 label.help.title=Page help
-copy.form.help=If you need help completing this form, please tell us what the problem is in the comments section below.
+copy.form.help=If you need help completing this form, tell us what the problem is in the comments section.
 copy.form.help.dont.include=Don’t include any personal or financial information (such as your rent details).
 copy.form.help.thankyou=We have received your request. If you have asked for help we''ll be in touch shortly.
 label.feedback.heading=Feedback
-copy.feedback=If you need help completing this form, please use the ‘Get help with this form’ link at the bottom of each page.
+copy.feedback=If you need help completing this form, use the ‘Get help with this form’ link on each page.
 copy.feedback.thankyou=Thank you for your feedback
 copy.feedback.anotherForm=Submit another form
 label.feedback.error=There was an error sending your feedback.
@@ -674,7 +674,7 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 #VACATED FORM
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated
-label.help.title.vacated=You do not have a current relationship with this property
+label.help.title.vacated=You do not have a current connection to this property
 hint.vacated.form=<p>Please send:</p>\
   <p>\
   <ul class="list-bullet">\
@@ -706,14 +706,14 @@ notConnected.whatNext3 = You should also tell your local authority that you are 
 
 #TYPES
 ###############################
-contactAddressType.mainAddress=Your Address
+contactAddressType.mainAddress=Your address
 contactAddressType.alternativeAddress=I want to be contacted at an alternative address
 contactAddressType.contactsAddress=I want someone else to be contacted on my behalf
 userType.occupier=Occupier or trustee for occupier
 userType.occupiersAgent=Occupier''s agent
 userType.owner=Owner or trustee for owner
 userType.ownersAgent=Owner''s agent
-userType.vacated=No longer the occupier / Recently vacated
+userType.vacated=No longer the occupier or recently vacated
 contactType.email=Email
 contactType.phone=Phone
 contactType.both=Both
@@ -768,12 +768,12 @@ alternativeContact.contactDetails.email1.email.mismatch=email addresses must mat
 alternativeContact.contactDetails.email2.email.mismatch=email addresses must match
 contactDetails.email1.email.tooLong=Email provided is too long. Try to provide a telephone number instead
 contactDetails.email2.email.tooLong=Email provided is too long. Try to provide a telephone number instead
-alternativeContact.contactDetails.email1.email.tooLong=Email provided is too long. Try to provide a telephone number instead
-alternativeContact.contactDetails.email2.email.tooLong=Email provided is too long. Try to provide a telephone number instead
+alternativeContact.contactDetails.email1.email.tooLong=Email address is too long. Try to provide a telephone number instead
+alternativeContact.contactDetails.email2.email.tooLong=Email address is too long. Try to provide a telephone number instead
 error.contact.details.missing=At least one of phone, email, or address must be given
 error.maxLength=This must be up to a maximum of {0} characters
 error.minLength=Minimum length is {0} characters
-error.invalid_postcode=Please enter a valid UK postcode
+error.invalid_postcode=Enter a valid UK postcode
 error.invalid_currency = This must be a number greater than 0
 error.invalid_phone=This must use numbers and - ( ) +
 error.email=This must be a valid email address
@@ -787,24 +787,24 @@ error.duration.months=This can be no more than 12
 error.too_many_stepped_rents=You can only provide 7 steps
 error.too_many_services=You can only provide details of 10 services
 error.too_many_alterations=You can only provide details of 10 alterations
-error.too_many_sublets=You can only provide details of 5 sublets
+error.too_many_sublets=You can only provide details of 5 sub-lets
 error.required.parking=At least one must be filled in and greater than 0
 error.login.failed=The details you have entered do not match our records. Please try again.
-error.login.1attemptsleft=We are still having problems finding the details you have entered. You have one last chance to enter the correct details, before you are locked out for 24 hours. Please call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
-error.login.2attemptsleft=We are still having problems matching the details you have entered. For help, call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply). You have two more attempts to enter the correct details, before you are locked out for 24 hours.
-error.login.3attemptsleft=We are still having problems matching the details you have entered. Please enter the reference number and postcode exactly as they are in the letter we sent you.
-error.login.lockedOut=You are now locked out. You can try again after 24 hours or call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
+error.login.1attemptsleft=We’re still having problems finding the details you have entered. You have one last chance to enter the correct details, before you're locked out for 24 hours. Please call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
+error.login.2attemptsleft=We’re still having problems matching the details you have entered. For help, call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply). You have two more attempts to enter the correct details, before you’re locked out for 24 hours.
+error.login.3attemptsleft=We’re still having problems matching the details you have entered. Enter the reference number and postcode exactly as they are in the letter we sent you.
+error.login.lockedOut=You’re now locked out. You can try again after 24 hours or call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
 writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day= ''Step  to'' date must be after ''Step from'' date
 writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
 
 #ERROR PAGES
 ##############################
-error.404.heading=Sorry, the page you requested can not be found. Please try again.
-error.408.heading=Sorry, the page or service has timed out. Please re-enter your details or start again.
-error.410.heading=Sorry, the page you requested is no longer available.
-error.500.heading=Sorry, there is a problem with the page and it cannot be displayed. Please try again later.
-error.fail.heading=Sorry, the reference number you have entered does not match our records. Please check and try again.
-error.duplicate.heading=Sorry, you can no longer edit this information as it has already been submitted.
+error.404.heading=The page you requested cannot be found. Please try again.
+error.408.heading=The page or service has timed out. Please re-enter your details or start again
+error.410.heading=The page you requested is no longer available
+error.500.heading=There is a problem with the page and it cannot be displayed. Please try again later.
+error.fail.heading=The reference number you entered does not match our records. Please check and try again.
+error.duplicate.heading=You cannot edit this information because it has already been submitted.
 error.duplicate.title=Duplicate submission
 error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.
 error.maxCurrencyAmountExceeded=Maximum amount exceeded - please contact the VOA
@@ -817,8 +817,8 @@ sessionTimeout.button=Please log in again
 
 #INTELLIGENT VALIDATION
 ##############################
-intel.alert.landlordNameAddress=Are you sure this is correct? Your surname and address is the same as the landlords
-intel.alert.notBeforeLeaseDate=This date shouldn''t be before the lease or agreement start date
+intel.alert.landlordNameAddress=Are you sure this is correct? Your address and last name are the same as the landlord''s
+intel.alert.notBeforeLeaseDate=This date should not be before the lease or agreement start date
 
 #INFO PAGES
 ##############################
@@ -848,7 +848,7 @@ index.reviewDetails=any rent review periods
 index.rentFreePeriodDetails=any rent-free periods or other incentives
 index.start=Start now
 index.before=Before you start
-index.before.p1=It takes about 20 mins to use this service.
+index.before.p1=It takes about 30 mins to use this service.
 index.before.p2=You don’t have to complete it in one go. You can save what you’ve done and return to finish later on.
 index.help=If you need help
 index.help.p1=Contact the VOA team in your area for help with using the service.
