@@ -37,7 +37,9 @@
 @views.html.includes.analytics(summary)
 }
 
-@main(title=Messages("project.name")+" - "+Messages("notConnected.thankYou"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=true, summary = Option(summary)) {
+@main(title=Messages("project.name")+" - "+Messages("notConnected.thankYou"),
+    headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false,
+    showAccountInfo=true, summary = Option(summary), needsTimeoutWarning = false) {
 
 
     <main id="content" tabindex="-1">

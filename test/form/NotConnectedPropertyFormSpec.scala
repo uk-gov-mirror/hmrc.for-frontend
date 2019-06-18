@@ -38,10 +38,8 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
 
     formWithData.value shouldBe defined
     formWithData.value.value shouldBe(NotConnectedPropertyForm(
-      "John Doe",
       Some("john@example.com"),
-      Some("078333232211"),
-      "Some additional information"
+      Some("078333232211")
     ))
 
   }
@@ -54,10 +52,8 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
 
     formWithData.value shouldBe defined
     formWithData.value.value shouldBe(NotConnectedPropertyForm(
-      "John Doe",
       None,
-      Some("078333232211"),
-      "Some additional information"
+      Some("078333232211")
     ))
 
   }
@@ -70,10 +66,8 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
 
     formWithData.value shouldBe defined
     formWithData.value.value shouldBe(NotConnectedPropertyForm(
-      "John Doe",
       Some("john@example.com"),
-      None,
-      "Some additional information"
+      None
     ))
 
   }

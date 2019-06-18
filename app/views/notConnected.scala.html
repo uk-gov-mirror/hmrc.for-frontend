@@ -23,6 +23,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 @import _root_.form.NotConnectedPropertyForm
+@import play.api.Play.current
 
 @(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
@@ -32,6 +33,16 @@
 
 @bodyEnd = {
     @views.html.includes.javascripts()
+
+    <script type="text/javascript">
+            (function() {
+                var timeoutSeconds = @current.configuration.getInt("signout.timeout").get ;
+                setTimeout(function () {
+                    window.open("/sending-rental-information/logout","_self")
+                }, timeoutSeconds * 1000);
+            })();
+    </script>
+
     @views.html.includes.analytics(summary)
 }
 
@@ -63,16 +74,7 @@
                 <div class="column-full">
                     <p>@Messages("notConnected.subheading")</p>
 
-
                     @helper.CSRF.formField
-
-                    <!-- Full name -->
-                    @inputText(
-                    field = theForm("fullName"),
-                    '_label -> Messages("label.fullName"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
 
                     @inputText(
                     field = theForm("email"),
@@ -85,14 +87,6 @@
                     field = theForm("phoneNumber"),
                     '_label -> Messages("label.phoneNumber"),
                     '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @textarea(
-                    field = theForm("additionalInformation"),
-                    '_label -> Messages("notConnected.additionalInformation"),
-                    '_labelClass -> "form-label-bold",
-                    '_help -> Messages("notConnected.additionalInformationHelp"),
                     'class -> "form-control"
                     )
 

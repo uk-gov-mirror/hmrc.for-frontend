@@ -101,10 +101,10 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     val submission = NotConnectedSubmission(
       summary.referenceNumber,
       summary.address.get,
-      submissionForm.fullName,
+      "REDACTED",           //TODO after migration to Notify API, replace with submissionForm.fullName
       submissionForm.email,
       submissionForm.phoneNumber,
-      Option(submissionForm.additionalInformation),
+      None, //TODO after migration to Notify API, replace with submissionForm.additionalInformation
       DateTime.now()
     )
     submissionConnector.submitNotConnected(summary.referenceNumber, submission)
