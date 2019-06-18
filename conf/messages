@@ -687,7 +687,7 @@ hint.vacated.form=<p>Please send:</p>\
 
 #NOT connected journey
 ######################
-label.email=Email
+label.email=Email address
 label.phoneNumber=Phone number
 notConnected.heading = Remove connection to this property
 notConnected.subheading = We’ll use these details if we need to contact you.
