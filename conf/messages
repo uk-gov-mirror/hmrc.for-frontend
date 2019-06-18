@@ -543,7 +543,7 @@ label.confirm.subheading=Your form submission number is:
 label.button.download=Download a copy of your form
 label.email.sent=An email will be sent to you shortly with a copy of your form to the address you provided.
 label.email.request=If you want to have a confirmation sent to your email please provide your email address.
-label.whatNext=What happens next?
+label.whatNext=What happens next
 label.emailCopyWillBeSent=If you have provided us with an email address, we will send you a copy of what you have submitted shortly.
 label.weMayContactYou=We may need to contact you in future to check some of the details you have provided.
 label.anyQuestions=If you have any questions about your form please contact
@@ -687,7 +687,7 @@ hint.vacated.form=<p>Please send:</p>\
 
 #NOT connected journey
 ######################
-label.email=Email
+label.email=Email address
 label.phoneNumber=Phone number
 notConnected.heading = Remove connection to this property
 notConnected.subheading = We’ll use these details if we need to contact you.
