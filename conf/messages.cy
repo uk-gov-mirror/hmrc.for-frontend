@@ -460,15 +460,15 @@ hint.rentFreePeriodDetails.rentFreePeriodDetails=Er enghraifft, ar gyfer gwaith 
 label.payCapitalSum=A wnaethoch dalu swm cyfalaf?
 label.payCapitalSum.agent=A wnaeth eich cleient dalu swm cyfalaf?
 hint.payCapitalSum=Dyma swm o arian y gwnaethoch ei dalu i''ch landlord er mwyn cymryd prydles neu gytundeb
-label.capitalPaidDetails.capitalSum=Swm cyfalaf a dalwyd heb gynnwys TAW
+label.capitalPaidDetails.capitalSum=Swm cyfalaf a dalwyd (heb gynnwys TAW)
 label.capitalPaidDetails.paymentDate=Dyddiad y gwnaed y taliad
 label.receiveCapitalSum=A gawsoch swm cyfalaf?
 label.receiveCapitalSum.agent=A gafodd eich cleient swm cyfalaf?
-label.capitalReceivedDetails.capitalSum=Swm cyfalaf a gafwyd heb gynnwys TAW
+label.capitalReceivedDetails.capitalSum=Swm cyfalaf a gafwyd (heb gynnwys TAW)
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
 hint.receiveCapitalSum=Mae hwn yn swm o arian a roddwyd gan y landlord neu''r tenant blaenorol ar ddechrau''r brydles.
-hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd eich cyfnod di-rent am lai nag 1 mis, atebwch “1” os gwelwch yn dda gan roi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i chi?''
-hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i''ch cleient?''
+hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd eich cyfnod di-rent am lai nag 1 mis, nodwch “1” gan roi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i chi?''.
+hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i''ch cleient?''.
 details.question.capitalSum=Beth yw swm cyfalaf?
 details.answer.capitalSum=Dyma swm o arian a delir i''r landlord er mwyn cymryd prydles neu gytundeb. Nid arian a delir am y busnes ei hun yw hwn (er enghraifft nid yw''n cynnwys unrhyw symiau a delir ar gyfer ewyllys da, gosodiadau a ffitiadau masnachol na symiau a delir fel blaendaliadau neu fondiau ad-daladwy)
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
@@ -491,11 +491,11 @@ label.ndrDetails=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithr
 label.waterCharges=A yw taliadau dŵr wedi''u cynnwys yn y rhent?
 label.includeWaterChargesDetails=Manylion gwasanaethau
 label.waterChargesCost=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
-label.includedServices=Ydy''r gost o wasanaethau wedi''i chynnwys yn y rhent? Os felly, dywedwch pa rai
+label.includedServices=Ydy''r gost o wasanaethau wedi''i chynnwys yn y rhent?
 hint.includedServices=Er enghraifft, goleuadau, gwres, glanhau/cynnal a chadw mannau a rennir
 label.includedServicesDetails.chargeDescription=Manylion gwasanaethau
 label.includedServicesDetails.chargeCost=Cyfanswm sydd wedi''i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
-hint.includedServicesDetails.chargeCost=Os na allwch ddarparu unrhyw symiau cost, rhowch "£1" a dywedwch wrthym pa wasanaethau sydd wedi''u cynnwys yn eich rhent. Os oes angen i chi ddweud rhagor wrthym, parhewch yn ''unrhyw ffactorau eraill'' yn adran 14 os gwelwch yn dda.
+hint.includedServicesDetails.chargeCost=Os na allwch ddarparu unrhyw symiau cost, nodwch "1" a dywedwch wrthym pa wasanaethau sydd wedi''u cynnwys yn eich rhent. Os oes angen i chi ddweud rhagor wrthym, parhewch yn ''Unrhyw ffactorau eraill'' yn adran 14.
 info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw''r landlord yn talu biliau''r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
 info.responsibilitiesAndCosts.surcharge=Dewiswch ''Tenant'' os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu''n talu swm fel tâl gwasanaeth er mwyn talu''r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
@@ -531,10 +531,10 @@ label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes
 label.confirm.heading=Diolch, cafodd eich ffurflen ei hanfon yn llwyddiannus
 label.confirm.subheading=Eich rhif cyflwyno ffurflen yw:
 label.button.download=Lawrlwythwych gopi o''ch ffurflen
-label.email.sent=Bydd e-bost yn cael ei anfon atoch yn y man gyda chopi o''ch ffurflen i''r cyfeiriad a roddwyd gennych.
-label.email.request=Os ydych am i ni e-bostio cadarnhad atoch, rhowch eich cyfeiriad e-bost.
+label.email.sent=Anfonwn gopi o’ch cyflwyniad i’r cyfeiriad e-bost a roddwyd gennych.
+label.email.request=Bydd angen i chi darparu cyfeiriad e-bost os ydych am gael e-bost cadarnhau.
 label.whatNext=Yr hyn sy’n digwydd nesaf
-label.emailCopyWillBeSent=Os ydych wedi rhoi cyfeiriad e-bost i ni, byddwn yn anfon copi o''r hyn a gyflwynwyd gennych yn y man.
+label.emailCopyWillBeSent=Os ydych wedi rhoi cyfeiriad e-bost i ni, byddwn yn anfon copi o''r hyn a gyflwynwyd gennych.
 label.weMayContactYou=Efallai y bydd angen i ni gysylltu â chi yn y dyfodol i gadarnhau rhai o''r manylion a roddwyd gennych.
 label.anyQuestions=Os oes gennych unrhyw gwestiynau ynglŷn â''ch ffurflen, cysylltwch â ni
 label.quoteRefNum=gan ddyfynnu eich rhif cyfeirnod {0}.
@@ -544,7 +544,7 @@ label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio''ch profiad 
 label.satisfactionSurveyComments=Sut y gallwn wella''r ffurflen hon?
 label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio''ch profiad gyda''r ffurflen hon?
 hint.limit=Yr uchafswm yw 1200 o nodau
-text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nag gwybodaeth ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rif cerdyn credyd.
+text.survey.bottomCopy=Peidiwch â chynnwys gwybodaeth bersonol nac ariannol, megis eich rhif Yswiriant Gwladol neu rifau’ch cardiau credyd.
 
 #SURVEY THANKYOU
 ###############################
@@ -555,15 +555,15 @@ heading.feedback.thankyou=Diolch am eich adborth
 declaration.heading=Datganiad
 label.declaration=Rwyf i, {0} fel {1} {2} yn datgan bod y wybodaeth ‘rwyf wedi rhoi ar y ffurflen hon yn gywir ac yn gyflawn hyd eithaf fy ngwybodaeth.<br /><br />Deallaf fod posibiliad imi orfod mynd gerbron y llys barn petawn i roi gwybodaeth anghywir yn fwriadol.
 label.declaration.iAgree=Rwy''n cytuno â''r datganiad uchod.
-hint.declaration=Unwaith y byddwch wedi cyflwyno''r ffurflen ni fyddwch yn gallu mynd yn ôl a gwneud unrhyw newidiadau.
+hint.declaration=Ni fyddwch yn gallu mynd yn ôl a gwneud unrhyw newidiadau ar ôl i chi gyflwyno’r ffurflen.
 error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 
 #SAVE
 ###############################
 saveForLater.heading=Gwnewch nodyn o''r cyfrinair hwn
 saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
-saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn gan y bydd ei angen arnoch i adfer eich gwybodaeth wedi’i chadw ac ni fyddwch yn gallu ei hadfer ar ôl i chi adael y ffurflen hon.
-saveForLater.info.p.2=Bydd angen eich cyfeirnod a''r cod post a ddangosir ar y llythyr arnoch i gyrchu a gwneud newidiadau i''ch gwybodaeth.
+saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn gan y bydd ei angen arnoch i adfer eich gwybodaeth sydd wedi’i chadw
+saveForLater.info.p.2=Byddwch hefyd angen eich cyfeirnod a''r cod post a ddangosir ar y llythyr er mwyn gallu bwrw golwg ar eich gwybodaeth a gwneud newidiadau.
 saveForLater.continue=Parhau i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
@@ -578,8 +578,8 @@ saveForLater.passwordsDontMatch=Nid yw’r cyfrineiriau yn cyfateb.
 saveForLater.confirmPassword=Cadarnhau''r cyfrinair
 saveForLater.validPassword=Rhaid i''r cyfrinair fod o leiaf 7 nod yn hir.
 saveForLater.print=Argraffu’r tudalen
-saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen hon yn flaenorol
-saveForLater.invalidPassword=Mae''n ddrwg gennym, nid yw’r cyfrinair a roddwyd gennych yn gywir
+saveForLater.pleaseEnterPassword=Rhowch y cyfrinair a roddwyd pan wnaethoch gadw''r ffurflen
+saveForLater.invalidPassword=Nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto
 saveForLater.logout=Allgofnodi
 saveForLater.or=neu
@@ -637,7 +637,7 @@ heading.summary.pdf=Dylech ond llofnodi isod os bydd Asiantaeth y Swyddfa Brisio
 heading.summary.pdf.name=Enw (mewn priflythrennau)
 heading.summary.pdf.signature=Llofnod
 heading.summary.pdf.date=Dyddiad y llofnod
-heading.summary.pdf.footnote=Hysbysiad yw hwn o dan baragraff 5(1) o atodlen 9 i Ddeddf Cyllid Llywodraeth Leol 1988, a gyflwynir a gan y swyddog prisio perthnasol.  Credaf y bydd y wybodaeth y gwnaed cais amdani yn fy helpu i gyflawni''r swyddogaethau a roddwyd i mi neu a osodwyd arnaf gan neu o dan Ran III o''r Ddeddf honno.
+heading.summary.pdf.footnote=Hysbysiad yw hwn o dan baragraff 5(1) o atodlen 9 i Ddeddf Cyllid Llywodraeth Leol 1988, a gyflwynir a gan y swyddog prisio perthnasol. Credaf y bydd y wybodaeth y gwnaed cais amdani yn fy helpu i gyflawni''r swyddogaethau a roddwyd i mi neu a osodwyd arnaf gan neu o dan Ran III o''r Ddeddf honno.
 
 #FEEDBACK
 ###############################
@@ -647,17 +647,17 @@ button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
 label.help.link=Cael help gyda''r ffurflen
 label.help.title=Help ar gyfer y dudalen
-copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau isod.
+copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau.
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
 copy.form.help.thankyou=Rydym wedi cael eich cais. Os ydych wedi gofyn am help, byddwn yn cysylltu â chi yn y man.
 label.feedback.heading=Adborth
-copy.feedback=Os oes angen help arnoch i gwblhau''r ffurflen hon, defnyddiwch y ddolen ‘Cael help gyda''r dudalen hon’ ar waelod pob tudalen.
+copy.feedback=Os oes angen help arnoch i gwblhau''r ffurflen hon, defnyddiwch y ddolen ‘Cael help gyda''r dudalen hon’ sydd ar  bob tudalen.
 copy.feedback.thankyou=Diolch am eich adborth
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 
 #VACATED FORM
 ###############################
-label.help.title.vacated=Nid oes gennych berthynas gyda''r eiddo ar hyn o bryd
+label.help.title.vacated=Nid oes gennych gysylltiad â''r eiddo hwn ar hyn o bryd
 hint.vacated.form=<p>Anfonwch:</p>\
   <p>\
   <ul class="list-bullet">\
@@ -690,7 +690,7 @@ notConnected.whatNext3 = Dylech hefyd roi gwybod i’ch awdurdod lleol am y ffai
 
 #TYPES
 ###############################
-contactAddressType.mainAddress=Eich Cyfeiriad
+contactAddressType.mainAddress=Eich cyfeiriad
 contactAddressType.alternativeAddress=Rwyf am i chi gysylltu â mi mewn cyfeiriad amgen
 contactAddressType.contactsAddress=Rwyf am i chi gysylltu â rhywun arall ar fy rhan
 userType.occupier=Meddiannydd neu ymddiriedolwr ar ran y meddiannydd
@@ -698,7 +698,7 @@ userType.occupiersAgent=Asiant y meddiannydd
 userType.owner=Perchennog neu ymddiriedolwr ar ran y perchennog
 userType.ownerOccupier=Perchennog a meddiannydd
 userType.ownersAgent=Asiant y perchennog
-userType.vacated=No longer the occupier / Recently vacated
+userType.vacated=Nid y perchennog mwyach neu wedi gadael yn ddiweddar
 contactType.email=E-bost
 contactType.phone=Ffôn
 contactType.both=Y ddau
@@ -751,10 +751,10 @@ error.boolean_missing=Rhaid i chi ddewis un
 error.no_value_selected=Rhaid i chi ddewis un
 contactDetails.email1.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
 contactDetails.email2.email.mismatch=Mae''n rhaid i gyfeiriadau e-bost gyfateb
-contactDetails.email1.email.tooLong=Mae''r e-bost a ddarperir yn rhy hir. Ceisiwch ddarparu rhif ffôn yn lle hynny
-contactDetails.email2.email.tooLong=Mae''r e-bost a ddarperir yn rhy hir. Ceisiwch ddarparu rhif ffôn yn lle hynny
-alternativeContact.contactDetails.email1.email.tooLong=Mae''r e-bost a ddarperir yn rhy hir. Ceisiwch ddarparu rhif ffôn yn lle hynny
-alternativeContact.contactDetails.email2.email.tooLong=Mae''r e-bost a ddarperir yn rhy hir. Ceisiwch ddarparu rhif ffôn yn lle hynny
+contactDetails.email1.email.tooLong=Mae''r cyfeiriad e-bost yn rhy hir. Ceisiwch roi rhif ffôn yn lle hynny
+contactDetails.email2.email.tooLong=Mae''r cyfeiriad e-bost yn rhy hir. Ceisiwch roi rhif ffôn yn lle hynny
+alternativeContact.contactDetails.email1.email.tooLong=Mae''r cyfeiriad e-bost yn rhy hir. Ceisiwch roi rhif ffôn yn lle hynny
+alternativeContact.contactDetails.email2.email.tooLong=Mae''r cyfeiriad e-bost yn rhy hir. Ceisiwch roi rhif ffôn yn lle hynny
 error.maxLength=Mae''n rhaid i hwn fod hyd at uchafswm o {0} o nodau
 error.minLength=Hyd lleiaf yw {0}
 error.invalid_postcode=Nodwch god post dilys yn y DU
@@ -781,12 +781,12 @@ error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall
 
 #ERROR PAGES
 ##############################
-error.404.heading=Mae''n ddrwg gennym, nid oedd modd canfod y dudalen y gofynnwyd amdani. Rhowch gynnig arall arni.
-error.408.heading=Mae''n ddrwg gennym, daeth amser y dudalen neu''r gwasanaeth i ben. Rhowch eich manylion eto neu dechreuwch eto.
-error.410.heading=Mae''n ddrwg gennym, nid yw''r dudalen y gofynnwyd amdani ar gael mwyach.
-error.500.heading=Mae''n ddrwg gennym, mae problem gyda''r dudalen ac ni ellir ei dangos. Rhowch gynnig arall arni yn nes ymlaen.
-error.fail.heading=Mae''n ddrwg gennym, nid yw''r rhif cyfeirnod rydych wedi''i roi yn cyd-fynd â''n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
-error.duplicate.heading=Mae''n ddrwg gennym, ni allwch olygu''r wybodaeth hon mwyach gan ei bod wedi''i chyflwyno eisoes.
+error.404.heading=Nid oedd modd canfod y dudalen y gofynnwyd amdani. Rhowch gynnig arall arni.
+error.408.heading=Daeth amser y dudalen neu''r gwasanaeth i ben. Rhowch eich manylion eto neu dechreuwch eto.
+error.410.heading=Nid yw''r dudalen y gofynnwyd amdani ar gael mwyach.
+error.500.heading=Mae problem gyda''r dudalen ac ni ellir ei dangos. Rhowch gynnig arall arni yn nes ymlaen.
+error.fail.heading=Nid yw''r rhif cyfeirnod rydych wedi''i roi yn cyd-fynd â''n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
+error.duplicate.heading=Ni allwch olygu''r wybodaeth hon mwyach gan ei bod wedi''i chyflwyno eisoes.
 error.duplicate.title=Cyflwyno dyblyg
 error.duplicate.copy=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
 error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio''r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
@@ -808,7 +808,7 @@ heading.termsandconditions=Telerau ac Amodau
 content.termsandconditions=<p>Mae''r telerau ac amodau hyn yn llywodraethu eich defnydd o wasanaeth Manylion Rhent a Phrydles ar-lein Asiantaeth y Swyddfa Brisio, fel y''i llywodraethir gan ddeddfau Cymru a Lloegr. Darllenwch y telerau ac amodau hyn yn ofalus gan eu bod yn effeithio ar eich hawliau a''ch cyfrifoldebau yn y gyfraith.</p><p>Wrth ddefnyddio''r wefan hon, rydych yn cytuno ar y telerau ac amodau fel y''u darparwyd.</p><h2 class="heading-medium">Defnyddio''r gwasanaeth ar-lein hwn</h2><p>Rydym yn gwneud pob ymdrech i sicrhau bod y wybodaeth a gyhoeddir ar y wefan yn gywir. Fodd bynnag, ni all Asiantaeth y Swyddfa Brisio dderbyn unrhyw gyfrifoldeb am gywirdeb y wybodaeth hon, ac mae''r rhai sy''n ei defnyddio yn gwneud hynny ar eu menter eu hunain.</p> <p>Ni allwn warantu y bydd y gwasanaeth heb unrhyw ddiffygion. Os bydd problem gyda''r gwasanaeth, dylech ddefnyddio''r ddolen ‘Cael help gyda''r dudalen hon’ ar waelod pob tudalen a byddwn yn cysylltu â chi cyn gynted ag y gallwn.</p> <h2 class="heading-medium">Diogelu rhag feirysau</h2> <p>Rydym yn gwneud pob ymdrech i wirio a phrofi''r holl ddeunydd yn ofalus, ond byddem yn cynghori defnyddwyr i redeg rhaglen gwrthfeirysau ar bob deunydd a lawrlwythir ar-lein.</p> <p>Nid yw Asiantaeth y Swyddfa Brisio yn derbyn unrhyw gyfrifoldeb am unrhyw golled, amhariad na difrod i''ch data na''ch system gyfrifiadurol tra byddwch yn defnyddio''r wefan hon.</p> <h2 class="heading-medium">Diwygiadau i''r telerau ac amodau</h2> <p>Gallwn ddiweddaru''r telerau ac amodau o bryd i''w gilydd a drwy barhau i ddefnyddio''r wefan rydych yn cadarnhau eich bod yn parhau i gytuno ar y telerau ac amodau defnydd hyn.</p> <h2 class="heading-medium">Diogelwch</h2> <p>Er mwyn sicrhau bod eich data''n cael eu cadw''n ddiogel, rydym yn defnyddio diogelwch Haen Socedi Diogel (SSL), un o''r systemau diogelwch cryfaf, ac amgryptiad 128 bit i storio a throsglwyddo eich data.</p> <p>Mae SSL yn gweithio drwy wneud y canlynol:</p> <ul class="list-bullet"> <li>atal pobl rhag dynwared rhywun arall - gallwch weld eich bod yn defnyddio gwefan SSL go iawn drwy''r symbol clo clap ar waelod y sgrin neu ym mar cyfeiriad eich porwr</li> <li>amgryptio data - cyn gynted ag y bydd eich cyfrifiadur wedi adnabod eich cyfrifiadur ni, bydd yn amgryptio''r holl wybodaeth a drosglwyddir rhyngddynt. Mae amgryptio data yn golygu na all unrhyw un arall ddarllen eich gwybodaeth wrth iddo deithio ar draws y Rhyngrwyd na''i newid </li> <li>atal anhrefnu (scrambling) - mae SSL yn defnyddio Cod Dilysu Neges (MAC) i atal unrhyw un rhag ymyrryd â''n gwefan. Bydd eich cyfrifiadur yn gwirio''r cod hwn bob tro cyn derbyn neges gennym. Golyga hyn, os bydd rhywun yn ceisio ymyrryd â neges, na fydd eich cyfrifiadur yn adnabod y cod a bydd yn eich rhybuddio.</li> </ul>
 heading.cookies=Cwcis
 content.cookies=<p>Mae''r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ffeiliau bach, a elwir yn ‘cookies’, ar eich cyfrifiadur er mwyn casglu gwybodaeth ynglŷn â sut rydych yn pori''r wefan.</p>Defnyddir cwcis er mwyn:<ul class="list-bullet"><li>mesur sut rydych yn defnyddio''r wefan fel ei bod yn cael ei diweddaru a''i gwella yn seiliedig ar eich anghenion</li><li>cofio''r hysbysiadau rydych wedi''u gweld fel nad ydym yn eu dangos i chi eto</li></ul><p>Ni ddefnyddir cwcis RALD i''ch adnabod chi''n bersonol.</p> Byddwch fel arfer yn gweld neges ar y safle cyn y byddwn yn storio cwcis ar eich cyfrifiadur. <p>Rhagor o wybodaeth ynglŷn â <a href="http://www.aboutcookies.org/">sut rydym yn rheoli cwcis</a>.</p> <h2 class="heading-medium">Sut y defnyddir cwcis ar RALD</h2> <h3 class="heading-small">Mesur defnydd o''r wefan (Google Analytics)</h3> <p>Rydym yn defnyddio meddalwedd Google Analytics i gasglu gwybodaeth ynglŷn â sut rydych yn defnyddio RALD. Rydym yn gwneud hyn er mwyn helpu i wneud yn siŵr bod y safle''n diwallu anghenion ei defnyddiwr ac i''n helpu i wneud gwelliannau.</p> <p>Mae Google Analytics yn storio gwybodaeth am y canlynol:</p> <ul class="list-bullet"> <li>y tudalennau y gwnaethoch ymweld â nhw ar RALD</li> <li>faint o amser y gwnaethoch ei dreulio ar bob tudalen</li> <li>sut y daethoch i''r safle</li> </ul> <p>Nid ydym yn casglu nac yn storio eich gwybodaeth bersonol (er enghraifft eich enw neu eich cyfeiriad) felly ni ellir defnyddio''r wybodaeth i nodi pwy ydych.</p> <p>Nid ydym yn caniatáu i Google ddefnyddio na rhannu ein data dadansoddi.</p> <p>Mae Google Analytics yn gosod y cwcis canlynol:</p> <h3 class="heading-small">Universal Analytics</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> <tr> <td>_ga</td> <td>Mae hyn yn ei helpu i gyfrif faint o bobl sy''n ymweld â RALD drwy weld a ydych wedi ymweld o''r blaen</td> <td>2 flynedd</td> </tr> <tr> <td>_gat</td> <td>Fe''i defnyddir i reoli''r raddfa y gwneir ceisiadau i weld tudalen newydd</td> <td>10 munud</td> </tr> </tbody> </table> <h3 class="heading-small">Cwcis sy''n benodol ar gyfer RALD</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>mdtp</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> <tr> <td>mdtpdf</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> </tbody> </table> <h3 class="heading-small">Ein neges ragarweiniol</h3> <p>Efallai y byddwch yn gweld neges groeso naid pan fyddwch yn ymweld am y tro cyntaf. Storir cwcis ar eich porwr fel bod eich cyfrifiadur yn gwybod eich bod wedi ei gweld, a''i fod yn gwybod i beidio â''i dangos eto.</p> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>seen_cookie_message</td> <td>Mae''n cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwcis.</td> <td>1 mis</td> </tr> </tbody> </table>
-hint.if0thenenter1=Os nad oedd cost, nodwch ''0'' a rhoi gwybod i ni pam o dan ''Rhowch fanylion y gwaith a gyflawnwyd.''
+hint.if0thenenter1=Os nad oedd cost, nodwch ''0'' a rhoi gwybod i ni pam o dan ''Rhowch fanylion y gwaith a gyflawnwyd.''.
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent y bydd eich cleient yn ei dalu, neu wedi''i dalu, yn ystod y cyfnod rhent grisiog hwn, ac eithrio TAW
 section2.heading.1=Oherwydd diogelwch data, ni allwn gyn-boblogi''r ffurflen hon
 label.writtenAgreement.rentOpenEnded.help=Dewiswch ''Nac ydy'' os yw''n rhedeg am dymor wedi''i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno
@@ -832,7 +832,7 @@ index.reviewDetails=unrhyw gyfnodau adolygu rhent
 index.rentFreePeriodDetails=unrhyw gyfnodau di-rent neu gymhellion eraill
 index.start=Dechrau nawr
 index.before=Cyn i chi ddechrau
-index.before.p1=Mae hi yn cymeryd 20 munud i ddefnyddio y gwasanaeth hwn.
+index.before.p1=Mae''n cymryd tua 30 munud i ddefnyddio’r gwasanaeth hwn.
 index.before.p2=Nid oes rhaid i chi ei gwblhau mewn un cam. Gallwch safio yr hyn rydych chi wedi’i wneud a dychwelyd i orffen yn nes ymlaen.
 index.help=Os oes angen help
 index.help.p1=Cysylltwch ȃ’ch Swyddfa Brisio leol ynglyn ȃ help i ddefnyddio y gwasanaeth.
