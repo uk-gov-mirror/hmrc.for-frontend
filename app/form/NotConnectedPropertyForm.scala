@@ -24,9 +24,10 @@ import play.api.data.validation.Constraints.emailAddress
 import play.api.data.validation.{Constraint, Valid}
 import play.api.data.Forms._
 
-case class NotConnectedPropertyForm(
+case class NotConnectedPropertyForm( fullName: String,
                                      email: Option[String],
-                                     phoneNumber: Option[String]
+                                     phoneNumber: Option[String],
+                                     additionalInformation: String
                                    )
 
 
@@ -61,8 +62,10 @@ object NotConnectedPropertyForm {
 
   val form = Form(
     mapping(
+      "fullName" -> nonEmptyText,
       "email" -> atLeastOneMapping("phoneNumber", emailAddress),
-      "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*)
+      "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
+      "additionalInformation" -> text
     )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
   )
 
