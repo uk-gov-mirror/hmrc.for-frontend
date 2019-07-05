@@ -188,6 +188,16 @@
 
                             <div id=@(s"includedServicesDetails_description_div_${idx}")>
 
+                                @inputText(
+                                field = theForm(s"includedServicesDetails[$idx].chargeCost"),
+                                '_label -> Messages("label.includedServicesDetails.chargeCost"),
+                                '_labelClass -> "form-label-bold",
+                                'class -> "form-control input-currency excludeVat",
+                                '_pound -> true,
+                                '_help -> Messages("hint.includedServicesDetails.chargeCost"),
+                                '_nojsText -> Messages("label.noJs.secton12")
+                                )
+
                                 @textarea(
                                     field = theForm(s"includedServicesDetails[$idx].chargeDescription"),
                                     '_label -> Messages("label.includedServicesDetails.chargeDescription"),
@@ -195,18 +205,11 @@
                                     'class -> "form-control input-extra-large",
                                     Symbol("rows") -> "2",
                                     '_characterCount -> "50",
+                                    '_help -> Messages("hint.includedServicesDetails.chargeDescription"),
                                     '_nojsText -> Messages("label.noJs.secton12")
                                 )
 
-                                @inputText(
-                                    field = theForm(s"includedServicesDetails[$idx].chargeCost"),
-                                    '_label -> Messages("label.includedServicesDetails.chargeCost"),
-                                    '_labelClass -> "form-label-bold",
-                                    'class -> "form-control input-currency excludeVat",
-                                    '_pound -> true,
-                                    '_help -> Messages("hint.includedServicesDetails.chargeCost"),
-                                    '_nojsText -> Messages("label.noJs.secton12")
-                                )
+
 
                                 <a href="#" class="remove-multi-fields" role="button" style="display : none">@Messages("label.add.remove")</a>
                             </div>

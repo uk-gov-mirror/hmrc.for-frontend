@@ -77,6 +77,13 @@
                     @helper.CSRF.formField
 
                     @inputText(
+                    field = theForm("fullName"),
+                    '_label -> Messages("label.fullName"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                    )
+
+                    @inputText(
                     field = theForm("email"),
                     '_label ->  Messages("label.email"),
                     '_labelClass -> "form-label-bold",
@@ -87,6 +94,14 @@
                     field = theForm("phoneNumber"),
                     '_label -> Messages("label.phoneNumber"),
                     '_labelClass -> "form-label-bold",
+                    'class -> "form-control"
+                    )
+
+                    @textarea(
+                    field = theForm("additionalInformation"),
+                    '_label -> Messages("notConnected.additionalInformation"),
+                    '_labelClass -> "form-label-bold",
+                    '_help -> Messages("notConnected.additionalInformationHelp"),
                     'class -> "form-control"
                     )
 
