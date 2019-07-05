@@ -43,7 +43,7 @@
   if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
 }
   
-@main(title=Messages("project.name")+" - "+Messages("section2.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+@main(title=Messages("section2.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
   @form(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
       
     <main id="content" tabindex="-1">

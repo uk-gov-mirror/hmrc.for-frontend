@@ -38,7 +38,7 @@
 
 
 
-@main(title=Messages("project.name")+" - "+Messages("section1.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary)) {
+@main(title=Messages("section1.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary)) {
   
   @form(action = dataCapturePages.routes.PageController.savePage(1), args = 'class -> "section1", 'id -> "myFormId") {
     

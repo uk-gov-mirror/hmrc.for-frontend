@@ -26,12 +26,11 @@
   @views.html.includes.analytics()
 }
 
-@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
+@main(title=Messages("saveForLater.invalidPassword") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
     <main id="content" tabindex="-1">
         <div class="grid-row">
             <div class="column-two-thirds">
-                <h1 class="form-title heading-large"></h1>
-                <p>@Messages("saveForLater.invalidPassword")</p>
+                <h1 class="form-title heading-large">@Messages("saveForLater.invalidPassword")</h1>
 
                 <div class="form-group">
                     <a href="@routes.SaveForLater.login" class="button button-primary">@Messages("label.tryAgain")</a>
