@@ -42,7 +42,7 @@
     val s = summary.customerDetails
 }
 
-@main(title=Messages("project.name")+" - "+Messages("section5.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+@main(title=Messages("section5.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
     @form(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
 
     <main id="content" tabindex="-1">

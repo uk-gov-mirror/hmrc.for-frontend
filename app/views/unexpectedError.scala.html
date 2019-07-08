@@ -24,7 +24,7 @@
   @views.html.includes.javascripts() 
 }
 
-@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,needsTimeoutWarning=false) {
+@main(title="Something went wrong, sorry - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,needsTimeoutWarning=false) {
 
 <h1> Something went wrong, sorry </h1>
 <p>@message</p>

@@ -25,7 +25,8 @@
   @views.html.includes.analytics()
 }
 
-@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false) {
+@main(title=Messages("error.fail.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false) {
+
  <main id="content" tabindex="-1">
 <div class="grid-row">
     <div class="column-two-thirds">

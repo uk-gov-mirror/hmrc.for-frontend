@@ -26,17 +26,15 @@
   @views.html.includes.analytics()
 }
 
-@main(title=Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
+@main(title=Messages("saveForLater.pleaseEnterPassword") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
 
 
    <main id="content" tabindex="-1">
        <div class="grid-row">
            <div class="column-two-thirds">
-               <h1 class="form-title heading-large"></h1>
+               <h1 class="form-title heading-large">@Messages("saveForLater.pleaseEnterPassword")</h1>
                @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
                    @helper.CSRF.formField
-
-                   <p>@Messages("saveForLater.pleaseEnterPassword")</p>
 
                    <fieldset class="form-group">
                        <legend class="form-label-bold">@Messages("saveForLater.password") <span class="visuallyhidden" aria-hidden="true" >(Required)</span></legend>

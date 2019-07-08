@@ -38,7 +38,7 @@
 @verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
 @writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
 
-@main(title=Messages("project.name")+" - "+Messages("section3.heading"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
+@main(title=Messages("section3.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
   @form(action = dataCapturePages.routes.PageController.savePage(3), args = 'class -> "myForm", 'id -> "myFormId") {
      
   <main id="content" tabindex="-1">
