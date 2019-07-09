@@ -542,10 +542,11 @@ label.quoteRefNum=gan ddyfynnu eich rhif cyfeirnod {0}.
 label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
 label.finish=Gorffen
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio''ch profiad gyda''r ffurflen hon?
-label.satisfactionSurveyComments=Sut y gallwn wella''r ffurflen hon?
+label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn?
 label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio''ch profiad gyda''r ffurflen hon?
 hint.limit=Yr uchafswm yw 1200 o nodau
-text.survey.bottomCopy=Peidiwch â chynnwys gwybodaeth bersonol nac ariannol, megis eich rhif Yswiriant Gwladol neu rifau’ch cardiau credyd.
+text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
+text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
 
 #SURVEY THANKYOU
 ###############################
