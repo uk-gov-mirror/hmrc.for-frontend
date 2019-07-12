@@ -23,6 +23,7 @@ import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
+import play.i18n.MessagesApi
 import play.twirl.api.Html
 import playconfig.{ForHttp, WSHttp}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
@@ -57,15 +58,15 @@ trait ForGlobal extends DefaultFrontendGlobal {
   def microserviceMetricsConfig(implicit app: play.api.Application): Option[Configuration] = ForConfig.metricsConfig
 
   def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: play.api.mvc.Request[_]): play.twirl.api.Html = {
-    views.html.error.error500()(request, applicationMessages)
+    views.html.error.error500()(request, applicationMessages.messages.preferred(request))
   }
 
   override def notFoundTemplate(implicit request: Request[_]): Html = {
-    views.html.error.error404()(request, applicationMessages)
+    views.html.error.error404()(request, applicationMessages.messages.preferred(request))
   }
 
   override def badRequestTemplate(implicit request: Request[_]): Html = {
-    views.html.error.error500()(request, applicationMessages)
+    views.html.error.error500()(request, applicationMessages.messages.preferred(request))
   }
 
   override def resolveError(rh: RequestHeader, ex: Throwable): Result = {
