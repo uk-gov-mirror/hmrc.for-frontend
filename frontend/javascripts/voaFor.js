@@ -128,7 +128,9 @@
             VoaCommon.addAnchors();
             if ($('.multi-fields-group').length === limit) {
                 $(this).hide();
+                $('.add-hint').show();
             } else {
+                $('.add-hint').hide();
                 $(this).show();
             }
         });
@@ -145,11 +147,13 @@
         }
     };
 
+
     VoaFor.removeFieldMulti = function () {
         $(document).on('click', '.remove-multi-fields', function (e) {
             e.preventDefault();
             var limit = parseInt($(this).closest('fieldset').attr('data-limit'), 10);
             $(this).closest('.multi-fields-group').remove();
+            $('.add-hint').hide();
             if ($('.multi-fields-group').length === 1) {
                 $('.multi-fields-group:first').find('.remove-multi-fields').css('display', 'none');
             }
