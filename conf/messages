@@ -501,7 +501,7 @@ label.waterChargesCost=Total amount per year included in the rent (excluding VAT
 label.includedServices=Are service charges included in the rent?
 hint.includedServices=For example, lighting, heating, maintenance of shared areas.
 label.includedServicesDetails=Included Services
-label.includedServicesDetails.chargeDescription=Provide details of services
+label.includedServicesDetails.chargeDescription=Provide details of the services
 hint.includedServicesDetails.chargeDescription=For example "lighting £150, heating £50, cleaning £50".  If you need to tell us more, please continue in ''Any other factors'' in Section 14.
 label.includedServicesDetails.chargeCost=Total amount per year included in the rent (excluding VAT)
 hint.includedServicesDetails.chargeCost=If you cannot provide any cost amounts, enter "1".
@@ -558,7 +558,7 @@ label.satisfactionSurvey=Overall, how would you describe your experience with th
 label.satisfactionSurveyComments=How can we improve this service?
 label.satisfaction=Overall, how would you describe your experience with the form?
 hint.limit=Limit is 1200 characters
-text.survey.bottomCopy=Don't include any personal or financial information, for example your National Insurance or credit card numbers.
+text.survey.bottomCopy=Don’t include any personal or financial information, for example your National Insurance or credit card numbers.
 text.survey.bottomImprove=To help us improve this service, include as much information as possible. For example if a question was confusing, let us know which one.
 
 #SURVEY THANKYOU
