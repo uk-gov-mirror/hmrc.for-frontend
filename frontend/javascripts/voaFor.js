@@ -265,19 +265,6 @@
     };
 
 
-    VoaFor.excludeVat = function(){
-        $(document).on('change', '.excludeVat', function () {
-            var element = $(this).closest('.form-group');
-            if(!element.find('.vat-alert').length){
-                element.next('.vat-alert').remove();
-                element.after('<div class="panel-indent panel-indent-info vat-alert">'+VoaMessages.textLabel('labelExcludeVat')+'</div>');
-            } else{
-                element.find('.vat-alert').remove();
-            }
-        });
-
-    };
-
     VoaFor.agreementType = function(){
 
         function swapAgreementType(){
