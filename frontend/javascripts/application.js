@@ -33,7 +33,6 @@ var ref;
         VoaFor.updateLabelToggle();
         VoaFor.isEdit();
         VoaFor.radioAgreement();
-        VoaFor.excludeVat();
         VoaFor.agreementType();
         VoaFor.populateLettingsAddress();
         VoaFor.getReferrer();
