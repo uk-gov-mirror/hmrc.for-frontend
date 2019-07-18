@@ -124,7 +124,6 @@
             element.find('.multi-fields-group:last').removeClass('form-grouped-error');
             element.find('.multi-fields-group:last').find('.form-group').removeClass('has-error');
             element.find('.multi-fields-group:last .intel-alert').addClass('hidden');
-            element.find('.multi-fields-group:last .vat-alert').remove();
             VoaCommon.addAnchors();
             if ($('.multi-fields-group').length === limit) {
                 $(this).hide();
