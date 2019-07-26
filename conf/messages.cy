@@ -540,6 +540,7 @@ label.weMayContactYou=Efallai y bydd angen i ni gysylltu â chi yn y dyfodol i g
 label.anyQuestions=Os oes gennych unrhyw gwestiynau ynglŷn â''ch ffurflen, cysylltwch â ni
 label.quoteRefNum=gan ddyfynnu eich rhif cyfeirnod {0}.
 label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
+label.feedback.headingAfterSubmitting=Adborth
 label.finish=Gorffen
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio''ch profiad gyda''r ffurflen hon?
 label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn?
