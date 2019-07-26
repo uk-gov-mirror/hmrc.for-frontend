@@ -63,7 +63,7 @@
                 findPostcode: 'Dod o hyd i\'r cyfeiriad drwy god post',
                 enterManual: 'Rhoi\'r cyfeiriad â llaw',
                 buttonUpdate: 'Diweddaru',
-                buttonContinue: 'Parhau',
+                buttonContinue: 'Yn eich blaen',
                 labelReveal: 'Gwasgwch i ddatgelu ateb',
                 labelHide: 'Gwasgwch i guddio ateb',
                 labelAddress: 'Cyfeiriad',
