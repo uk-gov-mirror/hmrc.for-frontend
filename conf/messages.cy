@@ -563,11 +563,11 @@ error.declaration=Mae''n rhaid i chi gytuno er mwyn parhau
 
 #SAVE
 ###############################
-saveForLater.heading=Gwnewch nodyn o''r cyfrinair hwn
+saveForLater.heading=Gwnewch nodyn o’r cyfrinair hwn
 saveForLater.paragraph=Byddwn yn dileu unrhyw wybodaeth sydd heb ei chyflwyno ar
 saveForLater.info=Gwnewch nodyn o’r cyfrinair hwn gan y bydd ei angen arnoch i adfer eich gwybodaeth sydd wedi’i chadw
 saveForLater.info.p.2=Byddwch hefyd angen eich cyfeirnod a''r cod post a ddangosir ar y llythyr er mwyn gallu bwrw golwg ar eich gwybodaeth a gwneud newidiadau.
-saveForLater.continue=Parhau i lenwi’r ffurflen hon
+saveForLater.continue=Yn eich blaen i lenwi’r ffurflen hon
 saveForLater.return=Dychwelyd i GOV.UK
 saveForLater.surveyLink=Dywedwch wrthym beth yw eich barn?
 saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi''i chadw bydd angen y canlynol arnoch:
@@ -593,8 +593,8 @@ saveForLater.next=Cadw cyfrinair
 ###############################
 saveForm.heading=Gwneud nodyn o’r cyfrinair hwn
 saveForm.content=Beth hoffech chi ei wneud nesaf?
-saveForm.continue=Parhau i gwblhau''r ffurflen hon
-saveForm.start=Dechrau''r ffurflen eto
+saveForm.continue=Yn eich blaen i lenwi’r ffurflen hon
+saveForm.start=Dechrau’r ffurflen eto
 saveForm.or=Neu
 month.January=Ionawr
 month.February=Chwefror
@@ -648,7 +648,7 @@ heading.giveFeedback=Rhoi adborth
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â''n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
-label.help.link=Cael help gyda''r ffurflen
+label.help.link=Cael help gyda’r ffurflen
 label.help.title=Help ar gyfer y dudalen
 copy.form.help=Os oes angen help arnoch i gwblhau''r ffurflen hon, dywedwch wrthym beth yw''r broblem yn yr adran sylwadau.
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
