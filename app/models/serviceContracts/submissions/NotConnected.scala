@@ -16,19 +16,20 @@
 
 package models.serviceContracts.submissions
 
-import org.joda.time.DateTime
+import java.time.Instant
+
 import play.api.libs.json._
 
-case class NotConnectedSubmission( _id: String /** submission Id*/,
+case class NotConnectedSubmission( id: String,
                                    address: Address,
                                    fullName: String,
                                    emailAddress: Option[String],
                                    phoneNumber: Option[String],
                                    additionalInformation: Option[String],
-                                   createdAt: DateTime
+                                   createdAt: Instant
                                  )
-
 object NotConnectedSubmission {
+
   implicit  val format = Json.format[NotConnectedSubmission]
 
 }

@@ -16,6 +16,8 @@
 
 package controllers
 
+import java.time.Instant
+
 import actions.{RefNumAction, RefNumRequest}
 import connectors.SubmissionConnector
 import form.NotConnectedPropertyForm
@@ -24,7 +26,6 @@ import javax.inject.{Inject, Singleton}
 import models.pages.{Summary, SummaryBuilder}
 import models.serviceContracts.submissions.NotConnectedSubmission
 import form.NotConnectedPropertyForm.form
-import org.joda.time.DateTime
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
 import playconfig.{FormPersistence, SessionId}
@@ -105,7 +106,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
       submissionForm.email,
       submissionForm.phoneNumber,
       submissionForm.additionalInformation,
-      DateTime.now()
+      Instant.now()
     )
     submissionConnector.submitNotConnected(summary.referenceNumber, submission)
   }

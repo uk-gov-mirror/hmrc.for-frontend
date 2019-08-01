@@ -49,7 +49,7 @@ class HodSubmissionConnector @Inject() (application: Application) extends Submis
   }
 
   override def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit] = {
-    http.PUT(s"$serviceUrl/for/submissions/notConnected/${submission._id}", submission).map(_ => ())
+    http.PUT(s"$serviceUrl/for/submissions/notConnected/${submission.id}", submission).map(_ => ())
   }
 
   override protected def mode: Mode = application.mode
