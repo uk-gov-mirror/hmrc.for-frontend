@@ -44,15 +44,21 @@
                             var address = space(line1) + space(line2) + space(line3);
                             var option = formGroupLookup.find('.addressList option:last');
                             $.each(data, function (i, item) {
-                                line1 = item.address.lines[0],
-                                line2 = item.address.lines[1],
+                                line1 = item.address.lines[0];
+                                line2 = item.address.lines[1];
                                 line3 = item.address.lines[2];
-                                if(!line1){ line1 = ''; }
-                                if(!line2){ line2 = ''; }
-                                if(!line3){ line3 = ''; }
-                                town = item.address['town'],
-                                pcode = item.address['postcode'],
-                                address = space(line1) + space(line2) + space(line3),
+                                if (!line1) {
+                                    line1 = '';
+                                }
+                                if (!line2) {
+                                    line2 = '';
+                                }
+                                if (!line3) {
+                                    line3 = '';
+                                }
+                                town = item.address['town'];
+                                pcode = item.address['postcode'];
+                                address = space(line1) + space(line2) + space(line3);
                                 option = formGroupLookup.find('.addressList option:last');
                                 $('.addressList').append('<option value="' + i + '">' + address + '</option>');
                             });
