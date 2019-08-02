@@ -356,37 +356,37 @@ hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, no
 #SECTION 7
 ###############################
 section7.heading=Adolygiadau rhent
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw''ch prydles neu''ch cytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?</span>
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw’ch prydles neu’ch cytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?</span>
 label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
-label.leaseContainsRentReviews.leaseTenancy=A yw''ch prydles neu''ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
+label.leaseContainsRentReviews.leaseTenancy=A yw’ch prydles neu’ch cytundeb tenantiaeth presennol yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles neu gytundeb tenantiaeth presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
-hint.leaseContainsRentReviews=Adolygiad rhent yw adeg lle gall y landlord a''r tenant drafod newid y rhent. Mae''n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau''r brydles neu''r denantiaeth.
+hint.leaseContainsRentReviews=Adolygiad rhent yw adeg lle gall y landlord a’r tenant drafod newid y rhent. Mae’n wahanol i rent grisiog, sydd wedi cael ei gytuno ar ddechrau’r brydles neu’r denantiaeth.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Nodwch y cyfnod rhwng adolygiadau rhent
 label.rentReviewDetails.lastReviewDate=Beth oedd dyddiad yr adolygiad diwethaf?
-hint.canRentReduced=Bydd cymal penodol yn y brydles neu''r cytundeb a fydd yn nodi pa un a all y rhent ostwng yn ogystal â chodi. Dewiswch ‘Gall’ os gall y rhent godi neu ostwng, ‘Na all’ os mai dim ond codi y gall y rhent ei wneud.
+hint.canRentReduced=Bydd cymal penodol yn y brydles neu’r cytundeb a fydd yn nodi pa un a all y rhent ostwng yn ogystal â chodi. Dewiswch ‘Gall’ os gall y rhent godi neu ostwng, ‘Na all’ os mai dim ond codi y gall y rhent ei wneud.
 label.rentReviewDetails.rentReviewResultsDetails.whenWasRentReview=Pryd cynhaliwyd yr adolygiad rhent hwn?
 label.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Cafodd ei bennu gan
 label.rentReviewDetails.reviewIntervalType=Pa mor aml y caiff y rhent ei adolygu?
 label.rentReviewDetails.canRentReduced=A all y rhent gael ei ostwng mewn adolygiad?
-label.rentReviewDetails.rentResultOfRentReview=A yw''r rhent am yr eiddo hwn yn deillio o adolygiad rhent?
-label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=A gafodd y rhent ei bennu rhyngoch chi (neu''ch asiant) a''r landlord?
+label.rentReviewDetails.rentResultOfRentReview=A yw’r rhent am yr eiddo hwn yn deillio o adolygiad rhent?
+label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween=A gafodd y rhent ei bennu rhyngoch chi (neu’ch asiant) a’r landlord?
 label.rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween.agent=A gytunwyd ar y rhent rhwng eich cleient (neu chi) a''r landlord?
-hint.lastReviewDate=Gadewch yn wag os nad yw wedi''i adolygu eto.
+hint.lastReviewDate=Gadewch yn wag os nad yw wedi’i adolygu eto.
 label.noJs.rentReviewDetails.reviewIntervalType=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentResultOfRentReview=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
-hint.rentOnThisPropertyTheResultOf=Dewiswch ''Ydy'' hyd yn oed os na newidiodd y rhent o ganlyniad i''r adolygiad.
+hint.rentOnThisPropertyTheResultOf=Dewiswch ''Ydy'' hyd yn oed os na newidiodd y rhent o ganlyniad i’r adolygiad.
 
 #SECTION 8
 ###############################
 section8.heading=Sut y cafodd eich rhent ei bennu, os nad trwy adolygiad
 section8.heading.agent=Sut y cafodd rhent eich cleient ei bennu, os nad trwy adolygiad
-label.wasRentFixedBetween=A bennwyd y rhent rhyngoch chi (neu eich asiant) a''r landlord?
+label.wasRentFixedBetween=A bennwyd y rhent rhyngoch chi (neu eich asiant) a’r landlord?
 label.wasRentFixedBetween.agent=A bennwyd y rhent rhwng eich cleient (neu chi) a''r landlord?
 label.notReviewRentFixed=A bennwyd y rhent drwy
-label.rentSetByType=A yw''r rhent hwn yn
+label.rentSetByType=A yw’r rhent hwn yn
 label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 
 #SECTION 9
@@ -396,19 +396,19 @@ label.totalRent.annualRentExcludingVat=Beth yw’ch rhent blynyddol ar hyn o bry
 label.totalRent.annualRentExcludingVat.agent=Faint yw rhent blynyddol cyfredol eich cleient?
 hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (heb gynnwys TAW) hyd yn oed os ydych yn talu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod di-rent.
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
-label.rentBecomePayable=Pa bryd y dechreuoch dalu''r rhent presennol?
+label.rentBecomePayable=Pa bryd y dechreuoch dalu’r rhent presennol?
 label.rentBecomePayable.agent=Pryd dechreuodd eich cleient dalu''r rhent hwn?
-hint.rentBecomePayable=Gallwch weld hyn yn y brydles neu''r cytundeb.
-label.negotiatingNewRent=A ydych chi neu''ch asiant yn trafod rhent newydd?
+hint.rentBecomePayable=Gallwch weld hyn yn y brydles neu’r cytundeb.
+label.negotiatingNewRent=A ydych chi neu’ch asiant yn trafod rhent newydd?
 label.negotiatingNewRent.agent=A ydych yn trafod rhent newydd ar ran eich cleient?
 hint.negotiatingNewRent=Er enghraifft, ar gyfer adolygiad rhent neu brydles newydd.
-label.rentBasedOn=Ar beth y mae''r rhent yn seiliedig?
+label.rentBasedOn=Ar beth y mae’r rhent yn seiliedig?
 label.rentBasedOnDetails=Rhowch fanylion
-hint.rentBasedOnDetails=Gallwch weld hyn yn y brydles neu''r cytundeb.
+hint.rentBasedOnDetails=Gallwch weld hyn yn y brydles neu’r cytundeb.
 label.rentActuallyAgreed=Pryd cytunwyd ar y rhent neu pryd cafodd ei bennu?
 details.question.rentBasedOn=Dysgwch ragor am yr hyn y seilir eich rhent arno
 details.answer.rentBasedOn=<h3 class="font-bold">Beth yw''r gwerth ar y farchnad agored?</h3><p>Dyma''r rhent y gall landlord ei ddisgwyl ar gyfer eiddo, petai''n cael ei osod ar rent i eraill ar delerau tebyg.</p><h3 class="font-bold">Beth yw canran o''r trosiant?</h3><p>Dyma pryd mae’r rhent yn cael ei gyfrifo gan gyfeirio at yr elw busnes a gynhyrchir gan y tenant, fel canran o''r trosiant blynyddol y tenant</p><h3 class="font-bold">Beth yw mynegio?</h3><p> Mae mynegio yn cynnwys adolygu rhenti at i fyny yn unig bob blwyddyn, yn unol â''r Mynegai Prisiau Manwerthu.</p>
-hint.rentActuallyAgreed=Dyma''r dyddiad y cafodd y cytundeb ei lofnodi.
+hint.rentActuallyAgreed=Dyma’r dyddiad y cafodd y cytundeb ei lofnodi.
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 
 #SECTION 10
@@ -719,8 +719,8 @@ notReviewRentFixedTypes.interim=rhent interim a bennwyd gan lys o dan Ddeddfau''
 notReviewRentFixedTypes.finalJudge=dyfarniad terfynol gan lys
 rentSetByTypes.newLease=Prydles neu gytundeb newydd (ysgrifenedig neu ar lafar)
 rentSetByTypes.renewedLease=Prydles neu gytundeb wedi''i adnewyddu
-rentSetByTypes.leaseback=trafodiad gwerthu ac adlesu
-rentSetByTypes.surrender=ildiad ac adnewyddiad
+rentSetByTypes.leaseback=Trafodyn gwerthu ac adlesu
+rentSetByTypes.surrender=Ildiad ac adnewyddiad
 rentBaseTypes.openMarket=Gwerth ar y farchnad agored
 rentBaseTypes.percentageOpenMarket=Canran o werth ar y farchnad agored
 rentBaseTypes.percentageTurnover=Canran o drosiant
