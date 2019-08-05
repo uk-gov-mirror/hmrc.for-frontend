@@ -15,6 +15,13 @@ module.exports = function(grunt) {
                 'public/javascripts/intelAlerts.js'
             ]
         },
+        connect: {
+            server: {
+                options: {
+                    port: 23883
+                }
+            }
+        },
         // Builds Sass
         sass: {
             dev: {
@@ -251,7 +258,8 @@ module.exports = function(grunt) {
                         'public/javascripts/app.js',
                         'public/javascripts/selection-buttons.min.js'
 
-                    ]
+                    ],
+                    host : 'http://127.0.0.1:23883/'
                 }
             }
         }
@@ -267,7 +275,8 @@ module.exports = function(grunt) {
         'grunt-text-replace',
         'grunt-contrib-jasmine',
         'grunt-contrib-sass',
-        'grunt-contrib-cssmin'
+        'grunt-contrib-cssmin',
+        'grunt-contrib-connect'
     ].forEach(function(task) {
         grunt.loadNpmTasks(task);
     });
@@ -279,6 +288,7 @@ module.exports = function(grunt) {
         'uglify',
         'replace',
         'sass',
+        'connect',
         'jasmine',
         'cssmin',
         'clean:end'
