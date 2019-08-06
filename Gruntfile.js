@@ -255,7 +255,8 @@ module.exports = function(grunt) {
                         'public/javascripts/selection-buttons.min.js'
 
                     ],
-                    host : 'http://127.0.0.1:23883/'
+                    host : 'http://127.0.0.1:23883/',
+                    noSandbox: true
                 }
             }
         }
