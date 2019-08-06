@@ -1,3 +1,4 @@
+var nodeSass = require('node-sass');
 module.exports = function(grunt) {
 	'use strict';
     grunt.initConfig({
@@ -26,12 +27,13 @@ module.exports = function(grunt) {
         sass: {
             dev: {
                 options: {
-                    loadPath: [
+                    includePaths: [
                         'govuk_modules/govuk_template/assets/stylesheets',
                         'govuk_modules/govuk_frontend_toolkit/stylesheets'
                     ],
-                    lineNumbers: false,
-                    style: 'expanded'
+                    lineNumbers: true,
+                    style: 'expanded',
+                    implementation: nodeSass
                 },
                 files: [{
                     expand: true,
@@ -43,13 +45,14 @@ module.exports = function(grunt) {
             },
             prod: {
                 options: {
-                    loadPath: [
+                    includePaths: [
                         'govuk_modules/govuk_template/assets/stylesheets',
                         'govuk_modules/govuk_frontend_toolkit/stylesheets'
                     ],
                     lineNumbers: false,
                     style: 'compressed',
-                    sourcemap: false
+                    sourcemap: false,
+                    implementation: nodeSass
                 },
                 files: [{
                     expand: true,
@@ -67,7 +70,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'node_modules/govuk-elements-sass/public/sass',
-                    src: ['**', '!_govuk-elements.scss'],
+                    src: ['**', '!_govuk-elements.scss', '!_elements.scss', '!_frontend-toolkit.scss' ],
                     dest: 'frontend/sass'
                 }]
             },
@@ -186,13 +189,6 @@ module.exports = function(grunt) {
                     ]
                 }
             },
-            webfont: {
-                files: {
-                    'public/javascripts/vendor/goog/webfont-debug.min.js': [
-                        'govuk_modules/govuk_template/assets/javascripts/vendor/goog/webfont-debug.js'
-                    ]
-                }
-            },
             bind: {
                 files: {
                     'public/javascripts/polyfills/bind.min.js': [
@@ -274,7 +270,6 @@ module.exports = function(grunt) {
         'grunt-contrib-uglify',
         'grunt-text-replace',
         'grunt-contrib-jasmine',
-        'grunt-contrib-sass',
         'grunt-contrib-cssmin',
         'grunt-contrib-connect'
     ].forEach(function(task) {
