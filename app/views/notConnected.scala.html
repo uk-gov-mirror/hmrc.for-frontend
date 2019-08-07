@@ -27,90 +27,62 @@
 
 @(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-@headExtra = {
-    @views.html.includes.stylesheets()
-}
+@layouts.govukFrontend(
+    title = Some(Messages("notConnected.heading") + " - " + Messages("project.name"))
+) {
+    <a href="page/0" class="govuk-back-link">@Messages("button.label.back")</a>
+    <main class="govuk-main-wrapper app-main-class" id="main-content" role="main">
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-
-    <script type="text/javascript">
-            (function() {
-                var timeoutSeconds = @current.configuration.getInt("signout.timeout").get ;
-                setTimeout(function () {
-                    window.open("/sending-rental-information/logout","_self")
-                }, timeoutSeconds * 1000);
-            })();
-    </script>
-
-    @views.html.includes.analytics(summary)
-}
-
-@inpagehelp = @{
-    routes.Application.inpageVacatedForm
-}
-
-@underReview = @{
-    if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
-}
-
-
-@main(title =Messages("notConnected.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
-
-    @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
-        <main id="content" tabindex="-1">
-
-
-            <a href="page/0" class="button-link link-back">@Messages("button.label.back")</a>
-
-
-            <h1 class="form-title heading-large form-title-group">
-                @Messages("notConnected.heading")
-            </h1>
-
-            @includes.errors(theForm, isAgent = false)
-
-            <div class="grid-row">
-                <div class="column-full">
-                    <p>@Messages("notConnected.subheading")</p>
-
-                    @helper.CSRF.formField
-
-                    @inputText(
-                    field = theForm("fullName"),
-                    '_label -> Messages("label.fullName"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @inputText(
-                    field = theForm("email"),
-                    '_label ->  Messages("label.email"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @inputText(
-                    field = theForm("phoneNumber"),
-                    '_label -> Messages("label.phoneNumber"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @textarea(
-                    field = theForm("additionalInformation"),
-                    '_label -> Messages("notConnected.additionalInformation"),
-                    '_labelClass -> "form-label-bold",
-                    '_help -> Messages("notConnected.additionalInformationHelp"),
-                    'class -> "form-control"
-                    )
-
-                    <button type="submit" id="continue" name="continue_button" class="button">
-                        @Messages("button.label.submit")
-                    </button>
-                </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">@Messages("notConnected.heading")</h1>
             </div>
-        </main>
-    }
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+            @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+                @helper.CSRF.formField
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="fullName">
+                        @Messages("label.fullName")
+                    </label>
+                    <input class="govuk-input" id="fullName" name="fullName" type="text">
+                </div>
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="email">
+                        @Messages("label.email")
+                    </label>
+                    <input class="govuk-input" id="email" name="email" type="email" autocomplete="email" spellcheck="false">
+                </div>
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="phoneNumber">
+                        @Messages("label.phoneNumber")
+                    </label>
+                    <input class="govuk-input govuk-input--width-20" id="phoneNumber" name="phoneNumber" type="tel" autocomplete="tel">
+                </div>
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="more-detail">
+                       @Messages("notConnected.additionalInformation")
+                    </label>
+                    <span id="more-detail-hint" class="govuk-hint">
+                       @Messages("notConnected.additionalInformationHelp")
+                    </span>
+                    <textarea class="govuk-textarea" id="more-detail" name="more-detail" rows="5" aria-describedby="more-detail-hint"></textarea>
+                </div>
+
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    @Messages("button.label.submit")
+                </button>
+
+            }
+            </div>
+        </div>
+
+    </main>
 
 }

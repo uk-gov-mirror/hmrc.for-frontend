@@ -29,7 +29,8 @@ module.exports = function(grunt) {
                 options: {
                     includePaths: [
                         'govuk_modules/govuk_template/assets/stylesheets',
-                        'govuk_modules/govuk_frontend_toolkit/stylesheets'
+                        'govuk_modules/govuk_frontend_toolkit/stylesheets',
+                        'node_modules/govuk-frontend'
                     ],
                     lineNumbers: true,
                     style: 'expanded',
@@ -47,7 +48,8 @@ module.exports = function(grunt) {
                 options: {
                     includePaths: [
                         'govuk_modules/govuk_template/assets/stylesheets',
-                        'govuk_modules/govuk_frontend_toolkit/stylesheets'
+                        'govuk_modules/govuk_frontend_toolkit/stylesheets',
+                        'node_modules/govuk-frontend'
                     ],
                     lineNumbers: false,
                     style: 'compressed',
@@ -66,6 +68,29 @@ module.exports = function(grunt) {
 
         // Copies templates and assets from external modules and dirs
         copy: {
+            govukFrontend: { //should be removed, just for easy development
+                files: [{
+                    expand: true,
+                    cwd: 'node_modules/govuk-frontend',
+                    src: '**',
+                    dest: 'govuk_modules/govuk-frontend/'
+                }, {
+                    expand: true,
+                    cwd: 'node_modules/govuk-frontend/govuk/assets/fonts',
+                    src: '**',
+                    dest: 'public/fonts/'
+                }, {
+                    expand: true,
+                    cwd: 'node_modules/govuk-frontend/govuk/assets/images',
+                    src: '**',
+                    dest: 'public/images/'
+                }, {
+                    expand: true,
+                    cwd: 'node_modules/govuk-frontend/govuk/',
+                    src: 'all.js',
+                    dest: 'public/javascripts/govuk-frontend'
+                }]
+            },
             govukElements: {
                 files: [{
                     expand: true,
