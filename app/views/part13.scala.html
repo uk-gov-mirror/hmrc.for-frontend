@@ -44,9 +44,10 @@
   @form(action = dataCapturePages.routes.PageController.savePage(13), args = 'class -> "myForm", 'id -> "myFormId") {
     <main id="content" tabindex="-1">
     @views.html.includes.backSave()
-    @progressBar(13, Messages("section13.heading"), true, true)
+    @progressBar(true)
 
     @includes.errors(theForm, summary.isAgent)
+    @headingDisplay(13, Messages("section13.heading"), true)
 
     <div class="grid-row">
       <div class="column-two-thirds">

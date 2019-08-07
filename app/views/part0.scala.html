@@ -44,10 +44,9 @@
     
   <main id="content" tabindex="-1">
     @views.html.includes.backSave()
-    
-   @progressBar(0, Messages("section1.heading"), false, true)
 
     @includes.errors(theForm, isAgent = false)
+    @headingDisplay(0, Messages("section1.heading"), false)
 
     <div class="grid-row">
       <div class="column-two-thirds">
