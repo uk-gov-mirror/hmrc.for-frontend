@@ -37,7 +37,8 @@
 @main(title =Messages("label.help.title.vacated") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false) {
     @form(action = dataCapturePages.routes.PageController.showPage(0)) {
         <main id="content" tabindex="-1">
-            @progressBar(1, Messages("label.help.title.vacated"), showSection = false, showTopBackButton = true)
+            @progressBar(showTopBackButton = true)
+            @headingDisplay(0,Messages("label.help.title.vacated"), false)
             @helper.CSRF.formField
 
             <div class="grid-row">
