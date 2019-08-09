@@ -14,24 +14,16 @@
  * limitations under the License.
  *@
 
-@(pageNumber:Int, pageTitle:String, showSection:Boolean, showTopBackButton:Boolean, topBackButton: Option[Html] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
-
-
-@start={@pageNumber}
-@end={14}
+@(showTopBackButton:Boolean, topBackButton: Option[Html] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 <h1 class="form-title heading-large form-title-group">
+
 	@if(showTopBackButton == true){
 		@topBackButton.getOrElse {
 			<button type="submit" id="backTop" name="back_button" class="button-link link-back">@Messages("button.label.back")</button>
 		}
 	}
-	@if(showSection == true){
-		<span class="section">@Messages("label.section", start, end)</span>
-		<span class="section-title">@pageTitle</span>
-	}else{
-		<span class="section-title">@pageTitle</span>
-	}
+
 </h1>
 
    

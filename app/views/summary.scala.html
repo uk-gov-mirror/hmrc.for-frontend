@@ -53,7 +53,8 @@
 
 </div>
 
-@progressBar(0, Messages("heading.summary"), false, true, Some(topBackButton))
+@progressBar(true, Some(topBackButton))
+@headingDisplay(0, Messages("heading.summary"), false)
 
 
 <div id="summaryList">
@@ -125,7 +126,7 @@
   </p>
 
     <a href="@routes.Application.pdf" class="button button-secondary pdf-button" role="button" role="button" target="_blank">@Messages("label.print.printorsave")</a>
-  <p><a href="@dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary))" class="button-link link-back" role="button">@Messages("button.label.back")</a></p>
+
 </div>
 
   @views.html.includes.signFooter(summary)

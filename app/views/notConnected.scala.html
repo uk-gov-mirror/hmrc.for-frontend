@@ -60,15 +60,13 @@
     @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
         <main id="content" tabindex="-1">
 
-
             <a href="page/0" class="button-link link-back">@Messages("button.label.back")</a>
 
+            @includes.errors(theForm, isAgent = false)
 
             <h1 class="form-title heading-large form-title-group">
                 @Messages("notConnected.heading")
             </h1>
-
-            @includes.errors(theForm, isAgent = false)
 
             <div class="grid-row">
                 <div class="column-full">

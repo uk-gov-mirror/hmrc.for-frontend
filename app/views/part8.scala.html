@@ -39,9 +39,10 @@
       <main id="content" tabindex="-1">
     @views.html.includes.backSave()
     
-    @progressBar(8, if(summary.isAgent){ Messages("section8.heading.agent") }else{ Messages("section8.heading")}, true, true)
+    @progressBar(true)
 
     @includes.errors(theForm, summary.isAgent)
+    @headingDisplay(8, if(summary.isAgent){ Messages("section8.heading.agent") }else{ Messages("section8.heading")}, true)
 
     <div class="grid-row">
       <div class="column-two-thirds">
