@@ -43,9 +43,9 @@
   @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
     
   <main id="content" tabindex="-1">
-    @views.html.includes.backSave()
 
     @includes.errors(theForm, isAgent = false)
+
     @headingDisplay(0, Messages("section1.heading"), false)
 
     <div class="grid-row">
