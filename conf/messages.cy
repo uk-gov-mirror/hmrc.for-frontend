@@ -58,8 +58,7 @@ label.tryAgain=Cynnig eto
 label.startFormAgain=Dechrau’r ffurflen eto
 label.password=cyfrinair
 label.totalRent=Rhent blynyddol
-label.checkTheForm=Gwiriwch y ffurflen
-label.fixTheFollowing=Cywirwch y canlynol
+label.checkTheForm=Mae problem wedi codi
 label.phase=Mae hwn yn wasanaeth newydd – bydd eich <a href="{0}" target="_blank" id="betaFeedback">adborth<span class="visuallyhidden"> ({1})</span></a> yn ein helpu i''w wella
 label.beta=BETA
 label.section=Adran {0} o {1}
