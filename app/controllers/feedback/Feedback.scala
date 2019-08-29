@@ -85,7 +85,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
   }
 
   def inPageFeedbackNoLogin = Action { implicit request =>
-    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
+    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl)(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
