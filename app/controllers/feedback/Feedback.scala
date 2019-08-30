@@ -89,7 +89,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
-    Ok(views.html.inPageFeedbackThankyou())
+    Ok(views.html.inPageFeedbackThankyou()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
   }
 }
 
