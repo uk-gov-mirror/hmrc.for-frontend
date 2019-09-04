@@ -2,7 +2,7 @@
 ##############################
 project.name=Cyflwyno manylion rhent a phrydles
 project.header=Manylion rhent a phrydles
-login.heading=Rhowch eich rhif cyfeirnod
+login.heading=Rhowch eich cyfeirnod
 failedLogin.heading=Gwall mewngofnodi
 lockedOut.heading=Wedi eich cloi allan
 label.continue=Yn eich blaen
@@ -106,15 +106,15 @@ button.label.pdf=Lawrlwytho PDF
 
 #LOGIN
 ##############################
-label.letter=Gallwch weld eich rhif cyfeirnod a’ch cod post yn eich llythyr manylion rhent a phrydles.
-label.referenceNumber=Rhif cyfeirnod
+label.letter=Gallwch weld eich cyfeirnod a’ch cod post yn eich llythyr manylion rhent a phrydles.
+label.referenceNumber=Cyfeirnod
 hint.letter=Fel y mae’n ymddangos ar y llythyr cais am wybodaeth
-label.referenceNumber1=7 nod cyntaf y rhif cyfeirnod
-label.referenceNumber2=3 nod olaf y rhif cyfeirnod
-error.invalid_refnum=Rhowch rif cyfeirnod dilys
-alt.letter=Gallwch weld eich rhif cyfeirnod a’ch cod post yn eich llythyr manylion rhent a phrydles
-label.ref1=Rhif cyfeirnod
-label.ref2=Rhif cyfeirnod
+label.referenceNumber1=7 nod cyntaf y cyfeirnod
+label.referenceNumber2=3 nod olaf y cyfeirnod
+error.invalid_refnum=Rhowch cyfeirnod dilys
+alt.letter=Gallwch weld eich cyfeirnod a’ch cod post yn eich llythyr manylion rhent a phrydles
+label.ref1=Cyfeirnod
+label.ref2=Cyfeirnod
 heading.login.lockedOut=Rydych wedi eich cloi allan nawr
 heading.login.loginFailed=Gwall mewngofnodi
 label.retryLogin=Rhowch gynnig arall ar fewngofnodi
@@ -535,7 +535,7 @@ label.whatNext=Yr hyn sy’n digwydd nesaf
 label.emailCopyWillBeSent=Os ydych wedi rhoi cyfeiriad e-bost i ni, byddwn yn anfon copi o’r hyn a gyflwynwyd gennych.
 label.weMayContactYou=Efallai y bydd angen i ni gysylltu â chi yn y dyfodol i gadarnhau rhai o’r manylion a roddwyd gennych.
 label.anyQuestions=Os oes gennych unrhyw gwestiynau ynglŷn â’ch ffurflen, cysylltwch â ni
-label.quoteRefNum=gan ddyfynnu eich rhif cyfeirnod {0}.
+label.quoteRefNum=gan ddyfynnu eich cyfeirnod {0}.
 label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
 label.feedback.headingAfterSubmitting=Adborth
 label.finish=Gorffen
@@ -571,7 +571,7 @@ saveForLater.retrievalInfo=I adfer y wybodaeth rydych wedi’i chadw bydd angen 
 saveForLater.retrievalWarning=Ni fyddwch yn gallu cael eich cyfrinair yn ôl unwaith y byddwch yn gadael y ffurflen hon.
 saveForLater.preHeader=Mae eich gwybodaeth wedi cael ei chadw ond heb ei chyflwyno.
 saveForLater.preHeaderTimeout=At ddibenion diogelwch, rydych chi wedi cael eich allgofnodi, ond mae eich gwybodaeth wedi’i chadw.
-saveForLater.refNum=Rhif cyfeirnod
+saveForLater.refNum=Cyfeirnod
 saveForLater.postcode=Cod post
 saveForLater.password=Cyfrinair
 saveForLater.passwordsDontMatch=Nid yw’r cyfrineiriau yn cyfateb.
@@ -653,6 +653,7 @@ copy.form.help.thankyou=Rydym wedi cael eich cais. Os ydych wedi gofyn am help, 
 label.feedback.heading=Adborth
 copy.feedback=Os oes angen help arnoch i gwblhau’r ffurflen hon, defnyddiwch y ddolen ‘Cael help gyda’r dudalen hon’ sydd ar  bob tudalen.
 copy.feedback.thankyou=Diolch am eich adborth
+copy.feedback.anotherForm=Cyflwyno ffurflen arall
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 
 #VACATED FORM
@@ -661,11 +662,11 @@ label.help.title.vacated=Nid oes gennych gysylltiad â’r eiddo hwn ar hyn o br
 hint.vacated.form=<p>Anfonwch:</p>\
   <p>\
   <ul class="list-bullet">\
-  <li>Y rhif cyfeirnod ar eich llythyr</li>\
+  <li>Y cyfeirnod ar eich llythyr</li>\
   <li>Eich rhif teleffôn cyswllt</li>\
   </ul>\
   </p>\
-  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich rhif cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="gasendWelsh()">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
+  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="gasendWelsh()">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
 
 
 
@@ -775,7 +776,7 @@ error.required.parking=Rhaid llenwi o leiaf un a gyda gwerth sy’n fwy na 0
 error.login.failed=Nid yw’r manylion a roddwyd gennych yn cyd-fynd â’n cofnodion. Rhowch gynnig arall arni.
 error.login.1attemptsleft=Rydym yn dal i gael trafferth dod o hyd i’r manylion rydych wedi’u rhoi. Mae gennych un cyfle arall i roi’r manylion cywir, cyn y cewch eich cloi allan am 24 awr. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
 error.login.2attemptsleft=Rydym yn dal i gael trafferth paru’r manylion rydych wedi’u rhoi. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help. Mae gennych ddau gyfle arall i roi’r manylion cywir, cyn y cewch eich cloi allan am 24 awr.
-error.login.3attemptsleft=Rydym yn dal i gael trafferth paru’r manylion rydych wedi’u rhoi. Rhowch y rhif cyfeirnod a’r cod post yn union fel y’u nodir yn y llythyr y gwnaethom ei anfon atoch.
+error.login.3attemptsleft=Rydym yn dal i gael trafferth paru’r manylion rydych wedi’u rhoi. Rhowch y cyfeirnod a’r cod post yn union fel y’u nodir yn y llythyr y gwnaethom ei anfon atoch.
 error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 neu ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
 
 #ERROR PAGES
@@ -784,7 +785,7 @@ error.404.heading=Nid oedd modd canfod y dudalen y gofynnwyd amdani. Rhowch gynn
 error.408.heading=Daeth amser y dudalen neu’r gwasanaeth i ben. Rhowch eich manylion eto neu dechreuwch eto.
 error.410.heading=Nid yw’r dudalen y gofynnwyd amdani ar gael mwyach.
 error.500.heading=Mae problem gyda’r dudalen ac ni ellir ei dangos. Rhowch gynnig arall arni yn nes ymlaen.
-error.fail.heading=Nid yw’r rhif cyfeirnod rydych wedi’i roi yn cyd-fynd â’n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
+error.fail.heading=Nid yw’r cyfeirnod rydych wedi’i roi yn cyd-fynd â’n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
 error.duplicate.heading=Ni allwch olygu’r wybodaeth hon mwyach gan ei bod wedi’i chyflwyno eisoes.
 error.duplicate.title=Cyflwyno dyblyg
 error.duplicate.copy=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
