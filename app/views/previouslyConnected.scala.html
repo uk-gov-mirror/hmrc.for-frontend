@@ -25,7 +25,7 @@
 @import _root_.form.NotConnectedPropertyForm
 @import play.api.Play.current
 
-@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(theForm: Form[NeverConnected], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
     @views.html.includes.stylesheets()
@@ -55,53 +55,39 @@
 }
 
 
-@main(title =Messages("notConnected.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
+@main(title =Messages("notConnected.previouslyConnected") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary)) {
 
-    @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+    @form(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
         <main id="content" tabindex="-1">
 
-            <a href="./previously-connected" class="button-link link-back">@Messages("button.label.back")</a>
-
-            @includes.errors(theForm, isAgent = false)
+            <a href="page/0" class="button-link link-back">@Messages("button.label.back")</a>
 
             <h1 class="form-title heading-large form-title-group">
-                @Messages("notConnected.heading")
+                @Messages("notConnected.previouslyConnected")
             </h1>
 
             <div class="grid-row">
                 <div class="column-full">
-                    <p>@Messages("notConnected.subheading")</p>
 
                     @helper.CSRF.formField
 
-                    @inputText(
-                    field = theForm("fullName"),
-                    '_label -> Messages("label.fullName"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
+                    @inputRadioGroup(
+                        field = theForm("haveYouBeenConnected"),
+                        options = Seq(
+                            "true" -> Messages("label.yes.iawn"),
+                            "false" -> Messages("label.no.na")
+                        ),
+                        args=Seq(
+                            '_showConstraints -> false,
+                            '_label -> None,
+                            '_error -> theForm("haveYouBeenConnected").error,
+                            '_legend -> false,
+                            '_fieldsetClass -> "inline",
+                            '_labelClass -> "form-label-bold"
+
+                        )
                     )
 
-                    @inputText(
-                    field = theForm("email"),
-                    '_label ->  Messages("label.email"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @inputText(
-                    field = theForm("phoneNumber"),
-                    '_label -> Messages("label.phoneNumber"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @textarea(
-                    field = theForm("additionalInformation"),
-                    '_label -> Messages("notConnected.additionalInformation"),
-                    '_labelClass -> "form-label-bold",
-                    '_help -> Messages("notConnected.additionalInformationHelp"),
-                    'class -> "form-control"
-                    )
 
                     <button type="submit" id="continue" name="continue_button" class="button">
                         @Messages("button.label.submit")

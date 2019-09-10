@@ -24,13 +24,15 @@ import form.NotConnectedPropertyForm
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.pages.{Summary, SummaryBuilder}
-import models.serviceContracts.submissions.NotConnectedSubmission
+import models.serviceContracts.submissions.{NeverConnected, NotConnectedSubmission}
 import form.NotConnectedPropertyForm.form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
-import playconfig.{FormPersistence, SessionId}
+import playconfig.{FormPersistence, S4L, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import controllers.PreviouslyConnectedController
 
 import scala.concurrent.Future
 
@@ -40,6 +42,9 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
                                       (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
 
   val logger = Logger(classOf[NotConnectedController])
+
+  //move to IOC after IOC refactoring
+  val cache: ShortLivedCache = S4L
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
@@ -98,17 +103,28 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     }
   }
 
+  def getNeverConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+
+    cache.fetch(SessionId(hc)).map(_.map(_.getEntry[NeverConnected](PreviouslyConnectedController.cacheKey))).flatMap {
+      case Some(Some(connectedEntry)) => Future.successful(connectedEntry)
+      case _ => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
+    }
+  }
+
   private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
-    val submission = NotConnectedSubmission(
-      summary.referenceNumber,
-      summary.address.get,
-      submissionForm.fullName,
-      submissionForm.email,
-      submissionForm.phoneNumber,
-      submissionForm.additionalInformation,
-      Instant.now()
-    )
-    submissionConnector.submitNotConnected(summary.referenceNumber, submission)
+    getNeverConnectedFromCache().flatMap { neverConnected =>
+      val submission = NotConnectedSubmission(
+        summary.referenceNumber,
+        summary.address.get,
+        submissionForm.fullName,
+        submissionForm.email,
+        submissionForm.phoneNumber,
+        submissionForm.additionalInformation,
+        Instant.now(),
+        neverConnected.haveYouBeenConnected
+      )
+      submissionConnector.submitNotConnected(summary.referenceNumber, submission)
+    }
   }
 
 }

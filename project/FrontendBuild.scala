@@ -59,7 +59,8 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % pegdownVersion % scope,
         "org.jsoup" % "jsoup" % "1.8.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope
+        "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
+        "org.mockito" %% "mockito-scala-scalatest" % "1.5.16" % scope
       )
     }.test
   }
