@@ -17,7 +17,7 @@
 package form
 
 
-import models.serviceContracts.submissions.{NeverConnected}
+import models.serviceContracts.submissions.{PreviouslyConnected}
 import play.api.data.Form
 import play.api.data.Forms._
 import MappingSupport._
@@ -30,7 +30,7 @@ object PreviouslyConnectedForm {
 
   private val fieldMapping = mapping (
     "haveYouBeenConnected" -> previouslyConnectedMandatoryBoolean
-  )(NeverConnected.apply)(NeverConnected.unapply)
+  )(PreviouslyConnected.apply)(PreviouslyConnected.unapply)
 
   val formMapping = Form(fieldMapping)
 

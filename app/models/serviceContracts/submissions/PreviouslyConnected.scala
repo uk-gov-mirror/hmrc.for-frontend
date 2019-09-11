@@ -18,10 +18,10 @@ package models.serviceContracts.submissions
 
 import play.api.libs.json.Json
 
-case class NeverConnected(haveYouBeenConnected: Boolean)
+case class PreviouslyConnected(previouslyConnected: Boolean)
 
-object  NeverConnected {
+object  PreviouslyConnected {
 
-  implicit val format = Json.format[NeverConnected]
+  implicit val format = Json.format[PreviouslyConnected]
 
 }

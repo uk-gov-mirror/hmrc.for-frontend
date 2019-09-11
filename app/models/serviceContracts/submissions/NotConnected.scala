@@ -27,7 +27,7 @@ case class NotConnectedSubmission( id: String,
                                    phoneNumber: Option[String],
                                    additionalInformation: Option[String],
                                    createdAt: Instant,
-                                   haveYouBeenConnected: Boolean
+                                   previouslyConnected: Boolean
                                  )
 object NotConnectedSubmission {
 

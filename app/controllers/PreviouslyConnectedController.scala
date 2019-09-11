@@ -26,7 +26,7 @@ import playconfig.{FormPersistence, S4L, SessionId}
 import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import _root_.form.persistence.FormDocumentRepository
-import models.serviceContracts.submissions.NeverConnected.format
+import models.serviceContracts.submissions.PreviouslyConnected.format
 import uk.gov.hmrc.http.logging.LoggingDetails
 import PreviouslyConnectedController.cacheKey
 
@@ -83,5 +83,5 @@ class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: S
 }
 
 object PreviouslyConnectedController {
-  val cacheKey = "NeverConnected"
+  val cacheKey = "PreviouslyConnected"
 }

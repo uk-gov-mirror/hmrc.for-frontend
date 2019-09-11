@@ -16,7 +16,7 @@
 
 package form
 
-import models.serviceContracts.submissions.NeverConnected
+import models.serviceContracts.submissions.PreviouslyConnected
 import org.scalatest.{FlatSpec, Matchers, OptionValues}
 
 class PreviouslyConnectedFormSpec extends FlatSpec with Matchers with OptionValues {
@@ -34,7 +34,7 @@ class PreviouslyConnectedFormSpec extends FlatSpec with Matchers with OptionValu
 
     formWithData.value shouldBe defined
 
-    formWithData.value.value shouldBe(NeverConnected(true))
+    formWithData.value.value shouldBe(PreviouslyConnected(true))
 
   }
 

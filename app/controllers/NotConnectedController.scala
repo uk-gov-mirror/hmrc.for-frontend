@@ -24,7 +24,7 @@ import form.NotConnectedPropertyForm
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.pages.{Summary, SummaryBuilder}
-import models.serviceContracts.submissions.{NeverConnected, NotConnectedSubmission}
+import models.serviceContracts.submissions.{PreviouslyConnected, NotConnectedSubmission}
 import form.NotConnectedPropertyForm.form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
@@ -103,16 +103,16 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     }
   }
 
-  def getNeverConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+  def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier)  = {
 
-    cache.fetch(SessionId(hc)).map(_.map(_.getEntry[NeverConnected](PreviouslyConnectedController.cacheKey))).flatMap {
+    cache.fetch(SessionId(hc)).map(_.map(_.getEntry[PreviouslyConnected](PreviouslyConnectedController.cacheKey))).flatMap {
       case Some(Some(connectedEntry)) => Future.successful(connectedEntry)
       case _ => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
     }
   }
 
   private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
-    getNeverConnectedFromCache().flatMap { neverConnected =>
+    getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
       val submission = NotConnectedSubmission(
         summary.referenceNumber,
         summary.address.get,
@@ -121,7 +121,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
         submissionForm.phoneNumber,
         submissionForm.additionalInformation,
         Instant.now(),
-        neverConnected.haveYouBeenConnected
+        previouslyConnected.previouslyConnected
       )
       submissionConnector.submitNotConnected(summary.referenceNumber, submission)
     }
