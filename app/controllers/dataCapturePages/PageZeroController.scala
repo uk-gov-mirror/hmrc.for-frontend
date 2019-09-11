@@ -42,7 +42,7 @@ trait PageZeroController extends ForDataCapturePage[Boolean] {
 
   override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) =
     savedFields.get("isRelated") match {
-      case Some(Seq("false")) if ForConfig.showNewNotConnectedPage => Redirect(controllers.routes.NotConnectedController.onPageView())
+      case Some(Seq("false")) if ForConfig.showNewNotConnectedPage => Redirect(controllers.routes.PreviouslyConnectedController.onPageView())
       case Some(Seq("false")) => Redirect(controllers.routes.Application.inpageVacatedForm())
       case _ => super.goToNextPage(action, summary, savedFields)
     }

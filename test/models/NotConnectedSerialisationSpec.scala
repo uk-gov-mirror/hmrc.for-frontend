@@ -36,12 +36,11 @@ class NotConnectedSerializationSpec extends FlatSpec with Matchers with EitherVa
 
   "NotConnectedSubmission" should " map Java8 Instant to ISO 8601 format" in {
 
-    val notConnected = NotConnectedSubmission("222", Address("10", None, None, "BN 12 4AX"), "xxx", None, None, None, INSTANT)
+    val notConnected = NotConnectedSubmission("222", Address("10", None, None, "BN 12 4AX"), "xxx", None, None, None, INSTANT, false)
 
     val result = NotConnectedSubmission.format.writes(notConnected)
 
     result.value("createdAt") shouldBe(JsString(ISO_TIME))
-    true shouldBe(true)
 
   }
 

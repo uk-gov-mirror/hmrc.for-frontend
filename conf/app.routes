@@ -36,6 +36,9 @@ GET         /lockedout                 controllers.LoginController.lockedOut
 GET         /logout                    controllers.LoginController.logout
 
 # not connected form
+GET         /previously-connected           @controllers.PreviouslyConnectedController.onPageView
+POST        /previously-connected           @controllers.PreviouslyConnectedController.onPageSubmit
+
 GET         /not-connected             @controllers.NotConnectedController.onPageView
 POST        /not-connected             @controllers.NotConnectedController.onPageSubmit
 GET         /not-connected-confirmation @controllers.NotConnectedController.onConfirmationView

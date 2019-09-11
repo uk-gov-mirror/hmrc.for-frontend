@@ -86,7 +86,7 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
         val res = await(TestPageZeroController.save()(request))
 
         status(res) mustBe SEE_OTHER
-        header("location", res).value mustBe "/sending-rental-information/not-connected"
+        header("location", res).value mustBe "/sending-rental-information/previously-connected"
       }
     }
   }
