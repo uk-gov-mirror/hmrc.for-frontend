@@ -408,7 +408,7 @@ label.rentBasedOnDetails=Rhowch fanylion
 hint.rentBasedOnDetails=Gallwch weld hyn yn y brydles neu’r cytundeb.
 label.rentActuallyAgreed=Pryd cytunwyd ar y rhent neu pryd cafodd ei bennu?
 details.question.rentBasedOn=Dysgwch ragor am yr hyn y seilir eich rhent arno
-details.answer.rentBasedOn=<h3 class="font-bold">Beth yw’r gwerth ar y farchnad agored?</h3><p>Dyma’r rhent y gall landlord ei ddisgwyl ar gyfer eiddo, petai’n cael ei osod ar rent i eraill ar delerau tebyg.</p><h3 class="font-bold">Beth yw canran o’r trosiant?</h3><p>Dyma pryd mae’r rhent yn cael ei gyfrifo gan gyfeirio at yr elw busnes a gynhyrchir gan y tenant, fel canran o’r trosiant blynyddol y tenant</p><h3 class="font-bold">Beth yw mynegio?</h3><p> Mae mynegio yn cynnwys adolygu rhenti at i fyny yn unig bob blwyddyn, yn unol â’r Mynegai Prisiau Manwerthu.</p>
+details.answer.rentBasedOn=<h3 class="font-bold">Gwerth ar y farchnad agored</h3><p>Y rhent yw’r hyn y gallai landlord ei ddisgwyl am eiddo, pe bai ar gael i’w osod i unrhyw un.</p><h3 class="font-bold">Canran o drosiant</h3><p>Mae’r rhent yn seiliedig ar ganran trosiant disgwyliedig y tenant.</p><h3 class="font-bold">Mynegeio</h3><p>Mae’r rhent yn cael ei adolygu bob blwyddyn ar sail mynegai (megis Mynegai Prisiau Manwerthu).</p><h3 class="font-bold">Arall</h3><p>Mae’n bosibl bod y rhent wedi’i gytuno arno mewn ffordd arall, megis Trefniant Gwirfoddol Cwmni (CVA)</p>
 hint.rentActuallyAgreed=Dyma’r dyddiad y cafodd y cytundeb ei lofnodi.
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 
