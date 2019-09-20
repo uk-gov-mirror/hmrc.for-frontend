@@ -33,8 +33,7 @@ import PreviouslyConnectedController.cacheKey
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: ShortLivedCache = S4L,
-                                              val repository: FormDocumentRepository = FormPersistence.formDocumentRepository)
+class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: ShortLivedCache, val repository: FormDocumentRepository)
                                              (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
   val logger = Logger(this.getClass)
 
