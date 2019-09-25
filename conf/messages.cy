@@ -687,7 +687,7 @@ notConnected.whatNext3 = Dylech hefyd roi gwybod i’ch awdurdod lleol am y ffai
   eiddo hwn bellach neu efallai y gofynnir i chi roi’r manylion hyn eto.
 
 notConnected.previouslyConnected = Ydych chi erioed wedi cael cysylltiad â’r eiddo?
-previously-connected.mandatory = Dewiswch ‘Iawn’ os oedd cysylltiad yn arfer bod gennych.
+previously-connected.mandatory = Dewiswch ‘Iawn’ os oedd cysylltiad yn arfer bod gennych
 
 
 

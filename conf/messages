@@ -703,7 +703,7 @@ notConnected.whatNext3 = You should also tell your local authority that you are 
   this property or you may be asked to provide these details again.
 
 notConnected.previouslyConnected = Have you ever had a connection to the property?
-previously-connected.mandatory = Select ’Yes’ if you were previously connected.
+previously-connected.mandatory = Select ’Yes’ if you were previously connected
 
 
 #TYPES
