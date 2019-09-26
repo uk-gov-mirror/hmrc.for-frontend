@@ -18,7 +18,7 @@ package playconfig
 
 import config.{AuditServiceConnector, ForConfig}
 import connectors.HODConnector
-import form.persistence.SessionScopedFormDocumentRepository
+import form.persistence.{MongoSessionRepository, SessionScopedFormDocumentRepository}
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
@@ -109,23 +109,13 @@ trait Audit {
   }
 }
 
-// We need save4Later and not keystore because keystore sessions expire after 60 minutes and ours last longer
-object ShortLivedCacher extends ShortLivedHttpCaching with AppName with AppNameHelper with ServicesConfig with RunModeHelper {
-  override def defaultSource: String = appName
-  override def baseUri: String = baseUrl("cachable.short-lived-cache")
-  override def domain: String = getConfString("cachable.short-lived-cache.domain", throw new Exception("No config setting for cache domain"))
-  override def http: HttpGet with HttpPut with HttpDelete = WSHttp
-}
-
-object S4L extends ShortLivedCache with AppName with AppNameHelper with ServicesConfig with RunModeHelper {
-  override implicit lazy val crypto: CompositeSymmetricCrypto = playconfig.SessionCrypto.applicationCrypto.JsonCrypto
-  override def shortLiveCache: ShortLivedHttpCaching = ShortLivedCacher
+object S4L extends AppName with AppNameHelper{
   def expiryDateInDays: Int = appNameConfiguration.getInt("savedForLaterExpiryDays")
     .getOrElse(throw new Exception("No config setting for expiry days"))
 }
 
 object FormPersistence {
-  lazy val formDocumentRepository = new SessionScopedFormDocumentRepository(S4L)
+  lazy val formDocumentRepository = new SessionScopedFormDocumentRepository(MongoSessionRepository())
 }
 
 object SessionId {

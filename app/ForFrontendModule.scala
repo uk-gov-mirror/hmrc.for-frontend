@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-import ForFrontendModule.{FormDocumentRepositoryProvider, ShortLivedCacheProvider}
+import ForFrontendModule.{FormDocumentRepositoryProvider}
 import form.persistence.FormDocumentRepository
 import javax.inject.Singleton
 import javax.inject.Provider
 import play.api.{Configuration, Environment}
 import play.api.inject.{Binding, Module}
-import playconfig.{FormPersistence, S4L}
-import uk.gov.hmrc.http.cache.client.ShortLivedCache
+import playconfig.{FormPersistence}
 
 
 class ForFrontendModule extends Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
     Seq(
-      bind[ShortLivedCache].toProvider[ShortLivedCacheProvider].in[Singleton],
       bind[FormDocumentRepository].toProvider[FormDocumentRepositoryProvider].in[Singleton]
     )
   }
@@ -36,12 +34,6 @@ class ForFrontendModule extends Module {
 
 object ForFrontendModule {
   //TODO Remove after migration to dependency Injection
-
-  class ShortLivedCacheProvider extends Provider[ShortLivedCache] {
-    override def get(): ShortLivedCache = {
-      S4L
-    }
-  }
 
   class FormDocumentRepositoryProvider extends Provider[FormDocumentRepository] {
     override def get(): FormDocumentRepository = {
