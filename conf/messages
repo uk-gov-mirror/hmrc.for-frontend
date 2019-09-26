@@ -693,7 +693,7 @@ label.phoneNumber=Phone number
 notConnected.heading = Remove connection to this property
 notConnected.subheading = We’ll use these details if we need to contact you.
 notConnected.additionalInformation = Additional information
-notConnected.additionalInformationHelp = For example, the name of the current owner or occupier
+notConnected.additionalInformationHelp = For example, the name of the current owner or occupier.
 notConnected.emailOrPhone = You must provide a phone number or email address
 
 notConnected.thankYou = Thank you, your details have been sent.
