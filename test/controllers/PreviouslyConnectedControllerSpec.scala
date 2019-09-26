@@ -16,7 +16,7 @@
 
 package controllers
 
-import form.persistence.FormDocumentRepository
+import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{AsyncFlatSpec, FlatSpec, Matchers}
 import play.api.i18n.MessagesApi
@@ -35,7 +35,7 @@ class PreviouslyConnectedControllerSpec extends FlatSpec with Matchers with Mock
 
     implicit val messagesApi = mock[MessagesApi]
 
-    val cache = mock[ShortLivedCache]
+    val cache = mock[MongoSessionRepository]
 
     val formDocumentRepository = mock[FormDocumentRepository]
 
