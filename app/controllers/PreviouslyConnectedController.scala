@@ -23,9 +23,8 @@ import models.pages.SummaryBuilder
 import play.api.{Configuration, Logger}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import playconfig.{FormPersistence, S4L, SessionId}
-import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import _root_.form.persistence.FormDocumentRepository
+import _root_.form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import models.serviceContracts.submissions.PreviouslyConnected.format
 import uk.gov.hmrc.http.logging.LoggingDetails
 import PreviouslyConnectedController.cacheKey
@@ -33,7 +32,7 @@ import PreviouslyConnectedController.cacheKey
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: ShortLivedCache, val repository: FormDocumentRepository)
+class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: MongoSessionRepository, val repository: FormDocumentRepository)
                                              (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
   val logger = Logger(this.getClass)
 

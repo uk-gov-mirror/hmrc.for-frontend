@@ -38,7 +38,7 @@ trait FormDocumentRepository {
   def clear(documentId: String, referenceNumber: String): Future[Unit]
 }
 
-class SessionScopedFormDocumentRepository(cache: ShortLivedCache)(implicit ec: ExecutionContext) extends FormDocumentRepository with AppNameHelper {
+class SessionScopedFormDocumentRepository(cache: MongoSessionRepository)(implicit ec: ExecutionContext) extends FormDocumentRepository with AppNameHelper {
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   override def findById(documentId: String, referenceNumber: String): Future[Option[Document]] = {

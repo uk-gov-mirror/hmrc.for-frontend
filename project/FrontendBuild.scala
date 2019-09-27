@@ -43,7 +43,9 @@ private object AppDependencies {
     "it.innove" %  "play2-pdf" % "1.5.2",
     "joda-time" % "joda-time" % "2.8.2",
     "uk.gov.hmrc" %% "play-language" % "3.4.0",
-    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0"
+    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0",
+    "uk.gov.hmrc" %% "mongo-caching" % "6.6.0-play-25",
+    "uk.gov.hmrc" %% "simple-reactivemongo" % "7.20.0-play-25"
   )
 
   trait TestDependencies {

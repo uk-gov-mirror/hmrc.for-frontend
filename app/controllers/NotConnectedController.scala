@@ -21,31 +21,25 @@ import java.time.Instant
 import actions.{RefNumAction, RefNumRequest}
 import connectors.SubmissionConnector
 import form.NotConnectedPropertyForm
-import form.persistence.FormDocumentRepository
+import form.persistence.{FormDocumentRepository, MongoSessionRepository}
+import form.NotConnectedPropertyForm.form
 import javax.inject.{Inject, Singleton}
 import models.pages.{Summary, SummaryBuilder}
-import models.serviceContracts.submissions.{PreviouslyConnected, NotConnectedSubmission}
-import form.NotConnectedPropertyForm.form
+import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
-import playconfig.{FormPersistence, S4L, SessionId}
+import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import controllers.PreviouslyConnectedController
 
 import scala.concurrent.Future
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector)
+class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector, cache: MongoSessionRepository)
                                       (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
 
   val logger = Logger(classOf[NotConnectedController])
-
-  //move to IOC after IOC refactoring
-  val cache: ShortLivedCache = S4L
-
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
   def findSummary(implicit request: RefNumRequest[_]) = {
@@ -104,11 +98,12 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
   }
 
   def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+    cache.fetchAndGetEntry[PreviouslyConnected](SessionId(hc), PreviouslyConnectedController.cacheKey).flatMap {
+      case Some(x) => Future.successful(x)
+      case None => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
 
-    cache.fetch(SessionId(hc)).map(_.map(_.getEntry[PreviouslyConnected](PreviouslyConnectedController.cacheKey))).flatMap {
-      case Some(Some(connectedEntry)) => Future.successful(connectedEntry)
-      case _ => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
     }
+
   }
 
   private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
