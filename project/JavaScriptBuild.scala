@@ -16,8 +16,22 @@ object JavaScriptBuild {
 
     commands <++= uiDirectory { base => Seq(Grunt.gruntCommand(base), npmCommand(base)) },
 
-    npmInstall := Grunt.npmProcess(uiDirectory.value, "install").run().exitValue(),
-    gruntBuild := Grunt.gruntProcess(uiDirectory.value, "generate-assets").run().exitValue(),
+    npmInstall := {
+      val npmResult = Grunt.npmProcess(uiDirectory.value, "install").run().exitValue()
+      if(npmResult != 0) {
+        throw new IllegalStateException("npm install failed")
+      }else {
+        npmResult
+      }
+    },
+    gruntBuild := {
+      val gruntResult = Grunt.gruntProcess(uiDirectory.value, "generate-assets").run().exitValue()
+      if(gruntResult != 0) {
+        throw new IllegalStateException("grunt build failed!")
+      }else {
+        gruntResult
+      }
+    },
 
     gruntWatch := Grunt.gruntProcess(uiDirectory.value, "watch").run().exitValue(),
 
