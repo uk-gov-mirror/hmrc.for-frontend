@@ -18,7 +18,7 @@ package playconfig
 
 import config.{AuditServiceConnector, ForConfig}
 import connectors.HODConnector
-import form.persistence.{MongoSessionRepository, SessionScopedFormDocumentRepository}
+import form.persistence.{FormDocumentRepository, MongoSessionRepository, SessionScopedFormDocumentRepository}
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
@@ -115,7 +115,7 @@ object S4L extends AppName with AppNameHelper{
 }
 
 object FormPersistence {
-  lazy val formDocumentRepository = new SessionScopedFormDocumentRepository(MongoSessionRepository())
+  lazy val formDocumentRepository = Play.current.injector.instanceOf[FormDocumentRepository]
 }
 
 object SessionId {
