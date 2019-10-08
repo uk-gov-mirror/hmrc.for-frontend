@@ -20,15 +20,19 @@ import java.time.Instant
 
 import actions.{RefNumAction, RefNumRequest}
 import connectors.SubmissionConnector
+import controllers.feedback.{Survey, SurveyFeedback}
 import form.NotConnectedPropertyForm
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import form.NotConnectedPropertyForm.form
 import javax.inject.{Inject, Singleton}
+import models.{NotConnectedJourney, Satisfaction}
 import models.pages.{Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
+import play.api.data.Forms.{mapping, text}
+import play.api.data.{Form, Forms}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.{Configuration, Logger}
-import playconfig.{FormPersistence, SessionId}
+import playconfig.{FormPartialProvider, FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
@@ -88,8 +92,12 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
   }
 
   def onConfirmationView() = RefNumAction.async { implicit request =>
+    val feedbackForm = Survey.completedFeedbackForm.bind(
+      Map("journey" -> NotConnectedJourney.name)
+    ).discardingErrors
+
     findSummary.map {
-      case Some(summary) => Ok(views.html.confirmNotConnected(summary)).withNewSession
+      case Some(summary) => Ok(views.html.confirmNotConnected(summary, feedbackForm)) //.withNewSession
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(views.html.error.error500())
