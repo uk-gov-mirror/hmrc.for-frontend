@@ -23,6 +23,7 @@ import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.test.FakeRequest
 import playconfig.Audit
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult.Disabled
 
 import scala.concurrent.Future
@@ -170,7 +171,7 @@ object StubAuditer extends Audit with Matchers {
   private case class AuditEvent(event: String, detail: Map[String, String], tags: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
-  override def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty) = {
+  override def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty)(implicit hc: HeaderCarrier) = {
     lastSentAudit = AuditEvent(event, detail, tags)
     Future.successful(Disabled)
   }

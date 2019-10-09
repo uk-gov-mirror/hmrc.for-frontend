@@ -34,6 +34,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
 import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 object FORSubmissionController extends FORSubmissionController {
   protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
@@ -57,11 +58,11 @@ trait FORSubmissionController extends Controller {
   }
 
   private def submit[T](refNum: String)(implicit request: Request[T]): Future[Result] = {
-    val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc = HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
     for {
       sub <- submitBusinessRentalInformation(refNum)(hc)
       _ <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
-        "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))
+        "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))(hc)
       _ <- auditAddress(refNum, request)
     } yield {
       Metrics.submissions.mark()

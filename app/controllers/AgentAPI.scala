@@ -69,7 +69,8 @@ object AgentAPI extends Controller with HeaderValidator {
       lr <- HODConnector.verifyCredentials(refNum.dropRight(3), refNum.takeRight(3), postcode)
       hc = withAuthToken(request, lr.forAuthToken)
       res <- submissionConnector.submit(refNum, submission)(hc)
-      _ <- Audit("APISubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString))
+      _ <- Audit("APISubmission", Map("referenceNumber" -> refNum,
+        "submitted" -> DateTime.now.toString))(HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request)))
     } yield {
       res.header.status match {
         case 200 => Ok(validSubmission(refNum))

@@ -24,7 +24,7 @@ import models.pages.SummaryBuilder
 import models.{Journey, NormalJourney, PdfSize, Satisfaction}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
-import play.api.mvc.{Action, RequestHeader}
+import play.api.mvc.{Action, Request, RequestHeader}
 import playconfig.{Audit, FormPersistence, SessionId}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
@@ -81,7 +81,7 @@ trait PostSubmitFeedback extends FrontendController {
       case None => InternalServerError(views.html.error.error500())
     }
 
-  private def sendFeedback(f: SurveyFeedback, refNum: String) = {
+  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) = {
     Audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name)).flatMap { _ =>
       Audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
     }

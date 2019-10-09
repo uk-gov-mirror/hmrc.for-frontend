@@ -93,7 +93,7 @@ object SaveForLater extends FrontendController {
       }
   }
 
-  def audit(sum: Summary) = Audit(
+  def audit(sum: Summary)(implicit headerCarrier: HeaderCarrier) = Audit(
     "SavedForLater", Map(
       "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
     )
