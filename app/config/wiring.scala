@@ -103,7 +103,7 @@ object SessionCrypto {
 trait Audit {
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty): Future[AuditResult] = {
+  def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val de = DataEvent(auditSource = "for-frontend", auditType = event, tags = tags, detail = detail)
     auditConnector.sendEvent(de)
   }

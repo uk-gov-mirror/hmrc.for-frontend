@@ -76,6 +76,11 @@
 
                                 @includes.errors(theForm, isAgent = false)
 
+                                @helpers.hiddenInput(
+                                    field = theForm("journey"),
+                                    '_labelClass -> "visuallyhidden"
+                                )
+
                                 @inputRadioGroup(
                                     field = theForm("satisfaction"),
                                     options = EnumOptions.options(SatisfactionTypes),

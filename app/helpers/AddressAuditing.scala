@@ -121,6 +121,6 @@ trait AddressAuditing {
         "path" -> request.path,
         "transactionName" -> "sending_rental_information"
       )
-    )
+    )(hc)
   }
 }

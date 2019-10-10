@@ -21,10 +21,10 @@ import controllers._
 import form.Formats._
 import form.persistence.FormDocumentRepository
 import models.pages.SummaryBuilder
-import models.{PdfSize, Satisfaction}
+import models.{Journey, NormalJourney, PdfSize, Satisfaction}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
-import play.api.mvc.{Action, RequestHeader}
+import play.api.mvc.{Action, Request, RequestHeader}
 import playconfig.{Audit, FormPersistence, SessionId}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
@@ -44,8 +44,11 @@ trait PostSubmitFeedback extends FrontendController {
 
   val completedFeedbackForm = Form(mapping(
     "satisfaction" -> Forms.of[Satisfaction],
-    "details" -> text(maxLength = 1200)
+    "details" -> text(maxLength = 1200),
+    "journey" -> Forms.of[Journey]
   )(SurveyFeedback.apply)(SurveyFeedback.unapply))
+
+  val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
 
   def confirmation = RefNumAction.async { implicit request =>
     viewConfirmationPage(request.refNum)
@@ -61,7 +64,7 @@ trait PostSubmitFeedback extends FrontendController {
   }
 
   def inpageAfterSubmissionFeedbackForm  = RefNumAction { implicit request =>
-    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackForm))
+    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackFormNormalJourney))
   }
 
   private def host(implicit request: RequestHeader): String = {
@@ -73,14 +76,14 @@ trait PostSubmitFeedback extends FrontendController {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(views.html.confirm(
-          form getOrElse completedFeedbackForm, refNum,
+          form getOrElse completedFeedbackFormNormalJourney, refNum,
           summary.customerDetails.map(_.contactDetails.email).getOrElse(""), summary))
       case None => InternalServerError(views.html.error.error500())
     }
 
-  private def sendFeedback(f: SurveyFeedback, refNum: String) = {
-    Audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum)).flatMap { _ =>
-      Audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum))
+  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) = {
+    Audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name)).flatMap { _ =>
+      Audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
     }
   }
 
@@ -89,4 +92,4 @@ trait PostSubmitFeedback extends FrontendController {
   }
 }
 
-case class SurveyFeedback(satisfaction: Satisfaction, details: String)
+case class SurveyFeedback(satisfaction: Satisfaction, details: String, journey: Journey)
