@@ -1,0 +1,12 @@
+
+//   This unset some properties on beta feedback form. This form is loaded from
+// contact frontend and we have no control what is rendered. At the moment is not
+// compatible with rest of RALD styles.
+
+#feedback-rating > div > label.selection-button-radio {
+  position: unset;
+}
+
+#feedback-rating input[checked=checked] + label.selection-button-radio::after {
+  opacity: unset;
+}
