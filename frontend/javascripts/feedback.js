@@ -70,7 +70,7 @@
             $.ajax({
                 type: 'POST',
                 url:  $(this).attr('action'),
-                data: $(this).serialize(),
+                data: VoaFeedback.prepareData($(this)),
                 success: function(msg) {
                     console.log('Got success response: ' + msg);
                     $('.contact-form-copy').addClass('hidden');
@@ -88,5 +88,24 @@
 
         });
     };
+
+    VoaFeedback.prepareData = function (_data) {
+        var data = _data.serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+
+        var referenceNumber = $('div.for-id').attr('for-id');
+        if(referenceNumber === undefined) {
+            referenceNumber = 'not provided';
+        }
+
+        data['report-error'] = data['report-error'] + '\n\nReference number : ' + referenceNumber;
+        data['referer'] = String(window.location.href);
+        data['isJavascript'] = true;
+
+        return data;
+    };
+
 
 })(jQuery);

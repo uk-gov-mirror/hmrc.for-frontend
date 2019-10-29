@@ -18,7 +18,7 @@
 @import _root_.template.FormatRefNum
 
 @(summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
-<div class="account-info">
+<div class="account-info for-id" for-id="@{FormatRefNum(summary.referenceNumber)}">
   <ul>
     <li><span>@Messages("label.account.ref"):</span> @{
         FormatRefNum(summary.referenceNumber)
