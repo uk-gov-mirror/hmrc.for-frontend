@@ -100,7 +100,7 @@
             referenceNumber = 'not provided';
         }
 
-        data['report-error'] = data['report-error'] + '\n\nReference number : ' + referenceNumber;
+        data['report-error'] = data['report-error'] + '\n\nReference number : ' + referenceNumber + '\n\nURL: ' + String(window.location.href);
         data['referer'] = String(window.location.href);
         data['isJavascript'] = true;
 
