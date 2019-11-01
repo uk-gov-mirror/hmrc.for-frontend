@@ -100,7 +100,10 @@
             referenceNumber = 'not provided';
         }
 
-        data['report-error'] = data['report-error'] + '\n\nReference number : ' + referenceNumber + '\n\nURL: ' + String(window.location.href);
+        var replaceRegex = new RegExp('https?://');
+
+        data['report-error'] = data['report-error'] + '\n\nRef : ' + referenceNumber + '\n' +
+            (String(window.location.href).replace(replaceRegex, ''));
         data['referer'] = String(window.location.href);
         data['isJavascript'] = true;
 
