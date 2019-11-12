@@ -89,10 +89,6 @@
                     </div>
                 }
 
-                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
-                @helpers.form(action = routes.LoginController.submit) {
-                @helper.CSRF.formField
-        
                 @includes.errors(theForm, isAgent = false)
 
                 @failedLoginError.map { e =>
@@ -104,6 +100,10 @@
                         </ul>
                     </div>
                 }
+
+                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
+                @helpers.form(action = routes.LoginController.submit) {
+                    @helper.CSRF.formField
 
                     <p class="form-label">@Messages("label.letter")</p>
                 
@@ -153,12 +153,11 @@
                         '_type -> "hidden"
                     )
 
-                @defining(DateTime.now.toString) { now =>
-                    <input type="hidden" name="start-time" value="@now" />
-                }
+                    @defining(DateTime.now.toString) { now =>
+                        <input type="hidden" name="start-time" value="@now" />
+                    }
 
-                   
-                        <!-- Continue -->
+                    <!-- Continue -->
                     <div class="form-group">
                         <input id="continue" type="submit" class="button" value="@Messages("label.continue")">
                     </div>
