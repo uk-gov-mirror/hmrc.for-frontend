@@ -23,6 +23,7 @@ import org.joda.time.DateTime
 case class Summary(
   referenceNumber: String,
   journeyStarted: DateTime,
+  addressConnection: Option[AddressConnectionType],
   propertyAddress: Option[PropertyAddress],
   customerDetails: Option[CustomerDetails],
   theProperty: Option[PageThree],

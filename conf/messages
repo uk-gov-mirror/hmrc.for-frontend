@@ -127,7 +127,7 @@ label.isRelated=Do you still have a connection to this property?
 #SECTION 1
 ##############################
 section1.heading=Property address
-section1.intro.text=You’re providing information about this address
+section1.intro.text=Are you still connected to
 label.isAddressCorrect=Is this correct?
 label.address.buildingNameNumber=Address line 1
 label.buildingNameNumber=Address

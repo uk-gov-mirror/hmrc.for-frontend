@@ -23,6 +23,7 @@
 @import helpers.summary._
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
+@import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress}
 
 @(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
@@ -46,34 +47,26 @@
 
     @includes.errors(theForm, isAgent = false)
 
-    @headingDisplay(0, Messages("section1.heading"), false)
+    @headingDisplay(0, (Messages("section1.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false)
 
     <div class="grid-row">
       <div class="column-two-thirds">
 
         @helper.CSRF.formField
 
-        <p class="form-label-bold">@Messages("section1.intro.text")</p>
-
-        <p class="form-title heading-large heading-confirmation">
-          @summary.address.map(_.buildingNameNumber)
-          @summary.address.flatMap(_.street1.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.street2.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"))
-        </p>
 
         @inputRadioGroup(
           field = theForm("isRelated"),
           options = Seq(
-            "true" -> Messages("label.yes.oes"),
-            "false" -> Messages("label.no.nac.oes")
+            AddressConnectionTypeYes.name -> Messages("label.yes.oes"),
+            AddressConnectionTypeYesChangeAddress.name -> "Yes - I want to edit the address",
+            AddressConnectionTypeNo.name -> Messages("label.no.nac.oes")
           ),
           args = Seq(
             '_showConstraints -> false,
-            '_label -> Messages("label.isRelated"),
+            '_label -> "",
             '_error -> theForm("isAddressCorrect").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
+            '_legend -> false,
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false
           )

@@ -54,6 +54,7 @@ package object models {
   implicit val formatResponsibleType: Format[ResponsibleType] = generateFormat(ResponsibleTypes)
   implicit val formatRentBaseType: Format[RentBaseType] = generateFormat(RentBaseTypes)
   implicit val formatRentLengthType: Format[RentLengthType] = generateFormat(RentLengthTypes)
+  implicit val formatAddressConnection: Format[AddressConnectionType] = generateFormat(AddressConnectionTypes)
   implicit val tenantAddressType: Format[TenantsAddressType] = generateFormat(TenantsAddressTypes)
 
   implicit val annr = Json.format[AnnualRent]

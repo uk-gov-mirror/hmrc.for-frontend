@@ -17,6 +17,7 @@
 package models.pages
 
 import connectors.Document
+import form.PageZeroForm.pageZeroForm
 import form.PageEightForm.pageEightForm
 import form.PageElevenForm.pageElevenForm
 import form.PageFiveForm.pageFiveForm
@@ -40,6 +41,7 @@ trait SummaryBuilder {
 object SummaryBuilder extends SummaryBuilder {
 
   def build(doc: Document): Summary = {
+    val p0 = findPage(doc, 0, pageZeroForm)
     val p1 = findPage(doc, 1, pageOneForm)
     val p2 = findPage(doc, 2, pageTwoForm)
     val p3 = findPage(doc, 3, pageThreeForm)
@@ -54,7 +56,7 @@ object SummaryBuilder extends SummaryBuilder {
     val p12 = findPage(doc, 12, pageTwelveForm)
     val p13 = findPage(doc, 13, pageThirteenForm)
     val p14 = findPage(doc, 14, pageFourteenForm)
-    Summary(doc.referenceNumber, doc.journeyStarted, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14,
+    Summary(doc.referenceNumber, doc.journeyStarted, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14,
       address = doc.address, journeyResumptions = doc.journeyResumptions
     )
   }

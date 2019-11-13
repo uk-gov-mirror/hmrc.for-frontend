@@ -44,7 +44,7 @@ object Journey {
 
   private def pageToShow(target: Int, summary: Summary, current: Option[Int] = None): Int = {
     val path = Paths.pathFor(summary)
-    if (target == 1 || target == 0) {
+    if (target == 0) {
       target
     } else if (path.contains(target) && path.previousPageIsComplete(target, summary)) {
       target

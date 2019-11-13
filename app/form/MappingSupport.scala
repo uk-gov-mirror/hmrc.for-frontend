@@ -99,6 +99,7 @@ object MappingSupport {
   val rentLengthType: Mapping[RentLengthType] = Forms.of[RentLengthType]
   val postcode: Mapping[String] = text verifying(Errors.invalidPostcode, _.toUpperCase matches postcodeRegex)
   val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
+  val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
 
   def addressMapping(prefix: String): Mapping[Address] = mapping(
     "buildingNameNumber" -> nonEmptyText(maxLength = 50),

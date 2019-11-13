@@ -17,16 +17,17 @@
 package form
 
 import form.MappingSupport._
+import models.serviceContracts.submissions.AddressConnectionType
 import play.api.data.Form
 import play.api.data.Forms.mapping
 
 object PageZeroForm {
 
-  lazy val basePageZeroForm: Form[Boolean] = Form(basePageZeroMapping)
+  lazy val basePageZeroForm: Form[AddressConnectionType] = Form(basePageZeroMapping)
 
   val basePageZeroMapping = mapping(
-    "isRelated" -> mandatoryBoolean
-  )(b => b)(b => Some(b))
+    "isRelated" -> addressConnectionType
+  )(x => x)(b => Some(b))
 
   val pageZeroForm = Form(basePageZeroMapping)
 
