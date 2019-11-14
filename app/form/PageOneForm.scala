@@ -21,15 +21,13 @@ import play.api.data.Form
 import play.api.data.Forms.mapping
 import uk.gov.voa.play.form.ConditionalMappings._
 import MappingSupport._
+import models.serviceContracts.submissions.Address
 
 object PageOneForm {
 
-  lazy val basePageOneForm: Form[PropertyAddress] = Form(basePageOneMapping)
+  lazy val basePageOneForm: Form[Address] = Form(basePageOneMapping)
 
-  val basePageOneMapping = mapping(
-    "isAddressCorrect" -> mandatoryBoolean,
-    "address" -> mandatoryIfFalse("isAddressCorrect", addressMapping("address"))
-  )(PropertyAddress.apply)(PropertyAddress.unapply)
+  val basePageOneMapping = addressMapping
 
   val pageOneForm = Form(basePageOneMapping)
 

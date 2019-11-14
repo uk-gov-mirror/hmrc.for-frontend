@@ -68,7 +68,6 @@ package object models {
   implicit val addressFormat = Json.format[Address]
   implicit val lookupAddressFormat = Json.format[LookupServiceAddress]
   implicit val contactDetailsFormat = Json.format[ContactDetails]
-  implicit val contactFormat = Json.format[Contact]
   implicit val formatParkingDetails = Json.format[ParkingDetails]
   implicit val formatPropertyAlterationsDetails = Json.format[PropertyAlterationsDetails]
   implicit val pageSevenRentReviewResultDetailsFormat = Json.format[RentReviewResultDetails]
@@ -76,7 +75,6 @@ package object models {
   implicit val subletDataFormat = Json.format[SubletData]
   implicit val pageSevenDetailsFormat = Json.format[PageSevenDetails]
 
-  implicit val paf = Json.format[PropertyAddress]
   implicit val cdf = Json.format[CustomerDetails]
   implicit val tpf = Json.format[TheProperty]
   implicit val subf = Json.format[Sublet]

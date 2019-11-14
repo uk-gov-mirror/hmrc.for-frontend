@@ -16,10 +16,8 @@
 
 package models.serviceContracts.submissions
 
-import models.PropertyAddress
-
 case class Submission(
-  propertyAddress: Option[PropertyAddress],
+  propertyAddress: Option[Address],
   customerDetails: Option[CustomerDetails],
   theProperty: Option[TheProperty],
   sublet: Option[Sublet],

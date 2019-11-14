@@ -24,7 +24,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[PropertyAddress], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(theForm: Form[Address], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @headExtra = {
@@ -62,10 +62,10 @@
         <div class="form-group">
         @defining(Addresses.getAddress(summary)) { address =>
           @inputText(
-            field = theForm("address.buildingNameNumber"),
+            field = theForm("buildingNameNumber"),
             '_label -> "Address line 1",
             '_value -> address.buildingNameNumber,
-            '_error -> theForm("address.buildingNameNumber").error,
+            '_error -> theForm("buildingNameNumber").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
             Symbol("placeholder") -> Messages("placeholder.address.1"),
@@ -73,10 +73,10 @@
           )
 
           @inputText(
-            field = theForm("address.street1"),
+            field = theForm("street1"),
             '_label -> "Address line 2",
             '_value -> address.street1.getOrElse(""),
-            '_error -> theForm("address.street1").error,
+            '_error -> theForm("street1").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
             Symbol("placeholder") -> Messages("placeholder.address.2"),
@@ -85,10 +85,10 @@
           )
 
           @inputText(
-            field = theForm("address.street2"),
+            field = theForm("street2"),
             '_label -> "Town or city",
             '_value -> address.street2.getOrElse(""),
-            '_error -> theForm("address.street2").error,
+            '_error -> theForm("street2").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
             Symbol("placeholder") -> Messages("placeholder.address.3"),
@@ -97,22 +97,14 @@
           )
 
           @inputText(
-            field = theForm("address.postcode"),
+            field = theForm("postcode"),
             '_label -> Messages("label.postcode"),
             '_value -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
-            '_error -> theForm("address.postcode").error,
+            '_error -> theForm("postcode").error,
             '_labelClass -> "form-label",
             'class -> "form-control postcode",
             '_fieldsetClass -> "address-fields"
           )
-
-          @hiddenInput(
-            field = theForm("isAddressCorrect"),
-            '_value -> true,
-            '_labelClass -> "visuallyhidden",
-            '_error -> ""
-          )
-
         }
         </div>
 

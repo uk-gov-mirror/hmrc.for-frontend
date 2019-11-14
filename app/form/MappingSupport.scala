@@ -23,7 +23,6 @@ import play.api.data.validation._
 import play.api.data.{FormError, Forms, Mapping}
 import uk.gov.voa.play.form.ConditionalMappings._
 import ConditionalMapping._
-import play.data.validation.Constraints.MaxLength
 
 object MappingSupport {
 
@@ -43,14 +42,6 @@ object MappingSupport {
       (contactDetails.emailConfirmed.isEmpty || contactDetails.emailConfirmed.get.length <= maxLength)
     createFieldConstraintFor(cond, "email.tooLong", Seq("email1", "email2"))
   }
-  })
-
-  val mustSupplyOneContactMethod: Constraint[Contact] = Constraint("constraints.alt.contact.details")({
-    contact => {
-      val cond = contact.contactDetails.map(cd => cd.phone.isDefined || cd.email.isDefined).getOrElse(contact.address.isDefined)
-      val fields = Seq("contactDetails.phone", "contactDetails.email1", "address.buildingNameNumber")
-      createFieldConstraintFor(cond, Errors.contactDetailsMissing, fields)
-    }
   })
 
   val positiveBigDecimal = bigDecimal
@@ -101,6 +92,13 @@ object MappingSupport {
   val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
   val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
 
+  def addressMapping: Mapping[Address] = mapping(
+    "buildingNameNumber" -> nonEmptyText(maxLength = 50),
+    "street1" -> optional(text(maxLength = 50)),
+    "street2" -> optional(text(maxLength = 50)),
+    "postcode" -> postcode
+  )(Address.apply)(Address.unapply)
+
   def addressMapping(prefix: String): Mapping[Address] = mapping(
     "buildingNameNumber" -> nonEmptyText(maxLength = 50),
     "street1" -> optional(text(maxLength = 50)),
@@ -141,11 +139,6 @@ object MappingSupport {
   )(details =>
     Some((details.phone, details.email, details.emailConfirmed))
   ) verifying emailsMatch
-
-  def alternativeContactMapping(prefix: String): Mapping[Contact] = mapping(
-    "fullName" -> text(minLength = 1, maxLength = 50),
-    "contactDetails" -> optional(alternativeContactDetailsMapping),
-    "address" -> optional(addressMapping(s"$prefix.address")))(Contact.apply)(Contact.unapply) verifying mustSupplyOneContactMethod
 
   def parkingDetailsMapping(key: String): Mapping[ParkingDetails] = mapping(
     "openSpaces" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999),

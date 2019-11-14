@@ -17,7 +17,8 @@
 package models.journeys
 
 import models.pages.Summary
-import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress, LeaseAgreementTypesVerbal, UserTypeVacated}
+import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes}
+import models.serviceContracts.submissions.{AddressConnectionTypeYesChangeAddress, LeaseAgreementTypesVerbal, UserTypeVacated}
 import play.api.Logger
 
 object Paths {
@@ -35,15 +36,16 @@ object Paths {
       case AddressConnectionTypeYesChangeAddress => false
       case AddressConnectionTypeNo => false
     }.getOrElse(false)
+
     if(removePage1) {
-      new Path(_pathFor(summary).pages.filterNot(_ == 1))
+      new Path(buildPath(summary).pages.filterNot(_ == 1))
     }else {
-      _pathFor(summary)
+      buildPath(summary)
     }
   }
 
 
-  private def _pathFor(summary: Summary): Path = {
+  private def buildPath(summary: Summary): Path = {
     if (isShortPath(summary)) shortPath
     else if (summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal) verbalAgreementPath
     else if (summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews) rentReviewPaths
@@ -65,7 +67,7 @@ class Path(val pages: Seq[Int]) {
 
   def firstIncompletePageFor(summary: Summary): Option[Int] = {
     val asList = summaryAsList(summary)
-    pages.find(n => n != 0 && asList(n - 1).isEmpty)
+    pages.find(n => n != 0 && asList(n).isEmpty)
   }
 
   def contains(page: Int): Boolean = pages.contains(page)
@@ -74,7 +76,7 @@ class Path(val pages: Seq[Int]) {
 
   def nextPage(page: Int, summary: Summary): Option[Int] = {
     val summaryList = summaryAsList(summary)
-    pages.dropWhile(p => p == 0 || (summaryList(p - 1).isDefined && p < page)).headOption
+    pages.dropWhile(p => p == 0 || (summaryList(p).isDefined && p < page)).headOption
   }
 
   def previousPageIsComplete(page: Int, summary: Summary): Boolean = {

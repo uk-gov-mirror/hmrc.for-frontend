@@ -16,7 +16,6 @@
 
 package models.pages
 
-import models.PropertyAddress
 import models.serviceContracts.submissions._
 import org.joda.time.DateTime
 
@@ -24,7 +23,7 @@ case class Summary(
   referenceNumber: String,
   journeyStarted: DateTime,
   addressConnection: Option[AddressConnectionType],
-  propertyAddress: Option[PropertyAddress],
+  propertyAddress: Option[Address],
   customerDetails: Option[CustomerDetails],
   theProperty: Option[PageThree],
   sublet: Option[PageFour],
@@ -44,15 +43,31 @@ case class Summary(
 
   lazy val addressVOABelievesIsCorrect = address.getOrElse(throw new VOAHeldAddressSelectionError(referenceNumber))
 
-  lazy val addressUserBelievesIsCorrect: Address = {
-    if(propertyAddress.exists(_.isAddressCorrect)) address else propertyAddress.flatMap(_.address)
-  }.getOrElse(throw UsersAddressSelectionError(referenceNumber))
+  def addressUserBelievesIsCorrect: Address = {
+    addressConnection.flatMap {
+      case AddressConnectionTypeYesChangeAddress => propertyAddress orElse address
+      case _ => address
+    }.getOrElse(throw UsersAddressSelectionError(referenceNumber) )
+  }
+
+//  lazy val addressUserBelievesIsCorrect: Address = {
+//    if(propertyAddress.exists(_.isAddressCorrect)) address else propertyAddress.flatMap(_.address)
+//  }.getOrElse(throw UsersAddressSelectionError(referenceNumber))
 
   lazy val submitter = customerDetails.map(_.fullName) getOrElse "No Name Supplied"
   lazy val isAgent = customerDetails.exists(c => c.userType == UserTypeOccupiersAgent || c.userType == UserTypeOwnersAgent)
   lazy val lastLogin = journeyResumptions.lastOption.getOrElse(journeyStarted)
-  lazy val isUnderReview =
-    propertyAddress.exists(_.isAddressCorrect == false) && address.map(_.singleLine) != propertyAddress.flatMap(_.address.map(_.singleLine))
+//  lazy val isUnderReview =
+//    propertyAddress.exists(_.isAddressCorrect == false) && address.map(_.singleLine) != propertyAddress.flatMap(_.address.map(_.singleLine))
+
+  def isUnderReview: Boolean = addressConnection match {
+    case Some(AddressConnectionTypeYesChangeAddress) => {
+      address.map(_.singleLine) != propertyAddress.map(_.singleLine)
+    }
+    case _ => false
+  }
+
+
 }
 
 case class NoMainAddress(refNum: String) extends Exception(refNum)

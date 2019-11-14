@@ -19,18 +19,22 @@ package controllers.dataCapturePages
 import form.PageOneForm.pageOneForm
 import models._
 import models.pages.Summary
+import models.serviceContracts.submissions.Address
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import play.twirl.api.Html
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-object PageOneController extends ForDataCapturePage[PropertyAddress] {
-  val format = paf
+object PageOneController extends ForDataCapturePage[Address] {
+
+  val format = addressFormat
+
   val emptyForm = pageOneForm
+
   val pageNumber: Int = 1
 
-  def template(form: Form[PropertyAddress], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  def template(form: Form[Address], summary: Summary)(implicit request: Request[AnyContent]): Html = {
     views.html.part1(form, summary)
   }
 
