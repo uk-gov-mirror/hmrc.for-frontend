@@ -96,7 +96,7 @@ object MappingSupport {
     "buildingNameNumber" -> nonEmptyText(maxLength = 50),
     "street1" -> optional(text(maxLength = 50)),
     "street2" -> optional(text(maxLength = 50)),
-    "postcode" -> postcode
+    "postcode" ->  nonEmptyTextOr("postcode", postcode)
   )(Address.apply)(Address.unapply)
 
   def addressMapping(prefix: String): Mapping[Address] = mapping(

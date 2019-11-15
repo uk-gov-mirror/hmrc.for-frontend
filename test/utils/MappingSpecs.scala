@@ -351,6 +351,13 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
     val postcode = "postcode"
   }
 
+  def validateAddress[T](form: Form[T], formData: Map[String, String]) {
+    validateAddressLine(addressKeys.buildingNameOrNumber, form, formData, isMandatory = true)
+    validateAddressLine(addressKeys.street1, form, formData)
+    validateAddressLine(addressKeys.street2, form, formData)
+    validatesPostcode(addressKeys.postcode, form, formData)
+  }
+
   def validateAddress[T](form: Form[T], formData: Map[String, String], fieldPrefix: String) {
     val prefix = fieldPrefix + "."
     val dwa = withAddressValues(formData, prefix)

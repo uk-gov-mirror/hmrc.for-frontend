@@ -24,46 +24,22 @@ class PageOneFormMappingSpec extends FlatSpec with Matchers {
   import form.PageOneForm._
   import utils.MappingSpecs._
   
-  "page one mapping" should "error if the isAddressCorrect field is missing" in {
-    val formData: Map[String, String] = Map()
-    val boundForm = pageOneForm.bind(formData)
 
-    boundForm.hasErrors should be(true)
-    boundForm.errors.size should be(1)
-    val err1 = boundForm.errors(0)
-    err1.key should be(errorKey.isAddressCorrect)
-    err1.messages should contain(Errors.booleanMissing)
-  }
-
-
-  it should "validate the address fields following the standard address convention for this application" in {
-    val formData: Map[String, String] = Map(errorKey.isAddressCorrect -> "false",
-      errorKey.addressBuildingName -> "buildingNameText",
+  "page one mapping" should "validate the address fields following the standard address convention for this application" in {
+    val formData: Map[String, String] = Map(errorKey.addressBuildingName -> "buildingNameText",
       errorKey.addressPostcode -> "AA11 1AA",
-      "address.street1" -> "street1",
-      "address.street2" -> "street2")
+      "street1" -> "street1",
+      "street2" -> "street2")
 
-    validateAddress(pageOneForm, formData, "address")
-  }
-
-  "page one mapping" should "be okay if isAddressCorrect field is true" in {
-    val formData: Map[String, String] = Map(errorKey.isAddressCorrect -> "true")
-    val boundForm = pageOneForm.bind(formData).convertGlobalToFieldErrors()
-
-    boundForm.hasErrors should be(false)
-
-    boundForm.value.map { pageOneData =>
-      pageOneData.isAddressCorrect should be(true)
-    }
+    validateAddress(pageOneForm, formData)
   }
 
   "page one mapping" should "map to fully populated data object if all form fields are present and isAddresCorrect is false" in {
     val formData: Map[String, String] = Map(
-      errorKey.isAddressCorrect -> "false",
       errorKey.addressBuildingName -> "buildingNameText",
       errorKey.addressPostcode -> "AA11 1AA",
-      "address.street1" -> "street1",
-      "address.street2" -> "street2")
+      "street1" -> "street1",
+      "street2" -> "street2")
     val boundForm = pageOneForm.bind(formData).convertGlobalToFieldErrors()
 
     boundForm.hasErrors should be(false)
@@ -72,25 +48,16 @@ class PageOneFormMappingSpec extends FlatSpec with Matchers {
 
     val pageOneData = boundForm.value.get
 
-    pageOneData.isAddressCorrect should be(false)
-    pageOneData.address.isDefined should be(true)
-    pageOneData.address.get.buildingNameNumber should be("buildingNameText")
-    pageOneData.address.get.street1 should be(Some("street1"))
-    pageOneData.address.get.street2 should be(Some("street2"))
-    pageOneData.address.get.postcode should be("AA11 1AA")
+    pageOneData.buildingNameNumber should be("buildingNameText")
+    pageOneData.street1 should be(Some("street1"))
+    pageOneData.street2 should be(Some("street2"))
+    pageOneData.postcode should be("AA11 1AA")
   }
 
   object TestData {
     val errorKey = new {
-    val isAddressCorrect: String = "isAddressCorrect"
-    val addressBuildingName: String = "address.buildingNameNumber"
-    val addressPostcode: String = "address.postcode"
-  }
-
-  val formErrors = new {
-    val required = new {
-      val isAddressCorrect = FormError(errorKey.isAddressCorrect, Errors.booleanMissing)
-    }
+    val addressBuildingName: String = "buildingNameNumber"
+    val addressPostcode: String = "postcode"
   }
   
   }

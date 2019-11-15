@@ -165,7 +165,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     .add(Page(4, page4TenantsPropertyAddressData))
     lazy val docWithTenantsPropertyAddressAndNoOverridenMainAddress = doc1.add(Page(4, page4TenantsPropertyAddressData))
     lazy val submission1 = Submission(
-      Some(propertyAddress), Some(customerDetails), Some(theProperty), Some(sublet), Some(landlord),
+      propertyAddress, Some(customerDetails), Some(theProperty), Some(sublet), Some(landlord),
       Some(leaseOrAgreement), Some(rentReviews), Some(rentAgreement), Some(rent), Some(whatRentIncludes),
       Some(incentivesAndPayments), Some(responsibilities), Some(propertyAlterations), Some(otherFactors),
       referenceNumber = Some("refNum1"))
@@ -321,8 +321,8 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
 
     lazy val page14FormData = Map("anyOtherFactors" -> Seq("false"), "anyOtherFactorsDetails" -> Seq(""))
 
-    val propertyAddress = PropertyAddress(true, None)
-    val alternatePropertyAddress = PropertyAddress(true, Some(tenantsPropertyAddress))
+    val propertyAddress = Option.empty[Address]
+    val alternatePropertyAddress = Some(tenantsPropertyAddress)
     val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, Some("abc@mailinator.com"), Some("abc@mailinator.com")))
     val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
     val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), "basement", "commercial", Some(200), RoughDate(None, Some(2), 2011))))

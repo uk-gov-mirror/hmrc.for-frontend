@@ -33,7 +33,7 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
      val doc = Document(ref, DateTime.now, saveForLaterPassword = Some(pwd), journeyResumptions = Seq(now.minusDays(1)))
      val tok = "BASIC abcdefg=="
      implicit val hc: HeaderCarrier = HeaderCarrier(authorization = Some(Authorization(tok)))
-     val sum = Summary(ref, DateTime.now, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
+     val sum = Summary(ref, DateTime.now, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
 
     "a document has been saved and the passwords match" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
