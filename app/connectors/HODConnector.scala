@@ -20,6 +20,7 @@ import config.ForConfig
 import controllers.toFut
 import helpers.RunModeHelper
 import models.FORLoginResponse
+import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{Format, JsValue}
 import uk.gov.hmrc.play.config.ServicesConfig
@@ -51,55 +52,54 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(removeOwnerAndOccupiers).map(removeRentLengthType) recoverWith {
+    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress) recoverWith {
       case n: NotFoundException => None
     }
   }
 
-  def removeRentLengthType(maybeDocument: Option[Document]): Option[Document] = {
 
-    val removedPage9 = for {
+  def splitAddress(maybeDocument: Option[Document]): Option[Document] = {
+
+    for {
       doc <- maybeDocument
-      page9 <- doc.page(9)
-      _ <- page9.fields.get("totalRent.rentLengthType")
+      page1 <- doc.page(1)
+      isAddressCorrect <- page1.fields.get("isAddressCorrect")
     } yield {
-      val newPage9 = page9.copy(fields = page9.fields - ("totalRent.annualRentExcludingVat", "totalRent.rentLengthType" ))
-      doc.copy(pages = doc.pages.filterNot(_.pageNumber == 9))
+      if(isAddressCorrect.contains("false")) {
+        updateChangedAddresToNewModel(doc, page1)
+      }else {
+        val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.mapValues(Seq(_)) )
+        updateDocWithPageZeroAndRemovePageOne(doc, page0)
+      }
     }
+  }
 
-    if(removedPage9.isDefined) {
-      removedPage9
-    }else {
-      maybeDocument
-    }
+  def updateChangedAddresToNewModel(document: Document, page1: Page): Document = {
+    val page1Data = page1.fields.map { case (key, value) =>
+      if(key.startsWith("address.")) {
+        (key.replace("address.", ""), value)
+      }else {
+        (key, value)
+      }
+    }.filterKeys(_ != "isAddressCorrect")
+
+    val newPage1 = page1.copy(fields = page1Data)
+
+    val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYesChangeAddress).data.mapValues(Seq(_)))
+
+    val newPages = Seq(page0, newPage1) ++ (document.pages.filterNot(x => x.pageNumber == 0 || x.pageNumber == 1))
+
+    document.copy(pages = newPages)
 
   }
 
-  def removeOwnerAndOccupiers (savedDocument: Option[Document]) :Option[Document] = {
-    val changedPage2 = for {
-      document <- savedDocument
-      page2 <- document.page(Constant.PAGETWO)
 
-    } yield  {
-        val userType = page2.fields.contains(Constant.USER_TYPE) match {
-          case true => page2.fields(Constant.USER_TYPE)(Constant.ZERO)
-          case false => None
-        }
-        userType match {
-          case Constant.OWNER_OCCUPIER =>  {
-            val updatedfields = (page2.fields - Constant.USER_TYPE) + (Constant.USER_TYPE -> Seq(Constant.OWNER) )
-            val page_2 = page2.copy(fields = updatedfields)
-            val allPages = ((document.pages.filterNot(_.pageNumber == Constant.TWO)) :+ page_2).sortBy(_.pageNumber)
-            document.copy(pages = allPages)
-          }
-          case _ => document
-        }
-      }
-      changedPage2  match {
-        case Some(x) => changedPage2
-        case _ => savedDocument
-      }
+
+  def updateDocWithPageZeroAndRemovePageOne(document: Document, page0:Page) = {
+    val newPages = page0 +: (document.pages.filterNot(x => x.pageNumber == 0 || x.pageNumber == 1))
+    document.copy(pages = newPages)
   }
+
 
 
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] = {
