@@ -56,29 +56,29 @@
 
         @helper.CSRF.formField
 
-        <p class="form-label-bold">Edit address</p>
-
           <!-- Address -->
         <div class="form-group">
         @defining(Addresses.getAddress(summary)) { address =>
           @inputText(
             field = theForm("buildingNameNumber"),
-            '_label -> "Address line 1",
+            '_label -> Messages("label.address.buildingNameNumber"),
             '_value -> address.buildingNameNumber,
             '_error -> theForm("buildingNameNumber").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.buildingNameNumber).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.1"),
             '_fieldsetClass -> "address-fields"
           )
 
           @inputText(
             field = theForm("street1"),
-            '_label -> "Address line 2",
+            '_label -> Messages("label.address.street1"),
             '_value -> address.street1.getOrElse(""),
             '_error -> theForm("street1").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.street1.getOrElse("")).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.2"),
             '_fieldsetClass -> "address-fields",
             '_optional -> true
@@ -86,11 +86,12 @@
 
           @inputText(
             field = theForm("street2"),
-            '_label -> "Town or city",
+            '_label -> Messages("label.address.street2"),
             '_value -> address.street2.getOrElse(""),
             '_error -> theForm("street2").error,
             '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.street2.getOrElse("")).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.3"),
             '_fieldsetClass -> "address-fields",
             '_optional -> true
@@ -103,9 +104,11 @@
             '_error -> theForm("postcode").error,
             '_labelClass -> "form-label",
             'class -> "form-control postcode",
+            'address_default_value -> summary.address.map(_.postcode).getOrElse(""),
             '_fieldsetClass -> "address-fields"
           )
         }
+          <a href="#" id="undo-edits">@Messages("label.undoEdits")</a>
         </div>
 
         @includes.continueButton()        

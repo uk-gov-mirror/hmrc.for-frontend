@@ -123,31 +123,33 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
 #SECTION 0
 ##############################
-label.isRelated=A oes gennych gysylltiad o hyd â’r eiddo hwn?
+label.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
+section0.heading=Connection to property
+section0.intro.text=A oes gennych gysylltiad o hyd â
+error.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
 
 #SECTION 1
 ##############################
 section1.heading=Cyfeiriad yr eiddo
-section1.intro.text=Rydych yn darparu gwybodaeth am y cyfeiriad hwn
-label.isAddressCorrect=A yw hyn yn gywir?
-label.address.buildingNameNumber=Llinell gyntaf y cyfeiriad
-label.buildingNameNumber=Cyfeiriad
-label.isAddressCorrectNo=Nac ydy, rwyf am ei newid
+label.yes.change.address=Oes - rydw i am olygu’r cyfeiriad
+label.address.buildingNameNumber=Llinell 1 y cyfeiriad
 label.changedAddress=Newid cyfeiriad
 label.address=Cyfeiriad
-label.address.street1=Ail linell y cyfeiriad
-label.address.street2=Trydedd linell y cyfeiriad
+
+label.address.street1=Linell 2 y cyfeiriad
+label.address.street2=Tref neu ddinas
 label.addresss.townCity=Tref neu ddinas
 label.postcode=Cod post
+
 label.street1=Ail linell y cyfeiriad
 label.street2=Trydedd linell y cyfeiriad
 label.townCity=Tref neu ddinas
-error.isAddressCorrect=Dewiswch werth
 label.address.townCity=Tref neu ddinas
 label.address.postcode=Cod post
 label.currentAddress=Cyfeiriad presennol
 label.updatedAddress=Cyfeiriad a ddiweddarwyd
 label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i’r cyfeiriad eu derbyn gan Asiantaeth y Swyddfa Brisio.
+label.undoEdits=Dadwneud golygiadau
 
 #SECTION 2
 ##############################
