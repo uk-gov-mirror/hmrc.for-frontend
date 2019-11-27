@@ -555,10 +555,9 @@ heading.feedback.thankyou=Diolch am eich adborth
 #DECLARATION
 ###############################
 declaration.heading=Datganiad
-label.declaration=Rwyf i, {0} fel {1} {2} yn datgan bod y wybodaeth ‘rwyf wedi rhoi ar y ffurflen hon yn gywir ac yn gyflawn hyd eithaf fy ngwybodaeth.<br /><br />Deallaf fod posibiliad imi orfod mynd gerbron y llys barn petawn i roi gwybodaeth anghywir yn fwriadol.
-label.declaration.iAgree=Rwy’n cytuno â’r datganiad uchod.
-hint.declaration=Ni fyddwch yn gallu mynd yn ôl a gwneud unrhyw newidiadau ar ôl i chi gyflwyno’r ffurflen.
-error.declaration=Mae’n rhaid i chi gytuno er mwyn parhau
+label.declaration.iAgree=Hyd eithaf fy ngwybodaeth a’m cred mae’r wybodaeth a roddwyd gennyf yn gywir.
+hint.declaration=Gellid mynd â chi i’r llys os ydych yn cyflwyno gwybodaeth anwir.
+error.declaration=Dewiswch os ydych yn cytuno â’r datganiad
 
 #SAVE
 ###############################
