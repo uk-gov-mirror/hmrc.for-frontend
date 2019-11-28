@@ -49,7 +49,7 @@ label.findAddress=Find UK address
 label.addressAbroad=Address
 label.overseas.address=Enter an address outside the UK
 alt.newWindow=Opens in a new window
-label.underReview=(Under review)
+label.underReview=(under review)
 copy.character.count=Maximum <span>{0}</span> characters (<span class="chars" data-max-length="{0}">{0}</span> remaining)
 copy.character.count.nojs=Maximum <span>{0}</span> characters
 link.privacyPolicy=Privacy

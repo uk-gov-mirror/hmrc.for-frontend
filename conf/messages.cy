@@ -49,7 +49,7 @@ label.findAddress=Dod o hyd i gyfeiriad yn y Deyrnas Unedig
 label.addressAbroad=Cyfeiriad
 label.overseas.address=Rhowch gyfeiriad y tu allan i’r DU
 alt.newWindow=Mae’n agor mewn ffenestr arall
-label.underReview=(Yn cael ei adolygu)
+label.underReview=(yn cael ei adolygu)
 copy.character.count=Uchafswm o <span>{0}</span> o nodau (<span class="chars" data-max-length="{0}">{0}</span> yn weddill)
 copy.character.count.nojs=Uchafswm o {0} o nodau
 link.privacyPolicy=Preifatrwydd
