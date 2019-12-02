@@ -26,6 +26,10 @@
 
 @(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
+@stripIndices(field: String) = @{
+    field.replaceAll("""\[[0-9]\]""", "")
+}
+
 @headExtra = {
   @views.html.includes.stylesheets()
 }
@@ -50,6 +54,21 @@
 
   </h1>
 
+     <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+         <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
+         <ul>
+         @for(error <- theForm.errors) {
+             <li>
+                 <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
+                    @Messages(stripIndices(error.message), error.args: _*)
+                 </a>
+             </li>
+         }
+         </ul>
+     </div>
+
+
+
   <div class="grid-row">
     <div class="column-two-thirds">
     
@@ -58,11 +77,10 @@
           @checkbox(
             field = theForm("declaration"),
             'id -> "agree",
-            '_label -> Html(Messages("label.declaration", fullName, Messages("userType."+userType).toLowerCase, summary.addressUserBelievesIsCorrect.singleLine)),
             '_error -> theForm("declaration").error.map(_.withMessage(Messages("error.declaration"))),
             '_fieldsetClass -> "inline",
             '_legend -> true,
-            '_labelClass -> "form-label-bold",
+            '_labelClass -> "visuallyhidden",
             '_showConstraints -> false,
             '_text -> Messages("label.declaration.iAgree"),
             '_helpIndent -> Messages("hint.declaration")
