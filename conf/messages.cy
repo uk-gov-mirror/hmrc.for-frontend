@@ -66,7 +66,7 @@ label.footer.builtBy=Adeiladwyd gan <a href="https://www.gov.uk/government/organ
 label.footer.licence=Mae’r holl gynnwys ar gael o dan y <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Drwydded Llywodraeth Agored f3.0</a> ac eithrio lle nodir yn wahanol
 label.footer.ogl=Trwydded Llywodraeth Agored
 label.footer.crown=Hawlfraint y Goron
-label.edit=Golygu
+label.edit=Newid
 label.account.ref=Cyfeirnod
 label.account.property=Eiddo
 label.confirmPassword=Gwall ar cadarnhau’r cyfrinair
