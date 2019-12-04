@@ -52,7 +52,7 @@
     }
 
 
-    @main(title =Messages("login.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false) {
+    @main(title =Messages("login.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false, theForm = Some(theForm)) {
    
  <main id="content" tabindex="-1">
         <div class="grid-row">

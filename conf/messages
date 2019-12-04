@@ -74,6 +74,7 @@ placeholder.address.1=Address line 1
 placeholder.address.2=Address line 2
 placeholder.address.3=Address line 3
 label. = Error
+label.error = Error
 
 #WELSH YES/NO
 #############
