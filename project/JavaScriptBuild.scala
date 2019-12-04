@@ -17,20 +17,21 @@ object JavaScriptBuild {
     commands <++= uiDirectory { base => Seq(Grunt.gruntCommand(base), npmCommand(base)) },
 
     npmInstall := {
-      val npmResult = Grunt.npmProcess(uiDirectory.value, "install").run().exitValue()
-      if(npmResult != 0) {
-        throw new IllegalStateException("npm install failed")
-      }else {
-        npmResult
+      (1 to 3).map(_ => 0).find(_ => {
+        val exitValue = Grunt.npmProcess(uiDirectory.value, "install").run().exitValue()
+        exitValue == 0
+      }).getOrElse {
+        throw new IllegalStateException("grunt build failed!")
       }
     },
     gruntBuild := {
-      val gruntResult = Grunt.gruntProcess(uiDirectory.value, "generate-assets").run().exitValue()
-      if(gruntResult != 0) {
+      (1 to 3).map(_ => 0).find(_ => {
+        val exitValue = Grunt.gruntProcess(uiDirectory.value, "generate-assets").run().exitValue()
+        exitValue == 0
+      }).getOrElse {
         throw new IllegalStateException("grunt build failed!")
-      }else {
-        gruntResult
       }
+
     },
 
     gruntWatch := Grunt.gruntProcess(uiDirectory.value, "watch").run().exitValue(),
