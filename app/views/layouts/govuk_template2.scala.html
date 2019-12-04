@@ -20,7 +20,7 @@
 @import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
 
 
-@(title: Option[String], bodyClasses: Option[String], htmlLang: Option[String] = None)(head:Html = Html(""), bodyStart:Html = Html(""), bodyEnd:Html = Html(""), insideHeader:Html = Html(""), afterHeader:Html = Html(""), footerTop:Html = Html(""), footerLinks:Html = Html(""), headerClass:Html = Html(""), propositionHeader:Html = Html(""), needsTimeoutWarning:Boolean = true)(content:Html)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(title: Option[String], bodyClasses: Option[String], htmlLang: Option[String] = None, theForm: Option[Form[_]] = None)(head:Html = Html(""), bodyStart:Html = Html(""), bodyEnd:Html = Html(""), insideHeader:Html = Html(""), afterHeader:Html = Html(""), footerTop:Html = Html(""), footerLinks:Html = Html(""), headerClass:Html = Html(""), propositionHeader:Html = Html(""), needsTimeoutWarning:Boolean = true)(content:Html)(implicit requestHeader: RequestHeader,  messages: Messages)
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="@requestHeader.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")" class="no-js"><![endif]-->
 <!--[if gt IE 8]><!--><html lang="@requestHeader.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")" class="no-js"><!--<![endif]-->
@@ -29,9 +29,11 @@
     <meta charset="UTF-8">
     <meta name="description" content="Send your rent, lease or ownership details to the Valuation Office Agency" />
     <meta name="keywords" content="RALD, VOA RALD, VOA UK RALD, Rent and lease details, VOA Rent and lease details, VOA UK Rent and lease details, Online rent and lease details form, VOA Online rent and lease details form, VOA UK Online rent and lease details form, rent and lease details form, VOA rent and lease details form, VOA Uk rent and lease details form, Form of return,Request for info, VOA 6003, VOA 6003a, VOA6003, VOA6003a, VOA form RALD, VOA form Rent and lease details, VOA form 6003, form vo6003, vo6003, vo 6003 form, vo 6003 online" />
-
-    <title>@title.getOrElse("GOV.UK - The best place to find government services and information")</title>
-
+      @if(theForm.map(_.hasErrors).getOrElse(false)) {
+          <title>@title.map(x => messages("label.error") + ": " + x).getOrElse("Error: GOV.UK - The best place to find government services and information")</title>
+      }else {
+          <title>@title.getOrElse("GOV.UK - The best place to find government services and information")</title>
+      }
     <script type="text/javascript">
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
     </script>

@@ -74,6 +74,7 @@ placeholder.address.1=Llinell gyntaf y cyfeiriad
 placeholder.address.2=Ail linell y cyfeiriad
 placeholder.address.3=Trydedd linell y cyfeiriad
 label. = Gwall
+label.error = Gwall
 
 #WELSH YES/NO
 #############

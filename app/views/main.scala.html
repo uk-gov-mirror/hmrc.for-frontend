@@ -26,7 +26,8 @@ propositionHeader:Html=Html(""),
 showBackButton:Boolean=true,
 showAccountInfo:Boolean=true,
 needsTimeoutWarning:Boolean=true,
-feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback)(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
+feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback,
+theForm: Option[Form[_]] = None)(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @head = {
     @headExtra
@@ -54,7 +55,7 @@ feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback)(content: Html)(impl
     </div>
 }
 
-@layouts.govuk_template2(Some(title), None)(head, empty, bodyEnd, insideHeader, empty, empty, footerLinks, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
+@layouts.govuk_template2(Some(title), None, theForm = theForm)(head, empty, bodyEnd, insideHeader, empty, empty, footerLinks, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
     @headers
     @content
 }
