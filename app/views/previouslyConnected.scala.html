@@ -36,7 +36,7 @@
 
     <script type="text/javascript">
             (function() {
-                var timeoutSeconds = @current.configuration.getInt("signout.timeout").get ;
+                var timeoutSeconds = @current.configuration.getString("signout.timeout").get ;
                 setTimeout(function () {
                     window.open("/sending-rental-information/logout","_self")
                 }, timeoutSeconds * 1000);
