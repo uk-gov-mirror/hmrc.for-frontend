@@ -40,7 +40,7 @@ label.coveredSpaces.summary.greaterthan1=o fannau dan do
 label.garages.summary=modurdy
 label.garages.summary.greaterthan1=o modurdai
 label.leaveEmpty=Gadewch yn wag os nad oes dim
-heading.summary=Gwiriwch eich atebion cyn eu hanfon
+heading.summary=Gwiriwch eich atebion
 label.manualAddress=Cofnodwch gyfeiriad tramor neu gyfeiriad yn y DU â llaw
 label.selectAddress=Dewiswch gyfeiriad
 label.addressMatches=Mae’r cyfeiriad yn cyfateb
@@ -66,7 +66,7 @@ label.footer.builtBy=Adeiladwyd gan <a href="https://www.gov.uk/government/organ
 label.footer.licence=Mae’r holl gynnwys ar gael o dan y <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Drwydded Llywodraeth Agored f3.0</a> ac eithrio lle nodir yn wahanol
 label.footer.ogl=Trwydded Llywodraeth Agored
 label.footer.crown=Hawlfraint y Goron
-label.edit=Golygu
+label.edit=Newid
 label.account.ref=Cyfeirnod
 label.account.property=Eiddo
 label.confirmPassword=Gwall ar cadarnhau’r cyfrinair
@@ -74,6 +74,7 @@ placeholder.address.1=Llinell gyntaf y cyfeiriad
 placeholder.address.2=Ail linell y cyfeiriad
 placeholder.address.3=Trydedd linell y cyfeiriad
 label. = Gwall
+label.error = Gwall
 
 #WELSH YES/NO
 #############
@@ -557,10 +558,9 @@ heading.feedback.thankyou=Diolch am eich adborth
 #DECLARATION
 ###############################
 declaration.heading=Datganiad
-label.declaration=Rwyf i, {0} fel {1} {2} yn datgan bod y wybodaeth ‘rwyf wedi rhoi ar y ffurflen hon yn gywir ac yn gyflawn hyd eithaf fy ngwybodaeth.<br /><br />Deallaf fod posibiliad imi orfod mynd gerbron y llys barn petawn i roi gwybodaeth anghywir yn fwriadol.
-label.declaration.iAgree=Rwy’n cytuno â’r datganiad uchod.
-hint.declaration=Ni fyddwch yn gallu mynd yn ôl a gwneud unrhyw newidiadau ar ôl i chi gyflwyno’r ffurflen.
-error.declaration=Mae’n rhaid i chi gytuno er mwyn parhau
+label.declaration.iAgree=Hyd eithaf fy ngwybodaeth a’m cred mae’r wybodaeth a roddwyd gennyf yn gywir.
+hint.declaration=Gellid mynd â chi i’r llys os ydych yn cyflwyno gwybodaeth anwir.
+error.declaration=Dewiswch os ydych yn cytuno â’r datganiad
 
 #SAVE
 ###############################
