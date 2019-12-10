@@ -2,6 +2,7 @@
 ##############################
 project.name=Cyflwyno manylion rhent a phrydles
 project.header=Manylion rhent a phrydles
+skip.content=Ewch yn syth i’r prif gynnwys
 login.heading=Rhowch eich cyfeirnod
 failedLogin.heading=Gwall mewngofnodi
 lockedOut.heading=Wedi eich cloi allan
