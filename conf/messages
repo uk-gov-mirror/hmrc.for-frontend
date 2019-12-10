@@ -568,6 +568,7 @@ heading.feedback.thankyou=Thank you for your feedback
 #DECLARATION
 ###############################
 declaration.heading=Declaration
+label.declaration=Declaration
 label.declaration.iAgree=To the best of my knowledge and belief the information I have given is correct.
 hint.declaration=You may be taken to court if you give false information.
 error.declaration=Select if you agree to the declaration
