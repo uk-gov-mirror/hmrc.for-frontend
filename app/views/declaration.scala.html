@@ -48,7 +48,20 @@
 
     <main id="content" tabindex="-1">
 
-    @includes.errors(theForm, summary.isAgent)
+    @if(theForm.hasErrors) {
+        <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+            <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
+            <ul>
+            @for(error <- theForm.errors) {
+                <li>
+                    <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
+                    @Messages(stripIndices(error.message), error.args: _*)
+                    </a>
+                </li>
+            }
+            </ul>
+        </div>
+    }
 
     <h1 class="form-title heading-large form-title-group">
         <a href="@routes.Application.summary" id="backTop" name="back_button" class="button-link link-back declaration-back" role="button">@Messages("button.label.back")</a>

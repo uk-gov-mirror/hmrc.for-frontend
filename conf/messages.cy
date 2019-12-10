@@ -556,7 +556,6 @@ heading.feedback.thankyou=Diolch am eich adborth
 #DECLARATION
 ###############################
 declaration.heading=Datganiad
-label.declaration=Datganiad
 label.declaration.iAgree=Hyd eithaf fy ngwybodaeth a’m cred mae’r wybodaeth a roddwyd gennyf yn gywir.
 hint.declaration=Gellid mynd â chi i’r llys os ydych yn cyflwyno gwybodaeth anwir.
 error.declaration=Dewiswch os ydych yn cytuno â’r datganiad
