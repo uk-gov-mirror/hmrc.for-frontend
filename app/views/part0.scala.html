@@ -37,6 +37,9 @@
   @views.html.includes.analytics(summary)
 }
 
+@stripIndices(field: String) = @{
+    field.replaceAll("""\[[0-9]\]""", "")
+}
 
 
 @main(title=Messages("section0.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
@@ -45,7 +48,20 @@
     
   <main id="content" tabindex="-1">
 
-    @includes.errors(theForm, isAgent = false)
+      @if(theForm.hasErrors) {
+          <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+              <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
+              <ul>
+              @for(error <- theForm.errors) {
+                  <li>
+                      <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
+                      @Messages(stripIndices(error.message), error.args: _*)
+                      </a>
+                  </li>
+              }
+              </ul>
+          </div>
+      }
 
     @headingDisplay(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false)
 

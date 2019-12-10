@@ -59,8 +59,7 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
 
 
   def splitAddress(maybeDocument: Option[Document]): Option[Document] = {
-
-    for {
+    val fixedDocument = for {
       doc <- maybeDocument
       page1 <- doc.page(1)
       isAddressCorrect <- page1.fields.get("isAddressCorrect")
@@ -72,6 +71,7 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
         updateDocWithPageZeroAndRemovePageOne(doc, page0)
       }
     }
+    fixedDocument.orElse(maybeDocument)
   }
 
   def updateChangedAddresToNewModel(document: Document, page1: Page): Document = {
