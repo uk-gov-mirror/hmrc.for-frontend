@@ -2,6 +2,7 @@
 ##############################
 project.name=Submit rent and lease details
 project.header=Rent and lease details
+skip.content=Skip to main content
 login.heading=Enter your reference number
 failedLogin.heading=Login error
 lockedOut.heading=Locked out
