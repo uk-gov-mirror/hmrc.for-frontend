@@ -124,10 +124,10 @@ label.retryLogin=Try to log in again
 
 #SECTION 0
 ##############################
-label.isRelated=Select ‘Yes’ if you’re still connected
+label.isRelated=Select ‘Yes’ if you are still connected
 section0.heading=Connection to property
 section0.intro.text=Are you still connected to
-error.isRelated=Select ‘Yes’ if you’re still connected
+error.isRelated=Select ‘Yes’ if you are still connected
 
 #SECTION 1
 ##############################
