@@ -9,6 +9,7 @@
   </appender>
 
   <logger name="application" level="DEBUG" />
+  <logger name="models" level="DEBUG" />
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

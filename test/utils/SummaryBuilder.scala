@@ -23,7 +23,8 @@ import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
 
 object SummaryBuilder {
-	def apply(page1: Option[PropertyAddress] = None,
+	def apply(                 page0: Option[AddressConnectionType] = None,
+                             page1: Option[Address] = None,
                              page2: Option[CustomerDetails] = None,
                              page3: Option[PageThree] = None,
                              page4: Option[PageFour] = None,
@@ -37,23 +38,25 @@ object SummaryBuilder {
                              page12: Option[PageTwelve] = None,
                              page13: Option[PropertyAlterations] = None,
                              page14: Option[OtherFactors] = None) = {
-    Summary("", DateTime.now, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14)
+    Summary("", DateTime.now, page0, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14)
   }
 
-  lazy val completeShortPathJourney = SummaryBuilder(Some(pageOneData), Some(pageTwoData), Some(propertyOwned), Some(propertyNotSublet))
-  lazy val completeFullPathJourney = SummaryBuilder(
-   Some(pageOneData), Some(pageTwoData), Some(propertyRented), Some(propertyIsSublet), Some(pageFiveData), Some(pageSixData), 
+  lazy val completeShortPathJourney = SummaryBuilder( Some(pageZeroData), pageOneData, Some(pageTwoData), Some(propertyOwned), Some(propertyNotSublet))
+  lazy val completeFullPathJourney = SummaryBuilder(Some(pageZeroData),
+   pageOneData, Some(pageTwoData), Some(propertyRented), Some(propertyIsSublet), Some(pageFiveData), Some(pageSixData),
    Some(pageSevenData), Some(pageEightData), Some(pageNineData), Some(pageTenData), Some(pageElevenData), Some(pageTwelveData), 
    Some(pageThirteenData), Some(pageFourteenData)
   )
   lazy val incompletePageOneJourney = SummaryBuilder()
-  lazy val incompletePageFourJourney = SummaryBuilder(Some(pageOneData), Some(pageTwoData), Some(propertyOwned))
+  lazy val incompletePageFourJourney = SummaryBuilder(Some(pageZeroData), pageOneData, Some(pageTwoData), Some(propertyOwned))
   lazy val incompletePageFourteenJourney = completeFullPathJourney.copy(otherFactors = None)
-  lazy val completeShortPathJourneyWithEditedPageOne = SummaryBuilder(editedPageOneData, Some(pageTwoData), Some(propertyOwned), Some(propertyNotSublet))
+  lazy val completeShortPathJourneyWithEditedPageOne = SummaryBuilder(Some(AddressConnectionTypeYesChangeAddress), editedPageOneData, Some(pageTwoData), Some(propertyOwned), Some(propertyNotSublet))
 
   private lazy val editedPageOneData = basePageOneForm.bind(editedPageOneForm).value
-  private lazy val editedPageOneForm = Map("isAddressCorrect" -> "false", "address.buildingNameNumber" -> "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "address.postcode" -> "BN12 4AX")
-  private lazy val pageOneData = PropertyAddress(true, None)
+  private lazy val editedPageOneForm = Map("address.buildingNameNumber" -> "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "address.postcode" -> "BN12 4AX")
+
+  private lazy val pageZeroData = AddressConnectionTypeYes
+  private lazy val pageOneData = Option.empty[Address]
 
   private lazy val pageTwoData = CustomerDetails("name", UserTypeOwner, ContactTypePhone, ContactDetails(None, None, None))
 

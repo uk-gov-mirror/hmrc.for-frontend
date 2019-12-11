@@ -31,6 +31,9 @@ import play.filters.csrf._
 import utils.stubs.StubFormDocumentRepo
 import uk.gov.hmrc.http.HeaderNames
 
+/*
+TODO - This test shoould be moved to IT or should be rewriten not to use OneServerPerSuite.
+ */
 class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwaits with DefaultAwaitTimeout with OptionValues with OneServerPerSuite {
   implicit override lazy val app: play.api.Application = new GuiceApplicationBuilder().configure(Map("auditing.enabled" -> false)).build()
 
@@ -54,32 +57,52 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
   }
 
   "When the user still has a relationship with the property" - {
-    "Then they are directed to page one of the form" in {
-      running(app) {
-        val request = addToken(FakeRequest()
-          .withHeaders(HeaderNames.xSessionId -> sessionId)
-          .withSession("refNum" -> testRefNum)
-          .withFormUrlEncodedBody(
-            "isRelated" -> "true",
-            "continue_button" -> ""
-          ))
+     "And want to change address" - {
+       "Then they are directed to page one of the form" in {
+         running(app) {
+           val request = addToken(FakeRequest()
+             .withHeaders(HeaderNames.xSessionId -> sessionId)
+             .withSession("refNum" -> testRefNum)
+             .withFormUrlEncodedBody(
+               "isRelated" -> "yes-change-address",
+               "continue_button" -> ""
+             ))
 
-        val res = await(TestPageZeroController.save()(request))
+           val res = await(TestPageZeroController.save()(request))
 
-        status(res) mustBe SEE_OTHER
-        header("location", res).value mustBe "/sending-rental-information/page/1"
+           status(res) mustBe SEE_OTHER
+           header("location", res).value mustBe "/sending-rental-information/page/1"
+         }
+       }
+     }
+    "And doesn't want to change address" - {
+      "Then they are directed to page two skipping address change on page one" in {
+        running(app) {
+          val request = addToken(FakeRequest()
+            .withHeaders(HeaderNames.xSessionId -> sessionId)
+            .withSession("refNum" -> testRefNum)
+            .withFormUrlEncodedBody(
+              "isRelated" -> "yes",
+              "continue_button" -> ""
+            ))
+
+          val res = await(TestPageZeroController.save()(request))
+
+          status(res) mustBe SEE_OTHER
+          header("location", res).value mustBe "/sending-rental-information/page/2"
+        }
       }
     }
   }
 
   "When the user no longer has a relationship with the property" - {
-    "Then they are redirected to a mailto link" in {
+    "Then they are redirected to a not connected form" in {
       running(app) {
         val request = addToken(FakeRequest()
           .withHeaders(HeaderNames.xSessionId -> sessionId)
           .withSession("refNum" -> testRefNum)
           .withFormUrlEncodedBody(
-            "isRelated" -> "false",
+            "isRelated" -> "no",
             "continue_button" -> ""
           ))
 

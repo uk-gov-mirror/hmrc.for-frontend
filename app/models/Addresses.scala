@@ -22,7 +22,7 @@ import models.serviceContracts.submissions.Address
 object Addresses {
 
   def getAddress(summary: Summary): Address = {
-    summary.propertyAddress.flatMap(_.address) orElse summary.address match {
+    summary.propertyAddress orElse summary.address match {
       case Some(a) => a
       case None => throw new AddressMissing(summary.referenceNumber)
     }

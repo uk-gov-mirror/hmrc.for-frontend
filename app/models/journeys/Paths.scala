@@ -17,7 +17,9 @@
 package models.journeys
 
 import models.pages.Summary
-import models.serviceContracts.submissions.{LeaseAgreementTypesVerbal, UserTypeVacated}
+import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes}
+import models.serviceContracts.submissions.{AddressConnectionTypeYesChangeAddress, LeaseAgreementTypesVerbal, UserTypeVacated}
+import play.api.Logger
 
 object Paths {
   val standardPath = new Path(0 to 14)
@@ -26,8 +28,24 @@ object Paths {
   val rentReviewPaths = new Path((0 to 14).filterNot(_ == 8))
   val vacatedPath = new Path((0 to 2))
 
+  val log = Logger(this.getClass)
 
   def pathFor(summary: Summary): Path = {
+    val removePage1 = summary.addressConnection.map {
+      case AddressConnectionTypeYes => true
+      case AddressConnectionTypeYesChangeAddress => false
+      case AddressConnectionTypeNo => false
+    }.getOrElse(false)
+
+    if(removePage1) {
+      new Path(buildPath(summary).pages.filterNot(_ == 1))
+    }else {
+      buildPath(summary)
+    }
+  }
+
+
+  private def buildPath(summary: Summary): Path = {
     if (isShortPath(summary)) shortPath
     else if (summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal) verbalAgreementPath
     else if (summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews) rentReviewPaths
@@ -44,12 +62,12 @@ object Paths {
   }
 }
 
-class Path(private val pages: Seq[Int]) {
+class Path(val pages: Seq[Int]) {
   val lastPage = pages.last
 
   def firstIncompletePageFor(summary: Summary): Option[Int] = {
     val asList = summaryAsList(summary)
-    pages.find(n => n != 0 && asList(n - 1).isEmpty)
+    pages.find(n => n != 0 && asList(n).isEmpty)
   }
 
   def contains(page: Int): Boolean = pages.contains(page)
@@ -58,17 +76,18 @@ class Path(private val pages: Seq[Int]) {
 
   def nextPage(page: Int, summary: Summary): Option[Int] = {
     val summaryList = summaryAsList(summary)
-    pages.dropWhile(p => p == 0 || (summaryList(p - 1).isDefined && p < page)).headOption
+    pages.dropWhile(p => p == 0 || (summaryList(p).isDefined && p < page)).headOption
   }
 
   def previousPageIsComplete(page: Int, summary: Summary): Boolean = {
     page match {
       case 0 => true
-      case _ => summaryAsList(summary)(previousPage(page) - 1).isDefined
+      case _ => summaryAsList(summary)(previousPage(page)).isDefined
     }
   }
 
   private def summaryAsList(summary: Summary): List[Option[_]] = List(
+    summary.addressConnection,
     summary.propertyAddress,
     summary.customerDetails,
     summary.theProperty,

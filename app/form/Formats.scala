@@ -55,5 +55,7 @@ object Formats {
   implicit val responsibleTypesFormat: Formatter[ResponsibleType] = namedEnumFormatter(ResponsibleTypes, Errors.noValueSelected)
   implicit val formatRentLengthType: Formatter[RentLengthType] = namedEnumFormatter(RentLengthTypes, Errors.noValueSelected)
   implicit val satisfactionFormatter: Formatter[Satisfaction] = namedEnumFormatter(SatisfactionTypes, Errors.noValueSelected)
+  //implicit val landlordConnTypeFormat: Formatter[LandlordConnectionType] = namedEnumFormatter(LandlordConnectionTypes, Errors.noValueSelected)
+  implicit val addressConnectionTypeFormatter: Formatter[AddressConnectionType] = namedEnumFormatter(AddressConnectionTypes, Errors.isConnectedError)
   implicit val journeyFormatter: Formatter[Journey] = namedEnumFormatter(JourneyTypes, Errors.noValueSelected)
 }

@@ -50,7 +50,7 @@ label.findAddress=Find UK address
 label.addressAbroad=Address
 label.overseas.address=Enter an address outside the UK
 alt.newWindow=Opens in a new window
-label.underReview=(Under review)
+label.underReview=(under review)
 copy.character.count=Maximum <span>{0}</span> characters (<span class="chars" data-max-length="{0}">{0}</span> remaining)
 copy.character.count.nojs=Maximum <span>{0}</span> characters
 link.privacyPolicy=Privacy
@@ -124,33 +124,33 @@ label.retryLogin=Try to log in again
 
 #SECTION 0
 ##############################
-label.isRelated=Do you still have a connection to this property?
+label.isRelated=Select ‘Yes’ if you’re still connected
+section0.heading=Connection to property
+section0.intro.text=Are you still connected to
+error.isRelated=Select ‘Yes’ if you’re still connected
 
 #SECTION 1
 ##############################
-section1.heading=Property address
-section1.intro.text=You’re providing information about this address
-label.isAddressCorrect=Is this correct?
+section1.heading=Edit address
+label.yes.change.address=Yes - I want to edit the address
 label.address.buildingNameNumber=Address line 1
-label.buildingNameNumber=Address
-label.isAddressCorrectNo=No, I want to change it
 label.changedAddress=Changed address
 label.address=Address
 label.UKInternationaladdress= UK/International Address
 label.address.street1=Address line 2
-label.address.street2=Address line 3
+label.address.street2=Town or city
 label.addresss.townCity=Town or city
 label.postcode=Postcode
 label.ukOrInternationalPostcode=Postcode / Zipcode
 label.street1=Address line 2
 label.street2=Address line 3
 label.townCity=Town or city
-error.isAddressCorrect=Select a value
 label.address.townCity=Town or city
 label.address.postcode=Postcode
 label.currentAddress=Current address
 label.updatedAddress=Updated address
 label.suggestedChanges=Suggested changes to the address may not be<br />accepted by the VOA.
+label.undoEdits=Undo edits
 
 #SECTION 2
 ##############################

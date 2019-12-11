@@ -377,4 +377,14 @@
             });
         }
     };
+    
+    VoaFor.undoEdits = function () {
+        $('#undo-edits').click(function(event) {
+            event.preventDefault();
+            $('input[address_default_value]').each(function() {
+                $(this).val($(this).attr('address_default_value'));
+            });
+        });
+    };
+    
 })(jQuery);

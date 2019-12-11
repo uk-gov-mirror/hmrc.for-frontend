@@ -65,4 +65,5 @@ object Errors {
   val maxCurrencyAmountExceeded = "error.maxCurrencyAmountExceeded"
   val toDateIsAfterFromDate = "error.writtenAgreement.steppedDetails.stepTo.day"
   val overlappingDates = "error.steppedDetails.overlappingDates"
+  val isConnectedError = "error.isRelated"
 }

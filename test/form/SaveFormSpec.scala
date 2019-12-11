@@ -20,7 +20,7 @@ import connectors.{Document, Page}
 import form.persistence.SaveFormInRepository
 import models.pages._
 import models.serviceContracts.submissions._
-import models.{PropertyAddress, RoughDate}
+import models.RoughDate
 import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{Matchers, WordSpec}
 import utils.stubs.StubFormDocumentRepo
@@ -105,7 +105,8 @@ class SaveFormSpec extends WordSpec with Matchers {
     val page1WithTestData = Page(1, testDataTrimmed - "csrfToken")
     val testDocWithTestDataAddedToPage1 = testDoc.add(page1WithTestData)
     val summaryForTestDocWithTestData = Summary(refNumWithDoc, DateTime.now,
-      Some(PropertyAddress(false, Some(Address("123", None, None, "AA11 1AA")))),
+      Some(AddressConnectionTypeYesChangeAddress),
+      Some(Address("123", None, None, "AA11 1AA")),
       None, None, None, None, None, None, None, None, None, None, None, None,
       None
     )
@@ -145,7 +146,8 @@ class SaveFormSpec extends WordSpec with Matchers {
       )), VerbalAgreement()
     )
     val summaryWithNonEmptyFieldsAddedToPage6 = Summary("", DateTime.now,
-      Some(PropertyAddress(false, Some(Address("123", None, None, "AA11 1AA")))), None, None, None, None,
+      Some(AddressConnectionTypeYesChangeAddress),
+      Some(Address("123", None, None, "AA11 1AA")), None, None, None, None,
       Some(mappedPage6WithNonEmptyFields), None, None, None, None, None, None, None, None
     )
   }
@@ -153,7 +155,7 @@ class SaveFormSpec extends WordSpec with Matchers {
 
 case class StubSummaryBuilder(summaries: (Document, Summary)*) extends SummaryBuilder {
   val emptySummary = Summary("", DateTime.now,
-    None, None, None, None, None, None, None, None, None, None, None, None, None, None
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
   )
 
   override def build(doc: Document): Summary = summaries.find(_._1 == doc).map(_._2).getOrElse(emptySummary)

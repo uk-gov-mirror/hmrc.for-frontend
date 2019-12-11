@@ -24,7 +24,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 
-@(theForm: Form[PropertyAddress], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(theForm: Form[Address], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @headExtra = {
@@ -56,94 +56,59 @@
 
         @helper.CSRF.formField
 
-        <p class="form-label-bold">@Messages("section1.intro.text")</p>
-
-        <p class="form-title heading-large heading-confirmation">
-          @summary.address.map(_.buildingNameNumber)
-          @summary.address.flatMap(_.street1.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.street2.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"))
-        </p>
-
-          <!-- Is this the correct address? -->
-        @inputRadioGroup(
-          field = theForm("isAddressCorrect"),
-          options = Seq(
-            "true" -> Messages("label.yes.ydy"),
-            "false" -> Messages("label.isAddressCorrectNo")
-          ),
-          dataAttributes = Seq(("false", "data-show-field", "true")),
-          args = Seq(
-            '_showConstraints -> false,
-            '_label -> Messages("label.isAddressCorrect"),
-            '_error -> theForm("isAddressCorrect").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
-            '_labelClass -> "form-label-bold",
-            '_showConstraints -> false
-          )
-        )
-
           <!-- Address -->
-        <div class="form-group hidden isAddressCorrect">
+        <div class="form-group">
         @defining(Addresses.getAddress(summary)) { address =>
           @inputText(
-            field = theForm("address.buildingNameNumber"),
-            '_label -> Html(Messages("label.changedAddress")),
+            field = theForm("buildingNameNumber"),
+            '_label -> Messages("label.address.buildingNameNumber"),
             '_value -> address.buildingNameNumber,
-            '_error -> theForm("address.buildingNameNumber").error,
-            '_labelClass -> "form-label-bold",
+            '_error -> theForm("buildingNameNumber").error,
+            '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.buildingNameNumber).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.1"),
             '_fieldsetClass -> "address-fields"
           )
 
           @inputText(
-            field = theForm("address.street1"),
-            '_label -> Messages("label.street1"),
+            field = theForm("street1"),
+            '_label -> Messages("label.address.street1"),
             '_value -> address.street1.getOrElse(""),
-            '_error -> theForm("address.street1").error,
-            '_labelClass -> "visuallyhidden",
+            '_error -> theForm("street1").error,
+            '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.street1.getOrElse("")).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.2"),
             '_fieldsetClass -> "address-fields",
             '_optional -> true
           )
 
           @inputText(
-            field = theForm("address.street2"),
-            '_label -> Messages("label.street2"),
+            field = theForm("street2"),
+            '_label -> Messages("label.address.street2"),
             '_value -> address.street2.getOrElse(""),
-            '_error -> theForm("address.street2").error,
-            '_labelClass -> "visuallyhidden",
+            '_error -> theForm("street2").error,
+            '_labelClass -> "form-label",
             'class -> "form-control",
+            'address_default_value -> summary.address.map(_.street2.getOrElse("")).getOrElse(""),
             Symbol("placeholder") -> Messages("placeholder.address.3"),
+            '_fieldsetClass -> "address-fields",
             '_optional -> true
           )
 
-
           @inputText(
-            field = theForm("address.postcode"),
+            field = theForm("postcode"),
             '_label -> Messages("label.postcode"),
             '_value -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
-            '_error -> theForm("address.postcode").error,
-            '_labelClass -> "form-label-bold",
-            'class -> "form-control postcode"
+            '_error -> theForm("postcode").error,
+            '_labelClass -> "form-label",
+            'class -> "form-control postcode",
+            'address_default_value -> summary.address.map(_.postcode).getOrElse(""),
+            '_fieldsetClass -> "address-fields"
           )
         }
-        
-          <div class="clearfix"></div>
-
-
-          <p class="notice">
-            <i class="icon icon-important">
-              <span class="visually-hidden">Warning</span>
-            </i>
-            <strong class="bold-small">
-              @Html(Messages("label.suggestedChanges"))
-            </strong>
-          </p>
-          
+          <a href="#" id="undo-edits">@Messages("label.undoEdits")</a>
         </div>
 
         @includes.continueButton()        

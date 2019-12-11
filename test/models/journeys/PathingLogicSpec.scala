@@ -56,59 +56,59 @@ class PathingLogicSpec extends FlatSpec with Matchers {
   }
 
   it should "return false for page 2" in {
-    pageIsNotApplicable(2, summaryBuilder(page1 = Some(pageOneData))) should be(false)
+    pageIsNotApplicable(2, summaryBuilder(page0 = Some(pageZeroData))) should be(false)
   }
 
   it should "return false for page 3" in {
-    pageIsNotApplicable(3, summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData))) should be(false)
+    pageIsNotApplicable(3, summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData))) should be(false)
   }
 
   it should "return false for page 4" in {
-    pageIsNotApplicable(4, summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyNotOwnedOrRented))) should be(false)
+    pageIsNotApplicable(4, summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyNotOwnedOrRented))) should be(false)
   }
 
   it should "return false for page 5 when the property is sublet" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented), page4 = Some(propertyIsSublet))
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented), page4 = Some(propertyIsSublet))
     pageIsNotApplicable(5, sub) should be(false)
   }
 
   it should "return true for page 5 when property is owned and not sublet" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyOwned), page4 = Some(propertyNotSublet))
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned), page4 = Some(propertyNotSublet))
     pageIsNotApplicable(5, sub) should be(true)
   }
 
   it should "return false for page 7 when the lease agreement type is not verbal" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
       page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy))
     pageIsNotApplicable(7, sub) should be(false)
   }
 
   it should "return true for page 7 when the lease agreement type is verbal" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
       page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(pageSixVerbal))
     pageIsNotApplicable(7, sub) should be(true)
   }
 
   it should "return true for page 7 when the property is owned and not sublet, even if the lease agreement type is not verbal" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
       page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy))
     pageIsNotApplicable(7, sub) should be(true)
   }
 
   it should "return false for page 8 when there is no rent review" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
       page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasNoRentReviews))
     pageIsNotApplicable(8, sub) should be(false)
   }
 
   it should "return true for page 8 when there are rent reviews" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
       page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasRentReviews))
     pageIsNotApplicable(8, sub) should be(true)
   }
 
   it should "return true for page 8 when the short path has been chosen" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyOwned), page4 = Some(propertyNotSublet))
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned), page4 = Some(propertyNotSublet))
     pageIsNotApplicable(8, sub) should be(true)
   }
 
@@ -123,20 +123,22 @@ class PathingLogicSpec extends FlatSpec with Matchers {
   }
 
   it should "return 15 for rent reviews path" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
       page4 = Some(propertyIsSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasRentReviews))
 
     lastPageFor(sub) shouldBe 14
   }
 
   it should "return 15 for verbal agreement path" in {
-    val sub = summaryBuilder(page1 = Some(pageOneData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
+    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
       page4 = Some(propertyIsSublet), page5 = Some(pageFiveData), page6 = Some(pageSixVerbal))
 
     lastPageFor(sub) shouldBe 14
   }
+  
+  lazy val pageZeroData = AddressConnectionTypeYes
 
-  lazy val pageOneData = PropertyAddress(true, None)
+  lazy val pageOneData = Option.empty[Address]
 
   lazy val pageTwoData = CustomerDetails("name", UserTypeOwner, ContactTypePhone, ContactDetails(None, None, None))
 

@@ -23,6 +23,7 @@
 @import helpers.summary._
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
+@import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress}
 
 @(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
@@ -36,44 +37,52 @@
   @views.html.includes.analytics(summary)
 }
 
+@stripIndices(field: String) = @{
+    field.replaceAll("""\[[0-9]\]""", "")
+}
 
 
-@main(title=Messages("section1.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
+@main(title=Messages("section0.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
   
   @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
     
   <main id="content" tabindex="-1">
 
-    @includes.errors(theForm, isAgent = false)
+      @if(theForm.hasErrors) {
+          <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+              <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
+              <ul>
+              @for(error <- theForm.errors) {
+                  <li>
+                      <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
+                      @Messages(stripIndices(error.message), error.args: _*)
+                      </a>
+                  </li>
+              }
+              </ul>
+          </div>
+      }
 
-    @headingDisplay(0, Messages("section1.heading"), false)
+    @headingDisplay(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false)
 
     <div class="grid-row">
       <div class="column-two-thirds">
 
         @helper.CSRF.formField
 
-        <p class="form-label-bold">@Messages("section1.intro.text")</p>
-
-        <p class="form-title heading-large heading-confirmation">
-          @summary.address.map(_.buildingNameNumber)
-          @summary.address.flatMap(_.street1.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.street2.map(s => Html(s + ",<br/>")))
-          @summary.address.flatMap(_.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"))
-        </p>
 
         @inputRadioGroup(
           field = theForm("isRelated"),
           options = Seq(
-            "true" -> Messages("label.yes.oes"),
-            "false" -> Messages("label.no.nac.oes")
+            AddressConnectionTypeYes.name -> Messages("label.yes.oes"),
+            AddressConnectionTypeYesChangeAddress.name -> Messages("label.yes.change.address"),
+            AddressConnectionTypeNo.name -> Messages("label.no.nac.oes")
           ),
           args = Seq(
             '_showConstraints -> false,
-            '_label -> Messages("label.isRelated"),
-            '_error -> theForm("isAddressCorrect").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
+            '_label -> "",
+            '_error -> Messages("error.isRelated"),
+            '_legend -> false,
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false
           )

@@ -16,9 +16,9 @@
 
 package helpers
 
-import models.{LookupServiceAddress, PropertyAddress, RoughDate}
+import models.{LookupServiceAddress, RoughDate}
 import models.pages.{PageFive, PageFour, SubletDetails, Summary}
-import models.serviceContracts.submissions.{Address, LandlordConnectionTypeNone}
+import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone}
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.test.FakeRequest
@@ -134,20 +134,20 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
 
   private def summaryWithPropertyAddress(voaAddress: Option[Address], corrected: Option[Address]): Summary = {
     Summary("1234567890", DateTime.now,
-      Some(PropertyAddress(false, corrected)),
+      Some(AddressConnectionTypeYesChangeAddress), corrected,
       None, None, None, None, None, None, None, None, None, None, None, None, None,
       voaAddress, Nil
     )
   }
 
   private def summaryWithSubletAddress(voaAddress: Option[Address], submitted: Address): Summary = {
-    Summary("123467890", DateTime.now, None, None, None,
+    Summary("123467890", DateTime.now, None, None, None, None,
       Some(PageFour(true, List(SubletDetails("Mr Tenant", submitted, "Something", "Stuff", BigDecimal(0.01), RoughDate(None, Some(1), 2011))))),
       None, None, None, None, None, None, None, None, None, None, voaAddress, Nil)
   }
 
   private def summaryWithLandlordAddress(original: Option[LookupServiceAddress], submitted: Option[Address]): Summary = {
-    Summary("1234567890", DateTime.now, None, None, None, None,
+    Summary("1234567890", DateTime.now, None, None, None, None, None,
       Some(PageFive(false, Some("Mr Landlord"), original, submitted, LandlordConnectionTypeNone, None)),
       None, None, None, None, None, None, None, None, None, None, Nil)
   }

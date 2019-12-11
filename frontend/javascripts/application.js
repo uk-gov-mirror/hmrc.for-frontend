@@ -42,6 +42,7 @@ var ref;
         VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
+        VoaFor.undoEdits();
 
         //feedback.js
         VoaFeedback.feedbackOverrides();

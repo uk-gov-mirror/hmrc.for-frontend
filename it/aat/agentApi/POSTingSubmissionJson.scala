@@ -133,7 +133,7 @@ private object TestData {
 
   val validSubmission: JsValue = Json.toJson(
     Submission(
-      Some(PropertyAddress(true, None)),
+      None,
       Some(CustomerDetails("bob", UserTypeOwnersAgent, ContactTypePhone, ContactDetails(Some("1"), None, None))),
       Some(TheProperty("shop", OccupierTypeNobody, None, None, true, None,None)),
       Some(Sublet(false, Nil)),
