@@ -132,9 +132,9 @@ error.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
 
 #SECTION 1
 ##############################
-section1.heading=Cyfeiriad yr eiddo
+section1.heading=Golygu’r cyfeiriad
 label.yes.change.address=Oes - rydw i am olygu’r cyfeiriad
-label.address.buildingNameNumber=Llinell 1 y cyfeiriad
+label.buildingNameNumber=Llinell 1 y cyfeiriad
 label.changedAddress=Newid cyfeiriad
 label.address=Cyfeiriad
 
@@ -144,7 +144,7 @@ label.addresss.townCity=Tref neu ddinas
 label.postcode=Cod post
 
 label.street1=Ail linell y cyfeiriad
-label.street2=Trydedd linell y cyfeiriad
+label.street2=Tref neu ddinas
 label.townCity=Tref neu ddinas
 label.address.townCity=Tref neu ddinas
 label.address.postcode=Cod post
@@ -765,7 +765,7 @@ alternativeContact.contactDetails.email1.email.tooLong=Mae’r cyfeiriad e-bost 
 alternativeContact.contactDetails.email2.email.tooLong=Mae’r cyfeiriad e-bost yn rhy hir. Ceisiwch roi rhif ffôn yn lle hynny
 error.maxLength=Mae’n rhaid i hwn fod hyd at uchafswm o {0} o nodau
 error.minLength=Hyd lleiaf yw {0}
-error.invalid_postcode=Nodwch god post dilys yn y DU
+error.invalid_postcode=Nodwch god post yn y DU sy’n ddilys
 error.invalid_currency = Rhaid i hyn fod yn rhif sy’n fw y na 0
 error.invalid_phone=Mae’n rhaid i hwn ddefnyddio rhifau a - ( ) +
 error.email=Rhaid i’r cyfeiriad e-bost fod yn ddilys

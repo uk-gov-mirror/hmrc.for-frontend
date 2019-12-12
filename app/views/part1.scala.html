@@ -61,7 +61,7 @@
         @defining(Addresses.getAddress(summary)) { address =>
           @inputText(
             field = theForm("buildingNameNumber"),
-            '_label -> Messages("label.address.buildingNameNumber"),
+            '_label -> Messages("label.buildingNameNumber"),
             '_value -> address.buildingNameNumber,
             '_error -> theForm("buildingNameNumber").error,
             '_labelClass -> "form-label",
