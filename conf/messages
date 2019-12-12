@@ -127,13 +127,13 @@ label.retryLogin=Try to log in again
 label.isRelated=Select ‘Yes’ if you are still connected
 section0.heading=Connection to property
 section0.intro.text=Are you still connected to
-error.isRelated=Select ‘Yes’ if you are still connected
+error.isRelated=Select ‘Yes’ if you are still Edit address
 
 #SECTION 1
 ##############################
 section1.heading=Edit address
 label.yes.change.address=Yes - I want to edit the address
-label.address.buildingNameNumber=Address line 1
+label.buildingNameNumber=Address line 1
 label.changedAddress=Changed address
 label.address=Address
 label.UKInternationaladdress= UK/International Address
@@ -143,7 +143,7 @@ label.addresss.townCity=Town or city
 label.postcode=Postcode
 label.ukOrInternationalPostcode=Postcode / Zipcode
 label.street1=Address line 2
-label.street2=Address line 3
+label.street2=Town or city
 label.townCity=Town or city
 label.address.townCity=Town or city
 label.address.postcode=Postcode
