@@ -25,27 +25,24 @@ private object AppDependencies {
   private val scalaTestVersion = "3.0.5"
   private val pegdownVersion = "1.6.0"
   private val scalatestPlusPlayVersion = "2.0.1"
-  private val playUIVersion = "7.27.0-play-25"
+  private val playUIVersion = "8.5.0-play-25"
 
   val compile = Seq(
     filters,
     ws,
-    "uk.gov.hmrc" %% "json-encryption" % "4.1.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "7.1.0" excludeAll (
-      ExclusionRule("uk.gov.hmrc",  "http-core_2.11") // This library is deprecated - everything is in http-verbs
-    ),
-    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0",
-    "uk.gov.hmrc" %% "http-verbs" % "9.4.0-play-25",
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "12.8.0",
+    "uk.gov.hmrc" %% "json-encryption" % "4.4.0-play-25",
+    "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-25",
+    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.2.0-play-25",
+    "uk.gov.hmrc" %% "http-verbs" % "10.2.0-play-25",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "12.9.0",
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
     "uk.gov.hmrc" %% "play-ui" % playUIVersion,
-    "uk.gov.hmrc" %% "url-builder" % "2.1.0",
+    "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-25",
     "it.innove" %  "play2-pdf" % "1.5.2",
     "joda-time" % "joda-time" % "2.8.2",
-    "uk.gov.hmrc" %% "play-language" % "3.4.0",
-    "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0",
+    "uk.gov.hmrc" %% "play-language" % "4.2.0-play-25",
     "uk.gov.hmrc" %% "mongo-caching" % "6.6.0-play-25",
-    "uk.gov.hmrc" %% "simple-reactivemongo" % "7.20.0-play-25"
+    "uk.gov.hmrc" %% "simple-reactivemongo" % "7.21.0-play-25"
   )
 
   trait TestDependencies {

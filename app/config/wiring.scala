@@ -43,7 +43,7 @@ import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLate
 import useCases._
 import security.LoginToHOD._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
@@ -66,26 +66,26 @@ trait ForHttp extends WSHttp {
 
   // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
   // An IP address needs to be injected because of the lockout mechanism
-  override def doGet(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     val hc2 = if (useDummyIp) hc.withExtraHeaders((trueClientIp, "")) else hc
-    get(url)(hc2).map { res =>
+    super.doGet(url, headers)(hc2, ec).map { res =>
       res.status match {
         case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.allHeaders)
         case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.allHeaders)
         case _ => res
       }
-    }(this.ec)
+    }(ec)
   }
 
-  override def doPut[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = {
-    put(url, body)(rds, hc).map { res =>
+  override def doPut[A](url: String,
+                        body: A,
+                        headers: Seq[(String, String)])(implicit rds: Writes[A],
+                                                        hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
+    super.doPut(url, body, headers)(rds, hc, ec).map { res =>
       if (res.status == 400) throw new BadRequestException(res.body) else res
-    }(this.ec)
+    }(ec)
   }
 
-  protected def get(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = super.doGet(url)(hc)
-
-  protected def put[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = super.doPut(url, body)(rds, hc)
 }
 
 object FormPartialProvider extends FormPartialRetriever {

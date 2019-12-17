@@ -20,7 +20,7 @@ import config.ForConfig
 import connectors.{HODConnector, HodSubmissionConnector, SubmissionConnector}
 import models._
 import org.joda.time.DateTime
-import play.api.Play
+import play.api.{Logger, Play}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext

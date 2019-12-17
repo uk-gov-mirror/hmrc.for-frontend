@@ -17,16 +17,18 @@
 package controllers
 
 import javax.inject._
-
 import play.api.Configuration
 import play.api.Play.current
 import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc._
-import uk.gov.hmrc.play.language.LanguageController
+import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 @Singleton
-class CustomLanguageController @Inject()(configuration: Configuration)(implicit messagesApi: MessagesApi) extends LanguageController {
+class CustomLanguageController @Inject()(configuration: Configuration,
+                                         languageUtils: LanguageUtils,
+                                         val messagesApi: MessagesApi)(implicit messages: MessagesApi)
+  extends LanguageController(configuration, languageUtils) {
 
   def showEnglish = Action.async { implicit request =>
     switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))

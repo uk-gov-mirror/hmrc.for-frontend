@@ -30,7 +30,7 @@ import util.Constant
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, NotFoundException, Upstream4xxResponse}
 
 object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
@@ -43,9 +43,21 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
 
   private def url(path: String) = s"$serviceUrl/for/$path"
 
+  def readsHack(implicit httpReads: HttpReads[FORLoginResponse]) = {
+    new HttpReads[FORLoginResponse] {
+      override def read(method: String, url: String, response: HttpResponse): FORLoginResponse = {
+        response.status match {
+          case 400 => throw new BadRequestException(response.body)
+          case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
+          case _ => httpReads.read(method, url, response)
+        }
+      }
+    }
+  }
+
   override def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val parts = Seq(ref1, ref2, postcode).map(urlEncode)
-    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))
+    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))(readsHack, hc, defaultContext)
   }
 
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
