@@ -91,6 +91,7 @@ object MappingSupport {
   val postcode: Mapping[String] = text verifying(Errors.invalidPostcode, _.toUpperCase matches postcodeRegex)
   val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
   val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
+  val alterationSetByTypeMapping: Mapping[AlterationSetByType] = Forms.of[AlterationSetByType]
 
   def addressMapping: Mapping[Address] = mapping(
     "buildingNameNumber" -> nonEmptyText(maxLength = 50),

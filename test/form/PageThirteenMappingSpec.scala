@@ -16,7 +16,7 @@
 
 package form
 
-import models.serviceContracts.submissions.{PropertyAlterations, PropertyAlterationsDetails}
+import models.serviceContracts.submissions.{AlterationSetByTypeAddLift, AlterationSetByTypeExtension, PropertyAlterations, PropertyAlterationsDetails}
 import org.scalatest.{FlatSpec, Matchers}
 import PageThirteenForm.pageThirteenForm
 import utils.FormBindingTestAssertions._
@@ -49,7 +49,7 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
 
   it should "not throw errors if no improvements are selected, and the other fields exist" in {
     val testData = baseData.updated(keys.propertyAlterations, "false")
-      .updated(indexedKey(0).alterationDetailsDescription, "")
+      .updated(indexedKey(0).alterationDetailsAlterationType, "")
       .updated(indexedKey(0).alterationDetailsDateMonth, "")
       .updated(indexedKey(0).alterationDetailsDateYear, "")
       .updated(indexedKey(0).alterationDetailsCost, "")
@@ -79,11 +79,11 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor(indexedKey(0).alterationDetailsCost, form)
   }
 
-  it should "return an error and not bind when no value for the description of alterations or improvements is input" in {
-    val testData = baseData - indexedKey(0).alterationDetailsDescription
+  it should "return an error and not bind when no value for the alterationType of alterations or improvements is input" in {
+    val testData = baseData - indexedKey(0).alterationDetailsAlterationType
     val form = bind(testData)
 
-    mustContainRequiredErrorFor(indexedKey(0).alterationDetailsDescription, form)
+    mustContainError(indexedKey(0).alterationDetailsAlterationType, Errors.noValueSelected, form)
   }
 
   it should "return an error and not bind when no value for the date of alterations or improvements is input" in {
@@ -93,17 +93,17 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor(indexedKey(0).alterationDetailsDateYear, form)
   }
 
-  it should "return an error and not bind when multiple alterations are entered and one is missing the description" in {
+  it should "return an error and not bind when multiple alterations are entered and one is missing the alterationType" in {
     val testData = baseData ++
       Map(
-        indexedKey(1).alterationDetailsDescription -> "",
+        indexedKey(1).alterationDetailsAlterationType -> "",
         indexedKey(1).alterationDetailsCost -> "15.50",
         indexedKey(1).alterationDetailsDateMonth -> "7",
         indexedKey(1).alterationDetailsDateYear -> "1912"
       )
     val form = bind(testData)
 
-    mustContainRequiredErrorFor(indexedKey(1).alterationDetailsDescription, form)
+    mustContainError(indexedKey(1).alterationDetailsAlterationType, Errors.noValueSelected, form)
   }
 
   it should "allow upto 10 alterations" in {
@@ -117,20 +117,12 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     validatePastDate("propertyAlterationsDetails[0].date", pageThirteenForm, baseData)
   }
 
-  it should "validate the details of the first property alteration" in {
-    validateLettersNumsSpecCharsUptoLength("propertyAlterationsDetails[0].description", 250, pageThirteenForm, baseData)
-  }
-
   it should "validate the cost of the first property alteration" in {
     validateCurrency("propertyAlterationsDetails[0].cost", pageThirteenForm, baseData)
   }
 
   it should "validate the date of the second property alteration" in {
     validatePastDate("propertyAlterationsDetails[1].date", pageThirteenForm, dataWithSecondAlteration)
-  }
-
-  it should "validate the details of the second property alteration" in {
-    validateLettersNumsSpecCharsUptoLength(indexedKey(1).alterationDetailsDescription, 250, pageThirteenForm, dataWithSecondAlteration)
   }
 
   it should "validate the cost of the second property alteration" in {
@@ -147,14 +139,14 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
   def bind(data: Map[String, String]) = pageThirteenForm.bind(data).convertGlobalToFieldErrors()
 
   def indexedKey(idx: Int) = new {
-    val alterationDetailsDescription = s"propertyAlterationsDetails[$idx].description"
+    val alterationDetailsAlterationType = s"propertyAlterationsDetails[$idx].alterationType"
     val alterationDetailsCost = s"propertyAlterationsDetails[$idx].cost"
     val alterationDetailsDateMonth = s"propertyAlterationsDetails[$idx].date.month"
     val alterationDetailsDateYear = s"propertyAlterationsDetails[$idx].date.year"
   }
 
   val baseData = Map(keys.propertyAlterations -> "true",
-    indexedKey(0).alterationDetailsDescription -> "extension",
+    indexedKey(0).alterationDetailsAlterationType -> "extension",
     indexedKey(0).alterationDetailsCost -> "5.50",
     indexedKey(0).alterationDetailsDateMonth -> "6",
     indexedKey(0).alterationDetailsDateYear -> "1902",
@@ -162,7 +154,7 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
   )
 
   val dataWithSecondAlteration = baseData.
-    updated(indexedKey(1).alterationDetailsDescription, "dungeon").
+    updated(indexedKey(1).alterationDetailsAlterationType, "extension").
     updated(indexedKey(1).alterationDetailsCost, "100").
     updated(indexedKey(1).alterationDetailsDateMonth, "1").
     updated(indexedKey(1).alterationDetailsDateYear, "2015")
@@ -170,7 +162,7 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
 
   def addAlterations(n: Int, data: Map[String, String]) = {
     (1 to n).foldLeft(data) { (s, v) =>
-      s.updated(s"propertyAlterationsDetails[$v].description", "desc")
+      s.updated(s"propertyAlterationsDetails[$v].alterationType", "addLift")
        .updated(s"propertyAlterationsDetails[$v].cost", "25")
        .updated(s"propertyAlterationsDetails[$v].date.month", "05")
        .updated(s"propertyAlterationsDetails[$v].date.year", "2011")
@@ -179,16 +171,16 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
 
   val with10Alterations = PropertyAlterations(
     true, List(
-      PropertyAlterationsDetails( RoughDate(None,  Some(6), 1902),"extension", 5.5),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), "desc", 25)
+      PropertyAlterationsDetails(RoughDate(None,  Some(6), 1902), AlterationSetByTypeExtension, 5.5),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25)
     ), Some(false)
   )
 }

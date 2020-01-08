@@ -80,6 +80,18 @@
             
               <div class="multi-fields-group" id=@(s"propertyAlterationsDetails_description_div_${idx}")>
 
+              @inputRadioGroup(
+                field = theForm(s"propertyAlterationsDetails[$idx].alterationType"),
+                options = AlterationSetByType.all.map(x => x.name -> Messages(s"alterationType.${x.name}")),
+                args =Seq (
+                  '_label -> Messages("label.propertyAlterationsDetails.alterationType"),
+                  '_labelClass -> "form-label-bold",
+                  '_showConstraints -> false,
+                  '_legend -> true,
+                  '_nojsText -> Messages("label.noJs.section13")
+                )
+              )
+
               @includes.dateFieldsAlternative(theForm, "", "propertyAlterationsDetails", Some(idx), true, Messages("label.noJs.section13"))
 
               <div class="panel-indent panel-indent-info hidden intel-alert @(s"propertyAlterationsDetails_${idx}_date")" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
@@ -91,23 +103,9 @@
                 '_labelClass -> "form-label-bold",
                 'class -> "form-control input-currency",
                 '_pound -> true,
-                '_help -> Messages("hint.if0thenenter1"),
                 '_nojsText -> Messages("label.noJs.section13")
               )
 
-              @textarea(
-                field = theForm(s"propertyAlterationsDetails[$idx].description"),
-                '_label -> Messages("label.propertyAlterationsDetails.description"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-extra-large",
-                Symbol("rows") -> "6",
-                '_characterCount -> "250",
-                '_nojsText -> Messages("label.noJs.section13")
-              )
-
-
-
-              
 
               <a href="#" class="remove-multi-fields" role="button" style="display : none">@Messages("label.add.remove")</a>
             </div>

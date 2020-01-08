@@ -18,4 +18,4 @@ package models.serviceContracts.submissions
 
 import models.RoughDate
 
-case class PropertyAlterationsDetails(date: RoughDate, description: String, cost: BigDecimal)
+case class PropertyAlterationsDetails(date: RoughDate, alterationType: AlterationSetByType, cost: BigDecimal)

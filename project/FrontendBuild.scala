@@ -42,7 +42,7 @@ private object AppDependencies {
     "joda-time" % "joda-time" % "2.8.2",
     "uk.gov.hmrc" %% "play-language" % "4.2.0-play-25",
     "uk.gov.hmrc" %% "mongo-caching" % "6.6.0-play-25",
-    "uk.gov.hmrc" %% "simple-reactivemongo" % "7.21.0-play-25"
+    "uk.gov.hmrc" %% "simple-reactivemongo" % "7.22.0-play-25"
   )
 
   trait TestDependencies {
