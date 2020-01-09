@@ -19,6 +19,7 @@
 @import play.api.data.Forms._
 @import _root_.template.Helper._
 
+@** TODO replace help:Boolean and helpText:String with help:Option[String] *@
 @(theForm:Form[_],hidden:String, prefix:String, help: Boolean, helpText: String, inline: Boolean, suffix: String = "")(implicit requestHeader: RequestHeader,  messages: Messages)
 
 

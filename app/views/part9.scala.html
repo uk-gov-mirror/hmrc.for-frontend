@@ -66,15 +66,15 @@
           )
 
           @if(summary.isAgent) {
-            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", true, Messages("hint.rentBecomePayable"), false, "agent")
+            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, "agent")
           } else {
-            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", true, Messages("hint.rentBecomePayable"), false, "")
+            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, "")
           }
 
 
         <div class="panel-indent panel-indent-info hidden intel-alert rentBecomePayable" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
 
-        @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", true,  Messages("hint.rentActuallyAgreed"), false)
+        @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", false, "", false)
 
         @inputRadioGroup(
           field = theForm("negotiatingNewRent"),
@@ -123,7 +123,6 @@
           '_labelClass -> "form-label-bold",
           'class -> "form-control input-extra-large",
           '_fieldsetClass -> "form-group hidden rentBasedOn",
-          '_help -> Messages("hint.rentBasedOnDetails"),
           '_showConstraints -> false,
           '_showErrors -> true,
           '_nojsText -> Messages("label.noJs.rentBasedOnDetails")
