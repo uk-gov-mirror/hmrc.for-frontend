@@ -14,7 +14,7 @@ import play.api.libs.json.{JsValue, Json, Writes}
 import playconfig.ForHttp
 import uk.gov.hmrc.http.{HeaderCarrier, _}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite {
   private lazy val testConfigs = Map("auditing.enabled" -> false, "agentApi.testAccountsOnly" -> true)
@@ -84,18 +84,23 @@ class TestHttpClient extends ForHttp with RunModeHelper with AppNameHelper {
     stubPut(s"$baseForUrl/submissions/$refNum", submission, headers, response)
   }
 
-  override protected def get(url: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     stubbedGets.find(x => x._1 == url && x._2.forall(y => hc.headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, res)) => Future.successful(res)
       case _ => throw new HttpRequestNotStubbed(url, hc)
     }
   }
 
-  override protected def put[A](url: String, body: A)(implicit rds: Writes[A], hc: HeaderCarrier): Future[HttpResponse] = {
+  override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     stubbedPuts.find(x => x._1 == url && x._2 == body && x._3.forall(y => hc.headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, _, res)) => Future.successful(res)
       case _ => throw new HttpRequestNotStubbed(url, hc)
     }
+  }
+
+  override def doPutString(url: String, body: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
+    Thread.sleep(100000000l)
+    Future.failed(new RuntimeException("stupid error"))
   }
 
   override protected def actorSystem: ActorSystem = Play.current.actorSystem

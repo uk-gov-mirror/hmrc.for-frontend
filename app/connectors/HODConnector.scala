@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import util.Constant
 import views.html.helper.urlEncode
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{HeaderCarrier, NotFoundException}
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, NotFoundException, Upstream4xxResponse}
 
 object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
   implicit val f: Format[Document] = Document.formats
@@ -43,16 +43,28 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
 
   private def url(path: String) = s"$serviceUrl/for/$path"
 
+  def readsHack(implicit httpReads: HttpReads[FORLoginResponse]) = {
+    new HttpReads[FORLoginResponse] {
+      override def read(method: String, url: String, response: HttpResponse): FORLoginResponse = {
+        response.status match {
+          case 400 => throw new BadRequestException(response.body)
+          case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
+          case _ => httpReads.read(method, url, response)
+        }
+      }
+    }
+  }
+
   override def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val parts = Seq(ref1, ref2, postcode).map(urlEncode)
-    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))
+    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))(readsHack, hc, defaultContext)
   }
 
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress) recoverWith {
+    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress).map(removeAlterationDescription) recoverWith {
       case n: NotFoundException => None
     }
   }
@@ -93,13 +105,27 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
 
   }
 
-
-
   def updateDocWithPageZeroAndRemovePageOne(document: Document, page0:Page) = {
     val newPages = page0 +: (document.pages.filterNot(x => x.pageNumber == 0 || x.pageNumber == 1))
     document.copy(pages = newPages)
   }
 
+  def removeAlterationDescription(maybeDocument: Option[Document]):Option[Document] = {
+    val alternationDescriptionPattern = """^propertyAlterationsDetails\[\d{0,2}\]\.description$""".r
+
+    val maybeAlteredDocumment = for {
+      document <- maybeDocument
+      page13 <- document.page(13)
+    }yield {
+      val newFields = page13.fields.filterNot(x => alternationDescriptionPattern.unapplySeq(x._1).isDefined )
+
+      val newPage13 = page13.copy(fields = newFields)
+      val pages = (newPage13 +: document.pages.filterNot(_.pageNumber == 13)).sortBy(_.pageNumber)
+      document.copy(pages = pages)
+    }
+
+    maybeAlteredDocumment.orElse(maybeDocument) //Return altered document or original document.
+  }
 
 
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] = {

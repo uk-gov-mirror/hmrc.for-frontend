@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ object PageThirteenForm {
 
   lazy val propertyAlterationsDetailsMapping = (indexed: String) => mapping(
     s"$indexed.date" -> monthYearRoughDateMapping(s"$indexed.date"),
-    s"$indexed.description" -> nonEmptyText(maxLength = 250),
+    s"$indexed.alterationType" -> alterationSetByTypeMapping,
     s"$indexed.cost" -> currency
 
   )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)

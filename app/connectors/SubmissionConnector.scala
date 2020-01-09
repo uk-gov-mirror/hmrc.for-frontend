@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import com.google.inject.ImplementedBy
 import config.ForConfig
+import controllers.AgentAPI.{Unauthorized, badCredentialsError}
 import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import play.api.Mode.Mode
@@ -31,12 +32,22 @@ import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.config.ServicesConfig
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, RawReads, Upstream4xxResponse}
 
 @Singleton
 class HodSubmissionConnector @Inject() (application: Application) extends SubmissionConnector with ServicesConfig {
   lazy val serviceUrl = baseUrl("for-hod-adapter")
   val http = ForConfig.http
+
+  implicit def httpReads = new HttpReads[HttpResponse] {
+    override def read(method: String, url: String, response: HttpResponse): HttpResponse = {
+      response.status match {
+        case 400 => throw new BadRequestException(response.body)
+        case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
+        case _ => RawReads.readRaw.read(method, url, response)
+      }
+    }
+  }
 
   def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
     http.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())

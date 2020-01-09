@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,5 +57,6 @@ object Formats {
   implicit val satisfactionFormatter: Formatter[Satisfaction] = namedEnumFormatter(SatisfactionTypes, Errors.noValueSelected)
   //implicit val landlordConnTypeFormat: Formatter[LandlordConnectionType] = namedEnumFormatter(LandlordConnectionTypes, Errors.noValueSelected)
   implicit val addressConnectionTypeFormatter: Formatter[AddressConnectionType] = namedEnumFormatter(AddressConnectionTypes, Errors.isConnectedError)
+  implicit val alterationSetByTypeFormatter: Formatter[AlterationSetByType] = namedEnumFormatter(AlterationSetByType, Errors.noValueSelected)
   implicit val journeyFormatter: Formatter[Journey] = namedEnumFormatter(JourneyTypes, Errors.noValueSelected)
 }

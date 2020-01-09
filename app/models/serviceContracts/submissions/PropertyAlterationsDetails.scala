@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,4 +18,4 @@ package models.serviceContracts.submissions
 
 import models.RoughDate
 
-case class PropertyAlterationsDetails(date: RoughDate, description: String, cost: BigDecimal)
+case class PropertyAlterationsDetails(date: RoughDate, alterationType: AlterationSetByType, cost: BigDecimal)

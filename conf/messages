@@ -513,21 +513,31 @@ label.noJs.secton12=Answer this only if you’ve selected ''Yes''
 #SECTION 13
 ###############################
 section13.heading=Alterations and improvements
-label.propertyAlterations=Have you carried out any major alterations to the property?
+label.propertyAlterations=Has the tenant carried out any major alterations to the property in the last 15 years?
 label.propertyAlterations.agent=Has your client carried out any major alterations to the property?
-hint.propertyAlterations=Tell us about building or improvement works carried out (for example: initial fitting out, major repairs, refurbishments, extensions, demolitions, mezzanine floors). Select ''No'' if the lease began more than 15 years ago.
-label.propertyAlterationsDetails.description=Provide details of work carried out
-label.propertyAlterationsDetails.cost=Total cost of work (excluding VAT)
+hint.propertyAlterations=For example, extensions and demolitions, or added parking, lifts or air conditioning.
+label.propertyAlterationsDetails.cost=Cost of work (excluding VAT)
 label.propertyAlterationsDetails=Approximate date of works
 label.propertyAlterationsDetails.date=Approximate date of works
-label.requiredAnyWorks=Were you required to carry out any works as a condition of the current lease or agreement?
+
+label.requiredAnyWorks=Was the tenant required to carry out any works as a condition of the current lease or agreement?
 label.requiredAnyWorks.agent=Was your client required to carry out any works as a condition of the current lease or agreement?
+
 hint.requiredAnyWorks=Your lease or written agreement will state whether you’re obliged to carry out any of the works mentioned above.
 hint.requiredAnyWorks.agent=Your client’s lease or written agreement will state whether they’re obliged to carry out any of the works
-hint.if0thenenter1=If there was no cost, enter "0" and tell us why under ''Provide details of work carried out.''.
-label.add.propertyAlterations=Add another alteration / improvement
+label.add.propertyAlterations=Add another alteration
 hint.propertyAlterationsDetails=To enter more work use ''Add more''
 label.noJs.section13=Answer this only if you’ve selected ''Yes''
+
+
+label.propertyAlterationsDetails.alterationType=What works were carried out?
+alterationType.extension=Extension
+alterationType.demolition=Demolition
+alterationType.addedMezzanineFloor=Added mezzanine floor
+alterationType.removedWall=Removed structural wall
+alterationType.addLift=Installed lifts or escalators
+alterationType.addedParking=Added parking space
+alterationType.addedAirCondition=Added air conditioning
 
 #SECTION 14
 ###############################

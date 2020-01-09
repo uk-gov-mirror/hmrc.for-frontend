@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import controllers._
 import form.persistence.FormDocumentRepository
 import helpers.RunModeHelper
 import models.pages.SummaryBuilder
+import play.api.Play
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
@@ -43,6 +44,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object Feedback extends HeaderCarrierForPartialsConverter {
   import controllers.feedback.HMRCContact._ // scalastyle:ignore
 
+  def languageUtils: LanguageUtils = Play.current.injector.instanceOf[LanguageUtils]
+
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
   override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
@@ -52,7 +55,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
-        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary)(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
+        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary)(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
       }
     }
   }
@@ -65,7 +68,7 @@ object Feedback extends HeaderCarrierForPartialsConverter {
           http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData) map { res => res.status match {
             case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
             case 400 => BadRequest(views.html.inpagefeedback(None, Html(res.body), summary))
-            case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
+            case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
           }
           }
         }.getOrElse(throw new Exception("Empty Feedback Form"))
@@ -78,18 +81,18 @@ object Feedback extends HeaderCarrierForPartialsConverter {
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData) map { res => res.status match {
         case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
         case 400 => BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
-        case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
+        case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
       }
       }
     }.getOrElse(throw new Exception("Empty Feedback Form"))
   }
 
   def inPageFeedbackNoLogin = Action { implicit request =>
-    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl)(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
+    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl)(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
-    Ok(views.html.inPageFeedbackThankyou()(request, applicationMessages.copy(lang = LanguageUtils.getCurrentLang)))
+    Ok(views.html.inPageFeedbackThankyou()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
   }
 }
 

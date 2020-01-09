@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ package object models {
   implicit val formatResponsibleType: Format[ResponsibleType] = generateFormat(ResponsibleTypes)
   implicit val formatRentBaseType: Format[RentBaseType] = generateFormat(RentBaseTypes)
   implicit val formatRentLengthType: Format[RentLengthType] = generateFormat(RentLengthTypes)
+  implicit val formatAlterationSetByType: Format[AlterationSetByType] = generateFormat(AlterationSetByType)
   implicit val formatAddressConnection: Format[AddressConnectionType] = generateFormat(AddressConnectionTypes)
   implicit val tenantAddressType: Format[TenantsAddressType] = generateFormat(TenantsAddressTypes)
 

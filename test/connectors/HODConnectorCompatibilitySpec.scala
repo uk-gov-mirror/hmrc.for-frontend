@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,6 +56,17 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     "street2" -> Seq("10")
   ))
 
+  val page13WithOldDescription = Page(13, Map(
+    "propertyAlterationsDetails[1].date.month" -> Seq("2"),
+    "propertyAlterationsDetails[1].cost" -> Seq("100"),
+    "propertyAlterationsDetails[0].description" -> Seq("Some description")
+  ))
+
+  val page13WithoutDescription = Page(13, Map(
+    "propertyAlterationsDetails[1].date.month" -> Seq("2"),
+    "propertyAlterationsDetails[1].cost" -> Seq("100")
+  ))
+
 
   val journeyStarted = DateTime.now()
 
@@ -76,6 +87,14 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     "referenceNumber", journeyStarted, Seq(newPage0WithAddress, newPage1WithAddress), None, None, Seq.empty
   ))
 
+  val page13DocumentWithDescription = Some(Document(
+    "referenceNumber", journeyStarted, Seq(newPage0WithAddress, newPage1WithAddress, page13WithOldDescription), None, None, Seq.empty
+  ))
+
+  val page13DocumentWithoutAlterationDescription = Some(Document(
+    "referenceNumber", journeyStarted, Seq(newPage0WithAddress, newPage1WithAddress, page13WithoutDescription), None, None, Seq.empty
+  ))
+
 
   "HODConnector" should "populate page0 for saved submission without address change" in {
     val connector = HODConnector
@@ -90,6 +109,14 @@ class HODConnectorCompatibilitySpec extends FlatSpec with Matchers with OneServe
     val testDocument = connector.splitAddress(oldDOcumentWithAddress)
 
     testDocument shouldBe newDocumentWithAddress
+  }
+
+  it should "Remove alteration description on page13 for all alterations and keep other pages untouched" in {
+    val connector = HODConnector
+    val testDocument = connector.removeAlterationDescription(page13DocumentWithDescription)
+
+    testDocument shouldBe page13DocumentWithoutAlterationDescription
+
   }
 
 }

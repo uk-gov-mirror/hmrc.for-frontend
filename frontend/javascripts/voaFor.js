@@ -74,10 +74,9 @@
         });
     };
 
-    VoaFor.changeIds = function(that,i){
-        var index;
-        $(that).find('input, textarea').not('[type="hidden"]').each(function () {
-            index = i;
+    VoaFor.changeIds = function(that,index){
+
+        $(that).find('input, textarea').not('[type="hidden"]').not('[type="radio"]').each(function () {
             var attrFormgroupId = $(this).closest('.form-group').attr('id'),
             attrFor = $(this).closest('.form-group').find('label').attr('for'),
             attrId = $(this).attr('id'),
@@ -102,6 +101,23 @@
                 $(this).closest('.multi-fields-group').find('[data-intel]').attr('class', st2.replace(/(\d+)/g, index));
             }
         });
+
+        $(that).find('input[type="radio"]').not('[type="hidden"]').each(function () {
+            var attrFor = $(this).closest('label').attr('for'),
+                attrId = $(this).attr('id'),
+                attrName = $(this).attr('name'),
+                s = $(this).closest('.multi-fields-group').attr('id'),
+                o = s.substring(0, s.lastIndexOf('_') + 1);
+
+            $(this).closest('label').attr('for', attrFor.replace(/(\d+)/g, index));
+            $(this).attr('id', attrId.replace(/(\d+)/g, index));
+            $(this).attr('name', attrName.replace(/(\d+)/g, index));
+
+            $(this).closest('.multi-fields-group').attr('id', o+index);
+        });
+        VoaRadioToggle.radioDataShowField();
+        VoaRadioToggle.radioDataShowFields();
+        VoaCommon.GdsSelectionButtons();
     };
 
     VoaFor.addFieldMulti = function () {
@@ -112,7 +128,8 @@
             var element = $(this).closest('fieldset');
             element.find('.multi-fields-group:last').clone().insertAfter(element.find('.multi-fields-group:last'));
             element.find('.multi-fields-group:last p').remove();
-            element.find('.multi-fields-group:last input').val('');
+            element.find('.multi-fields-group:last input[type!="radio"]').val('');
+            element.find('.multi-fields-group:last input[type="radio"]').removeAttr('checked');
             element.find('.multi-fields-group:last .form-date-dayMonth, .multi-fields-group:last .form-group div').removeClass('form-grouped-error');
             element.find('.multi-fields-group').each(function (i) {
                 VoaFor.changeIds(this,i);
