@@ -520,8 +520,6 @@ label.propertyAlterationsDetails.date=Approximate date of works
 label.requiredAnyWorks=Was the tenant required to carry out any works as a condition of the current lease or agreement?
 label.requiredAnyWorks.agent=Was your client required to carry out any works as a condition of the current lease or agreement?
 
-hint.requiredAnyWorks=Your lease or written agreement will state whether you’re obliged to carry out any of the works mentioned above.
-hint.requiredAnyWorks.agent=Your client’s lease or written agreement will state whether they’re obliged to carry out any of the works
 label.add.propertyAlterations=Add another alteration
 hint.propertyAlterationsDetails=To enter more work use ''Add more''
 label.noJs.section13=Answer this only if you’ve selected ''Yes''
