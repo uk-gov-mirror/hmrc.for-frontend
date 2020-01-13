@@ -512,8 +512,6 @@ label.propertyAlterationsDetails=Amcan o ddyddiad y gwaith
 label.propertyAlterationsDetails.date=Amcan o ddyddiad y gwaith
 label.requiredAnyWorks=A oedd yn ofynnol i’r tenant wneud unrhyw waith fel un o amodau’r brydles neu’r cytundeb presennol?
 label.requiredAnyWorks.agent=A oedd yn ofynnol i’ch cleient gynnal unrhyw waith fel un o amodau’r brydles neu’r cytundeb presennol?
-hint.requiredAnyWorks=Bydd eich prydles neu gytundeb ysgrifenedig yn nodi p’un a oedd yn ofynnol i chi gynnal unrhyw waith a nodir uchod.
-hint.requiredAnyWorks.agent=Bydd prydles neu gytundeb ysgrifenedig eich cleient yn nodi a oes rhaid iddo gyflawni unrhyw ran o’r gwaith
 label.add.propertyAlterations=Ychwanegu addasiad arall
 label.noJs.section13=Dylech ond ateb hyn os ydych wedi dewis ‘Oedd’
 
