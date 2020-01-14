@@ -47,7 +47,7 @@ case class Summary(
     addressConnection.flatMap {
       case AddressConnectionTypeYesChangeAddress => propertyAddress orElse address
       case _ => address
-    }.getOrElse(throw UsersAddressSelectionError(referenceNumber) )
+    }.orElse(address).getOrElse(throw UsersAddressSelectionError(referenceNumber) )
   }
 
 //  lazy val addressUserBelievesIsCorrect: Address = {
