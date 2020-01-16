@@ -20,14 +20,14 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(p10: WhatRentIncludes, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(p10: WhatRentIncludes, isAgent: Boolean, address: Option[String] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 <li><h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2></li>
 
 @summaryBlock(Messages(if(isAgent)  Messages("label.livingAccomodation.agent") else Messages("label.livingAccomodation")), 10, "livingAccomodation") {
     @displayBoolean(p10.livingAccommodation, "2")
 }
 
-@summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent")), 10, "partRent") {
+@summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent", address.getOrElse(""))), 10, "partRent") {
     @displayBoolean(p10.partRent, "9")
 }
 
