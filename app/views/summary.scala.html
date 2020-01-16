@@ -97,7 +97,7 @@
     }
 
     @if(!Journey.pageIsNotApplicable(10, summary)) {
-      @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = ifIsAgent) }
+      @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = ifIsAgent, address = summary.address.map(_.singleLine)) }
     }
 
     @if(!Journey.pageIsNotApplicable(11, summary)) {
