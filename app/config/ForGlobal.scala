@@ -53,7 +53,7 @@ trait ForGlobal extends DefaultFrontendGlobal {
 
   def loggingFilter: _root_.uk.gov.hmrc.play.frontend.filters.FrontendLoggingFilter = LoggingFilter
 
-  override def frontendFilters: Seq[EssentialFilter] = defaultFrontendFilters ++ Seq(SessionTimeoutFilter)
+  override def frontendFilters: Seq[EssentialFilter] = defaultFrontendFilters
 
   def microserviceMetricsConfig(implicit app: play.api.Application): Option[Configuration] = ForConfig.metricsConfig
 
@@ -101,41 +101,4 @@ object ControllerConfiguration extends ControllerConfig {
 
 object LoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSupport {
   override def controllerNeedsLogging(controllerName: String): Boolean = ControllerConfiguration.paramsForController(controllerName).needsLogging
-}
-
-object SessionTimeoutFilter extends SessionTimeoutFilter with MicroserviceFilterSupport {
-  def now = () => DateTime.now() //scalastyle:ignore
-
-  lazy val timeoutDuration = ForConfig.sessionTimeoutDuration
-}
-
-trait SessionTimeoutFilter extends Filter with MicroserviceFilterSupport {
-  val timestampKey = "lastrequesttimestamp"
-  lazy val whiteList = Seq(
-    "controllers.CustomLanguageController"
-  )
-
-  def now: Now
-
-  val timeoutDuration: Duration
-
-  override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] = {
-    val r = rh.tags.get(RouteActionMethod) match {
-      case Some(controller) if whiteList.contains(controller) => f(rh)
-      case _ => checkSessionTimeout(f, rh)
-    }
-    r.map(_.addingToSession((timestampKey, now().toString))(rh))
-  }
-
-  private def checkSessionTimeout(f: (RequestHeader) => Future[Result], rh: RequestHeader): Future[Result] = {
-    timeOfLastRequest(rh) match {
-      case Some(dt: DateTime) if dt.isBefore(now().minusMinutes(timeoutDuration.toMinutes.toInt)) =>
-          Redirect(controllers.routes.Application.sessionTimeout()).withNewSession
-      case _ => f(rh)
-    }
-  }
-
-  private def timeOfLastRequest(rh: RequestHeader): Option[DateTime] = rh.session.get(timestampKey) flatMap { ts =>
-    Some(DateTime.parse(ts))
-  }
 }

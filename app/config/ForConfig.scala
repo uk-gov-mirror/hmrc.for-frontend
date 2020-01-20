@@ -29,7 +29,6 @@ object ForConfig {
   lazy val controllerConfigs = config.underlying.as[Config]("controllers")
   def metricsConfig: Option[Configuration] = config.getConfig("microservice.metrics")
 
-  lazy val sessionTimeoutDuration = (getString("sessiontimeoutminutes").toInt) minutes
   lazy val useDummyIp = getBoolean("useDummyTrueIP")
   lazy val startPageRedirect = getBoolean("startPageRedirect")
   lazy val govukStartPage = getString("govukStartPage")
