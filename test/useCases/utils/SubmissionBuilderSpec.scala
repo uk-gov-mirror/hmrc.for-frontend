@@ -48,34 +48,11 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     assert(SubmissionBuilder.build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
   }
 
-/*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
-    val sub = SubmissionBuilder.build(docWithWeeklyRent)
-    val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
-    assert(annualRent === 5200)
-  }
-
-  it should "calculate an annual rent from a monthly rent when mapping rent" in {
-    val sub = SubmissionBuilder.build(docWithMonthlyRent)
-    val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
-    assert(annualRent === 60000)
-  }
-
-  it should "calculate an annual rent from a quarterly rent when mapping rent" in {
-    val sub = SubmissionBuilder.build(docWithQuarterlyRent)
-    val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
-    assert(annualRent === 1000)
-  }*/
-
   it should "create ndr and water charges services if their details are supplied" in {
     val sub = SubmissionBuilder.build(docWithNdrChargesAndWaterCharges)
     val services = sub.responsibilities.get.includedServicesDetails
     assert(services.exists(s => s.chargeDescription == "Non-domestic Rates" && s.chargeCost == 41.23))
     assert(services.exists(s => s.chargeDescription == "Water Charges" && s.chargeCost == 456.76))
-  }
-
-  it should "map overriden property address as tenants address when tenants address is main property address and main property address has been overriden" in {
-    val sub = SubmissionBuilder.build(docWithTenantsPropertyAddressAndOverridenMainAddress)
-    assert(sub.sublet.map(_.sublets.head.tenantAddress).value === tenantsPropertyAddress)
   }
 
   it should "set occupier name as 'Nobody' if the property is not occupied" in {
@@ -215,10 +192,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       p3ks.propertyRentedByYou -> Seq("false"), p3ks.noRentDetails -> Seq("Coz I live with my rents!"))
 
     lazy val page4FormData = Map("propertyIsSublet" -> Seq("true"), "sublet[0].tenantFullName" -> Seq("Jake Smythe"),
-      "sublet[0].tenantAddress.buildingNameNumber" -> Seq("Some Company"),
-      "sublet[0].tenantAddress.street1" -> Seq("Some Road"),
-      "sublet[0].tenantAddress.street2" -> Seq(""),
-      "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
+      "sublet[0].subletType" -> Seq("part"),
       "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
       "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"), "sublet[0].annualRent" -> Seq("200"),
       "sublet[0].rentFixedDate.month" -> Seq("2"), "sublet[0].rentFixedDate.year" -> Seq("2011"))
@@ -325,7 +299,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val alternatePropertyAddress = Some(tenantsPropertyAddress)
     val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, Some("abc@mailinator.com"), Some("abc@mailinator.com")))
     val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
-    val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), "basement", "commercial", Some(200), RoughDate(None, Some(2), 2011))))
+    val sublet = Sublet(true, List(SubletData("Jake Smythe", SubletPart, Some("basement"), "commercial", Some(200), RoughDate(None, Some(2), 2011))))
     val landlord = Landlord(Some("Graham Goose"), Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
     val leaseOrAgreement = LeaseOrAgreement(
       LeaseAgreementTypesLeaseTenancy, Some(true), Some("adjf asdklfj a;sdljfa dsflk"), Some(true), List(SteppedDetails(new LocalDate(2010, 11, 8), new LocalDate(2011, 12, 9),500)), Some(RoughDate(None, Some(3), 2011)), Some(false), Some(MonthsYearDuration(2, 10))

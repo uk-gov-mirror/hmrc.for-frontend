@@ -241,18 +241,14 @@ label.noRentDetails=Tell us why you do not pay rent on this property
 #SECTION 4
 ###############################
 section4.heading=Lettings and sub-lettings
-label.propertyIsSublet=Do you currently let (or sub-let) all or any part of the property to anyone else?
-label.propertyIsSublet.agent=Does your client currently let (or sub-let) all or any part of the property to anyone else?
+label.propertyIsSublet=Is any part of the property currently let or sub-let to anyone else?
 hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls select ''No''. Holiday lets should be submitted on <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">form 6048</a>.
 label.sublet.tenantFullName=Your tenant’s name
 label.sublet.tenantFullName.agent=The tenant’s name
-label.sublet.subletPropertyPartDescription=What part of the property do you let or sub-let?
-label.sublet.subletPropertyPartDescription.agent=What part of the property is let or sub-let?
-hint.sublet.subletPropertyPartDescription=For example, this may include areas used by other businesses, advertising hoardings, flats or mobile phone masts.
+label.sublet.subletPropertyPartDescription=What part of the property is let or sub-let?
 label.sublet.subletPropertyReasonDescription=What is the let or sub-let property used for?
 hint.sublet.subletPropertyReasonDescription=For example, residential use or commercial use.
-label.sublet.annualRent=How much rent do you receive each year from this let or sub-let (excluding VAT)?
-label.sublet.annualRent.agent=How much rent does your client receive each year from this let or sub-let (excluding VAT)?
+label.sublet.annualRent=How much rent is paid each year for this let or sub-let (excluding VAT)?
 label.sublet.annualRent.annualRentExcludingVat.generic=Sub-let rent (excluding VAT)
 hint.sublet.annualRentExcludingVat=Excluding VAT
 label.sublet.annualRent.rentLengthType=How do you receive your sub-let rent?
@@ -260,17 +256,12 @@ label.sublet.annualRent.rentLengthType.agent=How does your client receive the su
 label.sublet.rentFixedDate=When did the let or sub-let start?
 label.sublet.rentFixedDate.agent=When did your client’s let or sub-let start?
 label.ammountPerYear=Amount per year
-label.sublet.tenantAddress.buildingNameNumber=Building name or number
-label.sublet.tenantAddress.street1=Address line 2
-label.sublet.tenantAddress.street2=Address line 3
-label.sublet.tenantAddress.townCity=Town or city
-label.sublet.tenantAddress.postcode=Tenant’s postcode
-label.sublet.isTenantsAddress=Your tenant’s address
-label.sublet.isTenantsAddress.agent=The tenant’s address
-isTenantsAddressType.differentAddress=Enter different address
 label.noJs.section4=Answer the questions below only if you’ve selected ''Yes''
 label.noJs.sublet.tenantAddress=Answer this only if you’ve selected ''Enter different address''
 label.subletAddress=Address of the property that is let or sub-let
+label.sublet.subletType=How much of property is let or sublet?
+subletType.all=All of it
+subletType.part=Part of it
 
 #SECTION 5
 ###############################

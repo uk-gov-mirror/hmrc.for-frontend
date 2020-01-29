@@ -35,7 +35,6 @@ trait AddressAuditing {
 
   def apply(s: Summary, request: Request[_]): Future[Unit] = {
     s.propertyAddress.map(p1 => auditManualAddress(s.addressUserBelievesIsCorrect, request))
-    s.sublet.foreach(p4 => p4.sublet.foreach(sub => auditManualAddress(sub.tenantAddress, request)))
     s.landlord.map(p5 => auditAddress(p5.originalLandlordAddress, p5.landlordAddress, request))
     Future.successful(())
   }

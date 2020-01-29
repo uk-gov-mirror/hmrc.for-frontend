@@ -184,7 +184,7 @@ class PathingLogicSpec extends FlatSpec with Matchers {
 
   lazy val propertyIsSublet = PageFour(
     true, List(SubletDetails(
-      "Something",Address("Street address", None, Some("City"), "Postcode"), "Description", "Reason", BigDecimal(1.33), RoughDate(None, Some(12), 1980))
+      "Something",SubletPart, Some("Description"), "Reason", BigDecimal(1.33), RoughDate(None, Some(12), 1980))
     )
   )
 

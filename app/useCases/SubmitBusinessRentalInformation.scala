@@ -92,13 +92,10 @@ object SubmissionBuilder extends SubmissionBuilder {
   private def toSublet(p4: PageFour)(implicit sum: Summary) = Sublet(p4.propertyIsSublet, p4.sublet.map(toSubletData))
 
   private def toSubletData(s: SubletDetails)(implicit sum: Summary) = SubletData(
-    s.tenantFullName, tenantsAddress(s, sum), s.subletPropertyPartDescription, s.subletPropertyReasonDescription,
+    s.tenantFullName, s.subletType, s.subletPropertyPartDescription, s.subletPropertyReasonDescription,
     Some(s.annualRent), s.rentFixedDate
   )
 
-  private def tenantsAddress(s: SubletDetails, sum: Summary) = Address (
-    s.tenantAddress.buildingNameNumber, s.tenantAddress.street1, s.tenantAddress.street2, s.tenantAddress.postcode
-  )
 
   private def toLandlord(p5: PageFive) = Landlord(
     p5.landlordFullName, p5.landlordAddress, p5.landlordConnectionType, p5.landlordConnectText

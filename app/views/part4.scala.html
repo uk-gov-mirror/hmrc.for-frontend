@@ -65,7 +65,7 @@
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(
-            '_label -> Messages(if(summary.isAgent) Messages("label.propertyIsSublet.agent") else Messages("label.propertyIsSublet")),
+            '_label -> Messages("label.propertyIsSublet"),
             '_error -> theForm("propertyIsSublet").error,
             '_showConstraints -> false,
             '_showErrors -> true,
@@ -94,59 +94,39 @@
                 'class -> "form-control"
               )
 
-              @defining(Addresses.getAddress(summary)) { address =>
 
-                <input type="hidden" id="addressBuildingNameNumber" value="@address.buildingNameNumber" class="subletsHidden" />
-                <input type="hidden" id="addressStreet1" value="@address.street1.getOrElse("")"  class="subletsHidden" />
-                <input type="hidden" id="addressStreet2" value="@address.street2.getOrElse("")"  class="subletsHidden" />
-                <input type="hidden" id="addressPostcode" value="@address.postcode"  class="subletsHidden" />
-
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.buildingNameNumber"),
-                  '_label -> Messages("label.subletAddress"),
-                  '_labelClass -> "form-label-bold",
-                  'class -> "form-control",
-                  '_fieldsetClass -> "address-field-one address-fields",
-                  Symbol("placeholder") -> Messages("placeholder.address.1")
-                )
-
-                @helpers.inputText(
-                    field = theForm(s"sublet[$idx].tenantAddress.street1"),
-                  '_label -> Messages("label.street1"),
-                  '_labelClass -> "visuallyhidden",
-                  'class -> "form-control",
-                  '_fieldsetClass -> "address-field-two address-fields",
-                  Symbol("placeholder") -> Messages("placeholder.address.2"),
-                  '_optional -> true
-                )
-
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.street2"),
-                  '_label -> Messages("label.street2"),
-                  'class -> "form-control",
-                  '_labelClass -> "visuallyhidden",
-                  '_fieldsetClass -> "address-field-three",
-                  Symbol("placeholder") -> Messages("placeholder.address.3"),
-                  '_optional -> true
-
-                )
-
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.postcode"),
-                  '_label -> Messages("label.postcode"),
-                  '_labelClass -> "form-label-bold",
-                  'class -> s"form-control postcode postcode-+$idx",
-                  '_fieldsetClass -> "address-field-postcode"
-                )
-              }
-
-              @inputText(
-                field = sublet("subletPropertyPartDescription"),
-                '_label -> Messages(if(summary.isAgent) Messages("label.sublet.subletPropertyPartDescription.agent") else Messages("label.sublet.subletPropertyPartDescription")),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control",
-                '_help -> Messages("hint.sublet.subletPropertyPartDescription")
+              @inputRadioGroup(
+                  field = sublet("subletType"),
+                  options = EnumOptions.options(SubletType),
+                  args = Seq(
+                      '_label -> Messages("label.sublet.subletType"),
+                      '_error -> theForm("subletType").errors,
+                      '_showConstraints -> false,
+                      '_showErrors -> true,
+                      '_labelClass -> "form-label-bold",
+                      '_legend -> true,
+                      'skipfieldset -> true
+                  ),
+                  dataAttributes = Seq(
+                      ("part", "data-show-fields", s"sublet[${idx}].subletPropertyPartDescription"),
+                      ("all", "data-show-fields", "")
+                  )
               )
+
+              <div data-show-fields-group="sublet[@{idx}].subletType">
+
+                  @inputText(
+                    field = sublet("subletPropertyPartDescription"),
+                    '_label -> Messages("label.sublet.subletPropertyPartDescription"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control",
+                    '_help -> Messages("hint.sublet.subletPropertyPartDescription"),
+                    '_fieldsetClass -> "hidden",
+                    '_nojsText -> "TODO TODO"
+                  )
+
+
+              </div>
 
               @inputText(
                 field = sublet("subletPropertyReasonDescription"),

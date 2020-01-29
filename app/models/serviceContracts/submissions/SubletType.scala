@@ -16,13 +16,20 @@
 
 package models.serviceContracts.submissions
 
-import models.RoughDate
+import models.{NamedEnum, NamedEnumSupport}
 
-case class Sublet(propertyIsSublet: Boolean, sublets: List[SubletData])
+sealed trait SubletType extends NamedEnum {
+  override val key = "subletType"
+}
 
-case class SubletData(tenantFullName: String,
-                      subletType: SubletType,
-  subletPropertyPartDescription: Option[String],
-  subletPropertyReasonDescription: String,
-  annualRentExcludingVat: Option[BigDecimal],
-  rentFixedDate: RoughDate)
+object SubletAll extends SubletType {
+  override val name: String = "all"
+}
+
+object SubletPart extends SubletType {
+  override val name: String = "part"
+}
+
+object SubletType extends NamedEnumSupport[SubletType] {
+  override def all: List[SubletType] = List(SubletAll, SubletPart)
+}

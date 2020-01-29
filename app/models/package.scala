@@ -57,6 +57,8 @@ package object models {
   implicit val formatAlterationSetByType: Format[AlterationSetByType] = generateFormat(AlterationSetByType)
   implicit val formatAddressConnection: Format[AddressConnectionType] = generateFormat(AddressConnectionTypes)
   implicit val tenantAddressType: Format[TenantsAddressType] = generateFormat(TenantsAddressTypes)
+  implicit val subletType: Format[SubletType] = generateFormat(SubletType)
+
 
   implicit val annr = Json.format[AnnualRent]
   implicit val chargeDetailFormat = Json.format[ChargeDetails]

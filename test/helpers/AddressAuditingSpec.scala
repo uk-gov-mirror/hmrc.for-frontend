@@ -18,7 +18,7 @@ package helpers
 
 import models.{LookupServiceAddress, RoughDate}
 import models.pages.{PageFive, PageFour, SubletDetails, Summary}
-import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone}
+import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone, SubletPart}
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.test.FakeRequest
@@ -119,31 +119,12 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
     )
   }
 
-  it should "send a manualAddressSubmitted audit when the user submits a corrected sublet address" in {
-    val s = summaryWithSubletAddress(Some(propertyAddress), oneLineChanged)
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("manualAddressSubmitted",
-      Map(
-        "submittedLine1" -> oneLineChanged.buildingNameNumber,
-        "submittedLine2" -> oneLineChanged.street1.getOrElse(""),
-        "submittedPostcode" -> oneLineChanged.postcode
-      )
-    )
-  }
-
   private def summaryWithPropertyAddress(voaAddress: Option[Address], corrected: Option[Address]): Summary = {
     Summary("1234567890", DateTime.now,
       Some(AddressConnectionTypeYesChangeAddress), corrected,
       None, None, None, None, None, None, None, None, None, None, None, None, None,
       voaAddress, Nil
     )
-  }
-
-  private def summaryWithSubletAddress(voaAddress: Option[Address], submitted: Address): Summary = {
-    Summary("123467890", DateTime.now, None, None, None, None,
-      Some(PageFour(true, List(SubletDetails("Mr Tenant", submitted, "Something", "Stuff", BigDecimal(0.01), RoughDate(None, Some(1), 2011))))),
-      None, None, None, None, None, None, None, None, None, None, voaAddress, Nil)
   }
 
   private def summaryWithLandlordAddress(original: Option[LookupServiceAddress], submitted: Option[Address]): Summary = {

@@ -19,10 +19,11 @@ package form
 import form.DateMappings._
 import models.pages.{PageFour, _}
 import play.api.data.Form
-import play.api.data.Forms.{mapping, nonEmptyText}
+import play.api.data.Forms.{mapping, nonEmptyText, optional}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 import MappingSupport._
+import models.serviceContracts.submissions.SubletPart
 
 object PageFourForm {
 
@@ -30,8 +31,9 @@ object PageFourForm {
 
   val subletMapping = (index: String) => mapping(
     s"$index.tenantFullName" -> nonEmptyText(maxLength = 50),
-    s"$index.tenantAddress" ->  addressMapping(s"$index.tenantAddress"),
-    s"$index.subletPropertyPartDescription" -> nonEmptyText(maxLength = 100),
+    s"$index.subletType" ->  subletTypeMapping,
+    s"$index.subletPropertyPartDescription" -> mandatoryIf(isEqual(s"$index.subletType", SubletPart.name),
+      nonEmptyText(maxLength = 100)),
     s"$index.subletPropertyReasonDescription" -> nonEmptyText(maxLength = 100),
     s"$index.annualRent" -> currency,
     s"$index.rentFixedDate" -> monthYearRoughDateMapping(s"$index.rentFixedDate")
