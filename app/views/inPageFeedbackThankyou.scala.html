@@ -29,7 +29,6 @@
 
 @bodyEnd = {
     @views.html.includes.javascripts()
-    @views.html.includes.analytics()
 }
 
 @main(title=Messages("copy.feedback.thankyou") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,needsTimeoutWarning=false) {

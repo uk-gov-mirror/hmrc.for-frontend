@@ -33,7 +33,6 @@
 
 @bodyEnd = {
     @views.html.includes.javascripts()
-    @views.html.includes.analytics(summary)
 }
 
 @main(title=Messages("label.confirm.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=false, theForm = Some(theForm)) {

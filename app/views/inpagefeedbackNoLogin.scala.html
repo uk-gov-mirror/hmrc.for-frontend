@@ -30,7 +30,6 @@
 
 @bodyEnd = {
     @views.html.includes.javascripts()
-  	@views.html.includes.analytics()
 }
 
 @main(title=Messages("label.feedback.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,needsTimeoutWarning=false ) {
