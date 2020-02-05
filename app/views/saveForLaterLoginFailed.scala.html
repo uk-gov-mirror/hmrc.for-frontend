@@ -23,7 +23,6 @@
 
 @bodyEnd = {
   @views.html.includes.javascripts()
-  @views.html.includes.analytics()
 }
 
 @main(title=Messages("saveForLater.invalidPassword") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {

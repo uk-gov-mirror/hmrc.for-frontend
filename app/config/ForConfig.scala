@@ -39,7 +39,6 @@ object ForConfig {
 
   val analytics = new {
     val ga = new {
-      lazy val trackingCode = prodOnlyConf("analytics.ga.trackingCode")
       lazy val startDate = prodOnlyConf("analytics.ga.startDate")
       lazy val returnCount = prodOnlyConf("analytics.ga.returnCount")
       lazy val refNum = prodOnlyConf("analytics.ga.refNum")

@@ -33,7 +33,6 @@
 
 @bodyEnd = {
   @views.html.includes.javascripts()
-  @views.html.includes.analytics(summary)
 }
 
 @verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}

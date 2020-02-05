@@ -31,7 +31,6 @@
 
 @bodyEnd = {
   @views.html.includes.javascripts()
-  @views.html.includes.analytics(summary)
 }
 
 @main(title=Messages("section11.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
