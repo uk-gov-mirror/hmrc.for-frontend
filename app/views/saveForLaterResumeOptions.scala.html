@@ -17,10 +17,13 @@
 @import models.journeys.Journey
 @import models.pages.Summary
 @import models.serviceContracts.submissions._
+@import config.ForConfig
+
 @()(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.gtm)
 }
 
 @bodyEnd = {

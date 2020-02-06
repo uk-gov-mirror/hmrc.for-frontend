@@ -24,12 +24,14 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 @import models.journeys.Journey
-
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import config.ForConfig
+
 @(summary: Summary, theForm: Form[_])(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
+@views.html.includes.analytics(ForConfig.gtm, summary)
 }
 
 @bodyEnd = {

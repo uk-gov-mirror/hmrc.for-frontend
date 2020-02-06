@@ -36,6 +36,7 @@ object ForConfig {
   lazy val apiTestAccountsOnly = getBoolean("agentApi.testAccountsOnly")
   lazy val apiTestAccountPrefix = getString("agentApi.testAccountPrefix")
   lazy val showNewNotConnectedPage = getBoolean("showNewNotConnectedPage")
+  lazy val gtm = getString("analytics.ga.GTM")
 
   val analytics = new {
     val ga = new {

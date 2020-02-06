@@ -16,10 +16,13 @@
 
 @import models.pages.Summary
 @import org.joda.time.LocalDate
+@import config.ForConfig
+
 @(summary: Summary, password: String, expiryDate: LocalDate, hasTimedout: Boolean = false)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
+@views.html.includes.analytics(ForConfig.gtm, summary)
 }
 
 @bodyEnd = {

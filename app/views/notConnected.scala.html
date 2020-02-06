@@ -24,11 +24,13 @@
 @import _root_.template.FormatRefNum
 @import _root_.form.NotConnectedPropertyForm
 @import play.api.Play.current
+@import config.ForConfig
 
 @(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
     @views.html.includes.stylesheets()
+    @views.html.includes.analytics(ForConfig.gtm, summary)
 }
 
 @bodyEnd = {

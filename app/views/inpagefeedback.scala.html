@@ -19,6 +19,7 @@
 @import _root_.template.Helper._
 @import helpers._
 @import models.pages.Summary
+@import config.ForConfig
 
 @import playconfig.FormPartialProvider
 
@@ -26,6 +27,7 @@
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.gtm, summary)
 }
 
 @bodyEnd = {

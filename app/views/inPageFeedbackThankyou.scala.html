@@ -18,13 +18,14 @@
 @import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-
+@import config.ForConfig
 @import playconfig.FormPartialProvider
 
 @(contactPartialUrl: Option[String] = None, error: Option[Html] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.gtm)
 }
 
 @bodyEnd = {

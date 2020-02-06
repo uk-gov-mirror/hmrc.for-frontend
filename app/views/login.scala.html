@@ -18,12 +18,13 @@
 @import helpers._
 @import play.api.data._
 @import org.joda.time.DateTime
-
 @import config.ForConfig
+
 @(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader, messages: Messages)
 
     @headExtra = {
         @views.html.includes.stylesheets()
+        @views.html.includes.analytics(ForConfig.gtm)
     }
     @bodyEnd = {
         @views.html.includes.javascripts()

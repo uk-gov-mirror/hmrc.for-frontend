@@ -22,12 +22,14 @@
 @import helpers._
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
+@import config.ForConfig
 
 @(theForm: Form[CustomerDetails], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.gtm, summary)
 }
 
 @bodyEnd = {

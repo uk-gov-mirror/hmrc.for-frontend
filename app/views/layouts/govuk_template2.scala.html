@@ -40,16 +40,6 @@
     <script type="text/javascript">
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
     </script>
-    
-    <!-- Google Tag Manager -->
-    @defining(summary.map(s => FormatRefNum(s.referenceNumber)).getOrElse("")) { ref =>
-        @defining(summary.map(_.journeyResumptions.length).getOrElse(0)) { timesReturned =>
-            @defining(summary.map(_.journeyStarted.toString).getOrElse(DateTime.now.toString)) { startDate =>
-                <script id="GTM" GTMCode='@{current.configuration.getString("analytics.ga.GTM").getOrElse("")}' ref='@ref' startDate='@startDate' timesReturned='@timesReturned' src='@routes.Assets.at("javascripts/govuk-google-tag-manager.js")' type="text/javascript"></script>
-            }
-        }
-    }
-    <!-- End Google Tag Manager →
 
     <!------Optimizely----->
     <script src="https://cdn.optimizely.com/js/@{current.configuration.getString("optimizely.projectId").getOrElse("")}.js"></script>
