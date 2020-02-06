@@ -22,7 +22,7 @@
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
 @import models.journeys.Journey
-
+@import config.ForConfig
 
 @(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
@@ -32,6 +32,7 @@
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""), summary)
 }
 
 @bodyEnd = {

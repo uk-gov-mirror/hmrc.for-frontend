@@ -21,11 +21,13 @@
 @import models.serviceContracts.submissions._
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
+@import config.ForConfig
 
 @(summary: models.pages.Summary, forPdf: Boolean = false)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""), summary)
 }
 
 @bodyEnd = {

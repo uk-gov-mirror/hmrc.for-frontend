@@ -23,12 +23,13 @@
 @import helpers._
 @import helpers.summary._
 @import org.joda.time.DateTime
-
+@import config.ForConfig
 
 @(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
   @views.html.includes.stylesheets()
+  @views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""), summary)
 }
 
 @bodyEnd = {

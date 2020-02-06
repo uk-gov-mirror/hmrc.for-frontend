@@ -15,10 +15,13 @@
  *@
 
 @import helpers._
+@import config.ForConfig
+
 @()(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
+@views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""))
 }
 
 @bodyEnd = {

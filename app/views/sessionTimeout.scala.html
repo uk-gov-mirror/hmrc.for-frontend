@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *@
+@import config.ForConfig
 
 @()(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
+@views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""))
 }
 
 @bodyEnd = {

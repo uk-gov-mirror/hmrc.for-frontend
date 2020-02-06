@@ -18,11 +18,13 @@
 @import helpers._
 @import play.api.data._
 @import org.joda.time.DateTime
+@import config.ForConfig
 
 @()(implicit requestHeader: RequestHeader,  messages: Messages)
 
     @headExtra = {
         @views.html.includes.stylesheets()
+        @views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""))
     }
     @bodyEnd = {
         @views.html.includes.javascripts()

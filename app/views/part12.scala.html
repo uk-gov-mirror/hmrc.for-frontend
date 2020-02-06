@@ -23,11 +23,13 @@
 @import views.includes.FieldNamer
 @import org.joda.time.DateTime
 @import _root_.template.FormatRefNum
+@import config.ForConfig
 
 @(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @headExtra = {
 @views.html.includes.stylesheets()
+@views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""), summary)
 }
 
 @bodyEnd = {
