@@ -24,7 +24,7 @@
 
 @headExtra = {
 @views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.config.getString("analytics.ga.GTM").getOrElse(""))
+@views.html.includes.analytics(ForConfig.gtm)
 }
 @bodyEnd = {
 @views.html.includes.javascripts()
