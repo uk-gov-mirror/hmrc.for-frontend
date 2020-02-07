@@ -16,37 +16,35 @@
 
 package playconfig
 
-import config.{AuditServiceConnector, ForConfig}
-import connectors.HODConnector
-import form.persistence.{FormDocumentRepository, MongoSessionRepository, SessionScopedFormDocumentRepository}
-import models.journeys.Journey
-import models.pages.SummaryBuilder
-import org.joda.time.DateTime
-import play.api.{Logger, Play}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.Writes
-import uk.gov.hmrc.crypto.{ApplicationCrypto, CompositeSymmetricCrypto}
-import uk.gov.hmrc.http.cache.client.{ShortLivedCache, ShortLivedHttpCaching}
-import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
-import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
-import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import _root_.uk.gov.hmrc.http.HeaderNames._
 import akka.actor.ActorSystem
 import com.typesafe.config.Config
+import config.{AuditServiceConnector, ForConfig}
+import connectors.HODConnector
+import form.persistence.FormDocumentRepository
 import helpers.{AppNameHelper, RunModeHelper}
-import uk.gov.hmrc.play.http._
+import models.journeys.Journey
+import models.pages.SummaryBuilder
+import org.joda.time.DateTime
+import play.api.Play
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json.{JsObject, Writes}
+import security.LoginToHOD._
+import uk.gov.hmrc.crypto.ApplicationCrypto
+import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.audit.AuditExtensions._
+import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
+import uk.gov.hmrc.play.audit.model.DataEvent
+import uk.gov.hmrc.play.config.{AppName, RunMode}
+import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
+import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases._
-import security.LoginToHOD._
 
 import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http._
-import uk.gov.hmrc.http.hooks.HttpHook
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 
 object FORAuditConnector extends AuditConnector with AppName with AppNameHelper {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
@@ -101,12 +99,22 @@ object SessionCrypto {
 }
 
 trait Audit {
+  val referenceNumber = "referenceNumber"
+
   val auditConnector = AuditServiceConnector
 
-  def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty)(implicit hc: HeaderCarrier): Future[AuditResult] = {
+  def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier): Future[AuditResult] = {
+    val tags = hc.toAuditTags()
     val de = DataEvent(auditSource = "for-frontend", auditType = event, tags = tags, detail = detail)
     auditConnector.sendEvent(de)
   }
+
+  def sendExplicitAudit[T](auditType: String, detail: T)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[T]) =
+    auditConnector.sendExplicitAudit(auditType, detail)(hc, ec, writes)
+
+  def sendExplicitAudit(auditType: String, detail: JsObject)(implicit hc: HeaderCarrier, ec: ExecutionContext) =
+    auditConnector.sendExplicitAudit(auditType, detail)(hc, ec)
+
 }
 
 object S4L extends AppName with AppNameHelper{
