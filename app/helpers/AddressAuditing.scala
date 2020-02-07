@@ -111,16 +111,9 @@ trait AddressAuditing {
         "submittedLine1" -> address.buildingNameNumber,
         "submittedLine2" -> address.street1.getOrElse(""),
         "submittedLine3" -> address.street2.getOrElse(""),
-        "submittedPostcode" -> address.postcode
-      ) ++ additionalDetails,
-      tags = Map(
-        "X-Request-ID" -> hc.requestId.map(_.value).getOrElse(""),
-        "X-Session-ID" -> hc.sessionId.map(_.value).getOrElse(""),
-        "clientIP" -> hc.trueClientIp.getOrElse(""),
-        "clientPort" -> hc.trueClientPort.getOrElse(""),
-        "path" -> request.path,
+        "submittedPostcode" -> address.postcode,
         "transactionName" -> "sending_rental_information"
-      )
+      ) ++ additionalDetails
     )(hc)
   }
 }

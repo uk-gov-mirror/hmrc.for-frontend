@@ -36,6 +36,7 @@ import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLate
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 
 object SaveForLater extends FrontendController {
@@ -124,10 +125,6 @@ object SaveForLater extends FrontendController {
     }
   }
 
-  def logout = RefNumAction.async { implicit request =>
-    Redirect(routes.LoginController.show()).withNewSession
-  }
-
   def timeout = RefNumAction.async { implicit request =>
     repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
       case Some(doc) => {
@@ -138,7 +135,8 @@ object SaveForLater extends FrontendController {
         })
         save4laterResponse.flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
-          audit(sum)
+          Audit.sendExplicitAudit("UserTimeout", Json.obj(
+            Audit.referenceNumber -> sum.referenceNumber))
           val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
           EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>

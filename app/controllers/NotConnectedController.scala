@@ -20,19 +20,18 @@ import java.time.Instant
 
 import actions.{RefNumAction, RefNumRequest}
 import connectors.SubmissionConnector
-import controllers.feedback.{Survey, SurveyFeedback}
+import controllers.feedback.Survey
 import form.NotConnectedPropertyForm
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import form.NotConnectedPropertyForm.form
 import javax.inject.{Inject, Singleton}
-import models.{NotConnectedJourney, Satisfaction}
+import models.NotConnectedJourney
 import models.pages.{Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
-import play.api.data.Forms.{mapping, text}
-import play.api.data.{Form, Forms}
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.json.Json
 import play.api.{Configuration, Logger}
-import playconfig.{FormPartialProvider, FormPersistence, SessionId}
+import playconfig.{Audit, FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
@@ -40,7 +39,8 @@ import scala.concurrent.Future
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector, cache: MongoSessionRepository)
+class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector,
+                                       cache: MongoSessionRepository, audit: Audit)
                                       (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
 
   val logger = Logger(classOf[NotConnectedController])
@@ -73,7 +73,9 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
       case Some(summary) => {
         form.bindFromRequest().fold({ formWithErrors =>
           Future.successful(Ok(views.html.notConnected(formWithErrors, summary)))
-        }, { formWithData =>
+        }, { formWithData => {
+          audit.sendExplicitAudit("NotConnectedSubmission",
+            Json.obj(Audit.referenceNumber -> summary.referenceNumber))
           submitToHod(formWithData, summary).map { _ =>
             Redirect(routes.NotConnectedController.onConfirmationView)
           }.recover {
@@ -82,7 +84,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
               InternalServerError(views.html.error.error500())
             }
           }
-        })
+        }})
       }
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")

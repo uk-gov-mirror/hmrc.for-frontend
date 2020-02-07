@@ -168,11 +168,11 @@ object TestAddressAuditing extends AddressAuditing {
 }
 
 object StubAuditer extends Audit with Matchers {
-  private case class AuditEvent(event: String, detail: Map[String, String], tags: Map[String, String])
+  private case class AuditEvent(event: String, detail: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
-  override def apply(event: String, detail: Map[String, String], tags: Map[String, String] = Map.empty)(implicit hc: HeaderCarrier) = {
-    lastSentAudit = AuditEvent(event, detail, tags)
+  override def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier) = {
+    lastSentAudit = AuditEvent(event, detail)
     Future.successful(Disabled)
   }
 
