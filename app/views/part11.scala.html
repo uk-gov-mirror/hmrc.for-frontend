@@ -28,7 +28,7 @@
 
 @headExtra = {
   @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, summary)
+  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
 }
 
 @bodyEnd = {
