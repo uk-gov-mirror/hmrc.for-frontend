@@ -19,7 +19,7 @@ if(document.getElementById('GTM')){
 // Track custom dimensions in GTM
 window.dataLayer = window.dataLayer || [];
 
-window.dataLayer.push({startDim: startDate, returnDim: timesReturned, refDim: refNum});
+window.dataLayer.push({startDim: startDate, returnDim: timesReturned, refDim: refNum, 'event': 'RALD01'});
 // End track custom dimensions in GTM
 
 // Google Tag Manager

@@ -18,7 +18,7 @@
 @import _root_.template.FormatRefNum
 @import org.joda.time.DateTime
 
-@(GTMCode: String, refDimension: String, startDimension: String, returnDimension: String, summary: Option[Summary] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
+@(GTMCode: String, startDimension: String, returnDimension: String, refDimension: String, summary: Option[Summary] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @defining(summary.map(s => FormatRefNum(s.referenceNumber)).getOrElse("")) { ref =>
     @defining(summary.map(_.journeyResumptions.length).getOrElse(0)) { timesReturned =>
@@ -30,5 +30,5 @@
             refDim='@refDimension' ref='@ref'/>
             <!-- End Google Tag Manager -->
         }
-    }
+    }NoW
 }
