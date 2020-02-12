@@ -276,7 +276,7 @@ class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with
 
   lazy val pageFourData = PageFour(
     true, List(SubletDetails(
-      "Something", Address("Street address", None, Some("City"), "Postcode"), "Description", "Reason", BigDecimal(1.0), RoughDate(None, Some(12), 1980))
+      "Something", Address("Street address", None, Some("City"), "Postcode"), SubletPart, Option("Description"), "Reason", BigDecimal(1.0), RoughDate(None, Some(12), 1980))
     )
   )
 

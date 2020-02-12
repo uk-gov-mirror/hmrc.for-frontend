@@ -102,6 +102,11 @@
             }
         });
 
+        $(that).find('div[data-show-fields-group]').each(function() {
+            var dataAttribute = $(this).attr('data-show-fields-group');
+            $(this).attr('data-show-fields-group', dataAttribute.replace(/(\d+)/g, index));
+        });
+
         $(that).find('input[type="radio"]').not('[type="hidden"]').each(function () {
             var attrFor = $(this).closest('label').attr('for'),
                 attrId = $(this).attr('id'),
@@ -112,6 +117,12 @@
             $(this).closest('label').attr('for', attrFor.replace(/(\d+)/g, index));
             $(this).attr('id', attrId.replace(/(\d+)/g, index));
             $(this).attr('name', attrName.replace(/(\d+)/g, index));
+
+            var showFieldAttr = 'data-show-fields';
+            if(this.hasAttribute(showFieldAttr)) {
+                var dataShowFields = $(this).attr(showFieldAttr);
+                $(this).attr(showFieldAttr, dataShowFields.replace(/(\d+)/g, index));
+            }
 
             $(this).closest('.multi-fields-group').attr('id', o+index);
         });

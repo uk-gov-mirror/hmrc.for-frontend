@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package models.pages
+package models.serviceContracts.submissions
 
-import models._
-import models.serviceContracts.submissions._
+import models.{NamedEnum, NamedEnumSupport}
 
-case class PageFour(propertyIsSublet: Boolean, sublet: List[SubletDetails])
+sealed trait SubletType extends NamedEnum {
+  override val key = "subletType"
+}
 
-case class SubletDetails(tenantFullName: String,
-  tenantAddress: Address,
-  subletType: SubletType,
-  subletPropertyPartDescription: Option[String],
-  subletPropertyReasonDescription: String,
-  annualRent: BigDecimal,
-  rentFixedDate: RoughDate)
+object SubletAll extends SubletType {
+  override val name: String = "all"
+}
+
+object SubletPart extends SubletType {
+  override val name: String = "part"
+}
+
+object SubletType extends NamedEnumSupport[SubletType] {
+  override def all: List[SubletType] = List(SubletAll, SubletPart)
+}

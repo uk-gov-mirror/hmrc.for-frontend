@@ -236,18 +236,16 @@ label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rh
 #SECTION 4
 ###############################
 section4.heading=Gosodiadau ac is-osodiadau
-label.propertyIsSublet=A ydych yn gosod (neu’n isosod) yr eiddo cyfan neu ran ohono i unrhyw un arall ar hyn o bryd?
-label.propertyIsSublet.agent=A yw’ch cleient yn gosod (neu’n isosod) yr eiddo cyfan neu ran ohono i unrhyw un arall ar hyn o bryd?
+label.propertyIsSublet=A oes unrhyw ran o’r eiddo yn cael ei osod neu ei is-osod i unrhyw un arall ar hyn o bryd?
 hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ''Nac ydy''. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
 label.sublet.tenantFullName=Enw eich tenant
 label.sublet.tenantFullName.agent=Enw’r tenant
-label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo rydych yn ei gosod neu isosod?
+label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo sy’n cael ei osod neu ei is-osod?
 label.sublet.subletPropertyPartDescription.agent=Pa ran o’r eiddo sy’n cael ei gosod neu isosod?
-hint.sublet.subletPropertyPartDescription=Er enghraifft, gall hyn gynnwys ardaloedd a gaiff eu defnyddio gan fusnesau eraill, hysbysfyrddau, fflatiau neu fastiau ffonau symudol.
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy’n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
-label.sublet.annualRent=Faint o rent rydych yn ei gael bob blwyddyn am y gosodiad neu’r is-osodiad hwn (heb gynnwys TAW)?
-label.sublet.annualRent.agent=Faint o rent mae eich cleient yn ei gael bob blwyddyn am y gosodiad neu’r is-osodiad hwn (heb gynnwys TAW)?
+label.sublet.annualRent=Faint o rent sy’n cael ei dalu bob blwyddyn am y gosod neu’r is-osod hwn (ac eithrio TAW)?
+
 label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod (heb gynnwys TAW)
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
 label.sublet.annualRent.rentLengthType=Sut rydych chi’n cael eich rhent isosod?
@@ -266,6 +264,9 @@ isTenantsAddressType.differentAddress=Rhowch gyfeiriad gwahanol
 label.noJs.section4=Dylech ond ateb y cwestiynau isod os ydych wedi dewis ‘Ydyn (Ie)’
 label.noJs.sublet.tenantAddress=Dylech ond ateb os ydych wedi dewis ‘Rhowch gyfeiriad gwahanol’
 label.subletAddress=Cyfeiriad yr eiddo sy’n cael ei osod neu isosod
+label.sublet.subletType=Faint o’r eiddo sy’n cael ei osod neu ei is-osod?
+subletType.all=Y cyfan
+subletType.part=Rhan ohono
 
 #SECTION 5
 ###############################

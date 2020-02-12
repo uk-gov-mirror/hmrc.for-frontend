@@ -66,7 +66,7 @@
           ),
           dataAttributes = Seq(("true", "data-show-field", "true")),
           args = Seq(
-            '_label -> Messages(if(summary.isAgent) Messages("label.propertyIsSublet.agent") else Messages("label.propertyIsSublet")),
+            '_label -> Messages("label.propertyIsSublet"),
             '_error -> theForm("propertyIsSublet").error,
             '_showConstraints -> false,
             '_showErrors -> true,
@@ -141,14 +141,33 @@
                 )
               }
 
-              @inputText(
-                field = sublet("subletPropertyPartDescription"),
-                '_label -> Messages(if(summary.isAgent) Messages("label.sublet.subletPropertyPartDescription.agent") else Messages("label.sublet.subletPropertyPartDescription")),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control",
-                '_help -> Messages("hint.sublet.subletPropertyPartDescription")
+              @inputRadioGroup(
+                  field = sublet("subletType"),
+                  options = EnumOptions.options(SubletType),
+                  args = Seq(
+                      '_label -> Messages("label.sublet.subletType"),
+                      '_error -> theForm("subletType").errors,
+                      '_showConstraints -> false,
+                      '_showErrors -> true,
+                      '_labelClass -> "form-label-bold",
+                      '_legend -> true,
+                      'skipfieldset -> true
+                  ),
+                  dataAttributes = Seq(
+                      ("part", "data-show-fields", s"sublet[${idx}].subletPropertyPartDescription"),
+                      ("all", "data-show-fields", "")
+                  )
               )
 
+              <div data-show-fields-group="sublet[@{idx}].subletType">
+                  @inputText(
+                    field = sublet("subletPropertyPartDescription"),
+                    '_label -> Messages("label.sublet.subletPropertyPartDescription"),
+                    '_labelClass -> "form-label-bold",
+                    'class -> "form-control",
+                    '_fieldsetClass -> "hidden"
+                  )
+              </div>
               @inputText(
                 field = sublet("subletPropertyReasonDescription"),
                 '_label -> Messages("label.sublet.subletPropertyReasonDescription"),

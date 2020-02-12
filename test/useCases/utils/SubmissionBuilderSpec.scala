@@ -219,6 +219,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       "sublet[0].tenantAddress.street1" -> Seq("Some Road"),
       "sublet[0].tenantAddress.street2" -> Seq(""),
       "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
+      "sublet[0].subletType" -> Seq("part"),
       "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
       "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"), "sublet[0].annualRent" -> Seq("200"),
       "sublet[0].rentFixedDate.month" -> Seq("2"), "sublet[0].rentFixedDate.year" -> Seq("2011"))
@@ -228,7 +229,9 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       "sublet[0].tenantAddress.street1" -> Seq("Some Road"),
       "sublet[0].tenantAddress.street2" -> Seq(""),
       "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
-      "sublet[0].subletPropertyPartDescription" -> Seq("basement"),  "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
+      "sublet[0].subletType" -> Seq("part"),
+      "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
+      "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
       "sublet[0].annualRent" -> Seq("480"),
       "sublet[0].rentFixedDate.month" -> Seq("2"), "sublet[0].rentFixedDate.year" -> Seq("2011"))
 
@@ -237,6 +240,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       "sublet[0].tenantAddress.street1" -> Seq("The Street"),
       "sublet[0].tenantAddress.street2"-> Seq("worthing"),
       "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
+      "sublet[0].subletType" -> Seq("part"),
       "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
       "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
       "sublet[0].annualRent" -> Seq("480"),
@@ -325,7 +329,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val alternatePropertyAddress = Some(tenantsPropertyAddress)
     val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactTypeEmail, ContactDetails(None, Some("abc@mailinator.com"), Some("abc@mailinator.com")))
     val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
-    val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), "basement", "commercial", Some(200), RoughDate(None, Some(2), 2011))))
+    val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), SubletPart, Option("basement"), "commercial", Some(200), RoughDate(None, Some(2), 2011))))
     val landlord = Landlord(Some("Graham Goose"), Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
     val leaseOrAgreement = LeaseOrAgreement(
       LeaseAgreementTypesLeaseTenancy, Some(true), Some("adjf asdklfj a;sdljfa dsflk"), Some(true), List(SteppedDetails(new LocalDate(2010, 11, 8), new LocalDate(2011, 12, 9),500)), Some(RoughDate(None, Some(3), 2011)), Some(false), Some(MonthsYearDuration(2, 10))
