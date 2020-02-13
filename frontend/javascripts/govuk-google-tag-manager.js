@@ -1,25 +1,18 @@
 var GTMCode =  '';
-var startDim = '';
-var startDate = '';
-var returnDim = '';
-var timesReturned = '';
-var refDim = '';
-var refNum = '';
+var raldCustomDimEvent = {};
 
-if(document.getElementById('GTM')){
+if(document.getElementById('GTM')) {
     GTMCode = document.getElementById('GTM').getAttribute('GTMCode');
-    startDim = document.getElementById('GTM').getAttribute('startDim');
-    startDate = document.getElementById('GTM').getAttribute('startDate');
-    returnDim = document.getElementById('GTM').getAttribute('returnDim');
-    timesReturned = document.getElementById('GTM').getAttribute('timesReturned');
-    refDim = document.getElementById('GTM').getAttribute('refDim');
-    refNum = document.getElementById('GTM').getAttribute('ref');
+    raldCustomDimEvent[document.getElementById('GTM').getAttribute('startDim')] = document.getElementById('GTM').getAttribute('startDate');
+    raldCustomDimEvent[document.getElementById('GTM').getAttribute('returnDim')] = document.getElementById('GTM').getAttribute('timesReturned');
+    raldCustomDimEvent[document.getElementById('GTM').getAttribute('refDim')] = document.getElementById('GTM').getAttribute('ref');
+    raldCustomDimEvent['event'] = 'RALD01';
 }
 
 // Track custom dimensions in GTM
 window.dataLayer = window.dataLayer || [];
 
-window.dataLayer.push({startDim: startDate, returnDim: timesReturned, refDim: refNum, 'event': 'RALD01'});
+window.dataLayer.push(raldCustomDimEvent);
 // End track custom dimensions in GTM
 
 // Google Tag Manager
