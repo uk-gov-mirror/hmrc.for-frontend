@@ -41,6 +41,7 @@
   "maxcomplexity": 25,
   "maxdepth": 3,
   "maxstatements": 50,
+  "moz": true,
   "newcap": true,
   "noarg": true,
   "noempty": false,
