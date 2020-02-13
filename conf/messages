@@ -247,7 +247,6 @@ hint.propertyIsSublet=This may include flats, advertising hoardings, garages and
 label.sublet.tenantFullName=Your tenant’s name
 label.sublet.tenantFullName.agent=The tenant’s name
 label.sublet.subletPropertyPartDescription=What part of the property is let or sub-let?
-label.sublet.subletPropertyPartDescription.agent=What part of the property is let or sub-let?
 label.sublet.subletPropertyReasonDescription=What is the let or sub-let property used for?
 hint.sublet.subletPropertyReasonDescription=For example, residential use or commercial use.
 label.sublet.annualRent=How much rent is paid each year for this let or sub-let (excluding VAT)?

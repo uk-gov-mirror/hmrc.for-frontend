@@ -37,8 +37,12 @@
         @Html(sl.tenantAddress.multiLine)
       }
       
-      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.subletPropertyPartDescription.agent") else Messages("label.sublet.subletPropertyPartDescription")), 4, s"sublet_${index}_subletPropertyPartDescription") {
-        @sl.subletPropertyPartDescription
+      @summaryBlock(Messages("label.sublet.subletPropertyPartDescription"), 4, s"sublet_${index}_subletPropertyPartDescription") {
+          @if(sl.subletType == SubletAll) {
+              @Messages("subletType.all")
+          }else {
+              @sl.subletPropertyPartDescription.getOrElse("")
+          }
       }
 
       @summaryBlock(Messages("label.sublet.subletPropertyReasonDescription"), 4, s"sublet_${index}_subletPropertyReasonDescription") {

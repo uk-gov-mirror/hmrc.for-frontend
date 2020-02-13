@@ -241,7 +241,6 @@ hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefy
 label.sublet.tenantFullName=Enw eich tenant
 label.sublet.tenantFullName.agent=Enw’r tenant
 label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo sy’n cael ei osod neu ei is-osod?
-label.sublet.subletPropertyPartDescription.agent=Pa ran o’r eiddo sy’n cael ei gosod neu isosod?
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy’n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
 label.sublet.annualRent=Faint o rent sy’n cael ei dalu bob blwyddyn am y gosod neu’r is-osod hwn (ac eithrio TAW)?
