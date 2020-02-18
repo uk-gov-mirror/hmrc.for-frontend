@@ -17,28 +17,26 @@
 package controllers
 
 import actions.RefNumAction
-import connectors.HODConnector._
+import connectors.ForHttp
+import javax.inject.Inject
 import play.api.libs.json.JsValue
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.mvc.ControllerComponents
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import scala.concurrent.Future
-import uk.gov.hmrc.http.{ BadRequestException, HeaderCarrier }
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-object AddressLookup extends FrontendController {
-  def getAddress(postcode: String) = RefNumAction.async { implicit request =>
-    AddressLookupConnector.getAddress(postcode, hc) map { Ok(_) } recoverWith {
+class AddressLookup @Inject()(cc: ControllerComponents, refNumAction: RefNumAction, http: ForHttp, serviceConfig: ServicesConfig) extends FrontendController(cc) {
+
+  val serviceUrl = serviceConfig.baseUrl("address-lookup")
+
+  def getAddress(postcode: String) = refNumAction.async { implicit request =>
+    getAddress(postcode, hc) map { Ok(_) } recoverWith {
       case b: BadRequestException => BadRequest
     }
   }
-}
-
-object AddressLookupConnector {
-  lazy val serviceUrl = baseUrl("address-lookup")
-  val http = playconfig.WSHttp
-
   def getAddress(postcode: String, hc: HeaderCarrier): Future[JsValue] = {
     implicit val h = hc.withExtraHeaders("X-Hmrc-Origin" -> "VOA-FOR")
     http.GET[JsValue](serviceUrl + s"/v1/uk/addresses.json?postcode=$postcode")

@@ -16,41 +16,33 @@
 
 package controllers
 
+import actions.RefNumAction
+import connectors.{Audit, HODConnector}
 import form.ConditionalMapping._
 import form.Errors
 import form.MappingSupport._
-import form.persistence.FormDocumentRepository
+import javax.inject.Inject
 import org.joda.time.DateTime
 import play.Logger
-import play.api.Play
 import play.api.data.Form
 import play.api.data.Forms._
-
-import scala.concurrent.ExecutionContext
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.data.JodaForms._
 import play.api.libs.json.{Format, Json}
-import play.api.mvc.{Action, AnyContent, Request, Result}
-import playconfig.{Audit, FormPersistence}
-import security.LoginToHOD._
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request, Result}
+import playconfig.LoginToHOD
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
 
-object LoginController extends LoginController(
-    Audit,
-    () => Play.current.injector.instanceOf[ExecutionContext],
-    hc => playconfig.LoginToHOD(hc)
-)
 
-class LoginController (audit: Audit, playExecutionContext: () => ExecutionContext,
-                       loginToHOD: HeaderCarrier => LoginToHOD
-                      ) extends FrontendController {
+
+class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: MessagesControllerComponents
+                       )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   val loginForm = Form(
     mapping(
@@ -78,12 +70,12 @@ class LoginController (audit: Audit, playExecutionContext: () => ExecutionContex
   }
 
   def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: Request[AnyContent]) = {
-    implicit val ec = playExecutionContext()
     val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
 
-    loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
+    //TODO - refactor
+    LoginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
         auditLogin(ref1 + ref2, true, hc2)
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)

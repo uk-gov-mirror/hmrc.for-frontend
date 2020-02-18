@@ -16,48 +16,35 @@
 
 package playconfig
 
-import _root_.uk.gov.hmrc.http.HeaderNames._
-import akka.actor.ActorSystem
-import com.typesafe.config.Config
-import config.{AuditServiceConnector, ForConfig}
-import connectors.HODConnector
+import config.ForConfig
+import connectors.{ForHttp, HODConnector}
 import form.persistence.FormDocumentRepository
-import helpers.{AppNameHelper, RunModeHelper}
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
-import play.api.Play
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.{JsObject, Writes}
+import play.api.{Mode, Play}
 import security.LoginToHOD._
-import uk.gov.hmrc.crypto.ApplicationCrypto
+import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.play.audit.AuditExtensions._
-import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
-import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.config.{AppName, RunMode}
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
-import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
-import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
+import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases._
 
-import scala.concurrent.{ExecutionContext, Future}
 
-object FORAuditConnector extends AuditConnector with AppName with AppNameHelper {
-  override lazy val auditingConfig = LoadAuditingConfig("auditing")
-}
+//object FORAuditConnector extends AuditConnector with AppName with AppNameHelper {
+//  override lazy val auditingConfig = LoadAuditingConfig("auditing")
+//}
 
-trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost with WSPost with HttpDelete with WSDelete  with AppName with RunMode
+//trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost with WSPost with HttpDelete with WSDelete  with AppName with RunMode
 
-object WSHttp extends ForHttp with AppNameHelper with RunModeHelper {
-  override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
-
-  override protected def actorSystem: ActorSystem = Play.current.actorSystem
-}
-
+//object WSHttp extends ForHttp with AppNameHelper with RunModeHelper {
+//  override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
+//
+//  override protected def actorSystem: ActorSystem = Play.current.actorSystem
+//}
+/*
 trait ForHttp extends WSHttp {
   override val hooks = Seq.empty
   lazy val useDummyIp = ForConfig.useDummyIp
@@ -85,19 +72,28 @@ trait ForHttp extends WSHttp {
   }
 
 }
-
+*/
 object FormPartialProvider extends FormPartialRetriever {
-  override val httpGet = WSHttp
-  override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
+
+  override val httpGet = Play.current.injector.instanceOf[ForHttp]
+  override def crypto = encrypt
+
+  private def encrypt(value: String): String = {
+    val sessionCrypto = Play.current.injector.instanceOf[SessionCookieCrypto]
+    sessionCrypto.crypto.encrypt(PlainText(value)).value
+  }
+
 }
 
-object Audit extends Audit
-
+/*
 object SessionCrypto {
   val applicationCrypto = new ApplicationCrypto(Play.current.configuration.underlying)
   val crypto = new SessionCookieCryptoFilter(applicationCrypto)
 }
+*/
 
+
+/*
 trait Audit {
   val referenceNumber = "referenceNumber"
 
@@ -116,11 +112,12 @@ trait Audit {
     auditConnector.sendExplicitAudit(auditType, detail)(hc, ec)
 
 }
+*/
 
-object S4L extends AppName with AppNameHelper{
-  def expiryDateInDays: Int = appNameConfiguration.getInt("savedForLaterExpiryDays")
-    .getOrElse(throw new Exception("No config setting for expiry days"))
-}
+//object S4L extends AppName with AppNameHelper{
+//  def expiryDateInDays: Int = appNameConfiguration.getInt("savedForLaterExpiryDays")
+//    .getOrElse(throw new Exception("No config setting for expiry days"))
+//}
 
 object FormPersistence {
   lazy val formDocumentRepository = Play.current.injector.instanceOf[FormDocumentRepository]
@@ -151,11 +148,11 @@ object ContinueWithSavedSubmission {
 
 object LoginToHOD {
   def apply(implicit hc: HeaderCarrier): LoginToHOD = security.LoginToHOD(
-    HODConnector.verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
+    HODConnector().verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
   )
 }
 
-object Environment extends uk.gov.hmrc.play.config.RunMode with RunModeHelper {
-  def isDev = env == "Dev"
+object Environment {
+  def isDev = Play.current.mode == Mode.Dev
   val analytics = ForConfig.analytics
 }

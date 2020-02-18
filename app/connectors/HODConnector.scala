@@ -16,30 +16,26 @@
 
 package connectors
 
-import config.ForConfig
+import com.google.inject.ImplementedBy
 import controllers.toFut
-import helpers.RunModeHelper
+import javax.inject.{Inject, Singleton}
 import models.FORLoginResponse
 import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.Play
 import play.api.libs.json.{Format, JsValue}
-import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http._
 import useCases.ReferenceNumber
-import util.Constant
 import views.html.helper.urlEncode
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, NotFoundException, Upstream4xxResponse}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-object HODConnector extends HODConnector with ServicesConfig with RunModeHelper {
+@Singleton
+class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) extends HODConnector  {
   implicit val f: Format[Document] = Document.formats
 
-
-  lazy val serviceUrl = baseUrl("for-hod-adapter")
-  lazy val emailUrl = baseUrl("email")
-
-  val http = ForConfig.http
+  lazy val serviceUrl = config.baseUrl("for-hod-adapter")
+  lazy val emailUrl = config.baseUrl("email")
 
   private def url(path: String) = s"$serviceUrl/for/$path"
 
@@ -57,13 +53,13 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
 
   override def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val parts = Seq(ref1, ref2, postcode).map(urlEncode)
-    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))(readsHack, hc, defaultContext)
+    http.GET[FORLoginResponse](url(s"${parts.mkString("/")}/verify"))(readsHack, hc, ec)
   }
 
-  def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
+  override def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
     http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
 
-  def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
+  override def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
     http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress).map(removeAlterationDescription) recoverWith {
       case n: NotFoundException => None
     }
@@ -133,6 +129,15 @@ object HODConnector extends HODConnector with ServicesConfig with RunModeHelper 
   }
 }
 
+@ImplementedBy(classOf[DefaultHODConnector])
 trait HODConnector {
   def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse]
+  def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit]
+  def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]]
+  def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue]
+}
+
+object HODConnector {
+  @deprecated
+  def apply(): HODConnector = Play.current.injector.instanceOf[HODConnector]
 }

@@ -17,6 +17,7 @@
 package config
 
 import com.typesafe.config.Config
+import connectors.ForHttp
 import net.ceedubs.ficus.Ficus._
 import play.api.{Configuration, Play}
 
@@ -24,7 +25,7 @@ import scala.concurrent.duration._
 
 object ForConfig {
   val config = Play.current.configuration
-  val http = Play.current.global.asInstanceOf[ForGlobal].forHttp
+  val http = Play.current.injector.instanceOf[ForHttp]
 
   lazy val controllerConfigs = config.underlying.as[Config]("controllers")
   def metricsConfig: Option[Configuration] = config.getConfig("microservice.metrics")

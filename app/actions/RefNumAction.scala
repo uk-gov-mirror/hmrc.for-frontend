@@ -16,18 +16,25 @@
 
 package actions
 
+import play.api.i18n.MessagesApi
 import play.api.mvc.Results._
 import play.api.mvc._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class RefNumRequest[A](val refNum: String, request: Request[A]) extends WrappedRequest[A](request)
+class RefNumRequest[A](val refNum: String, request: Request[A], val messagesApi: MessagesApi) extends WrappedRequest[A](request)
+  with PreferredMessagesProvider with MessagesRequestHeader
 
-object RefNumAction extends ActionBuilder[RefNumRequest] with ActionRefiner[Request, RefNumRequest] {
+class RefNumAction(bodyParser: BodyParsers.Default, messagesApi: MessagesApi)(implicit val executionContext: ExecutionContext)
+  extends ActionBuilder[RefNumRequest, AnyContent] with ActionRefiner[Request, RefNumRequest] with MessagesActionBuilder {
+
   override def refine[A](request: Request[A]): Future[Either[Result, RefNumRequest[A]]] = Future.successful {
+
     request.session.get("refNum") match {
-      case Some(refNum) => Right(new RefNumRequest(refNum, request))
+      case Some(refNum) => Right(new RefNumRequest(refNum, request, messagesApi))
       case None => Left(Redirect(controllers.routes.LoginController.show()))
     }
   }
+
+  override def parser: BodyParser[AnyContent] = bodyParser
 }

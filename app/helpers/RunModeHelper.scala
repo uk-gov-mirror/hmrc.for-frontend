@@ -20,7 +20,7 @@ import play.api.{Configuration, Play}
 import play.api.Mode.Mode
 import uk.gov.hmrc.play.config.RunMode
 
-
+@deprecated
 trait RunModeHelper extends RunMode {
 
 

@@ -16,40 +16,35 @@
 
 package controllers
 
-import actions.RefNumAction
-import connectors.{HodSubmissionConnector, SubmissionConnector}
+import actions.{RefNumAction, RefNumRequest}
 import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
-import metrics.Metrics
+import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
-import play.api.Logger
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
-import playconfig.{Audit, FormPersistence, SessionId}
-import useCases.{SubmissionBuilder, SubmitBusinessRentalInformation}
-
-import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
+import playconfig.SessionId
+import uk.gov.hmrc.http.Upstream4xxResponse
 import uk.gov.hmrc.play.HeaderCarrierConverter
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import useCases.SubmitBusinessRentalInformation
 
-object FORSubmissionController extends FORSubmissionController {
-  protected lazy val documentRepo: FormDocumentRepository = FormPersistence.formDocumentRepository
-  protected lazy val auditAddresses = AddressAuditing
-  private lazy val submitBri = SubmitBusinessRentalInformation(documentRepo, SubmissionBuilder, SubmissionConnector())
+import scala.concurrent.{ExecutionContext, Future}
 
-  def submitBusinessRentalInformation: SubmitBusinessRentalInformation = submitBri
-}
+@Singleton
+class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
+                                         documentRepo: FormDocumentRepository,
+                                         audit: connectors.Audit,
+                                         refNumberAction: RefNumAction,
+                                         submitBusinessRentalInformation: SubmitBusinessRentalInformation
+                                        )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
-trait FORSubmissionController extends Controller {
-  protected val documentRepo: FormDocumentRepository
-  protected val auditAddresses: AddressAuditing
+  //TODO
+  protected val auditAddresses: AddressAuditing = AddressAuditing
+
   lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
 
-  def submit: Action[AnyContent] = RefNumAction.async { implicit request =>
+  def submit: Action[AnyContent] = refNumberAction.async { implicit request =>
     request.body.asFormUrlEncoded.flatMap { body =>
       body.get("declaration").map { agree =>
         if (agree.headOption.exists(_.toBoolean)) submit(request.refNum) else rejectSubmission
@@ -57,20 +52,20 @@ trait FORSubmissionController extends Controller {
     } getOrElse rejectSubmission
   }
 
-  private def submit[T](refNum: String)(implicit request: Request[T]): Future[Result] = {
+  private def submit[T](refNum: String)(implicit request: RefNumRequest[T]): Future[Result] = {
     val hc = HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
     for {
       sub <- submitBusinessRentalInformation(refNum)(hc)
-      _ <- Audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
+      _ <- audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
         "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))(hc)
       _ <- auditAddress(refNum, request)
     } yield {
-      Metrics.submissions.mark()
+      // Metrics.submissions.mark() //TODO - Solve metrics
       Found(confirmationUrl)
     }
   }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
 
-  protected def auditAddress[T](refNum: String, request: Request[_]): Future[Unit] = {
+  protected def auditAddress[T](refNum: String, request: RefNumRequest[_]): Future[Unit] = {
     val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
     documentRepo.findById(SessionId(hc), refNum) flatMap {
       case Some(doc) =>
@@ -84,5 +79,4 @@ trait FORSubmissionController extends Controller {
     Found(routes.Application.declarationError().url)
   }
 
-  def submitBusinessRentalInformation: SubmitBusinessRentalInformation
 }

@@ -20,24 +20,21 @@ import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import com.google.inject.ImplementedBy
 import config.ForConfig
-import controllers.AgentAPI.{Unauthorized, badCredentialsError}
 import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
-import play.api.Mode.Mode
 import play.api.{Application, Configuration, Play}
 import play.api.http.HttpEntity
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
-import uk.gov.hmrc.play.config.ServicesConfig
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, RawReads, Upstream4xxResponse}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class HodSubmissionConnector @Inject() (application: Application) extends SubmissionConnector with ServicesConfig {
-  lazy val serviceUrl = baseUrl("for-hod-adapter")
-  val http = ForConfig.http
+class HodSubmissionConnector @Inject() (application: Application, config: ServicesConfig,
+                                        http: ForHttp)(implicit ec: ExecutionContext) extends SubmissionConnector  {
+  lazy val serviceUrl = config.baseUrl("for-hod-adapter")
 
   implicit def httpReads = new HttpReads[HttpResponse] {
     override def read(method: String, url: String, response: HttpResponse): HttpResponse = {
@@ -62,10 +59,6 @@ class HodSubmissionConnector @Inject() (application: Application) extends Submis
   override def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit] = {
     http.PUT(s"$serviceUrl/for/submissions/notConnected/${submission.id}", submission).map(_ => ())
   }
-
-  override protected def mode: Mode = application.mode
-
-  override protected def runModeConfiguration: Configuration = application.configuration
 
 }
 

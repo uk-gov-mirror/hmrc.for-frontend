@@ -19,6 +19,7 @@ package helpers
 import play.api.{Configuration, Play}
 import uk.gov.hmrc.play.config.AppName
 
+@deprecated
 trait AppNameHelper extends AppName {
   override protected def appNameConfiguration: Configuration = Play.current.configuration
 }

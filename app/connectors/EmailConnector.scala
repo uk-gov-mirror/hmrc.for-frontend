@@ -17,20 +17,20 @@
 package connectors
 
 import config.ForConfig
-import helpers.RunModeHelper
+import javax.inject.{Inject, Singleton}
 import org.joda.time.LocalDate
 import play.api.i18n.{Lang, Messages}
 import play.api.libs.json._
-import uk.gov.hmrc.play.config.ServicesConfig
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-object EmailConnector extends ServicesConfig with RunModeHelper {
+@Singleton
+class EmailConnector @Inject()(config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) {
 
-  lazy val emailUrl = baseUrl("email")
-  val http = ForConfig.http
+  lazy val emailUrl = config.baseUrl("email")
+
 
   def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, messages: Messages) = {
     email.map { e =>

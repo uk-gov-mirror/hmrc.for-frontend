@@ -27,8 +27,8 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 @Singleton
 class CustomLanguageController @Inject()(configuration: Configuration,
                                          languageUtils: LanguageUtils,
-                                         val messagesApi: MessagesApi)(implicit messages: MessagesApi)
-  extends LanguageController(configuration, languageUtils) {
+                                         cc: ControllerComponents)(implicit messages: MessagesApi)
+  extends LanguageController(configuration, languageUtils, cc) {
 
   def showEnglish = Action.async { implicit request =>
     switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
@@ -38,18 +38,8 @@ class CustomLanguageController @Inject()(configuration: Configuration,
     switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
   }
 
-  def langToCall(lang: String): Call = controllers.routes.CustomLanguageController.switchToLanguage(lang)
-
   override protected def fallbackURL: String = configuration.getString("language.fallbackUrl").getOrElse("/")
 
   override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
     "cymraeg" -> Lang("cy"))
-}
-
-object CustomLanguageController {
-  object Implicits {
-    def customLanguageController: CustomLanguageController = {
-      current.injector.instanceOf[CustomLanguageController]
-    }
-  }
 }

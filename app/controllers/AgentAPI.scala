@@ -17,36 +17,31 @@
 package controllers
 
 import config.ForConfig
-import connectors.{HODConnector, HodSubmissionConnector, SubmissionConnector}
+import connectors.{Audit, HODConnector, HodSubmissionConnector}
+import javax.inject.Inject
 import models._
 import org.joda.time.DateTime
-import play.api.{Logger, Play}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
 import play.api.mvc.Results._
 import play.api.mvc._
-import playconfig.Audit
-import uk.gov.hmrc.play.http._
+import uk.gov.hmrc.http.{Request => _, _}
+import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
-import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, SessionKeys, Upstream4xxResponse, Upstream5xxResponse}
-import uk.gov.hmrc.play.HeaderCarrierConverter
 
-object AgentAPI extends Controller with HeaderValidator {
-  implicit def hc(implicit request: Request[_]): HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, request.session)
-
-  lazy val submissionConnector = Play.current.injector.instanceOf(classOf[HodSubmissionConnector])
+class AgentAPI @Inject()(cc: ControllerComponents, hodConnector: HODConnector, submissionConnector: HodSubmissionConnector, audit: Audit)
+  extends BackendController(cc)  with HeaderValidator with MessagesBaseController {
 
   def getDocs = Action { implicit request =>
     Ok(views.html.api.apidoc())
   }
 
   def getSchema(name: String) = Action.async { implicit request =>
-    HODConnector.getSchema(name) map {
+    hodConnector.getSchema(name) map {
       Ok(_)
     }
   }
@@ -59,17 +54,17 @@ object AgentAPI extends Controller with HeaderValidator {
         request.body.asJson.map {
           checkCredentialsAndSubmit(_, refNum, postcode)
         }.getOrElse(
-          BadRequest(Json.parse("""{"code": "BAD_REQUEST"}"""))
+          Future.successful(BadRequest(Json.parse("""{"code": "BAD_REQUEST"}""")))
         )
     }
   }
 
   private def checkCredentialsAndSubmit(submission: JsValue, refNum: String, postcode: String)(implicit request: Request[_]): Future[Result] = {
     for {
-      lr <- HODConnector.verifyCredentials(refNum.dropRight(3), refNum.takeRight(3), postcode)
+      lr <- hodConnector.verifyCredentials(refNum.dropRight(3), refNum.takeRight(3), postcode)
       hc = withAuthToken(request, lr.forAuthToken)
       res <- submissionConnector.submit(refNum, submission)(hc)
-      _ <- Audit("APISubmission", Map("referenceNumber" -> refNum,
+      _ <- audit("APISubmission", Map("referenceNumber" -> refNum,
         "submitted" -> DateTime.now.toString))(HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request)))
     } yield {
       res.header.status match {
@@ -137,7 +132,9 @@ trait HeaderValidator {
   val acceptHeaderRules: Option[String] => Boolean =
     _ flatMap { a => matchHeader(a) map { res => validateVersion(res.group("version")) } } getOrElse false
 
-  def mustHaveValidAcceptHeader = new ActionBuilder[Request] {
+  def controllerComponents: ControllerComponents
+
+  def mustHaveValidAcceptHeader = new ActionBuilder[Request, AnyContent] {
     def invokeBlock[A](request: Request[A], block: Request[A] => Future[Result]) = {
       if (acceptHeaderRules(request.headers.get("Accept")))
         block(request)
@@ -149,5 +146,9 @@ trait HeaderValidator {
           )
         )
     }
+
+    override def parser: BodyParser[AnyContent] = controllerComponents.parsers.anyContent
+
+    override protected def executionContext: ExecutionContext = controllerComponents.executionContext
   }
 }

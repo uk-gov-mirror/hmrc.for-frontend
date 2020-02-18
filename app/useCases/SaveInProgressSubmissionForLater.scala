@@ -47,12 +47,12 @@ object SaveInProgressSubmissionForLater {
 }
 
 object StoreInProgressSubmissionFor90Days {
-  def apply(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = HODConnector.saveForLater(d)
+  def apply(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = HODConnector().saveForLater(d)
 }
 
 object LoadSavedForLaterDocument {
   def apply(a: AuthToken, r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] =
-    HODConnector.loadSavedDocument(r)(hc.copy(authorization = Some(Authorization(a))))
+    HODConnector().loadSavedDocument(r)(hc.copy(authorization = Some(Authorization(a))))
 }
 
 object UpdateDocumentInCurrentSession {

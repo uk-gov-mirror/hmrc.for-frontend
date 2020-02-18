@@ -19,17 +19,15 @@ package controllers.feedback
 import java.net.URLEncoder
 
 import actions.RefNumAction
+import connectors.ForHttp
 import controllers._
 import form.persistence.FormDocumentRepository
-import helpers.RunModeHelper
+import javax.inject.Inject
 import models.pages.SummaryBuilder
 import play.api.Play
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Results._
 import play.api.mvc._
 import play.twirl.api.Html
-import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.language.LanguageUtils
 import uk.gov.hmrc.play.partials._
@@ -37,19 +35,26 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.i18n.Messages
 import playconfig.{FormPersistence, SessionId}
+import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-object Feedback extends HeaderCarrierForPartialsConverter {
+class Feedback @Inject()(cc: MessagesControllerComponents,
+                         http: ForHttp,
+                         sessionCookieCrypto: SessionCookieCrypto,
+
+                        ) extends FrontendController(cc) with HeaderCarrierForPartialsConverter {
   import controllers.feedback.HMRCContact._ // scalastyle:ignore
 
   def languageUtils: LanguageUtils = Play.current.injector.instanceOf[LanguageUtils]
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
-  val http = playconfig.WSHttp
+  override lazy val crypto = value => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
+
 
   def inPageFeedback = RefNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {

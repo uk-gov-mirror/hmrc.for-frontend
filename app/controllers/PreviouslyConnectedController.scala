@@ -16,32 +16,25 @@
 
 package controllers
 
+import _root_.form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import actions.{RefNumAction, RefNumRequest}
+import controllers.PreviouslyConnectedController.cacheKey
 import form.PreviouslyConnectedForm.formMapping
 import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
-import play.api.{Configuration, Logger}
-import play.api.i18n.{I18nSupport, MessagesApi}
-import playconfig.{FormPersistence, S4L, SessionId}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import _root_.form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import models.serviceContracts.submissions.PreviouslyConnected.format
-import uk.gov.hmrc.http.logging.LoggingDetails
-import PreviouslyConnectedController.cacheKey
+import play.api.Logger
+import play.api.mvc.MessagesControllerComponents
+import playconfig.SessionId
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: MongoSessionRepository, val repository: FormDocumentRepository)
-                                             (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
+class PreviouslyConnectedController @Inject()(val cc: MessagesControllerComponents, val cache: MongoSessionRepository,
+                                              val repository: FormDocumentRepository, val refNumberAction: RefNumAction)
+                                             (implicit val ec: ExecutionContext) extends FrontendController(cc)  {
   val logger = Logger(this.getClass)
-
-  /**
-    * Not required anymore, use EC from IOC(guice)
-    * @param loggingDetails
-    * @return
-    */
-  override implicit def mdcExecutionContext(implicit loggingDetails: LoggingDetails): ExecutionContext = ec
 
   def findSummary(implicit request: RefNumRequest[_]) = {
     repository.findById(SessionId(hc), request.refNum) flatMap {
@@ -51,7 +44,7 @@ class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: M
   }
 
 
-  def onPageView = RefNumAction.async { implicit request =>
+  def onPageView = refNumberAction.async { implicit request =>
     findSummary.map {
       case Some(summary) => Ok(views.html.previouslyConnected(formMapping, summary))
       case None => {
@@ -61,7 +54,7 @@ class PreviouslyConnectedController @Inject()(ec: ExecutionContext, val cache: M
     }
   }
 
-  def onPageSubmit = RefNumAction.async { implicit request =>
+  def onPageSubmit = refNumberAction.async { implicit request =>
     findSummary.flatMap {
       case Some(summary) => {
         formMapping.bindFromRequest().fold( formWithErrors => {

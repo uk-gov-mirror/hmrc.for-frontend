@@ -23,6 +23,8 @@ trait MicroService {
   val defaultPort: Int
 
   lazy val appDependencies : Seq[ModuleID] = ???
+  lazy val dependencyOverride: Set[ModuleID] = Set()
+
   lazy val plugins : Seq[Plugins] = Seq.empty
   lazy val playSettings : Seq[Setting[_]] = Seq.empty
 
@@ -41,6 +43,7 @@ trait MicroService {
     .settings(
         targetJvm := "jvm-1.8",
       libraryDependencies ++= appDependencies,
+      dependencyOverrides := dependencyOverride,
       parallelExecution in Test := false,
       fork in Test := true,
       retrieveManaged := true,
