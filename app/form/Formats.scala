@@ -59,4 +59,5 @@ object Formats {
   implicit val addressConnectionTypeFormatter: Formatter[AddressConnectionType] = namedEnumFormatter(AddressConnectionTypes, Errors.isConnectedError)
   implicit val alterationSetByTypeFormatter: Formatter[AlterationSetByType] = namedEnumFormatter(AlterationSetByType, Errors.noValueSelected)
   implicit val journeyFormatter: Formatter[Journey] = namedEnumFormatter(JourneyTypes, Errors.noValueSelected)
+  implicit val subletTypeFormatter: Formatter[SubletType] = namedEnumFormatter(SubletType, Errors.noValueSelected)
 }

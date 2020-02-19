@@ -18,7 +18,7 @@ package form
 
 import models._
 import models.pages._
-import models.serviceContracts.submissions.Address
+import models.serviceContracts.submissions.{Address, SubletAll, SubletPart}
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.data.FormError
 
@@ -53,15 +53,33 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
     validatePastDate(keys.rentFixedDate, pageFourForm, fullData)
   }
 
+  it should "return a required error for sublet type" in {
+    val data = fullData - keys.subletType
+    val form = bind(data)
+
+    mustContainError(keys.subletType, Errors.noValueSelected, form)
+  }
+
+  it should "not return required error for sublet information when we sublet whole property" in {
+    val data = (fullData - keys.subletPropertyPartDescription) + (keys.subletType -> SubletAll.name)
+    val form = bind(data)
+
+    form.errors should be(empty)
+
+  }
+
   it should "return required error fields for all sublet information when there is a sublet" in {
     val data = Map(keys.propertyIsSublet -> "true")
     val form = bind(data)
 
     val requiredFields = Seq(keys.rentFixedDateMonth, keys.rentFixedDateYear,
-      keys.subletPropertyPartDescription, keys.subletPropertyReasonDescription
+      keys.subletPropertyReasonDescription
     )
 
     requiredFields foreach { mustContainRequiredErrorFor(_, form) }
+    //Radio buttons have different error code.
+    mustContainError(keys.subletType, Errors.noValueSelected, form)
+
   }
 
   it should "return a required error for sublet tenant address when sublet address is tenants address" in {
@@ -81,10 +99,12 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
   it should "bind to a PageFourData with full sublet information when the property is sublet" in {
     val expectedSubletData = SubletDetails(tenantFullName = "Korky the Cat",
       tenantAddress = Address("12", Some("Some Street"), Some("Some Place"), "AA11 1AA"),
-      subletPropertyPartDescription = "basement flat",
+      subletPropertyPartDescription = Option("basement flat"),
       subletPropertyReasonDescription = "residential",
       annualRent = BigDecimal(123.45),
-      rentFixedDate = new RoughDate(2, 2015))
+      rentFixedDate = new RoughDate(2, 2015),
+      subletType = SubletPart
+    )
 
     val expectedData = PageFour(propertyIsSublet = true, List(expectedSubletData))
 
@@ -100,12 +120,12 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor(keys.tenantFullName, form)
   }
 
-  it should "result in a validation error when the property is sublet but Property Part Description is missing" in {
+  it should "result in a validation error when the part of property is sublet but Property Part Description is missing" in {
     val submittedData = fullData - keys.subletPropertyPartDescription
     val res = bind(submittedData)
 
-    res.errors.isEmpty should be(false)
-    res.errors.size should be(1)
+    res.errors should not be empty
+    res.errors should have size(1)
 
     hasError(res.errors, keys.subletPropertyPartDescription, Errors.required)
     res.value.isDefined should be(false)
@@ -160,6 +180,7 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
       val addrStreet2 = "sublet[0].tenantAddress.street2"
       val addrPostcode = "sublet[0].tenantAddress.postcode"
       val tenantFullName = "sublet[0].tenantFullName"
+      val subletType = "sublet[0].subletType"
       val subletPropertyPartDescription = "sublet[0].subletPropertyPartDescription"
       val subletPropertyReasonDescription = "sublet[0].subletPropertyReasonDescription"
       val annualRentExcludingVat = "sublet[0].annualRent"
@@ -182,6 +203,7 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
       keys.addrStreet1 -> "Some Street",
       keys.addrStreet2 -> "Some Place",
       keys.addrPostcode -> "AA11 1AA",
+      keys.subletType -> "part",
       keys.tenantFullName -> "Korky the Cat",
       keys.subletPropertyPartDescription -> "basement flat",
       keys.subletPropertyReasonDescription -> "residential",
@@ -197,6 +219,7 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
          .updated(keys.addrStreet2.replace("[0]", s"[$n]"), data(keys.addrStreet2))
          .updated(keys.addrPostcode.replace("[0]", s"[$n]"), data(keys.addrPostcode))
          .updated(keys.tenantFullName.replace("[0]", s"[$n]"), data(keys.tenantFullName))
+          .updated(keys.subletType.replace("[0]", s"[$n]"), data(keys.subletType))
          .updated(keys.subletPropertyPartDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyPartDescription))
          .updated(keys.subletPropertyReasonDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyReasonDescription))
          .updated(keys.annualRentExcludingVat.replace("[0]", s"[$n]"), data(keys.annualRentExcludingVat))

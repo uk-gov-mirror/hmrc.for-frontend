@@ -83,8 +83,9 @@
 
             //hide all inputs
             $('[data-show-fields-group="' + hiddenGroup + '"] input').closest('.form-group').addClass('hidden');
-            $('[data-show-fields-group="' + hiddenGroup + '"] input').closest('fieldset').addClass('hidden');
-
+            if(that.hasAttribute('skipfieldset') === false) {
+                $('[data-show-fields-group="' + hiddenGroup + '"] input').closest('fieldset').addClass('hidden');
+            }
             $.each(fieldsToShow, function (index, value) {
                 //only show selected fields with the data-show-fields data attribute
                 var element = $('[data-show-fields-group="' + hiddenGroup + '"] [name="' + value + '"]');

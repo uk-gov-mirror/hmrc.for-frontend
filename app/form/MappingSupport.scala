@@ -92,6 +92,7 @@ object MappingSupport {
   val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
   val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
   val alterationSetByTypeMapping: Mapping[AlterationSetByType] = Forms.of[AlterationSetByType]
+  val subletTypeMapping: Mapping[SubletType] = Forms.of[SubletType]
 
   def addressMapping: Mapping[Address] = mapping(
     "buildingNameNumber" -> nonEmptyText(maxLength = 50),
