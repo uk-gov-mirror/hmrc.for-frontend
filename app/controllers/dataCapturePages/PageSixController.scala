@@ -16,22 +16,22 @@
 
 package controllers.dataCapturePages
 
+import actions.{RefNumAction, RefNumRequest}
 import form.PageSixForm.pageSixForm
+import javax.inject.Inject
 import models._
 import models.pages.{PageSix, Summary}
-import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-object PageSixController extends ForDataCapturePage[PageSix] {
+class PageSixController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+  extends ForDataCapturePage[PageSix](refNumAction, cc) {
   val format = p6f
   val emptyForm = pageSixForm
   val pageNumber: Int = 6
 
-  def template(form: Form[PageSix], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  def template(form: Form[PageSix], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     views.html.part6(form, summary)
   }
 }

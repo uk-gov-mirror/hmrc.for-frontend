@@ -19,7 +19,11 @@ package template
 import views.html.helper.FieldConstructor
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages
 
 object Helper {
-  implicit val myFields = FieldConstructor(views.html.helpers.fieldConstructor.f(_)(applicationMessages))
+  implicit def myFields(implicit messages: Messages) =
+    FieldConstructor(views.html.helpers.fieldConstructor(_))
+
+  //implicit val myFields = FieldConstructor(views.html.helpers.fieldConstructor.f(_)(applicationMessages))
 }

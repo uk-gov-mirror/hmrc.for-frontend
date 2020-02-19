@@ -28,7 +28,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.JodaForms._
 import play.api.libs.json.{Format, Json}
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request, Result}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequest, Request, Result}
 import playconfig.LoginToHOD
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
@@ -69,7 +69,7 @@ class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: Me
     )
   }
 
-  def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: Request[AnyContent]) = {
+  def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: MessagesRequest[AnyContent]) = {
     val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
@@ -77,10 +77,10 @@ class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: Me
     //TODO - refactor
     LoginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
-        auditLogin(ref1 + ref2, true, hc2)
+        auditLogin(ref1 + ref2, true)(hc2)
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)
       case NoExistingDocument(token) =>
-        auditLogin(ref1 + ref2, false, hc2)
+        auditLogin(ref1 + ref2, false)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
@@ -95,8 +95,9 @@ class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: Me
     }
   }
 
-  private def auditLogin(refNumber: String, returnUser: Boolean, hc: HeaderCarrier) = {
-    audit.sendExplicitAudit("UserLogin",Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))(hc, playExecutionContext())
+  private def auditLogin(refNumber: String, returnUser: Boolean)( implicit hc: HeaderCarrier) = {
+
+    audit.sendExplicitAudit("UserLogin",Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
   }
 
   def lockedOut = Action { implicit request => Unauthorized(views.html.lockedOut()) }

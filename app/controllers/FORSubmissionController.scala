@@ -36,15 +36,13 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
                                          documentRepo: FormDocumentRepository,
                                          audit: connectors.Audit,
                                          refNumberAction: RefNumAction,
-                                         submitBusinessRentalInformation: SubmitBusinessRentalInformation
+                                         submitBusinessRentalInformation: SubmitBusinessRentalInformation,
+                                         auditAddresses: AddressAuditing
                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) {
-
-  //TODO
-  protected val auditAddresses: AddressAuditing = AddressAuditing
 
   lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
 
-  def submit: Action[AnyContent] = refNumberAction.async { implicit request =>
+  def submit: Action[AnyContent] = refNumberAction.async { implicit request:RefNumRequest[AnyContent] =>
     request.body.asFormUrlEncoded.flatMap { body =>
       body.get("declaration").map { agree =>
         if (agree.headOption.exists(_.toBoolean)) submit(request.refNum) else rejectSubmission

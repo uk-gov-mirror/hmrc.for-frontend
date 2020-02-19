@@ -19,28 +19,29 @@ package controllers.dataCapturePages
 import actions.{RefNumAction, RefNumRequest}
 import connectors._
 import controllers._
+import controllers.dataCapturePages.ForDataCapturePage._
+import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
+import io.netty.handler.codec.http.QueryStringDecoder
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
-import org.jboss.netty.handler.codec.http.QueryStringDecoder
 import play.api.Logger
 import play.api.data.Form
 import play.api.libs.json.Format
+import play.api.mvc.Results.Redirect
 import play.api.mvc._
 import play.twirl.api.Html
 import playconfig.{FormPersistence, SessionId}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.mvc.Results.Redirect
-import ForDataCapturePage._
-import form._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.http.HeaderCarrier
 
-trait ForDataCapturePage[T] extends FrontendController {
+abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
+                                      override val controllerComponents: MessagesControllerComponents)
+  extends FrontendController(controllerComponents) {
+
   implicit val format: Format[T]
   implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -52,9 +53,9 @@ trait ForDataCapturePage[T] extends FrontendController {
 
   def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  def template(form: Form[T], summary: Summary)(implicit request: Request[AnyContent]): Html
+  def template(form: Form[T], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html
 
-  def show: Action[AnyContent] = RefNumAction.async { implicit request =>
+  def show: Action[AnyContent] = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum) flatMap {
       case Some(doc) => showThisPageOrGoToNextAllowed(doc, request)
       case None =>
@@ -73,7 +74,7 @@ trait ForDataCapturePage[T] extends FrontendController {
 
   private def isThisPage(page: Int) = page == pageNumber
 
-  def save: Action[AnyContent] = RefNumAction.async { implicit request =>
+  def save: Action[AnyContent] = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     saveForm(request.body.asFormUrlEncoded, SessionId(hc), request.refNum, pageNumber) flatMap {
       case Some((savedFields, summary)) => goToNextPage(extractAction(request.body.asFormUrlEncoded), summary, savedFields)
       case None => internalServerError(request)
@@ -113,7 +114,7 @@ trait ForDataCapturePage[T] extends FrontendController {
 
   private def redirectToPage(page: Int) = Redirect(routes.PageController.showPage(page))
 
-  private def internalServerError(implicit rh: RequestHeader) = InternalServerError(views.html.error.error500())
+  private def internalServerError(implicit rh: MessagesRequestHeader) = InternalServerError(views.html.error.error500())
 }
 
 object UrlFor {
@@ -122,7 +123,7 @@ object UrlFor {
 
   def apply(c: Call, hs: Headers): String = {
     val referer = hs.get("referer")
-    referer.flatMap(new QueryStringDecoder(_).getParameters.asScala.get("edit").map(_.asScala.head)).map { r =>
+    referer.flatMap(new QueryStringDecoder(_).parameters.asScala.get("edit").map(_.asScala.head)).map { r =>
       c.url + "#" + r
     } getOrElse c.url
   }

@@ -15,9 +15,9 @@ GET         /startagain                controllers.Application.startAgain
 GET         /sessiontimeout            controllers.Application.sessionTimeout
 
 #LANGUAGE
-GET     	/language/:lang       	   @controllers.CustomLanguageController.switchToLanguage(lang: String)
-GET         /login/en                  @controllers.CustomLanguageController.showEnglish
-GET         /login/cy                  @controllers.CustomLanguageController.showWelsh
+GET     	/language/:lang       	   controllers.CustomLanguageController.switchToLanguage(lang: String)
+GET         /login/en                  controllers.CustomLanguageController.showEnglish
+GET         /login/cy                  controllers.CustomLanguageController.showWelsh
 
 #SAVE4LATER
 GET         /saved                     controllers.SaveForLater.saveForLater
@@ -35,12 +35,12 @@ GET         /lockedout                 controllers.LoginController.lockedOut
 GET         /logout                    controllers.LoginController.logout
 
 # not connected form
-GET         /previously-connected           @controllers.PreviouslyConnectedController.onPageView
-POST        /previously-connected           @controllers.PreviouslyConnectedController.onPageSubmit
+GET         /previously-connected           controllers.PreviouslyConnectedController.onPageView
+POST        /previously-connected           controllers.PreviouslyConnectedController.onPageSubmit
 
-GET         /not-connected             @controllers.NotConnectedController.onPageView
-POST        /not-connected             @controllers.NotConnectedController.onPageSubmit
-GET         /not-connected-confirmation @controllers.NotConnectedController.onConfirmationView
+GET         /not-connected             controllers.NotConnectedController.onPageView
+POST        /not-connected             controllers.NotConnectedController.onPageSubmit
+GET         /not-connected-confirmation controllers.NotConnectedController.onConfirmationView
 
 
 GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)

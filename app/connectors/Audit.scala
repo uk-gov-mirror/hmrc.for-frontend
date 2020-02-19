@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.audit.AuditExtensions._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-@ImplementedBy[ForAuditConnector]
+@ImplementedBy(classOf[ForAuditConnector])
 trait Audit extends AuditConnector {
 
   implicit def ec: ExecutionContext

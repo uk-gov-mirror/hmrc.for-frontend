@@ -17,6 +17,8 @@
 import models.pages._
 import models.serviceContracts.submissions._
 import play.api.libs.json._
+import play.api.libs.json.JodaReads._
+import play.api.libs.json.JodaWrites._
 
 package object models {
 

@@ -20,6 +20,7 @@ import actions.RefNumAction
 import connectors.Audit
 import form.Formats._
 import form.persistence.FormDocumentRepository
+import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
 import models.{Journey, NormalJourney, Satisfaction}
 import play.api.data.Forms._
@@ -31,15 +32,20 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext
 
-
-class Survey(cc: MessagesControllerComponents, repository: FormDocumentRepository,
-            refNumAction: RefNumAction, audit: Audit)(implicit ec: ExecutionContext) extends FrontendController(cc) {
-
+object Survey {
   val completedFeedbackForm = Form(mapping(
     "satisfaction" -> Forms.of[Satisfaction],
     "details" -> text(maxLength = 1200),
     "journey" -> Forms.of[Journey]
   )(SurveyFeedback.apply)(SurveyFeedback.unapply))
+
+}
+
+
+@Singleton
+class Survey @Inject() (cc: MessagesControllerComponents, repository: FormDocumentRepository,
+            refNumAction: RefNumAction, audit: Audit)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  import Survey._
 
   val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
 

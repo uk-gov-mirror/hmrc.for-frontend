@@ -39,9 +39,15 @@ import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLate
 
 import scala.concurrent.{ExecutionContext, Future}
 
+object SaveForLater {
+  val s4lIndicator = "s4l"
+}
+
 @Singleton
 class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, refNumAction: RefNumAction,
                              emailConnector: EmailConnector, config: Configuration)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  import SaveForLater._
+
   val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
 
   lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()
@@ -49,7 +55,7 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
   def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission(hc)
 
   lazy val repository: FormDocumentRepository = FormPersistence.formDocumentRepository
-  val s4lIndicator = "s4l"
+
 
   def saveForLater = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
@@ -58,7 +64,7 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
-              audit(sum)
+              auditSavedForLater(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                 Ok(views.html.savedForLater(sum, pw, expiryDate))
@@ -84,7 +90,7 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
-                audit(sum)
+                auditSavedForLater(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                   Ok(views.html.savedForLater(sum, pw, expiryDate))
@@ -98,7 +104,7 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
       }
   }
 
-  def audit(sum: Summary)(implicit headerCarrier: HeaderCarrier) = audit(
+  def auditSavedForLater(sum: Summary)(implicit headerCarrier: HeaderCarrier) = audit(
     "SavedForLater", Map(
       Audit.referenceNumber -> sum.referenceNumber, "name" -> sum.submitter
     )

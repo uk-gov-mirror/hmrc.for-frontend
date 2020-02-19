@@ -21,17 +21,11 @@ import java.util.Base64
 import com.google.inject.ImplementedBy
 import connectors.{Document, Page}
 import controllers.toFut
-import helpers.AppNameHelper
 import javax.inject.{Inject, Singleton}
-import play.api.Logger
 import play.api.libs.json.{Format, Json}
-import uk.gov.hmrc.http.cache.client.ShortLivedCache
-import uk.gov.hmrc.play.config.AppName
-
-import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[SessionScopedFormDocumentRepository])
 trait FormDocumentRepository {
@@ -42,9 +36,8 @@ trait FormDocumentRepository {
 }
 
 @Singleton
-class SessionScopedFormDocumentRepository @Inject() (cache: MongoSessionRepository)(implicit ec: ExecutionContext) extends FormDocumentRepository
-  with AppNameHelper {
-  implicit val hc: HeaderCarrier = HeaderCarrier()
+class SessionScopedFormDocumentRepository @Inject() (cache: MongoSessionRepository)(implicit ec: ExecutionContext)
+  extends FormDocumentRepository {
 
   override def findById(documentId: String, referenceNumber: String): Future[Option[Document]] = {
     cache.fetchAndGetEntry[DocumentWrapper](documentId, referenceNumber).flatMap {

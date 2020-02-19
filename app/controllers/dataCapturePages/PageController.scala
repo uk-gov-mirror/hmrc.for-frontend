@@ -17,51 +17,71 @@
 package controllers.dataCapturePages
 
 import controllers._
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import javax.inject.{Inject, Singleton}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-object PageController extends FrontendController {
+@Singleton
+class PageController @Inject() (cc: MessagesControllerComponents,
+                                 application: Application,
+                                 pageZeroController: PageZeroController,
+                                 pageOneController: PageOneController,
+                                 pageTwoController: PageTwoController,
+                                 pageThreeController: PageThreeController,
+                                 pageFourController: PageFourController,
+                                 pageFiveController: PageFiveController,
+                                 pageSixController: PageSixController,
+                                 pageSevenController: PageSevenController,
+                                 pageEightController: PageEightController,
+                                 pageNineController: PageNineController,
+                                 pageTenController: PageTenController,
+                                 pageElevenController: PageElevenController,
+                                 pageTwelveController: PageTwelveController,
+                                 pageThirteenController: PageThirteenController,
+                                 pageFourteenController: PageFourteenController
+
+                               )
+
+  extends FrontendController(cc) {
 
   def showPage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => PageZeroController.show
-      case 1 => PageOneController.show
-      case 2 => PageTwoController.show
-      case 3 => PageThreeController.show
-      case 4 => PageFourController.show
-      case 5 => PageFiveController.show
-      case 6 => PageSixController.show
-      case 7 => PageSevenController.show
-      case 8 => PageEightController.show
-      case 9 => PageNineController.show
-      case 10 => PageTenController.show
-      case 11 => PageElevenController.show
-      case 12 => PageTwelveController.show
-      case 13 => PageThirteenController.show
-      case 14 => PageFourteenController.show
-      case _ => Application.index
+      case 0 => pageZeroController.show
+      case 1 => pageOneController.show
+      case 2 => pageTwoController.show
+      case 3 => pageThreeController.show
+      case 4 => pageFourController.show
+      case 5 => pageFiveController.show
+      case 6 => pageSixController.show
+      case 7 => pageSevenController.show
+      case 8 => pageEightController.show
+      case 9 => pageNineController.show
+      case 10 => pageTenController.show
+      case 11 => pageElevenController.show
+      case 12 => pageTwelveController.show
+      case 13 => pageThirteenController.show
+      case 14 => pageFourteenController.show
+      case _ => application.index
     }
 
 
   def savePage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => PageZeroController.save
-      case 1 => PageOneController.save
-      case 2 => PageTwoController.save
-      case 3 => PageThreeController.save
-      case 4 => PageFourController.save
-      case 5 => PageFiveController.save
-      case 6 => PageSixController.save
-      case 7 => PageSevenController.save
-      case 8 => PageEightController.save
-      case 9 => PageNineController.save
-      case 10 => PageTenController.save
-      case 11 => PageElevenController.save
-      case 12 => PageTwelveController.save
-      case 13 => PageThirteenController.save
-      case 14 => PageFourteenController.save
-      case _ => Application.index
+      case 0 => pageZeroController.save
+      case 1 => pageOneController.save
+      case 2 => pageTwoController.save
+      case 3 => pageThreeController.save
+      case 4 => pageFourController.save
+      case 5 => pageFiveController.save
+      case 6 => pageSixController.save
+      case 7 => pageSevenController.save
+      case 8 => pageEightController.save
+      case 9 => pageNineController.save
+      case 10 => pageTenController.save
+      case 11 => pageElevenController.save
+      case 12 => pageTwelveController.save
+      case 13 => pageThirteenController.save
+      case 14 => pageFourteenController.save
+      case _ => application.index
     }
 }

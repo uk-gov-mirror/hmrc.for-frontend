@@ -1,4 +1,4 @@
-import play.routes.compiler.StaticRoutesGenerator
+import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayImport.PlayKeys._
 import sbt.Keys._
 import sbt.Tests.{Group, SubProcess}
@@ -28,7 +28,7 @@ trait MicroService {
   lazy val plugins : Seq[Plugins] = Seq.empty
   lazy val playSettings : Seq[Setting[_]] = Seq.empty
 
-  lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
+  //lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
 
   lazy val microservice = Project(appName, file("."))
     .enablePlugins(Seq(play.sbt.PlayScala,SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory) ++ plugins : _*)
@@ -43,14 +43,12 @@ trait MicroService {
     .settings(
         targetJvm := "jvm-1.8",
       libraryDependencies ++= appDependencies,
-      dependencyOverrides := dependencyOverride,
+      dependencyOverrides ++= dependencyOverride,
       parallelExecution in Test := false,
       fork in Test := true,
       retrieveManaged := true,
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-      routesGenerator := StaticRoutesGenerator,
-      compileScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Compile).toTask("").value,
-      (test in Test) := ((test in Test) dependsOn compileScalastyle).value
+      routesGenerator := InjectedRoutesGenerator
     )
     .configs(IntegrationTest)
     .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)

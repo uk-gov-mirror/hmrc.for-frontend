@@ -16,23 +16,26 @@
 
 package controllers.dataCapturePages
 
+import actions.{RefNumAction, RefNumRequest}
 import form.PageFourForm.pageFourForm
+import javax.inject.Inject
 import models._
 import models.pages._
 import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 
-object PageFourController extends ForDataCapturePage[PageFour] {
+class PageFourController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+  extends ForDataCapturePage[PageFour] (refNumAction, cc) {
   val format = p4f
   val emptyForm = pageFourForm
   val pageNumber: Int = 4
 
-  def template(form: Form[PageFour], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  def template(form: Form[PageFour], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     views.html.part4(form, summary)
   }
 }

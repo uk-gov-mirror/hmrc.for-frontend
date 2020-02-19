@@ -40,6 +40,10 @@ class CustomLanguageController @Inject()(configuration: Configuration,
 
   override protected def fallbackURL: String = configuration.getString("language.fallbackUrl").getOrElse("/")
 
-  override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
+  override def languageMap: Map[String, Lang] = CustomLanguageController.languageMap
+}
+
+object CustomLanguageController {
+  val languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
     "cymraeg" -> Lang("cy"))
 }

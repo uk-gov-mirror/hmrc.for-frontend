@@ -17,7 +17,6 @@
 package config
 
 import controllers.toFut
-import helpers.AppNameHelper
 import org.joda.time.DateTime
 import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits.defaultContext

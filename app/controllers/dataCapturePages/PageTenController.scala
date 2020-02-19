@@ -16,22 +16,23 @@
 
 package controllers.dataCapturePages
 
+import actions.{RefNumAction, RefNumRequest}
 import form.PageTenForm.pageTenForm
+import javax.inject.Inject
 import models._
 import models.pages.Summary
-import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent, WhatRentIncludes}
+import models.serviceContracts.submissions.WhatRentIncludes
 import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-object PageTenController extends ForDataCapturePage[WhatRentIncludes] {
+class PageTenController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+  extends ForDataCapturePage[WhatRentIncludes](refNumAction, cc) {
   val format = wrif
   val emptyForm = pageTenForm
   val pageNumber: Int = 10
 
-  def template(form: Form[WhatRentIncludes], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  def template(form: Form[WhatRentIncludes], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     views.html.part10(form, summary)
   }
 }

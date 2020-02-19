@@ -17,5 +17,4 @@
 package models
 
 case class AnnualRent(amount: BigDecimal) {
-  amount
 }

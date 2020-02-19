@@ -16,26 +16,25 @@
 
 package controllers.dataCapturePages
 
-import actions.RefNumRequest
-import controllers.dataCapturePages.ForDataCapturePage.{Continue, FormAction}
+import actions.{RefNumAction, RefNumRequest}
+import controllers.dataCapturePages.ForDataCapturePage.FormAction
 import form.PageZeroForm.pageZeroForm
+import javax.inject.Inject
 import models._
 import models.pages.Summary
-import models.serviceContracts.submissions.{AddressConnectionType, AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
+import models.serviceContracts.submissions.{AddressConnectionType, AddressConnectionTypeNo}
 import play.api.data.Form
 import play.api.libs.json._
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-trait PageZeroController extends ForDataCapturePage[AddressConnectionType] {
+class PageZeroController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents) extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
   override implicit val format: Format[AddressConnectionType] = formatAddressConnection
 
   val emptyForm = pageZeroForm
   val pageNumber: Int = 0
 
-  def template(form: Form[AddressConnectionType], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  override def template(form: Form[AddressConnectionType], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     views.html.part0(form, summary)
   }
 
@@ -51,4 +50,3 @@ trait PageZeroController extends ForDataCapturePage[AddressConnectionType] {
 
 }
 
-object PageZeroController extends PageZeroController

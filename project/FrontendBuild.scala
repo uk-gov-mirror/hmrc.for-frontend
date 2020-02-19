@@ -28,6 +28,7 @@ private object AppDependencies {
   val compile = Seq(
     filters,
     ws,
+    "javax.inject" % "javax.inject" % "1",
     "uk.gov.hmrc" %% "json-encryption" % "4.5.0-play-26",
     "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-26",
     "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.2.0-play-26",
@@ -36,9 +37,10 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "play-ui" % "8.8.0-play-26",
     "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
+    "com.typesafe.play" %% "play-json-joda" % "2.6.14",
     "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
     "it.innove" %  "play2-pdf" % "1.5.2",
-    "joda-time" % "joda-time" % "2.8.2",
+    //"joda-time" % "joda-time" % "2.8.2",
     "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
     "uk.gov.hmrc" %% "mongo-caching" % "6.8.0-play-26",
     "uk.gov.hmrc" %% "simple-reactivemongo" % "7.23.0-play-26"
