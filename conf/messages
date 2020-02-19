@@ -275,17 +275,17 @@ label.subletAddress=Address of the property that is let or sub-let
 #SECTION 5
 ###############################
 section5.heading=The landlord
-section5.heading.help=Give the landlord’s details, even if you pay your rent to an agent.
+section5.heading.help=Give the landlord’s details even if the rent is paid to an agent.
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family
 landlordConnectionType.other=Other connection
 label.landlordFullName=Landlord’s full name
-hint.landlordConnect=A business or other connection for example you/your client and the landlord may be business partners; or the company renting the property may be the landlord’s holding or subsidiary company.
-label.landlordConnectText=Your connection to the landlord
+hint.landlordConnect=For example, the landlord and tenant may be business partners, or the tenant may be the landlord’s holding or subsidiary company.
+label.landlordConnectText=Connection to the landlord
 label.landlordConnectText.agent=Their connection to the landlord
 label.landlordConnectType=How are you connected to the landlord?
 label.landlordConnectType.agent=How is your client connected to the landlord?
-label.LandlordConnectionTypes=Aside from your relationship as landlord and tenant, do you have any personal or business connection?
+label.LandlordConnectionTypes=Aside from the relationship as landlord and tenant, is there a personal or business connection?
 label.LandlordConnectionTypes.agent=Aside from their relationship as landlord and tenant, does your client have any personal or business connection to their landlord?
 label.overseas=Do they have an overseas address?
 label.landlordAddress.buildingNameNumber=Building name or number

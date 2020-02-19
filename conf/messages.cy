@@ -270,17 +270,17 @@ label.subletAddress=Cyfeiriad yr eiddo sy’n cael ei osod neu isosod
 #SECTION 5
 ###############################
 section5.heading=Y landlord
-section5.heading.help=Rhowch fanylion y landlord, hyd yn oed os ydych yn talu eich rhent i asiant.
+section5.heading.help=Rhowch fanylion y landlord, hyd yn oed os caiff y rhent ei dalu i asiant.
 landlordConnectionType.noConnected=Dim cysylltiad
 landlordConnectionType.family=Teulu
 landlordConnectionType.other=Cysylltiad arall
 label.landlordFullName=Enw llawn y landlord
-hint.landlordConnect=Busnes neu gysylltiad arall er enghraifft efallai eich bod chi/eich cleient a’r landlord yn bartneriaid busnes; neu efallai bod y cwmni sy’n rhentu’r eiddo yn gwmni daliannol neu’n is-gwmni i’r landlord.
-label.landlordConnectText=Eich cysylltiad â’r landlord
+hint.landlordConnect=Er enghraifft, gall y landlord a’r tenant fod yn bartneriaid busnes, neu gall y tenant fod yn gwmni daliannol neu’n is-gwmni i’r landlord.
+label.landlordConnectText=Cysylltiad â’r landlord
 label.landlordConnectText.agent=Eu cysylltiad â’r landlord
 label.landlordConnectType=Ar wahân i’ch perthynas fel landlord a thenant, a oes gennych gysylltiad personol neu fusnes?
 label.landlordConnectType.agent=Ar wahân i berthynas landlord/tenant eich cleient, a oes unrhyw gysylltiad personol neu fusnes?
-label.LandlordConnectionTypes=Ar wahân i’ch perthynas fel landlord a thenant, a oes gennych gysylltiad personol neu fusnes?
+label.LandlordConnectionTypes=Ar wahân i’r berthynas fel landlord a thenant, a oes cysylltiad personol neu fusnes?
 label.LandlordConnectionTypes.agent=Ar wahân i’w perthynas fel landlord a thenant, a oes gan eich cleient gysylltiad personol neu fusnes â’i landlord?
 label.overseas=A oes ganddynt gyfeiriad tramor?
 label.landlordAddress.buildingNameNumber=Enw neu rif yr adeilad
