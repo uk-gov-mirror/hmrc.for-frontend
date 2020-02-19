@@ -244,8 +244,7 @@ section4.heading=Lettings and sub-lettings
 label.propertyIsSublet=Is any part of the property currently let or sub-let to anyone else?
 
 hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls select ''No''. Holiday lets should be submitted on <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">form 6048</a>.
-label.sublet.tenantFullName=Your tenant’s name
-label.sublet.tenantFullName.agent=The tenant’s name
+label.sublet.tenantFullName=The tenant’s name
 label.sublet.subletPropertyPartDescription=What part of the property is let or sub-let?
 label.sublet.subletPropertyReasonDescription=What is the let or sub-let property used for?
 hint.sublet.subletPropertyReasonDescription=For example, residential use or commercial use.
@@ -268,7 +267,7 @@ isTenantsAddressType.differentAddress=Enter different address
 label.noJs.section4=Answer the questions below only if you’ve selected ''Yes''
 label.noJs.sublet.tenantAddress=Answer this only if you’ve selected ''Enter different address''
 label.subletAddress=Address of the property that is let or sub-let
-label.sublet.subletType=How much of property is let or sublet?
+label.sublet.subletType=How much of the property is let or sub-let?
 subletType.all=All of it
 subletType.part=Part of it
 

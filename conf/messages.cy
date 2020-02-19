@@ -238,8 +238,7 @@ label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rh
 section4.heading=Gosodiadau ac is-osodiadau
 label.propertyIsSublet=A oes unrhyw ran o’r eiddo yn cael ei osod neu ei is-osod i unrhyw un arall ar hyn o bryd?
 hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ''Nac ydy''. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
-label.sublet.tenantFullName=Enw eich tenant
-label.sublet.tenantFullName.agent=Enw’r tenant
+label.sublet.tenantFullName=Enw’r tenant
 label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo sy’n cael ei osod neu ei is-osod?
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy’n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
