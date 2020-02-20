@@ -27,14 +27,14 @@ import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.http.{Request => _, _}
 import uk.gov.hmrc.play.HeaderCarrierConverter
-import uk.gov.hmrc.play.bootstrap.controller.BackendController
+import uk.gov.hmrc.play.bootstrap.controller.{BackendController, FrontendController}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
-class AgentAPI @Inject()(cc: ControllerComponents, hodConnector: HODConnector, submissionConnector: HodSubmissionConnector, audit: Audit)
-  extends BackendController(cc)  with HeaderValidator with MessagesBaseController {
+class AgentAPI @Inject()(cc: MessagesControllerComponents, hodConnector: HODConnector, submissionConnector: HodSubmissionConnector, audit: Audit)
+  extends FrontendController(cc)  with HeaderValidator {
 
   def getDocs = Action { implicit request =>
     Ok(views.html.api.apidoc())

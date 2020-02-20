@@ -21,6 +21,7 @@ import com.google.inject.ImplementedBy
 import com.typesafe.config.Config
 import config.ForConfig
 import javax.inject.{Inject, Singleton}
+import play.api.Configuration
 import play.api.libs.json.Writes
 import play.api.libs.ws.WSClient
 import uk.gov.hmrc.http.HeaderNames.trueClientIp
@@ -44,7 +45,7 @@ trait ForHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost w
 }
 
 @Singleton
-class ForHttpClient @Inject() (override protected val configuration: Option[Config], override protected val actorSystem: ActorSystem,
+class ForHttpClient @Inject() (val config: Configuration, override protected val actorSystem: ActorSystem,
                     override val wsClient: WSClient)  extends ForHttp {
 
   lazy val useDummyIp = ForConfig.useDummyIp
@@ -72,4 +73,5 @@ class ForHttpClient @Inject() (override protected val configuration: Option[Conf
     }(ec)
   }
 
+  override protected def configuration: Option[Config] = Some(config.underlying)
 }

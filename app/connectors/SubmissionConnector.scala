@@ -32,7 +32,7 @@ import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResp
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class HodSubmissionConnector @Inject() (application: Application, config: ServicesConfig,
+class HodSubmissionConnector @Inject() (config: ServicesConfig,
                                         http: ForHttp)(implicit ec: ExecutionContext) extends SubmissionConnector  {
   lazy val serviceUrl = config.baseUrl("for-hod-adapter")
 

@@ -17,6 +17,7 @@
 package connectors
 
 import com.google.inject.ImplementedBy
+import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
@@ -41,6 +42,7 @@ object Audit {
   val referenceNumber = "referenceNumber"
 }
 
-class ForAuditConnector (val auditingConfig: AuditingConfig)(implicit val ec: ExecutionContext) extends Audit {
+@Singleton
+class ForAuditConnector @Inject() (val auditingConfig: AuditingConfig)(implicit val ec: ExecutionContext) extends Audit {
 
 }

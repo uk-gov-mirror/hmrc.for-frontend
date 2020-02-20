@@ -39,7 +39,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
     "com.typesafe.play" %% "play-json-joda" % "2.6.14",
     "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
-    "it.innove" %  "play2-pdf" % "1.5.2",
+    //"it.innove" %  "play2-pdf" % "1.7.0",
     //"joda-time" % "joda-time" % "2.8.2",
     "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
     "uk.gov.hmrc" %% "mongo-caching" % "6.8.0-play-26",

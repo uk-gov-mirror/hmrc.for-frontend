@@ -24,6 +24,7 @@ import controllers._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
+import play.api.Play
 import play.api.mvc._
 import play.twirl.api.Html
 import playconfig.SessionId
@@ -118,4 +119,15 @@ trait HMRCContact {
   }
 
   private def urlEncode(value: String) = URLEncoder.encode(value, "UTF-8")
+}
+
+@deprecated
+object HMRCContact {
+  def apply(): HMRCContact = {
+    val config = Play.current.injector.instanceOf[ServicesConfig]
+    new HMRCContactImpl(config)
+  }
+
+  private class HMRCContactImpl(val servicesConfig: ServicesConfig) extends HMRCContact
+
 }

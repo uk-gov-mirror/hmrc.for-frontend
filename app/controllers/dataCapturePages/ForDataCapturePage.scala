@@ -22,7 +22,6 @@ import controllers._
 import controllers.dataCapturePages.ForDataCapturePage._
 import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
-import io.netty.handler.codec.http.QueryStringDecoder
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
 import play.api.Logger
@@ -30,6 +29,7 @@ import play.api.data.Form
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
 import play.api.mvc._
+import play.shaded.ahc.io.netty.handler.codec.http.QueryStringDecoder
 import play.twirl.api.Html
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -84,17 +84,17 @@ abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
   def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])
     (implicit request: RefNumRequest[AnyContent]) = {
     action match {
-      case Continue => bindForm(savedFields).fold(
+      case controllers.dataCapturePages.ForDataCapturePage.Continue => bindForm(savedFields).fold(
         formWithErrors => displayForm(formWithErrors, summary, request),
         pageData => getPage(pageNumber + 1, summary, request)
       )
-      case Update => bindForm(savedFields).fold(
+      case controllers.dataCapturePages.ForDataCapturePage.Update => bindForm(savedFields).fold(
         formWithErrors => displayForm(formWithErrors, summary, request),
         pageData => RedirectTo(Journey.pageToResumeAt(summary), request.headers)
       )
-      case Save => Redirect(controllers.routes.SaveForLater.saveForLater())
-      case Back => getPage(pageNumber - 1, summary, request)
-      case Unknown => redirectToPage(pageNumber)
+      case controllers.dataCapturePages.ForDataCapturePage.Save => Redirect(controllers.routes.SaveForLater.saveForLater())
+      case controllers.dataCapturePages.ForDataCapturePage.Back => getPage(pageNumber - 1, summary, request)
+      case controllers.dataCapturePages.ForDataCapturePage.Unknown => redirectToPage(pageNumber)
     }
   }
 
