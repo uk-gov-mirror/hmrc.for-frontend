@@ -446,22 +446,22 @@ label.noJs.rentSeparateParkingDetails=Dylech ond ateb hyn os ydych wedi dewis �
 #SECTION 11
 ###############################
 section11.heading=Cymhellion a thaliadau
-label.rentFreePeriod=A roddwyd cyfnod di-rent i chi pan ddechreuodd y brydles neu’r cytundeb?
+label.rentFreePeriod=A oedd cyfnod di-rent?
 label.rentFreePeriod.agent=A roddwyd cyfnod di-rent i’ch cleient pan ddechreuodd y brydles neu’r cytundeb?
 label.rentFreePeriodDetails.rentFreePeriodLength=Am sawl mis oedd y cyfnod di-rent?
-label.rentFreePeriodDetails.rentFreePeriodDetails=Pam y rhoddwyd cyfnod di-rent i chi?
+label.rentFreePeriodDetails.rentFreePeriodDetails=Pam oedd cyfnod di-rent?
 label.rentFreePeriodDetails.rentFreePeriodDetails.agent=Pam y rhoddwyd cyfnod di-rent i’ch cleient?
 hint.rentFreePeriodDetails.rentFreePeriodDetails=Er enghraifft, ar gyfer gwaith atgyweirio neu osod ffitiadau.
-label.payCapitalSum=A wnaethoch dalu unrhyw beth i’r landlord er mwyn ymrwymo i’r brydles?
+label.payCapitalSum=A wnaeth y tenant dalu unrhyw beth i’r landlord er mwyn ymrwymo i’r brydles?
 label.payCapitalSum.agent=A wnaeth eich cleient dalu swm cyfalaf?
 hint.payCapitalSum=Dyma swm o arian y gwnaethoch ei dalu i’ch landlord er mwyn cymryd prydles neu gytundeb
 label.capitalPaidDetails.capitalSum=Y swm a dalwyd (ac eithrio TAW)
 label.capitalPaidDetails.paymentDate=Dyddiad y gwnaed y taliad
-label.receiveCapitalSum=A gawsoch unrhyw arian oddi wrth y landlord neu oddi wrth y tenant blaenorol er mwyn ymrwymo i’r brydles?
+label.receiveCapitalSum=A gafodd y tenant unrhyw arian oddi wrth y landlord neu’r tenant blaenorol er mwyn ymrwymo i’r brydles?
 label.receiveCapitalSum.agent=A gafodd eich cleient swm cyfalaf?
 label.capitalReceivedDetails.capitalSum=Y swm a gafwyd (ac eithrio TAW)
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
-hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd eich cyfnod di-rent am lai nag 1 mis, nodwch “1” gan roi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i chi?''.
+hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd y cyfnod di-rent wedi para am lai nag 1 mis, nodwch ‘1’ a rhoi rhagor o wybodaeth o dan ‘Pam oedd cyfnod di-rent?’.
 hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i’ch cleient?''.
 hint.payCapitalSum=Heb gynnwys unrhyw rent, arian ar gyfer y busnes ei hun, ewyllys da, gosodiadau masnach neu flaendaliadau ad-daladwy.
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
