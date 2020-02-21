@@ -359,8 +359,8 @@ hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details
 #SECTION 7
 ###############################
 section7.heading=Rent reviews
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your lease or tenancy agreement include any rent reviews?</span>
-label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does the current agreement include any rent reviews?</span>
+label.leaseContainsRentReviews.licenceOther=Does the current agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.licenceOther=Does your client’s current licence or written agreement include any rent reviews?
 label.leaseContainsRentReviews.leaseTenancy=Does the current agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.leaseTenancy=Does your client’s current lease or tenancy agreement include any rent reviews?

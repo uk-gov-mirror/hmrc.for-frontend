@@ -354,8 +354,8 @@ hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, no
 #SECTION 7
 ###############################
 section7.heading=Adolygiadau rhent
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw’ch prydles neu’ch cytundeb tenantiaeth yn cynnwys unrhyw adolygiadau rhent?</span>
-label.leaseContainsRentReviews.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn cynnwys unrhyw adolygiadau rhent?
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">A yw’r cytundeb presennol yn cynnwys unrhyw adolygiadau rhent?</span>
+label.leaseContainsRentReviews.licenceOther=A yw’r cytundeb presennol yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.leaseTenancy=A yw’r cytundeb presennol yn cynnwys unrhyw adolygiadau rhent?
 label.leaseContainsRentReviews.agent.leaseTenancy=A yw prydles neu gytundeb tenantiaeth presennol eich cleient yn cynnwys unrhyw adolygiadau rhent?
