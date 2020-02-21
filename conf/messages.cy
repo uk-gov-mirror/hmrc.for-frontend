@@ -379,9 +379,9 @@ hint.rentOnThisPropertyTheResultOf=Dewiswch ''Ydy'' hyd yn oed os na newidiodd y
 
 #SECTION 8
 ###############################
-section8.heading=Sut y cafodd eich rhent ei bennu, os nad trwy adolygiad
+section8.heading=Sut cafodd y rhent ei bennu
 section8.heading.agent=Sut y cafodd rhent eich cleient ei bennu, os nad trwy adolygiad
-label.wasRentFixedBetween=A bennwyd y rhent rhyngoch chi (neu eich asiant) a’r landlord?
+label.wasRentFixedBetween=A gafodd y rhent ei bennu rhwng y tenant a’r landlord (neu asiant)?
 label.wasRentFixedBetween.agent=A bennwyd y rhent rhwng eich cleient (neu chi) a’r landlord?
 label.notReviewRentFixed=A bennwyd y rhent drwy
 label.rentSetByType=A yw’r rhent hwn yn

@@ -384,9 +384,9 @@ label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Answer this only if youâ€
 
 #SECTION 8
 ###############################
-section8.heading=How your rent was fixed, if not by a review
+section8.heading=How the rent was fixed
 section8.heading.agent=How your clientâ€™s rent was fixed, if not by review
-label.wasRentFixedBetween=Was the rent fixed between you (or your agent) and the landlord?
+label.wasRentFixedBetween=Was the rent fixed between the tenant and the landlord (or an agent)?
 label.wasRentFixedBetween.agent=Was the rent fixed between your client (or you) and the landlord?
 label.notReviewRentFixed=Was the rent fixed by
 label.rentSetByType=Is this rent
