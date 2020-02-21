@@ -301,40 +301,33 @@ intel.alert.landlordName=A ydych chi’n siŵr bod hyn yn gywir? Mae enw’r lan
 section6.heading=Y brydles neu’r cytundeb presennol
 label.breakClauseDetails=Rhowch fanylion y cymal torri
 label.agreementIsStepped=A yw eich rhent yn rhent gris?
-hint.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i’r rhain yn eich prydles neu eich cytundeb ysgrifenedig.
 label.rentOpenEnded=A yw brydles neu’r cytundeb yn benagored?
 label.writtenAgreement.leaseAgreementHasBreakClause=A all y landlord neu’r tenant ddod â’r cytundeb i ben yn gynnar?
 label.writtenAgreement.breakClauseDetails=Rhowch fanylion y cymal torri
-label.writtenAgreement.agreementIsStepped=A yw eich rhent yn gytundeb rhent grisiog?
+label.writtenAgreement.agreementIsStepped=A yw’r rhent yn seiliedig ar gytundeb rhent grisiog?
 label.writtenAgreement.agreementIsStepped.agent=A yw rhent eich cleient yn gytundeb rhent grisiog?
 label.writtenAgreement.steppedDetailsYear=Rhowch fanylion y rhent grisiog
-hint.writtenAgreement.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i’r rhain yn eich prydles neu eich cytundeb ysgrifenedig.
+hint.writtenAgreement.steppedDetailsYear=Fel arfer, gellir dod o hyd i hyn yn y brydles neu’r cytundeb.
 hint.writtenAgreement.steppedDetailsYear.agent=Byddwch fel arfer yn dod o hyd i’r rhain ym mhrydles neu cytundeb ysgrifenedig eich cleient.
-label.leaseAgreementType=Pa fath o brydles neu gytundeb sydd gennych?
+label.leaseAgreementType=Beth yw’r math o brydles neu gytundeb?
 label.leaseAgreementType.agent=Pa fath o gytundeb sydd gan eich cleient?
-label.writtenAgreement.startDate=Pryd gwnaeth eich prydles neu’ch cytundeb <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> ddechrau?
+label.writtenAgreement.startDate=Pryd dechreuodd y cytundeb presennol?
 label.writtenAgreement.startDate.agent=Pryd gwnaeth prydles neu gytundeb <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> eich cleient ddechrau?
-label.writtenAgreement.startDate.leaseTenancy=Pryd dechreuodd eich prydles sengl neu gytundeb tenantiaeth?
 label.writtenAgreement.startDate.agent.leaseTenancy=Pryd dechreuodd prydles sengl neu gytundeb tenantiaeth eich cleient?
-label.writtenAgreement.startDate.licenceOther=Pryd dechreuodd eich trwydded neu gytundeb ysgrifenedig?
 label.writtenAgreement.startDate.agent.licenceOther=Pryd dechreuodd trwydded neu gytundeb ysgrifenedig eich cleient?
-label.writtenAgreement.rentOpenEnded=A yw’ch prydles neu’ch cytundeb <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> yn benagored?
+label.writtenAgreement.rentOpenEnded=A yw’r cytundeb presennol yn benagored?
 label.writtenAgreement.rentOpenEnded.agent=A yw prydles neu gytundeb <span class="agreementType">trwydded neu gytundeb ysgrifenedig</span> eich cleient yn benagored?
-label.writtenAgreement.rentOpenEnded.leaseTenancy=A yw eich prydles sengl neu gytundeb tenantiaeth yn benagored?
 label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=A yw prydles sengl neu gytundeb tenantiaeth eich cleient yn benagored?
-label.writtenAgreement.rentOpenEnded.licenceOther=A yw eich trwydded neu gytundeb ysgrifenedig yn benagored?
 label.writtenAgreement.rentOpenEnded.agent.licenceOther=A yw trwydded neu gytundeb ysgrifenedig eich cleient yn benagored?
-label.writtenAgreement.leaselength=Am ba hyd y rhoddwyd eich <span class="agreementType"> prydles trwydded neu gytundeb ysgrifenedig</span>?
+label.writtenAgreement.leaselength=Am ba hyd y mae’r cytundeb presennol?
 label.writtenAgreement.leaselength.agent=Am ba hyd y rhoddwyd <span class="agreementType">prydles, trwydded neu gytundeb ysgrifenedig</span> eich cleient?
-label.writtenAgreement.leaselength.leaseTenancy=Am ba hyd y rhoddwyd eich prydles sengl neu gytundeb tenantiaeth?
 label.writtenAgreement.leaselength.agent.leaseTenancy=Am ba hyd y rhoddwyd prydles sengl neu gytundeb tenantiaeth eich cleient?
-label.writtenAgreement.leaselength.licenceOther=Am ba hyd y rhoddwyd eich trwydded neu gytundeb ysgrifenedig?
 label.writtenAgreement.leaselength.agent.licenceOther=Am ba hyd y rhoddwyd trwydded neu gytundeb ysgrifenedig eich cleient?
-label.verbalAgreement.startDate=Pryd dechreuodd eich cytundeb ar lafar?
+label.verbalAgreement.startDate=Pryd dechreuodd y cytundeb presennol?
 label.verbalAgreement.startDate.agent=Pryd dechreuodd cytundeb ar lafar eich cleient?
-label.verbalAgreement.rentOpenEnded=A yw eich cytundeb ar lafar yn benagored?
+label.verbalAgreement.rentOpenEnded=A yw’r cytundeb presennol yn benagored?
 label.verbalAgreement.rentOpenEnded.agent=A yw cytundeb ar lafar eich cleient yn benagored?
-label.verbalAgreement.leaselength=Am ba hyd y rhoddwyd eich cytundeb ar lafar?
+label.verbalAgreement.leaselength=Am ba hyd y mae’r cytundeb presennol?
 label.verbalAgreement.leaselength.agent=Am ba hyd y rhoddwyd cytundeb ar lafar eich cleient?
 label.noJs.verbalAgreement.startDate=Dylech ond ateb hyn os ydych wedi dewis ‘Prydles sengl neu gytundeb tenantiaeth’ neu ‘Trwydded neu fath arall o gytundeb ysgrifenedig’
 label.noJs.writtenAgreement.leaseLength=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
@@ -353,7 +346,7 @@ help.steprent.dateto=Er enghraifft, 28 3 2011
 help.steprent.datefrom=Er enghraifft, 28 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Gris o
 label.writtenAgreement.steppedDetails.stepTo=Gris i
-label.writtenAgreement.steppedDetails.amount=Y rhent y byddwch yn ei dalu, neu wedi’i dalu, yn ystod y cyfnod rhent grisiog hwn (heb gynnwys TAW)
+label.writtenAgreement.steppedDetails.amount=Y rhent a dalwyd neu sydd i’w dalu yn ystod y cyfnod hwn (ac eithrio TAW).
 label.writtenAgreement.steppedDetails.hint=Nodwch swm y rhent grisiog.
 label.writtenAgreement.steppedDetails=Manylion rhent grisiog
 hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, nodwch fanylion y brydles sylfaenol ac yna cysylltwch â’r Swyddfa Brisio i roi manylion yn ymwneud â phrydlesi neu gytundebau eraill.
