@@ -530,7 +530,7 @@ alterationType.addedAirCondition=Added air conditioning
 #SECTION 14
 ###############################
 section14.heading=Any other factors
-label.anyOtherFactors=Has anything else affected the rent you pay?
+label.anyOtherFactors=Has anything else affected the rent?
 label.anyOtherFactors.agent=Has anything else affected the rent that your client pays?
 label.anyOtherFactorsDetails=Give details
 hint.anyOtherFactorsDetails=For example, the permitted use of the property is very restricted or the rent includes an amount for trade fixtures and fittings. Include anything you have not had space to tell us about in an earlier section.
