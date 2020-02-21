@@ -395,13 +395,13 @@ label.noJs.notReviewRentFixed=Answer this only if you’ve selected ''No''
 #SECTION 9
 ###############################
 section9.heading=The rent
-label.totalRent.annualRentExcludingVat=What is your current annual rent?
+label.totalRent.annualRentExcludingVat=What is the current annual rent?
 label.totalRent.annualRentExcludingVat.agent=What is your client’s current annual rent?
-hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if you pay monthly or quarterly. Ignore any rent-free period.
+hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if it is paid monthly or quarterly. Ignore any rent-free period.
 label.totalRent.rentLengthType=The rent is paid
-label.rentBecomePayable=When did you start paying the current rent?
+label.rentBecomePayable=When did the tenant start paying the current rent?
 label.rentBecomePayable.agent=When did your client start paying this rent?
-label.negotiatingNewRent=Are you or your agent negotiating a new rent?
+label.negotiatingNewRent=Is the tenant (or their agent) negotiating a new rent?
 label.negotiatingNewRent.agent=Are you negotiating a new rent on behalf of your client?
 hint.negotiatingNewRent=For example, for a rent review or new lease.
 label.rentBasedOn=What is the rent based on?

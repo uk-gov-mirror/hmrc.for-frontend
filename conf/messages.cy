@@ -390,13 +390,13 @@ label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
 #SECTION 9
 ###############################
 section9.heading=Y rhent
-label.totalRent.annualRentExcludingVat=Beth yw’ch rhent blynyddol ar hyn o bryd?
+label.totalRent.annualRentExcludingVat=Beth yw’r rhent blynyddol ar hyn o bryd?
 label.totalRent.annualRentExcludingVat.agent=Faint yw rhent blynyddol cyfredol eich cleient?
-hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (heb gynnwys TAW) hyd yn oed os ydych yn talu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod di-rent.
+hint.totalRent.annualRentExcludingVat=Nodwch y cyfanswm blynyddol (ac eithrio TAW) hyd yn oed os caiff ei dalu bob mis neu bob chwarter. Anwybyddwch unrhyw gyfnod di-rent.
 label.totalRent.rentLengthType=Caiff y rhent ei dalu
-label.rentBecomePayable=Pa bryd y dechreuoch dalu’r rhent presennol?
+label.rentBecomePayable=Pryd dechreuodd y tenant dalu’r rhent presennol?
 label.rentBecomePayable.agent=Pryd dechreuodd eich cleient dalu’r rhent hwn?
-label.negotiatingNewRent=A ydych chi neu’ch asiant yn trafod rhent newydd?
+label.negotiatingNewRent=A yw’r tenant (neu ei asiant) yn negodi rhent newydd?
 label.negotiatingNewRent.agent=A ydych yn trafod rhent newydd ar ran eich cleient?
 hint.negotiatingNewRent=Er enghraifft, ar gyfer adolygiad rhent neu brydles newydd.
 label.rentBasedOn=Ar beth y mae’r rhent yn seiliedig?
