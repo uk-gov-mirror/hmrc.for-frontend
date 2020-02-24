@@ -20,7 +20,7 @@ private object AppDependencies {
   private val hmrcTestVersion = "3.0.0"
   private val scalaTestVersion = "3.0.5"
   private val pegdownVersion = "1.6.0"
-  private val scalatestPlusPlayVersion = "2.0.1"
+  private val scalatestPlusPlayVersion = "3.1.3"
 
   private val akkaVersion     = "2.5.23"
   private val akkaHttpVersion = "10.0.15"
@@ -62,13 +62,13 @@ private object AppDependencies {
   object Test {
     def apply() = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-26" % scope,
-        "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
+        //"uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-26" % scope,
+        //"org.scalatest" %% "scalatest" % scalaTestVersion % scope,
         "org.pegdown" % "pegdown" % pegdownVersion % scope,
         "org.jsoup" % "jsoup" % "1.8.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
-        "org.mockito" %% "mockito-scala-scalatest" % "1.5.16" % scope
+        "org.mockito" %% "mockito-scala-scalatest" % "1.7.1" % scope
       )
     }.test
   }

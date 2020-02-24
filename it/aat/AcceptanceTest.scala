@@ -2,8 +2,7 @@ package aat
 
 import akka.actor.ActorSystem
 import com.typesafe.config.Config
-import config.ForGlobal
-import helpers.{AppNameHelper, RunModeHelper}
+import connectors.ForHttp
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
@@ -11,7 +10,8 @@ import org.scalatestplus.play.guice._
 import play.api.Play
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
-import playconfig.ForHttp
+import play.api.libs.ws.WSClient
+import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.http.{HeaderCarrier, _}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -21,19 +21,18 @@ trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite 
 
   lazy val http: TestHttpClient = new TestHttpClient()
 
-  val global = new ForGlobal {
-    override lazy val forHttp = http
-  }
 
   override lazy val port = 9521
 
-  override def fakeApplication() = new GuiceApplicationBuilder().global(global).configure(testConfigs).build()
+  override def fakeApplication() = new GuiceApplicationBuilder()
+    .configure(testConfigs)
+    .build()
 }
 
-class TestHttpClient extends ForHttp with RunModeHelper with AppNameHelper {
+class TestHttpClient extends ForHttp {
   import views.html.helper.urlEncode
 
-  override protected def configuration: Option[Config] = Option(runModeConfiguration.underlying)
+  override protected def configuration: Option[Config] = ???
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
@@ -104,6 +103,10 @@ class TestHttpClient extends ForHttp with RunModeHelper with AppNameHelper {
   }
 
   override protected def actorSystem: ActorSystem = Play.current.actorSystem
+
+  override val hooks: Seq[HttpHook] = ???
+
+  override def wsClient: WSClient = ???
 }
 
 class HttpRequestNotStubbed[A](url: String, hc: HeaderCarrier, data: Option[A] = None)

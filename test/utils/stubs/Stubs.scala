@@ -16,6 +16,7 @@
 
 package utils.stubs
 
+import com.google.inject.Provider
 import connectors._
 import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
@@ -23,7 +24,6 @@ import models.pages.Summary
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import org.scalatest.Matchers
 import play.api.mvc.Request
-import playconfig.Audit
 import useCases.SubmissionBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -60,6 +60,10 @@ class StubSubmissionBuilder extends SubmissionBuilder {
   def build(doc: Document): Submission = stubs.get(doc).getOrElse(throw new Exception(s"No stub for $doc. Stubs: $stubs"))
 }
 
+class StubFormDocumentRepoProvider extends Provider[StubFormDocumentRepo] {
+  override def get(): StubFormDocumentRepo = StubFormDocumentRepo()
+}
+
 case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormDocumentRepository {
   override def findById(documentId: String, referenceNumber: String): Future[Option[Document]] = {
     val doc = docs.find(d => d._1 == documentId && d._2 == referenceNumber).map(_._3)
@@ -78,8 +82,7 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
   override def clear(documentId: String, referenceNumber: String): Future[Unit] = ???
 }
 
-object StubAddressAuditing extends AddressAuditing {
+object StubAddressAuditing extends AddressAuditing(null) {
   override def apply(s: Summary, r: Request[_]): Future[Unit] = Future.successful(())
 
-  override protected val audit: Audit = null
 }

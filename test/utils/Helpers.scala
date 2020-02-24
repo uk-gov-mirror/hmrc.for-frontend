@@ -1,0 +1,55 @@
+/*
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package utils
+
+import actions.RefNumAction
+import play.api.mvc._
+import play.api.test.{FakeRequest, NoMaterializer}
+
+object Helpers {
+
+  def stubMessagesControllerComponents(): MessagesControllerComponents = {
+    val helpers = play.api.test.Helpers
+    val cc = play.api.test.Helpers.stubControllerComponents()
+
+    val messagesActionBuilder: MessagesActionBuilder = new DefaultMessagesActionBuilderImpl(cc.parsers.default, cc.messagesApi)(cc.executionContext)
+    val actionBuilder = DefaultActionBuilder(helpers.stubBodyParser(AnyContentAsEmpty))(cc.executionContext)
+
+    DefaultMessagesControllerComponents(
+      messagesActionBuilder,
+      actionBuilder,
+      cc.parsers,
+      cc.messagesApi,
+      cc.langs,
+      cc.fileMimeTypes,
+      cc.executionContext
+    )
+  }
+
+  implicit def fakeRequest2MessageRequest[A](fakeRequest: FakeRequest[A]): MessagesRequest[A] = {
+    new MessagesRequest[A](fakeRequest, play.api.test.Helpers.stubMessagesApi())
+  }
+
+  def refNumAction(): RefNumAction = {
+    val cc = play.api.test.Helpers.stubControllerComponents()
+
+    implicit val mat = NoMaterializer
+
+    new RefNumAction(new play.api.mvc.BodyParsers.Default(cc.parsers), cc.messagesApi)(cc.executionContext)
+  }
+
+}

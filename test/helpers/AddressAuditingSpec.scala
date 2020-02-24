@@ -16,17 +16,18 @@
 
 package helpers
 
+import connectors.Audit
 import models.{LookupServiceAddress, RoughDate}
 import models.pages.{PageFive, PageFour, SubletDetails, Summary}
 import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone, SubletPart}
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.test.FakeRequest
-import playconfig.Audit
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditResult.Disabled
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class AddressAuditingSpec extends FlatSpec with Matchers {
   import TestData._
@@ -163,7 +164,7 @@ object TestData {
   val overseas = Address("1 The Road", Some("Atlantis"), None, "The Sea")
 }
 
-object TestAddressAuditing extends AddressAuditing {
+object TestAddressAuditing extends AddressAuditing(StubAuditer) {
   protected val audit = StubAuditer
 }
 
@@ -184,4 +185,8 @@ object StubAuditer extends Audit with Matchers {
     }
     lastSentAudit = null
   }
+
+  override implicit def ec: ExecutionContext = ExecutionContext.Implicits.global
+
+  override def auditingConfig: AuditingConfig = ???
 }

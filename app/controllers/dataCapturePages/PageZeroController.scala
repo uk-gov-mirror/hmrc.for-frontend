@@ -28,8 +28,11 @@ import play.api.libs.json._
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
 
-class PageZeroController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents) extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
+class PageZeroController @Inject() (refNumAction: RefNumAction,
+                                    cc: MessagesControllerComponents) extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
   override implicit val format: Format[AddressConnectionType] = formatAddressConnection
+
+
 
   val emptyForm = pageZeroForm
   val pageNumber: Int = 0
@@ -40,7 +43,7 @@ class PageZeroController @Inject() (refNumAction: RefNumAction, cc: MessagesCont
 
   override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) = {
     action match {
-      case Continue => summary.addressConnection match {
+      case ForDataCapturePage.Continue => summary.addressConnection match {
         case Some(AddressConnectionTypeNo) => Redirect(controllers.routes.PreviouslyConnectedController.onPageView())
         case _ => super.goToNextPage(action, summary, savedFields)
        }

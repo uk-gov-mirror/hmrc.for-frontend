@@ -16,9 +16,11 @@
 
 package playconfig
 
+import com.google.inject.ImplementedBy
 import config.ForConfig
 import connectors.{ForHttp, HODConnector}
 import form.persistence.FormDocumentRepository
+import javax.inject.Singleton
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
@@ -146,7 +148,22 @@ object ContinueWithSavedSubmission {
   )
 }
 
-object LoginToHOD {
+
+/**
+ * Temporal solution before we move all login logic to separate service class.
+ * This allow us to test login controller without starting google guice.
+ */
+@ImplementedBy(classOf[DefaultLoginToHodAction])
+trait LoginToHODAction {
+  def apply(implicit hc: HeaderCarrier): LoginToHOD
+}
+
+@Singleton
+class DefaultLoginToHodAction() extends LoginToHODAction {
+  override def apply(implicit hc: HeaderCarrier): LoginToHOD = LoginToHOD.apply
+}
+
+object LoginToHOD  {
   def apply(implicit hc: HeaderCarrier): LoginToHOD = security.LoginToHOD(
     HODConnector().verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
   )

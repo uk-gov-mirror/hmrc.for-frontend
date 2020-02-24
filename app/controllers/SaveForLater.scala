@@ -17,7 +17,7 @@
 package controllers
 
 import actions.{RefNumAction, RefNumRequest}
-import connectors.{Audit, EmailConnector}
+import connectors.{Audit, EmailConnector, HODConnector}
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
 import form.CustomUserPasswordForm
 import form.persistence.FormDocumentRepository

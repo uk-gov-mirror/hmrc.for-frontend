@@ -29,7 +29,7 @@ import play.api.data.Forms._
 import play.api.data.JodaForms._
 import play.api.libs.json.{Format, Json}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequest, Request, Result}
-import playconfig.LoginToHOD
+import playconfig.{LoginToHOD, LoginToHODAction}
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
@@ -39,11 +39,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
 
-
-
-class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: MessagesControllerComponents
-                       )(implicit ec: ExecutionContext) extends FrontendController(cc) {
-
+object LoginController {
   val loginForm = Form(
     mapping(
       "ref1" -> text.verifying(Errors.invalidRefNum, x => Seq(7, 8).contains(x.length)),
@@ -51,6 +47,12 @@ class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: Me
       "postcode" -> nonEmptyTextOr("postcode", postcode),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     )(LoginDetails.apply)(LoginDetails.unapply))
+}
+
+class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents
+                       )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  import LoginController.loginForm
+
 
   def show = Action { implicit request =>
     Ok(views.html.login(loginForm))
@@ -75,7 +77,7 @@ class LoginController @Inject()(audit: Audit, hodConnector: HODConnector, cc: Me
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
 
     //TODO - refactor
-    LoginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
+    loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
         auditLogin(ref1 + ref2, true)(hc2)
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)

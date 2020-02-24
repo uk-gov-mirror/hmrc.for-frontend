@@ -24,7 +24,7 @@ import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.OptionValues._
 import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.{FlatSpec, Matchers}
-import useCases.SubmissionBuilder
+import useCases.{DefaultSubmissionBuilder, SubmissionBuilder}
 
 class SubmissionBuilderSpec extends FlatSpec with Matchers {
 
@@ -33,19 +33,19 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
   behavior of "Submission builder"
 
   it should "build submissions from in-progress documents" in {
-    assert(SubmissionBuilder.build(doc1) === submission1)
+    assert(new DefaultSubmissionBuilder().build(doc1) === submission1)
   }
 
   it should "leave pages as none where there is no data for them" in {
-    assert(SubmissionBuilder.build(doc2) === submission2)
+    assert(new DefaultSubmissionBuilder().build(doc2) === submission2)
   }
 
   it should "assign the correct data to the correct page, no matter what order the pages are supplied in" in {
-    assert(SubmissionBuilder.build(doc3) === submission1)
+    assert(new DefaultSubmissionBuilder().build(doc3) === submission1)
   }
 
   it should "parse a verbal lease agreement when page six is a verbal agreement" in {
-    assert(SubmissionBuilder.build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
+    assert(new DefaultSubmissionBuilder().build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
   }
 
 /*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
@@ -67,21 +67,21 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
   }*/
 
   it should "create ndr and water charges services if their details are supplied" in {
-    val sub = SubmissionBuilder.build(docWithNdrChargesAndWaterCharges)
+    val sub = new DefaultSubmissionBuilder().build(docWithNdrChargesAndWaterCharges)
     val services = sub.responsibilities.get.includedServicesDetails
     assert(services.exists(s => s.chargeDescription == "Non-domestic Rates" && s.chargeCost == 41.23))
     assert(services.exists(s => s.chargeDescription == "Water Charges" && s.chargeCost == 456.76))
   }
 
   it should "map overriden property address as tenants address when tenants address is main property address and main property address has been overriden" in {
-    val sub = SubmissionBuilder.build(docWithTenantsPropertyAddressAndOverridenMainAddress)
+    val sub = new DefaultSubmissionBuilder().build(docWithTenantsPropertyAddressAndOverridenMainAddress)
     assert(sub.sublet.map(_.sublets.head.tenantAddress).value === tenantsPropertyAddress)
   }
 
   it should "set occupier name as 'Nobody' if the property is not occupied" in {
     val ks = PageThreeForm.keys
     val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeNobody.name))
-    val sub = SubmissionBuilder.build(doc1.add(Page(3, p3)))
+    val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Nobody")
   }
 
@@ -90,7 +90,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeCompany.name))
     .updated(ks.occupierCompanyName, Seq("Jimmy Choo Enterprise Integration Ventures"))
     .updated(ks.occupierCompanyContact, Seq("Kyle Kingsbury"))
-    val sub = SubmissionBuilder.build(doc1.add(Page(3, p3)))
+    val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Jimmy Choo Enterprise Integration Ventures - Kyle ")
   }
 
@@ -98,14 +98,14 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
     val ks = PageThreeForm.keys
     val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeIndividuals.name))
     .updated(ks.mainOccupierName, Seq("Jimmy Choo"))
-    val sub = SubmissionBuilder.build(doc1.add(Page(3, p3)))
+    val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Jimmy Choo")
   }
 
   it should "remove all non-short path information if the user is on the short path (they may have previoysly been on a different path)" in {
     val fullSubmission = doc1
     val convertedToShortPath = fullSubmission.add(Page(3, page3ShortPath))
-    val sub = SubmissionBuilder.build(convertedToShortPath)
+    val sub = new DefaultSubmissionBuilder().build(convertedToShortPath)
     assert(sub.landlord.isEmpty)
     assert(sub.lease.isEmpty)
     assert(sub.rentReviews.isEmpty)
