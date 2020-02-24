@@ -13,26 +13,30 @@ import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.libs.ws.WSClient
 import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.http.{HeaderCarrier, _}
+import play.api.inject.bind
+import javax.inject.Singleton
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite {
   private lazy val testConfigs = Map("auditing.enabled" -> false, "agentApi.testAccountsOnly" -> true)
 
-  lazy val http: TestHttpClient = new TestHttpClient()
-
+  def http: TestHttpClient = app.injector.instanceOf[ForHttp].asInstanceOf[TestHttpClient]
 
   override lazy val port = 9521
 
   override def fakeApplication() = new GuiceApplicationBuilder()
     .configure(testConfigs)
+    .overrides(
+      bind[ForHttp].to[TestHttpClient].in[Singleton]
+    )
     .build()
 }
 
 class TestHttpClient extends ForHttp {
   import views.html.helper.urlEncode
 
-  override protected def configuration: Option[Config] = ???
+  override protected def configuration: Option[Config] = None
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
@@ -104,7 +108,7 @@ class TestHttpClient extends ForHttp {
 
   override protected def actorSystem: ActorSystem = Play.current.actorSystem
 
-  override val hooks: Seq[HttpHook] = ???
+  override val hooks: Seq[HttpHook] = Seq.empty[HttpHook]
 
   override def wsClient: WSClient = ???
 }
