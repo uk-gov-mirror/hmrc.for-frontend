@@ -23,13 +23,13 @@
 
   @(p4: PageFour, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
     <li><h2 class="heading-medium no-margin-top">@Messages("section4.heading")</h2></li> 
-    @summaryBlock(Messages(if(isAgent) Messages("label.propertyIsSublet.agent") else Messages("label.propertyIsSublet")), 4, "propertyIsSublet") {
+    @summaryBlock(Messages("label.propertyIsSublet"), 4, "propertyIsSublet") {
       @displayBoolean(p4.propertyIsSublet, if(isAgent) "2" else "1")
     }
 
     @p4.sublet.zipWithIndex.map {  case (sl, index) => 
 
-      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.tenantFullName.agent") else Messages("label.sublet.tenantFullName")), 4, s"sublet_${index}_tenantFullName") {
+      @summaryBlock(Messages("label.sublet.tenantFullName"), 4, s"sublet_${index}_tenantFullName") {
         @sl.tenantFullName
       }
 
@@ -37,7 +37,7 @@
         @Html(sl.tenantAddress.multiLine)
       }
       
-      @summaryBlock(Messages("label.sublet.subletPropertyPartDescription"), 4, s"sublet_${index}_subletPropertyPartDescription") {
+      @summaryBlock((if(sl.subletType == SubletAll) Messages("label.sublet.subletType") else Messages("label.sublet.subletPropertyPartDescription")), 4, s"sublet_${index}_subletPropertyPartDescription") {
           @if(sl.subletType == SubletAll) {
               @Messages("subletType.all")
           }else {
@@ -46,10 +46,10 @@
       }
 
       @summaryBlock(Messages("label.sublet.subletPropertyReasonDescription"), 4, s"sublet_${index}_subletPropertyReasonDescription") {
-        @p4.sublet.map(s => s.subletPropertyReasonDescription)
+        @sl.subletPropertyReasonDescription
       }
 
-      @summaryBlock(Messages(if(isAgent) Messages("label.sublet.annualRent.agent") else Messages("label.sublet.annualRent")), 4, s"sublet_${index}_annualRent") {
+      @summaryBlock(Messages("label.sublet.annualRent"), 4, s"sublet_${index}_annualRent") {
         £@sl.annualRent
       }
 
