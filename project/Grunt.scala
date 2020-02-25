@@ -2,6 +2,8 @@
 import play.sbt.PlayRunHook
 import sbt._
 
+import scala.sys.process._
+
 object Grunt {
   def apply(base: File): PlayRunHook = {
 
