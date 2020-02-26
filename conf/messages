@@ -274,17 +274,17 @@ subletType.part=Part of it
 #SECTION 5
 ###############################
 section5.heading=The landlord
-section5.heading.help=Give the landlord’s details, even if you pay your rent to an agent.
+section5.heading.help=Give the landlord’s details even if the rent is paid to an agent.
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family
 landlordConnectionType.other=Other connection
 label.landlordFullName=Landlord’s full name
-hint.landlordConnect=A business or other connection for example you/your client and the landlord may be business partners; or the company renting the property may be the landlord’s holding or subsidiary company.
-label.landlordConnectText=Your connection to the landlord
+hint.landlordConnect=For example, the landlord and tenant may be business partners, or the tenant may be the landlord’s holding or subsidiary company.
+label.landlordConnectText=Connection to the landlord
 label.landlordConnectText.agent=Their connection to the landlord
 label.landlordConnectType=How are you connected to the landlord?
 label.landlordConnectType.agent=How is your client connected to the landlord?
-label.LandlordConnectionTypes=Aside from your relationship as landlord and tenant, do you have any personal or business connection?
+label.LandlordConnectionTypes=Aside from the relationship as landlord and tenant, is there a personal or business connection?
 label.LandlordConnectionTypes.agent=Aside from their relationship as landlord and tenant, does your client have any personal or business connection to their landlord?
 label.overseas=Do they have an overseas address?
 label.landlordAddress.buildingNameNumber=Building name or number
@@ -305,41 +305,34 @@ intel.alert.landlordName=Are you sure this is correct? The landlord’s name is 
 section6.heading=The current lease or agreement
 label.breakClauseDetails=Provide details of the break clause
 label.agreementIsStepped=Is your rent a stepped rent?
-hint.steppedDetailsYear=You’ll usually find these in your lease or written agreement.
 label.rentOpenEnded=Is the lease or agreement open ended?
 label.writtenAgreement.leaseAgreementHasBreakClause=Can the landlord or tenant end the agreement early?
 label.writtenAgreement.breakClauseDetails=Provide details of the break clause
-label.writtenAgreement.agreementIsStepped=Is your rent a stepped rent agreement?
+label.writtenAgreement.agreementIsStepped=Is the rent based on a stepped-rent agreement?
 label.writtenAgreement.agreementIsStepped.agent=Is your client’s rent a stepped rent agreement?
 label.writtenAgreement.steppedDetailsYear=Provide details of the stepped rent
-hint.writtenAgreement.steppedDetailsYear=You’ll usually find these in your lease or written agreement.
+hint.writtenAgreement.steppedDetailsYear=This can usually be found in the lease or agreement.
 hint.writtenAgreement.steppedDetailsYear.agent=You’ll usually find these in your client’s lease or written agreement.
-label.leaseAgreementType=What type of lease or agreement do you have?
+label.leaseAgreementType=What is the type of lease or agreement?
 label.leaseAgreementType.agent=What type of agreement does your client have?
-label.writtenAgreement.startDate=When did your <span class="agreementType">lease, licence or written</span> agreement start?
+label.writtenAgreement.startDate=When did the current agreement start?
 label.writtenAgreement.startDate.agent=When did your client’s <span class="agreementType">lease, licence or written</span> agreement start?
-label.writtenAgreement.startDate.leaseTenancy=When did your current lease or tenancy agreement start?
 label.writtenAgreement.startDate.agent.leaseTenancy=When did your client’s current lease or tenancy agreement start?
-label.writtenAgreement.startDate.licenceOther=When did your license or written agreement start?
 label.writtenAgreement.startDate.agent.licenceOther=When did your client’s licence or written agreement start?
-label.writtenAgreement.rentOpenEnded=Is your <span class="agreementType">lease, license or written</span> agreement open ended?
+label.writtenAgreement.rentOpenEnded=Is the current agreement open-ended?
 label.writtenAgreement.rentOpenEnded.agent=Is your client’s <span class="agreementType">lease, licence or written</span> agreement open ended?
 label.writtenAgreement.rentOpenEnded.help=Select ''No'' if it runs for a defined term or has an agreed end date.
-label.writtenAgreement.rentOpenEnded.leaseTenancy=Is your current lease or tenancy agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent.leaseTenancy=Is your client’s current lease or tenancy agreement open ended?
-label.writtenAgreement.rentOpenEnded.licenceOther=Is your license or written agreement open ended?
 label.writtenAgreement.rentOpenEnded.agent.licenceOther=Is your client’s licence or written agreement open ended?
-label.writtenAgreement.leaselength=How long was your <span class="agreementType">lease, license or written</span> agreement granted for?
+label.writtenAgreement.leaselength=How long is the current agreement for?
 label.writtenAgreement.leaselength.agent=How long was your client’s <span class="agreementType">lease, licence or written</span> agreement granted for?
-label.writtenAgreement.leaselength.leaseTenancy=How long was your single lease or tenancy agreement granted for?
 label.writtenAgreement.leaselength.agent.leaseTenancy=How long was your client’s single lease or tenancy agreement granted for?
-label.writtenAgreement.leaselength.licenceOther=How long was your license or written agreement granted for?
 label.writtenAgreement.leaselength.agent.licenceOther=How long was your client’s licence or written agreement granted for?
-label.verbalAgreement.startDate=When did your verbal agreement start?
+label.verbalAgreement.startDate=When did the current agreement start?
 label.verbalAgreement.startDate.agent=When did your client’s verbal agreement start?
-label.verbalAgreement.rentOpenEnded=Is your verbal agreement open ended?
+label.verbalAgreement.rentOpenEnded=Is the current agreement open-ended?
 label.verbalAgreement.rentOpenEnded.agent=Is your client’s verbal agreement open ended?
-label.verbalAgreement.leaselength=How long was your verbal agreement granted for?
+label.verbalAgreement.leaselength=How long is the current agreement for?
 label.verbalAgreement.leaselength.agent=How long was your client’s verbal agreement granted for?
 label.noJs.verbalAgreement.startDate=Answer this only if you’ve selected ''A single lease or tenancy agreement'' or ''Licence or other type of written agreement''
 label.noJs.writtenAgreement.leaseLength=Answer this only if you’ve selected ''No''
@@ -356,7 +349,7 @@ help.steprent.dateto=For example, 28 3 2011
 help.steprent.datefrom=For example, 28 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
-label.writtenAgreement.steppedDetails.amount=The rent you’ll pay or have paid during this stepped-rent period (excluding VAT).
+label.writtenAgreement.steppedDetails.amount=The rent paid or to be paid during this period (excluding VAT).
 label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period (excluding VAT).
 label.writtenAgreement.steppedDetails.hint=Enter the stepped-rent amount.
 label.writtenAgreement.steppedDetails=Stepped-rent details
@@ -365,10 +358,10 @@ hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details
 #SECTION 7
 ###############################
 section7.heading=Rent reviews
-label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does your lease or tenancy agreement include any rent reviews?</span>
-label.leaseContainsRentReviews.licenceOther=Does your license or written agreement include any rent reviews?
+label.leaseContainsRentReviews=<span class="leaseContainsRentReviews_agent">Does the current agreement include any rent reviews?</span>
+label.leaseContainsRentReviews.licenceOther=Does the current agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.licenceOther=Does your client’s current licence or written agreement include any rent reviews?
-label.leaseContainsRentReviews.leaseTenancy=Does your current lease or tenancy agreement include any rent reviews?
+label.leaseContainsRentReviews.leaseTenancy=Does the current agreement include any rent reviews?
 label.leaseContainsRentReviews.agent.leaseTenancy=Does your client’s current lease or tenancy agreement include any rent reviews?
 hint.leaseContainsRentReviews=A rent review is a time when a change to the rent can be discussed by the landlord and the tenant. It’s different from a stepped rent which has been agreed at the beginning of the lease or tenancy.
 label.rentReviewDetails.reviewIntervalTypeSpecify=Specify the rent review interval
@@ -390,9 +383,9 @@ label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Answer this only if you�
 
 #SECTION 8
 ###############################
-section8.heading=How your rent was fixed, if not by a review
+section8.heading=How the rent was fixed
 section8.heading.agent=How your client’s rent was fixed, if not by review
-label.wasRentFixedBetween=Was the rent fixed between you (or your agent) and the landlord?
+label.wasRentFixedBetween=Was the rent fixed between the tenant and the landlord (or an agent)?
 label.wasRentFixedBetween.agent=Was the rent fixed between your client (or you) and the landlord?
 label.notReviewRentFixed=Was the rent fixed by
 label.rentSetByType=Is this rent
@@ -401,13 +394,13 @@ label.noJs.notReviewRentFixed=Answer this only if you’ve selected ''No''
 #SECTION 9
 ###############################
 section9.heading=The rent
-label.totalRent.annualRentExcludingVat=What is your current annual rent?
+label.totalRent.annualRentExcludingVat=What is the current annual rent?
 label.totalRent.annualRentExcludingVat.agent=What is your client’s current annual rent?
-hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if you pay monthly or quarterly. Ignore any rent-free period.
+hint.totalRent.annualRentExcludingVat=Enter the full annual amount (excluding VAT) even if it is paid monthly or quarterly. Ignore any rent-free period.
 label.totalRent.rentLengthType=The rent is paid
-label.rentBecomePayable=When did you start paying the current rent?
+label.rentBecomePayable=When did the tenant start paying the current rent?
 label.rentBecomePayable.agent=When did your client start paying this rent?
-label.negotiatingNewRent=Are you or your agent negotiating a new rent?
+label.negotiatingNewRent=Is the tenant (or their agent) negotiating a new rent?
 label.negotiatingNewRent.agent=Are you negotiating a new rent on behalf of your client?
 hint.negotiatingNewRent=For example, for a rent review or new lease.
 label.rentBasedOn=What is the rent based on?
@@ -423,7 +416,7 @@ section10.heading=What the rent includes
 label.provideDetails=Please provide details in the text box below
 label.partRent=Is the rent paid for only part of {0}?
 label.partRent.agent=Does your client pay rent for only part of this property?
-hint.partRent=For example, if your address is ‘Floors 1 to 3’ but you only pay rent for Floor 1, select ‘Yes’.
+hint.partRent=For example, if the address is 'Floors 1 to 3' but rent is only paid for floor 1, select ‘Yes’.
 hint.partRent.agent=By property we mean the address given in Section 1. For example, if your client’s address is ''Floors 1 to 3''  but they only pay rent for Floor 1, select ''Yes''.
 label.otherProperty=Does this rent include any other business property?
 label.otherProperty.agent=Does your client’s rent include any other property?
@@ -433,21 +426,21 @@ label.livingAccomodation.agent=Does your client’s rent include any living acco
 hint.livingAccomodation=For example, a flat over a shop or caretaker’s accommodation.
 label.landOnly=Is this rent based on use of the land only?
 label.landOnly.agent=Is your client’s rent based on use of the land only?
-hint.landOnly=For example, there are no buildings on the site, or you put up your own building.
+hint.landOnly=For example, there are no buildings on the site, or the tenant put up their own building.
 label.shellUnit=Is this rent based on an empty (shell) building without fixtures & fittings?
 label.shellUnit.agent=Is your client’s rent based on an empty (shell) building without fixtures & fittings?
 hint.shellUnit=For example, a new but unfinished property which needs fitting out with items such as internal walls, toilets, services (heating, lighting, etc), or finishes (plaster, paint, carpet, etc).
-label.rentDetails=Provide details if you selected ''Yes'' for any of these questions
+label.rentDetails=Provide details for any questions where you answered ‘Yes’.
 label.rentDetails.agent=Provide details if you selected ''Yes'' for any of these questions
 hint.rentDetails=Provide details if you selected ''Yes'' for a question in this section
 label.parking.rentIncludeParking=Is the use of parking spaces or garages included in this rent?
 label.parking.rentIncludeParking.agent=Is the use of parking spaces or garages included in your client’s rent?
-hint.label.parking.rentIncludeParking=If you have use of an unspecified number of spaces in a communal car park, provide an approximate number of spaces available to you.
+hint.label.parking.rentIncludeParking=If the tenant has use of an unspecified number of spaces in a communal car park, provide an approximate number of spaces available to them.
 hint.label.parking.rentIncludeParking.agent=If you your client has use of an unspecified number of spaces in a communal car park, provide an approximate number of spaces available to you.
 label.parking.rentIncludeParkingDetails=How many parking spaces or garages are included in the rent?
-label.parking.rentSeparateParking=Do you pay extra for the use of parking spaces or garages?
+label.parking.rentSeparateParking=Does the tenant pay extra for the use of parking spaces or garages?
 label.parking.rentSeparateParking.agent=Does your client pay extra for the use of parking spaces or garages?
-label.parking.rentSeparateParkingDetails=How many parking spaces or garages do you pay extra for?
+label.parking.rentSeparateParkingDetails=How many parking spaces or garages does the tenant pay extra for?
 label.parking.rentSeparateParkingDetails.agent=How many parking spaces or garages does your client pay extra for?
 label.parking.annualSeparateParking=Fixed annual amount paid for parking or garages over and above the rent (excluding VAT)
 label.parking.annualSeparateParkingDate=When was this payment fixed?
@@ -457,24 +450,23 @@ label.noJs.rentSeparateParkingDetails=Answer this only if you selected ''Yes''
 #SECTION 11
 ###############################
 section11.heading=Incentives and payments
-label.rentFreePeriod=Were you given a rent-free period when the lease or agreement started?
+label.rentFreePeriod=Was there a rent-free period?
 label.rentFreePeriod.agent=Was your client given a rent-free period when the lease or agreement started?
 label.rentFreePeriodDetails.rentFreePeriodLength=How many months was the rent-free period?
-label.rentFreePeriodDetails.rentFreePeriodDetails=Why were you given a rent-free period?
+label.rentFreePeriodDetails.rentFreePeriodDetails=Why was there a rent-free period?
 label.rentFreePeriodDetails.rentFreePeriodDetails.agent=Why was your client given a rent-free period?
 hint.rentFreePeriodDetails.rentFreePeriodDetails=For example, repairs or fitting out works.
-label.payCapitalSum=Did you pay anything to the landlord to take on the lease?
+label.payCapitalSum=Did the tenant pay anything to the landlord to take on the lease?
 label.payCapitalSum.agent=Did your client pay a capital sum?
-hint.payCapitalSum=This is a sum of money you paid to your landlord to take on a lease or agreement
+hint.payCapitalSum=Not including any rent, money for the business itself, goodwill, trade fixtures or refundable deposits.
 label.capitalPaidDetails.capitalSum=Amount paid (excluding VAT)
 label.capitalPaidDetails.paymentDate=Date payment made
-label.receiveCapitalSum=Did you receive any money from the landlord or previous tenant to take on the lease?
+label.receiveCapitalSum=Did the tenant receive any money from the landlord or previous tenant to take on the lease?
 label.receiveCapitalSum.agent=Did your client receive a capital sum?
 label.capitalReceivedDetails.capitalSum=Amount received (excluding VAT)
 label.capitalReceivedDetails.paymentDate=Date payment received
-hint.rentFreePeriodDetails.rentFreePeriodLength=If your rent free-period was for less than 1 month, enter "1" and tell us more under ''Why were you given a rent-free period?''.
+hint.rentFreePeriodDetails.rentFreePeriodLength=If the rent-free period was for less than 1 month, enter ‘1’ and tell us more under ‘Why was there a rent-free period?’.
 hint.rentFreePeriodDetails.rentFreePeriodLength.agent=If your client’s rent free period was for less than 1 month, enter "1" and tell us more under ''Why was your client given a rent-free period?''.
-hint.payCapitalSum=Not including any rent, money for the business itself, goodwill, trade fixtures or refundable deposits.
 label.noJs.capitalReceivedDetails.capitalSum=Answer this only if you’ve selected ''Yes''
 label.noJs.capitalPaidDetails.paymentDate=Answer this only if you’ve selected ''Yes''
 label.noJs.capitalPaidDetails.capitalSum=Answer this only if you’ve selected ''Yes''
@@ -536,7 +528,7 @@ alterationType.addedAirCondition=Added air conditioning
 #SECTION 14
 ###############################
 section14.heading=Any other factors
-label.anyOtherFactors=Has anything else affected the rent you pay?
+label.anyOtherFactors=Has anything else affected the rent?
 label.anyOtherFactors.agent=Has anything else affected the rent that your client pays?
 label.anyOtherFactorsDetails=Give details
 hint.anyOtherFactorsDetails=For example, the permitted use of the property is very restricted or the rent includes an amount for trade fixtures and fittings. Include anything you have not had space to tell us about in an earlier section.
