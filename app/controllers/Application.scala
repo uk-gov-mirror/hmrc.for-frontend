@@ -20,7 +20,7 @@ import actions.RefNumAction
 import config.ForConfig
 import form.Errors
 import form.persistence.FormDocumentRepository
-//import it.innove.play.pdf.PdfGenerator
+import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.data.Form
@@ -34,7 +34,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class Application @Inject() (cc:MessagesControllerComponents,
                  refNumAction: RefNumAction,
-                //  pdfGenerator: PdfGenerator,
+                 pdfGenerator: PdfGenerator,
                   repository: FormDocumentRepository
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
@@ -125,7 +125,7 @@ class Application @Inject() (cc:MessagesControllerComponents,
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val pdf = Array[Byte](1,1,1,1) //pdfGenerator.toBytes(views.html.summary(summary), host)
+        val pdf = pdfGenerator.toBytes(views.html.summary(summary), host)
         Ok(pdf).as("application/pdf")
       case None =>
         InternalServerError(views.html.error.error500())

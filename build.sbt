@@ -34,10 +34,11 @@ lazy val compileDeps = Seq(
   "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
   "com.typesafe.play" %% "play-json-joda" % "2.6.14",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
-  //"it.innove" %  "play2-pdf" % "1.7.0",
   "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
   "uk.gov.hmrc" %% "mongo-caching" % "6.8.0-play-26",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.23.0-play-26"
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.23.0-play-26",
+  "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
+  "nu.validator.htmlparser" % "htmlparser" % "1.4"
 )
 
 val akkaVersion     = "2.5.23"
