@@ -17,46 +17,56 @@
 package controllers
 
 import actions.{RefNumAction, RefNumRequest}
-import connectors.EmailConnector
+import connectors.{Audit, EmailConnector, HODConnector}
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
 import form.CustomUserPasswordForm
 import form.persistence.FormDocumentRepository
+import javax.inject.{Inject, Singleton}
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
 import org.joda.time.LocalDate
+import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.mvc.{Action, AnyContent, Result}
-import playconfig.{Audit, FormPersistence, SessionId}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.libs.json.Json
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
+import playconfig.{FormPersistence, SessionId}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLaterPassword}
 
-import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.libs.json.Json
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
-object SaveForLater extends FrontendController {
+object SaveForLater {
+  val s4lIndicator = "s4l"
+}
+
+@Singleton
+class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, refNumAction: RefNumAction,
+                             emailConnector: EmailConnector, config: Configuration)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  import SaveForLater._
+
+  val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
+
   lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()
 
   def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission(hc)
 
   lazy val repository: FormDocumentRepository = FormPersistence.formDocumentRepository
-  val s4lIndicator = "s4l"
 
-  def saveForLater = RefNumAction.async { implicit request =>
+
+  def saveForLater = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
       case Some(doc) => {
         val sum = SummaryBuilder.build(doc)
-        val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+        val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
-              audit(sum)
+              auditSavedForLater(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
-              EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+              emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                 Ok(views.html.savedForLater(sum, pw, expiryDate))
               }
             }
@@ -69,10 +79,10 @@ object SaveForLater extends FrontendController {
     }
   }
 
-  def customPasswordSaveForLater = RefNumAction.async { implicit request =>
+  def customPasswordSaveForLater = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
         case Some(doc) => {
-          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+          val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
             formErrors => {
@@ -80,9 +90,9 @@ object SaveForLater extends FrontendController {
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
-                audit(sum)
+                auditSavedForLater(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
-                EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+                emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
                   Ok(views.html.savedForLater(sum, pw, expiryDate))
                 }
               }
@@ -94,28 +104,28 @@ object SaveForLater extends FrontendController {
       }
   }
 
-  def audit(sum: Summary)(implicit headerCarrier: HeaderCarrier) = Audit(
+  def auditSavedForLater(sum: Summary)(implicit headerCarrier: HeaderCarrier) = audit(
     "SavedForLater", Map(
-      "referenceNumber" -> sum.referenceNumber, "name" -> sum.submitter
+      Audit.referenceNumber -> sum.referenceNumber, "name" -> sum.submitter
     )
   )
 
-  def resumeOptions = RefNumAction.async { implicit request =>
+  def resumeOptions = refNumAction.async { implicit request =>
     Ok(views.html.saveForLaterResumeOptions())
   }
 
-  def login = RefNumAction.async { implicit request =>
+  def login = refNumAction.async { implicit request =>
     Ok(views.html.saveForLaterLogin())
   }
 
-  def resume = RefNumAction.async { implicit request =>
+  def resume = refNumAction.async { implicit request =>
     saveForLaterForm.bindFromRequest.fold(
       error => BadRequest(views.html.saveForLaterLoginFailed()),
       s4l => resumeSavedJourney(s4l.password, request.refNum)
     )
   }
 
-  def immediateResume = RefNumAction.async { implicit request =>
+  def immediateResume = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
       case Some(doc) =>
         val sum = SummaryBuilder.build(doc)
@@ -125,7 +135,7 @@ object SaveForLater extends FrontendController {
     }
   }
 
-  def timeout = RefNumAction.async { implicit request =>
+  def timeout = refNumAction.async { implicit request =>
     repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
       case Some(doc) => {
         val save4laterResponse = (if (doc.saveForLaterPassword.isDefined) {
@@ -135,11 +145,11 @@ object SaveForLater extends FrontendController {
         })
         save4laterResponse.flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
-          Audit.sendExplicitAudit("UserTimeout", Json.obj(
+          audit.sendExplicitAudit("UserTimeout", Json.obj(
             Audit.referenceNumber -> sum.referenceNumber))
-          val expiryDate = LocalDate.now.plusDays(playconfig.S4L.expiryDateInDays)
+          val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
-          EmailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
+          emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
             Ok(views.html.savedForLater(sum, pw, expiryDate, hasTimedout = true))
           }
         }

@@ -18,57 +18,57 @@ package controllers.feedback
 
 import java.net.URLEncoder
 
-import actions.RefNumAction
+import actions.{RefNumAction, RefNumRequest}
+import connectors.ForHttp
 import controllers._
 import form.persistence.FormDocumentRepository
-import helpers.RunModeHelper
+import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
 import play.api.Play
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.Results._
 import play.api.mvc._
 import play.twirl.api.Html
-import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
-import uk.gov.hmrc.play.http._
+import playconfig.SessionId
+import uk.gov.hmrc.crypto.PlainText
+import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.language.LanguageUtils
 import uk.gov.hmrc.play.partials._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.i18n.Messages
-import playconfig.{FormPersistence, SessionId}
-import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 
-object Feedback extends HeaderCarrierForPartialsConverter {
-  import controllers.feedback.HMRCContact._ // scalastyle:ignore
+@Singleton
+class Feedback @Inject()(cc: MessagesControllerComponents,
+                         http: ForHttp,
+                         sessionCookieCrypto: SessionCookieCrypto,
+                         languageUtils: LanguageUtils,
+                         repository: FormDocumentRepository,
+                         refNumAction: RefNumAction,
+                         override val servicesConfig: ServicesConfig
+                        )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
-  def languageUtils: LanguageUtils = Play.current.injector.instanceOf[LanguageUtils]
+  override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
 
-  def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
-  override lazy val crypto = playconfig.SessionCrypto.crypto.encrypt _
-  val http = playconfig.WSHttp
-
-  def inPageFeedback = RefNumAction.async { implicit request =>
+  def inPageFeedback = refNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
-        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary)(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
+        Ok(views.html.inpagefeedback(hmrcBetaFeedbackFormUrl, None, summary))
       }
     }
   }
 
-  def sendBetaFeedbackToHmrc = RefNumAction.async { implicit request =>
+  def sendBetaFeedbackToHmrc = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) flatMap {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
         request.body.asFormUrlEncoded.map { formData =>
-          http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData) map { res => res.status match {
+          http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
             case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
             case 400 => BadRequest(views.html.inpagefeedback(None, Html(res.body), summary))
-            case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
+            case _ => InternalServerError(views.html.feedbackError())
           }
           }
         }.getOrElse(throw new Exception("Empty Feedback Form"))
@@ -78,27 +78,29 @@ object Feedback extends HeaderCarrierForPartialsConverter {
 
   def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
     request.body.asFormUrlEncoded.map { formData =>
-      http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData) map { res => res.status match {
+      http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
         case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
         case 400 => BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
-        case _ => InternalServerError(views.html.feedbackError()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
+        case _ => InternalServerError(views.html.feedbackError())
       }
       }
     }.getOrElse(throw new Exception("Empty Feedback Form"))
   }
 
   def inPageFeedbackNoLogin = Action { implicit request =>
-    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl)(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
+    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
-    Ok(views.html.inPageFeedbackThankyou()(request, applicationMessages.copy(lang = languageUtils.getCurrentLang)))
+    Ok(views.html.inPageFeedbackThankyou())
   }
 }
 
-//scalastyle:off line.size.limit
-object HMRCContact extends ServicesConfig with RunModeHelper {
-  val contactFrontendPartialBaseUrl = baseUrl("contact-frontend")
+trait HMRCContact {
+
+  def servicesConfig: ServicesConfig
+
+  val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
 
   val betaFeedbackSubmitUrl = routes.Feedback.sendBetaFeedbackToHmrc().url
@@ -117,4 +119,15 @@ object HMRCContact extends ServicesConfig with RunModeHelper {
   }
 
   private def urlEncode(value: String) = URLEncoder.encode(value, "UTF-8")
+}
+
+@deprecated
+object HMRCContact {
+  def apply(): HMRCContact = {
+    val config = Play.current.injector.instanceOf[ServicesConfig]
+    new HMRCContactImpl(config)
+  }
+
+  private class HMRCContactImpl(val servicesConfig: ServicesConfig) extends HMRCContact
+
 }

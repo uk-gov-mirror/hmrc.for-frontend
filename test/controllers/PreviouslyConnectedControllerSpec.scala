@@ -39,7 +39,7 @@ class PreviouslyConnectedControllerSpec extends FlatSpec with Matchers with Mock
 
     val formDocumentRepository = mock[FormDocumentRepository]
 
-    val controller = new PreviouslyConnectedController(global, cache, formDocumentRepository)
+    val controller = new PreviouslyConnectedController(???, cache, formDocumentRepository, ???)(???)
 
     val request = FakeRequest("POST", "/path").withSession("refNum" ->"11122")
 

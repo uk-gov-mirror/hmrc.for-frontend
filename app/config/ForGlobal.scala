@@ -17,7 +17,6 @@
 package config
 
 import controllers.toFut
-import helpers.AppNameHelper
 import org.joda.time.DateTime
 import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -25,10 +24,7 @@ import play.api.mvc.Results._
 import play.api.mvc._
 import play.i18n.MessagesApi
 import play.twirl.api.Html
-import playconfig.{ForHttp, WSHttp}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.config.{AppName, ControllerConfig}
-import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http._
 import uk.gov.hmrc.play.language.LanguageUtils
 import useCases.Now
@@ -39,9 +35,7 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.routing.Router.Tags.RouteActionMethod
 import uk.gov.hmrc.http.{BadRequestException, NotFoundException, Upstream4xxResponse}
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
-import uk.gov.hmrc.play.frontend.filters.{FrontendAuditFilter, FrontendLoggingFilter, MicroserviceFilterSupport}
-
+/*
 object ForGlobal extends ForGlobal
 
 trait ForGlobal extends DefaultFrontendGlobal {
@@ -82,8 +76,10 @@ trait ForGlobal extends DefaultFrontendGlobal {
     }
   }
 }
+*/
+/*
 
-object AuditServiceConnector extends AuditConnector with AppName with AppNameHelper {
+object AuditServiceConnector extends AuditConnector {
   override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
@@ -102,3 +98,4 @@ object ControllerConfiguration extends ControllerConfig {
 object LoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSupport {
   override def controllerNeedsLogging(controllerName: String): Boolean = ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
+*/

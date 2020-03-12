@@ -19,7 +19,7 @@ package controllers
 import java.time.Instant
 
 import actions.{RefNumAction, RefNumRequest}
-import connectors.SubmissionConnector
+import connectors.{Audit, SubmissionConnector}
 import controllers.feedback.Survey
 import form.NotConnectedPropertyForm
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
@@ -28,23 +28,24 @@ import javax.inject.{Inject, Singleton}
 import models.NotConnectedJourney
 import models.pages.{Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
+import play.api.mvc.MessagesControllerComponents
 import play.api.{Configuration, Logger}
-import playconfig.{Audit, FormPersistence, SessionId}
+import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration, submissionConnector: SubmissionConnector,
-                                       cache: MongoSessionRepository, audit: Audit)
-                                      (implicit val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
+class NotConnectedController @Inject()(configuration: Configuration, repository: FormDocumentRepository,
+                                       submissionConnector: SubmissionConnector, refNumAction: RefNumAction,
+                                       cache: MongoSessionRepository, audit: Audit,
+                                       cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
+                                       extends FrontendController(cc) {
 
   val logger = Logger(classOf[NotConnectedController])
-  def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
   def findSummary(implicit request: RefNumRequest[_]) = {
     repository.findById(SessionId(hc), request.refNum) flatMap {
@@ -57,7 +58,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     repository.clear(SessionId(hc), request.refNum)
   }
 
-  def onPageView = RefNumAction.async { implicit request =>
+  def onPageView = refNumAction.async { implicit request =>
     findSummary.map {
       case Some(summary) => Ok(views.html.notConnected(form, summary))
       case None => {
@@ -67,7 +68,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     }
   }
 
-  def onPageSubmit = RefNumAction.async { implicit request =>
+  def onPageSubmit = refNumAction.async { implicit request =>
 
     findSummary.flatMap {
       case Some(summary) => {
@@ -93,7 +94,7 @@ class NotConnectedController @Inject()(configuration: Configuration, submissionC
     }
   }
 
-  def onConfirmationView() = RefNumAction.async { implicit request =>
+  def onConfirmationView() = refNumAction.async { implicit request =>
     val feedbackForm = Survey.completedFeedbackForm.bind(
       Map("journey" -> NotConnectedJourney.name)
     ).discardingErrors

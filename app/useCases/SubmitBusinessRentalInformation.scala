@@ -16,8 +16,10 @@
 
 package useCases
 
+import com.google.inject.ImplementedBy
 import connectors.{Document, SubmissionConnector}
 import form.persistence.FormDocumentRepository
+import javax.inject.{Inject, Singleton}
 import models.journeys.Paths
 import models.pages._
 import models.serviceContracts.submissions._
@@ -27,6 +29,7 @@ import playconfig.SessionId
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
+@ImplementedBy(classOf[SubmitBusinessRentalInformationToBackendApi])
 trait SubmitBusinessRentalInformation {
   def apply(refNum: String)(implicit hs: HeaderCarrier): Future[Submission]
 }
@@ -37,7 +40,8 @@ object SubmitBusinessRentalInformation {
   }
 }
 
-class SubmitBusinessRentalInformationToBackendApi(repository: FormDocumentRepository, builder: SubmissionBuilder,
+@Singleton
+class SubmitBusinessRentalInformationToBackendApi @Inject()(repository: FormDocumentRepository, builder: SubmissionBuilder,
   subConnector: SubmissionConnector) extends SubmitBusinessRentalInformation {
 
   def apply(refNum: String)(implicit hc: HeaderCarrier): Future[Submission] = {
@@ -50,11 +54,13 @@ class SubmitBusinessRentalInformationToBackendApi(repository: FormDocumentReposi
   }
 }
 
+@ImplementedBy(classOf[DefaultSubmissionBuilder])
 trait SubmissionBuilder {
   def build(doc: Document): Submission
 }
 
-object SubmissionBuilder extends SubmissionBuilder {
+@Singleton
+class DefaultSubmissionBuilder extends SubmissionBuilder {
 
   def build(doc: Document): Submission = {
     val s: Summary = SummaryBuilder.build(doc)

@@ -16,22 +16,25 @@
 
 package controllers.dataCapturePages
 
+import actions.{RefNumAction, RefNumRequest}
 import form.PageSevenForm.pageSevenForm
+import javax.inject.Inject
 import models._
 import models.pages.{PageSeven, Summary}
 import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-object PageSevenController extends ForDataCapturePage[PageSeven] {
+class PageSevenController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+  extends ForDataCapturePage[PageSeven](refNumAction, cc) {
   val format = p7f
   val emptyForm = pageSevenForm
   val pageNumber: Int = 7
 
-  def template(form: Form[PageSeven], summary: Summary)(implicit request: Request[AnyContent]): Html = {
+  def template(form: Form[PageSeven], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     views.html.part7(form, summary)
   }
 

@@ -17,31 +17,34 @@
 package controllers
 
 import form.persistence.FormDocumentRepository
-import helpers.AddressAuditing
+import javax.inject.Singleton
 import models.serviceContracts.submissions.Submission
-import org.scalatest.{FreeSpec, Matchers, MustMatchers}
-import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerTest, GuiceOneServerPerSuite}
+import org.scalatest.{FreeSpec, GivenWhenThen, Matchers, MustMatchers}
+import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerTest}
+import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc.Controller
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import uk.gov.hmrc.http.{HeaderCarrier, HeaderNames}
 import useCases.SubmitBusinessRentalInformation
-import utils.stubs.{StubAddressAuditing, StubFormDocumentRepo}
+import utils.stubs.StubFormDocumentRepoProvider
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{ HeaderCarrier, HeaderNames }
 
-class FORSubmissionControllerSpec extends FreeSpec with Matchers with GuiceOneAppPerTest with GuiceFakeApplicationFactory {
+class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenThen with GuiceOneAppPerTest with GuiceFakeApplicationFactory {
 
   import TestData._
 
   override def fakeApplication() = new GuiceApplicationBuilder()
+    .overrides(
+      bind[SubmitBusinessRentalInformation].to[StubSubmitBRI].in[Singleton],
+      bind[FormDocumentRepository].toProvider[StubFormDocumentRepoProvider].in[Singleton]
+    )
     .configure(Map("auditing.enabled" -> false)).build()
 
   "When a submission is received and the declaration has been agreed to" - {
-    val submit = StubSubmitBRI()
-    val controller = createController(submit)
+    def submit = app.injector.instanceOf[SubmitBusinessRentalInformation].asInstanceOf[StubSubmitBRI]
+    def controller = app.injector.instanceOf[FORSubmissionController]
 
     "A 302 response redirecting to the confirmation page is returned" in {
       val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
@@ -49,15 +52,16 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers with GuiceOneAp
 
       response.header.status should equal(302)
       assert(response.header.headers("Location") === confirmationUrl)
-    }
 
-    "The Business rental information submission process is initiated" in {
+
+      And("The Business rental information submission process is initiated")
       submit.assertBRISubmittedFor(refNum)
     }
+
   }
 
   "When a submission is received and the declaration has not been agreed to" - {
-    val controller = createController()
+    def controller = app.injector.instanceOf[FORSubmissionController]
 
     "A redirect to the declaration error page is returned" in {
       val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "false"))
@@ -76,16 +80,6 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers with GuiceOneAp
 
     lazy val declarationErrorUrl = controllers.routes.Application.declarationError.url
 
-    class TestController(val x: SubmitBusinessRentalInformation) extends FORSubmissionController with Controller {
-      override protected val documentRepo: FormDocumentRepository = StubFormDocumentRepo()
-      override protected val auditAddresses: AddressAuditing = StubAddressAuditing
-
-      def submitBusinessRentalInformation = x
-    }
-
-    def createController(submitter: StubSubmitBRI = null) = {
-      new TestController(submitter)
-    }
   }
 
 }
@@ -102,6 +96,7 @@ class StubSubmitBRI extends SubmitBusinessRentalInformation with MustMatchers {
   var submittedRefNums: Seq[String] = Seq.empty
 
   def apply(refNum: String)(implicit hc: HeaderCarrier): Future[Submission] = {
+    Console.println(s"=== called apply with : ${refNum} ===")
     Future.successful {
       submittedRefNums = submittedRefNums :+ refNum;
       stubSubmission

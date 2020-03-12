@@ -16,22 +16,20 @@
 
 package helpers
 
+import connectors.Audit
 import form.MappingSupport
+import javax.inject.{Inject, Singleton}
 import models.LookupServiceAddress
 import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.mvc.Request
-import playconfig.Audit
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.Future
 
-object AddressAuditing extends AddressAuditing {
-  override protected val audit = Audit
-}
 
-trait AddressAuditing {
-  protected val audit: Audit
+@Singleton
+class AddressAuditing @Inject() (audit: Audit)  {
 
   def apply(s: Summary, request: Request[_]): Future[Unit] = {
     s.propertyAddress.map(p1 => auditManualAddress(s.addressUserBelievesIsCorrect, request))

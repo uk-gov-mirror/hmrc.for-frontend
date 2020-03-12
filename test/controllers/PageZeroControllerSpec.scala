@@ -18,24 +18,33 @@ package controllers
 
 import connectors.Document
 import controllers.dataCapturePages.PageZeroController
-import form.persistence.{FormDocumentRepository, SaveForm, SaveFormInRepository}
-import models.pages.SummaryBuilder
+import form.persistence.FormDocumentRepository
 import org.joda.time.DateTime
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
-import org.scalatestplus.play.OneServerPerSuite
+import org.scalatestplus.play.PlaySpec
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.api.test.{DefaultAwaitTimeout, FakeRequest, FutureAwaits}
-import play.filters.csrf.CSRF.Token
 import play.filters.csrf._
-import utils.stubs.StubFormDocumentRepo
 import uk.gov.hmrc.http.HeaderNames
+import utils.Helpers._
+import play.api.inject.bind
+import utils.stubs.StubFormDocumentRepo
 
 /*
 TODO - This test shoould be moved to IT or should be rewriten not to use OneServerPerSuite.
  */
-class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwaits with DefaultAwaitTimeout with OptionValues with OneServerPerSuite {
-  implicit override lazy val app: play.api.Application = new GuiceApplicationBuilder().configure(Map("auditing.enabled" -> false)).build()
+class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
+  //implicit override lazy val app: play.api.Application =
+
+  override def fakeApplication(): play.api.Application = {
+    new GuiceApplicationBuilder()
+      .overrides(
+        bind[FormDocumentRepository].toInstance(StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now()))))
+      )
+      .configure(Map("auditing.enabled" -> false))
+      .build()
+  }
 
   val testRefNum = "1234567890"
   val sessionId = java.util.UUID.randomUUID().toString
@@ -45,16 +54,81 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
     val csrfFilter     = app.injector.instanceOf[CSRFFilter]
     val token          = csrfFilter.tokenProvider.generateToken
 
-    fakeRequest.copyFakeRequest(tags = fakeRequest.tags ++ Map(
-      Token.NameRequestTag  -> csrfConfig.tokenName,
-      Token.RequestTag      -> token
-    )).withHeaders((csrfConfig.headerName, token))
+    fakeRequest.withHeaders(csrfConfig.headerName -> token)
+
+//    fakeRequest.copyFakeRequest(tags = fakeRequest.tags ++ Map(
+//      Token.NameRequestTag  -> csrfConfig.tokenName,
+//      Token.RequestTag      -> token
+//    )).withHeaders((csrfConfig.headerName, token))
   }
 
-  private object TestPageZeroController extends PageZeroController {
-    override def saveForm: SaveForm = new SaveFormInRepository(repository, SummaryBuilder)
-    override def repository: FormDocumentRepository = StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now())))
+//  private object TestPageZeroController extends PageZeroController {
+//    override def saveForm: SaveForm = new SaveFormInRepository(repository, SummaryBuilder)
+//    override def repository: FormDocumentRepository = StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now())))
+//  }
+
+
+  "Page zero controller" should {
+    "redirect to page 1 if user want to change address" in {
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+
+      val request = FakeRequest()
+        .withHeaders(HeaderNames.xSessionId -> sessionId)
+        .withSession("refNum" -> testRefNum)
+        .withFormUrlEncodedBody(
+          "isRelated" -> "yes-change-address",
+          "continue_button" -> ""
+        )
+
+      val res = await(pageZeroController.save()(request))
+
+      status(res) mustBe SEE_OTHER
+
+      header("location", res).value mustBe "/sending-rental-information/page/1"
+    }
+
+    "redirect to page 2 if user doesn't want to change address" in {
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+
+      val request = FakeRequest()
+        .withHeaders(HeaderNames.xSessionId -> sessionId)
+        .withSession("refNum" -> testRefNum)
+        .withFormUrlEncodedBody(
+          "isRelated" -> "yes",
+          "continue_button" -> ""
+        )
+
+      val res = await(pageZeroController.save()(request))
+
+      status(res) mustBe SEE_OTHER
+      header("location", res).value mustBe "/sending-rental-information/page/2"
+
+    }
+
+
+    "redirect to not connected page if user is not connected with property " in {
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+
+      val request = FakeRequest()
+        .withHeaders(HeaderNames.xSessionId -> sessionId)
+        .withSession("refNum" -> testRefNum)
+        .withFormUrlEncodedBody(
+          "isRelated" -> "no",
+          "continue_button" -> ""
+        )
+
+      val res = await(pageZeroController.save()(request))
+
+      status(res) mustBe SEE_OTHER
+      header("location", res).value mustBe "/sending-rental-information/previously-connected"
+    }
+
   }
+
+
+  /*
+
+
 
   "When the user still has a relationship with the property" - {
      "And want to change address" - {
@@ -68,7 +142,7 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
                "continue_button" -> ""
              ))
 
-           val res = await(TestPageZeroController.save()(request))
+           val res = await(pageZeroController.save()(request))
 
            status(res) mustBe SEE_OTHER
            header("location", res).value mustBe "/sending-rental-information/page/1"
@@ -86,7 +160,7 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
               "continue_button" -> ""
             ))
 
-          val res = await(TestPageZeroController.save()(request))
+          val res = await(pageZeroController.save()(request))
 
           status(res) mustBe SEE_OTHER
           header("location", res).value mustBe "/sending-rental-information/page/2"
@@ -106,11 +180,13 @@ class PageZeroControllerSpec extends FreeSpec with MustMatchers with FutureAwait
             "continue_button" -> ""
           ))
 
-        val res = await(TestPageZeroController.save()(request))
+        val res = await(pageZeroController.save()(request))
 
         status(res) mustBe SEE_OTHER
         header("location", res).value mustBe "/sending-rental-information/previously-connected"
       }
     }
   }
+
+   */
 }

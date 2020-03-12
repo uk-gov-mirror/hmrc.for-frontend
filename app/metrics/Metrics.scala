@@ -15,9 +15,12 @@
  */
 
 package metrics
-
+/*
 import uk.gov.hmrc.play.graphite.MicroserviceMetrics
 
 object Metrics extends MicroserviceMetrics {
   lazy val submissions = metrics.defaultRegistry.meter("forsubmissions")
 }
+
+
+ */

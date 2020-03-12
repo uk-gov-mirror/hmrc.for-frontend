@@ -16,42 +16,30 @@
 
 package controllers
 
+import actions.RefNumAction
+import connectors.{Audit, HODConnector}
 import form.ConditionalMapping._
 import form.Errors
 import form.MappingSupport._
-import form.persistence.FormDocumentRepository
+import javax.inject.Inject
 import org.joda.time.DateTime
 import play.Logger
-import play.api.Play
 import play.api.data.Form
 import play.api.data.Forms._
-
-import scala.concurrent.ExecutionContext
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.data.JodaForms._
 import play.api.libs.json.{Format, Json}
-import play.api.mvc.{Action, AnyContent, Request, Result}
-import playconfig.{Audit, FormPersistence}
-import security.LoginToHOD._
+import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequest, Request, Result}
+import playconfig.{LoginToHOD, LoginToHODAction}
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
 
-object LoginController extends LoginController(
-    Audit,
-    () => Play.current.injector.instanceOf[ExecutionContext],
-    hc => playconfig.LoginToHOD(hc)
-)
-
-class LoginController (audit: Audit, playExecutionContext: () => ExecutionContext,
-                       loginToHOD: HeaderCarrier => LoginToHOD
-                      ) extends FrontendController {
-
+object LoginController {
   val loginForm = Form(
     mapping(
       "ref1" -> text.verifying(Errors.invalidRefNum, x => Seq(7, 8).contains(x.length)),
@@ -59,6 +47,12 @@ class LoginController (audit: Audit, playExecutionContext: () => ExecutionContex
       "postcode" -> nonEmptyTextOr("postcode", postcode),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     )(LoginDetails.apply)(LoginDetails.unapply))
+}
+
+class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents
+                       )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  import LoginController.loginForm
+
 
   def show = Action { implicit request =>
     Ok(views.html.login(loginForm))
@@ -77,18 +71,18 @@ class LoginController (audit: Audit, playExecutionContext: () => ExecutionContex
     )
   }
 
-  def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: Request[AnyContent]) = {
-    implicit val ec = playExecutionContext()
+  def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: MessagesRequest[AnyContent]) = {
     val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
 
+    //TODO - refactor
     loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
-        auditLogin(ref1 + ref2, true, hc2)
+        auditLogin(ref1 + ref2, true)(hc2)
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)
       case NoExistingDocument(token) =>
-        auditLogin(ref1 + ref2, false, hc2)
+        auditLogin(ref1 + ref2, false)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
@@ -103,8 +97,9 @@ class LoginController (audit: Audit, playExecutionContext: () => ExecutionContex
     }
   }
 
-  private def auditLogin(refNumber: String, returnUser: Boolean, hc: HeaderCarrier) = {
-    audit.sendExplicitAudit("UserLogin",Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))(hc, playExecutionContext())
+  private def auditLogin(refNumber: String, returnUser: Boolean)( implicit hc: HeaderCarrier) = {
+
+    audit.sendExplicitAudit("UserLogin",Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
   }
 
   def lockedOut = Action { implicit request => Unauthorized(views.html.lockedOut()) }

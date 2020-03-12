@@ -31,14 +31,6 @@ import reactivemongo.play.json.ImplicitBSONHandlers._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-object MongoSessionRepository {
-  /**
-    * Only for compatibility. Remove after Guice migration
-    * @return MongoSessionrepository form Guice
-    */
-  def apply() = Play.current.injector.instanceOf[MongoSessionRepository]
-}
-
 @Singleton
 class MongoSessionRepository @Inject() (mongo: ReactiveMongoComponent, ec: ExecutionContext) {
 
@@ -46,7 +38,7 @@ class MongoSessionRepository @Inject() (mongo: ReactiveMongoComponent, ec: Execu
 
   val logger = Logger(getClass())
 
-  ensureIndexes()
+  ensureIndexes() //TODO - Change to standard index definition
 
   def ensureIndexes(): Future[Unit] = {
     implicit  val executionContext = ec

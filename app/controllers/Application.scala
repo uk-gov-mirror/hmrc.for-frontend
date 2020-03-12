@@ -18,23 +18,28 @@ package controllers
 
 import actions.RefNumAction
 import config.ForConfig
-import connectors.HODConnector
 import form.Errors
 import form.persistence.FormDocumentRepository
 import it.innove.play.pdf.PdfGenerator
+import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-object Application extends FrontendController {
-  def repository: FormDocumentRepository = playconfig.FormPersistence.formDocumentRepository
+import scala.concurrent.ExecutionContext
 
-  def declaration = RefNumAction.async { implicit request =>
+@Singleton
+class Application @Inject() (cc:MessagesControllerComponents,
+                 refNumAction: RefNumAction,
+                 pdfGenerator: PdfGenerator,
+                  repository: FormDocumentRepository
+                 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+
+
+  def declaration = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
@@ -45,7 +50,7 @@ object Application extends FrontendController {
     }
   }
 
-  def declarationError = RefNumAction.async { implicit request =>
+  def declarationError = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
@@ -60,7 +65,7 @@ object Application extends FrontendController {
     Ok(views.html.fail())
   }
 
-  def startAgain = RefNumAction.async { implicit request =>
+  def startAgain = refNumAction.async { implicit request =>
     repository.clear(SessionId(hc), request.refNum) map { _ =>
       Redirect(dataCapturePages.routes.PageController.showPage(0))
     }
@@ -105,7 +110,7 @@ object Application extends FrontendController {
     Ok(views.html.error.error500())
   }
 
-  def inpageVacatedForm = RefNumAction.async { implicit request =>
+  def inpageVacatedForm = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) => Ok(views.html.inpageVacatedForm(Some(SummaryBuilder.build(doc))))
       case _ => InternalServerError(views.html.error.error500())
@@ -116,18 +121,18 @@ object Application extends FrontendController {
     s"http://${request.host}/"
   }
 
-  def pdf = RefNumAction.async { implicit request =>
+  def pdf = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val pdf = current.injector.instanceOf[PdfGenerator].toBytes(views.html.summary(summary), host)
+        val pdf = pdfGenerator.toBytes(views.html.summary(summary), host)
         Ok(pdf).as("application/pdf")
       case None =>
         InternalServerError(views.html.error.error500())
     }
   }
 
-  def summary = RefNumAction.async { implicit request =>
+  def summary = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)

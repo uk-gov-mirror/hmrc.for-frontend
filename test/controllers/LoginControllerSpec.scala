@@ -16,31 +16,41 @@
 
 package controllers
 
+import connectors.{Audit, HODConnector}
 import form.persistence.FormDocumentRepository
+import models.FORLoginResponse
+import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
+import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.{JsObject, Json}
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
-import playconfig.Audit
+import playconfig.LoginToHODAction
+import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
+import utils.Helpers._
 import security.{LoginResult, NoExistingDocument}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar with GuiceOneAppPerSuite {
-  val globalEc = scala.concurrent.ExecutionContext.Implicits.global
+class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
+  implicit val globalEc = scala.concurrent.ExecutionContext.Implicits.global
 
   "login controller" should "Audit successful login" in {
 
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val formRepository = mock[FormDocumentRepository]
+    val loginToHodFunction = (ref1: Ref1, ref2: Ref2, postcode: Postcode, start:StartTime) =>
+      Future.successful(NoExistingDocument("token"))
 
-    val loginController = new LoginController(audit, () => globalEc, _ => loginToHod)
+    val loginToHod = mock[LoginToHODAction]
+    when(loginToHod.apply(any[HeaderCarrier])).thenReturn(loginToHodFunction)
+
+    val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents())
 
     val fakeRequest = FakeRequest()
 
@@ -57,9 +67,7 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar with 
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val formRepository = mock[FormDocumentRepository]
-
-    val loginController = new LoginController(audit, () => globalEc, _ => loginToHod)
+    val loginController = new LoginController(audit, null, stubMessagesControllerComponents())
 
     val fakeRequest = FakeRequest()
 
