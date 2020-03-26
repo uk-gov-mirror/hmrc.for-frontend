@@ -4,6 +4,7 @@ import sbt.Keys.dependencyOverrides
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.SbtAutoBuildPlugin
+import uk.gov.hmrc.DefaultBuildSettings.addTestReportOption
 
 lazy val scoverageSettings = {
   import scoverage.ScoverageKeys
@@ -27,16 +28,16 @@ lazy val compileDeps = Seq(
   "uk.gov.hmrc" %% "json-encryption" % "4.5.0-play-26",
   "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-26",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.2.0-play-26",
-  "uk.gov.hmrc" %% "http-verbs" % "10.5.0-play-26",
-  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.4.0",
+  "uk.gov.hmrc" %% "http-verbs" % "10.6.0-play-26",
+  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.6.0",
   "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
   "uk.gov.hmrc" %% "play-ui" % "8.8.0-play-26",
   "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
   "com.typesafe.play" %% "play-json-joda" % "2.6.14",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
-  "uk.gov.hmrc" %% "mongo-caching" % "6.8.0-play-26",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.23.0-play-26",
+  "uk.gov.hmrc" %% "mongo-caching" % "6.11.0-play-26",
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.26.0-play-26",
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
   "nu.validator.htmlparser" % "htmlparser" % "1.4"
 )
@@ -85,12 +86,14 @@ lazy val root = (project in file("."))
     majorVersion := 3
   ).settings(JavaScriptBuild.javaScriptUiSettings: _*)
   .configs(IntegrationTest)
+  .enablePlugins(plugins.JUnitXmlReportPlugin)
   .settings(
     Keys.fork in IntegrationTest := false,
     Defaults.itSettings,
     unmanagedSourceDirectories in IntegrationTest += baseDirectory(_ / "it").value,
     parallelExecution in IntegrationTest := false,
-    testGrouping in IntegrationTest := oneForkedJvmPerTest((definedTests in IntegrationTest).value)
+    testGrouping in IntegrationTest := oneForkedJvmPerTest((definedTests in IntegrationTest).value),
+    addTestReportOption(IntegrationTest, "int-test-reports"),
   )
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
 
