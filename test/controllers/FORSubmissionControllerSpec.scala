@@ -20,7 +20,7 @@ import form.persistence.FormDocumentRepository
 import javax.inject.Singleton
 import models.serviceContracts.submissions.Submission
 import org.scalatest.{FreeSpec, GivenWhenThen, Matchers, MustMatchers}
-import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerTest}
+import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerSuite, GuiceOneAppPerTest}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
@@ -31,7 +31,7 @@ import utils.stubs.StubFormDocumentRepoProvider
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenThen with GuiceOneAppPerTest with GuiceFakeApplicationFactory {
+class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenThen with GuiceOneAppPerSuite {
 
   import TestData._
 
