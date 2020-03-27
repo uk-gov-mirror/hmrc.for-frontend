@@ -33,13 +33,13 @@
            @displayRoughDate(wa.startDate)
         }
 
-        @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.rentOpenEnded."+p6.leaseAgreementType.name)), 6, "writtenAgreement_rentOpenEnded") {
+        @summaryBlock(if(isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.rentOpenEnded."+p6.leaseAgreementType.name), 6, "writtenAgreement_rentOpenEnded") {
           @displayBoolean(wa.rentOpenEnded, "2")
         }
 
 
         @if(wa.rentOpenEnded == false) {
-          @summaryBlock(Messages(if(isAgent) Messages("label.writtenAgreement.leaselength.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.leaselength."+p6.leaseAgreementType.name)), 6, "writtenAgreement_leaseLength_years") {
+          @summaryBlock((if(isAgent) Messages("label.writtenAgreement.leaselength.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.leaselength."+p6.leaseAgreementType.name)), 6, "writtenAgreement_leaseLength_years") {
             @wa.leaseLength.map { ll => <span class="yNumber">@{ll.years}</span> <span class="yText">years</span>, <span class="mNumber">@{ll.months}</span> <span class="mText">months</span> }
           }
         }
