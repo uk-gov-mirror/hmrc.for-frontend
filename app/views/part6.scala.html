@@ -56,7 +56,7 @@
           field = theForm("leaseAgreementType"),
           options = EnumOptions.options(LeaseAgreementTypes),
           args = Seq(
-            '_label -> Messages(if(summary.isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")),
+            '_label -> (if(summary.isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")),
             '_error -> theForm("leaseAgreementType").errors,
             '_showConstraints -> false,
             '_showErrors -> true,
@@ -87,7 +87,7 @@
             ("false", "data-show-fields", "verbalAgreement.leaseLength.months,verbalAgreement.leaseLength.years")),
             args = Seq(
               '_showConstraints -> false,
-              '_label -> Messages(if(summary.isAgent) Messages("label.verbalAgreement.rentOpenEnded.agent") else Messages("label.verbalAgreement.rentOpenEnded")),
+              '_label -> (if(summary.isAgent) Messages("label.verbalAgreement.rentOpenEnded.agent") else Messages("label.verbalAgreement.rentOpenEnded")),
               '_error -> theForm("verbalAgreement.rentOpenEnded").errors,
               '_legend -> true,
               '_fieldsetClass -> "inline",
@@ -128,7 +128,7 @@
             ("false", "data-show-fields", "writtenAgreement.leaseLength.years,writtenAgreement.leaseLength.months")),
             args = Seq(
               '_showConstraints -> false,
-              '_label -> Html(Messages(if(summary.isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent") else Messages("label.writtenAgreement.rentOpenEnded"))),
+              '_label -> Html(if(summary.isAgent) Messages("label.writtenAgreement.rentOpenEnded.agent") else Messages("label.writtenAgreement.rentOpenEnded")),
               '_error -> theForm("writtenAgreement.rentOpenEnded").errors,
               '_legend -> true,
               '_fieldsetClass -> "inline",

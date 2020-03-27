@@ -34,13 +34,14 @@ Example usage:
 ***********************************@
 
 @import views.html.helper._
+@import util.FieldElementsHelper._
 
 @(elements: helper.FieldElements)(implicit messages: Messages)
 
     @elements.args.get('_legend) match {
      	case Some(true) => { 
      		<fieldset id="@elements.id" class="@elements.args.get('_fieldsetClass) form-group @if(elements.hasErrors) {has-error}">
-   				<legend class="@elements.args.get('_labelClass)"><span class="label-span">@elements.label</span>
+   				<legend class="@elements.args.get('_labelClass)"><span class="label-span">@elements.raldLabel</span>
 
                     @elements.args.get('_optional) match {
                         case Some(true) => { <span class="visuallyhidden">(@Messages("label.optional"))</span> }
