@@ -3,7 +3,7 @@ import play.core.PlayVersion
 import sbt.Keys.dependencyOverrides
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
-import uk.gov.hmrc.SbtAutoBuildPlugin
+import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
 import uk.gov.hmrc.DefaultBuildSettings.addTestReportOption
 
 lazy val scoverageSettings = {
@@ -65,8 +65,8 @@ def testDeps(scope: String) = Seq(
 
 lazy val root = (project in file("."))
   .settings(
+    DefaultBuildSettings.defaultSettings(),
     name := "for-frontend",
-    organization := "uk.gov.hmrc",
     scalaVersion := "2.11.12",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
@@ -80,7 +80,6 @@ lazy val root = (project in file("."))
     dependencyOverrides ++= dependencyOverride,
     publishingSettings,
     scoverageSettings,
-    fork in Test := true,
     routesGenerator := InjectedRoutesGenerator,
     unmanagedResourceDirectories in Compile += baseDirectory.value / "resources",
     majorVersion := 3
@@ -88,17 +87,7 @@ lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .enablePlugins(plugins.JUnitXmlReportPlugin)
   .settings(
-    Keys.fork in IntegrationTest := false,
     Defaults.itSettings,
-    unmanagedSourceDirectories in IntegrationTest += baseDirectory(_ / "it").value,
-    parallelExecution in IntegrationTest := false,
-    testGrouping in IntegrationTest := oneForkedJvmPerTest((definedTests in IntegrationTest).value),
-    addTestReportOption(IntegrationTest, "int-test-reports"),
+    DefaultBuildSettings.integrationTestSettings()
   )
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
-
-def oneForkedJvmPerTest(tests: Seq[TestDefinition]) = {
-  tests.map { test =>
-    new Group(test.name, Seq(test), SubProcess(ForkOptions().withRunJVMOptions(Vector(s"-Dtest.name=${test.name}"))))
-  }
-}
