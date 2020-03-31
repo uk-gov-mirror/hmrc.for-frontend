@@ -82,12 +82,12 @@ lazy val root = (project in file("."))
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
     unmanagedResourceDirectories in Compile += baseDirectory.value / "resources",
-    majorVersion := 3
+    majorVersion := 3,
   ).settings(JavaScriptBuild.javaScriptUiSettings: _*)
   .configs(IntegrationTest)
-  .enablePlugins(plugins.JUnitXmlReportPlugin)
   .settings(
     Defaults.itSettings,
     DefaultBuildSettings.integrationTestSettings()
   )
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
+  .disablePlugins(plugins.JUnitXmlReportPlugin)
