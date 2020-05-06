@@ -33,17 +33,20 @@ class ErrorHandler @Inject() (val messagesApi: MessagesApi) extends FrontendErro
     implicit val requestHeader: RequestHeader = request
     exception.getCause match {
       case e: BadRequestException => BadRequest(views.html.error.error500())
+      case Upstream4xxResponse(_, 404, _, _) => NotFound(views.html.error.error404())
       case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(views.html.error.error408())
       case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
       case Upstream4xxResponse(_, 410, _, _) => Gone(views.html.error.error410())
       case e: NotFoundException => NotFound(views.html.error.error404())
       case _ => super.resolveError(request, exception)
     }
-
-
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
     views.html.error.error500()
+  }
+
+  override def notFoundTemplate(implicit request: Request[_]): Html = {
+    views.html.error.error404()
   }
 }
