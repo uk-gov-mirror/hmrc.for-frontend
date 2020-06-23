@@ -27,9 +27,10 @@ Example usage:
 '_add' -> true,                                 (shows add/remove links)
 '_details -> true,                              (shows details element)
 '_detailsQuestion -> "The question",            (details element question text)
-'_detailsAnswer -> "The answer"                 (details element answer text)
-'_characterCount -> "250"                       (character limit)
-'_nojsText -> "no js text"                      (shows no js text)
+'_detailsAnswer -> "The answer",                (details element answer text)
+'_characterCount -> "250",                      (character limit)
+'_nojsText -> "no js text",                     (shows no js text)
+'_hint -> "Custom hint"                         (shows hint text, similar to help, just rendered separately)
 
 ***********************************@
 
@@ -100,6 +101,10 @@ Example usage:
     @if(elements.hasErrors) {
     	<div class="@if(elements.hasErrors) {form-grouped-error}">
     		<p class="error">@elements.errors.mkString(", ")</p>
+    }
+
+    @elements.args.get('_hint).map { hintText =>
+        <span class="form-hint">@hintText</span>
     }
 
     @elements.args.get('_pound) match {
