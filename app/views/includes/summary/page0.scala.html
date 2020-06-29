@@ -25,7 +25,7 @@
   if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}
 }
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section1.heading")</h2></li>
+<h2 class="heading-medium no-margin-top">@Messages("section1.heading")</h2>
 
  @summaryBlock(Messages("label.currentAddress"), 0, "isAddressCorrect") {
    	@Html(summary.address.map(_.multiLine).getOrElse("") + underReview)

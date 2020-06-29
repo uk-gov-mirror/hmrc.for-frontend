@@ -21,74 +21,75 @@
 @import models.serviceContracts.submissions._
 
 @(p10: WhatRentIncludes, isAgent: Boolean, address: Option[String] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
-<li><h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2></li>
+<h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2>
 
-@summaryBlock(Messages(if(isAgent)  Messages("label.livingAccomodation.agent") else Messages("label.livingAccomodation")), 10, "livingAccomodation") {
-    @displayBoolean(p10.livingAccommodation, "2")
-}
-
-@summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent", address.getOrElse(""))), 10, "partRent") {
-    @displayBoolean(p10.partRent, "9")
-}
-
-@summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
-    @displayBoolean(p10.otherProperty, "2")
-}
-
-@summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {
-    @displayBoolean(p10.landOnly, "9")
-}
-
-@summaryBlock(Messages(if(isAgent) Messages("label.shellUnit.agent") else Messages("label.shellUnit")), 10, "shellUnit") {
-    @displayBoolean(p10.shellUnit, "9")
-}
-
-@if(p10.rentDetails) {
-    @summaryBlock(Messages(if(isAgent) Messages("label.rentDetails.agent") else Messages("label.rentDetails")), 10, "rentDetails") {
-        @p10.rentDetails.getOrElse("")
+<dl class="govuk-check-your-answers cya-questions-long">
+    @summaryBlock(Messages(if(isAgent)  Messages("label.livingAccomodation.agent") else Messages("label.livingAccomodation")), 10, "livingAccomodation") {
+        @displayBoolean(p10.livingAccommodation, "2")
     }
-}
 
-@summaryBlock(Messages(if(isAgent) Messages("label.parking.rentIncludeParking.agent") else Messages("label.parking.rentIncludeParking")), 10, "parking_rentIncludeParking") {
-    @displayBoolean(p10.parking.rentIncludesParking, "2")
-}
-
-@if(p10.parking.rentIncludesParking) {
-    @summaryBlock(Messages("label.parking.rentIncludeParkingDetails"), 10, "parking.rentIncludeParkingDetails") {
-        @p10.parking.rentIncludedParkingDetails.map { pd =>
-            @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
-            @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
-            @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
-        }
+    @summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent", address.getOrElse(""))), 10, "partRent") {
+        @displayBoolean(p10.partRent, "9")
     }
-}
 
-@summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParking.agent") else Messages("label.parking.rentSeparateParking")), 10, "parking_rentSeparateParking") {
-    @displayBoolean(p10.parking.rentHasSeparateParking, if(isAgent) "2" else "1")
-}
+    @summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
+        @displayBoolean(p10.otherProperty, "2")
+    }
 
-@if(p10.parking.rentHasSeparateParking) {
-    @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParkingDetails.agent") else Messages("label.parking.rentSeparateParkingDetails")), 10, "parking.rentSeparateParkingDetails") {
-        @p10.parking.rentSeparateParkingDetails.map { pd =>
+    @summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {
+        @displayBoolean(p10.landOnly, "9")
+    }
 
-            @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
-            @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
-            @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
+    @summaryBlock(Messages(if(isAgent) Messages("label.shellUnit.agent") else Messages("label.shellUnit")), 10, "shellUnit") {
+        @displayBoolean(p10.shellUnit, "9")
+    }
 
+    @if(p10.rentDetails) {
+        @summaryBlock(Messages(if(isAgent) Messages("label.rentDetails.agent") else Messages("label.rentDetails")), 10, "rentDetails") {
+            @p10.rentDetails.getOrElse("")
         }
     }
 
-    @summaryBlock(Messages("label.parking.annualSeparateParking"), 10, "parking_annualSeparateParking") {
-        @p10.parking.annualSeparateParkingAmount.map { sp =>
-            £@NumberFormat.getNumberInstance().format(sp)
+    @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentIncludeParking.agent") else Messages("label.parking.rentIncludeParking")), 10, "parking_rentIncludeParking") {
+        @displayBoolean(p10.parking.rentIncludesParking, "2")
+    }
+
+    @if(p10.parking.rentIncludesParking) {
+        @summaryBlock(Messages("label.parking.rentIncludeParkingDetails"), 10, "parking.rentIncludeParkingDetails") {
+            @p10.parking.rentIncludedParkingDetails.map { pd =>
+                @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
+                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
+                @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
+            }
         }
     }
 
-    @summaryBlock(Messages("label.parking.annualSeparateParkingDate"), 10, "parking_annualSeparateParkingDate_year") {
-        @p10.parking.annualSeparateParkingFixedDate.map { as =>
-            @displayRoughDate(as)
-        }
+    @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParking.agent") else Messages("label.parking.rentSeparateParking")), 10, "parking_rentSeparateParking") {
+        @displayBoolean(p10.parking.rentHasSeparateParking, if(isAgent) "2" else "1")
     }
 
-}
+    @if(p10.parking.rentHasSeparateParking) {
+        @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParkingDetails.agent") else Messages("label.parking.rentSeparateParkingDetails")), 10, "parking.rentSeparateParkingDetails") {
+            @p10.parking.rentSeparateParkingDetails.map { pd =>
 
+                @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
+                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
+                @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
+
+            }
+        }
+
+        @summaryBlock(Messages("label.parking.annualSeparateParking"), 10, "parking_annualSeparateParking") {
+            @p10.parking.annualSeparateParkingAmount.map { sp =>
+                £@NumberFormat.getNumberInstance().format(sp)
+            }
+        }
+
+        @summaryBlock(Messages("label.parking.annualSeparateParkingDate"), 10, "parking_annualSeparateParkingDate_year") {
+            @p10.parking.annualSeparateParkingFixedDate.map { as =>
+                @displayRoughDate(as)
+            }
+        }
+
+    }
+</dl>

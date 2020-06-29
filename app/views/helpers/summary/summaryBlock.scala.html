@@ -15,8 +15,8 @@
  *@
 
 @(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, messages: Messages)
-  <li id="@linkId">
-      <div class="edit"><a href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId" role="button">@Messages("label.edit") <span class="visuallyhidden">@fieldName</span></a></div>
-      <div class="question">@fieldName</div>
-      <div class="answer">@answer</div>
-  </li>
+  <div id="@linkId">
+      <dt class="cya-question">@fieldName</dt>
+      <dd class="cya-answer">@answer</dd>
+      <dd class="cya-change"><a href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId">@Messages("label.edit") <span class="visually-hidden">@fieldName</span></a></dd>
+  </div>

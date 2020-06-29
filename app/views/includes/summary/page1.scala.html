@@ -25,18 +25,18 @@
   if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}
 }
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section1.heading")</h2></li>
-
- @summaryBlock(Messages("label.currentAddress"), 1, "isAddressCorrect") {   
-   	@Html(summary.address.map(_.multiLine).getOrElse("") + underReview)
- }
- 
-
-@if(summary.address.map(_.singleLine) != summary.propertyAddress.map(_.singleLine)) {
-	@summaryBlock(Messages("label.changedAddress"), 1, "address_buildingNameNumber") {
- 		@displayAddress(add)
+<h2 class="heading-medium no-margin-top">@Messages("section1.heading")</h2>
+<dl class="govuk-check-your-answers cya-questions-long">
+	@summaryBlock(Messages("label.currentAddress"), 1, "isAddressCorrect") {
+		@Html(summary.address.map(_.multiLine).getOrElse("") + underReview)
 	}
-}
 
+
+	@if(summary.address.map(_.singleLine) != summary.propertyAddress.map(_.singleLine)) {
+		@summaryBlock(Messages("label.changedAddress"), 1, "address_buildingNameNumber") {
+				@displayAddress(add)
+		}
+	}
+</dl>
 
  
