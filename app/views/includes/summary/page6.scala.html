@@ -22,7 +22,8 @@
 
 @(p6: PageSix, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section6.heading")</h2></li>
+<h2 class="heading-medium no-margin-top">@Messages("section6.heading")</h2>
+<dl class="govuk-check-your-answers cya-questions-long">
     @summaryBlock(Messages(if(isAgent) Messages("label.leaseAgreementType.agent") else Messages("label.leaseAgreementType")), 6, "leaseAgreementType") {
       @Messages(s"${LeaseAgreementTypes.all.head.key}.${p6.leaseAgreementType.name}")
     }
@@ -95,3 +96,4 @@
             }
         }
     }
+</dl>

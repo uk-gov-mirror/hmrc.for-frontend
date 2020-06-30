@@ -22,55 +22,56 @@
 
 @(p11: IncentivesAndPayments, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section11.heading")</h2></li> 
+<h2 class="heading-medium no-margin-top">@Messages("section11.heading")</h2>
+<dl class="govuk-check-your-answers cya-questions-long">
+	@summaryBlock(Messages(if(isAgent) Messages("label.rentFreePeriod.agent") else Messages("label.rentFreePeriod")), 11, "rentFreePeriod") {
+		@displayBoolean(p11.rentFreePeriod, "6")
+	}
 
-@summaryBlock(Messages(if(isAgent) Messages("label.rentFreePeriod.agent") else Messages("label.rentFreePeriod")), 11, "rentFreePeriod") {
-	@displayBoolean(p11.rentFreePeriod, "6")
-}
+	@if(p11.rentFreePeriod) {
+		@p11.rentFreePeriodDetails.map { rfp =>
 
-@if(p11.rentFreePeriod) {
-	@p11.rentFreePeriodDetails.map { rfp =>
-		
-		@summaryBlock(Messages("label.rentFreePeriodDetails.rentFreePeriodLength"), 11, "rentFreePeriodDetails_rentFreePeriodLength") {
-			@rfp.lengthInMonths
-		}
+			@summaryBlock(Messages("label.rentFreePeriodDetails.rentFreePeriodLength"), 11, "rentFreePeriodDetails_rentFreePeriodLength") {
+				@rfp.lengthInMonths
+			}
 
-		@summaryBlock(Messages("label.rentFreePeriodDetails.rentFreePeriodDetails"), 11, "rentFreePeriodDetails_rentFreePeriodDetails") {
-			@rfp.description
+			@summaryBlock(Messages("label.rentFreePeriodDetails.rentFreePeriodDetails"), 11, "rentFreePeriodDetails_rentFreePeriodDetails") {
+				@rfp.description
+			}
 		}
 	}
-}
 
-@summaryBlock(Messages(if(isAgent) Messages("label.payCapitalSum.agent") else Messages("label.payCapitalSum")), 11, "payCapitalSum") {
-	@displayBoolean(p11.payCapitalSum, "6")
-}
+	@summaryBlock(Messages(if(isAgent) Messages("label.payCapitalSum.agent") else Messages("label.payCapitalSum")), 11, "payCapitalSum") {
+		@displayBoolean(p11.payCapitalSum, "6")
+	}
 
-@if(p11.payCapitalSum) {
-	@p11.capitalPaidDetails.map { cpd =>
-		
-		@summaryBlock(Messages("label.capitalPaidDetails.capitalSum"), 11, "capitalPaidDetails_capitalSum")	{
-			£@NumberFormat.getNumberInstance().format(cpd.capitalSum)
-		}
+	@if(p11.payCapitalSum) {
+		@p11.capitalPaidDetails.map { cpd =>
 
-		@summaryBlock(Messages("label.capitalPaidDetails.paymentDate"), 11, "capitalPaidDetails_paymentDate_month") {
-			@displayRoughDate(cpd.paymentDate)
+			@summaryBlock(Messages("label.capitalPaidDetails.capitalSum"), 11, "capitalPaidDetails_capitalSum")	{
+				£@NumberFormat.getNumberInstance().format(cpd.capitalSum)
+			}
+
+			@summaryBlock(Messages("label.capitalPaidDetails.paymentDate"), 11, "capitalPaidDetails_paymentDate_month") {
+				@displayRoughDate(cpd.paymentDate)
+			}
 		}
 	}
-}
 
-@summaryBlock(Messages(if(isAgent) Messages("label.receiveCapitalSum.agent") else Messages("label.receiveCapitalSum")), 11, "receiveCapitalSum") {
-	@displayBoolean(p11.receiveCapitalSum, "6")
-}
+	@summaryBlock(Messages(if(isAgent) Messages("label.receiveCapitalSum.agent") else Messages("label.receiveCapitalSum")), 11, "receiveCapitalSum") {
+		@displayBoolean(p11.receiveCapitalSum, "6")
+	}
 
-@if(p11.receiveCapitalSum) {
-	@p11.capitalReceivedDetails.map { crd =>
+	@if(p11.receiveCapitalSum) {
+		@p11.capitalReceivedDetails.map { crd =>
 
-		@summaryBlock(Messages("label.capitalReceivedDetails.capitalSum"), 11, "capitalReceivedDetails_capitalSum") {
-			£@NumberFormat.getNumberInstance().format(crd.capitalSum)
-		}
+			@summaryBlock(Messages("label.capitalReceivedDetails.capitalSum"), 11, "capitalReceivedDetails_capitalSum") {
+				£@NumberFormat.getNumberInstance().format(crd.capitalSum)
+			}
 
-		@summaryBlock(Messages("label.capitalReceivedDetails.paymentDate"), 11, "capitalReceivedDetails_paymentDate_month") {
-			@displayRoughDate(crd.paymentDate)
+			@summaryBlock(Messages("label.capitalReceivedDetails.paymentDate"), 11, "capitalReceivedDetails_paymentDate_month") {
+				@displayRoughDate(crd.paymentDate)
+			}
 		}
 	}
-}
+</dl>

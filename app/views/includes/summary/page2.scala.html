@@ -29,27 +29,28 @@
     }
 }
 
-<li><h2 class="heading-medium no-margin-top">@Messages("section2.heading")</h2></li>
-@summaryBlock(Messages("label.fullName"), 2, "fullName") {
-    @p2.fullName
-}
-@summaryBlock(Messages("label.userType"), 2, "userType") {
-    @Messages(s"userType.${p2.userType.name}")
-}
-@summaryBlock(Messages("label.contactType"), 2, "contactType") {
-    @Messages(s"contactType.${p2.contactType.name}")
-}
-@if(p2.contactType == ContactTypeEmail) {
-    @summaryBlock(Messages("label.email1"), 2, "contactDetails_email1") {
-        @p2.contactDetails.email
+<h2 class="heading-medium no-margin-top">@Messages("section2.heading")</h2>
+<dl class="govuk-check-your-answers cya-questions-long">
+    @summaryBlock(Messages("label.fullName"), 2, "fullName") {
+        @p2.fullName
     }
-}
-@if(p2.contactType == ContactTypePhone) {
-    @summaryBlock(Messages("label.phone"), 2, "contactDetails_phone") {
-        @p2.contactDetails.phone
+    @summaryBlock(Messages("label.userType"), 2, "userType") {
+        @Messages(s"userType.${p2.userType.name}")
     }
-}
-
+    @summaryBlock(Messages("label.contactType"), 2, "contactType") {
+        @Messages(s"contactType.${p2.contactType.name}")
+    }
+    @if(p2.contactType == ContactTypeEmail) {
+        @summaryBlock(Messages("label.email1"), 2, "contactDetails_email1") {
+            @p2.contactDetails.email
+        }
+    }
+    @if(p2.contactType == ContactTypePhone) {
+        @summaryBlock(Messages("label.phone"), 2, "contactDetails_phone") {
+            @p2.contactDetails.phone
+        }
+    }
+</dl>
 
 
 
