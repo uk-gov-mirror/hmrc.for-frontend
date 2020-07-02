@@ -37,45 +37,33 @@
     @views.html.includes.javascripts()
 }
 
-    @main(title=Messages("label.confirm.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=false, theForm = Some(theForm)) {
+  @main(title=Messages("label.confirm.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=false, theForm = Some(theForm)) {
 
 
-  <main id="content" tabindex="-1">
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  <main id="content">
+    <div class="grid-row">
+      <div class="column-two-thirds">
 
-      <h1 class="form-title heading-large heading-confirmation">
-        <span class="tick">&#10004;</span> @Messages("label.confirm.heading")
-        <div class="summary-actions">
-            <a href="@routes.Application.pdf" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download")</a><br/>
+        <div class="govuk-box-highlight">
+          <h1 class="heading-xlarge">@Messages("label.confirm.heading")</h1>
+          <p class="font-large"><a href="@routes.Application.pdf" class="confirm-download-link" target="_blank">@Messages("label.button.download")</a></p>
         </div>
-      </h1>
 
-       <h2 class="heading-medium">@Messages("label.whatNext")</h2>
+         <h2 class="heading-medium">@Messages("label.whatNext")</h2>
 
-        <ul class="list-bullet">
-          <li>@Messages("label.weMayContactYou")</li>
-          <li>@Messages("label.anyQuestions") <a href="mailto:formhelp@@voa.gsi.gov.uk">formhelp@@voa.gsi.gov.uk</a> @Messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber))</li>
-        </ul><br>
+          <ul class="list-bullet">
+            <li>@Messages("label.weMayContactYou")</li>
+            <li>@Messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber)) <a href="mailto:formhelp@@voa.gsi.gov.uk">@Messages("label.formHelpEmail")</a></li>
+          </ul><br>
 
-        <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
-        @*<p><a href="@feedback.routes.Survey.inpageAfterSubmissionFeedbackForm" target="_blank">@Messages("label.FeedbackLastPage")</a></p>*@
-
-
-        @views.html.includes.surwayFeedback(summary, theForm)
+          <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
+          @*<p><a href="@feedback.routes.Survey.inpageAfterSubmissionFeedbackForm" target="_blank">@Messages("label.FeedbackLastPage")</a></p>*@
 
 
-        <hr />
-
-
-        <div class="clearfix"><br /></div>
-
-
-        <div class="clearfix"></div>
+          @views.html.includes.surwayFeedback(summary, theForm)
+      </div>
     </div>
-    <div class="column-third"></div>
-  </div>
- </main>
+  </main>
 
     @includes.continueButtonStickyFooter()
 
