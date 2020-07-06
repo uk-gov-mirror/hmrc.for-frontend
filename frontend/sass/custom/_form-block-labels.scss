@@ -46,37 +46,42 @@
   .js-enabled & {
     &.selection-button-radio::before {
       content: "";
-      border: 2px solid;
-      background: transparent;
-      width: 34px;
-      height: 34px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
       position: absolute;
       top: 0;
       left: 0;
+      width: 40px;
+      height: 40px;
+      border: 2px solid currentColor;
+      background: transparent;
       @include border-radius(50%);
     }
 
     &.selection-button-radio::after {
       content: "";
-      border: 10px solid;
+      position: absolute;
+      top: 10px;
+      left: 10px;
       width: 0;
       height: 0;
-      position: absolute;
-      top: 9px;
-      left: 9px;
+      border: 10px solid currentColor;
+      background: currentColor;
       @include border-radius(50%);
       @include opacity(0);
     }
 
     &.selection-button-checkbox::before {
       content: "";
-      border: 2px solid;
-      background: transparent;
-      width: 34px;
-      height: 34px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
       position: absolute;
       top: 0;
       left: 0;
+      width: 40px;
+      height: 40px;
+      border: 2px solid currentColor;
+      background: transparent;
     }
 
     &.selection-button-checkbox::after {
@@ -99,11 +104,13 @@
 
     // Focused state
     &.selection-button-checkbox.focused::before {
-      @include box-shadow(0 0 0 3px $focus-colour);
+      border-width: 4px;
+      @include box-shadow(0 0 0 3px #fd0);
     }
 
     &.selection-button-radio.focused::before {
-      @include box-shadow(0 0 0 4px $focus-colour);
+      border-width: 4px;
+      @include box-shadow(0 0 0 4px #fd0);
     }
 
     // IE8 focus outline should stay as a border around the entire label
@@ -111,7 +118,7 @@
     @include ie-lte(8) {
       &.selection-button-radio.focused,
       &.selection-button-checkbox.focused {
-        outline: 3px solid $focus-colour;
+        outline: 3px solid #fd0;
 
         input:focus {
           outline: none;

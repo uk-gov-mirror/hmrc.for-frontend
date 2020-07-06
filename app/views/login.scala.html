@@ -54,7 +54,7 @@
 
     @main(title =Messages("login.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false, theForm = Some(theForm)) {
    
- <main id="content" tabindex="-1">
+ <main id="content">
         <div class="grid-row">
             <div class="column-two-thirds">
 
@@ -92,7 +92,7 @@
                 @includes.errors(theForm, isAgent = false)
 
                 @failedLoginError.map { e =>
-                    <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+                    <div class="form-error alert alert-danger" role="group" aria-labelledby="error-summary-heading" >
                         <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
                         <p>@Messages("label.fixTheFollowing")</p>
                         <ul>

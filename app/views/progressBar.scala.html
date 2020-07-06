@@ -18,6 +18,6 @@
 
 	@if(showTopBackButton == true){
 		@topBackButton.getOrElse {
-			<button type="submit" id="backTop" name="back_button" value="back_button" class="button-link link-back">@Messages("button.label.back")</button>
+			<a type="submit" href="javascript:history.back()" id="backTop" name="back_button" value="back_button" class="link-back">@Messages("button.label.back")</a>
 		}
 	}

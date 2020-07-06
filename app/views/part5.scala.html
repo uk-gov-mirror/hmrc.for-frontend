@@ -46,7 +46,7 @@
 @main(title=Messages("section5.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
     @form(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
 
-    <main id="content" tabindex="-1">
+    <main id="content">
         @views.html.includes.backSave()
         @progressBar(true)
 

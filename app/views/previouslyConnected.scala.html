@@ -58,7 +58,7 @@
 @main(title =Messages("notConnected.previouslyConnected") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
 
     @form(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
-        <main id="content" tabindex="-1">
+        <main id="content">
 
             <a href="page/0" class="button-link link-back">@Messages("button.label.back")</a>
 
