@@ -47,10 +47,10 @@
   
   @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
     
-  <main id="content" tabindex="-1">
+  <main id="content">
 
       @if(theForm.hasErrors) {
-          <div class="form-error alert alert-danger" tabindex="-1" role="group" aria-labelledby="error-summary-heading" >
+          <div class="form-error alert alert-danger" role="group" aria-labelledby="error-summary-heading" >
               <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
               <ul>
               @for(error <- theForm.errors) {
