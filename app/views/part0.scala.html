@@ -44,10 +44,8 @@
 
 
 @main(title=Messages("section0.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
-  
-  @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
-    
   <main id="content">
+    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
 
       @if(theForm.hasErrors) {
           <div class="form-error alert alert-danger" role="group" aria-labelledby="error-summary-heading" >
@@ -64,11 +62,6 @@
           </div>
       }
 
-    @headingDisplay(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
         @helper.CSRF.formField
 
 
@@ -80,25 +73,19 @@
             AddressConnectionTypeNo.name -> Messages("label.no.nac.oes")
           ),
           args = Seq(
-            '_showConstraints -> false,
-            '_label -> "",
-            '_legend -> false,
-            '_labelClass -> "form-label-bold",
-            '_showConstraints -> false
+            '_label -> headingDisplayPlain(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false),
+            '_legend -> true,
+            '_labelClass -> "",
+            '_showConstraints -> true
           )
         )
 
-        @includes.continueButtonOnly()
-
-      </div>
-      <div class="column-third"></div>
-    </div>
-    
-    </main>
+      @includes.continueButtonOnly()
    
     @includes.continueButtonStickyFooter()
     
     }
+  </main>
     
-    @includes.formHelp()
+  @includes.formHelp()
 }
