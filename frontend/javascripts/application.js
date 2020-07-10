@@ -63,8 +63,6 @@ var ref;
         //common.js
         VoaCommon.GdsSelectionButtons();
         VoaCommon.linkShowManualAddress();
-        VoaCommon.smoothScrollAndFocus();
-        VoaCommon.addAnchors();
         VoaCommon.addErrorAnchors();
         VoaCommon.anchorFocus();
         VoaCommon.details();

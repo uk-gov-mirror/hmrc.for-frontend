@@ -1,26 +1,6 @@
 (function ($) {
     'use strict';
 
-    VoaCommon.smoothScrollAndFocus = function () {
-        $('.form-error a[href*=#]:not([href=#])').click(function (e) {
-            e.preventDefault();
-            var element = $(this).attr('href').replace('_anchor', '');
-            var target = $(this.hash);
-            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-            if (target.length) {
-                $('html,body').animate({
-                    scrollTop: target.offset().top
-                }, 600, function () {
-                    if ($('div' + element + ' input').is('input:text') || $('div' + element + ' textarea').is('textarea')) {
-                        $('div' + element + ' input, div' + element + ' textarea').focus();
-                    } else {
-                        $(this).blur();
-                    }
-                });
-            }
-        });
-    };
-
     VoaCommon.getQueryString = function (name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
@@ -33,20 +13,14 @@
         return pathArray[index];
     };
 
-    VoaCommon.addAnchors = function () {
-        $('fieldset input, fieldset textarea').not('fieldset .multi-fields-group input, fieldset .multi-fields-group textarea, .form--feedback input, .form--feedback textarea').each(function () {
-            var name = $(this).attr('name');
-            var spanId = name.replace(/[_\[\].]/g, '_').replace('__', '_');
-            $(this).closest('fieldset').prepend('<span id="' + spanId + '_anchor"></span>');
-            $('span#' + spanId + '_anchor').not(':first').remove();
-        });
-    };
-
     VoaCommon.addErrorAnchors = function () {
 
         $('.form-error li a').each(function(){
-            if($(''+$(this).attr('href')+'_anchor').length !== 0){
-                $(this).attr('href', $(this).attr('href')+'_anchor');
+            var parentId =  $(this).attr('href');
+            if ($(parentId + ' input').length !== 0){
+                $(this).attr('href', '#' + $(parentId + ' input:first').attr('id'));
+            } else {
+                $(this).attr('href', '#' + $(parentId + ' textarea:first').attr('id'));
             }
         });
     };

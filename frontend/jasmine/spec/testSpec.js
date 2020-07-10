@@ -11,7 +11,6 @@ describe("Javascript test suite", function() {
 		VoaRadioToggle.radioDataShowFields();
 		VoaFor.addFieldMulti();
 		VoaFor.removeFieldMulti();
-		VoaCommon.addAnchors();
 	});
 
 	//teardown
