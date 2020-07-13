@@ -21,10 +21,10 @@
 @input(field, args.map{ x => if(x._2 == '_label) '_name -> x._2 else x }:_*) { (id, name, value, htmlArgs) =>
 
     @options.map { v =>
-    	<label class="block-label" for="@(id)_@v._1">
-        	<input id="@(id)_@v._1" type="radio"  name="@name" value="@v._1" @(if(value == Some(v._1))  "checked" else "") @toHtmlArgs(_root_.template.HtmlSupport.getArgs(v._1, dataAttributes, htmlArgs)) />
-        	@v._2
-        </label>
+	    <div class="multiple-choice">
+				<input id="@(id)_@v._1" type="radio"  name="@name" value="@v._1" @(if(value == Some(v._1))  "checked" else "") @toHtmlArgs(_root_.template.HtmlSupport.getArgs(v._1, dataAttributes, htmlArgs)) />
+				<label class="" for="@(id)_@v._1">@v._2</label>
+      </div>
     }
 
 }
