@@ -29,82 +29,70 @@
     }
 
     @addressForm(hiddenClass: String, overseas: Boolean) = {
+    <h2 class="heading-medium">@Messages("label.address")</h2>
 
     @helpers.inputText(
-        field = theForm(prefix + ".buildingNameNumber"),
+        field = theForm(prefix + ".buildingNameNumber1"),
         '_label -> Html(if(overseas) {
             Messages("label.landlordOverseasAddress.buildingNameNumber")
         } else {
             Messages("label.buildingNameNumber")
         }),
-        '_labelClass -> "form-label-bold",
+        '_labelClass -> "form-label",
         'class -> "form-control",
         '_fieldsetClass -> "hidden address-field-one address-fields",
-        Symbol("placeholder") -> Messages("placeholder.address.1"),
-        '_nojsText -> nojs,
-        '_help -> isOptional,
-        '_optional -> Optional
+        '_nojsText -> nojs
     )
 
         @helpers.inputText(
         field = theForm(prefix + ".street1"),
         '_label -> Messages("label.street1"),
-        '_labelClass -> "visuallyhidden",
+        '_labelClass -> "form-label",
         'class -> "form-control",
-        '_fieldsetClass -> "hidden address-field-two address-fields",
-        Symbol("placeholder") -> Messages("placeholder.address.2"),
-        '_optional -> true
+        '_fieldsetClass -> "hidden address-field-two address-fields"
     )
 
         @helpers.inputText(
         field = theForm(prefix + ".street2"),
         '_label -> Messages("label.street2"),
         'class -> "form-control",
-        '_labelClass -> "visuallyhidden",
-        '_fieldsetClass -> "hidden address-field-three",
-        Symbol("placeholder") -> Messages("placeholder.address.3"),
-        '_optional -> true
+        '_labelClass -> "form-label",
+        '_fieldsetClass -> "hidden address-field-three"
 
     )
 
         @helpers.inputText(
         field = theForm(prefix + ".postcode"),
         '_label -> Messages("label.ukOrInternationalPostcode"),
-        '_labelClass -> "form-label-bold",
+        '_labelClass -> "form-label",
         'class -> ("form-control postcode postcode-" + prefix),
         '_fieldsetClass -> "hidden address-field-postcode",
-        '_nojsText -> nojs,
-        '_optional -> Optional
+        '_nojsText -> nojs
     )
         <div id="originalAddress">
 
         @helpers.hiddenInput(
         field = theForm(s"original.$prefix.buildingNameNumber"),
-        '_labelClass -> "visuallyhidden",
         '_fieldsetClass -> "address-field-one"
     )
 
     @helpers.hiddenInput(
         field = theForm(s"original.$prefix.street1"),
-        '_labelClass -> "visuallyhidden",
         '_fieldsetClass -> "address-field-two"
     )
 
     @helpers.hiddenInput(
         field = theForm(s"original.$prefix.street2"),
-        '_labelClass -> "visuallyhidden",
         '_fieldsetClass -> "address-field-three"
     )
 
     @helpers.hiddenInput(
         field = theForm(s"original.$prefix.postcode"),
-        '_labelClass -> "visuallyhidden",
         '_fieldsetClass -> "address-field-postcode"
     )
 
     @helpers.hiddenInput(
         field = theForm(s"original.$prefix.uprn"),
-        '_labelClass -> "visuallyhidden",
         '_fieldsetClass -> "address-field-id"
     )
         </div>
