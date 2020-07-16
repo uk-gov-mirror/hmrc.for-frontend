@@ -133,7 +133,7 @@ error.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
 ##############################
 section1.heading=Golygu’r cyfeiriad
 label.yes.change.address=Oes - rydw i am olygu’r cyfeiriad
-label.buildingNameNumber=Llinell 1 y cyfeiriad
+label.buildingNameNumber=Llinell 1 y cyfeiriad (dewisol)
 label.changedAddress=Newid cyfeiriad
 label.address=Cyfeiriad
 
@@ -142,8 +142,8 @@ label.address.street2=Tref neu ddinas
 label.addresss.townCity=Tref neu ddinas
 label.postcode=Cod post
 
-label.street1=Ail linell y cyfeiriad
-label.street2=Tref neu ddinas
+label.street1=Ail linell y cyfeiriad (dewisol)
+label.street2=Tref neu ddinas (dewisol)
 label.townCity=Tref neu ddinas
 label.address.townCity=Tref neu ddinas
 label.address.postcode=Cod post
