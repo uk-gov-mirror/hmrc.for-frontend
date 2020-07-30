@@ -1,26 +1,27 @@
 (function ($) {
     'use strict';
-   
+
     VoaFor.service = function () {
         return 'sending-rental-information';
     };
 
     VoaFor.addressAbroad = function () {
-        if(!$('[name="overseas"]').is(':checked')){
+        if (!$('[name="overseas"]').is(':checked')) {
             $('#overseas_false').prop('checked', true);
         }
 
-        function toggleOverseasLink(){
-            if($('#overseas_true').is(':checked')) {
+        function toggleOverseasLink() {
+            if ($('#overseas_true').is(':checked')) {
                 $('.address-abroad').addClass('hidden');
                 $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelOverseasAddress'));
                 $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelOverseasPostcode'));
-            }else{
+            } else {
                 $('.address-abroad').removeClass('hidden');
                 $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelAddress'));
                 $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelPostcode'));
             }
         }
+
         toggleOverseasLink();
 
         $('.address-abroad').click(function (e) {
@@ -33,7 +34,7 @@
             $('#overseas_true').closest('label').addClass('selected');
         });
 
-        $('[name="overseas"]').change(function(){
+        $('[name="overseas"]').change(function () {
             toggleOverseasLink();
         });
     };
@@ -74,57 +75,78 @@
         });
     };
 
-    VoaFor.changeIds = function(that,index){
+    VoaFor.changeIds = function (container, index) {
+        function changeIdAndLabelId($container, $elem, newIndex) {
+            var oldId = $elem.attr('id');
+            var newId = oldId.replace(/(\d+)/g, newIndex);
+            $elem.attr('id', newId);
 
-        $(that).find('input, textarea').not('[type="hidden"]').not('[type="radio"]').each(function () {
-            var attrFormgroupId = $(this).closest('.form-group').attr('id'),
-            attrFor = $(this).closest('.form-group').find('label').attr('for'),
-            attrId = $(this).attr('id'),
-            attrName = $(this).attr('name'),
-            s = $(this).closest('.multi-fields-group').attr('id'),
-            o = s.substring(0, s.lastIndexOf('_') + 1),
-            st = $(this).closest('.multi-fields-group').find('.form-date-dayMonth').attr('id'),
-            st2 = $(this).closest('.multi-fields-group').find('[data-intel]').attr('class');
+            var label = $container.find('label[for=\'' + oldId + '\']');
+            if (label !== undefined) {
+                var labelForAttr = label.attr('for');
+                if (labelForAttr !== undefined) {
+                    label.attr('for', newId);
+                }
+            }
+        }
+        //change id of first child form-group to maintain valid html with no duplicated ids.
+        var $container = $(container);
+        var $firstChildFormGroup = $container.find('fieldset:first');
+        if ($firstChildFormGroup !== undefined) {
+            var idAtrr = $firstChildFormGroup.attr('id');
+            if (idAtrr !== undefined) {
+                var newId = idAtrr.replace(/(\d+)/g, index);
+                $firstChildFormGroup.attr('id', newId);
+            }
+        }
+
+        $container.find('input, textarea').not('[type="hidden"]').not('[type="radio"]').each(function () {
+
+            var attrFormgroupId = $(this).closest('.form-group').attr('id');
+
+            var attrName = $(this).attr('name'),
+                s = $(this).closest('.multi-fields-group').attr('id'),
+                o = s.substring(0, s.lastIndexOf('_') + 1),
+                st = $(this).closest('.multi-fields-group').find('.form-date-dayMonth').attr('id'),
+                st2 = $(this).closest('.multi-fields-group').find('[data-intel]').attr('class');
+
             $(this).closest('.form-group').attr('id', attrFormgroupId.replace(/(\d+)/g, index));
-            $(this).closest('.form-group').find('label').attr('for', attrFor.replace(/(\d+)/g, index));
-            $(this).attr('id', attrId.replace(/(\d+)/g, index));
-            if(attrName.indexOf('street1') > -1 || attrName.indexOf('street2') > -1){
-                $(this).attr('name', attrName.replace(/\[(\d+)\]/g, '['+index+']'));
-            }else{
+
+            changeIdAndLabelId( $container,$(this), index);
+
+            if (attrName.indexOf('street1') > -1 || attrName.indexOf('street2') > -1) {
+                $(this).attr('name', attrName.replace(/\[(\d+)\]/g, '[' + index + ']'));
+            } else {
                 $(this).attr('name', attrName.replace(/(\d+)/g, index));
             }
-            $(this).closest('.multi-fields-group').attr('id', o+index);
-            if(st){
+            $(this).closest('.multi-fields-group').attr('id', o + index);
+            if (st) {
                 $(this).closest('.multi-fields-group').find('.form-date-dayMonth').attr('id', st.replace(/(\d+)/g, index));
             }
-            if(st2){
+            if (st2) {
                 $(this).closest('.multi-fields-group').find('[data-intel]').attr('class', st2.replace(/(\d+)/g, index));
             }
         });
 
-        $(that).find('div[data-show-fields-group]').each(function() {
+        $container.find('div[data-show-fields-group]').each(function () {
             var dataAttribute = $(this).attr('data-show-fields-group');
             $(this).attr('data-show-fields-group', dataAttribute.replace(/(\d+)/g, index));
         });
 
-        $(that).find('input[type="radio"]').not('[type="hidden"]').each(function () {
-            var attrFor = $(this).closest('label').attr('for'),
-                attrId = $(this).attr('id'),
-                attrName = $(this).attr('name'),
-                s = $(this).closest('.multi-fields-group').attr('id'),
+        $container.find('input[type="radio"]').not('[type="hidden"]').each(function () {
+
+            var s = $(this).closest('.multi-fields-group').attr('id'),
                 o = s.substring(0, s.lastIndexOf('_') + 1);
 
-            $(this).closest('label').attr('for', attrFor.replace(/(\d+)/g, index));
-            $(this).attr('id', attrId.replace(/(\d+)/g, index));
-            $(this).attr('name', attrName.replace(/(\d+)/g, index));
-
+            $(this).attr('name', $(this).attr('name').replace(/(\d+)/g, index));
+            changeIdAndLabelId($container, $(this), index);
             var showFieldAttr = 'data-show-fields';
-            if(this.hasAttribute(showFieldAttr)) {
+            if (this.hasAttribute(showFieldAttr)) {
                 var dataShowFields = $(this).attr(showFieldAttr);
                 $(this).attr(showFieldAttr, dataShowFields.replace(/(\d+)/g, index));
             }
 
-            $(this).closest('.multi-fields-group').attr('id', o+index);
+            $(this).closest('.multi-fields-group').attr('id', o + index);
         });
         VoaRadioToggle.radioDataShowField();
         VoaRadioToggle.radioDataShowFields();
@@ -132,19 +154,19 @@
     };
 
     VoaFor.addFieldMulti = function () {
-        
+
         $(document).on('click', '.add-multi-fields', function (e) {
             e.preventDefault();
-            var limit = parseInt($(this).closest('fieldset').attr('data-limit'), 10);
             var element = $(this).closest('fieldset');
-            element.find('.multi-fields-group:last').clone().insertAfter(element.find('.multi-fields-group:last'));
+            var limit = parseInt(element.attr('data-limit'), 10);
+            var existingCount = element.find('.multi-fields-group').length;
+            var $clonedMultiFields = element.find('.multi-fields-group:last').clone();
+            $clonedMultiFields.insertAfter(element.find('.multi-fields-group:last'));
             element.find('.multi-fields-group:last p').remove();
             element.find('.multi-fields-group:last input[type!="radio"]').val('');
             element.find('.multi-fields-group:last input[type="radio"]').removeAttr('checked');
             element.find('.multi-fields-group:last .form-date-dayMonth, .multi-fields-group:last .form-group div').removeClass('form-grouped-error');
-            element.find('.multi-fields-group').each(function (i) {
-                VoaFor.changeIds(this,i);
-            });
+            VoaFor.changeIds($clonedMultiFields, existingCount);
             element.find('.multi-fields-group:last .chars').text(element.find('.multi-fields-group:last .chars').attr('data-max-length'));
             $('.remove-multi-fields').css('display', 'inline-block');
             element.find('.multi-fields-group:last textarea').val('');
@@ -162,13 +184,13 @@
         });
     };
 
-    VoaFor.addMultiButtonState = function(){
+    VoaFor.addMultiButtonState = function () {
         var $element = $('.add-multi-fields');
         var $group = $('.multi-fields-group');
         var l = parseInt($element.closest('fieldset').attr('data-limit'), 10);
-        if($group.length === l){
+        if ($group.length === l) {
             $element.hide();
-        }else{
+        } else {
             $element.show();
         }
     };
@@ -189,14 +211,13 @@
                 $('.add-multi-fields').hide();
             }
             $('.multi-fields-group').each(function (i) {
-                VoaFor.changeIds(this,i);
+                VoaFor.changeIds(this, i);
             });
         });
 
         $('.multi-fields-group:not(:first)').find('.remove-multi-fields').css('display', 'inline-block');
 
 
-        
     };
 
     VoaFor.selectMobile = function () {
@@ -219,30 +240,30 @@
             var element = $('[name="' + name + '"]');
 
             if (element.is(':checked')) {
-                if($('[name="totalRent.rentLengthType"]:checked').val() === 'annual'){
+                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'annual') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
                 }
-                if($('[name="totalRent.rentLengthType"]:checked').val() === 'quarterly'){
+                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'quarterly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
                 }
-                if($('[name="totalRent.rentLengthType"]:checked').val() === 'monthly'){
+                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'monthly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
                 }
-                if($('[name="totalRent.rentLengthType"]:checked').val() === 'weekly'){
+                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'weekly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
                 }
             }
             element.change(function () {
-                if($(this).val() === 'annual'){
+                if ($(this).val() === 'annual') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
                 }
-                if($(this).val() === 'quarterly'){
+                if ($(this).val() === 'quarterly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
                 }
-                if($(this).val() === 'monthly'){
+                if ($(this).val() === 'monthly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
                 }
-                if($(this).val() === 'weekly'){
+                if ($(this).val() === 'weekly') {
                     $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
                 }
             });
@@ -272,130 +293,129 @@
         }
     };
 
-    VoaFor.radioAgreement = function(){
-        function radioAgrrementToggle(){
-            if(!$('[name="leaseAgreementType"]').is(':checked')){
+    VoaFor.radioAgreement = function () {
+        function radioAgrrementToggle() {
+            if (!$('[name="leaseAgreementType"]').is(':checked')) {
                 //do nothing
-            }else if($('#leaseAgreementType_verbal').is(':checked')){
+            } else if ($('#leaseAgreementType_verbal').is(':checked')) {
                 $('.leaseAgreementVerbal').removeClass('hidden');
                 $('.leaseAgreementWritten').addClass('hidden');
-            }else{
+            } else {
                 $('.leaseAgreementVerbal').addClass('hidden');
                 $('.leaseAgreementWritten').removeClass('hidden');
             }
         }
+
         radioAgrrementToggle();
-        $('[name="leaseAgreementType"]').change(function(){
+        $('[name="leaseAgreementType"]').change(function () {
             radioAgrrementToggle();
         });
     };
 
 
-    VoaFor.agreementType = function(){
+    VoaFor.agreementType = function () {
 
-        function swapAgreementType(){
-            if($('#leaseAgreementType_leaseTenancy').is(':checked')){
-                //console.log('tenancy');
+        function swapAgreementType() {
+            if ($('#leaseAgreementType_leaseTenancy').is(':checked')) {
                 $('.agreementType').text(VoaMessages.textLabel('labelSingleLeaseTenancy'));
             }
 
-            if($('#leaseAgreementType_licenceOther').is(':checked')){
-                //console.log('licenceOther');
+            if ($('#leaseAgreementType_licenceOther').is(':checked')) {
                 $('.agreementType').text(VoaMessages.textLabel('labelLicenseWritten'));
             }
         }
 
         swapAgreementType();
 
-        $('[name="leaseAgreementType"]').change(function(){
+        $('[name="leaseAgreementType"]').change(function () {
             swapAgreementType();
         });
     };
 
-    VoaFor.populateLettingsAddress = function(){
-        if(!$('#sublet_0_tenantAddress_buildingNameNumber_text').val() && $('#sublet_0_tenantAddress_buildingNameNumber_text').closest('div').hasClass('form-grouped-error')){
+    VoaFor.populateLettingsAddress = function () {
+        if (!$('#sublet_0_tenantAddress_buildingNameNumber_text').val() && $('#sublet_0_tenantAddress_buildingNameNumber_text').closest('div').hasClass('form-grouped-error')) {
             //do nothing
-        }else if(!$('#sublet_0_tenantAddress_buildingNameNumber_text').val()){
+        } else if (!$('#sublet_0_tenantAddress_buildingNameNumber_text').val()) {
             $('#sublet_0_tenantAddress_buildingNameNumber_text').val($('#addressBuildingNameNumber').val());
             $('#sublet_0_tenantAddress_street1_text').val($('#addressStreet1').val());
             $('#sublet_0_tenantAddress_street2_text').val($('#addressStreet2').val());
         }
-        if(!$('#sublet_0_tenantAddress_postcode_text').val() && $('#sublet_0_tenantAddress_postcode_text').closest('div').hasClass('form-grouped-error')){
+        if (!$('#sublet_0_tenantAddress_postcode_text').val() && $('#sublet_0_tenantAddress_postcode_text').closest('div').hasClass('form-grouped-error')) {
             //do nothing
-        }else if(!$('#sublet_0_tenantAddress_postcode_text').val()){
+        } else if (!$('#sublet_0_tenantAddress_postcode_text').val()) {
             $('#sublet_0_tenantAddress_postcode_text').val($('#addressPostcode').val());
         }
         $('.subletsHidden').remove();
     };
 
-    VoaFor.getReferrer = function(){
-        var s = window.location.href, i = s.indexOf('?')+1, r, v;
+    VoaFor.getReferrer = function () {
+        var s = window.location.href, i = s.indexOf('?') + 1, r, v;
 
-        if(ref){
+        if (ref) {
             r = ref.replace(/\//g, '');
         }
 
-        if(i > 0){
-            v = [s.slice(0, i), 'id='+r+'&', s.slice(i)].join('');
-        }else{
-            v  = s+'?id='+r;
+        if (i > 0) {
+            v = [s.slice(0, i), 'id=' + r + '&', s.slice(i)].join('');
+        } else {
+            v = s + '?id=' + r;
         }
-        
-        $('#footerBetaFeedback, #betaFeedback').each(function(e){
-            $(this).attr('href', $(this).attr('href')+'?page='+window.location.href.substr(window.location.href.lastIndexOf('/') + 1).replace(/\?/g, '&'));
+
+        $('#footerBetaFeedback, #betaFeedback').each(function (e) {
+            $(this).attr('href', $(this).attr('href') + '?page=' + window.location.href.substr(window.location.href.lastIndexOf('/') + 1).replace(/\?/g, '&'));
         });
 
         $('.form--feedback [name="referrer"], .form--feedback #referer').val(v);
     };
 
-    VoaFor.formatPostcode = function(){
+    VoaFor.formatPostcode = function () {
         $(document).on('change', '.postcode', function (e) {
-            if($(this).val()){
+            if ($(this).val()) {
                 $(this).val($(this).val().replace(' ', '').replace(/(.{3})$/, ' $1').toUpperCase());
             }
         });
     };
 
-    VoaFor.toggleAgentLeaseContainsRentReviews = function(){
-        if($('.form-error .leaseContainsRentReviews_agent') && $('#leaseContainsRentReviews .label-span').text() === VoaMessages.textLabel('labelLeaseContainsRentReviews')){
+    VoaFor.toggleAgentLeaseContainsRentReviews = function () {
+        if ($('.form-error .leaseContainsRentReviews_agent') && $('#leaseContainsRentReviews .label-span').text() === VoaMessages.textLabel('labelLeaseContainsRentReviews')) {
             $('.form-error .leaseContainsRentReviews_agent').text(VoaMessages.textLabel('labelLeaseContainsRentReviews'));
         }
-        
+
     };
 
-    VoaFor.toggleImage = function(){
-        if($('html[lang="cy"]').length > 0 && $('.letter-img').length > 0){
+    VoaFor.toggleImage = function () {
+        if ($('html[lang="cy"]').length > 0 && $('.letter-img').length > 0) {
             $('html[lang="cy"] .letter-img').attr('src', $('.letter-img').attr('src').replace(/.png/g, '-cy.png'));
         }
     };
 
-    VoaFor.toggleYearsMonths = function(){
+    VoaFor.toggleYearsMonths = function () {
         var yNumber = parseInt($('.yNumber').text(), 10);
         var mNumber = parseInt($('.mNumber').text(), 10);
-        if(yNumber === 2 ){
+        if (yNumber === 2) {
             $('.yText').text(VoaMessages.textLabel('labelYears1'));
         }
-        if(yNumber === 3 || yNumber === 4 || yNumber === 6 ){
+        if (yNumber === 3 || yNumber === 4 || yNumber === 6) {
             $('.yText').text(VoaMessages.textLabel('labelYears2'));
         }
-        if(yNumber === 1 || yNumber === 5 || yNumber === 7 || yNumber === 8 || yNumber === 9 || yNumber === 10){
+        if (yNumber === 1 || yNumber === 5 || yNumber === 7 || yNumber === 8 || yNumber === 9 || yNumber === 10) {
             $('.yText').text(VoaMessages.textLabel('labelYears3'));
         }
-        if(yNumber >= 11){
+        if (yNumber >= 11) {
             $('.yText').text(VoaMessages.textLabel('labelYears4'));
         }
-        if(mNumber === 2 ){
+        if (mNumber === 2) {
             $('.mText').text(VoaMessages.textLabel('labelMonths2'));
-        }else{
+        } else {
             $('.mText').text(VoaMessages.textLabel('labelMonths1'));
         }
     };
 
-    VoaFor.timeOutReminder = function(){
+    VoaFor.timeOutReminder = function () {
         var timeout = $('#signOutTimeout').val();
         var countdown = $('#signOutCountdown').val();
         var signOutUrl = $('#signOutUrl').val();
-        if(window.GOVUK.timeoutDialog && signOutUrl) {
+        if (window.GOVUK.timeoutDialog && signOutUrl) {
             window.GOVUK.timeoutDialog({
                 timeout: timeout,
                 countdown: countdown,
@@ -404,14 +424,14 @@
             });
         }
     };
-    
+
     VoaFor.undoEdits = function () {
-        $('#undo-edits').click(function(event) {
+        $('#undo-edits').click(function (event) {
             event.preventDefault();
-            $('input[address_default_value]').each(function() {
+            $('input[address_default_value]').each(function () {
                 $(this).val($(this).attr('address_default_value'));
             });
         });
     };
-    
+
 })(jQuery);
