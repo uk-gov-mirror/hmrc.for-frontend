@@ -32,7 +32,7 @@
     <h2 class="heading-medium">@Messages("label.address")</h2>
 
     @helpers.inputText(
-        field = theForm(prefix + ".buildingNameNumber1"),
+        field = theForm(prefix + ".buildingNameNumber"),
         '_label -> Html(if(overseas) {
             Messages("label.landlordOverseasAddress.buildingNameNumber")
         } else {
