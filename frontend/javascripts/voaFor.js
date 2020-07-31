@@ -5,39 +5,7 @@
         return 'sending-rental-information';
     };
 
-    VoaFor.addressAbroad = function () {
-        if (!$('[name="overseas"]').is(':checked')) {
-            $('#overseas_false').prop('checked', true);
-        }
 
-        function toggleOverseasLink() {
-            if ($('#overseas_true').is(':checked')) {
-                $('.address-abroad').addClass('hidden');
-                $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelOverseasAddress'));
-                $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelOverseasPostcode'));
-            } else {
-                $('.address-abroad').removeClass('hidden');
-                $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelAddress'));
-                $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelPostcode'));
-            }
-        }
-
-        toggleOverseasLink();
-
-        $('.address-abroad').click(function (e) {
-            e.preventDefault();
-            $(this).addClass('hidden');
-            $('label[for="landlordAddress_buildingNameNumber_text"] .label-span').text(VoaMessages.textLabel('labelOverseasAddress'));
-            $('label[for="landlordAddress_postcode_text"] .label-span').text(VoaMessages.textLabel('labelOverseasPostcode'));
-            $('#overseas_true').prop('checked', true);
-            $('[name="overseas"]').closest('label').removeClass('selected');
-            $('#overseas_true').closest('label').addClass('selected');
-        });
-
-        $('[name="overseas"]').change(function () {
-            toggleOverseasLink();
-        });
-    };
 
     VoaFor.errorFocus = function () {
         if ($('.form-error')) {

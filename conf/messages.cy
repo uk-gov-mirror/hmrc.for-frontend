@@ -146,7 +146,7 @@ label.street1=Ail linell y cyfeiriad (dewisol)
 label.street2=Tref neu ddinas (dewisol)
 label.townCity=Tref neu ddinas
 label.address.townCity=Tref neu ddinas
-label.address.postcode=Cod post
+label.address.postcode=Cod post (dewisol)
 label.currentAddress=Cyfeiriad presennol
 label.updatedAddress=Cyfeiriad a ddiweddarwyd
 label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i’r cyfeiriad eu derbyn gan Asiantaeth y Swyddfa Brisio.
@@ -268,11 +268,12 @@ subletType.part=Rhan ohono
 #SECTION 5
 ###############################
 section5.heading=Y landlord
+section5.subheading=Cyfeiriad y landlord
 section5.heading.help=Rhowch fanylion y landlord, hyd yn oed os caiff y rhent ei dalu i asiant.
 landlordConnectionType.noConnected=Dim cysylltiad
 landlordConnectionType.family=Teulu
 landlordConnectionType.other=Cysylltiad arall
-label.landlordFullName=Enw llawn y landlord
+label.landlordFullName=Enw llawn y landlord (dewisol)
 hint.landlordConnect=Er enghraifft, gall y landlord a’r tenant fod yn bartneriaid busnes, neu gall y tenant fod yn gwmni daliannol neu’n is-gwmni i’r landlord.
 label.landlordConnectText=Cysylltiad â’r landlord
 label.landlordConnectText.agent=Eu cysylltiad â’r landlord

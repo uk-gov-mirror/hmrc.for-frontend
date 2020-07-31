@@ -10,7 +10,6 @@ module.exports = function(grunt) {
                 'public/javascripts/common.js',
                 'public/javascripts/feedback.js',
                 'public/javascripts/messages.js',
-                'public/javascripts/postcodeLookup.js',
                 'public/javascripts/radioToggle.js',
                 'public/javascripts/voaFor.js',
                 'public/javascripts/intelAlerts.js'

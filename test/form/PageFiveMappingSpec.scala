@@ -41,35 +41,11 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     validateFullName(pageFiveForm, baseData, "landlordFullName")
   }
 
-  it should "allow address to be optional when address is not marked as overseas" in {
-    val data = baseData.updated("overseas", "false") -- addressFields
-    mustBind(bind(data)){ x => assert(x.landlordAddress.isDefined === false)}
+  it should "allow address to be optional" in {
+    val data = baseData -- addressFields
+    mustBind(bind(data)) { x => assert(x.landlordAddress.isDefined === false) }
   }
 
-  it should "allow address to be optional when the address is marked as overseas" in {
-    val data = baseData.updated("overseas", "true") -- addressFields
-    val form = bind(data)
-
-    mustBind(form) { x => assert(x.landlordAddress.isDefined === false) }
-  }
-
-  it should "bind with an overseas address with 1 line when overseas is true" in {
-    val data = baseData.updated("overseas", "true") - "landlordAddress.street1" - "landlordAddress.street2" - "landlordAddress.postcode"
-    mustBind(bind(data)) { x => assert(x.landlordAddress.map(_.buildingNameNumber) === Some("Our House"))}
-
-  }
-
-  it should "bind with an overseas address with no postcode when 'overseas' is true" in {
-    val data = baseData.updated("overseas", "true") - "landlordAddress.postcode"
-    val form = bind(data)
-
-    doesNotContainErrors(form)
-  }
-
-  it should "validate landlord's address as an overseas address when the address is marked as overseas" in {
-    val data = baseData.updated("overseas", "true")
-    validateOverseasAddress(pageFiveForm, data, "landlordAddress")
-  }
 
   it should "allow letters, numbers, spaced and special chars up to 100 chars for connection details" in {
     validateLettersNumsSpecCharsUptoLength("landlordConnectText", 100, pageFiveForm, baseData)
@@ -85,58 +61,36 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
   it should "return required error if landlord connection text is missing and connection type is other" in {
     val data = baseData - "landlordConnectText"
     val form = bind(data)
-    
+
     mustOnlyContainRequiredErrorFor("landlordConnectText", form)
   }
 
   it should "bind with the fields and return with no errors" in {
     val data = baseData
     val form = bind(data)
-    
-    doesNotContainErrors(form)  
+
+    doesNotContainErrors(form)
   }
 
-  it should "not bind the data and return an error for boolean missing if no value is given for the overseas toggle value" in {
-    val data = baseData - "overseas"
-    val form  = bind(data)
-
-    mustContainBooleanRequiredErrorFor("overseas", form)
-  }
-
-  it should "successfully bind when an original address is present (for auditing)" in {
+  it should "never return validation errors for address" in {
     val data = baseData
       .updated("original.landlordAddress.buildingNameNumber", "1")
       .updated("original.landlordAddress.street1", "The Road")
       .updated("original.landlordAddress.postcode", "AA11 1AA")
-      .updated("original.landlordAddress.uprn", "1234567890")
     val form = bind(data)
 
     doesNotContainErrors(form)
   }
 
-  it should "never return validation errors for original address" in {
-    val data = baseData
-      .updated("original.landlordAddress.buildingNameNumber", "1")
-      .updated("original.landlordAddress.street1", "The Road")
-      .updated("original.landlordAddress.postcode", "AA11 1AA") - "original.landlordAddress.uprn"
+  it should "not return validation errors for even when postcode alone is filled out" in {
+    val data = baseData - addressBuildingName._1 - addressStreet1._1 - addressStreet2._1
     val form = bind(data)
 
     doesNotContainErrors(form)
-  }
-
-  it should "not bind any value to original address when the address lookup is not used" in {
-    val data = baseData -
-      "original.landlordAddress.buildingNameNumber" -
-      "original.landlordAddress.street1" -
-      "original.landlordAddress.postcode" -
-      "original.landlordAddress.uprn"
-
-    bind(data).value.flatMap(_.originalLandlordAddress) should equal (None)
   }
 
   object TestData {
-    lazy val landlordFullName = "landlordFullName" -> "Some Guy"
-    lazy val overseas= "overseas" -> "false"
+    lazy val landlordFullName = "landlordFullName" -> "Some Geezer"
     lazy val addressBuildingName = "landlordAddress.buildingNameNumber" -> "Our House"
     lazy val addressStreet1 = "landlordAddress.street1" -> "Middle of Our street"
     lazy val addressStreet2 = "landlordAddress.street2" -> "Our House"
@@ -144,18 +98,22 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     lazy val landlordConnType = "landlordConnectType" -> LandlordConnectionTypeOther.name
     lazy val landlordConnText = "landlordConnectText" -> "Fraternal bonds"
 
-    val addressFields = Seq("landlordAddress.buildingNameNumber", "landlordAddress.street1",
-      "landlordAddress.street2", "landlordAddress.postcode")
+    val addressFields = Seq(
+      "landlordAddress.buildingNameNumber",
+      "landlordAddress.street1",
+      "landlordAddress.street2",
+      "landlordAddress.postcode"
+    )
 
     val baseData = Map(
       landlordFullName,
-      overseas,
       addressBuildingName,
       addressStreet1,
       addressStreet2,
       addressPostcode,
       landlordConnType,
-      landlordConnText)
+      landlordConnText
+    )
 
     def bind(formData: Map[String, String]) = {
       pageFiveForm.bind(formData).convertGlobalToFieldErrors()

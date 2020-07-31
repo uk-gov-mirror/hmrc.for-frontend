@@ -34,79 +34,6 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
 
   behavior of "Address Auditing"
 
-  it should "send a manualAddressSubmitted audit when the user has ignored the postcode lookup and entered the landlord's address manually" in {
-    val s = summaryWithLandlordAddress(None, Some(manual))
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("manualAddressSubmitted",
-      Map(
-        "submittedLine1" -> manual.buildingNameNumber,
-        "submittedLine2" -> manual.street1.getOrElse(""),
-        "submittedPostcode" -> manual.postcode
-      )
-    )
-  }
-
-  it should "send a postcodeAddressSubmitted audit when the user has not modified the address returned by the postcode lookup" in {
-    val s = summaryWithLandlordAddress(Some(fromPostcodeLookup), Some(unchanged))
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("postcodeAddressSubmitted",
-      Map(
-        "submittedLine1" -> fromPostcodeLookup.buildingNameNumber,
-        "submittedLine2" -> fromPostcodeLookup.street1.getOrElse(""),
-        "submittedPostcode" -> fromPostcodeLookup.postcode,
-        "submittedUPRN" -> fromPostcodeLookup.uprn
-      )
-    )
-  }
-
-  it should "send a postcodeAddressModifiedSubmitted audit when the user has modified one line of the landlord address returned by the postcode lookup" in {
-    val s = summaryWithLandlordAddress(Some(fromPostcodeLookup), Some(oneLineChanged))
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("postcodeAddressModifiedSubmitted",
-      Map(
-        "submittedLine1" -> oneLineChanged.buildingNameNumber,
-        "submittedLine2" -> oneLineChanged.street1.getOrElse(""),
-        "submittedPostcode" -> oneLineChanged.postcode,
-        "originalLine1" -> fromPostcodeLookup.buildingNameNumber,
-        "originalLine2" -> fromPostcodeLookup.street1.getOrElse(""),
-        "originalPostcode" -> fromPostcodeLookup.postcode,
-        "originalUPRN" -> fromPostcodeLookup.uprn
-      )
-    )
-  }
-
-  it should "send a manualAddressSubmitted audit when the user has modified at least two lines of the landlord address returned by the postcode lookup" in {
-    val s = summaryWithLandlordAddress(
-      Some(fromPostcodeLookup),
-      Some(twoLinesChanged)
-    )
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("manualAddressSubmitted",
-      Map(
-        "submittedLine1" -> twoLinesChanged.buildingNameNumber,
-        "submittedLine2" -> twoLinesChanged.street1.getOrElse(""),
-        "submittedPostcode" -> twoLinesChanged.postcode
-      )
-    )
-  }
-
-  it should "send a internationalAddressSubmitted audit when the landlord address does not have a valid UK postcode" in {
-    val s = summaryWithLandlordAddress(None, Some(overseas))
-    TestAddressAuditing(s, FakeRequest())
-
-    StubAuditer.mustHaveSentAudit("internationalAddressSubmitted",
-      Map(
-        "submittedLine1" -> overseas.buildingNameNumber,
-        "submittedLine2" -> overseas.street1.getOrElse(""),
-        "submittedPostcode" -> overseas.postcode
-      )
-    )
-  }
-
   it should "send a manualAddressSubmitted audit when the user submits a corrected property address" in {
     val s = summaryWithPropertyAddress(Some(propertyAddress), Some(oneLineChanged))
     TestAddressAuditing(s, FakeRequest())
@@ -149,7 +76,7 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
 
   private def summaryWithLandlordAddress(original: Option[LookupServiceAddress], submitted: Option[Address]): Summary = {
     Summary("1234567890", DateTime.now, None, None, None, None, None,
-      Some(PageFive(false, Some("Mr Landlord"), original, submitted, LandlordConnectionTypeNone, None)),
+      Some(PageFive(Some("Mr Landlord"), submitted, LandlordConnectionTypeNone, None)),
       None, None, None, None, None, None, None, None, None, None, Nil)
   }
 }

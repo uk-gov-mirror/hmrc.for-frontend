@@ -20,28 +20,17 @@
 @import _root_.template.Helper._
 @import helpers._
 
-@(theForm: Form[_], prefix: String, hidden: String, abroadAddress: Boolean, nojs: String = "", Optional: Boolean)(implicit requestHeader: RequestHeader, messages: Messages)
+@(theForm: Form[_], prefix: String)(implicit requestHeader: RequestHeader, messages: Messages)
 
-    @isOptional = @{
-        if(Optional) {
-            Messages("label.optional")
-        }
-    }
-
-    @addressForm(hiddenClass: String, overseas: Boolean) = {
-    <h2 class="heading-medium">@Messages("label.address")</h2>
+    <h2 class="heading-medium">@Messages("section5.subheading")</h2>
+    <div class="">
 
     @helpers.inputText(
-        field = theForm(prefix + ".buildingNameNumber1"),
-        '_label -> Html(if(overseas) {
-            Messages("label.landlordOverseasAddress.buildingNameNumber")
-        } else {
-            Messages("label.buildingNameNumber")
-        }),
+        field = theForm(prefix + ".buildingNameNumber"),
+        '_label -> Messages("label.buildingNameNumber"),
         '_labelClass -> "form-label",
         'class -> "form-control",
-        '_fieldsetClass -> "hidden address-field-one address-fields",
-        '_nojsText -> nojs
+        '_fieldsetClass -> "address-field-one address-fields"
     )
 
         @helpers.inputText(
@@ -49,7 +38,7 @@
         '_label -> Messages("label.street1"),
         '_labelClass -> "form-label",
         'class -> "form-control",
-        '_fieldsetClass -> "hidden address-field-two address-fields"
+        '_fieldsetClass -> "address-field-two address-fields"
     )
 
         @helpers.inputText(
@@ -57,101 +46,16 @@
         '_label -> Messages("label.street2"),
         'class -> "form-control",
         '_labelClass -> "form-label",
-        '_fieldsetClass -> "hidden address-field-three"
+        '_fieldsetClass -> "address-field-three"
 
     )
 
         @helpers.inputText(
         field = theForm(prefix + ".postcode"),
-        '_label -> Messages("label.ukOrInternationalPostcode"),
+        '_label -> Messages("label.address.postcode"),
         '_labelClass -> "form-label",
         'class -> ("form-control postcode postcode-" + prefix),
-        '_fieldsetClass -> "hidden address-field-postcode",
-        '_nojsText -> nojs
-    )
-        <div id="originalAddress">
-
-        @helpers.hiddenInput(
-        field = theForm(s"original.$prefix.buildingNameNumber"),
-        '_fieldsetClass -> "address-field-one"
-    )
-
-    @helpers.hiddenInput(
-        field = theForm(s"original.$prefix.street1"),
-        '_fieldsetClass -> "address-field-two"
-    )
-
-    @helpers.hiddenInput(
-        field = theForm(s"original.$prefix.street2"),
-        '_fieldsetClass -> "address-field-three"
-    )
-
-    @helpers.hiddenInput(
-        field = theForm(s"original.$prefix.postcode"),
         '_fieldsetClass -> "address-field-postcode"
     )
-
-    @helpers.hiddenInput(
-        field = theForm(s"original.$prefix.uprn"),
-        '_fieldsetClass -> "address-field-id"
-    )
-        </div>
-    }
-
-    @if(abroadAddress == true) {
-        @inputRadioGroup(
-            field = theForm("overseas"),
-            options = Seq(
-                "true" -> Messages("label.yes.oes"),
-                "false" -> Messages("label.no.nac.oes")
-            ),
-            args = Seq(
-                '_showConstraints -> false,
-                '_label -> Messages("label.overseas"),
-                '_error -> theForm("overseas").error,
-                '_legend -> true,
-                '_fieldsetClass -> "inline radioOverseas",
-                '_labelClass -> "form-label-bold",
-                '_showConstraints -> false
-            )
-        )
-    }
-    <div class="form-group postcode-lookup-group @(hidden)">
-
-        <div class="form-group-lookup hide-if-no-js">
-            <label class="form-label-bold" for="postcode-look">@Messages("label.postcode") @if(Optional) {
-                <span class="visuallyhidden">(@Messages("label.optional"))</span>
-            }</label>
-
-            @if(Optional) {
-                <span class="form-hint">@Messages("label.optional")</span>
-            }
-
-            <input type="text" class="form-control postcode" id="postcode-look">
-            <button id="postcodeLookupButton" class="button findPostcode">@Messages("label.findAddress")</button>
-
-            <div class="loading hidden hide-if-no-js"><div class="loader"></div> @Messages("label.loading")</div>
-
-            <div class="postcode-results">
-                <label class="form-label-bold" for="postcode_look_results_@{
-                    s"$prefix"
-                }">@Messages("label.addressMatches")</label>
-                <select class="form-control input-extra-large addressList" name="@{
-                    s"$prefix.addresses"
-                }" id="postcode_look_results_@{
-                    s"$prefix"
-                }">
-
-        </select>
-            </div>
-        </div>
-
-        <a href="#" class="manual-address showHide hide-if-no-js">@Messages("label.manualAddress")</a>
-
-        <div class="showHide-group show-if-no-js">
-
-        @addressForm("hidden", false)
-
-        </div>
 
     </div>
