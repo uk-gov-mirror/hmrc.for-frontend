@@ -11,7 +11,6 @@ var VoaCommon = {};
 var VoaFeedback = {};
 var VoaMessages = {};
 var VoaAlerts = {};
-var VoaPostCode = {};
 var VoaRadioToggle = {};
 var ref;
 
@@ -20,10 +19,8 @@ var ref;
     $(document).ready(function () {
 
         /** Init functions **/
-
         //voaFor.js
         VoaFor.errorFocus();
-        VoaFor.addressAbroad();
         VoaFor.addField();
         VoaFor.removeField();
         VoaFor.addFieldMulti();
@@ -52,10 +49,6 @@ var ref;
         //intelAlerts.js
         VoaAlerts.intelAlert();
 
-        //postcodeLookup.js
-        VoaPostCode.postcodeLookup();
-        VoaPostCode.postcodeLookupElements();
-
         //radioToggle.js
         VoaRadioToggle.radioDataShowField();
         VoaRadioToggle.radioDataShowFields();
@@ -68,8 +61,6 @@ var ref;
         VoaCommon.details();
         VoaCommon.characterCount();
         VoaCommon.stickyFooter();
-
-        
     });
 
 })(jQuery);

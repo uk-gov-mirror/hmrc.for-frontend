@@ -25,10 +25,8 @@ import uk.gov.voa.play.form.ConditionalMappings._
 
 object PageFiveForm {
   val pageFiveForm = Form(mapping(
-    "overseas" -> mandatoryBoolean,
     "landlordFullName" -> optional(text(maxLength = 50)),
-    "original.landlordAddress" -> optional(lookupAddressMapping("original.landlordAddress")),
-    "landlordAddress" -> optional(addressAbroadMapping("landlordAddress")),
+    "landlordAddress" -> optional(optionalAddressMapping("landlordAddress")),
     "landlordConnectType" -> landlordConnectionType,
     "landlordConnectText" -> mandatoryIfEqual(
       "landlordConnectType", LandlordConnectionTypeOther.name, nonEmptyText(maxLength = 100)
