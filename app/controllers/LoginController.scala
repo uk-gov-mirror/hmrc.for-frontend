@@ -43,8 +43,9 @@ object LoginController {
     mapping(
       //format of reference number should be 7 or 8 digits then / then 3 digits
       "referenceNumber" -> text.verifying(Errors.invalidRefNum, x => {
-        val cleanRefNumber = x.replaceAll("[^0-9]", "")
-        cleanRefNumber.length > 10 && cleanRefNumber.length < 13
+        val cleanRefNumber = x.replaceAll("\\D+", "")
+        val validLength = cleanRefNumber.length > 9 && cleanRefNumber.length < 12: Boolean
+        validLength
       }),
       "postcode" -> nonEmptyTextOr("postcode", postcode),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -78,8 +79,8 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
     val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
-    print("referenceNumber is: " + referenceNumber)
-    val (ref1, ref2) = referenceNumber.replaceAll("[^0-9]", "").splitAt(referenceNumber.length - 3)
+    val cleanedRefNumber = referenceNumber.replaceAll("[^0-9]", "")
+    val (ref1, ref2) = cleanedRefNumber.splitAt(cleanedRefNumber.length - 3)
     //TODO - refactor
     loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
