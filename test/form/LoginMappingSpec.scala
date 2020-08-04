@@ -27,8 +27,7 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 
 	it should "bind to ISO date time strings for the start-time" in {
 		val data = Map(
-			"ref1" -> "1111111",
-			"ref2" -> "323",
+			"referenceNumber" -> "12345678 /*BLAH 000",
 			"postcode" -> "AA11 1AA",
 			"start-time" -> "2016-01-04T08:58:42.113Z"
 		)
@@ -38,24 +37,20 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 		}
 	}
 
-	it should "only allow 7 or 8 digit numeric reference numbers" in {
+	it should "after trimming non numeric chars should be 11 or 12 digits in reference numbers" in {
 		val data = Map(
-			"ref2" -> "323",
+			"referenceNumber" -> "12345678  */ 000",
 			"postcode" -> "AA11 1AA",
 			"start-time" -> "2016-01-04T08:58:42.113Z"
 		)
 
-		val d6 = data.updated("ref1", "666666")
-		mustContainError("ref1", Errors.invalidRefNum, loginForm.bind(d6))
+    mustBind(loginForm.bind(data)) { x => assert(x.referenceNumber === "12345678  */ 000") }
 
-    val d7 = data.updated("ref1", "7777777")
-    mustBind(loginForm.bind(d7)) { x => assert(x.ref1 === "7777777") }
+		val d1 = data.updated("referenceNumber", "1234567890")
+		mustContainError("referenceNumber", Errors.invalidRefNum, loginForm.bind(d1))
 
-    val d8 = data.updated("ref1", "88888888")
-    mustBind(loginForm.bind(d8)) { x => assert(x.ref1 === "88888888") }
-
-    val d9 = data.updated("ref1", "999999999")
-    mustContainError("ref1", Errors.invalidRefNum, loginForm.bind(d9))
+		val d2 = data.updated("referenceNumber", "1234567890123")
+		mustContainError("referenceNumber", Errors.invalidRefNum, loginForm.bind(d2))
 	}
 
 }

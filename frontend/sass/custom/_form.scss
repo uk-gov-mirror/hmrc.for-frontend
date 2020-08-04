@@ -77,7 +77,7 @@
 .form-group {
 	.form-reference{
 		.form-group-reference-7{
-			width: 100px;
+			width: 160px;
 			margin-right: 10px;
 		}
 		.form-group-reference-8{
@@ -345,7 +345,7 @@ h1{
 }
 
 .form-label-bold{
-	@include bold-24;
+	@include core-19;
    	margin-bottom: 0.5em;
 }
 p.error{

@@ -16,8 +16,7 @@
 
 package controllers
 
-import actions.RefNumAction
-import connectors.{Audit, HODConnector}
+import connectors.Audit
 import form.ConditionalMapping._
 import form.Errors
 import form.MappingSupport._
@@ -28,8 +27,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.JodaForms._
 import play.api.libs.json.{Format, Json}
-import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequest, Request, Result}
-import playconfig.{LoginToHOD, LoginToHODAction}
+import play.api.mvc._
+import playconfig.LoginToHODAction
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
@@ -37,20 +36,24 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class LoginDetails(ref1: String, ref2: String, postcode: String, startTime: DateTime)
+case class LoginDetails(referenceNumber: String, postcode: String, startTime: DateTime)
 
 object LoginController {
   val loginForm = Form(
     mapping(
-      "ref1" -> text.verifying(Errors.invalidRefNum, x => Seq(7, 8).contains(x.length)),
-      "ref2" -> text.verifying(Errors.invalidRefNum, _.length == 3),
+      //format of reference number should be 7 or 8 digits then / then 3 digits
+      "referenceNumber" -> text.verifying(Errors.invalidRefNum, x => {
+        val cleanRefNumber = x.replaceAll("[^0-9]", "")
+        cleanRefNumber.length > 10 && cleanRefNumber.length < 13
+      }),
       "postcode" -> nonEmptyTextOr("postcode", postcode),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
 
 class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents
-                       )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+                               )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+
   import LoginController.loginForm
 
 
@@ -67,15 +70,16 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
   def submit = Action.async { implicit request =>
     loginForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.login(formWithErrors))),
-      loginData => verifyLogin(loginData.ref1, loginData.ref2, loginData.postcode, loginData.startTime)
+      loginData => verifyLogin(loginData.referenceNumber, loginData.postcode, loginData.startTime)
     )
   }
 
-  def verifyLogin(ref1: String, ref2: String, postcode: String, startTime: DateTime)(implicit r: MessagesRequest[AnyContent]) = {
+  def verifyLogin(referenceNumber: String, postcode: String, startTime: DateTime)(implicit r: MessagesRequest[AnyContent]) = {
     val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
-
+    print("referenceNumber is: " + referenceNumber)
+    val (ref1, ref2) = referenceNumber.replaceAll("[^0-9]", "").splitAt(referenceNumber.length - 3)
     //TODO - refactor
     loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
@@ -97,9 +101,9 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
     }
   }
 
-  private def auditLogin(refNumber: String, returnUser: Boolean)( implicit hc: HeaderCarrier) = {
+  private def auditLogin(refNumber: String, returnUser: Boolean)(implicit hc: HeaderCarrier) = {
 
-    audit.sendExplicitAudit("UserLogin",Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
+    audit.sendExplicitAudit("UserLogin", Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
   }
 
   def lockedOut = Action { implicit request => Unauthorized(views.html.lockedOut()) }

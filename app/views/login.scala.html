@@ -51,9 +51,8 @@
         }
     }
 
-
     @main(title =Messages("login.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false, theForm = Some(theForm)) {
-   
+
  <main id="content">
         <div class="grid-row">
             <div class="column-two-thirds">
@@ -102,72 +101,40 @@
                 }
 
                 <h1 class="form-title heading-large">@Messages("login.heading")</h1>
-                @helpers.form(action = routes.LoginController.submit) {
+                @helpers.form(action = routes.LoginController.submit, args = 'novalidate -> "novalidate") {
                     @helper.CSRF.formField
 
                     <p class="form-label">@Messages("label.letter")</p>
-                
-                        <!-- Reference number -->
-                    <fieldset class="form-group">
-                        <legend class="form-label-bold">@Messages("label.referenceNumber") <span class="visuallyhidden" aria-hidden="true" >(Required)</span></legend>
-                        @errorWrapper(Seq(theForm("ref1"),theForm("ref2")),"form-reference"){
-                            <div class="form-grouped">
 
-                                @inputText(
-                                    field = theForm("ref1"),
-                                    '_label -> Messages("label.referenceNumber1"),
-                                    '_labelClass -> "visuallyhidden",
-                                    '_fieldsetClass -> "form-group-reference-7",
-                                    'class -> "form-control",
-                                    'maxlength -> "8",
-                                    'pattern -> "[0-9]*",
-                                    '_showConstraints -> false, 
-                                    '_showErrors -> false
-                                )
-
-                                <span class="form-group divider">/</span>
-
-                                @inputText(
-                                    field = theForm("ref2"),
-                                    '_label -> Messages("label.referenceNumber2"),
-                                    '_labelClass -> "visuallyhidden",
-                                    '_fieldsetClass -> "form-group-reference-3",
-                                    'class -> "form-control",
-                                    'maxlength -> "3",
-                                    'pattern -> "[0-9]*",
-                                    '_showConstraints -> false, 
-                                    '_showErrors -> false
-                                )
-                            
-                            </div>
-                        }
-                    </fieldset>
+                    @inputText(
+                        field = theForm("referenceNumber"),
+                        '_label -> Messages("label.referenceNumber"),
+                        '_labelClass -> "form-label",
+                        'class -> "form-control form-group-reference-7"
+                    )
 
                     <!-- Postcode -->
                     @inputText(
-                        field = theForm("postcode"),
-                        '_label -> Messages("label.postcode"),
-                        '_labelClass -> "form-label-bold",
-                        'class -> "form-control postcode",
-                        'maxlength -> "8",
-                        '_type -> "hidden"
+                    field = theForm("postcode"),
+                    '_label -> Messages("label.postcode"),
+                    '_labelClass -> "form-label",
+                    'class -> "form-control postcode",
+                    '_type -> "hidden"
                     )
 
                     @defining(DateTime.now.toString) { now =>
-                        <input type="hidden" name="start-time" value="@now" />
+                    <input type="hidden" name="start-time" value="@now" />
                     }
 
                     <!-- Continue -->
                     <div class="form-group">
-                        <input id="continue" type="submit" class="button" value="@Messages("label.continue")">
+                    <input id="continue" type="submit"
+                        formnovalidate
+                        class="button" value="@Messages("label.continue")">
                     </div>
-
                 }
 
             </div>
         </div>
 </main>
-
-     
-
-      }
+}

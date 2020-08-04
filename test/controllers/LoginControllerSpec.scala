@@ -54,11 +54,11 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
 
     val fakeRequest = FakeRequest()
 
-    val response = loginController.verifyLogin("XX", "XX", "xx", DateTime.now())(fakeRequest)
+    val response = loginController.verifyLogin("1234", "BN12 1AB", DateTime.now())(fakeRequest)
 
     status(response) shouldBe(SEE_OTHER)
 
-    verify(audit).sendExplicitAudit(eqTo("UserLogin"), eqTo(Json.obj(Audit.referenceNumber -> "XXXX", "returningUser" -> false))
+    verify(audit).sendExplicitAudit(eqTo("UserLogin"), eqTo(Json.obj(Audit.referenceNumber -> "1234", "returningUser" -> false))
     )(any[HeaderCarrier], any[ExecutionContext])
 
   }
