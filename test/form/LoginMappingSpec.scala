@@ -37,7 +37,7 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 		}
 	}
 
-	it should "after trimming non numeric chars should be 11 or 12 digits in reference numbers" in {
+	it should "after trimming non numeric chars should be 10 or 11 digits in reference numbers" in {
 		val data = Map(
 			"referenceNumber" -> "12345678  */ 000",
 			"postcode" -> "AA11 1AA",
@@ -46,11 +46,17 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 
     mustBind(loginForm.bind(data)) { x => assert(x.referenceNumber === "12345678  */ 000") }
 
-		val d1 = data.updated("referenceNumber", "1234567890")
+		val d1 = data.updated("referenceNumber", "123456789")
 		mustContainError("referenceNumber", Errors.invalidRefNum, loginForm.bind(d1))
 
-		val d2 = data.updated("referenceNumber", "1234567890123")
+		val d2 = data.updated("referenceNumber", "123456789012")
 		mustContainError("referenceNumber", Errors.invalidRefNum, loginForm.bind(d2))
+
+		val d3 = data.updated("referenceNumber", "12345678901")
+		mustBind(loginForm.bind(d3)){x => assert(x.referenceNumber === "12345678901")}
+
+		val d4 = data.updated("referenceNumber", "1234567890")
+		mustNotContainErrorFor("referenceNumber", loginForm.bind(d4))
 	}
 
 }
