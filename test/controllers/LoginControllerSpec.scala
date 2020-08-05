@@ -44,21 +44,25 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginToHodFunction = (ref1: Ref1, ref2: Ref2, postcode: Postcode, start:StartTime) =>
+    val loginToHodFunction = (ref1: Ref1, ref2: Ref2, postcode: Postcode, start:StartTime) =>{
+      assert(ref1.equals("01234567"))
+      assert(ref2.equals("000"))
       Future.successful(NoExistingDocument("token"))
+    }
 
     val loginToHod = mock[LoginToHODAction]
+    val time = DateTime.now()
     when(loginToHod.apply(any[HeaderCarrier])).thenReturn(loginToHodFunction)
 
     val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents())
 
     val fakeRequest = FakeRequest()
-
-    val response = loginController.verifyLogin("XX", "XX", "xx", DateTime.now())(fakeRequest)
+    //should strip out all non digits then split string 3 from end to create ref1/ref2
+    val response = loginController.verifyLogin("01234567/*ok blah 000", "BN12 1AB", time)(fakeRequest)
 
     status(response) shouldBe(SEE_OTHER)
 
-    verify(audit).sendExplicitAudit(eqTo("UserLogin"), eqTo(Json.obj(Audit.referenceNumber -> "XXXX", "returningUser" -> false))
+    verify(audit).sendExplicitAudit(eqTo("UserLogin"), eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false))
     )(any[HeaderCarrier], any[ExecutionContext])
 
   }
