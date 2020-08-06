@@ -18,7 +18,7 @@ package controllers
 
 import connectors.Audit
 import form.ConditionalMapping._
-import form.Errors
+import form.{Errors, MappingSupport}
 import form.MappingSupport._
 import javax.inject.Inject
 import org.joda.time.DateTime
@@ -47,7 +47,12 @@ object LoginController {
         val validLength = cleanRefNumber.length > 9 && cleanRefNumber.length < 12: Boolean
         validLength
       }),
-      "postcode" -> nonEmptyTextOr("postcode", loginPostcode),
+      "postcode" -> text.verifying(Errors.invalidPostcodeOnLetter, pc => {
+        var cleanPostcode = pc.replaceAll("[^\\w\\d]", "")
+        cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 3, " ", 0)
+        val isValid = cleanPostcode.matches(MappingSupport.postcodeRegex): Boolean
+        isValid
+      }),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
@@ -81,8 +86,10 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
     val cleanedRefNumber = referenceNumber.replaceAll("[^0-9]", "")
     val (ref1, ref2) = cleanedRefNumber.splitAt(cleanedRefNumber.length - 3)
+    var cleanPostcode = postcode.replaceAll("[^\\w\\d]", "")
+    cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
     //TODO - refactor
-    loginToHOD(hc2)(ref1, ref2, postcode, startTime).flatMap {
+    loginToHOD(hc2)(ref1, ref2, cleanPostcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
         auditLogin(ref1 + ref2, true)(hc2)
         withNewSession(Redirect(routes.SaveForLater.resumeOptions()), token, s"$ref1$ref2", sessionId)
