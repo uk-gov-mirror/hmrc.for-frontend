@@ -47,7 +47,7 @@ object LoginController {
         val validLength = cleanRefNumber.length > 9 && cleanRefNumber.length < 12: Boolean
         validLength
       }),
-      "postcode" -> nonEmptyTextOr("postcode", postcode),
+      "postcode" -> nonEmptyTextOr("postcode", loginPostcode),
       "start-time" -> jodaDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
