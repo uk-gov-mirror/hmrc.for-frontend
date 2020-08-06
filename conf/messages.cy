@@ -183,7 +183,7 @@ label.alternativeContact.address.postcode=Cod post
 label.alternativeContact.contactDetails=Person cyswllt amgen
 label.alternativeContact.address=Cyfeiriad y person cyswllt amgen
 hint.anyQueries=Ar gyfer unrhyw ymholiadau ynglŷn â’r ffurflen hon.
-hint.occupierExplanation=Os ydych yn rhentu neu’n prydlesu’r eiddo, hyd yn oed fel elusen neu sefydliad di-elw, ystyrir mai chi yw’r meddiannydd.  Os mai chi yw’r perchennog a’r meddiannydd, dewiswch ''Perchennog neu ymddiriedolwr ar ran y perchennog''.
+hint.occupierExplanation=Os ydych yn rhentu neu’n prydlesu’r eiddo, hyd yn oed fel elusen neu sefydliad di-elw, ystyrir mai chi yw’r meddiannydd.  Os mai chi yw’r perchennog a’r meddiannydd, dewiswch ‘Perchennog neu ymddiriedolwr ar ran y perchennog’.
 label.noJs.contactDetails.email1=Dylech ond ateb hyn os ydych wedi dewis ‘E-bost’ neu ‘Y ddau’
 label.noJs.contactDetails.phone=Dylech ond ateb hyn os ydych wedi dewis ‘Ffôn’ neu ‘Y ddau’
 label.noJs.contactDetails.contactAddressType=Dylech ond ateb hyn os ydych wedi dewis ‘Y Deiliad’ neu ‘Y Perchennog’
@@ -223,7 +223,7 @@ label.occupierType=Pwy yw meddiannydd yr eiddo?
 label.occupierCompanyName=Enw’r cwmni
 label.noJs.occupierCompanyName=Dylech ond ateb hyn os ydych wedi dewis ‘Cwmni’
 label.noJs.firstOccupationDate=Dylech ond ateb hyn os ydych wedi dewis ‘Un neu fwy o unigolion’ neu ‘Cwmni’
-label.noJs.propertyRentedBy=Dylech ond ateb hyn os ydych wedi dewis ‘Nac ydy ’
+label.noJs.propertyRentedBy=Dylech ond ateb hyn os ydych wedi dewis ‘Nac ydy ‘
 label.noRentDetails=Dywedwch wrthym pam nad ydych yn talu rhent ar yr eiddo yma
 label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rhent ar yr eiddo hwn
 
@@ -232,7 +232,7 @@ label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rh
 ###############################
 section4.heading=Gosodiadau ac is-osodiadau
 label.propertyIsSublet=A oes unrhyw ran o’r eiddo yn cael ei osod neu ei is-osod i unrhyw un arall ar hyn o bryd?
-hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ''Nac ydy''. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
+hint.propertyIsSublet=Gall hyn gynnwys fflatiau, hysbysfyrddau, modurdai a llefydd parcio ceir. Ar gyfer gosodiadau ar gyfradd awr i awr, megis neuaddau pentref, dewiswch yr opsiwn ‘Nac ydy’. Dylid cyflwyno llety gwyliau ar <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">ffurflen 6048</a>.
 label.sublet.tenantFullName=Enw’r tenant
 label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo sy’n cael ei osod neu ei is-osod?
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy’n cael ei osod neu isosod?
@@ -377,7 +377,7 @@ label.noJs.rentReviewDetails.reviewIntervalType=Dylech ond ateb hwn os ydych wed
 label.noJs.rentReviewDetails.rentResultOfRentReview=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ateb hwn os ydych wedi dewis ‘Ie’
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
-hint.rentOnThisPropertyTheResultOf=Dewiswch ''Ydy'' hyd yn oed os na newidiodd y rhent o ganlyniad i’r adolygiad.
+hint.rentOnThisPropertyTheResultOf=Dewiswch ‘Ydy’ hyd yn oed os na newidiodd y rhent o ganlyniad i’r adolygiad.
 
 #SECTION 8
 ###############################
@@ -415,7 +415,7 @@ label.provideDetails=Rhowch fanylion yn y blwch testun isod
 label.partRent=Ai dim ond ar gyfer rhan o {0} mae’r rhent yn cael ei dalu?
 label.partRent.agent=Ai dim ond am ran o’r eiddo hwn y mae’ch cleient yn talu rhent?
 hint.partRent=Er enghraifft, os mai “Lloriau 1 i 3” yw’r cyfeiriad, ond dim ond ar gyfer Llawr 1 y mae rhent yn cael ei dalu, dewiswch ‘Ie’.
-hint.partRent.agent=Ystyr ''eiddo'' yw’r cyfeiriad a roddwyd yn Adran 1. Er enghraifft, os mai ''Lloriau 1 i 3'' yw cyfeiriad eich cleient, ond dim ond ar gyfer Llawr 1 mae’n talu rhent dewiswch ''Ie''.
+hint.partRent.agent=Ystyr ‘eiddo’ yw’r cyfeiriad a roddwyd yn Adran 1. Er enghraifft, os mai ‘Lloriau 1 i 3’ yw cyfeiriad eich cleient, ond dim ond ar gyfer Llawr 1 mae’n talu rhent dewiswch ‘Ie’.
 label.otherProperty=A yw’r rhent hwn yn cynnwys unrhyw eiddo busnes arall?
 label.otherProperty.agent=A yw rhent eich cleient yn cynnwys unrhyw eiddo arall?
 hint.otherProperty=Er enghraifft, eiddo cyfagos neu lawr arall nad yw’n rhan o’r cyfeiriad hwn.
@@ -464,7 +464,7 @@ label.receiveCapitalSum.agent=A gafodd eich cleient swm cyfalaf?
 label.capitalReceivedDetails.capitalSum=Y swm a gafwyd (ac eithrio TAW)
 label.capitalReceivedDetails.paymentDate=Dyddiad y cafwyd y taliad
 hint.rentFreePeriodDetails.rentFreePeriodLength=Os oedd y cyfnod di-rent wedi para am lai nag 1 mis, nodwch “1” a rhoi rhagor o wybodaeth o dan ‘Pam oedd cyfnod di-rent?’.
-hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ''Pam y rhoddwyd cyfnod di-rent i’ch cleient?''.
+hint.rentFreePeriodDetails.rentFreePeriodLength.agent=Os oedd cyfnod di-rent eich cleient wedi para am lai nag 1 mis, nodwch "1" a rhoi rhagor o wybodaeth o dan ‘Pam y rhoddwyd cyfnod di-rent i’ch cleient?’.
 hint.payCapitalSum=Heb gynnwys unrhyw rent, arian ar gyfer y busnes ei hun, ewyllys da, gosodiadau masnach neu flaendaliadau ad-daladwy.
 label.noJs.capitalReceivedDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
 label.noJs.capitalPaidDetails.paymentDate=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
@@ -479,7 +479,7 @@ section12.under.terms.text=O dan delerau’r brydles, y drwydded neu’r cytunde
 label.responsibleOutsideRepairs=Pwy sy’n gyfrifol am dalu am atgyweiriadau allanol?
 label.responsibleInsideRepairs=Pwy sy’n gyfrifol am dalu am atgyweiriadau mewnol?
 label.responsibleBuildingInsurance=Pwy sy’n gyfrifol am dalu yswiriant adeiladau?
-hint.label.responsibleBuildingInsurance=Os mai dim ond am ddefnydd o dir y mae’r rhent yn cael ei dalu, dewiswch ''Tenant''.
+hint.label.responsibleBuildingInsurance=Os mai dim ond am ddefnydd o dir y mae’r rhent yn cael ei dalu, dewiswch ‘Tenant’.
 label.ndrCharges=Ydy trethi busnes yn cael eu cynnwys yn y rhent?
 label.ndrDetails.chargeDescription=Manylion gwasanaethau
 label.ndrDetails=Cyfanswm sydd wedi’i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
@@ -492,8 +492,8 @@ label.includedServicesDetails.chargeDescription=Rhowch fanylion y gwasanaethau
 hint.includedServicesDetails.chargeDescription=Er enghraifft “goleuadau £150, gwres £50, glanhau £50”.  Os oes angen i chi roi mwy o wybodaeth i ni, parhewch o dan ‘Unrhyw ffactorau eraill’ yn Adran 14.
 label.includedServicesDetails.chargeCost=Cyfanswm sydd wedi’i gynnwys yn y rhent bob blwyddyn (ac eithrio TAW)
 hint.includedServicesDetails.chargeCost=Os nad ydych yn gallu rhoi unrhyw symiau cost, nodwch “1”.
-info.responsibilitiesAndCosts.paying=Dewiswch ''Landlord'' os yw’r landlord yn talu biliau’r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
-info.responsibilitiesAndCosts.surcharge=Dewiswch ''Tenant'' os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu’n talu swm fel tâl gwasanaeth er mwyn talu’r costau.
+info.responsibilitiesAndCosts.paying=Dewiswch ‘Landlord’ os yw’r landlord yn talu biliau’r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
+info.responsibilitiesAndCosts.surcharge=Dewiswch ‘Tenant’ os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu’n talu swm fel tâl gwasanaeth er mwyn talu’r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
 
 #SECTION 13
@@ -816,7 +816,7 @@ heading.cookies=Cwcis
 content.cookies=<p>Mae’r gwasanaeth Manylion Rhent a Phrydles (RALD) yn rhoi ffeiliau bach, a elwir yn ‘cookies’, ar eich cyfrifiadur er mwyn casglu gwybodaeth ynglŷn â sut rydych yn pori’r wefan.</p>Defnyddir cwcis er mwyn:<ul class="list-bullet"><li>mesur sut rydych yn defnyddio’r wefan fel ei bod yn cael ei diweddaru a’i gwella yn seiliedig ar eich anghenion</li><li>cofio’r hysbysiadau rydych wedi’u gweld fel nad ydym yn eu dangos i chi eto</li></ul><p>Ni ddefnyddir cwcis RALD i’ch adnabod chi’n bersonol.</p> Byddwch fel arfer yn gweld neges ar y safle cyn y byddwn yn storio cwcis ar eich cyfrifiadur. <p>Rhagor o wybodaeth ynglŷn â <a href="http://www.aboutcookies.org/">sut rydym yn rheoli cwcis</a>.</p> <h2 class="heading-medium">Sut y defnyddir cwcis ar RALD</h2> <h3 class="heading-small">Mesur defnydd o’r wefan (Google Analytics)</h3> <p>Rydym yn defnyddio meddalwedd Google Analytics i gasglu gwybodaeth ynglŷn â sut rydych yn defnyddio RALD. Rydym yn gwneud hyn er mwyn helpu i wneud yn siŵr bod y safle’n diwallu anghenion ei defnyddiwr ac i’n helpu i wneud gwelliannau.</p> <p>Mae Google Analytics yn storio gwybodaeth am y canlynol:</p> <ul class="list-bullet"> <li>y tudalennau y gwnaethoch ymweld â nhw ar RALD</li> <li>faint o amser y gwnaethoch ei dreulio ar bob tudalen</li> <li>sut y daethoch i’r safle</li> </ul> <p>Nid ydym yn casglu nac yn storio eich gwybodaeth bersonol (er enghraifft eich enw neu eich cyfeiriad) felly ni ellir defnyddio’r wybodaeth i nodi pwy ydych.</p> <p>Nid ydym yn caniatáu i Google ddefnyddio na rhannu ein data dadansoddi.</p> <p>Mae Google Analytics yn gosod y cwcis canlynol:</p> <h3 class="heading-small">Universal Analytics</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> <tr> <td>_ga</td> <td>Mae hyn yn ei helpu i gyfrif faint o bobl sy’n ymweld â RALD drwy weld a ydych wedi ymweld o’r blaen</td> <td>2 flynedd</td> </tr> <tr> <td>_gat</td> <td>Fe’i defnyddir i reoli’r raddfa y gwneir ceisiadau i weld tudalen newydd</td> <td>10 munud</td> </tr> </tbody> </table> <h3 class="heading-small">Cwcis sy’n benodol ar gyfer RALD</h3> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>mdtp</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> <tr> <td>mdtpdf</td> <td>Storio data sesiynau</td> <td>Pan fyddwch yn cau eich porwr</td> </tr> </tbody> </table> <h3 class="heading-small">Ein neges ragarweiniol</h3> <p>Efallai y byddwch yn gweld neges groeso naid pan fyddwch yn ymweld am y tro cyntaf. Storir cwcis ar eich porwr fel bod eich cyfrifiadur yn gwybod eich bod wedi ei gweld, a’i fod yn gwybod i beidio â’i dangos eto.</p> <table> <thead> <tr> <th>Enw</th> <th>Diben</th> <th>Dod i ben</th> </tr> </thead> <tbody> <tr> <td>seen_cookie_message</td> <td>Mae’n cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwcis.</td> <td>1 mis</td> </tr> </tbody> </table>
 label.writtenAgreement.steppedDetails.amount.agent=Y rhent y bydd eich cleient yn ei dalu, neu y mae wedi’i dalu, yn ystod y cyfnod rhent grisiog hwn (heb gynnwys TAW).
 section2.heading.1=Oherwydd diogelwch data, ni allwn gyn-boblogi’r ffurflen hon.
-label.writtenAgreement.rentOpenEnded.help=Dewiswch ''Nac ydy'' os yw’n rhedeg am dymor wedi’i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno.
+label.writtenAgreement.rentOpenEnded.help=Dewiswch ‘Nac ydy’ os yw’n rhedeg am dymor wedi’i ddiffinio neu fod ganddo ddyddiad dod i ben y cytunwyd arno.
 
 #TIMEOUT
 #############################
