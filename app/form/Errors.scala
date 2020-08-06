@@ -46,6 +46,7 @@ object Errors {
   val declaration = "error.declaration"
   val maxLength = "error.maxLength"
   val invalidPostcode = "error.invalid_postcode"
+  val invalidPostcodeOnLetter = "error.invalid_postcode_as_on_letter"
   val invalidPhone = "error.invalid_phone"
   val invalidCurrency = "error.invalid_currency"
   val dateBefore1900 = "error.date_before_1900"
