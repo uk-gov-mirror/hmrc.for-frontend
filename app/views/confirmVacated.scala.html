@@ -63,7 +63,7 @@
         
         <div class="clearfix"><br /></div>
 
-        @form(action = feedback.routes.Survey.formCompleteFeedback, args = 'class -> "satisfactionSurvey", 'id -> "myFormId") {
+        @form(action = feedback.routes.SurveyController.formCompleteFeedback, args = 'class -> "satisfactionSurvey", 'id -> "myFormId") {
 
           @helper.CSRF.formField
   

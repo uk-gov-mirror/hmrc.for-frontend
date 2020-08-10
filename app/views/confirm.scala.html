@@ -57,10 +57,10 @@
           </ul><br>
 
           <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
-          @*<p><a href="@feedback.routes.Survey.inpageAfterSubmissionFeedbackForm" target="_blank">@Messages("label.FeedbackLastPage")</a></p>*@
+          @*<p><a href="@feedback.routes.SurveyController.inpageAfterSubmissionFeedbackForm" target="_blank">@Messages("label.FeedbackLastPage")</a></p>*@
 
 
-          @views.html.includes.surwayFeedback(summary, theForm)
+          @views.html.includes.surveyFeedback(summary, theForm)
       </div>
     </div>
   </main>

@@ -557,6 +557,7 @@ label.finish=Finish
 label.satisfactionSurvey=Overall, how would you describe your experience with the form?
 label.satisfactionSurveyComments=How can we improve this service?
 label.satisfaction=Overall, how would you describe your experience with the form?
+label.details=How can we improve this service?
 hint.limit=Limit is 1200 characters
 text.survey.bottomCopy=Don’t include any personal or financial information, for example your National Insurance or credit card numbers.
 text.survey.bottomImprove=To help us improve this service, include as much information as possible. For example if a question was confusing, let us know which one.
@@ -760,7 +761,7 @@ satisfactionSurveyType.veryDissatisfied=Very dissatisfied
 
 #ERRORS
 ##############################
-error.required=must be filled in
+error.required=This must be filled in
 error.boolean_missing=You must choose one
 error.no_value_selected=You must choose one
 contactDetails.email1.email.mismatch=email addresses must match
@@ -772,7 +773,7 @@ contactDetails.email2.email.tooLong=Email address is too long. Try to provide a 
 alternativeContact.contactDetails.email1.email.tooLong=Email address is too long. Try to provide a telephone number instead
 alternativeContact.contactDetails.email2.email.tooLong=Email address is too long. Try to provide a telephone number instead
 error.contact.details.missing=At least one of phone, email, or address must be given
-error.maxLength=Feedback must be {0} characters or fewer
+error.maxLength=This must be {0} characters or fewer
 error.minLength=Minimum length is {0} characters
 error.invalid_postcode=Enter a valid UK postcode
 error.invalid_currency = This must be a number greater than 0

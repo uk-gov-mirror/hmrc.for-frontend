@@ -42,7 +42,6 @@
     headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false,
     showAccountInfo=true, summary = Option(summary), needsTimeoutWarning = false) {
 
-
     <main id="content">
         <div class="grid-row">
             <div class="column-two-thirds">
@@ -59,8 +58,7 @@
 
                 <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
 
-
-                @views.html.includes.surwayFeedback(summary, theForm)
+                @views.html.includes.surveyFeedback(summary, theForm)
 
                 <hr />
                 <div class="clearfix"><br /></div>
@@ -69,12 +67,7 @@
 
         </div>
 
-
     </main>
 
-
-
     @includes.continueButtonStickyFooter()
-
 }
-

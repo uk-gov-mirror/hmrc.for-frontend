@@ -5,7 +5,7 @@
 # Home page
 GET         /                          controllers.Application.index
 
-GET         /confirmation              controllers.feedback.Survey.confirmation
+GET         /confirmation              controllers.feedback.SurveyController.confirmation
 GET         /declaration               controllers.Application.declaration()
 GET         /declarationError          controllers.Application.declarationError
 POST        /declaration               controllers.FORSubmissionController.submit
@@ -66,8 +66,8 @@ GET         /lookup                    controllers.AddressLookup.getAddress(post
 GET         /pdf                       controllers.Application.pdf
 
 # SURVEY
-GET         /surveyThankyou            controllers.feedback.Survey.surveyThankyou
-POST        /survey 				   controllers.feedback.Survey.formCompleteFeedback
+GET         /surveyThankyou            controllers.feedback.SurveyController.surveyThankyou
+POST        /survey 				   controllers.feedback.SurveyController.formCompleteFeedback
 
 # IN-PAGE FEEDBACK
 GET         /inpagefeedback 		   controllers.feedback.Feedback.inPageFeedback
@@ -84,4 +84,4 @@ POST        /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, p
 
 
 GET         /inpage-vacated-form       controllers.Application.inpageVacatedForm
-GET         /inpage-AfterSubmissionFeedback-form      controllers.feedback.Survey.inpageAfterSubmissionFeedbackForm
+GET         /inpage-AfterSubmissionFeedback-form      controllers.feedback.SurveyController.inpageAfterSubmissionFeedbackForm

@@ -76,7 +76,7 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenT
     lazy val refNum = "adfiwerq08342kfad"
     lazy val sessionId = "sessionid"
 
-    lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation.url
+    lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation.url
 
     lazy val declarationErrorUrl = controllers.routes.Application.declarationError.url
 

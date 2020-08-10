@@ -43,7 +43,7 @@ object Survey {
 
 
 @Singleton
-class Survey @Inject() (cc: MessagesControllerComponents, repository: FormDocumentRepository,
+class SurveyController @Inject() (cc: MessagesControllerComponents, repository: FormDocumentRepository,
             refNumAction: RefNumAction, audit: Audit)(implicit ec: ExecutionContext) extends FrontendController(cc) {
   import Survey._
 
@@ -57,7 +57,7 @@ class Survey @Inject() (cc: MessagesControllerComponents, repository: FormDocume
     completedFeedbackForm.bindFromRequest.fold(
       formWithErrors => viewConfirmationPage(request.refNum, Some(formWithErrors)),
       success => {
-        sendFeedback(success, request.refNum) map { _ => Redirect(routes.Survey.surveyThankyou()) }
+        sendFeedback(success, request.refNum) map { _ => Redirect(routes.SurveyController.surveyThankyou()) }
       }
     )
   }

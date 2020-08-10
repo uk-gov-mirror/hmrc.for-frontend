@@ -20,7 +20,7 @@ import java.time.Instant
 
 import actions.{RefNumAction, RefNumRequest}
 import connectors.{Audit, SubmissionConnector}
-import controllers.feedback.Survey
+import controllers.feedback.{Survey}
 import form.NotConnectedPropertyForm
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import form.NotConnectedPropertyForm.form
