@@ -40,7 +40,7 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
                                          auditAddresses: AddressAuditing
                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
-  lazy val confirmationUrl = controllers.feedback.routes.Survey.confirmation().url
+  lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation().url
 
   def submit: Action[AnyContent] = refNumberAction.async { implicit request:RefNumRequest[AnyContent] =>
     request.body.asFormUrlEncoded.flatMap { body =>
