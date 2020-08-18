@@ -28,7 +28,7 @@
 			background-size: 100%;
 			background-repeat: no-repeat;
 			margin-top: 3px;
-	    	
+
 	    }
 	    span{
 	    	margin-left: 6px;
@@ -124,5 +124,31 @@
 		zoom: 1;
 		*display: inline;
 		word-break: break-all;
-	}				
+	}
+}
+
+h2.heading-medium.no-margin-top {
+	font-size: 20px;
+}
+
+.govuk-check-your-answers {
+	//hide the links in the pdf
+	a, .cya-change {
+		display: none !important;
+	}
+
+	.cya-question, .cya-questions-long {
+		clear: both;
+		width: 48%;
+		display: inline-block;
+		font-weight: normal;
+		font-size: 14px !important;
+	}
+
+
+	.cya-answer {
+		font-size: 14px !important;
+		display: inline-block;
+		width: 48%
+	}
 }
