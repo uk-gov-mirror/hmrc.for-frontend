@@ -18,10 +18,12 @@ package connectors
 
 import com.google.inject.ImplementedBy
 import javax.inject.{Inject, Singleton}
+import models.serviceContracts.submissions.Submission
+import play.api.libs.json.{OWrites}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
-import uk.gov.hmrc.play.audit.model.DataEvent
+import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
 import uk.gov.hmrc.play.audit.AuditExtensions._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -36,6 +38,13 @@ trait Audit extends AuditConnector {
     val de = DataEvent(auditSource = "for-frontend", auditType = event, tags = tags, detail = detail)
     sendEvent(de)
   }
+
+  def apply(event: String, submission: Submission)(implicit hc: HeaderCarrier): Future[AuditResult] = {
+    val sub = (implicitly[OWrites[Submission]]).writes(submission)
+    val de = ExtendedDataEvent(auditSource = "for-frontend", auditType = event, detail = sub)
+    sendExtendedEvent(de)
+  }
+
 }
 
 object Audit {
