@@ -53,9 +53,8 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
   private def submit[T](refNum: String)(implicit request: RefNumRequest[T]): Future[Result] = {
     val hc = HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session), Some(request))
     for {
-      sub <- submitBusinessRentalInformation(refNum)(hc)
-      _ <- audit("FormSubmission", Map("referenceNumber" -> refNum, "submitted" -> DateTime.now.toString,
-        "name" -> sub.customerDetails.map(_.fullName).getOrElse("")))(hc)
+      submission <- submitBusinessRentalInformation(refNum)(hc)
+      _ <- audit("FormSubmission", submission)(hc)
       _ <- auditAddress(refNum, request)
     } yield {
       // Metrics.submissions.mark() //TODO - Solve metrics
