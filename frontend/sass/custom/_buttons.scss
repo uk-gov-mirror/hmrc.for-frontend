@@ -1,5 +1,6 @@
 $new_secondary_grey: #f3f2f1;
 $new_secondary_boxShadow: #929191;
+$gdsButtonGreen: #00703c;
 
 .lte-ie8{
 	.button{
@@ -29,7 +30,7 @@ $new_secondary_boxShadow: #929191;
 .button:not(.button-secondary){
 	margin-right:10px;
 	@include box-shadow(0 2px 0 #002d18);
-	background-color:#00703c;
+	background-color: $gdsButtonGreen;
 }
 
 .manual-address,
@@ -161,7 +162,10 @@ a.confirm-download-link{
 	margin-top: 2em;
   display: inline-block;
   color: #fff;
-  font-weight: 800;
+  font-weight: normal;
+}
+.govuk-box-highlight{
+	background-color: $gdsButtonGreen;
 }
 
 #timeout-sign-out-btn {
