@@ -2,6 +2,8 @@
 ##############################
 project.name=Cyflwyno manylion rhent a phrydles
 project.header=Manylion rhent a phrydles
+service.name=Manylion rhent a phrydles
+service.homePageUrl=/sending-rental-information/login
 skip.content=Ewch yn syth i’r prif gynnwys
 login.heading=Rhowch eich cyfeirnod
 failedLogin.heading=Gwall mewngofnodi
@@ -60,6 +62,7 @@ label.password=cyfrinair
 label.totalRent=Rhent blynyddol
 label.checkTheForm=Mae problem wedi codi
 label.phase=Mae hwn yn wasanaeth newydd – bydd eich <a href="{0}" target="_blank" id="betaFeedback">adborth<span class="visuallyhidden"> ({1})</span></a> yn ein helpu i’w wella
+label.phase2=Mae hwn yn wasanaeth newydd – bydd eich <a href="{0}" class="govuk-link" target="_blank" id="betaFeedback">adborth</a> yn ein helpu i’w wella
 label.beta=BETA
 label.section=Adran {0} o {1}
 label.footer.builtBy=Adeiladwyd gan <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Asiantaeth y Swyddfa Brisio</a>
@@ -844,3 +847,6 @@ index.before.p2=Nid oes rhaid i chi ei gwblhau mewn un cam. Gallwch safio yr hyn
 index.help=Os oes angen help
 index.help.p1=Cysylltwch ȃ’ch Swyddfa Brisio leol ynglyn ȃ help i ddefnyddio y gwasanaeth.
 index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
+
+footer.links.languale.url = /sending-rental-information/language/english
+footer.links.languale.text = English

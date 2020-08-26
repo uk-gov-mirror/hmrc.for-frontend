@@ -33,6 +33,7 @@ lazy val compileDeps = Seq(
   "uk.gov.hmrc" %% "play-partials" % "6.10.0-play-26",
   "uk.gov.hmrc" %% "play-ui" % "8.9.0-play-26",
   "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
+  "uk.gov.hmrc" %% "play-frontend-govuk" % "0.50.0-play-26",
   "com.typesafe.play" %% "play-json-joda" % "2.6.14",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",

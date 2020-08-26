@@ -2,6 +2,8 @@
 ##############################
 project.name=Submit rent and lease details
 project.header=Rent and lease details
+service.name=Rent and lease details
+service.homePageUrl=/sending-rental-information/login
 skip.content=Skip to main content
 login.heading=Enter your reference number
 failedLogin.heading=Login error
@@ -60,6 +62,7 @@ label.password=password
 label.totalRent=Annual rent
 label.checkTheForm=There is a problem
 label.phase=This is a new service – your <a href="{0}" target="_blank" id="betaFeedback">feedback <span class="visuallyhidden"> (Opens in a new window)</span></a> will help us to improve it.
+label.phase2=This is a new service – your <a href="{0}" class="govuk-link" target="_blank" id="betaFeedback">feedback</a> will help us to improve it.
 label.beta=BETA
 label.section=Section {0} of {1}
 label.footer.builtBy=Built by the <a href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office Agency</a>
@@ -856,3 +859,6 @@ index.before.p2=You don’t have to complete it in one go. You can save what you
 index.help=If you need help
 index.help.p1=Contact the VOA team in your area for help with using the service.
 index.help.p2=You can find their contact details on the letter sent by the VOA.
+
+footer.links.languale.url = /sending-rental-information/language/cymraeg
+footer.links.languale.text = Cymraeg
