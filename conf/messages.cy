@@ -118,7 +118,7 @@ hint.letter=Fel y mae’n ymddangos ar y llythyr cais am wybodaeth
 error.invalid_refnum=Rhowch y cyfeirnod fel y mae'n ymddangos ar eich llythyr
 error.invalid_postcode_as_on_letter=Nodwch eich cod post fel mae’n ymddangos ar eich llythyr
 heading.login.lockedOut=Rydych wedi eich cloi allan nawr
-heading.login.loginFailed=Gwall mewngofnodi
+heading.login.loginFailed=Nid yw’r manylion yr ydych wedi eu nodi yn cyfateb gydag ein cofnodion    
 label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 
 #SECTION 0
@@ -784,11 +784,11 @@ error.too_many_services=Gallwch ond rhoi manylion 10 o wasanaethau
 error.too_many_alterations=Gallwch ond rhoi manylion 10 o addasiadau
 error.too_many_sublets=Gallwch ond rhoi manylion 5 o is-osodiadau
 error.required.parking=Rhaid llenwi o leiaf un a gyda gwerth sy’n fwy na 0
-error.login.failed=Nid yw’r manylion a roddwyd gennych yn cyd-fynd â’n cofnodion. Rhowch gynnig arall arni.
-error.login.1attemptsleft=Rydym yn dal i gael trafferth dod o hyd i’r manylion rydych wedi’u rhoi. Mae gennych un cyfle arall i roi’r manylion cywir, cyn y cewch eich cloi allan am 24 awr. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
-error.login.2attemptsleft=Rydym yn dal i gael trafferth paru’r manylion rydych wedi’u rhoi. Ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help. Mae gennych ddau gyfle arall i roi’r manylion cywir, cyn y cewch eich cloi allan am 24 awr.
-error.login.3attemptsleft=Rydym yn dal i gael trafferth paru’r manylion rydych wedi’u rhoi. Rhowch y cyfeirnod a’r cod post yn union fel y’u nodir yn y llythyr y gwnaethom ei anfon atoch.
-error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 neu ffoniwch ein llinell cymorth technegol ar 03000 501 262 (8am i 5pm yn ystod yr wythnos - mae cyfraddau lleol yn gymwys) am help.
+
+error.login.failed=Nodwch y cyfeirnod a’r côd post fel y maent yn ymddangos yn y llythyr yr anfonom atoch
+error.login.attemptsleft=Mae gennych chi {0} ymgais ar ôl i nodi’r manylion cywir cyn i’ch cyfrif cael ei gloi am 24 awr.
+error.login.1.attempt.left=Mae gennych chi un ymgais ar ôl i nodi’r manylion cywir cyn i’ch cyfrif cael ei gloi am 24 awr.
+error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 awr.
 
 #ERROR PAGES
 ##############################

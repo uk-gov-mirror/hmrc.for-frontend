@@ -64,7 +64,7 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
 
 
   def show = Action { implicit request =>
-    Ok(views.html.login(loginForm))
+    Ok(views.html.login2(loginForm))
   }
 
   def logout = Action { implicit request =>

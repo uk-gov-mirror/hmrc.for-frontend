@@ -14,10 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
-@import play.api.data._
-@import org.joda.time.DateTime
 @import config.ForConfig
 
 @(remainingAttempts: Int)(implicit requestHeader: RequestHeader,  messages: Messages)
@@ -38,15 +34,23 @@
             <h1 class="form-title heading-large">
                 @Messages("heading.login.loginFailed")
             </h1>
-            <p>
-                @if(remainingAttempts > 3) {
-                    @Messages(s"error.login.failed")
-                } else {
-                    @Messages(s"error.login.${remainingAttempts}attemptsleft")
-                }
-
-            </p>
-            <a href="@routes.LoginController.show">@Messages("label.retryLogin")</a>
+            @if(remainingAttempts > 0) {
+                <p>@Messages("error.login.failed")</p>
+                <div style="margin-bottom: 30px;" >
+                    <strong class="govuk-warning-text__text">
+                    <span class="icon icon-important" aria-hidden="true"
+                    style="display: block;  float: left;  margin-right: 0;  width: 0px; "></span>
+                        <span class="govuk-warning-text__assistive" style="line-height: 30px;">
+                            @if(remainingAttempts == 1){
+                                @Messages("error.login.1.attempt.left")
+                            }else{
+                                @Messages("error.login.attemptsleft", remainingAttempts)
+                            }
+                        </span>
+                    </strong>
+                </div>
+            }
+            <a href="@routes.LoginController.show"  class="button" >@Messages("label.retryLogin")</a>
         </div>
     </div>
 </main>

@@ -117,8 +117,8 @@ hint.letter=As it appears on the request for information letter
 error.invalid_refnum=Enter your reference number as it appears on your letter
 error.invalid_postcode_as_on_letter=Enter your postcode as it appears on your letter
 heading.login.lockedOut=You are now locked out
-heading.login.loginFailed=Login error
-label.retryLogin=Try to log in again
+heading.login.loginFailed=The details you have entered do not match our records
+label.retryLogin=Try again
 
 #SECTION 0
 ##############################
@@ -795,11 +795,10 @@ error.too_many_services=You can only provide details of 10 services
 error.too_many_alterations=You can only provide details of 10 alterations
 error.too_many_sublets=You can only provide details of 5 sub-lets.
 error.required.parking=At least one must be filled in and greater than 0
-error.login.failed=The details you have entered do not match our records. Please try again.
-error.login.1attemptsleft=We’re still having problems finding the details you have entered. You have one last chance to enter the correct details, before you’re locked out for 24 hours. Please call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
-error.login.2attemptsleft=We’re still having problems matching the details you have entered. For help, call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply). You have two more attempts to enter the correct details, before you’re locked out for 24 hours.
-error.login.3attemptsleft=We’re still having problems matching the details you have entered. Enter the reference number and postcode exactly as they are in the letter we sent you.
-error.login.lockedOut=You’re now locked out. You can try again after 24 hours or call our technical support line on 03000 501 262 (8am to 5pm weekdays - local rates apply) for help.
+error.login.failed=Enter the reference number and postcode as they appear in the letter we sent you.
+error.login.attemptsleft=You have {0} remaining attempts to enter the correct details before your account is locked for 24 hours.
+error.login.1.attempt.left=You have 1 remaining attempt to enter the correct details before your account is locked for 24 hours.
+error.login.lockedOut=You are now locked out. You can try again after 24 hours.
 writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day= ‘Step to’ date must be after ‘Step from’ date
 writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
 
