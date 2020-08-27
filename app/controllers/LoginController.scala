@@ -33,6 +33,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.login2
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -57,14 +58,14 @@ object LoginController {
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
 
-class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents
+class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents, login: login2
                                )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import LoginController.loginForm
 
 
   def show = Action { implicit request =>
-    Ok(views.html.login2(loginForm))
+    Ok(login(loginForm))
   }
 
   def logout = Action { implicit request =>
