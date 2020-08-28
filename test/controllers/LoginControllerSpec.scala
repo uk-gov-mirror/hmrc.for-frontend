@@ -33,6 +33,7 @@ import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
 import utils.Helpers._
 import security.{LoginResult, NoExistingDocument}
 import uk.gov.hmrc.http.HeaderCarrier
+import views.html.login
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -54,7 +55,7 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
     val time = DateTime.now()
     when(loginToHod.apply(any[HeaderCarrier])).thenReturn(loginToHodFunction)
 
-    val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents(), any)
+    val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents(), mock[login])
 
     val fakeRequest = FakeRequest()
     //should strip out all non digits then split string 3 from end to create ref1/ref2
@@ -67,11 +68,11 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
 
   }
 
-  it should "Audit logout event" in {
+  "Login Controller" should "Audit logout event" in {
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginController = new LoginController(audit, null, stubMessagesControllerComponents(), any)
+    val loginController = new LoginController(audit, null, stubMessagesControllerComponents(), mock[login])
 
     val fakeRequest = FakeRequest()
 
