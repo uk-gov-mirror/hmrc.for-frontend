@@ -31,7 +31,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import views.html.login
+import views.html.{login, login2}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -56,6 +56,7 @@ object LoginController {
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
 
+
 class LoginController @Inject()
 (audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents, login: login)
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
@@ -75,7 +76,7 @@ class LoginController @Inject()
 
   def submit = Action.async { implicit request =>
     loginForm.bindFromRequest.fold(
-      formWithErrors => Future.successful(BadRequest(views.html.login(formWithErrors))),
+      formWithErrors => Future.successful(BadRequest(login(formWithErrors))),
       loginData => verifyLogin(loginData.referenceNumber, loginData.postcode, loginData.startTime)
     )
   }

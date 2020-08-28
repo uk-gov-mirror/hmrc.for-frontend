@@ -28,12 +28,14 @@
 @import views.html.helpers.form
 @import org.joda.time.DateTime
 
-@this(main_template: main2,
+@this(
+        main_template: main2,
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
         govukFieldset: GovukFieldset,
-        govukBackLink: GovukBackLink)
+        govukBackLink: GovukBackLink
+)
 
 @(theForm: Form[LoginDetails])(implicit request: Request[_], messages: Messages)
 

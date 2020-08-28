@@ -1,18 +1,18 @@
 @*
-* Copyright 2020 HM Revenue & Customs
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*@
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukInput
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
@@ -25,8 +25,11 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import play.mvc.Http.Context.Implicit.messages
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+
 @import views.html.helpers.form
 @import org.joda.time.DateTime
+@import config.ForConfig
 
 @this(main_template: main2,
         govukInput: GovukInput,
@@ -35,11 +38,16 @@
         govukFieldset: GovukFieldset,
         govukBackLink: GovukBackLink)
 
-@(theForm: Form[LoginDetails])(implicit request: Request[_], messages: Messages)
+@(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     pageTitle = Some(Messages("login.heading") + " - " + Messages("project.name"))
 ) {
+
+
+
+    @includes.errors(theForm, isAgent = false, displayPrefix = false)
+
 
     <h1 class="govuk-heading-l">@Messages("login.heading")</h1>
     <p class="govuk-body">@Messages("label.letter")</p>
@@ -54,7 +62,8 @@
                 classes = "govuk-input--width-20",
                 label = Label(
                     content = Text(messages("label.referenceNumber"))
-                )
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("referenceNumber")
             )
         )
 
@@ -66,7 +75,8 @@
                 classes = "govuk-input--width-10",
                 label = Label(
                     content = Text(Messages("label.postcode"))
-                )
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("postcode")
             )
         )
 
