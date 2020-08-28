@@ -29,6 +29,7 @@
 
 @import views.html.helpers.form
 @import org.joda.time.DateTime
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
 @import config.ForConfig
 
 @this(main_template: main2,
@@ -43,11 +44,13 @@
 @main_template(
     pageTitle = Some(Messages("login.heading") + " - " + Messages("project.name"))
 ) {
-
-
-
-    @includes.errors(theForm, isAgent = false, displayPrefix = false)
-
+    @if(theForm.errors.nonEmpty) {
+        @govukErrorSummary(
+            ErrorSummary(
+                errorList = theForm.errors.asTextErrorLinks,
+                title = Text(Messages("label.checkTheForm")))
+        )
+    }
 
     <h1 class="govuk-heading-l">@Messages("login.heading")</h1>
     <p class="govuk-body">@Messages("label.letter")</p>
