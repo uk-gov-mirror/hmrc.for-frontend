@@ -17,9 +17,7 @@
 package controllers
 
 import connectors.Audit
-import form.ConditionalMapping._
 import form.{Errors, MappingSupport}
-import form.MappingSupport._
 import javax.inject.Inject
 import org.joda.time.DateTime
 import play.Logger
@@ -33,7 +31,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import views.html.login2
+import views.html.login
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -58,8 +56,9 @@ object LoginController {
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
 
-class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents, login: login2
-                               )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+class LoginController @Inject()
+(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents, login: login)
+(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import LoginController.loginForm
 

@@ -54,7 +54,7 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
     val time = DateTime.now()
     when(loginToHod.apply(any[HeaderCarrier])).thenReturn(loginToHodFunction)
 
-    val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents())
+    val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents(), any)
 
     val fakeRequest = FakeRequest()
     //should strip out all non digits then split string 3 from end to create ref1/ref2
@@ -71,7 +71,7 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginController = new LoginController(audit, null, stubMessagesControllerComponents())
+    val loginController = new LoginController(audit, null, stubMessagesControllerComponents(), any)
 
     val fakeRequest = FakeRequest()
 
