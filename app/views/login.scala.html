@@ -40,17 +40,22 @@
 @(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    pageTitle = Some(Messages("login.heading") + " - " + Messages("project.name"))
+    pageTitle = Some(if(theForm.hasErrors)
+        (messages("label.error") + ": " + messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
+    else
+        (messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name")))
 ) {
     @if(theForm.errors.nonEmpty) {
         @govukErrorSummary(
             ErrorSummary(
                 errorList = theForm.errors.asTextErrorLinks,
-                title = Text(Messages("label.checkTheForm")))
+                title = Text(messages("label.checkTheForm"))
+            )
         )
     }
 
     <h1 class="govuk-heading-l">@Messages("login.heading")</h1>
+
     <p class="govuk-body">@Messages("label.letter")</p>
 
     @helpers.form(action = routes.LoginController.submit, args = 'novalidate -> "novalidate") {

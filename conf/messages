@@ -4,6 +4,7 @@ project.name=Submit rent and lease details
 project.header=Rent and lease details
 service.name=Rent and lease details
 service.homePageUrl=/sending-rental-information/login
+gov.name = GOV.UK
 skip.content=Skip to main content
 login.heading=Enter your reference number
 failedLogin.heading=Login error

@@ -31,7 +31,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import views.html.{login, login2}
+import views.html.login
 
 import scala.concurrent.{ExecutionContext, Future}
 

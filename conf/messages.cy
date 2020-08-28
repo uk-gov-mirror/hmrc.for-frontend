@@ -4,6 +4,7 @@ project.name=Cyflwyno manylion rhent a phrydles
 project.header=Manylion rhent a phrydles
 service.name=Manylion rhent a phrydles
 service.homePageUrl=/sending-rental-information/login
+gov.name = GOV.UK
 skip.content=Ewch yn syth i’r prif gynnwys
 login.heading=Rhowch eich cyfeirnod
 failedLogin.heading=Gwall mewngofnodi
