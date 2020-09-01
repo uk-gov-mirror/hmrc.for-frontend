@@ -19,10 +19,9 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-@this(govukErrorSummary: GovukErrorSummary)
+@(theForm: Form[_], govukErrorSummary: GovukErrorSummary)(implicit requestHeader: RequestHeader, messages: Messages)
 
-@(theForm: Form[_])(implicit requestHeader: RequestHeader, messages: Messages)
-
+Hello World!
 @if(theForm.errors.nonEmpty) {
     @govukErrorSummary(
         ErrorSummary(
