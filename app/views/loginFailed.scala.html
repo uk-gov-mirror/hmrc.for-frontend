@@ -14,54 +14,37 @@
  * limitations under the License.
  *@
 
-@import config.ForConfig
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukBackLink
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-@import play.mvc.Http.Context.Implicit.messages
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@this(main_template: main2, govukWarningText: GovukWarningText)
+@this(main_template: main2, govukWarningText: GovukWarningText, govukBackLink: GovukBackLink)
 
 @(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name")
+    pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"),
+    backLinkUrl = routes.LoginController.show.url
 ) {
-    <h1 class="govuk-heading-l">messages("login.heading")</h1>
 
-    <p class="govuk-body">messages("label.letter")</p>
+    <h1 class="govuk-heading-l">@messages("heading.login.loginFailed")</h1>
+    <p class="govuk-body">@Messages("error.login.failed")</p>
+    <p class="govuk-body">
 
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <h1 class="form-title heading-large">
-            messages("heading.login.loginFailed")
-            </h1>
-
-            @govukWarningText(
-                WarningText(
-                    content = Text("hello")
+        @govukWarningText(
+            WarningText(
+                content = Text(
+                    if(remainingAttempts == 1) {
+                        messages("error.login.1.attempt.left")
+                    } else {
+                        messages("error.login.attemptsleft", remainingAttempts)
+                    }
                 )
             )
-            @if(remainingAttempts > 0) {
-                <p>messages("error.login.failed")</p>
-                <div style="margin-bottom: 30px;" >
-                    <strong class="govuk-warning-text__text">
-                        <span class="icon icon-important" aria-hidden="true"
-                        style="display: block;
-                            float: left;
-                            margin-right: 0;
-                            width: 0px; "></span>
-                        <span class="govuk-warning-text__assistive" style="line-height: 30px;">
-                        @if(remainingAttempts == 1) {
-                            messages("error.login.1.attempt.left")
-                        } else {
-                            messages("error.login.attemptsleft", remainingAttempts)
-                        }
-                        </span>
-                    </strong>
-                </div>
-            }
-            <a href="@routes.LoginController.show" class="button" >messages("label.retryLogin")</a>
-        </div>
-    </div>
+        )
+    </p>
+
+    <a href="@routes.LoginController.show" class="govuk-button" data-module="govuk-button" >@messages("label.retryLogin")</a>
+
 }
