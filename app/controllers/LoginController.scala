@@ -117,7 +117,7 @@ class LoginController @Inject()
   }
 
   def lockedOut = Action { implicit request =>
-    Unauthorized(lockedOut())
+    Unauthorized(views.html.lockedOut())
   }
 
   def loginFailed(attemptsRemaining: Int) = Action { implicit request =>
