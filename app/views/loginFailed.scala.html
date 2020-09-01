@@ -18,10 +18,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import play.mvc.Http.Context.Implicit.messages
 
 @this(main_template: main2, govukWarningText: GovukWarningText)
 
-@(remainingAttempts: Int)(implicit request: Request[_],  messages: Messages)
+@(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name")

@@ -31,7 +31,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import views.html.login
+import views.html.{login, loginFailed}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -58,7 +58,8 @@ object LoginController {
 
 
 class LoginController @Inject()
-(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents, login: login)
+(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents,
+ login: login, loginFailedView: loginFailed)
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import LoginController.loginForm
@@ -115,9 +116,13 @@ class LoginController @Inject()
     audit.sendExplicitAudit("UserLogin", Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
   }
 
-  def lockedOut = Action { implicit request => Unauthorized(views.html.lockedOut()) }
+  def lockedOut = Action { implicit request =>
+    Unauthorized(lockedOut())
+  }
 
-  def loginFailed(attemptsRemaining: Int) = Action { implicit request => Unauthorized(views.html.loginFailed(attemptsRemaining)) }
+  def loginFailed(attemptsRemaining: Int) = Action { implicit request =>
+    Unauthorized(loginFailedView(attemptsRemaining))
+  }
 
   private def withNewSession(r: Result, token: String, ref: String, sessionId: String)(implicit req: Request[AnyContent]) = {
     r.withSession(
