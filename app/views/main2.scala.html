@@ -14,11 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers._
-@import views.html.govuk.{head => headTemplate}
-@import views.html.govuk.{scripts => scriptsTemplate}
+@import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
+@import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
+@import scala.:+
 
 @this(
         govukLayout: govukLayout,
@@ -29,7 +28,10 @@
         govukSummaryList: GovukSummaryList
 )
 
-@(pageTitle: Option[String] = None,
+
+@(
+        pageTitle: Option[String] = None,
+        pageHeading: String,
         beforeContentBlock: Option[Html] = None,
         backLinkUrl: Option[String] = None
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
@@ -49,7 +51,16 @@
         </div>
     }
 
+
     @beforeContentBlock
+
+}
+
+@contentWithHeading = {
+
+    <h1 class="govuk-heading-l">@pageHeading</h1>
+
+    @contentBlock
 }
 
 @govukLayout(
@@ -75,4 +86,4 @@
 
     ),
     bodyEndBlock = Some(scripts())
-)(contentBlock)
+)(contentWithHeading)

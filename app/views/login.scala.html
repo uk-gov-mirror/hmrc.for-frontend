@@ -14,20 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukInput
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
+@import org.joda.time.DateTime
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-@import play.mvc.Http.Context.Implicit.messages
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-
-@import views.html.helpers.form
-@import org.joda.time.DateTime
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
-@import config.ForConfig
 
 @this(main_template: main2,
         govukInput: GovukInput,
@@ -36,11 +30,18 @@
 
 @(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
+@pageTitle = @{
+    Some(
+        if(theForm.hasErrors)
+            (messages("label.error") + ": " + messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
+        else
+            (messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
+    )
+}
+
 @main_template(
-    pageTitle = Some(if(theForm.hasErrors)
-        (messages("label.error") + ": " + messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
-    else
-        (messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name")))
+    pageHeading = messages("login.heading"),
+    pageTitle = pageTitle
 ) {
 
     @if(theForm.errors.nonEmpty) {
@@ -52,9 +53,8 @@
         )
     }
 
-    <h1 class="govuk-heading-l">@Messages("login.heading")</h1>
 
-    <p class="govuk-body">@Messages("label.letter")</p>
+    <p class="govuk-body">@messages("label.letter")</p>
 
     @helpers.form(action = routes.LoginController.submit, args = 'novalidate -> "novalidate") {
         @helper.CSRF.formField
@@ -79,7 +79,7 @@
                 value = theForm("postcode").value,
                 classes = "govuk-input--width-10",
                 label = Label(
-                    content = Text(Messages("label.postcode"))
+                    content = Text(messages("label.postcode"))
                 ),
                 errorMessage =  theForm.errors.asTextErrorMessageForField("postcode")
             )
@@ -96,7 +96,7 @@
                     "novalidate" -> "novalidate"
                 ),
                 name = Some("submit"),
-                content = Text(Messages("label.continue"))
+                content = Text(messages("label.continue"))
             )
         )
     }

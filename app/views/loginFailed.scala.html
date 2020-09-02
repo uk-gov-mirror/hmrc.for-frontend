@@ -19,17 +19,22 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@this(main_template: main2, govukWarningText: GovukWarningText, govukBackLink: GovukBackLink)
+@this(
+    main_template: main2,
+    govukWarningText: GovukWarningText,
+    govukBackLink: GovukBackLink
+)
 
 @(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"),
-    backLinkUrl = routes.LoginController.show.url
+    backLinkUrl = routes.LoginController.show.url,
+    pageHeading = messages("heading.login.loginFailed")
 ) {
 
-    <h1 class="govuk-heading-l">@messages("heading.login.loginFailed")</h1>
     <p class="govuk-body">@Messages("error.login.failed")</p>
+
     <p class="govuk-body">
 
         @govukWarningText(
