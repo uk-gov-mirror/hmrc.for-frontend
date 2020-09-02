@@ -17,9 +17,7 @@
 package controllers
 
 import connectors.Audit
-import form.ConditionalMapping._
 import form.{Errors, MappingSupport}
-import form.MappingSupport._
 import javax.inject.Inject
 import org.joda.time.DateTime
 import play.Logger
@@ -33,6 +31,7 @@ import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.{login, loginFailed}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -57,14 +56,17 @@ object LoginController {
     )(LoginDetails.apply)(LoginDetails.unapply))
 }
 
-class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents
-                               )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+
+class LoginController @Inject()
+(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents,
+ login: login, loginFailedView: loginFailed)
+(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import LoginController.loginForm
 
 
   def show = Action { implicit request =>
-    Ok(views.html.login(loginForm))
+    Ok(login(loginForm))
   }
 
   def logout = Action { implicit request =>
@@ -75,7 +77,7 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
 
   def submit = Action.async { implicit request =>
     loginForm.bindFromRequest.fold(
-      formWithErrors => Future.successful(BadRequest(views.html.login(formWithErrors))),
+      formWithErrors => Future.successful(BadRequest(login(formWithErrors))),
       loginData => verifyLogin(loginData.referenceNumber, loginData.postcode, loginData.startTime)
     )
   }
@@ -114,9 +116,13 @@ class LoginController @Inject()(audit: Audit, loginToHOD: LoginToHODAction, cc: 
     audit.sendExplicitAudit("UserLogin", Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
   }
 
-  def lockedOut = Action { implicit request => Unauthorized(views.html.lockedOut()) }
+  def lockedOut = Action { implicit request =>
+    Unauthorized(views.html.lockedOut())
+  }
 
-  def loginFailed(attemptsRemaining: Int) = Action { implicit request => Unauthorized(views.html.loginFailed(attemptsRemaining)) }
+  def loginFailed(attemptsRemaining: Int) = Action { implicit request =>
+    Unauthorized(loginFailedView(attemptsRemaining))
+  }
 
   private def withNewSession(r: Result, token: String, ref: String, sessionId: String)(implicit req: Request[AnyContent]) = {
     r.withSession(

@@ -19,7 +19,8 @@
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    pageTitle = Some("This is testing page title")
+    pageTitle = Some("This is testing page title"),
+    pageHeading ="whatever"
 ) {
 
     <h1 class="govuk-heading-xl">If you can see this page, you implemented everything right.</h1>

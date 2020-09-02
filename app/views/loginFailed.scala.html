@@ -14,40 +14,42 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
-@import play.api.data._
-@import org.joda.time.DateTime
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukBackLink
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@(remainingAttempts: Int)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(
+    main_template: main2,
+    govukWarningText: GovukWarningText,
+    govukBackLink: GovukBackLink
+)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
-@bodyEnd = {
-@views.html.includes.javascripts()
-}
+@(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
+@main_template(
+    pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"),
+    backLinkUrl = routes.LoginController.show.url,
+    pageHeading = messages("heading.login.loginFailed")
+) {
 
-@main(title =Messages("heading.login.loginFailed") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false,needsTimeoutWarning=false) {
-<main id="content">
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <h1 class="form-title heading-large">
-                @Messages("heading.login.loginFailed")
-            </h1>
-            <p>
-                @if(remainingAttempts > 3) {
-                    @Messages(s"error.login.failed")
-                } else {
-                    @Messages(s"error.login.${remainingAttempts}attemptsleft")
-                }
+    <p class="govuk-body">@Messages("error.login.failed")</p>
 
-            </p>
-            <a href="@routes.LoginController.show">@Messages("label.retryLogin")</a>
-        </div>
-    </div>
-</main>
+    <p class="govuk-body">
+
+        @govukWarningText(
+            WarningText(
+                content = Text(
+                    if(remainingAttempts == 1) {
+                        messages("error.login.1.attempt.left")
+                    } else {
+                        messages("error.login.attemptsleft", remainingAttempts)
+                    }
+                )
+            )
+        )
+    </p>
+
+    <a href="@routes.LoginController.show" class="govuk-button" data-module="govuk-button" >@messages("label.retryLogin")</a>
+
 }

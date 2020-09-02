@@ -14,127 +14,89 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
-@import play.api.data._
 @import org.joda.time.DateTime
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 
-@(theForm: Form[LoginDetails], failedLoginError: Option[String] = None)(implicit requestHeader: RequestHeader, messages: Messages)
+@this(main_template: main2,
+        govukInput: GovukInput,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary)
 
-    @headExtra = {
-        @views.html.includes.stylesheets()
-        @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
+@(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)
+
+@pageTitle = @{
+    Some(
+        if(theForm.hasErrors)
+            (messages("label.error") + ": " + messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
+        else
+            (messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
+    )
+}
+
+@main_template(
+    pageHeading = messages("login.heading"),
+    pageTitle = pageTitle
+) {
+
+    @if(theForm.errors.nonEmpty) {
+        @govukErrorSummary(
+            ErrorSummary(
+                errorList = theForm.errors.asTextErrorLinks,
+                title = Text(messages("label.checkTheForm"))
+            )
+        )
     }
-    @bodyEnd = {
-        @views.html.includes.javascripts()
-    }
-    @inpagehelp = @{
-        routes.Application.inpageVacatedForm
-    }
 
-    @displayFieldError(error:FormError) = {
-        <p class="error">@Messages(error.message,error.args:_*)</p>
-    }
+    <p class="govuk-body">@messages("label.letter")</p>
 
-    @errorWrapper(fields:Seq[Field],classes:String*)(content:Html) = {
-        @defining(_root_.template.HtmlSupport.getErrors(fields)){ combinedErrors =>
+    @helpers.form(action = routes.LoginController.submit, args = 'novalidate -> "novalidate") {
+        @helper.CSRF.formField
 
-          <div class='@classes.mkString(" ") @if(combinedErrors.isEmpty==false){ form-grouped-error }'>
-            @if(combinedErrors.isEmpty==false){
+        @govukInput(
+            Input(
+                id = "referenceNumber",
+                name = "referenceNumber",
+                value = theForm("referenceNumber").value,
+                classes = "govuk-input--width-20",
+                label = Label(
+                    content = Text(messages("label.referenceNumber"))
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("referenceNumber")
+            )
+        )
 
-               @combinedErrors.headOption.map { err => @displayFieldError(err) }
+        @govukInput(
+            Input(
+                id = "postcode",
+                name = "postcode",
+                value = theForm("postcode").value,
+                classes = "govuk-input--width-10",
+                label = Label(
+                    content = Text(messages("label.postcode"))
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("postcode")
+            )
+        )
 
-            }
-        @content
-            </div>
+        @defining(DateTime.now.toString) { now =>
+            <input type="hidden" name="start-time" value="@now" />
         }
+
+        @govukButton(
+            Button(
+                attributes = Map(
+                    "id" -> "continue",
+                    "novalidate" -> "novalidate"
+                ),
+                name = Some("submit"),
+                content = Text(messages("label.continue"))
+            )
+        )
     }
-
-    @main(title =Messages("login.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, feedbackUrl = feedback.routes.Feedback.inPageFeedbackNoLogin,needsTimeoutWarning=false, theForm = Some(theForm)) {
-
- <main id="content">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-
-                @if(ForConfig.loginPageNotice.enabled) {
-                    <div id="before-you-start">
-                        <h2 class="form-title heading-medium">
-                            @messages.lang.language match {
-                                case "cy" => {
-                                    @Html(ForConfig.loginPageNotice.welshTitle)
-                                }
-                                case _ => {
-                                    @Html(ForConfig.loginPageNotice.englishTitle)
-                                }
-                            }
-                        </h2>
-
-                        <p class="notice">
-                            <i class="icon icon-important">
-                                <span class="visually-hidden">Warning</span>
-                            </i>
-                            <strong class="bold-small">
-                                @messages.lang.language match {
-                                    case "cy" => {
-                                    @Html(ForConfig.loginPageNotice.welshBody)
-                                    }
-                                    case _ => {
-                                    @Html(ForConfig.loginPageNotice.englishBody)
-                                    }
-                                }
-                            </strong>
-                        </p>
-                    </div>
-                }
-
-                @includes.errors(theForm, isAgent = false, displayPrefix = false)
-
-                @failedLoginError.map { e =>
-                    <div class="form-error alert alert-danger" role="alert" tabindex="-1" aria-labelledby="error-summary-heading" >
-                        <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
-                        <p>@Messages("label.fixTheFollowing")</p>
-                        <ul>
-                            <li><a id="failedLoginError" href="#">@e</a></li>
-                        </ul>
-                    </div>
-                }
-
-                <h1 class="form-title heading-large">@Messages("login.heading")</h1>
-                @helpers.form(action = routes.LoginController.submit, args = 'novalidate -> "novalidate") {
-                    @helper.CSRF.formField
-
-                    <p class="form-label">@Messages("label.letter")</p>
-
-                    @inputText(
-                        field = theForm("referenceNumber"),
-                        '_label -> Messages("label.referenceNumber"),
-                        '_labelClass -> "form-label",
-                        'class -> "form-control form-group-reference-7"
-                    )
-
-                    <!-- Postcode -->
-                    @inputText(
-                    field = theForm("postcode"),
-                    '_label -> Messages("label.postcode"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control postcode",
-                    '_type -> "hidden"
-                    )
-
-                    @defining(DateTime.now.toString) { now =>
-                    <input type="hidden" name="start-time" value="@now" />
-                    }
-
-                    <!-- Continue -->
-                    <div class="form-group">
-                    <input id="continue" type="submit"
-                        formnovalidate
-                        class="button" value="@Messages("label.continue")">
-                    </div>
-                }
-
-            </div>
-        </div>
-</main>
 }
