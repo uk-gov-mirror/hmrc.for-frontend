@@ -14,33 +14,24 @@
  * limitations under the License.
  *@
 
-@import models.pages.Summary
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(main_template: main2)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
+@()(implicit request: Request[_], messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@main_template(
+    pageTitle = messages("saveForLater.invalidPassword") + " - " + messages("project.name"),
+    pageHeading = messages("saveForLater.invalidPassword")
+) {
 
-@main(title=Messages("saveForLater.invalidPassword") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
-    <main id="content">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-                <h1 class="form-title heading-large">@Messages("saveForLater.invalidPassword")</h1>
+    <p class="govuk-body">
+        <a href="@routes.SaveForLater.login" class="govuk-button">@messages("label.tryAgain")</a>
+    </p>
+    <p class="govuk-body">@messages("saveForLater.haveYouForgotten")</p>
+    <p class="govuk-body">
+        <a href="@routes.Application.startAgain" >@messages("label.startFormAgain")</a>
+    </p>
 
-                <div class="form-group">
-                    <a href="@routes.SaveForLater.login" class="button button-primary">@Messages("label.tryAgain")</a>
-                </div>
-                <p>@Messages("saveForLater.haveYouForgotten")</p>
-                <a href="@routes.Application.startAgain">@Messages("label.startFormAgain")</a>
-            </div>
-        </div>
-    </main>
-    @includes.formHelp()
+    @includes.formHelp2()
 }

@@ -8,6 +8,13 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
+    VoaCommon.setGdsClasses = function(){
+        $('input:not(.govuk-input)').addClass('govuk-input');
+        $('button:not(.govuk-button), .button:not(.govuk-button)').addClass('govuk-button');
+        $('label:not(.govuk-label)').addClass('govuk-label');
+        $('fieldset:not(.govuk-fieldset)').addClass('govuk-fieldset');
+    };
+
     VoaCommon.getSegment = function(index){
         var pathArray = window.location.pathname.split( '/' );
         return pathArray[index];

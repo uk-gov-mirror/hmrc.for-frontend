@@ -29,6 +29,7 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
+import views.html.{saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -44,8 +45,15 @@ object SaveForLater {
 }
 
 @Singleton
-class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, refNumAction: RefNumAction,
-                             emailConnector: EmailConnector, config: Configuration)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+class SaveForLater @Inject()
+(cc: MessagesControllerComponents,
+ audit: Audit, refNumAction: RefNumAction,
+ emailConnector: EmailConnector, config: Configuration,
+ saveForLaterLogin: saveForLaterLogin,
+ saveForLaterResumeOptions: saveForLaterResumeOptions,
+ saveForLaterLoginFailed: saveForLaterLoginFailed)
+(implicit ec: ExecutionContext) extends FrontendController(cc) {
+
   import SaveForLater._
 
   val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
@@ -111,16 +119,16 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
   )
 
   def resumeOptions = refNumAction.async { implicit request =>
-    Ok(views.html.saveForLaterResumeOptions())
+    Ok(saveForLaterResumeOptions())
   }
 
   def login = refNumAction.async { implicit request =>
-    Ok(views.html.saveForLaterLogin())
+    Ok(saveForLaterLogin())
   }
 
   def resume = refNumAction.async { implicit request =>
     saveForLaterForm.bindFromRequest.fold(
-      error => BadRequest(views.html.saveForLaterLoginFailed()),
+      error => BadRequest(saveForLaterLoginFailed()),
       s4l => resumeSavedJourney(s4l.password, request.refNum)
     )
   }
@@ -162,7 +170,7 @@ class SaveForLater @Inject()(cc: MessagesControllerComponents, audit: Audit, ref
   private def resumeSavedJourney(p: SaveForLaterPassword, r: ReferenceNumber)(implicit re: RefNumRequest[AnyContent]): Future[Result] = {
     continue(hc)(p, r) flatMap {
       case PasswordsMatch(pageToResumeAt) => RedirectTo(pageToResumeAt, re.headers).flashing((s4lIndicator, s4lIndicator))
-      case IncorrectPassword => BadRequest(views.html.saveForLaterLoginFailed())
+      case IncorrectPassword => BadRequest(saveForLaterLoginFailed())
     }
   }
 
