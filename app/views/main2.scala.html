@@ -63,7 +63,7 @@
 }
 
 @govukLayout(
-    pageTitle = pageTitle,
+    pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
     headBlock = Some(head()),
     beforeContentBlock = Option(beforeBLock),
     footerItems = Seq(

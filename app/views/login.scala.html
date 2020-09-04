@@ -32,20 +32,16 @@
 
 @(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
-@pageTitle = @{
-    Some(
-        if(theForm.hasErrors)
-            (messages("label.error") + ": " + messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
-        else
-            (messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"))
-    )
+@title = @{
+    var title: String = (messages("login.heading") )
+    if(theForm.hasErrors)
+        title = (messages("label.error") + ": " ) + title
+    title
 }
 
 @main_template(
-    pageHeading = messages("login.heading"),
-    pageTitle = pageTitle
+    pageHeading = messages("login.heading")
 ) {
-
     @if(theForm.errors.nonEmpty) {
         @govukErrorSummary(
             ErrorSummary(

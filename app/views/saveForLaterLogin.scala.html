@@ -28,8 +28,7 @@
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    pageHeading = messages("saveForLater.pleaseEnterPassword"),
-    pageTitle = messages("saveForLater.pleaseEnterPassword") + " - " + Messages("project.name")
+    pageHeading = messages("saveForLater.pleaseEnterPassword")
 ) {
 
     @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
