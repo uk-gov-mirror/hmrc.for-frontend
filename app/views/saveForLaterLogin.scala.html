@@ -16,39 +16,46 @@
 
 @import helpers._
 @import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(main_template: main2, govukInput: GovukInput, govukButton: GovukButton)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
+@()(implicit request: Request[_], messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@main_template(
+    pageHeading = messages("saveForLater.pleaseEnterPassword")
+) {
 
-@main(title=Messages("saveForLater.pleaseEnterPassword") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false,needsTimeoutWarning=false) {
+    @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
+       @helper.CSRF.formField
 
-
-   <main id="content">
-       <div class="grid-row">
-           <div class="column-two-thirds">
-               <h1 class="form-title heading-large">@Messages("saveForLater.pleaseEnterPassword")</h1>
-               @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
-                   @helper.CSRF.formField
-
-                   <fieldset class="form-group">
-                       <label class="form-label-bold" for="password">@Messages("saveForLater.password")</label>
-                       <input name="password" id="password" type="password" autocomplete="off" />
-                   </fieldset>
-                   <div class="form-group">
-                       <input id="continue" type="submit" class="button" value="@Messages("label.continue")">
-                   </div>
-               }
-           </div>
-       </div>
-   </main>
-
-    @includes.formHelp()
+        @govukInput(
+            Input(
+                id = "password",
+                inputType = "password",
+                autocomplete = "off",
+                name = "password",
+                classes = "govuk-input--width-10",
+                label = Label(
+                    content = Text(messages("saveForLater.password"))
+                )
+            )
+        )
+        @govukButton(
+            Button(
+                attributes = Map(
+                    "id" -> "continue",
+                    "novalidate" -> "novalidate"
+                ),
+                name = Some("submit"),
+                content = Text(messages("label.continue"))
+            )
+        )
+    }
+    @includes.formHelp2()
 }

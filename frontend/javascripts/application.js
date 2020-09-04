@@ -61,6 +61,7 @@ var ref;
         VoaCommon.details();
         VoaCommon.characterCount();
         VoaCommon.stickyFooter();
+        VoaCommon.setGdsClasses();
     });
 
 })(jQuery);

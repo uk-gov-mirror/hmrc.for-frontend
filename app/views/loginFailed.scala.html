@@ -28,7 +28,6 @@
 @(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    pageTitle = messages("login.heading") + " - " + messages("project.name") + " - " + messages("gov.name"),
     backLinkUrl = routes.LoginController.show.url,
     pageHeading = messages("heading.login.loginFailed")
 ) {

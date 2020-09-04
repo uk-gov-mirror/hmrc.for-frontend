@@ -273,7 +273,7 @@ subletType.part=Part of it
 #SECTION 5
 ###############################
 section5.heading=The landlord
-section5.subheading=Landlord’s Address
+section5.subheading=Landlord’s address
 section5.heading.help=Give the landlord’s details even if the rent is paid to an agent.
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family

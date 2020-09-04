@@ -18,43 +18,22 @@
 @import models.pages.Summary
 @import models.serviceContracts.submissions._
 @import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(main_template: main2, govukButton: GovukButton)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
+@()(implicit request: Request[_], messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@main_template(
+    pageHeading = messages("saveForm.heading")
+) {
 
-@main(title=Messages("saveForm.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, showBackButton=false) {
+    <p class="govuk-body">@messages("saveForm.content")</p>
+    <a href="@{routes.SaveForLater.login}" class="govuk-button" data-module="govuk-button">@messages("saveForm.continue")</a>
 
-  <main id="content">
+    <p class="govuk-body">
+    <a href="@routes.Application.startAgain" class="govuk-link" >@messages("saveForm.start")</a>
+    </p>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-    
-
-      <h1 class="form-title heading-large heading-confirmation">
-        @Messages("saveForm.heading")
-      </h1> 
-
-      <p>@Messages("saveForm.content")</p>
-
-      <p><a href="@{routes.SaveForLater.login}" class="button button-primary">@Messages("saveForm.continue")</a></p>
-
-      <p><a href="@routes.Application.startAgain" >@Messages("saveForm.start")</a></p>
-
-      
-
-    </div>
-    <div class="column-third"></div>
-   </div>  
-
-   </main>
-
-   @includes.formHelp()
+   @includes.formHelp2()
 }

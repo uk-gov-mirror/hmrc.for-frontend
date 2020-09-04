@@ -33,10 +33,14 @@
         if (comments) {
             $('#feedback-form [for="feedback-comments"]').html(comments.replace('Comments', 'Comments (Optional)'));
         }
-        $('#feedback-form [for="feedback-email"]').css('display', 'none');
-        $('#feedback-form [for="feedback-name"]').css('display', 'none');
+
+        $('#feedback-form label[for="feedback-email"]').closest('div').hide();
+        $('#feedback-form label[for="feedback-name"]').remove();
+        $('#feedback-form label[for="feedback-email"]').remove();
         $('#feedback-form [name="feedback-name"]').val('Anonymous user');
         $('#feedback-form [name="feedback-email"]').val('anonymous@anonymous.com');
+        $('#feedback-form [name="feedback-name"]').attr('type', 'hidden');
+        $('#feedback-form [name="feedback-email"]').attr('type', 'hidden');
         //
 
         //vacate form

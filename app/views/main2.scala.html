@@ -17,7 +17,6 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
-@import scala.:+
 
 @this(
         govukLayout: govukLayout,
@@ -64,7 +63,7 @@
 }
 
 @govukLayout(
-    pageTitle = pageTitle,
+    pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
     headBlock = Some(head()),
     beforeContentBlock = Option(beforeBLock),
     footerItems = Seq(
@@ -80,6 +79,7 @@
         FooterItem(
             href = Some(messages("footer.links.help_page.url")),
             text = Some(messages("footer.links.help_page.text"))),
+
         FooterItem(
             href = Some(messages("footer.links.languale.url")),
             text = Some(messages("footer.links.languale.text")))
