@@ -800,6 +800,11 @@ error.login.failed=Enter the reference number and postcode as they appear in the
 error.login.attemptsleft=You have {0} remaining attempts to enter the correct details before your account is locked for 24 hours.
 error.login.1.attempt.left=You have 1 remaining attempt to enter the correct details before your account is locked for 24 hours.
 error.login.lockedOut=You are now locked out. You can try again after 24 hours.
+
+4=four
+3=three
+2=two
+1=one
 writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day= ‘Step to’ date must be after ‘Step from’ date
 writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
 

@@ -790,7 +790,10 @@ error.login.failed=Nodwch y cyfeirnod a’r côd post fel y maent yn ymddangos y
 error.login.attemptsleft=Mae gennych chi {0} ymgais ar ôl i nodi’r manylion cywir cyn i’ch cyfrif cael ei gloi am 24 awr.
 error.login.1.attempt.left=Mae gennych chi un ymgais ar ôl i nodi’r manylion cywir cyn i’ch cyfrif cael ei gloi am 24 awr.
 error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall arni ar ôl 24 awr.
-
+4=bedwar
+3=dri
+2=ddau
+1=un
 #ERROR PAGES
 ##############################
 error.404.heading=Nid oedd modd canfod y dudalen y gofynnwyd amdani. Rhowch gynnig arall arni.
