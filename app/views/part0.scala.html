@@ -14,37 +14,35 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import play.api.data._
-@import models.pages.Summary
-@import _root_.template.Helper._
+§§@import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress}
-@import config.ForConfig
+@import models.pages.Summary
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text}
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukRadios, GovukWarningText}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.fieldset.Legend
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import models.serviceContracts.submissions.AddressConnectionTypeYesChangeAddress
+@import models.serviceContracts.submissions.AddressConnectionTypeNo
+@import models.serviceContracts.submissions.AddressConnectionTypeYes
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(
+    main_template: main2,
+    govukWarningText: GovukWarningText,
+    govukRadios: GovukRadios
+)
 
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
-
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @stripIndices(field: String) = @{
     field.replaceAll("""\[[0-9]\]""", "")
 }
 
+@main_template(
+    pageHeading = messages("section0.heading")
+) {
 
-@main(title=Messages("section0.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
-  <main id="content">
     @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
 
       @if(theForm.hasErrors) {
@@ -78,11 +76,7 @@
             '_showConstraints -> true
           )
         )
-
-      @includes.continueButtonOnly()
-    
     }
-  </main>
-    
-  @includes.formHelp()
+
+    @includes.formHelp2()
 }
