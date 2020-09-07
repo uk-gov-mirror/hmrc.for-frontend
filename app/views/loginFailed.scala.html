@@ -42,7 +42,8 @@
                     if(remainingAttempts == 1) {
                         messages("error.login.1.attempt.left")
                     } else {
-                        messages("error.login.attemptsleft", remainingAttempts)
+                        val remainingAttemptsAsWord = messages(remainingAttempts.toString)
+                        messages("error.login.attemptsleft", remainingAttemptsAsWord)
                     }
                 )
             )
