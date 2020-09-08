@@ -20,6 +20,7 @@ import connectors.Document
 import controllers.dataCapturePages.PageZeroController
 import form.persistence.FormDocumentRepository
 import org.joda.time.DateTime
+import org.scalatestplus.mockito.MockitoSugar.mock
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -30,6 +31,7 @@ import uk.gov.hmrc.http.HeaderNames
 import utils.Helpers._
 import play.api.inject.bind
 import utils.stubs.StubFormDocumentRepo
+import views.html.part0
 
 /*
 TODO - This test shoould be moved to IT or should be rewriten not to use OneServerPerSuite.
@@ -70,7 +72,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
 
   "Page zero controller" should {
     "redirect to page 1 if user want to change address" in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)
@@ -88,7 +90,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
     }
 
     "redirect to page 2 if user doesn't want to change address" in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)
@@ -107,7 +109,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
 
 
     "redirect to not connected page if user is not connected with property " in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents())
+      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)

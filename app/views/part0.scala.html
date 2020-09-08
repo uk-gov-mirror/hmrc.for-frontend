@@ -22,12 +22,15 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text, Legend}
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import uk.gov.hmrc.govukfrontend.views.Aliases.ErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
 
 @this(
     main_template: main2,
     govukWarningText: GovukWarningText,
     govukButton: GovukButton,
-    govukRadios: GovukRadios
+    govukRadios: GovukRadios,
+    govukErrorSummary: GovukErrorSummary
 )
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
@@ -43,20 +46,14 @@
 
     @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
 
-      @if(theForm.hasErrors) {
-          <div class="form-error alert alert-danger" role="alert" tabindex="-1" aria-labelledby="error-summary-heading" >
-              <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
-              <ul>
-              @for(error <- theForm.errors) {
-                  <li>
-                      <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
-                      @Messages(stripIndices(error.message), error.args: _*)
-                      </a>
-                  </li>
-              }
-              </ul>
-          </div>
-      }
+        @if(theForm.errors.nonEmpty) {
+            @govukErrorSummary(
+                ErrorSummary(
+                    errorList = theForm.errors.asTextErrorLinks,
+                    title = Text(messages("label.checkTheForm"))
+                )
+            )
+        }
 
         @helper.CSRF.formField
         @govukRadios(

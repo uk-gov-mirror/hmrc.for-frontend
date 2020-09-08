@@ -14,6 +14,8 @@
  * limitations under the License.
  *@
 
+@import play.api.Play.current
+
 @this()
 
 @()
@@ -22,3 +24,15 @@
 <!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 <!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.at("stylesheets/application.css")' media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
+ <meta
+ name="hmrc-timeout-dialog"
+ data-timeout="@{current.configuration.getString("signout.timeout").get}"
+ data-countdown="@{current.configuration.getString("signout.countdown").get}"
+ data-keep-alive-url=""
+ data-sign-out-url="@{current.configuration.getString("signout.url").get}"
+ data-title=""
+ data-message=""
+ dat-message-suffix=""
+ data-keep-alive-button-text=""
+ data-sign-out-button-text=""
+ />
