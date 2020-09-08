@@ -31,6 +31,7 @@
 @(
         pageTitle: Option[String] = None,
         pageHeading: String,
+        showH1: Boolean = true,
         beforeContentBlock: Option[Html] = None,
         backLinkUrl: Option[String] = None
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
@@ -56,8 +57,9 @@
 }
 
 @contentWithHeading = {
-
-    <h1 class="govuk-heading-l">@pageHeading</h1>
+    @if(showH1){
+        <h1 class="govuk-heading-l">@pageHeading</h1>
+    }
 
     @contentBlock
 }

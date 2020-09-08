@@ -14,24 +14,21 @@
  * limitations under the License.
  *@
 
-§§@import _root_.template.Helper._
 @import helpers._
 @import models.pages.Summary
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
 @import play.api.data._
-@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text}
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukRadios, GovukWarningText}
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.fieldset.Legend
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text, Legend}
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
-@import models.serviceContracts.submissions.AddressConnectionTypeYesChangeAddress
-@import models.serviceContracts.submissions.AddressConnectionTypeNo
-@import models.serviceContracts.submissions.AddressConnectionTypeYes
 
 @this(
     main_template: main2,
     govukWarningText: GovukWarningText,
+    govukButton: GovukButton,
     govukRadios: GovukRadios
 )
-
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -40,7 +37,8 @@
 }
 
 @main_template(
-    pageHeading = messages("section0.heading")
+    pageHeading = "Your connection to the property",
+    showH1 = false
 ) {
 
     @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
@@ -61,21 +59,35 @@
       }
 
         @helper.CSRF.formField
-
-        @inputRadioGroup(
-          field = theForm("isRelated"),
-          options = Seq(
-            AddressConnectionTypeYes.name -> Messages("label.yes.oes"),
-            AddressConnectionTypeYesChangeAddress.name -> Messages("label.yes.change.address"),
-            AddressConnectionTypeNo.name -> Messages("label.no.nac.oes")
-          ),
-          args = Seq(
-            '_label -> headingDisplayPlain(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false),
-            '_legend -> true,
-            '_labelClass -> "",
-            '_showConstraints -> true
-          )
+        @govukRadios(
+            Radios(
+                name = "isRelated",
+                items = Seq(
+                    AddressConnectionTypeYes.name -> messages("label.yes.oes"),
+                    AddressConnectionTypeYesChangeAddress.name -> Messages("label.yes.change.address"),
+                    AddressConnectionTypeNo.name -> messages("label.no.nac.oes")
+                ).map(i => RadioItem (
+                    content = Text(i._2),
+                    id = Option(i._1),
+                    checked = theForm("isRelated").value.map(_ == i.value).getOrElse(false),
+                    value=Option(i._1)
+                  )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("isRelated"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"),
+                                isPageHeading = true,
+                                classes = "govuk-fieldset__legend--l"
+                            )
+                        )
+                    )
+                )
+            )
         )
+        @includes.continueButtonOnly2(govukButton)
     }
 
     @includes.formHelp2()
