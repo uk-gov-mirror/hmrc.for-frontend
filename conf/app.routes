@@ -5,7 +5,6 @@
 # Home page
 ->          /govuk-frontend            govuk.Routes
 GET         /                          controllers.Application.index
-GET         /test-gov-uk               controllers.GovUkTestController.onPageLoad
 
 GET         /confirmation              controllers.feedback.SurveyController.confirmation
 GET         /declaration               controllers.Application.declaration()
