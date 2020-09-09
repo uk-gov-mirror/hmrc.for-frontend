@@ -27,9 +27,7 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    pageHeading = messages("saveForLater.pleaseEnterPassword")
-) {
+@main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
 
     @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
        @helper.CSRF.formField

@@ -1,3 +1,16 @@
 $govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk/assets/";
 
-@import "node_modules/govuk-frontend/govuk/all";
+#timeout-dialog.timeout-dialog {
+  * {
+    font-family: "GDS Transport", Arial, sans-serif;
+    font-size:19px;
+  }
+  button, a{
+    line-height: 40px;
+    height: 40px;
+    vertical-align: middle;
+    padding: 0 16px;
+  }
+}
+
+  @import "node_modules/govuk-frontend/govuk/all";

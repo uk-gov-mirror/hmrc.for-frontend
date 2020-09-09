@@ -14,24 +14,21 @@
  * limitations under the License.
  *@
 
-@import models.journeys.Journey
-@import models.pages.Summary
-@import models.serviceContracts.submissions._
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 
-@this(main_template: main2, govukButton: GovukButton)
+@(govukButton: GovukButton)(implicit request: Request[_], messages: Messages)
+<p class="govuk-body">
+    @govukButton(
+        Button(
+            attributes = Map("id" -> "continue", "novalidate" -> "novalidate"),
+            content = Text(messages("button.label.continue")),
+            name = "continue_button",
+            value = "continue_button",
+            inputType = "submit"
+        )
+    )
+</p>
 
-@()(implicit request: Request[_], messages: Messages)
 
-@main_template(pageHeading = messages("saveForm.heading")) {
-
-    <p class="govuk-body">@messages("saveForm.content")</p>
-    <a href="@{routes.SaveForLater.login}" class="govuk-button" data-module="govuk-button">@messages("saveForm.continue")</a>
-
-    <p class="govuk-body">
-    <a href="@routes.Application.startAgain" class="govuk-link" >@messages("saveForm.start")</a>
-    </p>
-
-   @includes.formHelp2()
-}

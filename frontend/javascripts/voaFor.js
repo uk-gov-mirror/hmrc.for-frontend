@@ -383,6 +383,7 @@
         var timeout = $('#signOutTimeout').val();
         var countdown = $('#signOutCountdown').val();
         var signOutUrl = $('#signOutUrl').val();
+
         if (window.GOVUK.timeoutDialog && signOutUrl) {
             window.GOVUK.timeoutDialog({
                 timeout: timeout,

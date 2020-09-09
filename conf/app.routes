@@ -5,7 +5,6 @@
 # Home page
 ->          /govuk-frontend            govuk.Routes
 GET         /                          controllers.Application.index
-GET         /test-gov-uk               controllers.GovUkTestController.onPageLoad
 
 GET         /confirmation              controllers.feedback.SurveyController.confirmation
 GET         /declaration               controllers.Application.declaration()
@@ -32,6 +31,7 @@ GET         /timeout                   controllers.SaveForLater.timeout
 
 GET         /login                     controllers.LoginController.show
 POST        /login                     controllers.LoginController.submit
+#GET         /lockout-warn-$count<\d{1}>     controllers.LoginController.loginFailed(count: Int)
 GET         /loginattemptsremaining/:attemptsRemaining  controllers.LoginController.loginFailed(attemptsRemaining: Int)
 GET         /lockedout                 controllers.LoginController.lockedOut
 GET         /logout                    controllers.LoginController.logout

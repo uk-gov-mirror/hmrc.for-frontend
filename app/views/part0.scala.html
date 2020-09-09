@@ -14,75 +14,64 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import play.api.data._
-@import models.pages.Summary
-@import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress}
-@import config.ForConfig
+@import models.pages.Summary
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text, Legend}
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(
+    main_template: main2,
+    govukWarningText: GovukWarningText,
+    govukButton: GovukButton,
+    govukRadios: GovukRadios,
+    govukErrorSummary: GovukErrorSummary
+)
 
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@main_template(pageHeading = "Your connection to the property", showH1 = false) {
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
-@stripIndices(field: String) = @{
-    field.replaceAll("""\[[0-9]\]""", "")
-}
-
-
-@main(title=Messages("section0.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
-  <main id="content">
-    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
-
-      @if(theForm.hasErrors) {
-          <div class="form-error alert alert-danger" role="alert" tabindex="-1" aria-labelledby="error-summary-heading" >
-              <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
-              <ul>
-              @for(error <- theForm.errors) {
-                  <li>
-                      <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
-                      @Messages(stripIndices(error.message), error.args: _*)
-                      </a>
-                  </li>
-              }
-              </ul>
-          </div>
-      }
+        @includes.summaryErrors(theForm, govukErrorSummary)
 
         @helper.CSRF.formField
 
-        @inputRadioGroup(
-          field = theForm("isRelated"),
-          options = Seq(
-            AddressConnectionTypeYes.name -> Messages("label.yes.oes"),
-            AddressConnectionTypeYesChangeAddress.name -> Messages("label.yes.change.address"),
-            AddressConnectionTypeNo.name -> Messages("label.no.nac.oes")
-          ),
-          args = Seq(
-            '_label -> headingDisplayPlain(0, (Messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"), false),
-            '_legend -> true,
-            '_labelClass -> "",
-            '_showConstraints -> true
-          )
+        @govukRadios(
+            Radios(
+                name = "isRelated",
+                items = Seq(
+                    AddressConnectionTypeYes.name -> messages("label.yes.oes"),
+                    AddressConnectionTypeYesChangeAddress.name -> Messages("label.yes.change.address"),
+                    AddressConnectionTypeNo.name -> messages("label.no.nac.oes")
+                ).map(i => RadioItem (
+                    content = Text(i._2),
+                    id = Option(i._1),
+                    checked = theForm("isRelated").value.map(_ == i.value).getOrElse(false),
+                    value=Option(i._1)
+                  )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("isRelated"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"),
+                                isPageHeading = true,
+                                classes = "govuk-fieldset__legend--l"
+                            )
+                        )
+                    )
+                )
+            )
         )
-
-      @includes.continueButtonOnly()
-    
+        @includes.continueButtonOnly2(govukButton)
     }
-  </main>
-    
-  @includes.formHelp()
+
+    @includes.formHelp2()
 }

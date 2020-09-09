@@ -17,54 +17,63 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
+@import play.api.Play.current
+@import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 
 @this(
-        govukLayout: govukLayout,
-        head: headTemplate,
-        scripts: scriptsTemplate,
-        govukPhaseBanner: govukPhaseBanner,
-        govukBackLink: GovukBackLink,
-        govukSummaryList: GovukSummaryList
+    govukLayout: govukLayout,
+    head: headTemplate,
+    scripts: scriptsTemplate,
+    govukPhaseBanner: govukPhaseBanner,
+    govukBackLink: GovukBackLink,
+    govukSummaryList: GovukSummaryList,
+    footer: Footer,
+    uiLayoutHead: Head
 )
 
-
 @(
-        pageTitle: Option[String] = None,
-        pageHeading: String,
-        beforeContentBlock: Option[Html] = None,
-        backLinkUrl: Option[String] = None
+    pageTitle: Option[String] = None,
+    pageHeading: String,
+    showH1: Boolean = true,
+    beforeContentBlock: Option[Html] = None,
+    backLinkUrl: Option[String] = None
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @beforeBLock = {
-    @govukPhaseBanner(PhaseBanner(tag = Option(Tag(Text("BETA"))),
-        content = HtmlContent(
-            messages("label.phase2", controllers.feedback.routes.Feedback.inPageFeedbackNoLogin.url)
+
+    <input type="hidden" id="signOutUrl" value=@current.configuration.getString("signout.url").get />
+    <input type="hidden" id="signOutTimeout" value=@current.configuration.getString("signout.timeout").get />
+    <input type="hidden" id="signOutCountdown" value=@current.configuration.getString("signout.countdown").get />
+
+    @govukPhaseBanner(
+        PhaseBanner(
+            tag = Option(Tag(Text("BETA"))),
+            content = HtmlContent(
+                messages("label.phase2", controllers.feedback.routes.Feedback.inPageFeedbackNoLogin.url)
+            )
         )
-    ))
+    )
 
     @backLinkUrl.map{ url =>
         <div>
-            @govukBackLink(
-                BackLink(href = url)
-            )
+            @govukBackLink(BackLink(href = url))
         </div>
     }
 
-
     @beforeContentBlock
-
 }
 
 @contentWithHeading = {
-
-    <h1 class="govuk-heading-l">@pageHeading</h1>
+    @if(showH1){
+        <h1 class="govuk-heading-l">@pageHeading</h1>
+    }
 
     @contentBlock
 }
 
 @govukLayout(
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
-    headBlock = Some(head()),
+    headBlock = Some(head(uiLayoutHead)),
     beforeContentBlock = Option(beforeBLock),
     footerItems = Seq(
         FooterItem(
@@ -85,5 +94,5 @@
             text = Some(messages("footer.links.languale.text")))
 
     ),
-    bodyEndBlock = Some(scripts())
+    bodyEndBlock = Some(scripts(footer))
 )(contentWithHeading)
