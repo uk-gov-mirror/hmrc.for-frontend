@@ -15,14 +15,24 @@
  *@
 
 @import play.api.Play.current
+@import uk.gov.hmrc.play.views.html.layouts.Head
 
 @this()
 
-@()
-<!-- TODO - how to fix IE-8 problem ??? -->
-<!--[if lte IE 8]><link href='@controllers.routes.Assets.at("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
-<!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
-<!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.at("stylesheets/application.css")' media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+@(uiLayoutHead: Head)
+
+<link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
+
+ @if(playconfig.Environment.isDev){
+  <link href="@routes.Assets.at("stylesheets/application.css")" media="screen" rel="stylesheet" type="text/css" />
+  <link href="@routes.Assets.at("stylesheets/print.css")" media="print" rel="stylesheet" type="text/css" />
+ }else{
+  <link href="@routes.Assets.at("stylesheets/application.min.css")" media="screen" rel="stylesheet" type="text/css" />
+  <link href="@routes.Assets.at("stylesheets/print.min.css")" media="print" rel="stylesheet" type="text/css" />
+ }
+
+@*this is to include the application.css from asssets frontend to style the timeout*@
+@uiLayoutHead(linkElem = None, headScripts = None)
 
  <meta
  name="hmrc-timeout-dialog"

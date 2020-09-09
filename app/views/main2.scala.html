@@ -17,6 +17,8 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
+@import play.api.Play.current
+@import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 
 @this(
     govukLayout: govukLayout,
@@ -24,7 +26,9 @@
     scripts: scriptsTemplate,
     govukPhaseBanner: govukPhaseBanner,
     govukBackLink: GovukBackLink,
-    govukSummaryList: GovukSummaryList
+    govukSummaryList: GovukSummaryList,
+    footer: Footer,
+    uiLayoutHead: Head
 )
 
 @(
@@ -36,6 +40,10 @@
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @beforeBLock = {
+
+    <input type="hidden" id="signOutUrl" value=@current.configuration.getString("signout.url").get />
+    <input type="hidden" id="signOutTimeout" value=@current.configuration.getString("signout.timeout").get />
+    <input type="hidden" id="signOutCountdown" value=@current.configuration.getString("signout.countdown").get />
 
     @govukPhaseBanner(
         PhaseBanner(
@@ -65,7 +73,7 @@
 
 @govukLayout(
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
-    headBlock = Some(head()),
+    headBlock = Some(head(uiLayoutHead)),
     beforeContentBlock = Option(beforeBLock),
     footerItems = Seq(
         FooterItem(
@@ -86,5 +94,5 @@
             text = Some(messages("footer.links.languale.text")))
 
     ),
-    bodyEndBlock = Some(scripts())
+    bodyEndBlock = Some(scripts(footer))
 )(contentWithHeading)
