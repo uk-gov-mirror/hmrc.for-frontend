@@ -21,11 +21,10 @@
 
 @(theForm: Form[_], govukErrorSummary: GovukErrorSummary)(implicit requestHeader: RequestHeader, messages: Messages)
 
-Hello World!
-@if(theForm.errors.nonEmpty) {
-    @govukErrorSummary(
-        ErrorSummary(
-            errorList = theForm.errors.asTextErrorLinks,
-            title = Text(Messages("label.checkTheForm")))
-    )
-}
+    @if(theForm.errors.nonEmpty) {
+        @govukErrorSummary(
+            ErrorSummary(
+                errorList = theForm.errors.asTextErrorLinks,
+                title = Text(Messages("label.checkTheForm")))
+        )
+    }

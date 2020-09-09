@@ -39,17 +39,9 @@
     title
 }
 
-@main_template(
-    pageHeading = messages("login.heading")
-) {
-    @if(theForm.errors.nonEmpty) {
-        @govukErrorSummary(
-            ErrorSummary(
-                errorList = theForm.errors.asTextErrorLinks,
-                title = Text(messages("label.checkTheForm"))
-            )
-        )
-    }
+@main_template(pageHeading = messages("login.heading"), pageTitle = title) {
+
+    @includes.summaryErrors(theForm, govukErrorSummary)
 
     <p class="govuk-body">@messages("label.letter")</p>
 
@@ -86,15 +78,6 @@
             <input type="hidden" name="start-time" value="@now" />
         }
 
-        @govukButton(
-            Button(
-                attributes = Map(
-                    "id" -> "continue",
-                    "novalidate" -> "novalidate"
-                ),
-                name = Some("submit"),
-                content = Text(messages("label.continue"))
-            )
-        )
+        @includes.continueButtonOnly2(govukButton)
     }
 }

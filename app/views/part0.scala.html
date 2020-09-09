@@ -22,7 +22,6 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text, Legend}
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
-@import uk.gov.hmrc.govukfrontend.views.Aliases.ErrorSummary
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
 
 @this(
@@ -35,27 +34,14 @@
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@stripIndices(field: String) = @{
-    field.replaceAll("""\[[0-9]\]""", "")
-}
+@main_template(pageHeading = "Your connection to the property", showH1 = false) {
 
-@main_template(
-    pageHeading = "Your connection to the property",
-    showH1 = false
-) {
+    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
-    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId") {
-
-        @if(theForm.errors.nonEmpty) {
-            @govukErrorSummary(
-                ErrorSummary(
-                    errorList = theForm.errors.asTextErrorLinks,
-                    title = Text(messages("label.checkTheForm"))
-                )
-            )
-        }
+        @includes.summaryErrors(theForm, govukErrorSummary)
 
         @helper.CSRF.formField
+
         @govukRadios(
             Radios(
                 name = "isRelated",
