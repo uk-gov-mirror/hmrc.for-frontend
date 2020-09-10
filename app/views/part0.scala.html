@@ -34,7 +34,9 @@
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@main_template(pageHeading = "Your connection to the property", showH1 = false) {
+@heading = @{messages("section0.intro.text", summary.address.map(_.singleLine).getOrElse(""))}
+
+@main_template(pageHeading = heading, showH1 = false) {
 
     @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
@@ -61,7 +63,7 @@
                     Fieldset(
                         legend = Option(
                             Legend(
-                                content = Text(messages("section0.intro.text") + " " + summary.address.map(_.singleLine).getOrElse("") + " ?"),
+                                content = Text(heading),
                                 isPageHeading = true,
                                 classes = "govuk-fieldset__legend--l"
                             )
