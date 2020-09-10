@@ -16,82 +16,66 @@
 
 @import models.pages.Summary
 @import org.joda.time.LocalDate
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukWarningText,GovukPanel}
+@import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Content
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedout: Boolean = false)(implicit requestHeader: RequestHeader, messages: Messages)
+@this(main_template: main2, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
+@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
+
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Panel
+@title = @{
+    if(!hasTimedOut) {
+       messages("saveForLater.preHeader")
+    } else {
+        messages("saveForLater.preHeaderTimeout")
+    }
 }
 
-@bodyEnd = {
-@views.html.includes.javascripts()
-}
+@main_template(pageHeading = title, withTimeoutDialog = false, backLinkUrl = routes.Application.summary.url) {
 
-@main(title =Messages("saveForLater.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false, needsTimeoutWarning=false) {
-
-    <main id="content">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-
-                <a href="@routes.Application.summary" id="back" name="back_button" class="button-link link-back declaration-back" role="button">@Messages("button.label.back")</a>
+        @govukWarningText(
+            WarningText(
+                content = Text(messages("saveForLater.info"))
+            )
+        )
 
 
-                <h1 class="form-title heading-large">
-                    @if(!hasTimedout) {
-                        <p class="font-xsmall">@Messages("saveForLater.preHeader")</p>
-                    } else {
-                        <p class="font-xsmall">@Messages("saveForLater.preHeaderTimeout")</p>
-                    }
-                    @Html(Messages("saveForLater.heading"))
-                </h1>
+    <p class="govuk-body">@messages("saveForLater.info.p.2")</p>
 
-                <p class="notice">
-                    <i class="icon icon-important">
-                        <span class="visually-hidden">Warning</span>
-                    </i>
-                    <strong>
-                        @Html(Messages("saveForLater.info"))
-                    </strong>
-                </p>
-
-                <p class="save-for-later">
-
-                    <span>@Messages("saveForLater.password"):</span> <strong>@password</strong>
-                </p>
-
-                <p>
-                    @Html(Messages("saveForLater.info.p.2"))
-                </p>
-                <p>
-                    @Html(Messages("saveForLater.paragraph"))
-                    @{
-                        s"${expiryDate.getDayOfMonth} ${Messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
-                    }
-                </p>
-
-                <p>
-                    @if(!hasTimedout) {
-                        <a href="@routes.SaveForLater.immediateResume" class="button button-primary">@Messages("saveForLater.continue")</a>
-                        <a href="@routes.LoginController.logout" class="button button-primary">@Messages("saveForLater.logout")</a>
-                    } else {
-                        <a class="button" href=@routes.LoginController.show>@Messages("content.timeout.login")</a>
-                    }
-                </p>
-                
-                <form action="@routes.SaveForLater.resume()" method="post">
-                    @helper.CSRF.formField
-                    <input type="hidden" name="password" value="@password" />
-                    <a href="javascript:window.print();" class="button button-secondary hide-if-no-js">@Messages("saveForLater.print")</a>
-                </form>
-
-            </div>
-            <div class="column-third"></div>
+    <div class="govuk-panel govuk-panel--confirmation">
+        <div class="govuk-panel__body">
+            <span>@messages("saveForLater.password"):</span> <strong>@password</strong>
         </div>
-    </main>
+    </div>
+
+    <p class="govuk-body">@messages("saveForLater.info.p.2")</p>
+
+    <p class="govuk-body">
+        @messages("saveForLater.paragraph")
+        @{
+            s"${expiryDate.getDayOfMonth} ${messages(s"month.${expiryDate.monthOfYear.getAsText}")} ${expiryDate.getYear}"
+        }
+    </p>
+
+    <p>
+    @if(!hasTimedOut) {
+        <a href="@routes.SaveForLater.immediateResume" class="govuk-button">@messages("saveForLater.continue")</a>
+        <a href="@routes.LoginController.logout" class="govuk-button">@messages("saveForLater.logout")</a>
+    } else {
+        <a class="govuk-button" href=@routes.LoginController.show>@messages("content.timeout.login")</a>
+    }
+    </p>
+
+    <form action="@routes.SaveForLater.resume()" method="post">
+        @helper.CSRF.formField
+        <input type="hidden" name="password" value="@password" />
+        <a href="javascript:window.print();" class="govuk-button govuk-button--secondary hide-if-no-js">@messages("saveForLater.print")</a>
+    </form>
 
 
-
-    @includes.formHelp()
+    @includes.formHelp2()
 }

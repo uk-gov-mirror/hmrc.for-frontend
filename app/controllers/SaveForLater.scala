@@ -29,7 +29,7 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import views.html.{saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions}
+import views.html.{saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions, savedForLater}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -47,11 +47,13 @@ object SaveForLater {
 @Singleton
 class SaveForLater @Inject()
 (cc: MessagesControllerComponents,
- audit: Audit, refNumAction: RefNumAction,
- emailConnector: EmailConnector, config: Configuration,
- saveForLaterLogin: saveForLaterLogin,
- saveForLaterResumeOptions: saveForLaterResumeOptions,
- saveForLaterLoginFailed: saveForLaterLoginFailed)
+  audit: Audit, refNumAction: RefNumAction,
+  emailConnector: EmailConnector, config: Configuration,
+  saveForLaterLogin: saveForLaterLogin,
+  saveForLaterResumeOptions: saveForLaterResumeOptions,
+  saveForLaterLoginFailed: saveForLaterLoginFailed,
+  savedForLater:savedForLater
+)
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import SaveForLater._
@@ -75,7 +77,7 @@ class SaveForLater @Inject()
               auditSavedForLater(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                Ok(views.html.savedForLater(sum, pw, expiryDate))
+                Ok(savedForLater(sum, pw, expiryDate))
               }
             }
           } else {
@@ -101,7 +103,7 @@ class SaveForLater @Inject()
                 auditSavedForLater(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                  Ok(views.html.savedForLater(sum, pw, expiryDate))
+                  Ok(savedForLater(sum, pw, expiryDate))
                 }
               }
             }
@@ -157,9 +159,9 @@ class SaveForLater @Inject()
             Audit.referenceNumber -> sum.referenceNumber))
           val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
-          emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-            Ok(views.html.savedForLater(sum, pw, expiryDate, hasTimedout = true))
-          }
+
+          emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+          Ok(savedForLater(sum, pw, expiryDate, hasTimedOut = true))
         }
       }
       case None =>
