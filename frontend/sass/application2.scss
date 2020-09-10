@@ -16,4 +16,10 @@ $govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk
   }
 }
 
-  @import "node_modules/govuk-frontend/govuk/all";
+div#helpFormWrapper  {
+  input[type=text]{
+    width: 100%;
+  }
+}
+
+@import "node_modules/govuk-frontend/govuk/all";

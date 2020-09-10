@@ -29,7 +29,7 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import views.html.{saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions, savedForLater}
+import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions, savedForLater}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -52,7 +52,8 @@ class SaveForLater @Inject()
   saveForLaterLogin: saveForLaterLogin,
   saveForLaterResumeOptions: saveForLaterResumeOptions,
   saveForLaterLoginFailed: saveForLaterLoginFailed,
-  savedForLater:savedForLater
+  savedForLater:savedForLater,
+  customPasswordSaveForLaterView: customPasswordSaveForLater
 )
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
@@ -81,7 +82,7 @@ class SaveForLater @Inject()
               }
             }
           } else {
-            Ok(views.html.customPasswordSaveForLater(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
+            Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
           }
       }
       case None =>
@@ -96,7 +97,7 @@ class SaveForLater @Inject()
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
             formErrors => {
-              Ok(views.html.customPasswordSaveForLater(sum, expiryDate, formErrors))
+              Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors))
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>

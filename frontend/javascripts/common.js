@@ -9,7 +9,7 @@
     };
 
     VoaCommon.setGdsClasses = function(){
-        $('input:not(.govuk-input)').addClass('govuk-input');
+        $('input[type=text]:not(.govuk-input)').addClass('govuk-input');
         $('button:not(.govuk-button), .button:not(.govuk-button)').addClass('govuk-button');
         $('label:not(.govuk-label)').addClass('govuk-label');
         $('fieldset:not(.govuk-fieldset)').addClass('govuk-fieldset');
