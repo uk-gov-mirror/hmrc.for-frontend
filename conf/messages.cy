@@ -125,8 +125,7 @@ label.retryLogin=Rhowch gynnig arall ar fewngofnodi
 #SECTION 0
 ##############################
 label.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
-section0.heading=Cysylltiad â’r eiddo
-section0.intro.text=A oes gennych gysylltiad o hyd â
+section0.intro.text=A oes gennych gysylltiad o hyd â {0}?
 error.isRelated=Dewiswch ‘Oes’ os oes gennych gysylltiad o hyd
 
 #SECTION 1
