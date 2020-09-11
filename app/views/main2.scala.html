@@ -21,14 +21,14 @@
 @import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 
 @this(
-    govukLayout: govukLayout,
-    head: headTemplate,
-    scripts: scriptsTemplate,
-    govukPhaseBanner: govukPhaseBanner,
-    govukBackLink: GovukBackLink,
-    govukSummaryList: GovukSummaryList,
-    footer: Footer,
-    uiLayoutHead: Head
+        govukLayout: govukLayout,
+        head: headTemplate,
+        scripts: scriptsTemplate,
+        govukPhaseBanner: govukPhaseBanner,
+        govukBackLink: GovukBackLink,
+        govukSummaryList: GovukSummaryList,
+        footer: Footer,
+        uiLayoutHead: Head
 )
 
 @(
@@ -36,7 +36,8 @@
     pageHeading: String,
     showH1: Boolean = true,
     beforeContentBlock: Option[Html] = None,
-    backLinkUrl: Option[String] = None
+    backLinkUrl: Option[String] = None,
+    withTimeoutDialog: Boolean = true
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @beforeBLock = {
@@ -67,7 +68,6 @@
     @if(showH1){
         <h1 class="govuk-heading-l">@pageHeading</h1>
     }
-
     @contentBlock
 }
 
@@ -94,5 +94,5 @@
             text = Some(messages("footer.links.languale.text")))
 
     ),
-    bodyEndBlock = Some(scripts(footer))
+    bodyEndBlock = Some(scripts(footer, withTimeoutDialog))
 )(contentWithHeading)

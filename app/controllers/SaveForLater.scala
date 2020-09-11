@@ -29,7 +29,7 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import views.html.{saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions}
+import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions, savedForLater}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
 import playconfig.{FormPersistence, SessionId}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -47,11 +47,14 @@ object SaveForLater {
 @Singleton
 class SaveForLater @Inject()
 (cc: MessagesControllerComponents,
- audit: Audit, refNumAction: RefNumAction,
- emailConnector: EmailConnector, config: Configuration,
- saveForLaterLogin: saveForLaterLogin,
- saveForLaterResumeOptions: saveForLaterResumeOptions,
- saveForLaterLoginFailed: saveForLaterLoginFailed)
+  audit: Audit, refNumAction: RefNumAction,
+  emailConnector: EmailConnector, config: Configuration,
+  saveForLaterLogin: saveForLaterLogin,
+  saveForLaterResumeOptions: saveForLaterResumeOptions,
+  saveForLaterLoginFailed: saveForLaterLoginFailed,
+  savedForLater:savedForLater,
+  customPasswordSaveForLaterView: customPasswordSaveForLater
+)
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   import SaveForLater._
@@ -74,12 +77,12 @@ class SaveForLater @Inject()
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
               auditSavedForLater(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
-              emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                Ok(views.html.savedForLater(sum, pw, expiryDate))
-              }
+              emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+
+              Ok(savedForLater(sum, pw, expiryDate))
             }
           } else {
-            Ok(views.html.customPasswordSaveForLater(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
+            Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
           }
       }
       case None =>
@@ -94,15 +97,16 @@ class SaveForLater @Inject()
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
             formErrors => {
-              Ok(views.html.customPasswordSaveForLater(sum, expiryDate, formErrors))
+              Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors))
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
                 auditSavedForLater(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
-                emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                  Ok(views.html.savedForLater(sum, pw, expiryDate))
-                }
+                emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+
+                Ok(savedForLater(sum, pw, expiryDate))
+
               }
             }
           )
@@ -157,9 +161,9 @@ class SaveForLater @Inject()
             Audit.referenceNumber -> sum.referenceNumber))
           val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val email = sum.customerDetails.flatMap(_.contactDetails.email)
-          emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-            Ok(views.html.savedForLater(sum, pw, expiryDate, hasTimedout = true))
-          }
+
+          emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+          Ok(savedForLater(sum, pw, expiryDate, hasTimedOut = true))
         }
       }
       case None =>

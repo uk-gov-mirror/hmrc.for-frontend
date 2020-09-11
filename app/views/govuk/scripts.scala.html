@@ -19,9 +19,12 @@
 
 @this(configuration: Configuration)
 
-@(footer: Footer)
-@* include assets frontend js for now for the timeout. We will upgrade to HMRC frontend timeout in due course (promise) *@
-@footer(analyticsToken = None, analyticsHost = "auto", ssoUrl = None, scriptElem = None, gaCalls = None)
+@(footer: Footer, withTimeoutDialog: Boolean)
+
+@if(withTimeoutDialog) {
+  @* include assets frontend js for now for the timeout. We will upgrade to HMRC frontend timeout in due course (promise) *@
+  @footer(analyticsToken = None, analyticsHost = "auto", ssoUrl = None, scriptElem = None, gaCalls = None)
+}
 
 <script src='@controllers.routes.Assets.at("lib/govuk-frontend/govuk/all.js")'></script>
 <script id="GTM" GTMCode="@{config.ForConfig.gtm}" src='@routes.Assets.at("javascripts/govuk-google-tag-manager.js")' type="text/javascript"></script>
