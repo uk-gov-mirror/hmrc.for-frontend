@@ -29,12 +29,11 @@ POST 		/resume					   controllers.SaveForLater.resume
 GET 		/immediateresume		   controllers.SaveForLater.immediateResume
 GET         /timeout                   controllers.SaveForLater.timeout
 
-GET         /login                     controllers.LoginController.show
-POST        /login                     controllers.LoginController.submit
-#GET         /lockout-warn-$count<\d{1}>     controllers.LoginController.loginFailed(count: Int)
-GET         /loginattemptsremaining/:attemptsRemaining  controllers.LoginController.loginFailed(attemptsRemaining: Int)
-GET         /lockedout                 controllers.LoginController.lockedOut
-GET         /logout                    controllers.LoginController.logout
+GET         /login                                      controllers.LoginController.show
+POST        /login                                      controllers.LoginController.submit
+GET         /$count<\d>-sign-in-attempts-remaining      controllers.LoginController.loginFailed(count: Int)
+GET         /lockedout                                  controllers.LoginController.lockedOut
+GET         /logout                                     controllers.LoginController.logout
 
 # not connected form
 GET         /previously-connected           controllers.PreviouslyConnectedController.onPageView
