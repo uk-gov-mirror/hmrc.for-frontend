@@ -77,9 +77,9 @@ class SaveForLater @Inject()
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
               auditSavedForLater(sum)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
-              emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                Ok(savedForLater(sum, pw, expiryDate))
-              }
+              emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+
+              Ok(savedForLater(sum, pw, expiryDate))
             }
           } else {
             Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
@@ -103,9 +103,10 @@ class SaveForLater @Inject()
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
                 auditSavedForLater(sum)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
-                emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate) map { _ =>
-                  Ok(savedForLater(sum, pw, expiryDate))
-                }
+                emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
+
+                Ok(savedForLater(sum, pw, expiryDate))
+
               }
             }
           )

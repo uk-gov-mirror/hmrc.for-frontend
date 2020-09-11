@@ -17,8 +17,6 @@
 @import models.pages.Summary
 @import org.joda.time.LocalDate
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukWarningText,GovukPanel}
-@import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Content
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
@@ -26,7 +24,6 @@
 
 @(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
 
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Panel
 @title = @{
     if(!hasTimedOut) {
        messages("saveForLater.preHeader")
