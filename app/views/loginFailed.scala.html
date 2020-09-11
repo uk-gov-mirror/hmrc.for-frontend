@@ -19,36 +19,23 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@this(
-    main_template: main2,
-    govukWarningText: GovukWarningText,
-    govukBackLink: GovukBackLink
-)
+@this(main_template: main2, govukWarningText: GovukWarningText, govukBackLink: GovukBackLink)
 
 @(remainingAttempts: Int)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    backLinkUrl = routes.LoginController.show.url,
-    pageHeading = messages("heading.login.loginFailed")
-) {
+@warningMessage = @{
+    if(remainingAttempts == 1) {
+        messages("error.login.1.attempt.left")
+    } else {
+        val remainingAttemptsAsWord = messages(remainingAttempts.toString)
+        messages("error.login.attemptsleft", remainingAttemptsAsWord)
+    }
+}
 
-    <p class="govuk-body">@Messages("error.login.failed")</p>
+@main_template(pageHeading = warningMessage) {
 
-    <p class="govuk-body">
-
-        @govukWarningText(
-            WarningText(
-                content = Text(
-                    if(remainingAttempts == 1) {
-                        messages("error.login.1.attempt.left")
-                    } else {
-                        val remainingAttemptsAsWord = messages(remainingAttempts.toString)
-                        messages("error.login.attemptsleft", remainingAttemptsAsWord)
-                    }
-                )
-            )
-        )
-    </p>
+    <p class="govuk-body">@messages("heading.login.loginFailed")</p>
+    <p class="govuk-body">@messages("error.login.failed")</p>
 
     <a href="@routes.LoginController.show" class="govuk-button" data-module="govuk-button" >@messages("label.retryLogin")</a>
 
