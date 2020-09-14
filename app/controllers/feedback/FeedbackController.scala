@@ -39,13 +39,13 @@ import uk.gov.hmrc.play.partials._
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class Feedback @Inject()(cc: MessagesControllerComponents,
-                         http: ForHttp,
-                         sessionCookieCrypto: SessionCookieCrypto,
-                         languageUtils: LanguageUtils,
-                         repository: FormDocumentRepository,
-                         refNumAction: RefNumAction,
-                         override val servicesConfig: ServicesConfig
+class FeedbackController @Inject()(cc: MessagesControllerComponents,
+                                   http: ForHttp,
+                                   sessionCookieCrypto: SessionCookieCrypto,
+                                   languageUtils: LanguageUtils,
+                                   repository: FormDocumentRepository,
+                                   refNumAction: RefNumAction,
+                                   override val servicesConfig: ServicesConfig
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
@@ -66,7 +66,7 @@ class Feedback @Inject()(cc: MessagesControllerComponents,
         val summary = SummaryBuilder.build(doc)
         request.body.asFormUrlEncoded.map { formData =>
           http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-            case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
+            case 200 => Redirect(routes.FeedbackController.inPageFeedbackThankyou)
             case 400 => BadRequest(views.html.inpagefeedback(None, Html(res.body), summary))
             case _ => InternalServerError(views.html.feedbackError())
           }
@@ -79,7 +79,7 @@ class Feedback @Inject()(cc: MessagesControllerComponents,
   def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
     request.body.asFormUrlEncoded.map { formData =>
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-        case 200 => Redirect(routes.Feedback.inPageFeedbackThankyou)
+        case 200 => Redirect(routes.FeedbackController.inPageFeedbackThankyou)
         case 400 => BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
         case _ => InternalServerError(views.html.feedbackError())
       }
@@ -103,8 +103,8 @@ trait HMRCContact {
   val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
 
-  val betaFeedbackSubmitUrl = routes.Feedback.sendBetaFeedbackToHmrc().url
-  val betaFeedbackSubmitUrlNoLogin = routes.Feedback.sendBetaFeedbackToHmrcNoLogin().url
+  val betaFeedbackSubmitUrl = routes.FeedbackController.sendBetaFeedbackToHmrc().url
+  val betaFeedbackSubmitUrlNoLogin = routes.FeedbackController.sendBetaFeedbackToHmrcNoLogin().url
   val hmrcSubmitBetaFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(betaFeedbackSubmitUrl)}"
   val hmrcSubmitBetaFeedbackNoLoginUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(betaFeedbackSubmitUrlNoLogin)}"
   val hmrcBetaFeedbackFormUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?service=$serviceIdentifier&submitUrl=${urlEncode(betaFeedbackSubmitUrl)}"
