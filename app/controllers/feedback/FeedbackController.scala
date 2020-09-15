@@ -23,8 +23,11 @@ import connectors.ForHttp
 import controllers._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
+import models.Feedback
 import models.pages.SummaryBuilder
 import play.api.Play
+import play.api.data.{Form, Forms}
+import play.api.data.Forms.{mapping, number, text}
 import play.api.mvc._
 import play.twirl.api.Html
 import playconfig.SessionId
@@ -34,9 +37,21 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
-import views.html.inPageFeedbackThankyou
+import views.html.{feedbackForm, inPageFeedbackThankyou}
 
 import scala.concurrent.ExecutionContext
+
+object FeedbackFormMapper{
+  val feedbackForm = Form(
+    mapping(
+      "rating" -> number,
+      "comments" -> text,
+      "name" -> text,
+      "email" -> text
+    )(Feedback.apply)(Feedback.unapply)
+  )
+}
+
 
 @Singleton
 class FeedbackController @Inject()(cc: MessagesControllerComponents,
@@ -45,11 +60,13 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    repository: FormDocumentRepository,
                                    refNumAction: RefNumAction,
                                    override val servicesConfig: ServicesConfig,
-                                   feedbackThankyouView :inPageFeedbackThankyou
+                                   feedbackThankyouView :inPageFeedbackThankyou,
+                                   feedbackFormView: feedbackForm
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
 
+  import FeedbackFormMapper.feedbackForm
 
   def inPageFeedback = refNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
@@ -76,6 +93,10 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
+  def handleFeedbackSubmit() = Action { implicit request =>
+    Ok(feedbackThankyouView())
+  }
+
   def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
     request.body.asFormUrlEncoded.map { formData =>
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
@@ -88,7 +109,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def inPageFeedbackNoLogin = Action { implicit request =>
-    Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
+    Ok(feedbackFormView(feedbackForm))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
