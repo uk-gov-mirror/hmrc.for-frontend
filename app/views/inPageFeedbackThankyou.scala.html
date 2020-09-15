@@ -14,35 +14,10 @@
  * limitations under the License.
  *@
 
-@import models._
-@import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
-@import config.ForConfig
-@import playconfig.FormPartialProvider
+@this(layout:main2)
 
-@(contactPartialUrl: Option[String] = None, error: Option[Html] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
+@()(implicit requestHeader: Request[_],  messages: Messages)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
+@layout(pageHeading = messages("copy.feedback.thankyou"), showFeedback=false) {
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
-
-@main(title=Messages("copy.feedback.thankyou") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd,showBackButton=false,showAccountInfo=false,needsTimeoutWarning=false) {
-	 <main id="content">
-	 	<div class="grid-row">
-    		<div class="column-two-thirds">
-	 			<div class="help__wrapper">
-					<div class="help-content">
-						<h1>@Messages("copy.feedback.thankyou")</h1>
-                        <a href="./login">@Messages("copy.feedback.anotherForm")</a>
-					</div>
-				</div>
-			</div>
-		</div>		
-	</main>
 }

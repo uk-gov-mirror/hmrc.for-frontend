@@ -33,8 +33,8 @@ import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
-import uk.gov.hmrc.play.language.LanguageUtils
 import uk.gov.hmrc.play.partials._
+import views.html.inPageFeedbackThankyou
 
 import scala.concurrent.ExecutionContext
 
@@ -42,10 +42,10 @@ import scala.concurrent.ExecutionContext
 class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    http: ForHttp,
                                    sessionCookieCrypto: SessionCookieCrypto,
-                                   languageUtils: LanguageUtils,
                                    repository: FormDocumentRepository,
                                    refNumAction: RefNumAction,
-                                   override val servicesConfig: ServicesConfig
+                                   override val servicesConfig: ServicesConfig,
+                                   feedbackThankyouView :inPageFeedbackThankyou
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
@@ -92,7 +92,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
-    Ok(views.html.inPageFeedbackThankyou())
+    Ok(feedbackThankyouView())
   }
 }
 
