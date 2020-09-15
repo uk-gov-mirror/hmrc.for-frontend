@@ -35,10 +35,12 @@
     pageTitle: Option[String] = None,
     pageHeading: String,
     showH1: Boolean = true,
+    showFeedback: Boolean = true,
     beforeContentBlock: Option[Html] = None,
     backLinkUrl: Option[String] = None,
     withTimeoutDialog: Boolean = true
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+
 
 @beforeBLock = {
 
@@ -46,11 +48,16 @@
     <input type="hidden" id="signOutTimeout" value=@current.configuration.getString("signout.timeout").get />
     <input type="hidden" id="signOutCountdown" value=@current.configuration.getString("signout.countdown").get />
 
+
     @govukPhaseBanner(
         PhaseBanner(
             tag = Option(Tag(Text("BETA"))),
             content = HtmlContent(
-                messages("label.phase2", controllers.feedback.routes.FeedbackController.inPageFeedbackNoLogin.url)
+                if(showFeedback){
+                    messages("label.phase2", controllers.feedback.routes.FeedbackController.inPageFeedbackNoLogin.url)
+                }else{
+                    ""
+                }
             )
         )
     )
