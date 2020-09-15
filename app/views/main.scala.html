@@ -26,7 +26,7 @@ propositionHeader:Html=Html(""),
 showBackButton:Boolean=true,
 showAccountInfo:Boolean=true,
 needsTimeoutWarning:Boolean=true,
-feedbackUrl: Call = feedback.routes.Feedback.inPageFeedback,
+feedbackUrl: Call = feedback.routes.FeedbackController.inPageFeedback,
 theForm: Option[Form[_]] = None)(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @head = {

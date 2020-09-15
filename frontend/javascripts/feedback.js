@@ -42,6 +42,8 @@
         $('#feedback-form [name="feedback-name"]').attr('type', 'hidden');
         $('#feedback-form [name="feedback-email"]').attr('type', 'hidden');
         //
+        var feedbackAction = $('#feedback-form').attr('action');
+        $('#feedback-form').attr('action', '/sending-rental-information' + feedbackAction);
 
         //vacate form
         $('.vacated-form [for="report-name"]').text(VoaMessages.textLabel('vacateFormName'));
