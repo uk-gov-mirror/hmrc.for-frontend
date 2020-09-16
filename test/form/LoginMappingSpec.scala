@@ -37,10 +37,10 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 		}
 	}
 
-	it should "after trimming non numeric chars should be 10 or 11 digits in reference numbers" in {
+	it should "after trimming non numeric chars and making postcode UPPERCASE should be 10 or 11 digits in reference numbers" in {
 		val data = Map(
 			"referenceNumber" -> "12345678  */ 000",
-			"postcode" -> "AA11 1AA",
+			"postcode" -> "aa11 1aa",
 			"start-time" -> "2016-01-04T08:58:42.113Z"
 		)
 
@@ -57,6 +57,19 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 
 		val d4 = data.updated("referenceNumber", "1234567890")
 		mustNotContainErrorFor("referenceNumber", loginForm.bind(d4))
+	}
+
+	it should "postcode works in upper or lowercase" in {
+		val data = Map(
+			"referenceNumber" -> "12345678 000",
+			"postcode" -> "AA11 1AA",
+			"start-time" -> "2016-01-04T08:58:42.113Z"
+		)
+
+		mustBind(loginForm.bind(data)) { x => assert(x.postcode === "AA11 1AA") }
+
+		val d4 = data.updated("postcode", "aa11 1aa")
+		mustNotContainErrorFor("postcode", loginForm.bind(d4))
 	}
 
 }
