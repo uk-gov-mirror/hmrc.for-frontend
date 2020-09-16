@@ -665,11 +665,11 @@ copy.feedback.anotherForm=Cyflwyno ffurflen arall
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 #Feedback form
 feedback.satisfaction.label=Pa mor fodlon ydych chi ar y gwasanaeth?
-feedback.rating.1=Da iawn
-feedback.rating.2=Da
+feedback.rating.5=Da iawn
+feedback.rating.4=Da
 feedback.rating.3=Niwtral
-feedback.rating.4=Gwael
-feedback.rating.5=Gwael iawn
+feedback.rating.2=Gwael
+feedback.rating.1=Gwael iawn
 feedback.how.improve=Sut y gallwn wella’r ffurflen hon?
 feedback.comments.hint=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol. Er enghraifft, eich rhif Yswiriant Gwladol neu rif eich cerdyn credyd.
 feedback.comments.label=Sylwadau (dewisol)

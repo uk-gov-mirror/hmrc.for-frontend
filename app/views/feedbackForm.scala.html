@@ -36,35 +36,34 @@
         govukTextarea:GovukTextarea,
         formWithCSFR: formWithCSRF
 )
-@(theForm: Form[_])(implicit requestHeader: Request[_], messages: Messages)
+@()(implicit requestHeader: Request[_], messages: Messages)
 
-@layout(pageHeading = messages("label.feedback.heading")) {
+@layout(pageHeading = messages("label.feedback.heading"), showFeedback = false) {
 
     @formWithCSFR(action = routes.FeedbackController.handleFeedbackSubmit, args = 'novalidate -> "novalidate") {
 
-        <input type="hidden" name="name" value="Anonymous user"/>
-        <input type="hidden" name="email" value="anonymous@@anonymous.com"/>
+        <input type="hidden" name="feedback-name" value="Anonymous user"/>
+        <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>
         <input type="hidden" name="referrer" value="@requestHeader.uri"/>
+        <input type="hidden" name="service"  value="RALD">
 
         <p class="govuk-body">@messages("copy.feedback")</p>
 
         @govukRadios(
             Radios(
-                name = "rating",
+                name = "feedback-rating",
                 idPrefix="rating",
                 items = Seq(
-                    "1" -> messages("feedback.rating.1"),
-                    "2" -> messages("feedback.rating.2"),
-                    "3" -> messages("feedback.rating.3"),
+                    "5" -> messages("feedback.rating.5"),
                     "4" -> messages("feedback.rating.4"),
-                    "5" -> messages("feedback.rating.5")
+                    "3" -> messages("feedback.rating.3"),
+                    "2" -> messages("feedback.rating.2"),
+                    "1" -> messages("feedback.rating.1")
                 ).map(i => RadioItem(
                     content = Text(i._2),
-                    checked = theForm("rating").value.map(_ == i.value).getOrElse(false),
                     value = Option(i._1)
                 )
                 ),
-                errorMessage = theForm.errors.asTextErrorMessageForField("rating"),
                 fieldset = Option(
                     Fieldset(
                         legend = Option(
@@ -83,8 +82,8 @@
 
         @govukTextarea(
             Textarea(
-                id = "more-detail",
-                name = "more-detail",
+                id = "feedback-comments",
+                name = "feedback-comments",
                 label = Label(
                     content = Text(messages("feedback.comments.label"))
                 ),

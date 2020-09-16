@@ -41,18 +41,6 @@ import views.html.{feedbackForm, inPageFeedbackThankyou}
 
 import scala.concurrent.ExecutionContext
 
-object FeedbackFormMapper{
-  val feedbackForm = Form(
-    mapping(
-      "rating" -> number,
-      "comments" -> text,
-      "name" -> text,
-      "email" -> text
-    )(Feedback.apply)(Feedback.unapply)
-  )
-}
-
-
 @Singleton
 class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    http: ForHttp,
@@ -67,7 +55,6 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
   val log = Logger(this.getClass)
 
-  import FeedbackFormMapper.feedbackForm
 
   def inPageFeedback = refNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
@@ -82,10 +69,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) flatMap {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
-        println("**************************")
-        println(request.body)
-        println(summary)
-        println("**************************")
+        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
         request.body.asFormUrlEncoded.map { formData =>
           http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
             case 200 => Redirect(routes.FeedbackController.inPageFeedbackThankyou)
@@ -99,22 +83,21 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def handleFeedbackSubmit() = Action { implicit request =>
-    println("**************************")
-    println(request.body)
-    println("**************************")
     request.body.asFormUrlEncoded.map { formData =>
+      println("*******************************************************")
+      println("url: " + hmrcSubmitBetaFeedbackNoLoginUrl)
+      println("*******************************************************")
       implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-      case 200 | 201 | 202 | 204 => {
-        println ("got 200 response: " + res.status)
+        case 200 | 201 | 202 | 204 => {
         Redirect(routes.FeedbackController.inPageFeedbackThankyou)
       }
-      case 400 => {
-        println ("got 400 response: " + res.status)
+      case 400 | 403 | 404 => {
+        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "\n Response: " + res.status)
         BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
       }
       case _ => {
-        println ("got XXX response: " + res.status)
+        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "\n Response: " + res.status)
         InternalServerError(views.html.feedbackError())
       }
     }
@@ -124,19 +107,22 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
+    println("**************************")
+    println(request.body)
+    println("**************************")
     request.body.asFormUrlEncoded.map { formData =>
+      implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
         case 200 | 201 | 202 | 204 => {
-          println ("got 200 response: " + res.status)
+          log.info("got 200 response: " + res.status)
           Redirect(routes.FeedbackController.inPageFeedbackThankyou)
         }
         case 400 => {
-          println ("got 400 response: " + res.status)
           log.warn("400 error from feedback Response")
           BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
         }
         case _ => {
-          println ("got XXX response: " + res.status)
+          log.warn ("got XXX response: " + res.status)
           InternalServerError(views.html.feedbackError())
         }
       }
@@ -149,7 +135,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def feedback = Action { implicit request =>
-    Ok(feedbackFormView(feedbackForm))
+    Ok(feedbackFormView())
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>

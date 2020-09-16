@@ -678,11 +678,11 @@ copy.form.help.thankyouvacated=Thank you for submitting this feedback, there wil
 
 #Feedback form
 feedback.satisfaction.label=How satisfied are you with this service?
-feedback.rating.1=Very good
-feedback.rating.2=Good
+feedback.rating.5=Very good
+feedback.rating.4=Good
 feedback.rating.3=Neutral
-feedback.rating.4=Bad
-feedback.rating.5=Very bad
+feedback.rating.2=Bad
+feedback.rating.1=Very bad
 feedback.how.improve=How can we improve this form?
 feedback.comments.hint=Don't include any personal or financial information. For example, your National Insurance or credit card numbers
 feedback.comments.label=Comments (Optional)
