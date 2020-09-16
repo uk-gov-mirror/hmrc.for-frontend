@@ -48,7 +48,7 @@ object LoginController {
       }),
       "postcode" -> text.verifying(Errors.invalidPostcodeOnLetter, pc => {
         var cleanPostcode = pc.replaceAll("[^\\w\\d]", "")
-        cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 3, " ", 0)
+        cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 3, " ", 0).toUpperCase
         val isValid = cleanPostcode.matches(MappingSupport.postcodeRegex): Boolean
         isValid
       }),
