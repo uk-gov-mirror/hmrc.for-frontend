@@ -77,6 +77,7 @@ POST 		/handleFeedbackSubmit           controllers.feedback.FeedbackController.h
 POST 		/sendbetafeedbacktohmrcnologin  controllers.feedback.FeedbackController.sendBetaFeedbackToHmrcNoLogin
 GET         /inpagefeedbackThankyou         controllers.feedback.FeedbackController.inPageFeedbackThankyou
 GET 		/inpagefeedbackNoLogin	        controllers.feedback.FeedbackController.inPageFeedbackNoLogin
+GET 		/feedback           	        controllers.feedback.FeedbackController.feedback
 
 
 # AGENT API

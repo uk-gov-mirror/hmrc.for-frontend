@@ -54,7 +54,7 @@
             tag = Option(Tag(Text("BETA"))),
             content = HtmlContent(
                 if(showFeedback){
-                    messages("label.phase2", controllers.feedback.routes.FeedbackController.inPageFeedbackNoLogin.url)
+                    messages("label.phase2", controllers.feedback.routes.FeedbackController.feedback.url)
                 }else{
                     ""
                 }
