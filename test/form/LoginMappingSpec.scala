@@ -37,10 +37,10 @@ class LoginMappingSpec extends FlatSpec with Matchers {
 		}
 	}
 
-	it should "after trimming non numeric chars and making postcode UPPERCASE should be 10 or 11 digits in reference numbers" in {
+	it should "after trimming non numeric chars there should be 10 or 11 digits in reference numbers" in {
 		val data = Map(
 			"referenceNumber" -> "12345678  */ 000",
-			"postcode" -> "aa11 1aa",
+			"postcode" -> "AA11 1AA",
 			"start-time" -> "2016-01-04T08:58:42.113Z"
 		)
 
