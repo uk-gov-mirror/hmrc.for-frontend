@@ -90,14 +90,10 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
       implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
         case 200 | 201 | 202 | 204 => {
-        Redirect(routes.FeedbackController.inPageFeedbackThankyou)
-      }
-      case 400 | 403 | 404 => {
-        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "\n Response: " + res.status)
-        BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
+        Redirect(routes.FeedbackController.inPageFeedbackThankyou())
       }
       case _ => {
-        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "\n Response: " + res.status)
+        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "hc: " + hc+ "\n Response: " + res.status)
         InternalServerError(views.html.feedbackError())
       }
     }
