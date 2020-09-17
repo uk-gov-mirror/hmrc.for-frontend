@@ -16,4 +16,11 @@
 
 package models
 
-case class Feedback(rating: Int, name: String, email: String, comments: String)
+
+case class Feedback(
+                     rating: String,
+                     name: String,
+                     email: String,
+                     service: String,
+                     referrer: String,
+                     comments: Option[String])

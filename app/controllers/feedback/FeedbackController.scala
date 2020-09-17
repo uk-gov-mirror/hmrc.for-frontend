@@ -25,10 +25,10 @@ import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.Feedback
 import models.pages.SummaryBuilder
-import play.api.{Logger, Play}
-import play.api.data.{Form, Forms}
-import play.api.data.Forms.{mapping, number, text}
+import play.api.data.Form
+import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
 import play.api.mvc._
+import play.api.{Logger, Play}
 import play.twirl.api.Html
 import playconfig.SessionId
 import uk.gov.hmrc.crypto.PlainText
@@ -39,7 +39,7 @@ import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
 import views.html.{feedbackForm, inPageFeedbackThankyou}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class FeedbackController @Inject()(cc: MessagesControllerComponents,
@@ -55,7 +55,22 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
   val log = Logger(this.getClass)
 
+  object FeedbackFormMapper{
+    val feedbackForm = Form(
+      mapping(
+        "feedback-rating" -> nonEmptyText,
+        "feedback-name" -> text,
+        "feedback-email" -> text,
+        "feedback-service" -> text,
+        "feedback-referrer" -> text,
+        "feedback-comments" -> optional(text)
+      )(Feedback.apply)(Feedback.unapply)
+    )
+  }
 
+  import FeedbackFormMapper.feedbackForm
+
+  @deprecated("replace with 'feedback' function when GDS migration complete", "GDS Migration")
   def inPageFeedback = refNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
@@ -65,6 +80,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
+  @deprecated("replace with 'handleFeedbackSubmit' function when GDS migration complete", "GDS Migration")
   def sendBetaFeedbackToHmrc = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) flatMap {
       case Some(doc) => {
@@ -82,56 +98,56 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def handleFeedbackSubmit() = Action { implicit request =>
-    request.body.asFormUrlEncoded.map { formData =>
-      println("*******************************************************")
-      println("url: " + hmrcSubmitBetaFeedbackNoLoginUrl)
-      println("*******************************************************")
-      implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
-      http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-        case 200 | 201 | 202 | 204 => {
-        Redirect(routes.FeedbackController.inPageFeedbackThankyou())
+  def handleFeedbackSubmit() = Action.async { implicit request =>
+    val formUrlEncoded = request.body.asFormUrlEncoded
+    feedbackForm.bindFromRequest().fold(
+      formWithErrors => Future.successful({
+        BadRequest(feedbackFormView(formWithErrors))
+      }),
+      validForm => {
+        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
+        http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formUrlEncoded.get)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
+          case 200 | 201 | 202 | 204 => {
+            log.info("got 200 response: " + res.status)
+          }
+          case 400 => {
+            log.warn("400 error from feedback Response")
+          }
+          case _ => {
+            log.warn("got XXX response: " + res.status)
+          }
+        }
+        }
+        Redirect(routes.FeedbackController.inPageFeedbackThankyou)
+
       }
-      case _ => {
-        log.error (s"got ${res.status} response from Contact Forms Feedback: "  + "\n Form Data: " + formData + "hc: " + hc+ "\n Response: " + res.status)
-        InternalServerError(views.html.feedbackError())
-      }
-    }
-    }
-  }.getOrElse(throw new Exception("Empty Feedback Form"))
-    Ok(feedbackThankyouView())
+    )
   }
 
+  @deprecated("replace with 'handleFeedbackSubmit' function when GDS migration complete", "GDS Migration")
   def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
-    println("**************************")
-    println(request.body)
-    println("**************************")
     request.body.asFormUrlEncoded.map { formData =>
       implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
       http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
         case 200 | 201 | 202 | 204 => {
-          log.info("got 200 response: " + res.status)
-          Redirect(routes.FeedbackController.inPageFeedbackThankyou)
+          log.info(s"got ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
         }
-        case 400 => {
-          log.warn("400 error from feedback Response")
-          BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
-        }
-        case _ => {
-          log.warn ("got XXX response: " + res.status)
-          InternalServerError(views.html.feedbackError())
+        case _ =>{
+          log.error (s"got ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
         }
       }
       }
-    }.getOrElse(throw new Exception("Empty Feedback Form"))
+    }
+    Redirect(routes.FeedbackController.inPageFeedbackThankyou)
   }
 
+  @deprecated("replace with 'feedback' function when GDS migration complete")
   def inPageFeedbackNoLogin = Action { implicit request =>
     Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
   }
 
   def feedback = Action { implicit request =>
-    Ok(feedbackFormView())
+    Ok(feedbackFormView(feedbackForm))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>

@@ -73,11 +73,11 @@ POST        /survey 				   controllers.feedback.SurveyController.formCompleteFee
 # IN-PAGE FEEDBACK
 GET         /inpagefeedback 		        controllers.feedback.FeedbackController.inPageFeedback
 POST 		/sendbetafeedbacktohmrc         controllers.feedback.FeedbackController.sendBetaFeedbackToHmrc
-POST 		/handleFeedbackSubmit           controllers.feedback.FeedbackController.handleFeedbackSubmit
 POST 		/sendbetafeedbacktohmrcnologin  controllers.feedback.FeedbackController.sendBetaFeedbackToHmrcNoLogin
 GET         /inpagefeedbackThankyou         controllers.feedback.FeedbackController.inPageFeedbackThankyou
 GET 		/inpagefeedbackNoLogin	        controllers.feedback.FeedbackController.inPageFeedbackNoLogin
 GET 		/feedback           	        controllers.feedback.FeedbackController.feedback
+POST 		/feedback           	        controllers.feedback.FeedbackController.handleFeedbackSubmit
 
 
 # AGENT API
