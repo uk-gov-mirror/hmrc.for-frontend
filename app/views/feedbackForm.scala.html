@@ -40,17 +40,16 @@
 
 @layout(pageHeading = messages("label.feedback.heading"), showFeedback = false) {
 
+    @includes.summaryErrors(theForm, govukErrorSummary)
+
     @formWithCSFR( action = routes.FeedbackController.handleFeedbackSubmit, args = 'novalidate -> "novalidate") {
 
-        @includes.summaryErrors(theForm, govukErrorSummary)
 
         <input type="hidden" name="feedback-name" value="Anonymous user"/>
         <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>
         <input type="hidden" name="referrer" value="@request.host@request.uri"/>
         <input type="hidden" name="service"  value="RALD">
         <input type="hidden" name="canOmitComments"  value="true">
-
-        <p class="govuk-body">@messages("copy.feedback")</p>
 
         @govukRadios(
             Radios(

@@ -30,7 +30,7 @@
             //removed email and name from form, comments optional and bigger
             var comments = $('#feedback-form [for="feedback-comments"]').html();
             if (comments) {
-                $('#feedback-form [for="feedback-comments"]').html(comments.replace('Comments', 'Comments (Optional)'));
+                $('#feedback-form [for="feedback-comments"]').html(comments.replace('Comments', 'Comments (optional)'));
             }
 
             $('#feedback-form label[for="feedback-email"]').closest('div').hide();

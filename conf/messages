@@ -685,7 +685,7 @@ feedback.rating.2=Bad
 feedback.rating.1=Very bad
 feedback.how.improve=How can we improve this form?
 feedback.comments.hint=Do not include any personal or financial information. For example, your National Insurance or credit card numbers
-feedback.comments.label=Comments (Optional)
+feedback.comments.label=Comments (optional)
 feedback.button=Send
 
 #VACATED FORM
