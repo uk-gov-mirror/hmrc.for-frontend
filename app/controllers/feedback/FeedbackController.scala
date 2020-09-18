@@ -61,8 +61,8 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
         "feedback-rating" -> nonEmptyText,
         "feedback-name" -> text,
         "feedback-email" -> text,
-        "feedback-service" -> text,
-        "feedback-referrer" -> text,
+        "service" -> text,
+        "referrer" -> text,
         "feedback-comments" -> optional(text)
       )(Feedback.apply)(Feedback.unapply)
     )
@@ -106,9 +106,9 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
       }),
       validForm => {
         implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
-        http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec ) map { res => res.status match {
-          case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
-          case _ => log.error (s"Feedback FAILED: ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec ) map { res => res.status match {
+          case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
+          case _ => log.error (s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
         }
         }
         Redirect(routes.FeedbackController.inPageFeedbackThankyou)
@@ -156,6 +156,7 @@ trait HMRCContact {
 
   val betaFeedbackSubmitUrl = routes.FeedbackController.sendBetaFeedbackToHmrc().url
   val feedbackUrl = routes.FeedbackController.feedback().url
+  val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val betaFeedbackSubmitUrlNoLogin = routes.FeedbackController.sendBetaFeedbackToHmrcNoLogin().url
   val hmrcSubmitBetaFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(betaFeedbackSubmitUrl)}"
   val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"

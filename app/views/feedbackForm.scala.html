@@ -46,8 +46,9 @@
 
         <input type="hidden" name="feedback-name" value="Anonymous user"/>
         <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>
-        <input type="hidden" name="feedback-referrer" value="@request.host@request.uri"/>
-        <input type="hidden" name="feedback-service"  value="RALD">
+        <input type="hidden" name="referrer" value="@request.host@request.uri"/>
+        <input type="hidden" name="service"  value="RALD">
+        <input type="hidden" name="canOmitComments"  value="true">
 
         <p class="govuk-body">@messages("copy.feedback")</p>
 
