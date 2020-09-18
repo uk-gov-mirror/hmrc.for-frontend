@@ -106,20 +106,12 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
       }),
       validForm => {
         implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
-        http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formUrlEncoded.get)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-          case 200 | 201 | 202 | 204 => {
-            log.info("got 200 response: " + res.status)
-          }
-          case 400 => {
-            log.warn("400 error from feedback Response")
-          }
-          case _ => {
-            log.warn("got XXX response: " + res.status)
-          }
+        http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec ) map { res => res.status match {
+          case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
+          case _ => log.error (s"Feedback FAILED: ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
         }
         }
         Redirect(routes.FeedbackController.inPageFeedbackThankyou)
-
       }
     )
   }
@@ -141,7 +133,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     Redirect(routes.FeedbackController.inPageFeedbackThankyou)
   }
 
-  @deprecated("replace with 'feedback' function when GDS migration complete")
+  @deprecated("replace with 'feedback' function when GDS migration complete", "GDS Migration")
   def inPageFeedbackNoLogin = Action { implicit request =>
     Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
   }
