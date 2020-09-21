@@ -76,7 +76,7 @@ class AgentAPI @Inject()(cc: MessagesControllerComponents, hodConnector: HODConn
     case b: BadRequestException => BadRequest(invalidSubmission(b.message))
     case Upstream4xxResponse(body, 401, _, _) => Unauthorized(badCredentialsError(body, refNum, postcode))
     case Upstream4xxResponse(_, 409, _, _) => Conflict(duplicateSubmission(refNum))
-    case Upstream5xxResponse(_, 500, _) => internalServerError
+    case UpstreamErrorResponse.Upstream5xxResponse(_) => internalServerError
   }
 
   private def withAuthToken(request: Request[_], authToken: String): HeaderCarrier = {
