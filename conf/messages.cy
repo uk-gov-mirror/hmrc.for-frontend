@@ -149,7 +149,6 @@ label.address.postcode=Cod post (dewisol)
 label.currentAddress=Cyfeiriad presennol
 label.updatedAddress=Cyfeiriad a ddiweddarwyd
 label.suggestedChanges=Efallai na chaiff newidiadau a awgrymir i’r cyfeiriad eu derbyn gan Asiantaeth y Swyddfa Brisio.
-label.undoEdits=Dadwneud golygiadau
 
 #SECTION 2
 ##############################

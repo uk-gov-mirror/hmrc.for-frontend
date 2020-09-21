@@ -14,115 +14,93 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import play.api.data._
-@import models.pages.Summary
 @import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models._
+@import models.pages.Summary
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 
-@(theForm: Form[Address], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukInput: GovukInput,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formWithCSFR: formWithCSRF)
 
+@(theForm: Form[Address], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@layout( pageHeading = messages("section1.heading"), showHistoryBack = true, showSection = true){
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+  @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(1),
+    args = 'class -> "section1", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
+      @defining(Addresses.getAddress(summary)) { address =>
 
-
-@main(title=Messages("section1.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = Some(summary), theForm = Some(theForm)) {
-  
-  @form(action = dataCapturePages.routes.PageController.savePage(1), args = 'class -> "section1", 'id -> "myFormId") {
-    
-  <main id="content">
-    @views.html.includes.backSave()
-    
-    @progressBar(true)
-
-    @includes.errors(theForm, isAgent = false)
-
-    @headingDisplay(1, Messages("section1.heading"), true)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-        @helper.CSRF.formField
-
-          <!-- Address -->
-        <div class="form-group">
-        @defining(Addresses.getAddress(summary)) { address =>
-          @inputText(
-            field = theForm("buildingNameNumber"),
-            '_label -> Messages("label.buildingNameNumber"),
-            '_value -> address.buildingNameNumber,
-            '_error -> theForm("buildingNameNumber").error,
-            '_labelClass -> "form-label",
-            'class -> "form-control",
-            'address_default_value -> summary.address.map(_.buildingNameNumber).getOrElse(""),
-            Symbol("placeholder") -> Messages("placeholder.address.1"),
-            '_fieldsetClass -> "address-fields"
+        @govukInput(
+          Input(
+            id = "buildingNameNumber",
+            name = "buildingNameNumber",
+            value = address.buildingNameNumber,
+            classes = "govuk-!-width-one-half",
+            label = Label(
+              content = Text(messages("label.buildingNameNumber"))
+            ),
+            errorMessage = theForm.errors.asTextErrorMessageForField("buildingNameNumber")
           )
+        )
 
-          @inputText(
-            field = theForm("street1"),
-            '_label -> Messages("label.address.street1"),
-            '_value -> address.street1.getOrElse(""),
-            '_error -> theForm("street1").error,
-            '_labelClass -> "form-label",
-            'class -> "form-control",
-            'address_default_value -> summary.address.map(_.street1.getOrElse("")).getOrElse(""),
-            Symbol("placeholder") -> Messages("placeholder.address.2"),
-            '_fieldsetClass -> "address-fields",
-            '_optional -> true
+          @govukInput(
+          Input(
+            id = "street1",
+            name = "street1",
+            value = address.street1,
+            attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
+            classes = "govuk-!-width-one-half",
+            label = Label(
+              content = Text(messages("label.address.street1"))
+            ),
+            errorMessage = theForm.errors.asTextErrorMessageForField("street1")
           )
+        )
 
-          @inputText(
-            field = theForm("street2"),
-            '_label -> Messages("label.address.street2"),
-            '_value -> address.street2.getOrElse(""),
-            '_error -> theForm("street2").error,
-            '_labelClass -> "form-label",
-            'class -> "form-control",
-            'address_default_value -> summary.address.map(_.street2.getOrElse("")).getOrElse(""),
-            Symbol("placeholder") -> Messages("placeholder.address.3"),
-            '_fieldsetClass -> "address-fields",
-            '_optional -> true
+        @govukInput(
+          Input(
+            id = "street2",
+            name = "street2",
+            value = address.street2,
+            attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
+            classes = "govuk-!-width-one-half",
+            label = Label(
+              content = Text(messages("label.address.street2"))
+            ),
+            errorMessage = theForm.errors.asTextErrorMessageForField("street2")
           )
+        )
 
-          @inputText(
-            field = theForm("postcode"),
-            '_label -> Messages("label.postcode"),
-            '_value -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
-            '_error -> theForm("postcode").error,
-            '_labelClass -> "form-label",
-            'class -> "form-control postcode",
-            'address_default_value -> summary.address.map(_.postcode).getOrElse(""),
-            '_fieldsetClass -> "address-fields"
+        @govukInput(
+          Input(
+            id = "postcode",
+            name = "postcode",
+            attributes = Map("data-undo-value" -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2")),
+            value = address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
+            classes = "govuk-!-width-one-half",
+            label = Label(
+              content = Text(messages("label.postcode"))
+            ),
+            errorMessage = theForm.errors.asTextErrorMessageForField("postcode")
           )
+        )
+
         }
-          <a href="#" id="undo-edits">@Messages("label.undoEdits")</a>
-        </div>
 
-        @includes.continueButtonOnly()
+     @includes.continueButtonOnly2(govukButton)
 
-      </div>
-      <div class="column-third"></div>
-    </div>
-    
-    </main>
-   
-    @includes.continueButtonStickyFooter()
-    
     }
-    
-    @includes.formHelp()
+    @includes.formHelp2()
 }

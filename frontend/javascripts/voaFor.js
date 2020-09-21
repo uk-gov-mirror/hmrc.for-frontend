@@ -5,7 +5,9 @@
         return 'sending-rental-information';
     };
 
-
+    VoaFor.showHistoryBackLink = function(){
+        $('a#history-back').show();
+    };
 
     VoaFor.errorFocus = function () {
         if ($('.form-error')) {
@@ -163,7 +165,6 @@
         }
     };
 
-
     VoaFor.removeFieldMulti = function () {
         $(document).on('click', '.remove-multi-fields', function (e) {
             e.preventDefault();
@@ -280,7 +281,6 @@
         });
     };
 
-
     VoaFor.agreementType = function () {
 
         function swapAgreementType() {
@@ -392,15 +392,6 @@
                 signOutUrl: signOutUrl
             });
         }
-    };
-
-    VoaFor.undoEdits = function () {
-        $('#undo-edits').click(function (event) {
-            event.preventDefault();
-            $('input[address_default_value]').each(function () {
-                $(this).val($(this).attr('address_default_value'));
-            });
-        });
     };
 
 })(jQuery);

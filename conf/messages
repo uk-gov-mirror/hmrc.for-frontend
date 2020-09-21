@@ -148,7 +148,6 @@ label.address.postcode=Postcode (optional)
 label.currentAddress=Current address
 label.updatedAddress=Updated address
 label.suggestedChanges=Suggested changes to the address may not be<br />accepted by the VOA.
-label.undoEdits=Undo edits
 
 #SECTION 2
 ##############################
