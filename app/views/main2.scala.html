@@ -35,9 +35,11 @@
     pageTitle: Option[String] = None,
     pageHeading: String,
     showH1: Boolean = true,
+    showSection: Boolean = false,
     showFeedback: Boolean = true,
     beforeContentBlock: Option[Html] = None,
     backLinkUrl: Option[String] = None,
+    showHistoryBack: Boolean = false,
     withTimeoutDialog: Boolean = true
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
@@ -67,11 +69,20 @@
             @govukBackLink(BackLink(href = url))
         </div>
     }
+    @if(backLinkUrl.isEmpty && showHistoryBack) {
+        <a href="javascript:history.back()" id="history-back"
+        class="govuk-back-link" style="display: none;">@messages("button.label.back")</a>
+    }
 
     @beforeContentBlock
 }
 
+@numberOfSteps = {14}
 @contentWithHeading = {
+
+    @if(showSection){
+        <span class="govuk-caption-l">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
+    }
     @if(showH1){
         <h1 class="govuk-heading-l">@pageHeading</h1>
     }

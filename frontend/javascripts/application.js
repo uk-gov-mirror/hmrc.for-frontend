@@ -20,6 +20,7 @@ var ref;
 
         /** Init functions **/
         //voaFor.js
+        VoaFor.showHistoryBackLink();
         VoaFor.errorFocus();
         VoaFor.addField();
         VoaFor.removeField();
@@ -39,7 +40,6 @@ var ref;
         VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
-        VoaFor.undoEdits();
 
         //feedback.js
         VoaFeedback.feedbackOverrides();

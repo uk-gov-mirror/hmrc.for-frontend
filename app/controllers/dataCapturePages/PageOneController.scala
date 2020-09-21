@@ -23,20 +23,20 @@ import models._
 import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.data.Form
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
+import views.html.part1
 
-class PageOneController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageOneController @Inject()
+(refNumAction: RefNumAction, cc: MessagesControllerComponents, part1: part1)
   extends ForDataCapturePage[Address](refNumAction, cc) {
 
   val format = addressFormat
-
   val emptyForm = pageOneForm
-
   val pageNumber: Int = 1
 
   def template(form: Form[Address], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part1(form, summary)
+    part1(form, summary)
   }
 
 }
