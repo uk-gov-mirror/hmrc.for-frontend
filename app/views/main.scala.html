@@ -26,7 +26,7 @@ propositionHeader:Html=Html(""),
 showBackButton:Boolean=true,
 showAccountInfo:Boolean=true,
 needsTimeoutWarning:Boolean=true,
-feedbackUrl: Call = feedback.routes.FeedbackController.inPageFeedback,
+feedbackUrl: Call = feedback.routes.FeedbackController.feedback,
 theForm: Option[Form[_]] = None)(content: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @head = {
@@ -55,7 +55,7 @@ theForm: Option[Form[_]] = None)(content: Html)(implicit requestHeader: RequestH
     </div>
 }
 
-@layouts.govuk_template2(Some(title), None, theForm = theForm)(head, empty, bodyEnd, insideHeader, empty, empty, footerLinks, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
+@layouts.govuk_template2(Some(title), "pre-gds-body", theForm = theForm)(head, empty, bodyEnd, insideHeader, empty, empty, footerLinks, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
     @headers
     @content
 }

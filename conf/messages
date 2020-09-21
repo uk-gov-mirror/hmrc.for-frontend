@@ -676,6 +676,18 @@ copy.feedback.anotherForm=Submit another form
 label.feedback.error=There was an error sending your feedback.
 copy.form.help.thankyouvacated=Thank you for submitting this feedback, there will be no need for you to continue with the on-line form and we will contact you if we need more information.
 
+#Feedback form
+feedback.satisfaction.label=How satisfied are you with this service?
+feedback.rating.5=Very good
+feedback.rating.4=Good
+feedback.rating.3=Neutral
+feedback.rating.2=Bad
+feedback.rating.1=Very bad
+feedback.how.improve=How can we improve this form?
+feedback.comments.hint=Do not include any personal or financial information. For example, your National Insurance or credit card numbers
+feedback.comments.label=Comments (optional)
+feedback.button=Send
+
 #VACATED FORM
 ###############################
 heading.vacatedFeedback=No longer relation or recently vacated

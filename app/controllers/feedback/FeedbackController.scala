@@ -23,9 +23,12 @@ import connectors.ForHttp
 import controllers._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
+import models.Feedback
 import models.pages.SummaryBuilder
-import play.api.Play
+import play.api.data.Form
+import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
 import play.api.mvc._
+import play.api.{Logger, Play}
 import play.twirl.api.Html
 import playconfig.SessionId
 import uk.gov.hmrc.crypto.PlainText
@@ -34,9 +37,9 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
-import views.html.inPageFeedbackThankyou
+import views.html.{feedbackForm, inPageFeedbackThankyou}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class FeedbackController @Inject()(cc: MessagesControllerComponents,
@@ -45,12 +48,29 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    repository: FormDocumentRepository,
                                    refNumAction: RefNumAction,
                                    override val servicesConfig: ServicesConfig,
-                                   feedbackThankyouView :inPageFeedbackThankyou
+                                   feedbackThankyouView :inPageFeedbackThankyou,
+                                   feedbackFormView: feedbackForm
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
   override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
+  val log = Logger(this.getClass)
 
+  object FeedbackFormMapper{
+    val feedbackForm = Form(
+      mapping(
+        "feedback-rating" -> nonEmptyText,
+        "feedback-name" -> text,
+        "feedback-email" -> text,
+        "service" -> text,
+        "referrer" -> text,
+        "feedback-comments" -> optional(text)
+      )(Feedback.apply)(Feedback.unapply)
+    )
+  }
 
+  import FeedbackFormMapper.feedbackForm
+
+  @deprecated("replace with 'feedback' function when GDS migration complete", "GDS Migration")
   def inPageFeedback = refNumAction.async { implicit request =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) map {
       case Some(doc) => {
@@ -60,10 +80,12 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
+  @deprecated("replace with 'handleFeedbackSubmit' function when GDS migration complete", "GDS Migration")
   def sendBetaFeedbackToHmrc = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     repository.findById(SessionId(headerCarrierForPartialsToHeaderCarrier), request.refNum) flatMap {
       case Some(doc) => {
         val summary = SummaryBuilder.build(doc)
+        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
         request.body.asFormUrlEncoded.map { formData =>
           http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
             case 200 => Redirect(routes.FeedbackController.inPageFeedbackThankyou)
@@ -76,19 +98,48 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
-    request.body.asFormUrlEncoded.map { formData =>
-      http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
-        case 200 => Redirect(routes.FeedbackController.inPageFeedbackThankyou)
-        case 400 => BadRequest(views.html.inpagefeedbackNoLogin(None, Html(res.body)))
-        case _ => InternalServerError(views.html.feedbackError())
+  def handleFeedbackSubmit() = Action.async { implicit request =>
+    val formUrlEncoded = request.body.asFormUrlEncoded
+    feedbackForm.bindFromRequest().fold(
+      formWithErrors => Future.successful({
+        BadRequest(feedbackFormView(formWithErrors))
+      }),
+      validForm => {
+        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec ) map { res => res.status match {
+          case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
+          case _ => log.error (s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
+        }
+        }
+        Redirect(routes.FeedbackController.inPageFeedbackThankyou)
       }
-      }
-    }.getOrElse(throw new Exception("Empty Feedback Form"))
+    )
   }
 
+  @deprecated("replace with 'handleFeedbackSubmit' function when GDS migration complete", "GDS Migration")
+  def sendBetaFeedbackToHmrcNoLogin = Action.async { implicit request =>
+    request.body.asFormUrlEncoded.map { formData =>
+      implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
+      http.POSTForm[HttpResponse](hmrcSubmitBetaFeedbackNoLoginUrl, formData)(readPartialsForm, hc(request),cc.executionContext ) map { res => res.status match {
+        case 200 | 201 | 202 | 204 => {
+          log.info(s"got ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
+        }
+        case _ =>{
+          log.error (s"got ${res.status} response from $hmrcSubmitBetaFeedbackNoLoginUrl")
+        }
+      }
+      }
+    }
+    Redirect(routes.FeedbackController.inPageFeedbackThankyou)
+  }
+
+  @deprecated("replace with 'feedback' function when GDS migration complete", "GDS Migration")
   def inPageFeedbackNoLogin = Action { implicit request =>
     Ok(views.html.inpagefeedbackNoLogin(hmrcBetaFeedbackFormNoLoginUrl))
+  }
+
+  def feedback = Action { implicit request =>
+    Ok(feedbackFormView(feedbackForm))
   }
 
   def inPageFeedbackThankyou = Action { implicit request =>
@@ -104,8 +155,11 @@ trait HMRCContact {
   val serviceIdentifier = "RALD"
 
   val betaFeedbackSubmitUrl = routes.FeedbackController.sendBetaFeedbackToHmrc().url
+  val feedbackUrl = routes.FeedbackController.feedback().url
+  val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val betaFeedbackSubmitUrlNoLogin = routes.FeedbackController.sendBetaFeedbackToHmrcNoLogin().url
   val hmrcSubmitBetaFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(betaFeedbackSubmitUrl)}"
+  val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
   val hmrcSubmitBetaFeedbackNoLoginUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(betaFeedbackSubmitUrlNoLogin)}"
   val hmrcBetaFeedbackFormUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?service=$serviceIdentifier&submitUrl=${urlEncode(betaFeedbackSubmitUrl)}"
   val hmrcBetaFeedbackFormNoLoginUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?service=$serviceIdentifier&submitUrl=${urlEncode(betaFeedbackSubmitUrlNoLogin)}"
