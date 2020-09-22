@@ -25,20 +25,21 @@ lazy val compileDeps = Seq(
   filters,
   ws,
   "javax.inject" % "javax.inject" % "1",
-  "uk.gov.hmrc" %% "json-encryption" % "4.5.0-play-26",
-  "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-26",
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.2.0-play-26",
-  "uk.gov.hmrc" %% "http-verbs" % "10.7.0-play-26",
-  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.7.0",
-  "uk.gov.hmrc" %% "play-partials" % "6.10.0-play-26",
-  "uk.gov.hmrc" %% "play-ui" % "8.9.0-play-26",
-  "uk.gov.hmrc" %% "url-builder" % "3.3.0-play-26",
+  "uk.gov.hmrc" %% "json-encryption" % "4.8.0-play-26",
+  "uk.gov.hmrc" %% "http-caching-client" % "9.1.0-play-26",
+  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.3.0-play-26",
+  "uk.gov.hmrc" %% "http-verbs-play-26" % "11.7.0",
+  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.16.0",
+  "uk.gov.hmrc" %% "play-partials" % "6.11.0-play-26",
+  "uk.gov.hmrc" %% "play-ui" % "8.12.0-play-26",
+  "uk.gov.hmrc" %% "url-builder" % "3.4.0-play-26",
   "uk.gov.hmrc" %% "play-frontend-govuk" % "0.50.0-play-26",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "0.19.0-play-26",
   "com.typesafe.play" %% "play-json-joda" % "2.6.14",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
-  "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
-  "uk.gov.hmrc" %% "mongo-caching" % "6.12.0-play-26",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.26.0-play-26",
+  "uk.gov.hmrc" %% "play-language" % "4.4.0-play-26",
+  "uk.gov.hmrc" %% "mongo-caching" % "6.15.0-play-26",
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.30.0-play-26",
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
   "nu.validator.htmlparser" % "htmlparser" % "1.4"
 )
@@ -90,5 +91,5 @@ lazy val root = (project in file("."))
     Defaults.itSettings,
     DefaultBuildSettings.integrationTestSettings()
   )
-  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
+  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
   .disablePlugins(plugins.JUnitXmlReportPlugin)

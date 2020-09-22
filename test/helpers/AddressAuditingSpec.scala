@@ -16,12 +16,15 @@
 
 package helpers
 
+import akka.stream.Materializer
 import connectors.Audit
 import models.{LookupServiceAddress, RoughDate}
 import models.pages.{PageFive, PageFour, SubletDetails, Summary}
 import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone, SubletPart}
 import org.joda.time.DateTime
+import org.mockito.{Mockito, MockitoSugar}
 import org.scalatest.{FlatSpec, Matchers}
+import play.api.inject.ApplicationLifecycle
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
@@ -95,7 +98,7 @@ object TestAddressAuditing extends AddressAuditing(StubAuditer) {
   protected val audit = StubAuditer
 }
 
-object StubAuditer extends Audit with Matchers {
+object StubAuditer extends Audit with Matchers with MockitoSugar {
   private case class AuditEvent(event: String, detail: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
@@ -115,5 +118,9 @@ object StubAuditer extends Audit with Matchers {
 
   override implicit def ec: ExecutionContext = ExecutionContext.Implicits.global
 
-  override def auditingConfig: AuditingConfig = ???
+  override def auditingConfig: AuditingConfig = mock[AuditingConfig]
+
+  override def materializer: Materializer = mock[Materializer]
+
+  override def lifecycle: ApplicationLifecycle = mock[ApplicationLifecycle]
 }

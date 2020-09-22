@@ -28,7 +28,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
 
 import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, RawReads, Upstream4xxResponse}
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
@@ -41,7 +41,7 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig,
       response.status match {
         case 400 => throw new BadRequestException(response.body)
         case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
-        case _ => RawReads.readRaw.read(method, url, response)
+        case _ => HttpReads.Implicits.readRaw.read(method, url, response)
       }
     }
   }
