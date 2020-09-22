@@ -18,6 +18,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
 @import play.api.Play.current
+@import models.pages.Summary
 @import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 
 @this(
@@ -37,6 +38,8 @@
     showH1: Boolean = true,
     showSection: Boolean = false,
     showFeedback: Boolean = true,
+    showAccountInfo: Boolean = false,
+    summary: Option[Summary] = None,
     beforeContentBlock: Option[Html] = None,
     backLinkUrl: Option[String] = None,
     showHistoryBack: Boolean = false,
@@ -64,10 +67,12 @@
         )
     )
 
+    @if(showAccountInfo && summary.isDefined){
+        @views.html.includes.account_info_header(summary.get)
+    }
+
     @backLinkUrl.map{ url =>
-        <div>
-            @govukBackLink(BackLink(href = url))
-        </div>
+        <div>@govukBackLink(BackLink(href = url))</div>
     }
     @if(backLinkUrl.isEmpty && showHistoryBack) {
         <a href="javascript:history.back()" id="history-back"
@@ -108,8 +113,8 @@
             text = Some(messages("footer.links.help_page.text"))),
 
         FooterItem(
-            href = Some(messages("footer.links.languale.url")),
-            text = Some(messages("footer.links.languale.text")))
+            href = Some(messages("footer.links.language.url")),
+            text = Some(messages("footer.links.language.text")))
 
     ),
     bodyEndBlock = Some(scripts(footer, withTimeoutDialog))
