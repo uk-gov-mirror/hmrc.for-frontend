@@ -46,9 +46,10 @@ class NotConnectedController @Inject()
   refNumAction: RefNumAction,
   cache: MongoSessionRepository,
   audit: Audit,
+  cc: MessagesControllerComponents,
   notConnectedView:views.html.notConnected,
-  confirmNotConnectedView: views.html.confirmNotConnected,
-  cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
+  confirmNotConnectedView: views.html.confirmNotConnected
+  )(implicit ec: ExecutionContext)
                                        extends FrontendController(cc) {
 
   val logger = Logger(classOf[NotConnectedController])

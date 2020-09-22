@@ -31,8 +31,9 @@
     pageHeading = messages("notConnected.thankYou"),
     showH1 = false,
     summary = Some(summary),
-    showAccountInfo = true
-){
+    showAccountInfo = true,
+    withTimeoutDialog = false
+    ){
 
     @govukPanel(Panel(title = Text(messages("notConnected.thankYou"))))
 
