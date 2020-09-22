@@ -14,68 +14,87 @@
  * limitations under the License.
  *@
 
+@import models._
 @import models.serviceContracts.submissions._
 @import play.api.data._
 @import models.pages.Summary
-@import models.journeys.Journey
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Fieldset
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Legend
+@import _root_.template.Helper._
+@import helpers._
+@import org.joda.time.DateTime
+@import _root_.template.FormatRefNum
+@import _root_.form.NotConnectedPropertyForm
+@import play.api.Play.current
+@import config.ForConfig
 
-@this(  layout: main2,
-        govukRadios: GovukRadios,
-        govukButton: GovukButton,
-        govukErrorSummary: GovukErrorSummary,
-        formWithCSFR: formWithCSRF)
+@(theForm: Form[PreviouslyConnected], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-@(theForm: Form[PreviouslyConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@headExtra = {
+    @views.html.includes.stylesheets()
+    @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
+}
 
-@layout(
-    backLinkUrl = dataCapturePages.routes.PageController.showPage(0).url,
-    pageHeading = messages("notConnected.previouslyConnected"),
-    showH1 = false,
-    summary = Some(summary),
-    showAccountInfo = true
-){
+@bodyEnd = {
+    @views.html.includes.javascripts()
 
-    @includes.summaryErrors(theForm, govukErrorSummary)
+    <script type="text/javascript">
+            (function() {
+                var timeoutSeconds = @current.configuration.getString("signout.timeout").get ;
+                setTimeout(function () {
+                    window.open("/sending-rental-information/logout","_self")
+                }, timeoutSeconds * 1000);
+            })();
+    </script>
+}
 
-    @formWithCSFR(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+@inpagehelp = @{
+    routes.Application.inpageVacatedForm
+}
 
-        @govukRadios(
-            Radios(
-                name = "haveYouBeenConnected",
-                idPrefix = Option("haveYouBeenConnected"),
-                items = Seq(
-                    "true" -> Messages("label.yes.iawn"),
-                    "false" -> Messages("label.no.na")
-                ).map(i => RadioItem (
-                    content = Text(i._2),
-                    checked = theForm("haveYouBeenConnected").value.map(_ == i.value).getOrElse(false),
-                    value=Option(i._1)
-                )
-                ),
-                classes = "govuk-radios--inline",
-                errorMessage = theForm.errors.asTextErrorMessageForField("haveYouBeenConnected"),
-                fieldset = Option(
-                    Fieldset(
-                        legend = Option(
-                            Legend(
-                                content = Text(messages("notConnected.previouslyConnected")),
-                                isPageHeading = true,
-                                classes = "govuk-fieldset__legend--l "
-                            )
+@underReview = @{
+    if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
+}
+
+
+@main(title =Messages("notConnected.previouslyConnected") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
+
+    @form(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+        <main id="content">
+
+            <a href="page/0" class="button-link link-back">@Messages("button.label.back")</a>
+
+            <h1 class="form-title heading-large form-title-group">
+                @Messages("notConnected.previouslyConnected")
+            </h1>
+
+            <div class="grid-row">
+                <div class="column-full">
+
+                    @helper.CSRF.formField
+
+                    @inputRadioGroup(
+                        field = theForm("haveYouBeenConnected"),
+                        options = Seq(
+                            "true" -> Messages("label.yes.iawn"),
+                            "false" -> Messages("label.no.na")
+                        ),
+                        args=Seq(
+                            '_showConstraints -> false,
+                            '_label -> "",
+                            '_error -> theForm("haveYouBeenConnected").error,
+                            '_legend -> false,
+                            '_fieldsetClass -> "inline",
+                            '_labelClass -> "visuallyhidden"
+
                         )
                     )
-                )
-            )
-        )
-        @includes.continueButtonOnly2(govukButton)
 
+
+                    <button type="submit" id="continue" name="continue_button" class="button">
+                        @Messages("button.label.continue")
+                    </button>
+                </div>
+            </div>
+        </main>
     }
+
 }

@@ -35,10 +35,7 @@
 
 @(theForm: Form[Address], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@layout(
-    pageHeading = messages("section1.heading"),
-    backLinkUrl = dataCapturePages.routes.PageController.showPage(0).url,
-    showSection = true){
+@layout( pageHeading = messages("section1.heading"), showHistoryBack = true, showSection = true){
 
   @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(1),
     args = 'class -> "section1", 'id -> "myFormId", 'novalidate -> "novalidate") {

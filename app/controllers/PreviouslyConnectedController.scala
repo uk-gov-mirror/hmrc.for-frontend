@@ -31,12 +31,8 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PreviouslyConnectedController @Inject()
-(val cc: MessagesControllerComponents,
- val cache: MongoSessionRepository,
- val repository: FormDocumentRepository,
- val refNumberAction: RefNumAction,
- previouslyConnected: views.html.previouslyConnected)
+class PreviouslyConnectedController @Inject()(val cc: MessagesControllerComponents, val cache: MongoSessionRepository,
+                                              val repository: FormDocumentRepository, val refNumberAction: RefNumAction)
                                              (implicit val ec: ExecutionContext) extends FrontendController(cc)  {
   val logger = Logger(this.getClass)
 
@@ -50,7 +46,7 @@ class PreviouslyConnectedController @Inject()
 
   def onPageView = refNumberAction.async { implicit request =>
     findSummary.map {
-      case Some(summary) => Ok(previouslyConnected(formMapping, summary))
+      case Some(summary) => Ok(views.html.previouslyConnected(formMapping, summary))
       case None => {
         logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(views.html.error.error500())
@@ -62,7 +58,7 @@ class PreviouslyConnectedController @Inject()
     findSummary.flatMap {
       case Some(summary) => {
         formMapping.bindFromRequest().fold( formWithErrors => {
-          Future.successful(Ok(previouslyConnected(formWithErrors, summary)))
+          Future.successful(Ok(views.html.previouslyConnected(formWithErrors, summary)))
         }, {formWithData =>
           cache.cache(SessionId(hc), cacheKey, formWithData).map { cacheWriteResult =>
             Redirect(routes.NotConnectedController.onPageView())
