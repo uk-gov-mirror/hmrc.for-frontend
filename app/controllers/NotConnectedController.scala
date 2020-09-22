@@ -39,10 +39,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 @Singleton
-class NotConnectedController @Inject()(configuration: Configuration, repository: FormDocumentRepository,
-                                       submissionConnector: SubmissionConnector, refNumAction: RefNumAction,
-                                       cache: MongoSessionRepository, audit: Audit,
-                                       cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
+class NotConnectedController @Inject()
+( configuration: Configuration,
+  repository: FormDocumentRepository,
+  submissionConnector: SubmissionConnector,
+  refNumAction: RefNumAction,
+  cache: MongoSessionRepository,
+  audit: Audit,
+  notConnectedView:views.html.notConnected,
+  confirmNotConnectedView: views.html.confirmNotConnected,
+  cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
                                        extends FrontendController(cc) {
 
   val logger = Logger(classOf[NotConnectedController])
@@ -60,7 +66,7 @@ class NotConnectedController @Inject()(configuration: Configuration, repository:
 
   def onPageView = refNumAction.async { implicit request =>
     findSummary.map {
-      case Some(summary) => Ok(views.html.notConnected(form, summary))
+      case Some(summary) => Ok(notConnectedView(form, summary))
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(views.html.error.error500())
@@ -73,7 +79,7 @@ class NotConnectedController @Inject()(configuration: Configuration, repository:
     findSummary.flatMap {
       case Some(summary) => {
         form.bindFromRequest().fold({ formWithErrors =>
-          Future.successful(Ok(views.html.notConnected(formWithErrors, summary)))
+          Future.successful(Ok(notConnectedView(formWithErrors, summary)))
         }, { formWithData => {
           audit.sendExplicitAudit("NotConnectedSubmission",
             Json.obj(Audit.referenceNumber -> summary.referenceNumber))
@@ -100,7 +106,7 @@ class NotConnectedController @Inject()(configuration: Configuration, repository:
     ).discardingErrors
 
     findSummary.map {
-      case Some(summary) => Ok(views.html.confirmNotConnected(summary, feedbackForm)) //.withNewSession
+      case Some(summary) => Ok(confirmNotConnectedView(summary, feedbackForm)) //.withNewSession
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(views.html.error.error500())

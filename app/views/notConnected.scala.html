@@ -16,100 +16,93 @@
 
 @import models._
 @import models.serviceContracts.submissions._
-@import play.api.data._
 @import models.pages.Summary
-@import _root_.template.Helper._
-@import helpers._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import _root_.form.NotConnectedPropertyForm
-@import play.api.Play.current
-@import config.ForConfig
+@import models.journeys.Journey
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput, GovukTextarea}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import form.NotConnectedPropertyForm
 
-@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukTextarea: GovukTextarea,
+        govukInput: GovukInput,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-    @views.html.includes.stylesheets()
-    @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
+@layout(
+    pageHeading = messages("notConnected.heading"),
+    backLinkUrl = routes.PreviouslyConnectedController.onPageView.url,
+    summary = Some(summary),
+    showAccountInfo = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+) {
 
-    <script type="text/javascript">
-            (function() {
-                var timeoutSeconds = @current.configuration.getString("signout.timeout").get ;
-                setTimeout(function () {
-                    window.open("/sending-rental-information/logout","_self")
-                }, timeoutSeconds * 1000);
-            })();
-    </script>
-}
+    <p class="govuk-body">@messages("notConnected.subheading")</p>
 
-@inpagehelp = @{
-    routes.Application.inpageVacatedForm
-}
+    @formWithCSFR(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
 
-@underReview = @{
-    if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
-}
+        @govukInput(
+            Input(
+                id = "fullName",
+                name = "fullName",
+                value = theForm("fullName").value,
+                classes = "govuk-input--width-20",
+                label = Label(
+                    content = Text(messages("label.fullName"))
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("fullName")
+            )
+        )
 
+        @govukInput(
+            Input(
+                id = "email",
+                name = "email",
+                value = theForm("email").value,
+                classes = "govuk-input--width-20",
+                label = Label(
+                    content = Text(messages("label.email"))
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("email")
+            )
+        )
 
-@main(title =Messages("notConnected.heading") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
+         @govukInput(
+            Input(
+                id = "phoneNumber",
+                name = "phoneNumber",
+                value = theForm("phoneNumber").value,
+                classes = "govuk-input--width-20",
+                label = Label(content = Text(messages("label.phoneNumber"))),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("phoneNumber")
+            )
+        )
 
-    @form(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
-        <main id="content">
+        @govukTextarea(
+            Textarea(
+                id = "additionalInformation",
+                name = "additionalInformation",
+                label = Label(
+                    content = Text(messages("notConnected.additionalInformation"))
+                ),
 
-            <a href="./previously-connected" class="button-link link-back">@Messages("button.label.back")</a>
+                hint = Hint(
+                    content = Text(messages("optional"))
+                )
+            )
+        )
 
-            @includes.errors(theForm, isAgent = false)
+        @includes.continueButtonOnly2(govukButton)
 
-            <h1 class="form-title heading-large form-title-group">
-                @Messages("notConnected.heading")
-            </h1>
-
-            <div class="grid-row">
-                <div class="column-full">
-                    <p>@Messages("notConnected.subheading")</p>
-
-                    @helper.CSRF.formField
-
-                    @inputText(
-                    field = theForm("fullName"),
-                    '_label -> Messages("label.fullName"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @inputText(
-                    field = theForm("email"),
-                    '_label ->  Messages("label.email"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @inputText(
-                    field = theForm("phoneNumber"),
-                    '_label -> Messages("label.phoneNumber"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                    )
-
-                    @textarea(
-                    field = theForm("additionalInformation"),
-                    '_label -> Messages("notConnected.additionalInformation"),
-                    '_labelClass -> "form-label-bold",
-                    '_help -> Messages("optional"),
-                    '_hint -> Messages("notConnected.additionalInformationHelp"),
-                    'class -> "form-control"
-                    )
-
-                    <button type="submit" id="continue" name="continue_button" class="button" value="continue">
-                        @Messages("button.label.submit")
-                    </button>
-                </div>
-            </div>
-        </main>
     }
-
 }

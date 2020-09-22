@@ -39,9 +39,11 @@
     title
 }
 
-@main_template(pageHeading = messages("login.heading"), pageTitle = title) {
-
-    @includes.summaryErrors(theForm, govukErrorSummary)
+@main_template(
+    pageHeading = messages("login.heading"),
+    pageTitle = title,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+) {
 
     <p class="govuk-body">@messages("label.letter")</p>
 

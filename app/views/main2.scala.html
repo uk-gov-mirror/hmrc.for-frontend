@@ -35,6 +35,7 @@
 @(
     pageTitle: Option[String] = None,
     pageHeading: String,
+    errorSummary: Option[Html] = None,
     showH1: Boolean = true,
     showSection: Boolean = false,
     showFeedback: Boolean = true,
@@ -87,6 +88,9 @@
 
     @if(showSection){
         <span class="govuk-caption-l">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
+    }
+    @if(errorSummary){
+        @errorSummary
     }
     @if(showH1){
         <h1 class="govuk-heading-l">@pageHeading</h1>
