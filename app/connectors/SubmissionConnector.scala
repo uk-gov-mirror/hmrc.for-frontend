@@ -41,6 +41,7 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig,
       response.status match {
         case 400 => throw new BadRequestException(response.body)
         case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
+        case 409 => throw new Upstream4xxResponse(response.body, 409, 409, response.headers)
         case _ => HttpReads.Implicits.readRaw.read(method, url, response)
       }
     }
