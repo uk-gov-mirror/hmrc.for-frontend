@@ -861,5 +861,5 @@ index.help=Os oes angen help
 index.help.p1=Cysylltwch ȃ’ch Swyddfa Brisio leol ynglyn ȃ help i ddefnyddio y gwasanaeth.
 index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
 
-footer.links.languale.url = /sending-rental-information/language/english
-footer.links.languale.text = English
+footer.links.language.url = /sending-rental-information/language/english
+footer.links.language.text = English
