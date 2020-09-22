@@ -19,6 +19,7 @@
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
 @import play.api.Play.current
 @import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
+@import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
 
 @this(
         govukLayout: govukLayout,
@@ -28,6 +29,7 @@
         govukBackLink: GovukBackLink,
         govukSummaryList: GovukSummaryList,
         footer: Footer,
+        accessibilityStatementConfig: AccessibilityStatementConfig,
         uiLayoutHead: Head
 )
 
@@ -97,6 +99,10 @@
         FooterItem(
             href = Some(messages("footer.links.cookies.url")),
             text = Some(messages("footer.links.cookies.text"))),
+        accessibilityStatementConfig.url
+                .map(
+            href => FooterItem(Some(messages("footer.accessibility.text")), Some(href))
+        ).get,
         FooterItem(
             href = Some(messages("footer.links.privacy_policy.url")),
             text = Some(messages("footer.links.privacy_policy.text"))),
