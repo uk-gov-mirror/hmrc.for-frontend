@@ -14,60 +14,37 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
 @import models.pages.Summary
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.journeys.Journey
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Panel
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukPanel
 
-@(summary: Summary, theForm: Form[_])(implicit requestHeader: RequestHeader,  messages: Messages)
+@this( layout: main2, govukPanel:GovukPanel)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(summary: Summary, theForm: Form[_])(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-@views.html.includes.javascripts()
-}
 
-@main(title=Messages("notConnected.thankYou") + " - " + Messages("project.name"),
-    headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false,
-    showAccountInfo=true, summary = Option(summary), needsTimeoutWarning = false) {
+@layout(
+    showHistoryBack = false,
+    pageHeading = messages("notConnected.thankYou"),
+    showH1 = false,
+    summary = Some(summary),
+    showAccountInfo = true,
+    withTimeoutDialog = false
+    ){
 
-    <main id="content">
-        <div class="grid-row">
-            <div class="column-two-thirds">
+    @govukPanel(Panel(title = Text(messages("notConnected.thankYou"))))
 
-                <h1 class="form-title heading-large heading-confirmation">
-                    @Messages("notConnected.thankYou")
-                </h1>
+    <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
+    <p class="govuk-body">@messages("notConnected.whatNext1")</p>
+    <p class="govuk-body">@messages("notConnected.whatNext2")</p>
+    <p class="govuk-body">@messages("notConnected.whatNext3")</p>
 
-                <h2 class="heading-medium">@Messages("label.whatNext")</h2>
+    <p class="govuk-body"><a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a></p>
 
-                <p>@Messages("notConnected.whatNext1")</p>
-                <p>@Messages("notConnected.whatNext2")</p>
-                <p>@Messages("notConnected.whatNext3")</p>
+    <hr/>
 
-                <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
-
-                @views.html.includes.surveyFeedback(summary, theForm)
-
-                <hr />
-                <div class="clearfix"><br /></div>
-                <div class="clearfix"></div>
-            </div>
-
-        </div>
-
-    </main>
-
-    @includes.continueButtonStickyFooter()
+    @views.html.includes.surveyFeedback(summary, theForm)
 }

@@ -23,6 +23,7 @@ import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.cache.client.ShortLivedCache
 import play.api.test.Helpers._
+import views.html.previouslyConnected
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -39,7 +40,7 @@ class PreviouslyConnectedControllerSpec extends FlatSpec with Matchers with Mock
 
     val formDocumentRepository = mock[FormDocumentRepository]
 
-    val controller = new PreviouslyConnectedController(???, cache, formDocumentRepository, ???)(???)
+    val controller = new PreviouslyConnectedController(???, cache, formDocumentRepository, ???, mock[previouslyConnected])(???)
 
     val request = FakeRequest("POST", "/path").withSession("refNum" ->"11122")
 
