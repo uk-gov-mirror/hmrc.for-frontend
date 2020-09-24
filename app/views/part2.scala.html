@@ -63,7 +63,7 @@
         id = "fullName",
         name = "fullName",
         value = theForm("fullName").value,
-        classes = "govuk-input--width-10",
+        classes = "govuk-input--width-20",
         label = Label(
             content = Text(messages("label.fullName")),
             classes = "govuk-!-font-weight-bold"
@@ -141,7 +141,7 @@
             field = theForm("contactDetails.email1"),
             '_label -> messages("label.email1"),
               '_labelClass -> "form-label-bold",
-              'class -> "form-control",
+              'class -> "govuk-input--width-20",
             '_fieldsetClass -> "hidden",
             '_nojsText -> messages("label.noJs.contactDetails.email1")
           )
@@ -150,7 +150,7 @@
             field = theForm("contactDetails.email2"),
             '_label -> messages("label.email2"),
             '_labelClass -> "form-label-bold",
-            'class -> "form-control",
+            'class -> "govuk-input--width-20",
             '_fieldsetClass -> "hidden"
           )
 
