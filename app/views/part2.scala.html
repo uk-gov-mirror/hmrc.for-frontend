@@ -139,7 +139,8 @@
         <div data-show-fields-group="contactType">
           @inputText(
             field = theForm("contactDetails.email1"),
-            '_label -> messages("label.email1"),
+              'id -> "contactDetails.email1",
+              '_label -> messages("label.email1"),
               '_labelClass -> "form-label-bold",
               'class -> "govuk-input--width-20",
             '_fieldsetClass -> "hidden",
@@ -148,7 +149,8 @@
 
           @inputText(
             field = theForm("contactDetails.email2"),
-            '_label -> messages("label.email2"),
+              'id -> "contactDetails.email2",
+              '_label -> messages("label.email2"),
             '_labelClass -> "form-label-bold",
             'class -> "govuk-input--width-20",
             '_fieldsetClass -> "hidden"

@@ -31,11 +31,12 @@
 
 @(field: play.api.data.Field, args: (Symbol,Any)*)(implicit  requestHeader: RequestHeader, handler: FieldConstructor, messages: Messages)
 
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
-    <input type="text" id="@(id)_text" value="@getValue(value, args)" name="@name" @toHtmlArgs(htmlArgs) />
-}
-
 @getValue(value: Option[String], args: Seq[(Symbol, Any)]) = @{
     if (value.isDefined) value.get
     else args.toMap.getOrElse('_value, "")
 }
+
+@input(field, args:_*) { (id, name, value, htmlArgs) =>
+    <input type="text" id="@(id)_text" value="@getValue(value, args)" name="@name" @toHtmlArgs(htmlArgs) />
+}
+
