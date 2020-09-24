@@ -20,110 +20,135 @@
 @import models.pages.Summary
 @import _root_.template.Helper._
 @import helpers._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import models.pages.Summary
+@import models.journeys.Journey
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Fieldset
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Legend
 
-@(theForm: Form[CustomerDetails], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        formWithCSFR: formWithCSRF)
 
+@(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@layout(
+  showHistoryBack = true,
+  pageHeading = messages("section2.heading"),
+  summary = Some(summary),
+  showAccountInfo = true,
+  errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+  @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
 
-@inpagehelp = @{
-  routes.Application.inpageVacatedForm
-}
+    <p class="govuk-body">@messages("section2.subheading")</p>
 
-@underReview = @{
-  if(summary.isUnderReview){" " + Messages("label.underReview")} else {""}
-}
-  
-@main(title=Messages("section2.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-  @form(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
-      
-    <main id="content">
-    @views.html.includes.backSave()
-    
-    @progressBar(true)
-    @includes.errors(theForm, isAgent = false)
-    @headingDisplay(2, Messages("section2.heading"), true)
+    <p class="govuk-inset-text">@messages("section2.heading.1")</p>
 
-    <div class="grid-row">
-      <div class="column-two-thirds">
-        <p>@Messages("section2.subheading")</p>
-
-        @helper.CSRF.formField
-        <p class="panel-indent">@Messages("section2.heading.1")</p>
-          <!-- Full name -->
-        @inputText(
-          field = theForm("fullName"),
-          '_label -> Messages("label.fullName"),
-          '_labelClass -> "form-label-bold",
-          'class -> "form-control"
+    @govukInput(
+      Input(
+        id = "fullName",
+        name = "fullName",
+        value = theForm("fullName").value,
+        classes = "govuk-input--width-10",
+        label = Label(
+            content = Text(messages("label.fullName")),
+            classes = "govuk-!-font-weight-bold"
+        ),
+        errorMessage =  theForm.errors.asTextErrorMessageForField("fullName")
+      )
+    )
+    @govukRadios(
+      Radios(
+        name = "userType",
+        idPrefix = Option("userType"),
+        items = Seq(
+          "occupier" -> messages("userType.occupier"),
+          "owner" -> messages("userType.owner"),
+          "occupiersAgent" -> messages("userType.occupiersAgent"),
+          "ownersAgent" -> messages("userType.ownersAgent")
+        ).map( radioItem => RadioItem (
+          content = Text(radioItem._2),
+          checked = radioItem._1.equals(theForm("userType").value.getOrElse("")),
+          value=Option(radioItem._1),
+          id = Option(radioItem._1)
         )
-
-          <!-- I am the -->
-        @inputRadioGroup(
-          field = theForm("userType"),
-          options = EnumOptions.options(UserTypes),
-          args = Seq(
-            '_label -> Messages("label.userType"),
-            '_error -> theForm("userType").errors,
-            '_showConstraints -> false,
-            '_showErrors -> true,
-            '_labelClass -> "form-label-bold",
-            '_legend -> true,
-            '_help -> Messages("hint.occupierExplanation")
-          ),
-          dataAttributes = Seq(
-            ("occupier", "data-show-field", "true"),
-            ("owner", "data-show-field", "true"),
-            ("ownerOccupier", "data-show-field", "true")
+        ),
+        hint = Hint(content = Text(messages("hint.occupierExplanation"))),
+        errorMessage = theForm.errors.asTextErrorMessageForField("userType"),
+        fieldset = Option(
+          Fieldset(
+            legend = Option(
+              Legend(
+                content = Text(messages("label.userType")),
+                classes = "govuk-!-font-weight-bold"
+              )
+            )
           )
         )
+      )
+    )
 
-          <!-- How would you like us to contact you? -->
-        @inputRadioGroup(
-          field = theForm("contactType"),
-          options = EnumOptions.options(ContactTypes),
-          args = Seq(
-            '_label -> Messages("label.contactType"),
-            '_error -> theForm("contactType").errors,
-            '_labelClass -> "form-label-bold",
-            '_fieldsetClass -> "",
-            '_showConstraints -> false,
-            '_legend -> true,
-            '_showErrors -> true,
-            '_help -> Messages("hint.anyQueries")
-          ),
-          dataAttributes = Seq(
-            ("email", "data-show-fields", "contactDetails.email1,contactDetails.email2"),
-            ("phone", "data-show-fields", "contactDetails.phone")
+      @govukRadios(
+          Radios(
+              name = "contactType",
+              idPrefix = Option("contactType"),
+              items = Seq(
+                  "email" -> messages("label.contactDetails.email1"),
+                  "phone" -> messages("label.contactDetails.phone")
+              ).map( radioItem => RadioItem (
+                  content = Text(radioItem._2),
+                  checked = radioItem._1.equals(theForm("contactType").value.getOrElse("")),
+                  value=Option(radioItem._1),
+                  attributes = Map(
+                      "email"->Map("data-show-fields"->"contactDetails.email1,contactDetails.email2"),
+                      "phone"->Map("data-show-fields"->"contactDetails.phone")
+                  ).get(radioItem._1).get,
+                  id = Option(radioItem._1)
+              )
+              ),
+              hint = Hint(content = Text(messages("hint.anyQueries"))),
+              errorMessage = theForm.errors.asTextErrorMessageForField("contactType"),
+              fieldset = Option(
+                  Fieldset(
+                      legend = Option(
+                          Legend(
+                              content = Text(messages("label.contactType")),
+                              classes = "govuk-!-font-weight-bold"
+                          )
+                      )
+                  )
+              )
           )
-        )
-
-
+      )
 
           <!-- Contact fields -->
         <div data-show-fields-group="contactType">
           @inputText(
             field = theForm("contactDetails.email1"),
-            '_label -> Messages("label.email1"),
-            '_labelClass -> "form-label-bold",
-            'class -> "form-control",
+            '_label -> messages("label.email1"),
+              '_labelClass -> "form-label-bold",
+              'class -> "form-control",
             '_fieldsetClass -> "hidden",
-            '_nojsText -> Messages("label.noJs.contactDetails.email1")
+            '_nojsText -> messages("label.noJs.contactDetails.email1")
           )
 
           @inputText(
             field = theForm("contactDetails.email2"),
-            '_label -> Messages("label.email2"),
+            '_label -> messages("label.email2"),
             '_labelClass -> "form-label-bold",
             'class -> "form-control",
             '_fieldsetClass -> "hidden"
@@ -131,24 +156,17 @@
 
           @inputText(
             field = theForm("contactDetails.phone"),
-            '_label -> Messages("label.phone"),
+            '_label -> messages("label.phone"),
             '_labelClass -> "form-label-bold",
             'class -> "form-control",
             '_fieldsetClass -> "hidden",
-            '_nojsText -> Messages("label.noJs.contactDetails.phone")
+            '_nojsText -> messages("label.noJs.contactDetails.phone")
           )
         </div>
 
+    @includes.continueButtonOnly2(govukButton)
 
-        @includes.continueButton()
-
-      </div>
-      <div class="column-third"></div>
-    </div>
- </main>
-
-    
     }
 
-    @includes.formHelp()
+    @includes.formHelp2()
 }

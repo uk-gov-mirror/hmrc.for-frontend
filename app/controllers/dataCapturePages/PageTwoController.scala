@@ -25,14 +25,15 @@ import models.serviceContracts.submissions.CustomerDetails
 import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
+import views.html.part2
 
-class PageTwoController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageTwoController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents, part2View:part2)
   extends ForDataCapturePage[CustomerDetails](refNumAction, cc)  {
   val format = cdf
   val emptyForm = pageTwoForm
   val pageNumber: Int = 2
 
   def template(form: Form[CustomerDetails], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part2(form, summary)
+    part2View(form, summary)
   }
 }
