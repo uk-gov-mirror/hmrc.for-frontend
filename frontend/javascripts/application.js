@@ -21,7 +21,7 @@ var ref;
         /** Init functions **/
         //voaFor.js
         VoaFor.showHistoryBackLink();
-        VoaRadioToggle.page2();
+        VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
         VoaFor.errorFocus();
         VoaFor.addField();
         VoaFor.removeField();
