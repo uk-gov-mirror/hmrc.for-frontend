@@ -107,7 +107,7 @@
     @govukRadios(
           Radios(
               name = "contactType",
-              classes = "contact-type-part2",
+              classes = "radio-button-that-show-hides",
               idPrefix = Option("contactType"),
               items = Seq(
                   "email" -> messages("label.contactDetails.email1"),
@@ -140,7 +140,7 @@
                 name = "contactDetails.email1",
                 value = theForm("contactDetails.email1").value,
                 classes = "govuk-input--width-20",
-                formGroupClasses = "email-form-group",
+                formGroupClasses = "email form-field-to-hide",
                 label = Label(
                     content = Text(messages("label.email1") ),
                     classes = "govuk-!-font-weight-bold"
@@ -154,8 +154,8 @@
                 id = "contactDetails.email2",
                 name = "contactDetails.email2",
                 value = theForm("contactDetails.email2").value,
-                classes = "govuk-input--width-20",
-                formGroupClasses = "email-form-group",
+                classes = "govuk-input--width-20 ",
+                formGroupClasses = "email form-field-to-hide",
                 label = Label(content = Text(messages("label.email2") ), classes = "govuk-!-font-weight-bold"),
                 errorMessage =  theForm.errors.asTextErrorMessageForField("contactDetails.email2")
             )
@@ -168,7 +168,7 @@
                 name = "contactDetails.phone",
                 value = theForm("contactDetails.phone").value,
                 classes = "govuk-input--width-20",
-                formGroupClasses = "phone-form-group",
+                formGroupClasses = "phone form-field-to-hide",
                 label = Label(
                     content = Text(messages("label.phone") ),
                     classes = "govuk-!-font-weight-bold"

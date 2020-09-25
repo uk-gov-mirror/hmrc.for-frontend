@@ -120,24 +120,19 @@
         });
     };
 
-    VoaRadioToggle.page2 = function(){
-        //can be refactored later if toggling becomes a common thing with new GDS
-        var showHideContactFields = function(val){
-            if(val ==='email'){
-                $('.email-form-group').removeClass('hidden');
-                $('.phone-form-group').addClass('hidden');
-            }else if(val === 'phone'){
-                $('.email-form-group').addClass('hidden');
-                $('.phone-form-group').removeClass('hidden');
+    VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton = function(){
+        var showHideFieldsBasedOnRadioButtonValue = function(val){
+            if(val){
+                $('.form-field-to-hide:not(.' + val + ')').addClass('hidden');
+                $('.form-field-to-hide.' + val).removeClass('hidden');
             }else{
-                $('.email-form-group').addClass('hidden');
-                $('.phone-form-group').addClass('hidden');
+                $('.form-field-to-hide').addClass('hidden');
             }
         };
-        var contactTypeVal = $('.contact-type-part2 input[name=contactType]:checked').val();
-        showHideContactFields(contactTypeVal);
-        $('.contact-type-part2 input[name=contactType]').on('change', function(){
-            showHideContactFields($(this).val());
+        var radioButtonVal = $('.radio-button-that-show-hides input[type=radio]:checked').val();
+        showHideFieldsBasedOnRadioButtonValue(radioButtonVal);
+        $('.radio-button-that-show-hides input[type=radio]').on('change', function(){
+            showHideFieldsBasedOnRadioButtonValue($(this).val());
         });
     };
 
