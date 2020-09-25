@@ -25,7 +25,8 @@
 
             } else {
 
-                if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') || $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
+                if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') ||
+                    $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
                     $('.' + classname + '').addClass('hidden');
                     //hide error if no selected
                     if($('#propertyIsSublet_false').is(':checked') || $('#propertyAlterations_false').is(':checked')){
@@ -77,6 +78,8 @@
 
 
     VoaRadioToggle.radioDataShowFields = function () {
+
+
         function radioDataShowFieldsElement(that) {
             var fieldsToShow = $(that).attr('data-show-fields').split(','),
                 hiddenGroup = $(that).attr('name');
@@ -114,6 +117,22 @@
             element.find('.form-group-lookup').css('display', 'block');
             element.find('.showHide-group').css('display', 'none');
             element.find('.manual-address').text(VoaMessages.textLabel('enterManual'));
+        });
+    };
+
+    VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton = function(){
+        var showHideFieldsBasedOnRadioButtonValue = function(val){
+            if(val){
+                $('.form-field-to-hide:not(.' + val + ')').addClass('hidden');
+                $('.form-field-to-hide.' + val).removeClass('hidden');
+            }else{
+                $('.form-field-to-hide').addClass('hidden');
+            }
+        };
+        var radioButtonVal = $('.radio-button-that-show-hides input[type=radio]:checked').val();
+        showHideFieldsBasedOnRadioButtonValue(radioButtonVal);
+        $('.radio-button-that-show-hides input[type=radio]').on('change', function(){
+            showHideFieldsBasedOnRadioButtonValue($(this).val());
         });
     };
 
