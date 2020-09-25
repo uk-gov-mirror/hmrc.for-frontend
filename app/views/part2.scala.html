@@ -52,6 +52,7 @@
   errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
 ){
 
+
   @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
 
     <p class="govuk-body">@messages("section2.subheading")</p>
@@ -71,6 +72,7 @@
         errorMessage =  theForm.errors.asTextErrorMessageForField("fullName")
       )
     )
+
     @govukRadios(
       Radios(
         name = "userType",
@@ -102,9 +104,10 @@
       )
     )
 
-      @govukRadios(
+    @govukRadios(
           Radios(
               name = "contactType",
+              classes = "contact-type-part2",
               idPrefix = Option("contactType"),
               items = Seq(
                   "email" -> messages("label.contactDetails.email1"),
@@ -113,10 +116,6 @@
                   content = Text(radioItem._2),
                   checked = radioItem._1.equals(theForm("contactType").value.getOrElse("")),
                   value=Option(radioItem._1),
-                  attributes = Map(
-                      "email"->Map("data-show-fields"->"contactDetails.email1,contactDetails.email2"),
-                      "phone"->Map("data-show-fields"->"contactDetails.phone")
-                  ).get(radioItem._1).get,
                   id = Option(radioItem._1)
               )
               ),
@@ -135,36 +134,49 @@
           )
       )
 
-          <!-- Contact fields -->
-        <div data-show-fields-group="contactType">
-          @inputText(
-            field = theForm("contactDetails.email1"),
-              'id -> "contactDetails.email1",
-              '_label -> messages("label.email1"),
-              '_labelClass -> "form-label-bold",
-              'class -> "govuk-input--width-20",
-            '_fieldsetClass -> "hidden",
-            '_nojsText -> messages("label.noJs.contactDetails.email1")
-          )
+        @govukInput(
+            Input(
+                id = "contactDetails.email1",
+                name = "contactDetails.email1",
+                value = theForm("contactDetails.email1").value,
+                classes = "govuk-input--width-20",
+                formGroupClasses = "email-form-group",
+                label = Label(
+                    content = Text(messages("label.email1") ),
+                    classes = "govuk-!-font-weight-bold"
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("contactDetails.email1")
+            )
+        )
 
-          @inputText(
-            field = theForm("contactDetails.email2"),
-              'id -> "contactDetails.email2",
-              '_label -> messages("label.email2"),
-            '_labelClass -> "form-label-bold",
-            'class -> "govuk-input--width-20",
-            '_fieldsetClass -> "hidden"
-          )
+        @govukInput(
+            Input(
+                id = "contactDetails.email2",
+                name = "contactDetails.email2",
+                value = theForm("contactDetails.email2").value,
+                classes = "govuk-input--width-20",
+                formGroupClasses = "email-form-group",
+                label = Label(content = Text(messages("label.email2") ), classes = "govuk-!-font-weight-bold"),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("contactDetails.email2")
+            )
+        )
 
-          @inputText(
-            field = theForm("contactDetails.phone"),
-            '_label -> messages("label.phone"),
-            '_labelClass -> "form-label-bold",
-            'class -> "form-control",
-            '_fieldsetClass -> "hidden",
-            '_nojsText -> messages("label.noJs.contactDetails.phone")
-          )
-        </div>
+
+        @govukInput(
+            Input(
+                id = "contactDetails.phone",
+                name = "contactDetails.phone",
+                value = theForm("contactDetails.phone").value,
+                classes = "govuk-input--width-20",
+                formGroupClasses = "phone-form-group",
+                label = Label(
+                    content = Text(messages("label.phone") ),
+                    classes = "govuk-!-font-weight-bold"
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("contactDetails.phone")
+            )
+        )
+
 
     @includes.continueButtonOnly2(govukButton)
 

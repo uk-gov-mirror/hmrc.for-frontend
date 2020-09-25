@@ -49,7 +49,6 @@
     withTimeoutDialog: Boolean = true
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
-
 @beforeBLock = {
 
     <input type="hidden" id="signOutUrl" value=@current.configuration.getString("signout.url").get />
@@ -129,3 +128,7 @@
     ),
     bodyEndBlock = Some(scripts(footer, withTimeoutDialog))
 )(contentWithHeading)
+
+@*
+* @govUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(layoutsFooterLinks(None)), true)(content)
+*@

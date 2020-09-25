@@ -25,7 +25,8 @@
 
             } else {
 
-                if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') || $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
+                if($(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-fields]') ||
+                    $(that).closest('fieldset').find('input:radio, input:checkbox').is('[data-show-field]')){
                     $('.' + classname + '').addClass('hidden');
                     //hide error if no selected
                     if($('#propertyIsSublet_false').is(':checked') || $('#propertyAlterations_false').is(':checked')){
@@ -77,6 +78,8 @@
 
 
     VoaRadioToggle.radioDataShowFields = function () {
+
+
         function radioDataShowFieldsElement(that) {
             var fieldsToShow = $(that).attr('data-show-fields').split(','),
                 hiddenGroup = $(that).attr('name');
@@ -114,6 +117,27 @@
             element.find('.form-group-lookup').css('display', 'block');
             element.find('.showHide-group').css('display', 'none');
             element.find('.manual-address').text(VoaMessages.textLabel('enterManual'));
+        });
+    };
+
+    VoaRadioToggle.page2 = function(){
+        //can be refactored later if toggling becomes a common thing with new GDS
+        var showHideContactFields = function(val){
+            if(val ==='email'){
+                $('.email-form-group').removeClass('hidden');
+                $('.phone-form-group').addClass('hidden');
+            }else if(val === 'phone'){
+                $('.email-form-group').addClass('hidden');
+                $('.phone-form-group').removeClass('hidden');
+            }else{
+                $('.email-form-group').addClass('hidden');
+                $('.phone-form-group').addClass('hidden');
+            }
+        };
+        var contactTypeVal = $('.contact-type-part2 input[name=contactType]:checked').val();
+        showHideContactFields(contactTypeVal);
+        $('.contact-type-part2 input[name=contactType]').on('change', function(){
+            showHideContactFields($(this).val());
         });
     };
 
