@@ -121,18 +121,42 @@
     };
 
     VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton = function(){
-        var showHideFieldsBasedOnRadioButtonValue = function(val){
-            if(val){
-                $('.form-field-to-hide:not(.' + val + ')').addClass('hidden');
-                $('.form-field-to-hide.' + val).removeClass('hidden');
-            }else{
-                $('.form-field-to-hide').addClass('hidden');
+
+        function showFieldsAssociatedWithSelectedRadiosOnPageLoad(){
+            var $checkedRadioButtons = $('.radio-button-that-show-hides input[type=radio]:checked');
+            if($checkedRadioButtons && $checkedRadioButtons.length > 0){
+                $checkedRadioButtons.each(function () {
+                    //when page loads show the fields associtated with selected radiobuttons
+                    showHideFieldsBasedOnRadioButtonValue($(this).val(), $(this).attr('name'));
+                });
+            }
+        }
+        var showHideFieldsBasedOnRadioButtonValue = function(val, name){
+            if(name) {
+                //this is for boolean radios. i.e. those like propertyOwnedByYou where val is true/false
+                var $fieldsToShowOrHide = $('[data-hidden-by=' + name + ']');
+                if($fieldsToShowOrHide && $fieldsToShowOrHide.length > 0){
+                    $fieldsToShowOrHide.each(function(){
+                        let attr = $(this).attr('data-show-when-value-equals');
+                        if (attr) {
+                            //this is to allow for multiple fields showing the same field
+                            if (attr.split('|').includes(val)) {
+                                $(this).parent('.govuk-form-group').removeClass('hidden');
+                            } else {
+                                $(this).parent('.govuk-form-group').addClass('hidden');
+                            }
+
+                        }
+                    });
+                }
             }
         };
-        var radioButtonVal = $('.radio-button-that-show-hides input[type=radio]:checked').val();
-        showHideFieldsBasedOnRadioButtonValue(radioButtonVal);
+        //add hidden class to all data-hidden-by elements
+        $('*[data-hidden-by]').parent('.govuk-form-group').addClass('hidden');
+        //now run on page load to show any that should be shown based on which radios are already selected
+        showFieldsAssociatedWithSelectedRadiosOnPageLoad();
         $('.radio-button-that-show-hides input[type=radio]').on('change', function(){
-            showHideFieldsBasedOnRadioButtonValue($(this).val());
+            showHideFieldsBasedOnRadioButtonValue($(this).val(),$(this).attr('name'));
         });
     };
 
