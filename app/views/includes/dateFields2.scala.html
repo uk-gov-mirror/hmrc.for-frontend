@@ -17,16 +17,16 @@
 @import template.HiddenBy
 @import play.api.data._
 
-@(theForm: Form[_],
-        help: Boolean = true,
-        helpText: String,
-        fieldName: String,
-        suffix: String = "",
-        optional: Boolean = false,
-        nojs: Boolean = false,
-        nojsText: String = "",
-        label: Option[String] = None,
-        hiddenBy: Option[HiddenBy] = None
+@(  theForm: Form[_],
+    help: Boolean = true,
+    helpText: String,
+    fieldName: String,
+    suffix: String = "",
+    optional: Boolean = false,
+    nojs: Boolean = false,
+    nojsText: String = "",
+    label: Option[String] = None,
+    hiddenBy: Option[HiddenBy] = None
         )(implicit request: Request[_], messages: Messages)
 
 @monthFieldName  = @{fieldName + ".month"}
