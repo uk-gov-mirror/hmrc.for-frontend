@@ -22,4 +22,10 @@ div#helpFormWrapper  {
   }
 }
 
+.govuk-date-input__item {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
 @import "node_modules/govuk-frontend/govuk/all";

@@ -1,0 +1,79 @@
+@*
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import template.HiddenBy
+@import play.api.data._
+
+@(  theForm: Form[_],
+    help: Boolean = true,
+    helpText: String,
+    fieldName: String,
+    suffix: String = "",
+    optional: Boolean = false,
+    nojs: Boolean = false,
+    nojsText: String = "",
+    label: Option[String] = None,
+    hiddenBy: Option[HiddenBy] = None
+        )(implicit request: Request[_], messages: Messages)
+
+@monthFieldName  = @{fieldName + ".month"}
+@yearFieldName  = @{fieldName + ".year"}
+
+<div class="govuk-form-group @if(theForm(fieldName +".year").hasErrors || theForm(fieldName +".month").hasErrors){ govuk-form-group--error }">
+    <fieldset class="govuk-fieldset" @hiddenBy.getOrElse("") role="group" aria-describedby="date-hint">
+        <legend
+        class="govuk-fieldset__legend govuk-!-font-weight-bold">@label.map { lab => @messages(lab) }.getOrElse(if(suffix.nonEmpty) {
+            Html(messages(s"label.$fieldName.$suffix"))
+        } else {
+            Html(messages(s"label.$fieldName"))
+        })</legend>
+        <div id="date-hint" class="govuk-hint">
+            <p>@helpText</p>
+            <p>@messages("help.date.month.year")</p>
+        </div>
+        @if(nojs) {
+            <p class="hidden">@nojsText</p>
+        }
+        <div class="govuk-date-input" id="@fieldName">
+            <div class="govuk-form-group govuk-date-input__item">
+                <label  class="govuk-label govuk-date-input__label govuk-!-font-weight-bold"
+                        for="@{val yearField = fieldName + ".month"; yearField }">@messages("label.date.month")</label>
+                <input  class="govuk-input govuk-input--width-2 @if(theForm(fieldName +".month").hasErrors){ govuk-input--error}"
+                        id="@monthFieldName"
+                        name="@monthFieldName"
+                        value="@{theForm(monthFieldName).value}"
+                        type="text"
+                        autocomplete="@monthFieldName"
+                        pattern="[0-9]*" inputmode="numeric">
+            </div>
+            <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                    <label  class="govuk-label govuk-date-input__label govuk-!-font-weight-bold"
+                            for="@yearFieldName">
+                    @messages("label.date.year")</label>
+                    <input class="govuk-input govuk-input--width-4 @if(theForm(fieldName +".year").hasErrors){ govuk-input--error}"
+                    id="@yearFieldName"
+                    name="@yearFieldName"
+                    value="@{theForm(yearFieldName).value}"
+                    type="text"
+                    autocomplete="@yearFieldName"
+                    pattern="[0-9]*" inputmode="numeric">
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+</div>
