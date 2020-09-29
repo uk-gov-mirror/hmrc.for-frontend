@@ -3,13 +3,6 @@
 
     VoaAlerts.intelAlert = function () {
 
-        $('[name="landlordConnectType"]').change(function(){
-            intelCheckSection5(this);
-        });
-        $('[name="landlordFullName"], [name="landlordAddress.buildingNameNumber"], [name="landlordAddress.street1"], [name="landlordAddress.street2"], [name="landlordAddress.postcode"]').change(function(){
-            intelCheckSection5($('input#landlordConnectType_noConnected'));
-        });
-
         //Section 9
         function intelCheckSection9(element){
 
