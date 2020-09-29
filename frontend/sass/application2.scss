@@ -3,21 +3,23 @@ $govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk
 #timeout-dialog.timeout-dialog {
   * {
     font-family: "GDS Transport", Arial, sans-serif;
-    font-size:19px;
+    font-size: 19px;
   }
-  button, a{
+
+  button, a {
     line-height: 40px;
     height: 40px;
     vertical-align: middle;
     padding: 0 16px;
   }
-  a:focus{
+
+  a:focus {
     box-shadow: 0 2px black;
   }
 }
 
-div#helpFormWrapper  {
-  input[type=text]{
+div#helpFormWrapper {
+  input[type=text] {
     width: 100%;
   }
 }
@@ -25,6 +27,19 @@ div#helpFormWrapper  {
 .govuk-date-input__item {
   display: inline-block;
   margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.govuk-main-wrapper {
+  padding-top: 15px !important;
+  padding-bottom: 40px;
+}
+
+#section-x-of-y {
+  margin-bottom: 10px;
+}
+
+#history-back.govuk-back-link {
   margin-bottom: 0;
 }
 

@@ -87,11 +87,11 @@
 @numberOfSteps = {14}
 @contentWithHeading = {
 
-    @if(showSection){
-        <span class="govuk-caption-l">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
-    }
     @if(errorSummary){
         @errorSummary
+    }
+    @if(showSection){
+        <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
     }
     @if(showH1){
         <h1 class="govuk-heading-l">@pageHeading</h1>
@@ -107,8 +107,7 @@
         FooterItem(
             href = Some(messages("footer.links.cookies.url")),
             text = Some(messages("footer.links.cookies.text"))),
-        accessibilityStatementConfig.url
-                .map(
+        accessibilityStatementConfig.url.map(
             href => FooterItem(Some(messages("footer.accessibility.text")), Some(href))
         ).get,
         FooterItem(
