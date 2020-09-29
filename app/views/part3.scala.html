@@ -180,8 +180,7 @@
                 ).map( radioItem => RadioItem (
                     content = Text(radioItem._2),
                     checked = radioItem._1.equals(theForm("propertyOwnedByYou").value.getOrElse("")),
-                    value=Option(radioItem._1),
-                    id = Option(radioItem._1)
+                    value=Option(radioItem._1)
                 )
                 ),
                 errorMessage = theForm.errors.asTextErrorMessageForField("propertyOwnedByYou"),
