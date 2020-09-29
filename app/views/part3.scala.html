@@ -139,13 +139,13 @@
         )
 
           @if(summary.isAgent) {
-              @includes.dateFields2(theForm, true, Messages("label.firstOccupationDate.help"),
-                  "firstOccupationDate", "agent", false, true, Messages("label.noJs.firstOccupationDate"),
+              @includes.dateFields2(theForm, true, messages("label.firstOccupationDate.help"),
+                  "firstOccupationDate", "agent", false, true, messages("label.noJs.firstOccupationDate"),
                   None,
                   Option( new HiddenBy("occupierType", Seq("company", "individuals"))))
           } else {
-              @includes.dateFields2(theForm, true, Messages("label.firstOccupationDate.help"),
-                  "firstOccupationDate", "", false, true, Messages("label.noJs.firstOccupationDate"),
+              @includes.dateFields2(theForm, true, messages("label.firstOccupationDate.help"),
+                  "firstOccupationDate", "", false, true, messages("label.noJs.firstOccupationDate"),
                   None, Option( new HiddenBy("occupierType", Seq("company", "individuals"))))
           }
 
