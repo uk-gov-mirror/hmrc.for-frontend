@@ -137,7 +137,7 @@
                 var $fieldsToShowOrHide = $('[data-hidden-by=' + name + ']');
                 if($fieldsToShowOrHide && $fieldsToShowOrHide.length > 0){
                     $fieldsToShowOrHide.each(function(){
-                        let attr = $(this).attr('data-show-when-value-equals');
+                        var attr = $(this).attr('data-show-when-value-equals');
                         if (attr) {
                             //this is to allow for multiple fields showing the same field
                             if (attr.split('|').includes(val)) {
