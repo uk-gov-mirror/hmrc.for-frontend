@@ -19,11 +19,29 @@
 @import play.api.data.Forms._
 @import _root_.template.Helper._
 @import helpers._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukInput
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Label
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-@(theForm: Form[_], prefix: String)(implicit requestHeader: RequestHeader, messages: Messages)
+@(theForm: Form[_], prefix: String, govukInput: GovukInput)(implicit request: Request[_], messages: Messages)
 
-    <h2 class="heading-medium">@Messages("section5.subheading")</h2>
-    <div class="">
+    <h2 class="heading-medium">@messages("section5.subheading")</h2>
+    @govukInput(
+        Input(
+            id = "landlordFullName",
+            name = "landlordFullName",
+            value = theForm("landlordFullName").value,
+            classes = "govuk-input--width-20",
+            formGroupClasses = "",
+            label = Label(
+                content = Text(messages("label.landlordFullName") ),
+                classes = "govuk-!-font-weight-bold"
+            ),
+            errorMessage =  theForm.errors.asTextErrorMessageForField("landlordFullName")
+        )
+    )
 
     @helpers.inputText(
         field = theForm(prefix + ".buildingNameNumber"),
@@ -57,5 +75,3 @@
         'class -> ("form-control postcode postcode-" + prefix),
         '_fieldsetClass -> "address-field-postcode"
     )
-
-    </div>
