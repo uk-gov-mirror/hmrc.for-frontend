@@ -131,10 +131,11 @@
         )
 
         @includes.dateFields2(
-            theForm, true, messages("label.firstOccupationDate.help"),
-            "firstOccupationDate", agentSuffix, false, true,
-            messages("label.noJs.firstOccupationDate"), None,
-            Option(new HiddenBy("occupierType", Seq("company", "individuals")))
+            theForm, helpText = Option(messages("label.firstOccupationDate.help")),
+            fieldName = "firstOccupationDate",
+            suffix = agentSuffix,
+            nojsText= messages("label.noJs.firstOccupationDate"),
+            hiddenBy = Option(new HiddenBy("occupierType", Seq("company", "individuals")))
         )
 
         @govukInput(
@@ -184,6 +185,8 @@
             )
         )
 
+        <fieldset data-hidden-by="propertyOwnedByYou" data-show-when-value-equals="false">
+
         @govukRadios(
             Radios(
                 name = "propertyRentedByYou",
@@ -201,7 +204,6 @@
                 errorMessage = theForm.errors.asTextErrorMessageForField("propertyRentedByYou"),
                 fieldset = Option(
                     Fieldset(
-                        attributes = Map("data-hidden-by" -> "propertyOwnedByYou", "data-show-when-value-equals" -> "false"),
                         legend = Option(
                             Legend(
                                 content = Text(messages(if(summary.isAgent) messages("label.propertyRentedByYou.agent") else messages("label.propertyRentedByYou"))),
@@ -219,7 +221,10 @@
                 rows = 6,
                 name = "noRentDetails",
                 value = theForm("noRentDetails").value,
-                attributes = Map("data-hidden-by" -> "propertyRentedByYou", "data-show-when-value-equals" -> "false"),
+                attributes = Map(
+                    "data-hidden-by" -> "propertyRentedByYou",
+                    "data-show-when-value-equals" -> "false"
+                ),
                 label = Label(
                     content = Text(if(summary.isAgent)  messages("label.noRentDetails.agent")  else  messages("label.noRentDetails")),
                     classes = "govuk-!-font-weight-bold"
@@ -228,6 +233,7 @@
                 errorMessage = theForm.errors.asTextErrorMessageForField("noRentDetails")
             )
         )
+        </fieldset>
 
       @includes.continueSaveForLaterButtons(govukButton)
     }

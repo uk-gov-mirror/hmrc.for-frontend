@@ -141,9 +141,13 @@
                         if (attr) {
                             //this is to allow for multiple fields showing the same field
                             if (attr.split('|').includes(val)) {
-                                $(this).parent('.govuk-form-group').removeClass('hidden');
-                            } else {
-                                $(this).parent('.govuk-form-group').addClass('hidden');
+                                //this is to allow for multiple fields showing the same field
+                                var $elementToToggle = $(this).is('fieldset')? $(this):$(this).parent('.govuk-form-group');
+                                if (attr.split('|').includes(val)) {
+                                    $elementToToggle.removeClass('hidden')
+                                } else {
+                                    $elementToToggle.addClass('hidden')
+                                }
                             }
 
                         }
@@ -153,6 +157,9 @@
         };
         //add hidden class to all data-hidden-by elements
         $('*[data-hidden-by]').parent('.govuk-form-group').addClass('hidden');
+        //for form fields that need to be shown/hidden as a group.
+        // This is necessary as some in the group are also toggled by items in group itself.
+        $('fieldset[data-hidden-by]').addClass('hidden');
         //now run on page load to show any that should be shown based on which radios are already selected
         showFieldsAssociatedWithSelectedRadiosOnPageLoad();
         $('.radio-button-that-show-hides input[type=radio]').on('change', function(){
