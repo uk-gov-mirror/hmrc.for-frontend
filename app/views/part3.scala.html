@@ -185,55 +185,55 @@
             )
         )
 
-        <fieldset data-hidden-by="propertyOwnedByYou" data-show-when-value-equals="false">
+        <fieldset class="fieldset-to-hide" data-hidden-by="propertyOwnedByYou" data-show-when-value-equals="false">
 
-        @govukRadios(
-            Radios(
-                name = "propertyRentedByYou",
-                idPrefix = Option("propertyRentedByYou"),
-                classes = "radio-button-that-show-hides govuk-radios--inline",
-                items = Seq(
-                    "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw")),
-                    "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw"))
-                ).map( radioItem => RadioItem (
-                    content = Text(radioItem._2),
-                    checked = radioItem._1.equals(theForm("propertyRentedByYou").value.getOrElse("")),
-                    value=Option(radioItem._1)
-                )
-                ),
-                errorMessage = theForm.errors.asTextErrorMessageForField("propertyRentedByYou"),
-                fieldset = Option(
-                    Fieldset(
-                        legend = Option(
-                            Legend(
-                                content = Text(messages(if(summary.isAgent) messages("label.propertyRentedByYou.agent") else messages("label.propertyRentedByYou"))),
-                                classes = "govuk-!-font-weight-bold"
+            @govukRadios(
+                Radios(
+                    name = "propertyRentedByYou",
+                    idPrefix = Option("propertyRentedByYou"),
+                    classes = "radio-button-that-show-hides govuk-radios--inline",
+                    items = Seq(
+                        "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw")),
+                        "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw"))
+                    ).map( radioItem => RadioItem (
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("propertyRentedByYou").value.getOrElse("")),
+                        value=Option(radioItem._1)
+                    )
+                    ),
+                    errorMessage = theForm.errors.asTextErrorMessageForField("propertyRentedByYou"),
+                    fieldset = Option(
+                        Fieldset(
+                            legend = Option(
+                                Legend(
+                                    content = Text(messages(if(summary.isAgent) messages("label.propertyRentedByYou.agent") else messages("label.propertyRentedByYou"))),
+                                    classes = "govuk-!-font-weight-bold"
+                                )
                             )
                         )
                     )
                 )
             )
-        )
 
-        @govukTextarea(
-            Textarea(
-                id = "noRentDetails",
-                rows = 6,
-                name = "noRentDetails",
-                value = theForm("noRentDetails").value,
-                attributes = Map(
-                    "data-hidden-by" -> "propertyRentedByYou",
-                    "data-show-when-value-equals" -> "false"
-                ),
-                label = Label(
-                    content = Text(if(summary.isAgent)  messages("label.noRentDetails.agent")  else  messages("label.noRentDetails")),
-                    classes = "govuk-!-font-weight-bold"
+            @govukTextarea(
+                Textarea(
+                    id = "noRentDetails",
+                    rows = 6,
+                    name = "noRentDetails",
+                    value = theForm("noRentDetails").value,
+                    attributes = Map(
+                        "data-hidden-by" -> "propertyRentedByYou",
+                        "data-show-when-value-equals" -> "false"
+                    ),
+                    label = Label(
+                        content = Text(if(summary.isAgent)  messages("label.noRentDetails.agent")  else  messages("label.noRentDetails")),
+                        classes = "govuk-!-font-weight-bold"
 
-                ),
-                errorMessage = theForm.errors.asTextErrorMessageForField("noRentDetails")
+                    ),
+                    errorMessage = theForm.errors.asTextErrorMessageForField("noRentDetails")
+                )
             )
-        )
-        </fieldset>
+            </fieldset>
 
       @includes.continueSaveForLaterButtons(govukButton)
     }
