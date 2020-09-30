@@ -143,14 +143,11 @@
                             var $elementToToggle = $(this).hasClass('fieldset-to-hide')? $(this):$(this).parent('.govuk-form-group');
                             //this is to allow for multiple fields showing the same field
                             if (attr.split('|').includes(val)) {
-                              //this is to allow for multiple fields showing the same field
-                              var $elementToToggle = $(this).is('fieldset')? $(this):$(this).parent('.govuk-form-group');
-                              if (attr.split('|').includes(val)) {
-                                  $elementToToggle.removeClass('hidden');
-                              } else {
-                                  $elementToToggle.addClass('hidden');
-                              }
-                          }
+                                $elementToToggle.removeClass('hidden');
+                            } else {
+                                $elementToToggle.addClass('hidden');
+                            }
+                        }
                     });
                 }
             }
