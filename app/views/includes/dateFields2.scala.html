@@ -18,11 +18,9 @@
 @import play.api.data._
 
 @(  theForm: Form[_],
-    help: Boolean = true,
-    helpText: String,
+    helpText: Option[String] = None,
     fieldName: String,
     suffix: String = "",
-    optional: Boolean = false,
     nojs: Boolean = false,
     nojsText: String = "",
     label: Option[String] = None,
@@ -40,11 +38,13 @@
         } else {
             Html(messages(s"label.$fieldName"))
         })</legend>
-        <div id="date-hint" class="govuk-hint">
-            <p>@helpText</p>
-            <p>@messages("help.date.month.year")</p>
-        </div>
-        @if(nojs) {
+        @if(helpText.isDefined){
+            <div id="date-hint" class="govuk-hint">
+                <p>@helpText.get</p>
+                <p>@messages("help.date.month.year")</p>
+            </div>
+        }
+        @if(!nojsText.isEmpty) {
             <p class="hidden">@nojsText</p>
         }
         <div class="govuk-date-input" id="@fieldName">
