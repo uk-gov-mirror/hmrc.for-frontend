@@ -139,27 +139,24 @@
                     $fieldsToShowOrHide.each(function(){
                         var attr = $(this).attr('data-show-when-value-equals');
                         if (attr) {
+                            //we are either toggling the fieldset.fieldset-to-hide or the parent .gov-uk-form
+                            var $elementToToggle = $(this).hasClass('fieldset-to-hide')? $(this):$(this).parent('.govuk-form-group');
                             //this is to allow for multiple fields showing the same field
                             if (attr.split('|').includes(val)) {
-                                //this is to allow for multiple fields showing the same field
-                                var $elementToToggle = $(this).is('fieldset')? $(this):$(this).parent('.govuk-form-group');
-                                if (attr.split('|').includes(val)) {
-                                    $elementToToggle.removeClass('hidden')
-                                } else {
-                                    $elementToToggle.addClass('hidden')
-                                }
+                                $elementToToggle.removeClass('hidden')
+                            } else {
+                                $elementToToggle.addClass('hidden')
                             }
-
                         }
                     });
                 }
             }
         };
-        //add hidden class to all data-hidden-by elements
+        //add hidden class to all data-hidden-by INPUT elements
         $('*[data-hidden-by]').parent('.govuk-form-group').addClass('hidden');
         //for form fields that need to be shown/hidden as a group.
         // This is necessary as some in the group are also toggled by items in group itself.
-        $('fieldset[data-hidden-by]').addClass('hidden');
+        $('.fieldset-to-hide[data-hidden-by]').addClass('hidden');
         //now run on page load to show any that should be shown based on which radios are already selected
         showFieldsAssociatedWithSelectedRadiosOnPageLoad();
         $('.radio-button-that-show-hides input[type=radio]').on('change', function(){
