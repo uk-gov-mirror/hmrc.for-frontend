@@ -26,13 +26,15 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageEightController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageEightController @Inject() (refNumAction: RefNumAction,
+                                     cc: MessagesControllerComponents,
+                                    part8: views.html.part8)
   extends ForDataCapturePage[RentAgreement] (refNumAction, cc) {
   val format = raf
   val emptyForm = pageEightForm
   val pageNumber: Int = 8
 
   def template(form: Form[RentAgreement], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part8(form, summary)
+    part8(form, summary)
   }
 }

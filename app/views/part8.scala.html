@@ -20,95 +20,130 @@
 @import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models._
+@import models.pages.Summary
+@import template.HiddenBy
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    govukInput:  GovukInput,
+    govukErrorSummary: GovukErrorSummary,
+    govukDateInput:GovukDateInput,
+    govukTextarea: GovukTextarea,
+    formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@heading = @{if(summary.isAgent){ messages("section8.heading.agent") }else{ messages("section8.heading")}}
 
-@main(title=Messages("section8.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-  @form(action = dataCapturePages.routes.PageController.savePage(8), args = 'class -> "myForm", 'id -> "myFormId") {
-      <main id="content">
-    @views.html.includes.backSave()
+@layout(
+    showHistoryBack = true,
+    pageHeading = heading,
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
+
+    @formWithCSFR(
+        action = dataCapturePages.routes.PageController.savePage(8),
+        args = 'class -> "myForm", 'id -> "myFormId") {
+
+        <!-- Was the rent fixed between you (or your agent) and the landlord? -->
+        @govukRadios(
+            Radios(
+                name = "wasRentFixedBetween",
+                idPrefix = Option("wasRentFixedBetween"),
+                classes = "radio-button-that-show-hides",
+                items = Seq(
+                    "true" -> messages("label.yes.do"),
+                    "false" -> messages("label.no.naddo")
+                ).map( radioItem => RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("wasRentFixedBetween").value.getOrElse("")),
+                    value=Option(radioItem._1)
+                )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("wasRentFixedBetween"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(if(summary.isAgent) messages("label.wasRentFixedBetween.agent") else messages("label.wasRentFixedBetween")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        @govukRadios(
+            Radios(
+                name = "notReviewRentFixed",
+                idPrefix = Option("notReviewRentFixed"),
+                items = EnumOptions
+                        .options(NotReviewRentFixedTypes)
+                        .map( radioItem => RadioItem (
+                            content = Text(radioItem._2),
+                            checked = radioItem._1.equals(theForm("notReviewRentFixed").value.getOrElse("")),
+                            value=Option(radioItem._1)
+                    )
+                ),
+                attributes = Map(
+                    "data-hidden-by" -> "wasRentFixedBetween",
+                    "data-show-when-value-equals" -> "false"
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("notReviewRentFixed"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.notReviewRentFixed")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        @govukRadios(
+            Radios(
+                name = "rentSetByType",
+                idPrefix = Option("rentSetByType"),
+                items = EnumOptions
+                        .options(RentSetByTypes)
+                        .map( radioItem => RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("rentSetByType").value.getOrElse("")),
+                    value=Option(radioItem._1)
+                )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("rentSetByType"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.rentSetByType")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
     
-    @progressBar(true)
-
-    @includes.errors(theForm, summary.isAgent)
-    @headingDisplay(8, if(summary.isAgent){ Messages("section8.heading.agent") }else{ Messages("section8.heading")}, true)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-
-        @helper.CSRF.formField
-
-
-          <!-- Was the rent fixed between you (or your agent) and the landlord? -->
-        @inputRadioGroup(
-          field = theForm("wasRentFixedBetween"),
-          options = Seq(
-            "true" -> Messages("label.yes.do"),
-            "false" -> Messages("label.no.naddo")
-          ),
-          dataAttributes = Seq(("false", "data-show-field", "true")),
-          args = Seq(
-            '_showConstraints -> false,
-            '_label -> Messages(if(summary.isAgent) Messages("label.wasRentFixedBetween.agent") else Messages("label.wasRentFixedBetween")),
-            '_error -> theForm("wasRentFixedBetween").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
-            '_labelClass -> "form-label-bold",
-            '_showErrors -> true
-          )
-        )
-
-        @inputRadioGroup(
-          field = theForm("notReviewRentFixed"),
-          options = EnumOptions.options(NotReviewRentFixedTypes),
-          args = Seq(
-            '_label -> Messages("label.notReviewRentFixed"),
-            '_error -> theForm("notReviewRentFixed").errors,
-            '_showConstraints -> false,
-            '_showErrors -> true,
-            '_labelClass -> "form-label-bold",
-            '_legend -> true,
-            '_fieldsetClass -> "form-group hidden wasRentFixedBetween",
-            '_nojsText -> Messages("label.noJs.notReviewRentFixed")
-          )
-        )
-
-        @inputRadioGroup(
-          field = theForm("rentSetByType"),
-          options = EnumOptions.options(RentSetByTypes),
-          args = Seq(
-            '_label -> Messages("label.rentSetByType"),
-            '_error -> theForm("rentSetByTypes").errors,
-            '_showConstraints -> false,
-            '_showErrors -> true,
-            '_labelClass -> "form-label-bold",
-            '_legend -> true,
-            '_fieldsetClass -> "form-group"
-          )
-        )
-
-        @includes.continueButton()
-
-      </div>
-      <div class="column-third"></div>
-    </div>
-</main>
-    
-    @includes.continueButtonStickyFooter()
+    @includes.continueSaveForLaterButtons(govukButton)
     
     }
-        @includes.formHelp()
+    @includes.formHelp2()
 }

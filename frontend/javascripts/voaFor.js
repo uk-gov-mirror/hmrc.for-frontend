@@ -10,8 +10,9 @@
     };
 
     VoaFor.errorFocus = function () {
-        if ($('.form-error')) {
-            $('.form-error').focus();
+        var $formErrors = $('.form-error');
+        if ($formErrors) {
+            $formErrors.focus();
         }
     };
 
