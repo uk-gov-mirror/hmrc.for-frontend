@@ -3,36 +3,6 @@
 
     VoaAlerts.intelAlert = function () {
 
-        //Section 5
-        function intelCheckSection5(that){
-            var landlordName, data;
-            if($('[name="landlordFullName"]').val()){
-                landlordName = $('[name="landlordFullName"]').val().split(' ').pop().toLowerCase();
-            }
-            var landlordAddress = $('[name="landlordAddress.buildingNameNumber"]').val()+$('[name="landlordAddress.street1"]').val()+$('[name="landlordAddress.street2"]').val()+$('[name="landlordAddress.postcode"]').val();
-            if(landlordAddress){
-                data = landlordName+landlordAddress.replace(/ /g,'').toLowerCase();
-            }
-            if($('#landlordConnectType_noConnected').is(':checked')) {
-                if( data === $(that).attr('data-intel')){
-                    $('.landlord-connect-type.intel-alert').removeClass('hidden');
-                }else{
-                    $('.landlord-connect-type.intel-alert').addClass('hidden');
-                }
-            }else{
-                $('.landlord-connect-type.intel-alert').addClass('hidden');
-            }
-        }
-
-        intelCheckSection5($('input#landlordConnectType_noConnected'));
-
-        $('[name="landlordConnectType"]').change(function(){
-            intelCheckSection5(this);
-        });
-        $('[name="landlordFullName"], [name="landlordAddress.buildingNameNumber"], [name="landlordAddress.street1"], [name="landlordAddress.street2"], [name="landlordAddress.postcode"]').change(function(){
-            intelCheckSection5($('input#landlordConnectType_noConnected'));
-        });
-
         //Section 9
         function intelCheckSection9(element){
 

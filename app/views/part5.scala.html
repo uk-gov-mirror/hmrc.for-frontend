@@ -15,103 +15,109 @@
  *@
 
 @import models._
+@import models.pages.{PageFive, Summary}
 @import models.serviceContracts.submissions._
-@import models.pages._
 @import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import template.HiddenBy
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 
-@(theForm: Form[PageFive], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        govukTextarea: GovukTextarea,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-    @views.html.includes.stylesheets()
-    @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
+@agentSuffix = @{ if(summary.isAgent) "agent" else "" }
 
-@surname = @{
-    val s = summary.customerDetails.map(_.fullName).getOrElse("")
-    s.split("\\s+").last
-}
-@address = @{
-    val s = summary.customerDetails
-}
+@layout(
+    showHistoryBack = true,
+    pageHeading = messages("section5.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@main(title=Messages("section5.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-    @form(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
+    <p class="govuk-body">@messages("section5.heading.help")</p>
 
-    <main id="content">
-        @views.html.includes.backSave()
-        @progressBar(true)
+    @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
 
-        @includes.errors(theForm, summary.isAgent)
-        @headingDisplay(5, Messages("section5.heading"), true)
+    @govukInput(
+        Input(
+            id = "landlordFullName",
+            name = "landlordFullName",
+            value = theForm("landlordFullName").value,
+            classes = "govuk-input--width-20",
+            formGroupClasses = "",
+            label = Label(
+                content = Text(messages("label.landlordFullName") ),
+                classes = "govuk-!-font-weight-bold"
+            ),
+            errorMessage =  theForm.errors.asTextErrorMessageForField("landlordFullName")
+        )
+    )
 
-        <div class="grid-row">
-            <div class="column-two-thirds">
+    @includes.lookupAddress(theForm, "landlordAddress", govukInput)
 
-                @helper.CSRF.formField
-
-                <p>
-                    @Messages("section5.heading.help")
-                </p>
-
-                    <!-- Landlord's full name -->
-                @inputText(
-                    field = theForm("landlordFullName"),
-                    '_label -> Messages("label.landlordFullName"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control"
-                )
-
-                @includes.lookupAddress(theForm, "landlordAddress")
-
-                @inputRadioGroup(
-                    field = theForm("landlordConnectType"),
-                    options = EnumOptions.options(LandlordConnectionTypes),
-                    args = Seq(
-                        '_label -> Messages(if(summary.isAgent) Messages("label.LandlordConnectionTypes.agent") else Messages("label.LandlordConnectionTypes")),
-                        '_error -> theForm("landlordConnectType").errors,
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_legend -> true,
-                        '_showErrors -> true
-                    ),
-                    dataAttributes = Seq(
-                        ("other", "data-show-field", "true"),
-                        ("noConnected", "data-intel", surname.toLowerCase()+Addresses.getAddress(summary).singleLine.replaceAll(" ", "").replaceAll(",", "").toLowerCase())
+    @govukRadios(
+        Radios(
+            name = "landlordConnectType",
+            idPrefix = Option("landlordConnectType"),
+            items = EnumOptions.options(LandlordConnectionTypes)
+                    .map( radioItem => RadioItem (
+                content = Text(radioItem._2),
+                checked = radioItem._1.equals(theForm("landlordConnectType").value.getOrElse("")),
+                value   = Option(radioItem._1)
+            )
+            ),
+            classes = "radio-button-that-show-hides",
+            errorMessage = theForm.errors.asTextErrorMessageForField("landlordConnectType"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages(if(summary.isAgent) messages("label.LandlordConnectionTypes.agent") else messages("label.LandlordConnectionTypes"))),
+                            classes = "govuk-!-font-weight-bold"
+                        )
                     )
                 )
+            )
+        )
+    )
 
-                <div class="panel-indent panel-indent-info hidden landlord-connect-type intel-alert">@Messages("intel.alert.landlordNameAddress")</div>
+    @govukInput(
+        Input(
+            id = "landlordConnectText",
+            name = "landlordConnectText",
+            value = theForm("landlordConnectText").value,
+            classes = "govuk-input--width-20",
+            attributes = Map(
+                "data-hidden-by" -> "landlordConnectType",
+                "data-show-when-value-equals" -> "other"
+            ),
+            label = Label(
+                content = Text(if(summary.isAgent) messages("label.landlordConnectText.agent") else messages("label.landlordConnectText")  ),
+                classes = "govuk-!-font-weight-bold"
+            ),
+            hint = Hint(content = Text(messages("hint.landlordConnect"))),
+            errorMessage =  theForm.errors.asTextErrorMessageForField("landlordConnectText")
+        )
+    )
 
-                @inputText(
-                    field = theForm("landlordConnectText"),
-                    '_label -> Messages(if(summary.isAgent) Messages("label.landlordConnectText.agent") else Messages("label.landlordConnectText")),
-                    '_labelClass -> "form-label-bold",
-                    '_fieldsetClass -> "hidden landlordConnectType",
-                    'class -> "form-control",
-                    '_help -> Messages("hint.landlordConnect"),
-                    '_nojsText -> Messages("label.noJs.landlordConnect")
-
-                )
-
-                @includes.continueButton()
-
-            </div>
-            <div class="column-third"></div>
-        </div>
- </main>
-
-    @includes.continueButtonStickyFooter()
-
+        @includes.continueSaveForLaterButtons(govukButton)
     }
 
-        @includes.formHelp()
+    @includes.formHelp2()
 }
+

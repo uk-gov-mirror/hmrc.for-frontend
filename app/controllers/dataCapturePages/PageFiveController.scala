@@ -26,14 +26,15 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import views.html.part5
 
-class PageFiveController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageFiveController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents, part5:part5)
   extends ForDataCapturePage[PageFive] (refNumAction, cc)  {
   val format = Json.format[PageFive]
   val emptyForm = pageFiveForm
   val pageNumber: Int = 5
 
   def template(form: Form[PageFive], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part5(form, summary)
+    part5(form, summary)
   }
 }
