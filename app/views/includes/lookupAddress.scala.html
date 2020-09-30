@@ -61,14 +61,15 @@
             errorMessage =  theForm.errors.asTextErrorMessageForField("landlordAddress.street2")
         )
     )
+
     @govukInput(
         Input(
             id = "landlordAddress.postcode",
             name = "landlordAddress.postcode",
             value = theForm("landlordAddress.postcode").value,
-            classes = "govuk-input--width-20",
+            classes = "govuk-input--width-10",
             formGroupClasses = "address-field-postcode",
-            label = Label(content = Text(messages("label.street2") )),
-            errorMessage =  theForm.errors.asTextErrorMessageForField("landlordAddress.stpostcodereet2")
+            label = Label(content = Text(messages("label.postcode") )),
+            errorMessage =  theForm.errors.asTextErrorMessageForField("landlordAddress.postcode")
         )
     )
