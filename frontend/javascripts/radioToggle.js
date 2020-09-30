@@ -144,9 +144,9 @@
                                 //this is to allow for multiple fields showing the same field
                                 var $elementToToggle = $(this).is('fieldset')? $(this):$(this).parent('.govuk-form-group');
                                 if (attr.split('|').includes(val)) {
-                                    $elementToToggle.removeClass('hidden')
+                                    $elementToToggle.removeClass('hidden');
                                 } else {
-                                    $elementToToggle.addClass('hidden')
+                                    $elementToToggle.addClass('hidden');
                                 }
                             }
 
