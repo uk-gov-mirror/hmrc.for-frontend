@@ -112,6 +112,19 @@ module.exports = function(grunt) {
                     dest: 'public/images/'
                 }]
             },
+            hmrcModules: {
+                files: [ {
+                    expand: true,
+                    cwd: 'govuk_modules/govuk_template/assets/stylesheets',
+                    src: '**',
+                    dest: 'public/stylesheets/'
+                }, {
+                    expand: true,
+                    cwd: 'govuk_modules/govuk_frontend_toolkit/images',
+                    src: '**',
+                    dest: 'public/images/'
+                }]
+            },
             cutstomImages: {
                 files: [{
                     expand: true,

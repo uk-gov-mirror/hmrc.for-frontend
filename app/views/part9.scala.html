@@ -14,129 +14,146 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages._
-@import play.api.data._
 @import _root_.template.Helper._
-@import _root_.template.FormatRefNum
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import config.ForConfig
+@import models._
+@import models.pages.Summary
+@import models.serviceContracts.submissions._
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@agentSuffix = @{ if(summary.isAgent) "agent" else "" }
 
-@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
-@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(8).url,
+    pageHeading = messages("section9.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@main(title=Messages("section9.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-  @form(action = dataCapturePages.routes.PageController.savePage(9), args = 'class -> "myForm", 'id -> "myFormId") {
-         
-  <main id="content">
-    @views.html.includes.backSave()
-    @progressBar(true)
+  @formWithCSFR(
+    action = dataCapturePages.routes.PageController.savePage(9),
+    args = 'class -> "myForm", 'id -> "myFormId"
+  ) {
 
-    @includes.errors(theForm, summary.isAgent)
-    @headingDisplay(9, Messages("section9.heading"), true)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-
-        @helper.CSRF.formField
-
-          @inputText(
-            field = theForm("totalRent.annualRentExcludingVat"),
-            '_label -> Html(Messages(if(summary.isAgent) Messages("label.totalRent.annualRentExcludingVat.agent") else Messages("label.totalRent.annualRentExcludingVat"))),
-            '_labelClass -> "form-label-bold",
-            'class -> "form-control input-currency total-annual-rent",
-            '_pound -> true,
-            '_fieldsetClass -> "inline",
-            '_help -> Messages("hint.totalRent.annualRentExcludingVat")
+      @hmrcCurrencyInput(
+          CurrencyInput(
+              id = "totalRent.annualRentExcludingVat",
+              name = "totalRent.annualRentExcludingVat",
+              value = theForm("totalRent.annualRentExcludingVat").value,
+              classes = "govuk-input--width-10 total-annual-rent",
+              label = Label(
+                  content = Text(if(summary.isAgent) messages("label.totalRent.annualRentExcludingVat.agent") else messages("label.totalRent.annualRentExcludingVat"))
+              ),
+              hint = Hint(content = Text(messages("hint.totalRent.annualRentExcludingVat"))),
+              autocomplete = Some("off"),
+              errorMessage =  theForm.errors.asTextErrorMessageForField("totalRent.annualRentExcludingVat")
           )
-
-          @if(summary.isAgent) {
-            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, "agent")
-          } else {
-            @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, "")
-          }
+      )
 
 
-        <div class="panel-indent panel-indent-info hidden intel-alert rentBecomePayable" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
+      @govukDateInput(
+          DateInput(
+              id = "rentBecomePayable",
+              namePrefix = "rentBecomePayable",
+              hint = Hint(content = Text(messages("help.date.day.month.year"))),
+              fieldset = Fieldset(
+                  legend = Legend(
+                      content = Text(messages("label.rentBecomePayable")),
+                      classes = "govuk-!-font-weight-bold"
+                  )
+              )
+          )
+        )
+
+        @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, suffix = agentSuffix )
 
         @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", false, "", false)
 
         @inputRadioGroup(
           field = theForm("negotiatingNewRent"),
           options = Seq(
-            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydw")  else  Messages("label.yes.ydw.ydy")),
-            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydw")  else  Messages("label.no.nac.ydw.ydy"))
+            "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw.ydy")),
+            "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw.ydy"))
           ),
           args = Seq(
             '_showConstraints -> false,
-            '_label -> Messages(if(summary.isAgent) Messages("label.negotiatingNewRent.agent") else Messages("label.negotiatingNewRent")),
+            '_label -> messages(if(summary.isAgent) messages("label.negotiatingNewRent.agent") else messages("label.negotiatingNewRent")),
             '_error -> theForm("negotiatingNewRent").error,
             '_legend -> true,
             '_fieldsetClass -> "inline",
             '_labelClass -> "form-label-bold",
             '_showConstraints -> false,
-            '_help -> Messages("hint.negotiatingNewRent")
+            '_help -> messages("hint.negotiatingNewRent")
           )
         )
 
-        @inputRadioGroup(
-          field = theForm("rentBasedOn"),
-          options = EnumOptions.options(RentBaseTypes),
-          args = Seq(
-            '_label -> Messages("label.rentBasedOn"),
-            '_error -> theForm("rentBasedOn").error,
-            '_showConstraints -> false,
-            '_showErrors -> true,
-            '_labelClass -> "form-label-bold",
-            '_legend -> true,
-            '_fieldsetClass -> "form-group",
-            '_details -> true,
-            '_detailsQuestion -> Messages("details.question.rentBasedOn"),
-            '_detailsAnswer -> Html(Messages("details.answer.rentBasedOn"))
-          ),
-          dataAttributes = Seq(
-            ("percentageOpenMarket", "data-show-field", "true"),
-            ("percentageTurnover", "data-show-field", "true"),
-            ("indexation", "data-show-field", "true"),
-            ("other", "data-show-field", "true")
+      @govukRadios(
+          Radios(
+              name = "rentBasedOn",
+              idPrefix = Option("rentBasedOn"),
+              items = EnumOptions.options(RentBaseTypes).map( radioItem => {
+                     RadioItem (
+                      content = Text(radioItem._2),
+                      checked = radioItem._1.equals(theForm("rentBasedOn").value.getOrElse("")),
+                      value   = Option(radioItem._1)
+                    )
+                 }
+              ),
+              classes = "radio-button-that-show-hides",
+              errorMessage = theForm.errors.asTextErrorMessageForField("rentBasedOn"),
+              fieldset = Option(
+                  Fieldset(
+                      legend = Option(
+                          Legend(
+                              content = Text(messages("label.rentBasedOn")),
+                              classes = "govuk-!-font-weight-bold"
+                          )
+                      )
+                  )
+              )
           )
-        )
+      )
 
-        @inputText(
-          field = theForm("rentBasedOnDetails"),
-          '_label -> Messages("label.rentBasedOnDetails"),
-          '_labelClass -> "form-label-bold",
-          'class -> "form-control input-extra-large",
-          '_fieldsetClass -> "form-group hidden rentBasedOn",
-          '_showConstraints -> false,
-          '_showErrors -> true,
-          '_nojsText -> Messages("label.noJs.rentBasedOnDetails")
-        )
+      @govukInput(
+          Input(
+              id = "rentBasedOnDetails",
+              name = "rentBasedOnDetails",
+              value = theForm("rentBasedOnDetails").value,
+              classes = "govuk-input--width-20 currency total-annual-rent",
+              attributes = Map(
+                  "data-hidden-by" -> "rentBasedOn",
+                  "data-show-when-value-equals" -> "other|indexation|indexation|percentageTurnover|percentageOpenMarket"
+              ),
+              label = Label(
+                  content = Text(messages("label.rentBasedOnDetails")),
+                  classes = "govuk-!-font-weight-bold"
+              ),
+              errorMessage =  theForm.errors.asTextErrorMessageForField("rentBasedOnDetails")
+          )
+      )
 
-        @includes.continueButton()
-
-      </div>
-      <div class="column-third"></div>
-    </div>
-</main>
-    
-    @includes.continueButtonStickyFooter()
+    @includes.continueSaveForLaterButtons(govukButton)
     
     }
-        @includes.formHelp()
+    @includes.formHelp2()
 }

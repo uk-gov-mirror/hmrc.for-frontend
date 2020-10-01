@@ -9,6 +9,10 @@
         $('a#history-back').show();
     };
 
+    VoaFor.currencyFields = function(){
+        $('<span class=\'pound\'>£</span>').insertBefore('input[type=text].currency');
+    };
+
     VoaFor.errorFocus = function () {
         var $formErrors = $('.form-error');
         if ($formErrors) {
