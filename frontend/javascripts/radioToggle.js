@@ -140,7 +140,7 @@
                         var attr = $(this).attr('data-show-when-value-equals');
                         if (attr) {
                             //we are either toggling the fieldset.fieldset-to-hide or the parent .gov-uk-form
-                            var $elementToToggle = $(this).hasClass('fieldset-to-hide')? $(this):$(this).parent('.govuk-form-group');
+                            var $elementToToggle = $(this).hasClass('fieldset-to-hide')? $(this):$(this).closest('.govuk-form-group');
                             //this is to allow for multiple fields showing the same field
                             if (attr.split('|').includes(val)) {
                                 $elementToToggle.removeClass('hidden');
@@ -153,7 +153,7 @@
             }
         };
         //add hidden class to all data-hidden-by INPUT elements
-        $('*[data-hidden-by]').parent('.govuk-form-group').addClass('hidden');
+        $('*[data-hidden-by]').closest('.govuk-form-group').addClass('hidden');
         //for form fields that need to be shown/hidden as a group.
         // This is necessary as some in the group are also toggled by items in group itself.
         $('.fieldset-to-hide[data-hidden-by]').addClass('hidden');
