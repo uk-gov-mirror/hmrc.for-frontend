@@ -39,6 +39,9 @@
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
+//@*  @dayClass = @{"govuk-input--width-2" + (theForm.errors.flatMap(x => x.find(_.msg == "day").map(_ => " govuk-input--error")).getOrElse(""))}*@
+//@*  @monthClass = @{"govuk-input--width-2" + (theForm.errors.flatMap(x => x.find(_.msg == "month").map(_ => " govuk-input--error")).getOrElse(""))}*@
+//@*  @yearClass = @{"govuk-input--width-4" + (theForm.errors.flatMap(x => x.find(_.msg == "year").map(_ => " govuk-input--error")).getOrElse(""))}*@
 @agentSuffix = @{ if(summary.isAgent) "agent" else "" }
 
 @layout(
@@ -70,11 +73,32 @@
           )
       )
 
+      @theForm.error("rentBecomePayable")
 
       @govukDateInput(
           DateInput(
               id = "rentBecomePayable",
-              namePrefix = "rentBecomePayable",
+              formGroupClasses = (if(theForm.errors.exists(e=> e.key.contains("rentBecomePayable"))) "govuk-form-group--error" else ""),
+              items = Seq(
+                  InputItem(
+                      name = "rentBecomePayable.day",
+                      classes = ("govuk-input--width-2 " + (if(theForm.error("rentBecomePayable.day").isDefined) "govuk-input--error" else "")),
+                      value = theForm("rentBecomePayable.day").value,
+                      label = messages("label.date.day")
+                  ),
+                  InputItem(
+                      name = "rentBecomePayable.month",
+                      classes = ("govuk-input--width-2 " + (if(theForm.error("rentBecomePayable.month").isDefined) "govuk-input--error" else "")),
+                      value = theForm("rentBecomePayable.month").value,
+                      label = messages("label.date.month")
+                  ),
+                  InputItem(
+                      name = "rentBecomePayable.year",
+                      classes = ("govuk-input--width-4 " + (if(theForm.error("rentBecomePayable.year").isDefined) "govuk-input--error" else "")),
+                      value = theForm("rentBecomePayable.year").value,
+                      label = messages("label.date.year")
+                  )
+              ),
               hint = Hint(content = Text(messages("help.date.day.month.year"))),
               fieldset = Fieldset(
                   legend = Legend(
@@ -85,27 +109,37 @@
           )
         )
 
-        @includes.dateFieldsDayMonthYear(theForm, "", "rentBecomePayable", false, "", false, suffix = agentSuffix )
+      @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", false, "", false)
 
-        @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", false, "", false)
-
-        @inputRadioGroup(
-          field = theForm("negotiatingNewRent"),
-          options = Seq(
-            "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw.ydy")),
-            "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw.ydy"))
-          ),
-          args = Seq(
-            '_showConstraints -> false,
-            '_label -> messages(if(summary.isAgent) messages("label.negotiatingNewRent.agent") else messages("label.negotiatingNewRent")),
-            '_error -> theForm("negotiatingNewRent").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
-            '_labelClass -> "form-label-bold",
-            '_showConstraints -> false,
-            '_help -> messages("hint.negotiatingNewRent")
+      @govukRadios(
+          Radios(
+              name = "negotiatingNewRent",
+              idPrefix = Option("negotiatingNewRent"),
+              items = Seq(
+                  "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw.ydy")),
+                  "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw.ydy"))
+              ).map( radioItem => {
+                  RadioItem (
+                      content = Text(radioItem._2),
+                      checked = radioItem._1.equals(theForm("negotiatingNewRent").value.getOrElse("")),
+                      value   = Option(radioItem._1)
+                  )
+              }
+              ),
+              hint = Hint(content = Text(messages("hint.negotiatingNewRent"))),
+              errorMessage = theForm.errors.asTextErrorMessageForField("negotiatingNewRent"),
+              fieldset = Option(
+                  Fieldset(
+                      legend = Option(
+                          Legend(
+                              content = Text(messages("label.negotiatingNewRent")),
+                              classes = "govuk-!-font-weight-bold"
+                          )
+                      )
+                  )
+              )
           )
-        )
+      )
 
       @govukRadios(
           Radios(
