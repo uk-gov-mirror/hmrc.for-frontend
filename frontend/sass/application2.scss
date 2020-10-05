@@ -1,4 +1,5 @@
 $govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk/assets/";
+$hmrc-assets-path: "/app-name-here/assets/lib/hmrc-frontend/hmrc/";
 
 #timeout-dialog.timeout-dialog {
   * {
@@ -43,4 +44,6 @@ div#helpFormWrapper {
   margin-bottom: 0;
 }
 
+
 @import "node_modules/govuk-frontend/govuk/all";
+@import "node_modules/hmrc-frontend/hmrc/all";

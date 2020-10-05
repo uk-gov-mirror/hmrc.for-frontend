@@ -20,6 +20,11 @@ import models._
 import models.serviceContracts.submissions.RentBaseType
 import org.joda.time.LocalDate
 
-case class PageNine(totalRent: AnnualRent, rentBecomePayable: LocalDate, rentActuallyAgreed: LocalDate,
-  negotiatingNewRent: Boolean, rentBasis: RentBaseType, rentBasisOtherDetails: Option[String]
+case class PageNine(
+     totalRent: AnnualRent,
+     rentBecomePayable: LocalDate,
+     rentActuallyAgreed: LocalDate,
+     negotiatingNewRent: Boolean,
+     rentBasis: RentBaseType,
+     rentBasisOtherDetails: Option[String]
 )
