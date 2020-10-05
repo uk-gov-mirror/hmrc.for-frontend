@@ -35,13 +35,11 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
         formWithCSFR: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-//@*  @dayClass = @{"govuk-input--width-2" + (theForm.errors.flatMap(x => x.find(_.msg == "day").map(_ => " govuk-input--error")).getOrElse(""))}*@
-//@*  @monthClass = @{"govuk-input--width-2" + (theForm.errors.flatMap(x => x.find(_.msg == "month").map(_ => " govuk-input--error")).getOrElse(""))}*@
-//@*  @yearClass = @{"govuk-input--width-4" + (theForm.errors.flatMap(x => x.find(_.msg == "year").map(_ => " govuk-input--error")).getOrElse(""))}*@
 @agentSuffix = @{ if(summary.isAgent) "agent" else "" }
 
 @layout(
@@ -73,43 +71,8 @@
           )
       )
 
-      @theForm.error("rentBecomePayable")
-
-      @govukDateInput(
-          DateInput(
-              id = "rentBecomePayable",
-              formGroupClasses = (if(theForm.errors.exists(e=> e.key.contains("rentBecomePayable"))) "govuk-form-group--error" else ""),
-              items = Seq(
-                  InputItem(
-                      name = "rentBecomePayable.day",
-                      classes = ("govuk-input--width-2 " + (if(theForm.error("rentBecomePayable.day").isDefined) "govuk-input--error" else "")),
-                      value = theForm("rentBecomePayable.day").value,
-                      label = messages("label.date.day")
-                  ),
-                  InputItem(
-                      name = "rentBecomePayable.month",
-                      classes = ("govuk-input--width-2 " + (if(theForm.error("rentBecomePayable.month").isDefined) "govuk-input--error" else "")),
-                      value = theForm("rentBecomePayable.month").value,
-                      label = messages("label.date.month")
-                  ),
-                  InputItem(
-                      name = "rentBecomePayable.year",
-                      classes = ("govuk-input--width-4 " + (if(theForm.error("rentBecomePayable.year").isDefined) "govuk-input--error" else "")),
-                      value = theForm("rentBecomePayable.year").value,
-                      label = messages("label.date.year")
-                  )
-              ),
-              hint = Hint(content = Text(messages("help.date.day.month.year"))),
-              fieldset = Fieldset(
-                  legend = Legend(
-                      content = Text(messages("label.rentBecomePayable")),
-                      classes = "govuk-!-font-weight-bold"
-                  )
-              )
-          )
-        )
-
-      @includes.dateFieldsDayMonthYear(theForm, "", "rentActuallyAgreed", false, "", false)
+      @includes.dateFields2(form=theForm, field="rentBecomePayable", govukDate=govukDateInput, showDays = true)
+      @includes.dateFields2(form=theForm, field="rentActuallyAgreed", govukDate=govukDateInput, showDays = true)
 
       @govukRadios(
           Radios(
@@ -139,6 +102,14 @@
                   )
               )
           )
+      )
+
+
+      @govukDetails(
+        Details(
+          summary = Text(messages("details.question.rentBasedOn")),
+          content = HtmlContent(messages("details.answer.rentBasedOn"))
+        )
       )
 
       @govukRadios(
@@ -173,7 +144,7 @@
               id = "rentBasedOnDetails",
               name = "rentBasedOnDetails",
               value = theForm("rentBasedOnDetails").value,
-              classes = "govuk-input--width-20 currency total-annual-rent",
+              classes = "govuk-input--width-20",
               attributes = Map(
                   "data-hidden-by" -> "rentBasedOn",
                   "data-show-when-value-equals" -> "other|indexation|indexation|percentageTurnover|percentageOpenMarket"

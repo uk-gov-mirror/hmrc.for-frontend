@@ -14,66 +14,83 @@
  * limitations under the License.
  *@
 
-@import template.HiddenBy
 @import play.api.data._
+@import template.HiddenBy
+@import uk.gov.hmrc.govukfrontend.views.Aliases._
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukDateInput
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-@(  theForm: Form[_],
+@(  form: Form[_],
+    field: String,
+    govukDate: GovukDateInput,
     helpText: Option[String] = None,
-    fieldName: String,
     suffix: String = "",
-    nojs: Boolean = false,
-    nojsText: String = "",
     label: Option[String] = None,
-    hiddenBy: Option[HiddenBy] = None
-        )(implicit request: Request[_], messages: Messages)
+    showDays : Boolean = false,
+    hiddenBy: Option[HiddenBy] = None)(implicit request: Request[_], messages: Messages)
 
-@monthFieldName  = @{fieldName + ".month"}
-@yearFieldName  = @{fieldName + ".year"}
-
-<div class="govuk-form-group @if(theForm(fieldName +".year").hasErrors || theForm(fieldName +".month").hasErrors){ govuk-form-group--error }">
-    <fieldset class="govuk-fieldset" @hiddenBy.getOrElse("") role="group" aria-describedby="date-hint">
-        <legend
-        class="govuk-fieldset__legend govuk-!-font-weight-bold">@label.map { lab => @messages(lab) }.getOrElse(if(suffix.nonEmpty) {
-            Html(messages(s"label.$fieldName.$suffix"))
-        } else {
-            Html(messages(s"label.$fieldName"))
-        })</legend>
-        @if(helpText.isDefined){
-            <div id="date-hint" class="govuk-hint">
-                <p>@helpText.get</p>
-                <p>@messages("help.date.month.year")</p>
-            </div>
+    @labelText = @{ label.getOrElse("label." + field + (if(suffix.isEmpty) "" else "." + suffix))}
+    @dayfield  = @{field + ".day"}
+    @monthfield  = @{field + ".month"}
+    @yearfield  = @{field + ".year"}
+    @dateErrorMessage(field: String) = @{
+        var msg: Option[ErrorMessage] = None
+        if(form.errors(field).isDefined){
+            msg = form.errors.asTextErrorMessageForField(field)
         }
-        @if(!nojsText.isEmpty) {
-            <p class="hidden">@nojsText</p>
+        if(msg.isEmpty) {
+            if(form.errors.exists(x => x.key.contains(field))){
+                val firstError = form.errors.find(x => x.key.contains(field))
+                msg = Some(ErrorMessage(content = Text(messages(firstError.get.message))))
+            }
         }
-        <div class="govuk-date-input" id="@fieldName">
-            <div class="govuk-form-group govuk-date-input__item">
-                <label  class="govuk-label govuk-date-input__label govuk-!-font-weight-bold"
-                        for="@{val yearField = fieldName + ".month"; yearField }">@messages("label.date.month")</label>
-                <input  class="govuk-input govuk-input--width-2 @if(theForm(fieldName +".month").hasErrors){ govuk-input--error}"
-                        id="@monthFieldName"
-                        name="@monthFieldName"
-                        value="@{theForm(monthFieldName).value}"
-                        type="text"
-                        autocomplete="@monthFieldName"
-                        pattern="[0-9]*" inputmode="numeric">
-            </div>
-            <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                    <label  class="govuk-label govuk-date-input__label govuk-!-font-weight-bold"
-                            for="@yearFieldName">
-                    @messages("label.date.year")</label>
-                    <input class="govuk-input govuk-input--width-4 @if(theForm(fieldName +".year").hasErrors){ govuk-input--error}"
-                    id="@yearFieldName"
-                    name="@yearFieldName"
-                    value="@{theForm(yearFieldName).value}"
-                    type="text"
-                    autocomplete="@yearFieldName"
-                    pattern="[0-9]*" inputmode="numeric">
-                </div>
-            </div>
-        </div>
+        msg
+    }
 
-    </fieldset>
-</div>
+    @radioItems = @{
+        val month = InputItem(
+            id = monthfield,
+            name = monthfield,
+            classes = ("govuk-input--width-2 " + (if(form.error(monthfield).isDefined) "govuk-input--error" else "")),
+            value = form(monthfield).value,
+            label = messages("label.date.month")
+        )
+        val year = InputItem(
+            id = yearfield,
+            name = yearfield,
+            classes = ("govuk-input--width-4 " + (if(form.error(yearfield).isDefined) "govuk-input--error" else "")),
+            value = form(yearfield).value,
+            label = messages("label.date.year")
+        )
+        val day = InputItem(
+            id = dayfield,
+            name = dayfield,
+            classes = ("govuk-input--width-2 " + (if(form.error(dayfield).isDefined) "govuk-input--error" else "")),
+            value = form(dayfield).value,
+            label = messages("label.date.day")
+        )
+
+        if(showDays){
+            Seq(day, month, year)
+        }else{
+            Seq(month, year)
+        }
+    }
+
+    @govukDate(
+        DateInput(
+            id = field,
+            formGroupClasses = (if(form.errors.exists(e => e.key.contains(field))) "govuk-form-group--error" else ""),
+            items = radioItems,
+            hint = Hint(
+                content = Text(helpText.getOrElse(messages("help.date.day.month.year")))
+            ),
+            fieldset = Fieldset(
+                legend = Legend(
+                    content = Text(messages(labelText)),
+                    classes = "govuk-!-font-weight-bold"
+                )
+            ),
+            errorMessage = dateErrorMessage(field)
+        )
+    )
