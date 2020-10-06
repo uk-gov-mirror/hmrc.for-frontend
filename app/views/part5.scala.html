@@ -38,8 +38,6 @@
 
 @(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@agentSuffix = @{ if(summary.isAgent) "agent" else "" }
-
 @layout(
     showHistoryBack = true,
     pageHeading = messages("section5.heading"),

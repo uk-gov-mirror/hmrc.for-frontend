@@ -107,7 +107,7 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
   }
 
   it should "return a required error when rent details are required but not given" in {
-    val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccomodation, Keys.landOnly, Keys.shellUnit)
+    val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccommodation, Keys.landOnly, Keys.shellUnit)
 
     fields.foreach { field =>
       val data = dataNoDetailsRequired.updated(field, "true") - Keys.rentDetails
@@ -155,11 +155,11 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
 
   checkMissingField(Keys.partRent, Errors.booleanMissing)
   checkMissingField(Keys.otherProperty, Errors.booleanMissing)
-  checkMissingField(Keys.livingAccomodation, Errors.booleanMissing)
+  checkMissingField(Keys.livingAccommodation, Errors.booleanMissing)
   checkMissingField(Keys.landOnly, Errors.booleanMissing)
   checkMissingField(Keys.shellUnit, Errors.booleanMissing)
 
-  val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccomodation, Keys.landOnly, Keys.shellUnit)
+  val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccommodation, Keys.landOnly, Keys.shellUnit)
 
   object TestData {
 
@@ -186,7 +186,7 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     val fullData: Map[String, String] = Map(
       Keys.partRent -> "true",
       Keys.otherProperty -> "true",
-      Keys.livingAccomodation -> "true",
+      Keys.livingAccommodation -> "true",
       Keys.landOnly -> "true",
       Keys.shellUnit -> "true",
       Keys.rentDetails -> "RENT DETAILS",
@@ -207,7 +207,7 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     val realExampleData: Map[String, String] = Map(
       "partRent" -> "false",
       "otherProperty" -> "false",
-      "livingAccomodation" -> "false",
+      "livingAccommodation" -> "false",
       "landOnly" -> "false",
       "shellUnit" -> "false",
       "parking.rentIncludeParking" -> "true",
@@ -217,7 +217,7 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     lazy val dataNoDetailsRequired = fullData.
       updated(Keys.partRent, "false").
       updated(Keys.otherProperty, "false").
-      updated(Keys.livingAccomodation, "false").
+      updated(Keys.livingAccommodation, "false").
       updated(Keys.landOnly, "false").
       updated(Keys.shellUnit, "false")
 

@@ -299,7 +299,7 @@ class SubmissionBuilderSpec extends FlatSpec with Matchers {
       "parking.rentIncludeParkingDetails.openSpaces" -> Seq("2"), "parking.rentIncludeParking" -> Seq("true"),
       "parking.rentSeparateParkingDetails.garages" -> Seq("9"), "parking.annualSeparateParking" -> Seq("599.84"),
       "parking.rentSeparateParking" -> Seq("true"), "landOnly" -> Seq("true"), "shellUnit" -> Seq("true"), "parking.rentIncludeParkingDetails" -> Seq("2"),
-      "rentDetails" -> Seq("RENT DETAILS"), "annualSeparateParking" -> Seq("599.84"), "partRent" -> Seq("true"), "livingAccomodation" -> Seq("true"),
+      "rentDetails" -> Seq("RENT DETAILS"), "annualSeparateParking" -> Seq("599.84"), "partRent" -> Seq("true"), "livingAccommodation" -> Seq("true"),
       "partRentDetails" -> Seq("PART RENT DETAILS"), "otherProperty" -> Seq("true"))
 
     lazy val page11FormData = Map("rentFreePeriod" -> Seq("true"), "rentFreePeriodDetails.rentFreePeriodLength" -> Seq("36"),
