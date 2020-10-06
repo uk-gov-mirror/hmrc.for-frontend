@@ -32,8 +32,8 @@ object PageTenForm {
     val partRentDetails = "partRentDetails"
     val otherProperty = "otherProperty"
     val otherPropertyDetails = "otherPropertyDetails"
-    val livingAccomodation = "livingAccomodation"
-    val livingAccommodationDetails = "livingAccomodationDetails"
+    val livingAccommodation = "livingAccommodation"
+    val livingAccommodationDetails = "livingAccommodationDetails"
     val landOnly = "landOnly"
     val landOnlyDetails = "landOnlyDetails"
     val shellUnit = "shellUnit"
@@ -50,11 +50,11 @@ object PageTenForm {
   val pageTenMapping = mapping(
     Keys.partRent -> mandatoryBoolean,
     Keys.otherProperty -> mandatoryBoolean,
-    Keys.livingAccomodation -> mandatoryBoolean,
+    Keys.livingAccommodation -> mandatoryBoolean,
     Keys.landOnly -> mandatoryBoolean,
     Keys.shellUnit -> mandatoryBoolean,
     Keys.rentDetails -> mandatoryIfAnyAreTrue(
-      Seq(Keys.shellUnit, Keys.landOnly, Keys.livingAccomodation, Keys.otherProperty, Keys.partRent),
+      Seq(Keys.shellUnit, Keys.landOnly, Keys.livingAccommodation, Keys.otherProperty, Keys.partRent),
       nonEmptyText(maxLength = 249), showNestedErrors = false
     ),
     "parking" -> ParkingMapping.parkingMapping("parking")

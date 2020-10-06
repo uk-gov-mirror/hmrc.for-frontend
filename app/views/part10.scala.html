@@ -14,289 +14,396 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import play.api.data._
-@import models.pages.Summary
 @import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.pages.Summary
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
-@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
-@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(8).url,
+    pageHeading = messages("section10.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@main(title=Messages("section10.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-    @form(action = dataCapturePages.routes.PageController.savePage(10), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSFR(
+        action = dataCapturePages.routes.PageController.savePage(10),
+        args = 'class -> "myForm", 'id -> "myFormId"
+    ) {
 
-
-        <main id="content">
-        @views.html.includes.backSave()
-        @progressBar(true)
-
-         @includes.errors(theForm, summary.isAgent)
-         @headingDisplay(10, Messages("section10.heading"), true)
-
-        <div class="grid-row">
-            <div class="column-two-thirds">
-                @helper.CSRF.formField
-
-                @inputRadioGroup(
-                    field = theForm("livingAccomodation"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydy"),
-                        "false" -> Messages("label.no.nac.ydy")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.livingAccomodation.agent")  else  Messages("label.livingAccomodation")),
-                        '_error -> theForm("livingAccomodation").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.livingAccomodation")
-                    )
+    @govukRadios(
+        Radios(
+            name = "livingAccommodation",
+            idPrefix = Option("livingAccommodation"),
+            classes = "radio-button-that-show-hides govuk-radios--inline",
+            items = Seq(
+                "true" -> messages("label.yes.ydy"),
+                "false" -> messages("label.no.nac.ydy")
+            ).map( radioItem => {
+                RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("livingAccommodation").value.getOrElse("")),
+                    value   = Option(radioItem._1)
                 )
-
-                @inputRadioGroup(
-                    field = theForm("partRent"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ie"),
-                        "false" -> Messages("label.no.nage")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.partRent.agent")  else  Messages("label.partRent", summary.address.map(_.singleLine).getOrElse(""))),
-                        '_error -> theForm("partRent").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages(if(summary.isAgent)  Messages("hint.partRent.agent")  else  Messages("hint.partRent"))
-                    )
-                )
-
-                @inputRadioGroup(
-                    field = theForm("otherProperty"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydy"),
-                        "false" -> Messages("label.no.nac.ydy")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.otherProperty.agent")  else  Messages("label.otherProperty")),
-                        '_error -> theForm("otherProperty").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.otherProperty")
-                    )
-                )
-
-                @inputRadioGroup(
-                    field = theForm("landOnly"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ie"),
-                        "false" -> Messages("label.no.nage")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.landOnly.agent")  else  Messages("label.landOnly")),
-                        '_error -> theForm("landOnly").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.landOnly")
-                    )
-                )
-
-                @inputRadioGroup(
-                    field = theForm("shellUnit"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ie"),
-                        "false" -> Messages("label.no.nage")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-details", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.shellUnit.agent")  else  Messages("label.shellUnit")),
-                        '_error -> theForm("shellUnit").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.shellUnit")
-                    )
-                )
-
-                @textarea(
-                    field = theForm("rentDetails"),
-                    '_label -> Messages(if(summary.isAgent)  Messages("label.rentDetails.agent")  else  Messages("label.rentDetails")),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control input-extra-large",
-                    '_fieldsetClass -> "form-group hidden data-show-details",
-                    'rows -> "6"
-                )
-              
-                @inputRadioGroup(
-                    field = theForm("parking.rentIncludeParking"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydy"),
-                        "false" -> Messages("label.no.nac.ydy")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-field", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent)  Messages("label.parking.rentIncludeParking.agent")  else  Messages("label.parking.rentIncludeParking")),
-                        '_error -> theForm("parking.rentIncludeParking").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages(if(summary.isAgent)  Messages("hint.label.parking.rentIncludeParking.agent")  else  Messages("hint.label.parking.rentIncludeParking"))
-                    )
-                )
-
-                    <fieldset class="form-group hidden parking.rentIncludeParking" id="parking.rentIncludeParkingDetails">
-                        <legend class="form-label-bold">@Messages("label.parking.rentIncludeParkingDetails")</legend>
-
-                        
-                        <p class="hidden">@Messages("label.noJs.rentIncludeParkingDetails")</p>
-                        @errorWrapper(Seq(theForm("parking.rentIncludeParkingDetails")), "parking.rentIncludeParkingDetails", true, "form-field-group") {
-
-                            @inputText(
-                                field = theForm("parking.rentIncludeParkingDetails.openSpaces"),
-                                '_label -> Messages("label.openSpaces"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                            @inputText(
-                                field = theForm("parking.rentIncludeParkingDetails.coveredSpaces"),
-                                '_label -> Messages("label.coveredSpaces"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                            @inputText(
-                                field = theForm("parking.rentIncludeParkingDetails.garages"),
-                                '_label -> Messages("label.garages"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                        }
-                    </fieldset>
-
-                    @inputRadioGroup(
-                        field = theForm("parking.rentSeparateParking"),
-                        options = Seq(
-                            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes.ydw")),
-                            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no.nac.ydw"))
-                        ),
-                        dataAttributes = Seq(("true", "data-show-field", "true")),
-                        args = Seq(
-                            '_showConstraints -> false,
-                            '_label -> Messages(if(summary.isAgent)  Messages("label.parking.rentSeparateParking.agent")  else  Messages("label.parking.rentSeparateParking")),
-                            '_error -> theForm("parking.rentSeparateParking").error,
-                            '_legend -> true,
-                            '_fieldsetClass -> "inline",
-                            '_labelClass -> "form-label-bold",
-                            '_showConstraints -> false
+            }
+            ),
+            hint = Hint(content = Text(messages("hint.livingAccommodation"))),
+            errorMessage = theForm.errors.asTextErrorMessageForField("livingAccommodation"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages("label.livingAccommodation" + labelSuffix)),
+                            classes = "govuk-!-font-weight-bold"
                         )
                     )
+                )
+            )
+        )
+    )
 
-                    <fieldset class="form-group hidden parking.rentSeparateParking" id="parking.rentSeparateParkingDetails">
-                        
-                        <legend class="form-label-bold">@Messages(if(summary.isAgent)  Messages("label.parking.rentSeparateParkingDetails.agent")  else  Messages("label.parking.rentSeparateParkingDetails"))</legend>
-                        <p class="hidden">@Messages("label.noJs.rentSeparateParkingDetails")</p>
-                        
-                        @errorWrapper(Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
-
-                            @inputText(
-                                field = theForm("parking.rentSeparateParkingDetails.openSpaces"),
-                                '_label -> Messages("label.openSpaces"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                            @inputText(
-                                field = theForm("parking.rentSeparateParkingDetails.coveredSpaces"),
-                                '_label -> Messages("label.coveredSpaces"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                            @inputText(
-                                field = theForm("parking.rentSeparateParkingDetails.garages"),
-                                '_label -> Messages("label.garages"),
-                                '_labelClass -> "form-label",
-                                'class -> "form-control",
-                                '_fieldsetClass -> "form-group custom-140",
-                                Symbol("pattern") -> "[0-9]*"
-                            )
-
-                        }
-                    </fieldset>
-
-                    <div class=" hidden parking.rentSeparateParking">
-                        @inputText(
-                            field = theForm("parking.annualSeparateParking"),
-                            '_label -> Messages("label.parking.annualSeparateParking"),
-                            '_labelClass -> "form-label-bold",
-                            'class -> "form-control input-currency",
-                            '_fieldsetClass -> "form-group custom-140",
-                            '_pound -> true
+    @govukRadios(
+        Radios(
+            name = "partRent",
+            idPrefix = Option("partRent"),
+            classes = "radio-button-that-show-hides govuk-radios--inline",
+            items = Seq(
+                "true" -> messages("label.yes.ie"),
+                "false" -> messages("label.no.nage")
+            ).map( radioItem => {
+                RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("partRent").value.getOrElse("")),
+                    value   = Option(radioItem._1)
+                )
+            }
+            ),
+            hint = Hint(content = Text(messages("hint.partRent" + labelSuffix))),
+            errorMessage = theForm.errors.asTextErrorMessageForField("partRent"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(if(summary.isAgent)  messages("label.partRent.agent")  else  messages("label.partRent", summary.address.map(_.singleLine).getOrElse(""))),
+                            classes = "govuk-!-font-weight-bold"
                         )
+                    )
+                )
+            )
+        )
+    )
 
-                        @includes.dateFields(theForm, "", false, "", "parking.annualSeparateParkingDate")
+    @govukRadios(
+        Radios(
+            name = "otherProperty",
+            idPrefix = Option("otherProperty"),
+            classes = "radio-button-that-show-hides govuk-radios--inline",
+            items = Seq(
+                "true" -> messages("label.yes.ydy"),
+                "false" -> messages("label.no.nac.ydy")
+            ).map( radioItem => {
+                RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("otherProperty").value.getOrElse("")),
+                    value   = Option(radioItem._1)
+                )
+            }
+            ),
+            hint = Hint(content = Text(messages("hint.otherProperty"))),
+            errorMessage = theForm.errors.asTextErrorMessageForField("otherProperty"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages("label.otherProperty" + labelSuffix)),
+                            classes = "govuk-!-font-weight-bold"
+                        )
+                    )
+                )
+            )
+        )
+    )
 
-                        <div class="panel-indent panel-indent-info hidden intel-alert parking_annualSeparateParkingDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
-                        
-                    </div>
+    @govukRadios(
+        Radios(
+            name = "landOnly",
+            idPrefix = Option("landOnly"),
+            classes = "radio-button-that-show-hides govuk-radios--inline",
+            items = Seq(
+                "true" -> messages("label.yes.ie"),
+                "false" -> messages("label.no.nage")
+            ).map( radioItem => {
+                RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("landOnly").value.getOrElse("")),
+                    value   = Option(radioItem._1)
+                )
+            }
+            ),
+            hint = Hint(content = Text(messages("hint.landOnly"))),
+            errorMessage = theForm.errors.asTextErrorMessageForField("landOnly"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages("label.landOnly" + labelSuffix)),
+                            classes = "govuk-!-font-weight-bold"
+                        )
+                    )
+                )
+            )
+        )
+    )
 
-                    @includes.continueButton()
+        @govukRadios(
+            Radios(
+                name = "shellUnit",
+                idPrefix = Option("shellUnit"),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                items = Seq(
+                    "true" -> messages("label.yes.ie"),
+                    "false" -> messages("label.no.nage")
+                ).map( radioItem => {
+                    RadioItem (
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("shellUnit").value.getOrElse("")),
+                        value   = Option(radioItem._1)
+                    )
+                }
+                ),
+                hint = Hint(content = Text(messages("hint.shellUnit"))),
+                errorMessage = theForm.errors.asTextErrorMessageForField("shellUnit"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.shellUnit" + labelSuffix)),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+    @govukTextarea(
+        Textarea(
+            id = "rentDetails",
+            name = "rentDetails",
+            value = theForm("rentDetails").value,
+            rows = 6,
+            errorMessage = theForm.errors.asTextErrorMessageForField("rentDetails"),
+            attributes = Map(
+                "data-hidden-by" -> "livingAccommodation|otherProperty|partRent|landOnly|shellUnit",
+                "data-show-when-value-equals" -> "true|true|true|true|true"),
+            label = Label(
+                content = Text( messages("label.rentDetails" + labelSuffix))
+            )
+        )
+    )
 
 
-                </div>
-            
-            <div class="column-third"></div>
+        @govukRadios(
+            Radios(
+                name = "parking.rentIncludeParking",
+                idPrefix = Option("parking.rentIncludeParking"),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                items = Seq(
+                    "true" -> Messages("label.yes.ydy"),
+                    "false" -> Messages("label.no.nac.ydy")
+                ).map( radioItem => {
+                    RadioItem (
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("parking.rentIncludeParking").value.getOrElse("")),
+                        value   = Option(radioItem._1)
+                    )
+                }
+                ),
+                hint = Hint(content = Text(messages("hint.label.parking.rentIncludeParking" + labelSuffix))),
+                errorMessage = theForm.errors.asTextErrorMessageForField("parking.rentIncludeParking"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.parking.rentIncludeParking" + labelSuffix)),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        <fieldset
+            data-show-when-value-equals="true"
+            data-hidden-by="parking.rentIncludeParking"
+            data-hides-this="true"
+            class="form-group parking.rentIncludeParking"
+            id="parking.rentIncludeParkingDetails">
+            <legend class="form-label-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
+
+
+            @errorWrapper(
+                Seq(theForm("parking.rentIncludeParkingDetails")),
+                "parking.rentIncludeParkingDetails",
+                true,
+                "form-field-group"
+            ) {
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.openSpaces",
+                        name = "parking.rentIncludeParkingDetails.openSpaces",
+                        value = theForm("parking.rentIncludeParkingDetails.openSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        classes = "govuk-input--width-20",
+                        label = Label(content = Text(messages("label.openSpaces")))
+                    )
+                )
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.coveredSpaces",
+                        name = "parking.rentIncludeParkingDetails.coveredSpaces",
+                        value = theForm("parking.rentIncludeParkingDetails.coveredSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.coveredSpaces")))
+                    )
+                )
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.garages",
+                        name = "parking.rentIncludeParkingDetails.garages",
+                        value = theForm("parking.rentIncludeParkingDetails.garages").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.garages")))
+                    )
+                )
+
+            }
+        </fieldset>
+
+        @govukRadios(
+            Radios(
+                name = "parking.rentSeparateParking",
+                idPrefix = Option("parking.rentSeparateParking"),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                items = Seq(
+                    "true" -> Messages("label.yes.ydy"),
+                    "false" -> Messages("label.no.nac.ydy")
+                ).map( radioItem => {
+                    RadioItem (
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("parking.rentSeparateParking").value.getOrElse("")),
+                        value   = Option(radioItem._1)
+                    )
+                }
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("parking.rentSeparateParking"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.parking.rentSeparateParking" + labelSuffix)),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        <fieldset
+            data-show-when-value-equals="true"
+            data-hidden-by="parking.rentSeparateParking"
+            data-hides-this="true"
+            class="form-group  parking.rentSeparateParking"
+            id="parking.rentSeparateParkingDetails">
+
+            <legend class="govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
+            <p class="hidden">@messages("label.noJs.rentSeparateParkingDetails")</p>
+            @errorWrapper(
+                Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.openSpaces",
+                        name = "parking.rentSeparateParkingDetails.openSpaces",
+                        value = theForm("parking.rentSeparateParkingDetails.openSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        classes = "govuk-input--width-20",
+                        label = Label(content = Text(messages("label.openSpaces")))
+                    )
+                )
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.coveredSpaces",
+                        name = "parking.rentSeparateParkingDetails.coveredSpaces",
+                        value = theForm("parking.rentSeparateParkingDetails.coveredSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.coveredSpaces")))
+                    )
+                )
+
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.garages",
+                        name = "parking.rentSeparateParkingDetails.garages",
+                        value = theForm("parking.rentSeparateParkingDetails.garages").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.garages")))
+                    )
+                )
+            }
+        <div style="clear:left;" class="govuk-!-margin-top-4">
+            @hmrcCurrencyInput(
+                CurrencyInput(
+                    id = "parking.annualSeparateParking",
+                    name = "parking.annualSeparateParking",
+                    value = theForm("parking.annualSeparateParking").value,
+                    classes = "govuk-input--width-10",
+                    label = Label(
+                        classes = "govuk-!-font-weight-bold",
+                        content = Text(messages("label.parking.annualSeparateParking"))
+                    ),
+                    autocomplete = Some("off"),
+                    errorMessage =  theForm.errors.asTextErrorMessageForField("parking.annualSeparateParking")
+                )
+            )
+
+
+            @includes.dateFields2(
+                form = theForm,
+                field = "parking.annualSeparateParkingDate",
+                govukDate = govukDateInput)
         </div>
+        </fieldset>
 
-    </main>
-    
-    @includes.continueButtonStickyFooter()
+    @includes.continueSaveForLaterButtons(govukButton)
     
     }
-         @includes.formHelp()
+     @includes.formHelp2()
 }

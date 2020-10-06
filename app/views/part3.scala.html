@@ -38,7 +38,7 @@
 
 @(theForm: Form[PageThree], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@agentSuffix  = @{ if(summary.isAgent) "agent" else "" }
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
 @layout(
     showHistoryBack = true,
@@ -134,7 +134,7 @@
             form =theForm,
             field = "firstOccupationDate",
             helpText = Option(messages("label.firstOccupationDate.help")),
-            suffix = agentSuffix,
+            labelSuffix = labelSuffix,
             govukDate = govukDateInput,
             hiddenBy = Option(new HiddenBy("occupierType", Seq("company", "individuals")))
         )
@@ -186,7 +186,10 @@
             )
         )
 
-        <fieldset class="fieldset-to-hide" data-hidden-by="propertyOwnedByYou" data-show-when-value-equals="false">
+        <fieldset
+            data-hidden-by="propertyOwnedByYou"
+            data-hides-this="true"
+            data-show-when-value-equals="false">
 
             @govukRadios(
                 Radios(
