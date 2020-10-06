@@ -154,6 +154,7 @@
                             //get the corresponding value that would show this
                             var valThatShows = valuesOfFieldsThatShowThis[i];
                             if(valThatShows === $masterElem.val()){
+                                //if any field should show this we show it, so break loop.
                                 show = true;
                                 break;
                             }
