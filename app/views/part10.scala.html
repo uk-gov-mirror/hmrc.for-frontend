@@ -16,9 +16,7 @@
 
 @import _root_.template.Helper._
 @import helpers._
-@import models._
 @import models.pages.Summary
-@import models.serviceContracts.submissions._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
@@ -266,34 +264,42 @@
             <legend class="form-label-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
 
 
-            <p class="hidden">@messages("label.noJs.rentIncludeParkingDetails")</p>
-            @errorWrapper(Seq(theForm("parking.rentIncludeParkingDetails")), "parking.rentIncludeParkingDetails", true, "form-field-group") {
+            @errorWrapper(
+                Seq(theForm("parking.rentIncludeParkingDetails")),
+                "parking.rentIncludeParkingDetails",
+                true,
+                "form-field-group"
+            ) {
 
-                @inputText(
-                    field = theForm("parking.rentIncludeParkingDetails.openSpaces"),
-                    '_label -> messages("label.openSpaces"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.openSpaces",
+                        name = "parking.rentIncludeParkingDetails.openSpaces",
+                        value = theForm("parking.rentIncludeParkingDetails.openSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        classes = "govuk-input--width-20",
+                        label = Label(content = Text(messages("label.openSpaces")))
+                    )
                 )
 
-                @inputText(
-                    field = theForm("parking.rentIncludeParkingDetails.coveredSpaces"),
-                    '_label -> messages("label.coveredSpaces"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.coveredSpaces",
+                        name = "parking.rentIncludeParkingDetails.coveredSpaces",
+                        value = theForm("parking.rentIncludeParkingDetails.coveredSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.coveredSpaces")))
+                    )
                 )
 
-                @inputText(
-                    field = theForm("parking.rentIncludeParkingDetails.garages"),
-                    '_label -> messages("label.garages"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentIncludeParkingDetails.garages",
+                        name = "parking.rentIncludeParkingDetails.garages",
+                        value = theForm("parking.rentIncludeParkingDetails.garages").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.garages")))
+                    )
                 )
 
             }
@@ -336,53 +342,65 @@
             class="form-group  parking.rentSeparateParking"
             id="parking.rentSeparateParkingDetails">
 
-            <legend class="form-label-bold">@messages(if(summary.isAgent)  messages("label.parking.rentSeparateParkingDetails.agent")  else  messages("label.parking.rentSeparateParkingDetails"))</legend>
+            <legend class="govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
             <p class="hidden">@messages("label.noJs.rentSeparateParkingDetails")</p>
+            @errorWrapper(
+                Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
 
-            @errorWrapper(Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
-
-                @inputText(
-                    field = theForm("parking.rentSeparateParkingDetails.openSpaces"),
-                    '_label -> messages("label.openSpaces"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.openSpaces",
+                        name = "parking.rentSeparateParkingDetails.openSpaces",
+                        value = theForm("parking.rentSeparateParkingDetails.openSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        classes = "govuk-input--width-20",
+                        label = Label(content = Text(messages("label.openSpaces")))
+                    )
                 )
 
-                @inputText(
-                    field = theForm("parking.rentSeparateParkingDetails.coveredSpaces"),
-                    '_label -> messages("label.coveredSpaces"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.coveredSpaces",
+                        name = "parking.rentSeparateParkingDetails.coveredSpaces",
+                        value = theForm("parking.rentSeparateParkingDetails.coveredSpaces").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.coveredSpaces")))
+                    )
                 )
 
-                @inputText(
-                    field = theForm("parking.rentSeparateParkingDetails.garages"),
-                    '_label -> messages("label.garages"),
-                    '_labelClass -> "form-label",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "form-group custom-140",
-                    Symbol("pattern") -> "[0-9]*"
+                @govukInput(
+                    Input(
+                        id = "parking.rentSeparateParkingDetails.garages",
+                        name = "parking.rentSeparateParkingDetails.garages",
+                        value = theForm("parking.rentSeparateParkingDetails.garages").value,
+                        formGroupClasses="form-group custom-140",
+                        label = Label(content = Text(messages("label.garages")))
+                    )
                 )
-
             }
-        </fieldset>
-
-        <div class=" hidden parking.rentSeparateParking">
-            @inputText(
-                field = theForm("parking.annualSeparateParking"),
-                '_label -> messages("label.parking.annualSeparateParking"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-currency",
-                '_fieldsetClass -> "form-group custom-140",
-                '_pound -> true
+        <div style="clear:left;" class="govuk-!-margin-top-4">
+            @hmrcCurrencyInput(
+                CurrencyInput(
+                    id = "parking.annualSeparateParking",
+                    name = "parking.annualSeparateParking",
+                    value = theForm("parking.annualSeparateParking").value,
+                    classes = "govuk-input--width-10",
+                    label = Label(
+                        classes = "govuk-!-font-weight-bold",
+                        content = Text(messages("label.parking.annualSeparateParking"))
+                    ),
+                    autocomplete = Some("off"),
+                    errorMessage =  theForm.errors.asTextErrorMessageForField("parking.annualSeparateParking")
+                )
             )
 
-        @includes.dateFields(theForm, "", false, "", "parking.annualSeparateParkingDate")
+
+            @includes.dateFields2(
+                form = theForm,
+                field = "parking.annualSeparateParkingDate",
+                govukDate = govukDateInput)
         </div>
+        </fieldset>
 
     @includes.continueSaveForLaterButtons(govukButton)
     
