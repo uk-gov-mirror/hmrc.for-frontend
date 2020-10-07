@@ -151,10 +151,10 @@
                         for (var i = 0; i < fieldsThatShowHideThis.length; i++) {
                             //get the field name from the list of fields that show this
                             var curr = fieldsThatShowHideThis[i];
-                            var $masterElem = $('input[name=' + curr + ']:checked');
+                            var $masterEl = $('input[name=' + curr + ']:checked');
                             //get the corresponding value that would show this
                             var valThatShows = valuesOfFieldsThatShowThis[i];
-                            if (valThatShows === $masterElem.val()) {
+                            if (valThatShows === $masterEl.val()) {
                                 //if any field should show this we show it, so break loop.
                                 show = true;
                                 break;
