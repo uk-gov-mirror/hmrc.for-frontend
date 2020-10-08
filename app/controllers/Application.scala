@@ -118,7 +118,7 @@ class Application @Inject() (cc:MessagesControllerComponents,
   }
 
   private def host(implicit request: RequestHeader): String = {
-    s"http://${request.host}/"
+    s"${ForConfig.pdfProtocol}://${request.host}/"
   }
 
   def pdf = refNumAction.async { implicit request =>
