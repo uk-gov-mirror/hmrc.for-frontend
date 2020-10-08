@@ -14,83 +14,95 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages.Summary
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.pages.Summary
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
-@main(title=Messages("section14.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-    @form(action = dataCapturePages.routes.PageController.savePage(14), args = 'class -> "myForm", 'id -> "myFormId") {
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(13).url,
+    pageHeading = messages("section10.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-      <main id="content">
-        @views.html.includes.backSave()
-        @progressBar(true)
+    @formWithCSFR(
+        action = dataCapturePages.routes.PageController.savePage(14),
+        args = 'class -> "myForm", 'id -> "myFormId"
+    ) {
 
-        @includes.errors(theForm, summary.isAgent)
-          @headingDisplay(14, Messages("section14.heading"), true)
-
-        <div class="grid-row">
-            <div class="column-two-thirds">
-
-
-                @helper.CSRF.formField
-
-
-                @inputRadioGroup(
-                    field = theForm("anyOtherFactors"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.oes"),
-                        "false" -> Messages("label.no.nac.oes")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-field", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages(if(summary.isAgent) Messages("label.anyOtherFactors.agent") else Messages("label.anyOtherFactors")),
-                        '_error -> theForm("anyOtherFactors").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.anyOtherFactorsDetails")
+    @govukRadios(
+        Radios(
+            name = "anyOtherFactors",
+            idPrefix = Option("anyOtherFactors"),
+            items = Seq(
+                "true" -> Messages("label.yes.oes"),
+                "false" -> Messages("label.no.nac.oes")
+            ).map( radioItem => {
+                RadioItem (
+                    content = Text(radioItem._2),
+                    checked = radioItem._1.equals(theForm("anyOtherFactors").value.getOrElse("")),
+                    value   = Option(radioItem._1)
+                )
+            }
+            ),
+            hint = Hint(content = Text(messages("hint.anyOtherFactorsDetails"))),
+            classes = "radio-button-that-show-hides govuk-radios--inline",
+            errorMessage = theForm.errors.asTextErrorMessageForField("anyOtherFactors"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages("label.anyOtherFactors" + labelSuffix)),
+                            classes = "govuk-!-font-weight-bold"
+                        )
                     )
                 )
+            )
+        )
+    )
 
-                @textarea(
-                    field = theForm("anyOtherFactorsDetails"),
-                    '_label -> Messages("label.anyOtherFactorsDetails"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control input-extra-large",
-                    '_fieldsetClass -> "form-group anyOtherFactors hidden",
-                    Symbol("rows") -> "3",
-                    '_nojsText -> Messages("label.noJs.anyOtherFactorsDetails")
-                )
+    @govukTextarea(
+        Textarea(
+            id = "anyOtherFactorsDetails",
+            name = "anyOtherFactorsDetails",
+            value = theForm("anyOtherFactorsDetails").value,
+            rows = 4,
+            errorMessage = theForm.errors.asTextErrorMessageForField("anyOtherFactorsDetails"),
+            attributes = Map(
+                "data-hidden-by" -> "anyOtherFactors",
+                "data-show-when-value-equals" -> "true"),
+            label = Label(
+                classes = "govuk-!-font-weight-bold",
+                content = Text( messages("label.anyOtherFactorsDetails" + labelSuffix))
+            )
+        )
+    )
 
 
-                @includes.continueButton()
-
-            </div>
-            <div class="column-third"></div>
-        </div>
-</main>
-
-    @includes.continueButtonStickyFooter()
+     @includes.continueSaveForLaterButtons(govukButton)
 
     }
-         @includes.formHelp()
+     @includes.formHelp2()
 }
