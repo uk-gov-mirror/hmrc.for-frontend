@@ -41,7 +41,7 @@
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @layout(
-    backLinkUrl = dataCapturePages.routes.PageController.showPage(8).url,
+    showHistoryBack = true,
     pageHeading = messages("section9.heading"),
     summary = Some(summary),
     showAccountInfo = true,
