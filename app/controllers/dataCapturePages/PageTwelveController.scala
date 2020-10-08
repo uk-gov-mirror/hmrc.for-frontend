@@ -24,14 +24,17 @@ import models.pages.{PageTwelve, Summary}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
+import views.html.part12
 
-class PageTwelveController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageTwelveController @Inject() (refNumAction: RefNumAction,
+                                      cc: MessagesControllerComponents,
+                                      part12:part12)
   extends ForDataCapturePage[PageTwelve](refNumAction, cc) {
   val format = p12f
   val emptyForm = pageTwelveForm
   val pageNumber: Int = 12
 
   def template(form: Form[PageTwelve], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part12(form, summary)
+    part12(form, summary)
   }
 }

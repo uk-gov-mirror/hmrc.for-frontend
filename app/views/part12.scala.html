@@ -14,221 +14,306 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages.Summary
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import views.includes.FieldNamer
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.pages.Summary
+@import models.serviceContracts.submissions.ResponsibleTypes
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput: GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput: GovukDateInput,
+        hmrcCurrencyInput: HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails: GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_], messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
+@labelSuffix = @{if(summary.isAgent) ".agent" else ""}
+
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(11).url,
+    pageHeading = messages("section12.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+) {
+
+    <div class="govuk-inset-text govuk-body">
+        <p>@messages("info.responsibilitiesAndCosts.paying")</p>
+        <p>@messages("info.responsibilitiesAndCosts.surcharge")</p>
+    </div>
+
+    <p class="govuk-!-font-size-27 govuk-!-font-weight-bold">@messages("section12.under.terms.text")</p>
+
+    @formWithCSFR(
+        action = dataCapturePages.routes.PageController.savePage(12),
+        args = 'class -> "myForm", 'id -> "myFormId"
+    ) {
 
 
-@main(title=Messages("section12.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-    @form(action = dataCapturePages.routes.PageController.savePage(12), args = 'class -> "myForm", 'id -> "myFormId") {
-        <main id="content">
-        @views.html.includes.backSave()
-        @progressBar(true)
-
-        @includes.errors(theForm, isAgent = false)
-        @headingDisplay(12, Messages("section12.heading"), true)
-
-        <div class="grid-row">
-            <div class="column-two-thirds">
-
-                @helper.CSRF.formField
-                
-
-                <p class="panel-indent panel-indent-info" style="margin-top:0px;margin-bottom:30px">
-                    @Messages("info.responsibilitiesAndCosts.paying")
-                    <br /><br />
-                    @Messages("info.responsibilitiesAndCosts.surcharge")
-                </p>
-
-                <p class="form-label-bold">@Messages("section12.under.terms.text")</p>
-
-                @inputRadioGroup(
-                    field = theForm("responsibleOutsideRepairs"),
-                    options = EnumOptions.options(ResponsibleTypes),
-                    args = Seq(
-                        '_label -> Messages("label.responsibleOutsideRepairs"),
-                        '_error -> theForm("responsibleOutsideRepairs").errors,
-                        '_showConstraints -> false,
-                        '_showErrors -> true,
-                        '_labelClass -> "form-label-bold",
-                        '_legend -> true,
-                        '_fieldsetClass -> "form-group inline"
+        @govukRadios(
+            Radios(
+                name = "responsibleOutsideRepairs",
+                idPrefix = Option("responsibleOutsideRepairs"),
+                items = EnumOptions.options(ResponsibleTypes).map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("responsibleOutsideRepairs").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("responsibleOutsideRepairs"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.responsibleOutsideRepairs")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
                     )
                 )
+            )
+        )
 
-                @inputRadioGroup(
-                    field = theForm("responsibleInsideRepairs"),
-                    options = EnumOptions.options(ResponsibleTypes),
-                    args = Seq(
-                        '_label -> Messages("label.responsibleInsideRepairs"),
-                        '_error -> theForm("responsibleInsideRepairs").errors,
-                        '_showConstraints -> false,
-                        '_showErrors -> true,
-                        '_labelClass -> "form-label-bold",
-                        '_legend -> true,
-                        '_fieldsetClass -> "form-group inline"
+        @govukRadios(
+            Radios(
+                name = "responsibleInsideRepairs",
+                idPrefix = Option("responsibleInsideRepairs"),
+                items = EnumOptions.options(ResponsibleTypes).map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("responsibleInsideRepairs").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("responsibleInsideRepairs"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.responsibleInsideRepairs")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
                     )
                 )
+            )
+        )
 
-                @inputRadioGroup(
-                    field = theForm("responsibleBuildingInsurance"),
-                    options = EnumOptions.options(ResponsibleTypes),
-                    args = Seq(
-                        '_label -> Messages("label.responsibleBuildingInsurance"),
-                        '_error -> theForm("responsibleBuildingInsurance").errors,
-                        '_showConstraints -> false,
-                        '_showErrors -> true,
-                        '_labelClass -> "form-label-bold",
-                        '_legend -> true,
-                        '_fieldsetClass -> "form-group inline",
-                        '_help -> Messages("hint.label.responsibleBuildingInsurance")
+        @govukRadios(
+            Radios(
+                name = "responsibleBuildingInsurance",
+                idPrefix = Option("responsibleBuildingInsurance"),
+                items = EnumOptions.options(ResponsibleTypes).map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("responsibleBuildingInsurance").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("responsibleBuildingInsurance"),
+                hint = Hint(content = Text(messages("hint.label.responsibleBuildingInsurance"))),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.responsibleBuildingInsurance")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
                     )
                 )
+            )
+        )
 
-                @inputRadioGroup(
-                    field = theForm("ndrCharges"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydyn"),
-                        "false" -> Messages("label.no.nac.ydyn")
+        @govukRadios(
+            Radios(
+                name = "ndrCharges",
+                idPrefix = Option("ndrCharges"),
+                items = Seq(
+                    "true" -> messages("label.yes.ydyn"),
+                    "false" -> messages("label.no.nac.ydyn")
+                )
+                        .map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("ndrCharges").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("ndrCharges"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.ndrCharges")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+
+        @hmrcCurrencyInput(
+            CurrencyInput(
+                id = "ndrDetails",
+                name = "ndrDetails",
+                value = theForm("ndrDetails").value,
+                classes = "govuk-input--width-10",
+                attributes = Map(
+                    "data-hidden-by" -> "ndrCharges",
+                    "data-show-when-value-equals" -> "true"
+                ),
+                label = Label(
+                    content = Text(messages("label.ndrDetails")),
+                    classes = "govuk-!-font-weight-bold"
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("ndrDetails")
+            )
+        )
+
+        @govukRadios(
+            Radios(
+                name = "waterCharges",
+                idPrefix = Option("waterCharges"),
+                items = Seq(
+                    "true" -> messages("label.yes.ydyn"),
+                    "false" -> messages("label.no.nac.ydyn")
+                )
+                        .map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("waterCharges").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("waterCharges"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.waterCharges")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        @hmrcCurrencyInput(
+            CurrencyInput(
+                id = "waterChargesCost",
+                name = "waterChargesCost",
+                value = theForm("waterChargesCost").value,
+                attributes = Map(
+                    "data-hidden-by" -> "waterCharges",
+                    "data-show-when-value-equals" -> "true"
+                ),
+                classes = "govuk-input--width-10",
+                label = Label(
+                    classes = "govuk-!-font-weight-bold",
+                    content = Text(messages("label.waterChargesCost"))
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("waterChargesCost")
+            )
+        )
+
+        @govukRadios(
+            Radios(
+                name = "includedServices",
+                idPrefix = Option("includedServices"),
+                items = Seq(
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
+                )
+                        .map( radioItem => {
+                    RadioItem (
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("includedServices").value.getOrElse("")),
+                        value   = Option(radioItem._1)
+                    )
+                }
+                ),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                hint = Hint(content = Text(messages("hint.includedServices"))),
+                errorMessage = theForm.errors.asTextErrorMessageForField("includedServices"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.includedServices")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+
+        <fieldset
+            data-hidden-by="includedServices"
+            data-show-when-value-equals="true"
+            data-hides-this="true" >
+
+            @hmrcCurrencyInput(
+                CurrencyInput(
+                    id = "includedServicesDetails[0].chargeCost",
+                    name = "includedServicesDetails[0].chargeCost",
+                    value = theForm("includedServicesDetails[0].chargeCost").value,
+                    classes = "govuk-input--width-10",
+                    label = Label(
+                        classes = "govuk-!-font-weight-bold",
+                        content = Text(messages("label.includedServicesDetails.chargeCost"))
                     ),
-                    dataAttributes = Seq(("true", "data-show-field", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages("label.ndrCharges"),
-                        '_error -> theForm("ndrCharges").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false
+                    hint = Hint(content = Text(messages("hint.includedServicesDetails.chargeCost"))),
+                    autocomplete = Some("off"),
+                    errorMessage =  theForm.errors.asTextErrorMessageForField("includedServicesDetails[0].chargeCost")
+                )
+            )
+            @govukTextarea(
+                Textarea(
+                    id = "includedServicesDetails[0].chargeDescription",
+                    name = "includedServicesDetails[0].chargeDescription",
+                    value = theForm("includedServicesDetails[0].chargeDescription").value,
+                    rows = 6,
+                    hint = Hint(content = Text(messages("hint.includedServicesDetails.chargeDescription"))),
+                    errorMessage = theForm.errors.asTextErrorMessageForField("includedServicesDetails[0].chargeDescription"),
+                    label = Label(
+                        classes = "govuk-!-font-weight-bold",
+                        content = Text( messages("label.includedServicesDetails.chargeDescription"))
                     )
                 )
+            )
 
+        </fieldset>
 
-                <div class="ndrCharges hidden">
+        @includes.continueSaveForLaterButtons(govukButton)
 
-
-                @inputText(
-                    field = theForm("ndrDetails"),
-                    '_label -> Messages("label.ndrDetails"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control input-currency",
-                    '_pound -> true,
-                    '_nojsText -> Messages("label.noJs.secton12")
-                )
-                </div>
-
-                @inputRadioGroup(
-                    field = theForm("waterCharges"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydyn"),
-                        "false" -> Messages("label.no.nac.ydyn")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-field", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages("label.waterCharges"),
-                        '_error -> theForm("waterCharges").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false
-                    )
-                )
-
-                @inputText(
-                    field = theForm("waterChargesCost"),
-                    '_label -> Messages("label.waterChargesCost"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control input-currency",
-                    '_pound -> true,
-                    '_fieldsetClass -> "inline waterCharges hidden",
-                    '_nojsText -> Messages("label.noJs.secton12")
-                )
-
-                @inputRadioGroup(
-                    field = theForm("includedServices"),
-                    options = Seq(
-                        "true" -> Messages("label.yes.ydy"),
-                        "false" -> Messages("label.no.nac.ydy")
-                    ),
-                    dataAttributes = Seq(("true", "data-show-field", "true")),
-                    args = Seq(
-                        '_showConstraints -> false,
-                        '_label -> Messages("label.includedServices"),
-                        '_error -> theForm("includeAmountServices").error,
-                        '_legend -> true,
-                        '_fieldsetClass -> "inline",
-                        '_labelClass -> "form-label-bold",
-                        '_showConstraints -> false,
-                        '_help -> Messages("hint.includedServices")
-                    )
-                )
-
-
-                <div class="includedServices hidden">
-                    <fieldset style="display:inline-block" data-limit="8">
-
-                        @_root_.template.repeatWithIndex(theForm("includedServicesDetails"), max = 8) { (includedServicesDetails, idx) =>
-
-                            <div id=@(s"includedServicesDetails_description_div_${idx}")>
-
-                                @inputText(
-                                field = theForm(s"includedServicesDetails[$idx].chargeCost"),
-                                '_label -> Messages("label.includedServicesDetails.chargeCost"),
-                                '_labelClass -> "form-label-bold",
-                                'class -> "form-control input-currency",
-                                '_pound -> true,
-                                '_help -> Messages("hint.includedServicesDetails.chargeCost"),
-                                '_nojsText -> Messages("label.noJs.secton12")
-                                )
-
-                                @textarea(
-                                    field = theForm(s"includedServicesDetails[$idx].chargeDescription"),
-                                    '_label -> Messages("label.includedServicesDetails.chargeDescription"),
-                                    '_labelClass -> "form-label-bold",
-                                    'class -> "form-control input-extra-large",
-                                    Symbol("rows") -> "2",
-                                    '_help -> Messages("hint.includedServicesDetails.chargeDescription"),
-                                    '_nojsText -> Messages("label.noJs.secton12")
-                                )
-
-
-
-                                <a href="#" class="remove-multi-fields" role="button" style="display : none">@Messages("label.add.remove")</a>
-                            </div>
-
-                        }
-
-                    </fieldset>
-                </div>
-
-                @includes.continueButton()
-
-            </div>
-            <div class="column-third"></div>
-        </div>
- </main>
-    
-    @includes.continueButtonStickyFooter()
-    
     }
-         @includes.formHelp()
+
+    @includes.formHelp2()
 }
