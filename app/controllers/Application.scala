@@ -35,7 +35,8 @@ import scala.concurrent.ExecutionContext
 class Application @Inject() (cc:MessagesControllerComponents,
                  refNumAction: RefNumAction,
                  pdfGenerator: PdfGenerator,
-                  repository: FormDocumentRepository
+                  repository: FormDocumentRepository,
+                  summaryView:views.html.summary
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
@@ -125,7 +126,7 @@ class Application @Inject() (cc:MessagesControllerComponents,
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val pdf = pdfGenerator.toBytes(views.html.summary(summary), host)
+        val pdf = pdfGenerator.toBytes(summaryView(summary), host)
         Ok(pdf).as("application/pdf")
       case None =>
         InternalServerError(views.html.error.error500())
@@ -136,7 +137,7 @@ class Application @Inject() (cc:MessagesControllerComponents,
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
-        Ok(views.html.summary(sub))
+        Ok(summaryView(sub))
       case None =>
         InternalServerError(views.html.error.error500())
     }
