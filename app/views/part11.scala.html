@@ -161,7 +161,7 @@
                  value = theForm("capitalPaidDetails.capitalSum").value,
                  classes = "govuk-input--width-10 total-annual-rent",
                  label = Label(
-                     content = Text(if(summary.isAgent) messages("label.capitalPaidDetails.capitalSum.agent") else messages("label.capitalPaidDetails.capitalSum"))
+                     content = Text(messages("label.capitalPaidDetails.capitalSum"))
                  ),
                  autocomplete = Some("off"),
                  errorMessage =  theForm.errors.asTextErrorMessageForField("capitalPaidDetails.capitalSum")
