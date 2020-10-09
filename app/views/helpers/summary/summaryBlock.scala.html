@@ -15,8 +15,12 @@
  *@
 
 @(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, messages: Messages)
-  <div id="@linkId">
-      <dt class="cya-question">@fieldName</dt>
-      <dd class="cya-answer">@answer</dd>
-      <dd class="cya-change"><a href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId">@Messages("label.edit") <span class="visually-hidden">@fieldName</span></a></dd>
+  <div id="@linkId" class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">@fieldName</dt>
+      <dd class="govuk-summary-list__value">@answer</dd>
+      <dd class="govuk-summary-list__actions">
+          <a
+            href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId"
+            class="govuk-link">@messages("label.edit") <span class="visually-hidden">@fieldName</span></a>
+      </dd>
   </div>

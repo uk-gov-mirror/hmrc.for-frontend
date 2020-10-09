@@ -20,28 +20,30 @@
 @import play.api.data._
 @import template.HiddenBy
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 
-@this(  layout: main2,
-        govukRadios: GovukRadios,
-        govukButton: GovukButton,
-        govukInput:  GovukInput,
-        govukErrorSummary: GovukErrorSummary,
-        govukDateInput:GovukDateInput,
-        govukTextarea: GovukTextarea,
-        formWithCSFR: formWithCSRF)
+@this(
+    layout: main2,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    govukInput: GovukInput,
+    govukErrorSummary: GovukErrorSummary,
+    govukDateInput: GovukDateInput,
+    govukTextarea: GovukTextarea,
+    formWithCSFR: formWithCSRF
+)
 
 @(theForm: Form[PageThree], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
 @layout(
-    showHistoryBack = true,
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(2).url,
     pageHeading = messages("section3.heading"),
     summary = Some(summary),
     showAccountInfo = true,
@@ -157,7 +159,7 @@
         )
 
 
-                  <!-- Do you own the property? -->
+      <!-- Do you own the property? -->
         @govukRadios(
             Radios(
                 name = "propertyOwnedByYou",

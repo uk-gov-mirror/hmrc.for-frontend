@@ -14,43 +14,38 @@
  * limitations under the License.
  *@
 
-@import helpers.summary._
-@import includes.summary._
+@import _root_.template.Helper._
+@import helpers._
+@import models.pages.Summary
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import models.journeys.Journey
-@import models.pages._
-@import models.serviceContracts.submissions._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
 
-@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@isAgent=@{summary.isAgent}
 
-@ifIsAgent=@{
-  summary.isAgent
-}
-
-
-@topBackButton = {
-
-  <a href="@dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary))" class="link-back">
-    @Messages("button.label.back")
-  </a>
-
-}
-
-@main(title=Messages("heading.summary") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary)) {
-  <main id="content">
-    @progressBar(true, Some(topBackButton))
-    @headingDisplay(0, Messages("heading.summary"), false)
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary)).url,
+    pageHeading = messages("heading.summary"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    gridClasses = "govuk-grid-column-full"
+){
 
     @if(!Journey.pageIsNotApplicable(1, summary)) {
       @summary.propertyAddress.map { x => @views.html.includes.summary.page1(x, summary) }
@@ -61,39 +56,39 @@
     }
 
     @if(!Journey.pageIsNotApplicable(3, summary)) {
-      @summary.theProperty.map { x => @views.html.includes.summary.page3(x, isAgent = ifIsAgent) }
+      @summary.theProperty.map { x => @views.html.includes.summary.page3(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(4, summary)) {
-      @summary.sublet.map { x => @views.html.includes.summary.page4(x, isAgent = ifIsAgent) }
+      @summary.sublet.map { x => @views.html.includes.summary.page4(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(5, summary)) {
-      @summary.landlord.map { x => @views.html.includes.summary.page5(x, isAgent = ifIsAgent) }
+      @summary.landlord.map { x => @views.html.includes.summary.page5(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(6, summary)) {
-      @summary.lease.map { x => @views.html.includes.summary.page6(x, isAgent = ifIsAgent) }
+      @summary.lease.map { x => @views.html.includes.summary.page6(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(7, summary)) {
-      @summary.rentReviews.map { x => @views.html.includes.summary.page7(x, isAgent = ifIsAgent, summary) }
+      @summary.rentReviews.map { x => @views.html.includes.summary.page7(x, isAgent = isAgent, summary) }
     }
 
     @if(!Journey.pageIsNotApplicable(8, summary)) {
-      @summary.rentAgreement.map { x => @views.html.includes.summary.page8(x, isAgent = ifIsAgent) }
+      @summary.rentAgreement.map { x => @views.html.includes.summary.page8(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(9, summary)) {
-      @summary.rent.map { x => @views.html.includes.summary.page9(x, isAgent = ifIsAgent) }
+      @summary.rent.map { x => @views.html.includes.summary.page9(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(10, summary)) {
-      @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = ifIsAgent, address = summary.address.map(_.singleLine)) }
+      @summary.rentIncludes.map { x => @views.html.includes.summary.page10(x, isAgent = isAgent, address = summary.address.map(_.singleLine)) }
     }
 
     @if(!Journey.pageIsNotApplicable(11, summary)) {
-      @summary.incentives.map { x => @views.html.includes.summary.page11(x, isAgent = ifIsAgent) }
+      @summary.incentives.map { x => @views.html.includes.summary.page11(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(12, summary)) {
@@ -101,26 +96,25 @@
     }
 
     @if(!Journey.pageIsNotApplicable(13, summary)) {
-      @summary.alterations.map { x => @views.html.includes.summary.page13(x, isAgent = ifIsAgent) }
+      @summary.alterations.map { x => @views.html.includes.summary.page13(x, isAgent = isAgent) }
     }
 
     @if(!Journey.pageIsNotApplicable(14, summary)) {
-      @summary.otherFactors.map { x => @views.html.includes.summary.page14(x, isAgent = ifIsAgent) }
+      @summary.otherFactors.map { x => @views.html.includes.summary.page14(x, isAgent = isAgent) }
     }
 
 
-    <div class="summary-actions">
+    <div class="summary-actions govuk-!-margin-top-5" >
       <p>
-        <a id="continue" href="@routes.Application.declaration" class="button" role="button">@Messages("button.label.continue")</a>
-        <a href="@routes.SaveForLater.saveForLater" class="save button button-secondary" role="button">@Messages("button.label.save")</a>
+        <a id="continue" href="@routes.Application.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
+        <a href="@routes.SaveForLater.saveForLater" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
       </p>
 
-        <a href="@routes.Application.pdf" class="button button-secondary pdf-button" role="button" role="button" target="_blank">@Messages("label.print.printorsave")</a>
+        <a href="@routes.Application.pdf" class="govuk-button govuk-button--secondary pdf-button" role="button" role="button" target="_blank">@messages("label.print.printorsave")</a>
 
     </div>
 
   @views.html.includes.signFooter(summary)
-</main>
 
  @if(!forPdf) { @includes.formHelp() }
 }

@@ -25,8 +25,8 @@
   if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}
 }
 
-<h2 class="heading-medium no-margin-top">@Messages("section1.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@Messages("section1.heading")</h2>
+<dl class="govuk-summary-list govuk-!-margin-bottom-9">
 	@summaryBlock(Messages("label.currentAddress"), 1, "isAddressCorrect") {
 		@Html(summary.address.map(_.multiLine).getOrElse("") + underReview)
 	}

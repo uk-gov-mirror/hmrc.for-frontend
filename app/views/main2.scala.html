@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
-@import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
-@import play.api.Play.current
 @import models.pages.Summary
-@import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
+@import play.api.Play.current
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.layouts.{govukLayout, govukTemplate}
 @import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
+@import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
+@import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
 
 @this(
+        govukTemplate: govukTemplate,
         govukLayout: govukLayout,
         head: headTemplate,
         scripts: scriptsTemplate,
@@ -30,6 +31,7 @@
         govukBackLink: GovukBackLink,
         govukSummaryList: GovukSummaryList,
         footer: Footer,
+        govukFooter: govukFooter,
         accessibilityStatementConfig: AccessibilityStatementConfig,
         uiLayoutHead: Head
 )
@@ -46,7 +48,8 @@
     beforeContentBlock: Option[Html] = None,
     backLinkUrl: Option[String] = None,
     showHistoryBack: Boolean = false,
-    withTimeoutDialog: Boolean = true
+    withTimeoutDialog: Boolean = true,
+    gridClasses: String = "govuk-grid-column-two-thirds"
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @beforeBLock = {
@@ -86,48 +89,60 @@
 
 @numberOfSteps = {14}
 @contentWithHeading = {
+    <div class="govuk-grid-row">
+        <div class=@gridClasses>
 
-    @if(errorSummary){
-        @errorSummary
-    }
-    @if(showSection){
-        <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
-    }
-    @if(showH1){
-        <h1 class="govuk-heading-l">@pageHeading</h1>
-    }
-    @contentBlock
+        @if(errorSummary){
+            @errorSummary
+        }
+        @if(showSection){
+            <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
+        }
+        @if(showH1){
+            <h1 class="govuk-heading-l">@pageHeading</h1>
+        }
+        @contentBlock
+        </div>
+    </div>
 }
 
-@govukLayout(
+@footerDefault = {
+    @govukFooter(
+
+        Footer(
+            meta = Some(Meta(
+                items = Seq(
+                    FooterItem(
+                        href = Some(messages("footer.links.cookies.url")),
+                        text = Some(messages("footer.links.cookies.text"))),
+                    accessibilityStatementConfig.url.map(
+                        href => FooterItem(Some(messages("footer.accessibility.text")), Some(href))
+                    ).get,
+                    FooterItem(
+                        href = Some(messages("footer.links.privacy_policy.url")),
+                        text = Some(messages("footer.links.privacy_policy.text"))),
+                    FooterItem(
+                        href = Some(messages("footer.links.terms_and_conditions.url")),
+                        text = Some(messages("footer.links.terms_and_conditions.text"))),
+                    FooterItem(
+                        href = Some(messages("footer.links.help_page.url")),
+                        text = Some(messages("footer.links.help_page.text"))),
+
+                    FooterItem(
+                        href = Some(messages("footer.links.language.url")),
+                        text = Some(messages("footer.links.language.text")))
+
+                )
+            )
+            )
+        )
+    )
+}
+
+@govukTemplate(
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
     headBlock = Some(head(uiLayoutHead)),
     beforeContentBlock = Option(beforeBLock),
-    footerItems = Seq(
-        FooterItem(
-            href = Some(messages("footer.links.cookies.url")),
-            text = Some(messages("footer.links.cookies.text"))),
-        accessibilityStatementConfig.url.map(
-            href => FooterItem(Some(messages("footer.accessibility.text")), Some(href))
-        ).get,
-        FooterItem(
-            href = Some(messages("footer.links.privacy_policy.url")),
-            text = Some(messages("footer.links.privacy_policy.text"))),
-        FooterItem(
-            href = Some(messages("footer.links.terms_and_conditions.url")),
-            text = Some(messages("footer.links.terms_and_conditions.text"))),
-        FooterItem(
-            href = Some(messages("footer.links.help_page.url")),
-            text = Some(messages("footer.links.help_page.text"))),
-
-        FooterItem(
-            href = Some(messages("footer.links.language.url")),
-            text = Some(messages("footer.links.language.text")))
-
-    ),
+    mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),
     bodyEndBlock = Some(scripts(footer, withTimeoutDialog))
 )(contentWithHeading)
-
-@*
-* @govUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(layoutsFooterLinks(None)), true)(content)
-*@
