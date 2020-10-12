@@ -32,11 +32,12 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class Application @Inject() (cc:MessagesControllerComponents,
-                 refNumAction: RefNumAction,
-                 pdfGenerator: PdfGenerator,
-                  repository: FormDocumentRepository,
-                  summaryView:views.html.summary
+class Application @Inject() (cc: MessagesControllerComponents,
+                             refNumAction: RefNumAction,
+                             pdfGenerator: PdfGenerator,
+                             repository: FormDocumentRepository,
+                             summaryView: views.html.summary,
+                             declarationView: views.html.declaration
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
@@ -44,9 +45,9 @@ class Application @Inject() (cc:MessagesControllerComponents,
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val fn = summary.customerDetails.map(_.fullName).getOrElse("")
-        val ut = summary.customerDetails.map(_.userType.name).getOrElse("")
-        Ok(views.html.declaration(Form(("", text)), fn, ut, summary: Summary))
+        val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
+        val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
+        Ok(declarationView(Form(("", text)), fullName, userType, summary: Summary))
       case None => InternalServerError(views.html.error.error500())
     }
   }
@@ -55,9 +56,9 @@ class Application @Inject() (cc:MessagesControllerComponents,
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        val fn = summary.customerDetails.map(_.fullName).getOrElse("")
-        val ut = summary.customerDetails.map(_.userType.name).getOrElse("")
-        Ok(views.html.declaration(Form(("", text)).withError("declaration", Errors.declaration), fn, ut, summary))
+        val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
+        val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
+        Ok(declarationView(Form(("", text)).withError("declaration", Errors.declaration), fullName, userType, summary))
       case None => InternalServerError(views.html.error.error500())
     }
   }
