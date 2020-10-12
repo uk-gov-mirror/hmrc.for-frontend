@@ -19,9 +19,17 @@
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Panel
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukPanel
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
-@this( layout: main2, govukPanel:GovukPanel)
+
+@this( layout: main2,
+        govukPanel:GovukPanel,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        govukTextarea: GovukTextarea,
+        formWithCSFR:FormWithCSRF)
 
 @(summary: Summary, theForm: Form[_])(implicit request: Request[_],  messages: Messages)
 
@@ -46,5 +54,5 @@
 
     <hr/>
 
-    @views.html.includes.surveyFeedback(summary, theForm)
+    @views.html.includes.surveyFeedback(summary, theForm,govukButton, govukTextarea, govukRadios, formWithCSFR)
 }

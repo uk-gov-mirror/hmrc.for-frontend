@@ -15,73 +15,75 @@
  *@
 
 @import models._
-@import models.serviceContracts.submissions._
-@import models.pages._
-@import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
 @import models.pages.Summary
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.journeys.Journey
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-
-
-@(summary: Summary, theForm: Form[_])(implicit requestHeader: RequestHeader, messages: Messages)
+@(  summary: Summary,
+    theForm: Form[_],
+    govukButton: GovukButton,
+    govukTextarea: GovukTextarea,
+    govukRadios: GovukRadios,
+    formWithCSFR:FormWithCSRF)(implicit requestHeader: Request[_], messages: Messages)
 
 <div class="help__wrapper">
 
     <div class="help-content">
 
-        <div class="form-title heading-large">
-            <h1>@Messages("label.feedback.headingAfterSubmitting")</h1>
-        </div>
+        <h1 class="govuk-heading-l">@messages("label.feedback.headingAfterSubmitting")</h1>
 
-        @form(action = feedback.routes.SurveyController.formCompleteFeedback, args = 'class -> "satisfactionSurvey", 'id -> "myFormId") {
+        @formWithCSFR(
+            action = feedback.routes.SurveyController.formCompleteFeedback,
+            args = 'class -> "satisfactionSurvey", 'id -> "myFormId"
 
-            @helper.CSRF.formField
+        ) {
 
-            @includes.errors(theForm, isAgent = false)
+            @helpers.hiddenInput(field = theForm("journey"))
 
-            @helpers.hiddenInput(
-                field = theForm("journey"),
-                '_labelClass -> "visuallyhidden"
-            )
-
-            @inputRadioGroup(
-                field = theForm("satisfaction"),
-                options = EnumOptions.options(SatisfactionTypes),
-                args = Seq(
-                    '_label -> Messages("label.satisfactionSurvey"),
-                    '_error -> theForm("satisfaction").error,
-                    '_showConstraints -> false,
-                    '_showErrors -> true,
-                    '_labelClass -> "form-label-bold",
-                    '_legend -> true,
-                    '_fieldsetClass -> "",
-                    '_optional -> true
+            @govukRadios(
+                Radios(
+                    name = "satisfaction",
+                    idPrefix = Option("satisfaction"),
+                    items = EnumOptions.options(SatisfactionTypes).map(radioItem => {
+                        RadioItem(
+                            content = Text(radioItem._2),
+                            checked = radioItem._1.equals(theForm("satisfaction").value.getOrElse("")),
+                            value = Option(radioItem._1)
+                        )
+                    }
+                    ),
+                    errorMessage = theForm.errors.asTextErrorMessageForField("satisfaction"),
+                    fieldset = Option(
+                        Fieldset(
+                            legend = Option(
+                                Legend(
+                                    content = Text(messages("label.satisfactionSurvey")),
+                                    classes = "govuk-!-font-weight-bold"
+                                )
+                            )
+                        )
+                    )
                 )
             )
 
-            @textarea(
-                field = theForm("details"),
-                '_label -> Messages("label.satisfactionSurveyComments"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-extra-large",
-                '_fieldsetClass -> "form-group",
-                Symbol("rows") -> "8",
-                '_optional -> true
+            @govukTextarea(
+                Textarea(
+                    id = "details",
+                    name = "details",
+                    value = theForm("details").value,
+                    rows = 8,
+                    errorMessage = theForm.errors.asTextErrorMessageForField("details"),
+                    label = Label(
+                        classes = "govuk-!-font-weight-bold",
+                        content = Text(messages("label.satisfactionSurveyComments"))
+                    ),
+                    hint = Hint(content = Text(messages("text.survey.bottomImprove") + messages("text.survey.bottomCopy")))
+
+                )
             )
 
-            <p>@Messages("text.survey.bottomImprove")</p>
-
-            <p>@Messages("text.survey.bottomCopy")</p>
-
-            <p>
-                <button type="submit" id="continue" name="continue_button" class="button">
-                    @Messages("button.label.submit")
-                </button>
-            </p>
+           @includes.continueButtonOnly2(govukButton)
         }
-    </div>
+</div>
 </div>

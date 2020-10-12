@@ -16,7 +16,7 @@
 
 package controllers.feedback
 
-import actions.RefNumAction
+import actions.{RefNumAction, RefNumRequest}
 import connectors.Audit
 import form.Formats._
 import form.persistence.FormDocumentRepository
@@ -25,7 +25,7 @@ import models.pages.SummaryBuilder
 import models.{Journey, NormalJourney, Satisfaction}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
-import play.api.mvc.{MessagesControllerComponents, MessagesRequestHeader, Request, RequestHeader}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequestHeader, Request, RequestHeader}
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -43,8 +43,12 @@ object Survey {
 
 
 @Singleton
-class SurveyController @Inject() (cc: MessagesControllerComponents, repository: FormDocumentRepository,
-            refNumAction: RefNumAction, audit: Audit)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+class SurveyController @Inject() (
+                                   cc: MessagesControllerComponents,
+                                   repository: FormDocumentRepository,
+                                   refNumAction: RefNumAction,
+                                   audit: Audit,
+                                   confirmationView: views.html.confirm)(implicit ec: ExecutionContext) extends FrontendController(cc) {
   import Survey._
 
   val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
@@ -70,11 +74,11 @@ class SurveyController @Inject() (cc: MessagesControllerComponents, repository: 
     s"http://${request.host}/"
   }
 
-  private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit rh: MessagesRequestHeader, hc: HeaderCarrier) =
+  private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit request:RefNumRequest[AnyContent] ) =
     repository.findById(SessionId(hc), refNum) map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
-        Ok(views.html.confirm(
+        Ok(confirmationView(
           form.getOrElse(completedFeedbackFormNormalJourney), refNum,
           summary.customerDetails.flatMap(_.contactDetails.email),
           summary))

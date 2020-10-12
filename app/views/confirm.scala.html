@@ -14,57 +14,50 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages._
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
 @import models.pages.Summary
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.journeys.Journey
-@import config.ForConfig
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import template.FormatRefNum
 
-@(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        govukTextarea: GovukTextarea,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
-
-  @main(title=Messages("label.confirm.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, showBackButton=false, showAccountInfo=false, theForm = Some(theForm)) {
-
-
-  <main id="content">
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-        <div class="govuk-box-highlight">
-          <h1 class="heading-xlarge">@Messages("label.confirm.heading")</h1>
-          <p class="font-large"><a href="@routes.Application.pdf" class="confirm-download-link" target="_blank">@Messages("label.button.download")</a></p>
+@layout(
+    pageHeading = messages("label.confirm.heading"),
+    showH1 = false,
+    summary = Some(summary),
+    showAccountInfo = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
+    <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
+        <div class="govuk-panel__body">
+            <a href="@routes.Application.pdf" class="confirm-download-link" target="_blank">@messages("label.button.download")</a>
         </div>
-
-         <h2 class="heading-medium">@Messages("label.whatNext")</h2>
-
-          <ul class="list-bullet">
-            <li>@Messages("label.weMayContactYou")</li>
-            <li>@Messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber)) <a href="mailto:formhelp@@voa.gsi.gov.uk">@Messages("label.formHelpEmail")</a></li>
-          </ul><br>
-
-          <p><a href="@routes.LoginController.show">@Messages("label.submitAnotherForm")</a></p>
-          @*<p><a href="@feedback.routes.SurveyController.inpageAfterSubmissionFeedbackForm" target="_blank">@Messages("label.FeedbackLastPage")</a></p>*@
-
-
-          @views.html.includes.surveyFeedback(summary, theForm)
-      </div>
     </div>
-  </main>
 
-    @includes.continueButtonStickyFooter()
+    <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
 
-    }
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@messages("label.weMayContactYou")</li>
+        <li>@messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber)) <a href="mailto:formhelp@@voa.gsi.gov.uk">@messages("label.formHelpEmail")</a></li>
+    </ul><br>
+
+    <p class="govuk-body">
+      <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
+    </p>
+
+    @views.html.includes.surveyFeedback(summary, theForm, govukButton, govukTextarea, govukRadios, formWithCSFR)
+
+}
