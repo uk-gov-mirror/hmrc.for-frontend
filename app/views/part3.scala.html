@@ -104,7 +104,8 @@
                 value = theForm("occupierCompanyName").value,
                 classes = "govuk-input--width-20",
                 attributes = Map(
-                    "data-hidden-by" -> "occupierType", "data-show-when-value-equals" -> "company"
+                    "data-hidden-by" -> "occupierType",
+                    "data-show-when-value-equals" -> "company"
                 ),
                 label = Label(
                     content = Text(messages("label.companyName") ),
@@ -132,6 +133,8 @@
             )
         )
 
+        <div data-hidden-by="occupierType" data-show-when-value-equals="company|individuals" data-hides-this="true">
+
         @includes.dateFields2(
             form =theForm,
             field = "firstOccupationDate",
@@ -140,6 +143,7 @@
             govukDate = govukDateInput,
             hiddenBy = Option(new HiddenBy("occupierType", Seq("company", "individuals")))
         )
+        </div>
 
         @govukInput(
             Input(
