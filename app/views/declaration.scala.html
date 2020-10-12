@@ -14,91 +14,57 @@
  * limitations under the License.
  *@
 
-@import models._
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import models.pages.Summary
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import models.journeys.Journey
-@import config.ForConfig
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
-@(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukCheckboxes: GovukCheckboxes,
+        govukButton: GovukButton,
+        govukWarningText: GovukWarningText,
+        govukErrorSummary: GovukErrorSummary,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@stripIndices(field: String) = @{
-    field.replaceAll("""\[[0-9]\]""", "")
-}
+@(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
-@bodyEnd = {
-    @views.html.includes.javascripts()
-}
-    @ifIsAgent=@{
-        summary.isAgent
-    }
+@layout(
+    backLinkUrl = routes.Application.summary.url,
+    pageHeading = messages("declaration.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary),
+    gridClasses = "govuk-grid-column-full"
+){
 
-@main(title=Messages("declaration.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
+    @formWithCSFR(
+        action = routes.FORSubmissionController.submit,
+        args = 'class -> "declaration", 'id -> "myFormId"
 
-    @form(action = routes.FORSubmissionController.submit, args = 'class -> "declaration", 'id -> "myFormId") {
+    ) {
 
-    <main id="content">
+        @govukWarningText(WarningText(
+            content = Text(messages("hint.declaration")),
+            classes = "govuk-!-margin-bottom-2"
+        ))
+        @govukCheckboxes(
+            Checkboxes(
+                name = "declaration",
+                items = Seq(
+                    CheckboxItem(
+                        content = Text(messages("label.declaration.iAgree")),
+                        value = "true"
+                    )
+                )
+            ))
 
-    @if(theForm.hasErrors) {
-        <div class="form-error alert alert-danger"
-            role="alert" tabindex="-1"
-            aria-labelledby="error-summary-heading" >
-            <h2 id="error-summary-heading">@Messages("label.checkTheForm")</h2>
-            <ul>
-            @for(error <- theForm.errors) {
-                <li>
-                    <a href="#@error.key.replace("[", "_").replace(".", "_").replace("]", "_").replace("__", "_")">
-                    @Messages(stripIndices(error.message), error.args: _*)
-                    </a>
-                </li>
-            }
-            </ul>
-        </div>
-    }
-
-    <a href="@routes.Application.summary" id="backTop" name="back_button" class="link-back">@Messages("button.label.back")</a>
-    <h1 class="form-title heading-large form-title-group">
-        <span class="clearfix"></span>
-        <span class="section-title">@Messages("declaration.heading")</span>
-    </h1>
-
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            @helper.CSRF.formField
-
-            @checkbox(
-            field = theForm("declaration"),
-            'id -> "agree",
-            '_error -> theForm("declaration").error.map(_.withMessage(Messages("error.declaration"))),
-            '_fieldsetClass -> "inline",
-            '_legend -> true,
-            '_labelClass -> "visuallyhidden",
-            '_showConstraints -> false,
-            '_text -> Messages("label.declaration.iAgree"),
-            '_helpIndent -> Messages("hint.declaration")
-            )
-
-            <div>
-                <button type="submit" id="continue" name="continue_button" value="continue_button" class="button">@Messages("button.label.submit")</button>
-            </div>
-        </div>
-        <div class="column-third"></div>
-    </div>
-
-    </main>
-    
-    @includes.continueButtonStickyFooter()
+        @includes.continueButtonOnly2(govukButton)
     
     }
 
-    @includes.formHelp()
+    @includes.formHelp2()
 }
