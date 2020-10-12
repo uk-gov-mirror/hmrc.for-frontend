@@ -168,7 +168,7 @@
                     }else{
                         //a single element hides this
                         var $masterElem = $('input[name=\'' + hiddenBy + '\']:checked');
-                        if (showWhenEquals.split('|').includes($masterElem.val())) {
+                        if (showWhenEquals.split('|').indexOf($masterElem.val()) > -1) {
                             $elementToToggle.removeClass('hidden');
                         } else {
                             $elementToToggle.addClass('hidden');

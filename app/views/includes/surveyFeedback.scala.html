@@ -27,9 +27,7 @@
     govukRadios: GovukRadios,
     formWithCSFR:FormWithCSRF)(implicit requestHeader: Request[_], messages: Messages)
 
-<div class="help__wrapper">
 
-    <div class="help-content">
 
         <h1 class="govuk-heading-l">@messages("label.feedback.headingAfterSubmitting")</h1>
 
@@ -85,5 +83,4 @@
 
            @includes.continueButtonOnly2(govukButton)
         }
-</div>
-</div>
+
