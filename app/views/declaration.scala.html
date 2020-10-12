@@ -18,6 +18,7 @@
 @import helpers._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(  layout: main2,
@@ -59,8 +60,10 @@
                         content = Text(messages("label.declaration.iAgree")),
                         value = "true"
                     )
-                )
-            ))
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("declaration")
+            )
+        )
 
         @includes.continueButtonOnly2(govukButton)
     
