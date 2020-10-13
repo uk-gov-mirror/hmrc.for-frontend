@@ -144,5 +144,6 @@
     headBlock = Some(head(uiLayoutHead)),
     beforeContentBlock = Option(beforeBLock),
     mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),
-    bodyEndBlock = Some(scripts(footer, withTimeoutDialog))
+    bodyEndBlock = Some(scripts(footer, withTimeoutDialog)),
+    footerBlock = footerDefault
 )(contentWithHeading)
