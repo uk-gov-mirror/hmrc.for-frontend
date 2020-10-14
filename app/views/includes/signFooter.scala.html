@@ -22,9 +22,9 @@
 @(summary: Summary, hidden:Boolean=true )(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @visibleOrNot = @{
-    if(hidden) """style="display:none;visibility: hidden"""" else ""
+    if(hidden) "display:none; visibility: hidden;" else "display:block;"
 }
-<div class="signFooter" @visibleOrNot>
+<div class="signFooter" style="@visibleOrNot" >
   <h3>@Messages("heading.summary.pdf")</h3>
   <p>@Html(Messages("label.declaration", summary.submitter, Messages("userType."+summary.customerDetails.map(_.userType.name).getOrElse("")).toLowerCase, summary.addressUserBelievesIsCorrect.singleLine))</p>
   <h4>@Messages("heading.summary.pdf.name")</h4>
