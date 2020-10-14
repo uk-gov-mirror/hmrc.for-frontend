@@ -8,6 +8,7 @@
 GET         /                          controllers.Application.index
 
 GET         /confirmation              controllers.feedback.SurveyController.confirmation
+GET         /print                     controllers.Application.print
 GET         /declaration               controllers.Application.declaration()
 GET         /declarationError          controllers.Application.declarationError
 POST        /declaration               controllers.FORSubmissionController.submit

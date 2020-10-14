@@ -37,7 +37,8 @@ class Application @Inject() (cc: MessagesControllerComponents,
                              pdfGenerator: PdfGenerator,
                              repository: FormDocumentRepository,
                              summaryView: views.html.summary,
-                             declarationView: views.html.declaration
+                             declarationView: views.html.declaration,
+                             printAnswersView: views.html.print
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
@@ -139,6 +140,16 @@ class Application @Inject() (cc: MessagesControllerComponents,
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
         Ok(summaryView(sub))
+      case None =>
+        InternalServerError(views.html.error.error500())
+    }
+  }
+
+  def print = refNumAction.async { implicit request =>
+    repository.findById(SessionId(hc), request.refNum).map {
+      case Some(doc) =>
+        val sub = SummaryBuilder.build(doc)
+        Ok(printAnswersView(sub))
       case None =>
         InternalServerError(views.html.error.error500())
     }
