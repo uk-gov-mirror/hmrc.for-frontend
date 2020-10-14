@@ -67,4 +67,5 @@ object Errors {
   val toDateIsAfterFromDate = "error.writtenAgreement.steppedDetails.stepTo.day"
   val overlappingDates = "error.steppedDetails.overlappingDates"
   val isConnectedError = "error.isRelated"
+  val fullNamePage3 = "error.page3.fullname"
 }

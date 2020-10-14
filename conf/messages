@@ -200,6 +200,7 @@ alternativeContact.address.buildingNameNumber.error.contact.details.missing=At l
 
 #SECTION 3
 ##############################
+error.page3.fullname=Potatos!
 section3.heading=About the property
 label.propertyTypes=What is the property used for?
 propertyTypes.shop=Shop

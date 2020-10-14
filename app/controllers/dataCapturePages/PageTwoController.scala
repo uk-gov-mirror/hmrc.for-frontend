@@ -27,7 +27,9 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part2
 
-class PageTwoController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents, part2View:part2)
+class PageTwoController @Inject() (refNumAction: RefNumAction,
+                                   cc: MessagesControllerComponents,
+                                   part2View:part2)
   extends ForDataCapturePage[CustomerDetails](refNumAction, cc)  {
   val format = cdf
   val emptyForm = pageTwoForm
