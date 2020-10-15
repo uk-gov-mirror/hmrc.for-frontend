@@ -28,11 +28,11 @@ class UrlBuilderSpec extends FlatSpec with Matchers {
   it should "add the anchor of the element the user was last editing if the user is in edit mode" in {
     val refererHeader = FakeHeaders(Seq(("referer", "http://localhost/page1?edit=anAnchor")))
     val url = UrlFor(SummaryPage, refererHeader)      
-    assert(url === routes.Application.summary().url + "#anAnchor")
+    assert(url === routes.Application.checkYourAnswers().url + "#anAnchor")
   }
 
   it should "return just the base url if the user is not in edit mode" in {
     val url = UrlFor(SummaryPage, FakeHeaders())
-    assert(url === routes.Application.summary().url)
+    assert(url === routes.Application.checkYourAnswers().url)
   }
 }

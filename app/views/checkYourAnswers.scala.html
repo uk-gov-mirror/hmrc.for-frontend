@@ -40,17 +40,16 @@
 
     @includes.checkYourAnswersTable(summary)
 
-    <div class="summary-actions govuk-!-margin-top-5" >
-      <p>
+    <div class="summary-actions govuk-!-margin-top-5 dontprint" >
+      <div>
         <a id="continue" href="@routes.Application.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
         <a href="@routes.SaveForLater.saveForLater" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
-      </p>
-
-        <a href="@routes.Application.pdf" class="govuk-button govuk-button--secondary pdf-button" role="button" role="button" target="_blank">@messages("label.print.printorsave")</a>
-
+      </div>
+        <a href="#" class="govuk-link dontprint" onclick="javascript:window.print()">@messages("label.print.printorsave")</a>
     </div>
 
-  @views.html.includes.signFooter(summary)
 
- @if(!forPdf) { @includes.formHelp() }
+    @views.html.includes.signFooter(summary)
+
+    @includes.formHelp()
 }

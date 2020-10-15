@@ -61,8 +61,11 @@
 
 
     @if(showFeedback) {
+
         @govukPhaseBanner(
+
             PhaseBanner(
+                classes = "dontprint",
                 tag = Option(Tag(Text("BETA"))),
                 content = HtmlContent(
                         messages("label.phase2", controllers.feedback.routes.FeedbackController.feedback.url)
@@ -79,7 +82,7 @@
     }
     @if(backLinkUrl.isEmpty && showHistoryBack) {
         <a href="javascript:history.back()" id="history-back"
-        class="govuk-back-link" style="display: none;">@messages("button.label.back")</a>
+        class="govuk-back-link dontprint" style="display: none;">@messages("button.label.back")</a>
     }
 
     @beforeContentBlock

@@ -13,7 +13,7 @@ GET         /declaration               controllers.Application.declaration()
 GET         /declarationError          controllers.Application.declarationError
 POST        /declaration               controllers.FORSubmissionController.submit
 GET         /fail                      controllers.Application.fail
-GET         /summary                   controllers.Application.summary
+GET         /check-your-answers        controllers.Application.checkYourAnswers
 GET         /startagain                controllers.Application.startAgain
 GET         /sessiontimeout            controllers.Application.sessionTimeout
 
@@ -65,8 +65,6 @@ GET         /500                       controllers.Application.error500
 
 # LOOKUP API
 GET         /lookup                    controllers.AddressLookup.getAddress(postcode:String)
-
-GET         /pdf                       controllers.Application.pdf
 
 # SURVEY
 GET         /surveyThankyou            controllers.feedback.SurveyController.surveyThankyou

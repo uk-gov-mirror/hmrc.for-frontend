@@ -37,6 +37,10 @@
 
 	}
 }
+
+a.govuk-back-link, .dontprint {
+	display: none !important;
+}
 .heading-large{
 	font-size: 1.4em;
 	margin-bottom: 0;
@@ -86,8 +90,9 @@
 		font-weight: bold;
 	}
 }
-
-
+footer.govuk-footer{
+	display:none!important;
+}
 .signFooter{
 	display: inline-block !important;
 	visibility: visible !important;

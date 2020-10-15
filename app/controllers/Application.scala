@@ -36,7 +36,7 @@ class Application @Inject() (cc: MessagesControllerComponents,
                              refNumAction: RefNumAction,
                              pdfGenerator: PdfGenerator,
                              repository: FormDocumentRepository,
-                             summaryView: views.html.summary,
+                             checkYourAnswersView: views.html.checkYourAnswers,
                              declarationView: views.html.declaration,
                              printAnswersView: views.html.print
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
@@ -124,22 +124,11 @@ class Application @Inject() (cc: MessagesControllerComponents,
     s"${ForConfig.pdfProtocol}://${request.host}/"
   }
 
-  def pdf = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) =>
-        val summary = SummaryBuilder.build(doc)
-        val pdf = pdfGenerator.toBytes(summaryView(summary), host)
-        Ok(pdf).as("application/pdf")
-      case None =>
-        InternalServerError(views.html.error.error500())
-    }
-  }
-
-  def summary = refNumAction.async { implicit request =>
+  def checkYourAnswers = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
-        Ok(summaryView(sub))
+        Ok(checkYourAnswersView(sub))
       case None =>
         InternalServerError(views.html.error.error500())
     }

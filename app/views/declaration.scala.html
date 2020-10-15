@@ -34,7 +34,7 @@
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
 @layout(
-    backLinkUrl = routes.Application.summary.url,
+    backLinkUrl = routes.Application.checkYourAnswers.url,
     pageHeading = messages("declaration.heading"),
     summary = Some(summary),
     showAccountInfo = true,
