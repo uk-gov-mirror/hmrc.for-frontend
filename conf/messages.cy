@@ -534,7 +534,7 @@ label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes
 ###############################
 label.confirm.heading=Diolch, cafodd eich ffurflen ei hanfon yn llwyddiannus
 label.confirm.subheading=Eich rhif cyflwyno ffurflen yw:
-label.button.download=Lawrlwythwych gopi o’ch ffurflen
+label.button.download=Argraffwch gopi o'ch ffurflen (yn agor mewn tab newydd)
 label.email.sent=Anfonwn gopi o’ch cyflwyniad i’r cyfeiriad e-bost a roddwyd gennych.
 label.email.request=Bydd angen i chi darparu cyfeiriad e-bost os ydych am gael e-bost cadarnhau.
 label.whatNext=Yr hyn sy’n digwydd nesaf
