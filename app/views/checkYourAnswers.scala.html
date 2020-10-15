@@ -41,12 +41,10 @@
     @includes.checkYourAnswersTable(summary)
 
     <div class="summary-actions govuk-!-margin-top-5 dontprint" >
-      <div>
         <a id="continue" href="@routes.Application.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
         <a href="@routes.SaveForLater.saveForLater" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
-      </div>
-        <a href="#" class="govuk-link dontprint" onclick="javascript:window.print()">@messages("label.print.printorsave")</a>
     </div>
+    <a class="govuk-link print-link" href="" onclick="javascript:window.print();return false;">@messages("label.print.printorsave")</a>
 
 
     @views.html.includes.signFooter(summary)

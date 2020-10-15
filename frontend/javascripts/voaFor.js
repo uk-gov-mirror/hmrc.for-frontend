@@ -9,6 +9,12 @@
         $('a#history-back').show();
     };
 
+    VoaFor.printPageShouldPrintOnLoad = function(){
+        if($('div.govuk-grid-column-full.print-your-answers').length > 0){
+            window.print();
+        }
+    };
+
     VoaFor.currencyFields = function(){
         $('<span class=\'pound\'>£</span>').insertBefore('input[type=text].currency');
     };

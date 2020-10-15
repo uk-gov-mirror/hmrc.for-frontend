@@ -21,6 +21,7 @@ var ref;
         /** Init functions **/
         //voaFor.js
         VoaFor.showHistoryBackLink();
+        VoaFor.printPageShouldPrintOnLoad();
         VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
         VoaFor.errorFocus();
         VoaFor.addField();
