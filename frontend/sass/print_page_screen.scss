@@ -1,0 +1,32 @@
+div.print-your-answers {
+
+  div.signFooter {
+    width: 100%;
+    font-size: .9em;
+
+    h3 {
+      text-transform: uppercase;
+      border-top: solid 4px #000;
+      border-bottom: solid 4px #000;
+      padding: 10px 0;
+      background-color: #E4E4E4;
+      text-align: center;
+    }
+
+    h4 {
+      display: inline-block;
+      width: 30%;
+      float: left;
+      border-bottom: solid 1px #000;
+      padding-bottom: 60px;
+      margin-right: 20px;
+    }
+
+    .footnote {
+      font-size: .8em;
+      display: block;
+      clear: left
+    }
+  }
+
+}

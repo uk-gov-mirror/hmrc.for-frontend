@@ -543,7 +543,7 @@ label.noJs.anyOtherFactorsDetails=Answer this only if you’ve selected ‘Yes�
 ###############################
 label.confirm.heading=Thank you, your form has been successfully sent
 label.confirm.subheading=Your form submission number is:
-label.button.download=Download a copy of your form
+label.button.download=Print a copy of your form (opens in a new tab)
 label.email.sent=We’ll send a copy of your submission to the email address you provided.
 label.email.request=You’ll need to provide an email address if you want a confirmation email.
 label.whatNext=What happens next?

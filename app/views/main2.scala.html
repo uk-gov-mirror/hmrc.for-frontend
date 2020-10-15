@@ -43,6 +43,7 @@
     showH1: Boolean = true,
     showSection: Boolean = false,
     showFeedback: Boolean = true,
+    showFooter: Boolean = true,
     showAccountInfo: Boolean = false,
     summary: Option[Summary] = None,
     beforeContentBlock: Option[Html] = None,
@@ -59,19 +60,19 @@
     <input type="hidden" id="signOutCountdown" value=@current.configuration.getString("signout.countdown").get />
 
 
-    @govukPhaseBanner(
-        PhaseBanner(
-            tag = Option(Tag(Text("BETA"))),
-            content = HtmlContent(
-                if(showFeedback){
-                    messages("label.phase2", controllers.feedback.routes.FeedbackController.feedback.url)
-                }else{
-                    ""
-                }
+    @if(showFeedback) {
+
+        @govukPhaseBanner(
+
+            PhaseBanner(
+                classes = "dontprint",
+                tag = Option(Tag(Text("BETA"))),
+                content = HtmlContent(
+                        messages("label.phase2", controllers.feedback.routes.FeedbackController.feedback.url)
+                )
             )
         )
-    )
-
+    }
     @if(showAccountInfo && summary.isDefined){
         @views.html.includes.account_info_header(summary.get)
     }
@@ -81,7 +82,7 @@
     }
     @if(backLinkUrl.isEmpty && showHistoryBack) {
         <a href="javascript:history.back()" id="history-back"
-        class="govuk-back-link" style="display: none;">@messages("button.label.back")</a>
+        class="govuk-back-link dontprint" style="display: none;">@messages("button.label.back")</a>
     }
 
     @beforeContentBlock
@@ -90,7 +91,7 @@
 @numberOfSteps = {14}
 @contentWithHeading = {
     <div class="govuk-grid-row">
-        <div class=@gridClasses>
+        <div class="@gridClasses">
 
         @if(errorSummary){
             @errorSummary
@@ -145,5 +146,5 @@
     beforeContentBlock = Option(beforeBLock),
     mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),
     bodyEndBlock = Some(scripts(footer, withTimeoutDialog)),
-    footerBlock = footerDefault
+    footerBlock = if(showFooter) footerDefault else Html("")
 )(contentWithHeading)

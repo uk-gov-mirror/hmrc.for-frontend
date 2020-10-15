@@ -19,10 +19,12 @@
 @import models.pages._
 @import models.serviceContracts.submissions._
 
-@(summary: Summary )(implicit requestHeader: RequestHeader,  messages: Messages)
+@(summary: Summary, hidden:Boolean=true )(implicit requestHeader: RequestHeader,  messages: Messages)
 
-
-<div class="signFooter" style="display:none;visibility: hiddden">
+@visibleOrNot = @{
+    if(hidden) "display:none; visibility: hidden;" else "display:block;"
+}
+<div class="signFooter" style="@visibleOrNot" >
   <h3>@Messages("heading.summary.pdf")</h3>
   <p>@Html(Messages("label.declaration", summary.submitter, Messages("userType."+summary.customerDetails.map(_.userType.name).getOrElse("")).toLowerCase, summary.addressUserBelievesIsCorrect.singleLine))</p>
   <h4>@Messages("heading.summary.pdf.name")</h4>
