@@ -42,11 +42,14 @@
 ){
     <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
-        <div class="govuk-panel__body">
-            <a href="@routes.Application.print" class="confirm-download-link" target="_blank">@messages("label.button.download")</a>
-        </div>
     </div>
 
+
+
+    <p class="govuk-body">
+        <a href="@routes.Application.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
+    </p>
+    
     <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -54,10 +57,12 @@
         <li>@messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber)) <a href="mailto:formhelp@@voa.gsi.gov.uk">@messages("label.formHelpEmail")</a></li>
     </ul><br>
 
+
     <p class="govuk-body">
       <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
     </p>
 
+    <hr/>
     @views.html.includes.surveyFeedback(summary, theForm, govukButton, govukTextarea, govukRadios, formWithCSFR)
 
 }
