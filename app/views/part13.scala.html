@@ -14,142 +14,188 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages.Summary
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import views.includes.FieldNamer
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.pages.Summary
+@import models.serviceContracts.submissions.AlterationSetByType
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm: Form[_], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
-@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
-@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+@layout(
+  backLinkUrl = dataCapturePages.routes.PageController.showPage(12).url,
+  pageHeading = messages("section13.heading"),
+  summary = Some(summary),
+  showAccountInfo = true,
+  showSection = true,
+  errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@headerClass = { with-proposition }
-@main(title=Messages("section13.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-  @form(action = dataCapturePages.routes.PageController.savePage(13), args = 'class -> "myForm", 'id -> "myFormId") {
-    <main id="content">
-    @views.html.includes.backSave()
-    @progressBar(true)
+  @formWithCSFR(
+    action = dataCapturePages.routes.PageController.savePage(13),
+    args = 'class -> "myForm", 'id -> "myFormId"
+  ) {
 
-    @includes.errors(theForm, summary.isAgent)
-    @headingDisplay(13, Messages("section13.heading"), true)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-        @helper.CSRF.formField
-
-
-        @inputRadioGroup(
-          field = theForm("propertyAlterations"),
-          options = Seq(
-            "true" -> Messages(if(summary.isAgent) Messages("label.yes.ydy") else Messages("label.yes.ydw")),
-            "false" -> Messages(if(summary.isAgent) Messages("label.no.nac.ydy") else Messages("label.no.nac.ydw"))
-          ),
-          dataAttributes = Seq(("true", "data-show-field", "true")),
-          args = Seq(
-            '_showConstraints -> false,
-            '_label -> Messages(if(summary.isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")),
-            '_error -> theForm("propertyAlterations").error,
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
-            '_labelClass -> "form-label-bold",
-            '_showConstraints -> false,
-            '_help -> Messages("hint.propertyAlterations")
+    @govukRadios(
+      Radios(
+        name = "propertyAlterations",
+        idPrefix = Option("propertyAlterations"),
+        items = Seq(
+          "true" -> messages(if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydw")),
+          "false" -> messages(if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydw"))
+        )
+                .map(radioItem => {
+          RadioItem(
+            content = Text(radioItem._2),
+            checked = radioItem._1.equals(theForm("propertyAlterations").value.getOrElse("")),
+            value = Option(radioItem._1)
+          )
+        }
+        ),
+        hint = Hint(content = Text(messages("hint.propertyAlterations" + labelSuffix))),
+        classes = "radio-button-that-show-hides govuk-radios--inline",
+        errorMessage = theForm.errors.asTextErrorMessageForField("propertyAlterations"),
+        fieldset = Option(
+          Fieldset(
+            legend = Option(
+              Legend(
+                content = Text(messages("label.propertyAlterations")),
+                classes = "govuk-!-font-weight-bold"
+              )
+            )
           )
         )
+      )
+    )
 
-        <div class="propertyAlterations hidden">
-          <fieldset style="display:inline-block" data-limit="10">
-            @_root_.template.repeatWithIndex(theForm("propertyAlterationsDetails"), max = 10) { (propertyAlterationsDetails, idx) =>
-            
-              <div class="multi-fields-group" id=@(s"propertyAlterationsDetails_description_div_${idx}")>
 
-              @inputRadioGroup(
-                field = theForm(s"propertyAlterationsDetails[$idx].alterationType"),
-                options = AlterationSetByType.all.map(x => x.name -> Messages(s"alterationType.${x.name}")),
-                args =Seq (
-                  '_label -> Messages("label.propertyAlterationsDetails.alterationType"),
-                  '_labelClass -> "form-label-bold",
-                  '_showConstraints -> false,
-                  '_legend -> true,
-                  '_nojsText -> Messages("label.noJs.section13")
+    <fieldset
+        data-hidden-by="propertyAlterations"
+        data-show-when-value-equals="true"
+        data-hides-this="true"
+        data-limit="10">
+
+      @_root_.template.repeatWithIndex(theForm("propertyAlterationsDetails"), max = 10) { (propertyAlterationsDetails, idx) =>
+
+
+        <div  class="multi-fields-group"
+              id=@(s"propertyAlterationsDetails_description_div_${idx}")>
+
+        <fieldset class="form-group" id=s"propertyAlterationsDetails[$idx].alterationType">
+
+          <h3 class="govuk-heading-m section-heading">@messages("alteration.section.heading") <span>@{idx + 1}</span></h3>
+
+          @govukRadios(
+            Radios(
+              name = s"propertyAlterationsDetails[$idx].alterationType",
+              idPrefix = Option(s"propertyAlterationsDetails[$idx].alterationType"),
+              items = AlterationSetByType.all.map(i => {
+                RadioItem (
+                  content = Text(messages("alterationType." + i.name)),
+                  checked = i.name.equals(theForm(s"propertyAlterationsDetails[$idx].alterationType").value.getOrElse("")),
+                  value   = Option(i.name)
+                )
+              }
+              ),
+              errorMessage = theForm.errors.asTextErrorMessageForField(s"propertyAlterationsDetails[$idx].alterationType"),
+              fieldset = Option(
+                Fieldset(
+                  legend = Option(
+                    Legend(
+                      content = Text(messages("label.propertyAlterationsDetails.alterationType")),
+                      classes = "govuk-!-font-weight-bold"
+                    )
+                  )
                 )
               )
-
-              @includes.dateFieldsAlternative(theForm, "", "propertyAlterationsDetails", Some(idx), true, Messages("label.noJs.section13"))
-
-              <div class="panel-indent panel-indent-info hidden intel-alert @(s"propertyAlterationsDetails_${idx}_date")" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
-
-
-              @inputText(
-                field = theForm(s"propertyAlterationsDetails[$idx].cost"),
-                '_label -> Messages("label.propertyAlterationsDetails.cost"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-currency",
-                '_pound -> true,
-                '_nojsText -> Messages("label.noJs.section13")
-              )
-
-
-              <a href="#" class="remove-multi-fields" role="button" style="display : none">@Messages("label.add.remove")</a>
-            </div>
-            }
-
-
-            <div class="form-group">
-              <a href="#" class="add-multi-fields" role="button">@Messages("label.add.propertyAlterations")</a>
-            </div>
-
-          </fieldset>
-
-          
-          @inputRadioGroup(
-            field = theForm("requiredAnyWorks"),
-            options = Seq(
-              "true" -> Messages("label.yes.oedd"),
-              "false" -> Messages("label.no.nac.oedd")
-            ),
-            args = Seq(
-              '_showConstraints -> false,
-              '_label -> Messages(if(summary.isAgent) Messages("label.requiredAnyWorks.agent") else Messages("label.requiredAnyWorks")),
-              '_error -> theForm("requiredAnyWorks").error,
-              '_legend -> true,
-              '_fieldsetClass -> "inline",
-              '_labelClass -> "form-label-bold",
-              '_showConstraints -> false,
-              '_nojsText -> Messages("label.noJs.section13")
             )
           )
 
+          @includes.dateFields2(
+            form = theForm,
+            field = s"propertyAlterationsDetails[${idx}].date",
+            label = "label.propertyAlterationsDetails",
+            govukDate = govukDateInput
+          )
+
+          @hmrcCurrencyInput(
+            CurrencyInput(
+              id = s"propertyAlterationsDetails[$idx].cost",
+              name = s"propertyAlterationsDetails[$idx].cost",
+              value = theForm(s"propertyAlterationsDetails[$idx].cost").value,
+              classes = "govuk-input--width-10",
+              label = Label(
+                content = Text(messages("label.propertyAlterationsDetails.cost"))
+              ),
+              errorMessage =  theForm.errors.asTextErrorMessageForField(s"propertyAlterationsDetails[$idx].cost")
+            )
+          )
+        </fieldset>
+
+
+          <a href="#" class="remove-multi-fields" role="button" style="display: none">@messages("label.add.remove")</a>
         </div>
+      }
 
-        @includes.continueButton()
 
-
+      <div class="form-group">
+        <a href="#" class="add-multi-fields" role="button">@messages("label.add.propertyAlterations")</a>
       </div>
-      <div class="column-third"></div>
-    </div>
-</main>
-    
-    @includes.continueButtonStickyFooter()
-    
-    }
-         @includes.formHelp()
+
+    </fieldset>
+
+    @govukRadios(
+      Radios(
+        name = "requiredAnyWorks",
+        idPrefix = Option("requiredAnyWorks"),
+        classes = "govuk-radios--inline",
+        attributes = Map(
+          "data-hidden-by" -> "propertyAlterations",
+          "data-show-when-value-equals" -> "true"
+        ),
+        items = Seq(
+          "true" -> messages("label.yes.oedd"),
+          "false" -> messages("label.no.nac.oedd")
+        ).map(radioItem => {
+          RadioItem(
+            content = Text(radioItem._2),
+            checked = radioItem._1.equals(theForm("requiredAnyWorks").value.getOrElse("")),
+            value = Option(radioItem._1)
+          )
+        }
+        ),
+        errorMessage = theForm.errors.asTextErrorMessageForField("requiredAnyWorks"),
+        fieldset = Option(
+          Fieldset(
+            legend = Option(
+              Legend(
+                content = Text(messages("label.requiredAnyWorks" + labelSuffix)),
+                classes = "govuk-!-font-weight-bold"
+              )
+            )
+          )
+        )
+      )
+    )
+
+    @includes.continueSaveForLaterButtons(govukButton)
+  }
+  @includes.formHelp2()
 }

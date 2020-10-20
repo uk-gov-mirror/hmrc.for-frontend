@@ -240,6 +240,7 @@ label.sublet.subletPropertyPartDescription=Pa ran o’r eiddo sy’n cael ei oso
 label.sublet.subletPropertyReasonDescription=At ba ddiben y defnyddir yr eiddo sy’n cael ei osod neu isosod?
 hint.sublet.subletPropertyReasonDescription=Er enghraifft, defnydd preswyl neu fasnachol.
 label.sublet.annualRent=Faint o rent sy’n cael ei dalu bob blwyddyn am y gosod neu’r is-osod hwn (ac eithrio TAW)?
+label.sublet.section.heading=Is-osod
 
 label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod (heb gynnwys TAW)
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
@@ -511,6 +512,7 @@ label.requiredAnyWorks=A oedd yn ofynnol i’r tenant wneud unrhyw waith fel un 
 label.requiredAnyWorks.agent=A oedd yn ofynnol i’ch cleient gynnal unrhyw waith fel un o amodau’r brydles neu’r cytundeb presennol?
 label.add.propertyAlterations=Ychwanegu addasiad arall
 label.noJs.section13=Dylech ond ateb hyn os ydych wedi dewis ‘Oedd’
+alteration.section.heading=Addasiad
 
 label.propertyAlterationsDetails.alterationType=Pa fath o waith a wnaed?
 alterationType.extension=Estyniad

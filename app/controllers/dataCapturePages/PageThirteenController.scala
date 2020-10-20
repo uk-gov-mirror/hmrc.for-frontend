@@ -25,14 +25,17 @@ import models.serviceContracts.submissions.PropertyAlterations
 import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
+import views.html.part13
 
-class PageThirteenController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageThirteenController @Inject()(refNumAction: RefNumAction,
+                                       cc: MessagesControllerComponents,
+                                       part13: part13)
   extends ForDataCapturePage[PropertyAlterations](refNumAction, cc) {
   val format = palf
   val emptyForm = pageThirteenForm
   val pageNumber: Int = 13
 
   def template(form: Form[PropertyAlterations], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part13(form, summary)
+    part13(form, summary)
   }
 }

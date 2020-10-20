@@ -239,7 +239,7 @@ label.noRentDetails=Tell us why you do not pay rent on this property
 ###############################
 section4.heading=Lettings and sub-lettings
 label.propertyIsSublet=Is any part of the property currently let or sub-let to anyone else?
-
+label.sublet.section.heading=Sub-let
 hint.propertyIsSublet=This may include flats, advertising hoardings, garages and car spaces. For hourly rate lets such as village halls select ‘No’. Holiday lets should be submitted on <a href="https://www.gov.uk/government/publications/request-for-rental-information-self-catering-holiday-homes">form 6048</a>.
 label.sublet.tenantFullName=The tenant’s name
 label.sublet.subletPropertyPartDescription=What part of the property is let or sub-let?
@@ -519,7 +519,7 @@ label.requiredAnyWorks.agent=Was your client required to carry out any works as 
 label.add.propertyAlterations=Add another alteration
 hint.propertyAlterationsDetails=To enter more work use ‘Add more’
 label.noJs.section13=Answer this only if you’ve selected ‘Yes’
-
+alteration.section.heading=Alteration
 
 label.propertyAlterationsDetails.alterationType=What works were carried out?
 alterationType.extension=Extension

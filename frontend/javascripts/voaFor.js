@@ -57,6 +57,7 @@
     };
 
     VoaFor.changeIds = function (container, index) {
+
         function changeIdAndLabelId($container, $elem, newIndex) {
             var oldId = $elem.attr('id');
             var newId = oldId.replace(/(\d+)/g, newIndex);
@@ -83,7 +84,6 @@
 
         $container.find('input, textarea').not('[type="hidden"]').not('[type="radio"]').each(function () {
 
-            var attrFormgroupId = $(this).closest('.form-group').attr('id');
 
             var attrName = $(this).attr('name'),
                 s = $(this).closest('.multi-fields-group').attr('id'),
@@ -91,7 +91,10 @@
                 st = $(this).closest('.multi-fields-group').find('.form-date-dayMonth').attr('id'),
                 st2 = $(this).closest('.multi-fields-group').find('[data-intel]').attr('class');
 
-            $(this).closest('.form-group').attr('id', attrFormgroupId.replace(/(\d+)/g, index));
+            var attrFormgroupId = $(this).closest('.form-group').attr('id');
+            if(attrFormgroupId !== undefined){
+                $(this).closest('.form-group').attr('id', attrFormgroupId.replace(/(\d+)/g, index));
+            }
 
             changeIdAndLabelId( $container,$(this), index);
 
@@ -114,7 +117,12 @@
             $(this).attr('data-show-fields-group', dataAttribute.replace(/(\d+)/g, index));
         });
 
-        $container.find('input[type="radio"]').not('[type="hidden"]').each(function () {
+        $container.find('input[type="text"]').each(function () {
+            var nameAttr = $(this).attr('name');
+            console.log('name: ', nameAttr);
+            $(this).attr('name', nameAttr.replace(/\[(\d+)\]/g, '[' + index + ']'));
+        });
+        $container.find('input[type="radio"]').each(function () {
 
             var s = $(this).closest('.multi-fields-group').attr('id'),
                 o = s.substring(0, s.lastIndexOf('_') + 1);
@@ -141,20 +149,35 @@
             var element = $(this).closest('fieldset');
             var limit = parseInt(element.attr('data-limit'), 10);
             var existingCount = element.find('.multi-fields-group').length;
-            var $clonedMultiFields = element.find('.multi-fields-group:last').clone();
-            $clonedMultiFields.insertAfter(element.find('.multi-fields-group:last'));
-            element.find('.multi-fields-group:last p').remove();
-            element.find('.multi-fields-group:last input[type!="radio"]').val('');
-            element.find('.multi-fields-group:last input[type="radio"]').removeAttr('checked');
-            element.find('.multi-fields-group:last .form-date-dayMonth, .multi-fields-group:last .form-group div').removeClass('form-grouped-error');
-            VoaFor.changeIds($clonedMultiFields, existingCount);
+            //clone the multi-fields-group
+            var elementToClone = element.find('.multi-fields-group:last');
+            var $clone = elementToClone.clone();
+            VoaFor.changeIds($clone, existingCount);
+            $clone.insertAfter(elementToClone);
+            $clone.find('p').remove();
+            $clone.find(':not(:radio):not(.keep-val)').val('');
+            $clone.find(':radio').removeAttr('checked');
+            $clone.find('.form-date-dayMonth, .multi-fields-group:last .form-group div').removeClass('form-grouped-error');
+            //GDS error classes to remove from cloned element
+            $clone.find('.govuk-error-message').remove();
+            $clone.find('input.govuk-input--error').removeClass('govuk-input--error');
+            $clone.find('.govuk-form-group').removeClass('govuk-form-group--error');
+            $clone.find('a.remove-multi-fields').show();
+            var $sectionHeading = $clone.find('h3.section-heading span');
+            if($sectionHeading.length > 0){
+                var sectionNumber = $sectionHeading.text();
+                if(sectionNumber && !isNaN(sectionNumber)){
+                    var newSectionNumber = parseInt(sectionNumber) + 1;
+                    $sectionHeading.text(newSectionNumber);
+                }
+            }
             element.find('.multi-fields-group:last .chars').text(element.find('.multi-fields-group:last .chars').attr('data-max-length'));
             $('.remove-multi-fields').css('display', 'inline-block');
-            element.find('.multi-fields-group:last textarea').val('');
-            element.find('.multi-fields-group:last .form-group:first input:eq(0), .multi-fields-group:last .form-group:first textarea:eq(0)').focus();
-            element.find('.multi-fields-group:last').removeClass('form-grouped-error');
-            element.find('.multi-fields-group:last').find('.form-group').removeClass('has-error');
-            element.find('.multi-fields-group:last .intel-alert').addClass('hidden');
+            $clone.find('textarea').val('');
+            $clone.find('input:visible:first').focus();
+            $clone.removeClass('form-grouped-error');
+            $clone.find('.form-group').removeClass('has-error');
+            $clone.find(' .intel-alert').addClass('hidden');
             if ($('.multi-fields-group').length === limit) {
                 $(this).hide();
                 $('.add-hint').show();
