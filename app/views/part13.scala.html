@@ -60,8 +60,7 @@
         items = Seq(
           "true" -> messages(if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydw")),
           "false" -> messages(if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydw"))
-        )
-                .map(radioItem => {
+        ).map(radioItem => {
           RadioItem(
             content = Text(radioItem._2),
             checked = radioItem._1.equals(theForm("propertyAlterations").value.getOrElse("")),

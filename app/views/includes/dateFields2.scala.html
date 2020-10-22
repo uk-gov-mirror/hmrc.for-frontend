@@ -47,7 +47,7 @@
         msg
     }
 
-    @radioItems = @{
+    @dateInputItems = @{
         val month = InputItem(
             id = monthfield,
             name = monthfield,
@@ -81,7 +81,7 @@
         DateInput(
             id = field,
             formGroupClasses = (if(form.errors.exists(e => e.key.contains(field))) "govuk-form-group--error" else ""),
-            items = radioItems,
+            items = dateInputItems,
             hint = Hint(
                 content = Text(helpText.getOrElse(messages("help.date.day.month.year")))
             ),

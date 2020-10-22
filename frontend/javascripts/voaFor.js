@@ -15,10 +15,7 @@
         }
     };
 
-    VoaFor.currencyFields = function(){
-        $('<span class=\'pound\'>£</span>').insertBefore('input[type=text].currency');
-    };
-
+    //delete after GDS
     VoaFor.errorFocus = function () {
         var $formErrors = $('.form-error');
         if ($formErrors) {
@@ -57,7 +54,13 @@
     };
 
     VoaFor.changeIds = function (container, index) {
-
+        function incrementSectionHeadingNumber($clone) {
+            //increment the section heading eg "Sub-let 1" changes to "Sub-let 2"
+            var $sectionHeading = $clone.find('h3.section-heading span');
+            if ($sectionHeading.length > 0) {
+                $sectionHeading.text(index + 1 );
+            }
+        }
         function changeIdAndLabelId($container, $elem, newIndex) {
             var oldId = $elem.attr('id');
             var newId = oldId.replace(/(\d+)/g, newIndex);
@@ -81,6 +84,7 @@
                 $firstChildFormGroup.attr('id', newId);
             }
         }
+        incrementSectionHeadingNumber($container, index);
 
         $container.find('input, textarea').not('[type="hidden"]').not('[type="radio"]').each(function () {
 
@@ -112,6 +116,11 @@
             }
         });
 
+        $container.find('*[data-hidden-by]').each(function(){
+            var dataAttribute = $(this).attr('data-hidden-by');
+            $(this).attr('data-hidden-by', dataAttribute.replace(/(\d+)/g, index));
+
+        });
         $container.find('div[data-show-fields-group]').each(function () {
             var dataAttribute = $(this).attr('data-show-fields-group');
             $(this).attr('data-show-fields-group', dataAttribute.replace(/(\d+)/g, index));
@@ -144,6 +153,7 @@
 
     VoaFor.addFieldMulti = function () {
 
+
         $(document).on('click', '.add-multi-fields', function (e) {
             e.preventDefault();
             var element = $(this).closest('fieldset');
@@ -154,29 +164,16 @@
             var $clone = elementToClone.clone();
             VoaFor.changeIds($clone, existingCount);
             $clone.insertAfter(elementToClone);
+            hideTogglingElementsInClone($clone);
+            removeValuesFromClonedInputs($clone);
+            removeErrors($clone);
+            //remove p's from clone, no idea why.
             $clone.find('p').remove();
-            $clone.find(':not(:radio):not(.keep-val)').val('');
-            $clone.find(':radio').removeAttr('checked');
-            $clone.find('.form-date-dayMonth, .multi-fields-group:last .form-group div').removeClass('form-grouped-error');
-            //GDS error classes to remove from cloned element
-            $clone.find('.govuk-error-message').remove();
-            $clone.find('input.govuk-input--error').removeClass('govuk-input--error');
-            $clone.find('.govuk-form-group').removeClass('govuk-form-group--error');
+            //show the remove button on clone
             $clone.find('a.remove-multi-fields').show();
-            var $sectionHeading = $clone.find('h3.section-heading span');
-            if($sectionHeading.length > 0){
-                var sectionNumber = $sectionHeading.text();
-                if(sectionNumber && !isNaN(sectionNumber)){
-                    var newSectionNumber = parseInt(sectionNumber) + 1;
-                    $sectionHeading.text(newSectionNumber);
-                }
-            }
             element.find('.multi-fields-group:last .chars').text(element.find('.multi-fields-group:last .chars').attr('data-max-length'));
-            $('.remove-multi-fields').css('display', 'inline-block');
-            $clone.find('textarea').val('');
+            //focus on first input of cloned element
             $clone.find('input:visible:first').focus();
-            $clone.removeClass('form-grouped-error');
-            $clone.find('.form-group').removeClass('has-error');
             $clone.find(' .intel-alert').addClass('hidden');
             if ($('.multi-fields-group').length === limit) {
                 $(this).hide();
@@ -186,6 +183,28 @@
                 $(this).show();
             }
         });
+
+        function hideTogglingElementsInClone($clone) {
+            //hide the data-hidden-by elements in the clone
+            $clone.find('*[data-hidden-by]').closest('.govuk-form-group').addClass('hidden');
+            $clone.find('*[data-hides-this]').addClass('hidden');
+        }
+        function removeValuesFromClonedInputs($clone) {
+            $clone.find(':not(:radio):not(.keep-val)').val('');
+            $clone.find(':radio').removeAttr('checked');
+            $clone.find('textarea').val('');
+        }
+        function removeErrors($clone) {
+            //GDS error classes to remove from cloned element
+            $clone.find('.form-grouped-error').removeClass('form-grouped-error');
+            $clone.find('.govuk-error-message').remove();
+            $clone.find('input.govuk-input--error').removeClass('govuk-input--error');
+            $clone.find('.govuk-form-group').removeClass('govuk-form-group--error');
+            $clone.removeClass('form-grouped-error');
+            $clone.find('.form-group').removeClass('has-error');
+        }
+
+
     };
 
     VoaFor.addMultiButtonState = function () {
@@ -238,6 +257,7 @@
         setSelectSize();
     };
 
+    //to delete
     VoaFor.rentLength = function () {
         function setLengthLabel(name, spanName) {
             var element = $('[name="' + name + '"]');
@@ -295,7 +315,7 @@
             $('[name="continue_button"]').text(VoaMessages.textLabel('buttonUpdate')).attr('name', 'update_button');
         }
     };
-
+    //delete this after page 6 is done
     VoaFor.radioAgreement = function () {
         function radioAgrrementToggle() {
             if (!$('[name="leaseAgreementType"]').is(':checked')) {
@@ -314,7 +334,7 @@
             radioAgrrementToggle();
         });
     };
-
+    //delete this after page 6 is done
     VoaFor.agreementType = function () {
 
         function swapAgreementType() {
@@ -332,22 +352,6 @@
         $('[name="leaseAgreementType"]').change(function () {
             swapAgreementType();
         });
-    };
-
-    VoaFor.populateLettingsAddress = function () {
-        if (!$('#sublet_0_tenantAddress_buildingNameNumber_text').val() && $('#sublet_0_tenantAddress_buildingNameNumber_text').closest('div').hasClass('form-grouped-error')) {
-            //do nothing
-        } else if (!$('#sublet_0_tenantAddress_buildingNameNumber_text').val()) {
-            $('#sublet_0_tenantAddress_buildingNameNumber_text').val($('#addressBuildingNameNumber').val());
-            $('#sublet_0_tenantAddress_street1_text').val($('#addressStreet1').val());
-            $('#sublet_0_tenantAddress_street2_text').val($('#addressStreet2').val());
-        }
-        if (!$('#sublet_0_tenantAddress_postcode_text').val() && $('#sublet_0_tenantAddress_postcode_text').closest('div').hasClass('form-grouped-error')) {
-            //do nothing
-        } else if (!$('#sublet_0_tenantAddress_postcode_text').val()) {
-            $('#sublet_0_tenantAddress_postcode_text').val($('#addressPostcode').val());
-        }
-        $('.subletsHidden').remove();
     };
 
     VoaFor.getReferrer = function () {
@@ -370,6 +374,7 @@
         $('.form--feedback [name="referrer"], .form--feedback #referer').val(v);
     };
 
+    //to delete. handled server side now
     VoaFor.formatPostcode = function () {
         $(document).on('change', '.postcode', function (e) {
             if ($(this).val()) {
@@ -391,6 +396,7 @@
         }
     };
 
+    //to delete. wtf!
     VoaFor.toggleYearsMonths = function () {
         var yNumber = parseInt($('.yNumber').text(), 10);
         var mNumber = parseInt($('.mNumber').text(), 10);

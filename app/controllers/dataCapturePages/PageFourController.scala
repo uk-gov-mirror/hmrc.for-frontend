@@ -29,13 +29,15 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 
-class PageFourController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageFourController @Inject() (refNumAction: RefNumAction,
+                                    cc: MessagesControllerComponents,
+                                    part4: views.html.part4)
   extends ForDataCapturePage[PageFour] (refNumAction, cc) {
   val format = p4f
   val emptyForm = pageFourForm
   val pageNumber: Int = 4
 
   def template(form: Form[PageFour], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part4(form, summary)
+    part4(form, summary)
   }
 }
