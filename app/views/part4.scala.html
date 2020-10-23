@@ -14,208 +14,279 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
-@import models.pages._
-@import play.api.data._
 @import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
+@import models.pages.{PageFour, Summary}
+@import models.serviceContracts.submissions.SubletType
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@(theForm:Form[PageFour], summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
+@this(  layout: main2,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukInput:  GovukInput,
+        govukErrorSummary: GovukErrorSummary,
+        govukDateInput:GovukDateInput,
+        hmrcCurrencyInput : HmrcCurrencyInput,
+        govukTextarea: GovukTextarea,
+        govukDetails:GovukDetails,
+        formWithCSFR: formWithCSRF)
 
-@headExtra = {
-  @views.html.includes.stylesheets()
-  @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum, summary)
-}
+@(theForm: Form[PageFour], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
-@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
-@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(3).url,
+    pageHeading = messages("section4.heading"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    showSection = true,
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+){
 
-@underReview = @{
-  if(summary.isUnderReview){" " + Messages("label.underReview") } else {""}
-}
+    @formWithCSFR(
+        action = dataCapturePages.routes.PageController.savePage(4),
+        args = 'class -> "myForm", 'id -> "myFormId"
+    ) {
 
-@main(title=Messages("section4.heading") + " - " + Messages("project.name"), headExtra=headExtra, bodyEnd=bodyEnd, summary = Some(summary), theForm = Some(theForm)) {
-  @form(action = dataCapturePages.routes.PageController.savePage(4), args = 'class -> "myForm", 'id -> "myFormId") {
-    <main id="content">
-    @views.html.includes.backSave()
-
-    @progressBar(true)
-
-    @includes.errors(theForm, summary.isAgent)
-    @headingDisplay(4, Messages("section4.heading"), true)
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
-
-        @helper.CSRF.formField
-
-        @inputRadioGroup(
-          field = theForm("propertyIsSublet"),
-          options = Seq(
-            "true" ->  Messages(if(summary.isAgent)  Messages("label.yes.ydy")  else  Messages("label.yes.ydw")),
-            "false" -> Messages(if(summary.isAgent)  Messages("label.no.nac.ydy")  else  Messages("label.no.nac.ydw"))
-          ),
-          dataAttributes = Seq(("true", "data-show-field", "true")),
-          args = Seq(
-            '_label -> Messages("label.propertyIsSublet"),
-            '_error -> theForm("propertyIsSublet").error,
-            '_showConstraints -> false,
-            '_showErrors -> true,
-            '_labelClass -> "form-label-bold",
-            '_legend -> true,
-            '_fieldsetClass -> "inline",
-            '_help -> Html(Messages("hint.propertyIsSublet"))
-          )
+        @govukRadios(
+            Radios(
+                name = "propertyIsSublet",
+                idPrefix = Option("propertyIsSublet"),
+                items = Seq(
+                    "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydy")  else  messages("label.yes.ydw")),
+                    "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydy")  else  messages("label.no.nac.ydw"))
+                ).map(radioItem => {
+                    RadioItem(
+                        content = Text(radioItem._2),
+                        checked = radioItem._1.equals(theForm("propertyIsSublet").value.getOrElse("")),
+                        value = Option(radioItem._1)
+                    )
+                }
+                ),
+                hint = Hint(content = HtmlContent(messages("hint.propertyIsSublet"))),
+                classes = "radio-button-that-show-hides govuk-radios--inline",
+                errorMessage = theForm.errors.asTextErrorMessageForField("propertyIsSublet"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.propertyIsSublet")),
+                                classes = "govuk-!-font-weight-bold"
+                            )
+                        )
+                    )
+                )
+            )
         )
 
-        <p class="hidden">@Messages("label.noJs.section4")</p>
 
-
-        <div class="form-group propertyIsSublet hidden">
-
-    <fieldset style="display:inline-block" data-limit="5">
+    <fieldset
+        data-hidden-by="propertyIsSublet"
+        data-hides-this="true"
+        data-show-when-value-equals="true"
+        data-limit="5" >
 
         @_root_.template.repeatWithIndex(theForm("sublet"), max = 5) { (sublet, idx) =>
 
           <div class="multi-fields-group" id=@(s"sublet_description_div_${idx}")>
 
-           @inputText(
-                field = sublet("tenantFullName"),
-                '_label -> Messages("label.sublet.tenantFullName"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control"
+              <h3 class="govuk-heading-m section-heading">@messages("label.sublet.section.heading") <span>@{idx + 1}</span></h3>
+
+              <fieldset class="form-group" id=@(s"sublet[${idx}].sublet")>
+
+              @govukInput(
+                  Input(
+                      id = s"sublet[$idx].tenantFullName",
+                      name = s"sublet[$idx].tenantFullName",
+                      value = theForm(s"sublet[$idx].tenantFullName").value,
+                      formGroupClasses="form-group custom-140",
+                      classes = "govuk-input--width-20",
+                      errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantFullName"),
+                      label = Label(
+                          content = Text(messages("label.sublet.tenantFullName")),
+                          classes = "govuk-!-font-weight-bold"
+                      )
+                  )
               )
 
               @defining(Addresses.getAddress(summary)) { address =>
 
-                <input type="hidden" id="addressBuildingNameNumber" value="@address.buildingNameNumber" class="subletsHidden" />
-                <input type="hidden" id="addressStreet1" value="@address.street1.getOrElse("")"  class="subletsHidden" />
-                <input type="hidden" id="addressStreet2" value="@address.street2.getOrElse("")"  class="subletsHidden" />
-                <input type="hidden" id="addressPostcode" value="@address.postcode"  class="subletsHidden" />
+                  <input type="hidden" id="addressBuildingNameNumber" value="@address.buildingNameNumber" class="subletsHidden" />
+                  <input type="hidden" id="addressStreet1" value="@address.street1.getOrElse("")" class="subletsHidden" />
+                  <input type="hidden" id="addressStreet2" value="@address.street2.getOrElse("")" class="subletsHidden" />
+                  <input type="hidden" id="addressPostcode" value="@address.postcode" class="subletsHidden" />
 
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.buildingNameNumber"),
-                  '_label -> Messages("label.subletAddress"),
-                  '_labelClass -> "form-label-bold",
-                  'class -> "form-control",
-                  '_fieldsetClass -> "address-field-one address-fields",
-                  Symbol("placeholder") -> Messages("placeholder.address.1")
-                )
+              @govukInput(
+                  Input(
+                      id = s"sublet[$idx].tenantAddress.buildingNameNumber",
+                      name = s"sublet[$idx].tenantAddress.buildingNameNumber",
+                      value = theForm(s"sublet[$idx].tenantAddress.buildingNameNumber").value.getOrElse(address.buildingNameNumber).getOrElse("").toOption,
+                      classes = "govuk-input--width-20  keep-val",
+                      errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantAddress.buildingNameNumber"),
+                      label = Label(
+                          content = Text(messages("label.subletAddress")),
+                          classes = "govuk-!-font-weight-bold"
+                      )
+                  )
+              )
+              @govukInput(
+                  Input(
+                      id = s"sublet[$idx].tenantAddress.street1",
+                      name = s"sublet[$idx].tenantAddress.street1",
+                      value = theForm(s"sublet[$idx].tenantAddress.street1").value.getOrElse(address.street1.getOrElse("")).toOption,
+                      classes = "govuk-input--width-20 keep-val",
+                      errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantAddress.street1"),
+                      attributes = Map(
+                          "placeholder" -> messages("label.street1")
+                      )
+                  )
+              )
+              @govukInput(
+                  Input(
+                      id = s"sublet[$idx].tenantAddress.street2",
+                      name = s"sublet[$idx].tenantAddress.street2",
+                      value = theForm(s"sublet[$idx].tenantAddress.street2").value.getOrElse(address.street2.getOrElse("")).toOption,
+                      classes = "govuk-input--width-20 keep-val",
+                      errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantAddress.street2"),
+                      attributes = Map(
+                          "placeholder" -> messages("label.street2")
+                      )
+                  )
+              )
+              @govukInput(
+                  Input(
+                      id = s"sublet[$idx].tenantAddress.postcode",
+                      name = s"sublet[$idx].tenantAddress.postcode",
+                      value = theForm(s"sublet[$idx].tenantAddress.postcode").value.getOrElse(address.postcode.getOrElse("")).toOption,
+                      classes = "govuk-input--width-20 keep-val",
+                      errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantAddress.postcode"),
+                      attributes = Map(
+                          "placeholder" -> messages("label.postcode")
+                      )
+                  )
+              )
+          }
 
-                @helpers.inputText(
-                    field = theForm(s"sublet[$idx].tenantAddress.street1"),
-                  '_label -> Messages("label.street1"),
-                  '_labelClass -> "visuallyhidden",
-                  'class -> "form-control",
-                  '_fieldsetClass -> "address-field-two address-fields",
-                  Symbol("placeholder") -> Messages("placeholder.address.2"),
-                  '_optional -> true
-                )
-
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.street2"),
-                  '_label -> Messages("label.street2"),
-                  'class -> "form-control",
-                  '_labelClass -> "visuallyhidden",
-                  '_fieldsetClass -> "address-field-three",
-                  Symbol("placeholder") -> Messages("placeholder.address.3"),
-                  '_optional -> true
-
-                )
-
-                @helpers.inputText(
-                  field = theForm(s"sublet[$idx].tenantAddress.postcode"),
-                  '_label -> Messages("label.postcode"),
-                  '_labelClass -> "form-label-bold",
-                  'class -> s"form-control postcode postcode-+$idx",
-                  '_fieldsetClass -> "address-field-postcode"
-                )
-              }
-
-              @inputRadioGroup(
-                  field = sublet("subletType"),
-                  options = EnumOptions.options(SubletType),
-                  args = Seq(
-                      '_label -> Messages("label.sublet.subletType"),
-                      '_error -> theForm("subletType").errors,
-                      '_showConstraints -> false,
-                      '_showErrors -> true,
-                      '_labelClass -> "form-label-bold",
-                      '_legend -> true,
-                      'skipfieldset -> true
+            @govukRadios(
+              Radios(
+                  name = s"sublet[$idx].subletType",
+                  items = EnumOptions.options(SubletType).map(radioItem => {
+                      RadioItem(
+                          content = Text(radioItem._2),
+                          checked = radioItem._1.equals(theForm(s"sublet[$idx].subletType").value.getOrElse("")),
+                          value = Option(radioItem._1)
+                      )
+                  }
                   ),
-                  dataAttributes = Seq(
-                      ("part", "data-show-fields", s"sublet[${idx}].subletPropertyPartDescription"),
-                      ("all", "data-show-fields", "")
+                  classes = "radio-button-that-show-hides govuk-radios--inline",
+                  errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].subletType"),
+                  fieldset = Option(
+                      Fieldset(
+                          legend = Option(
+                              Legend(
+                                  content = Text(messages("label.sublet.subletType")),
+                                  classes = "govuk-!-font-weight-bold"
+                              )
+                          )
+                      )
                   )
               )
+            )
 
-              <div data-show-fields-group="sublet[@{idx}].subletType">
-                  @inputText(
-                    field = sublet("subletPropertyPartDescription"),
-                    '_label -> Messages("label.sublet.subletPropertyPartDescription"),
-                    '_labelClass -> "form-label-bold",
-                    'class -> "form-control",
-                    '_fieldsetClass -> "hidden"
+          @govukInput(
+              Input(
+                  id = s"sublet[$idx].subletPropertyPartDescription",
+                  name = s"sublet[$idx].subletPropertyPartDescription",
+                  value = theForm(s"sublet[$idx].subletPropertyPartDescription").value,
+                  attributes = Map(
+                      "data-hidden-by" -> s"sublet[$idx].subletType",
+                      "data-show-when-value-equals" -> "part"
+                  ),
+                  classes = "govuk-input--width-20",
+                  errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].subletPropertyPartDescription"),
+                  label = Label(
+                      content = Text(messages("label.sublet.subletPropertyPartDescription")),
+                      classes = "govuk-!-font-weight-bold"
                   )
-              </div>
-              @inputText(
-                field = sublet("subletPropertyReasonDescription"),
-                '_label -> Messages("label.sublet.subletPropertyReasonDescription"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control",
-                '_help -> Messages("hint.sublet.subletPropertyReasonDescription")
               )
+          )
 
-              @inputText(
-                field = sublet("annualRent"),
-                '_label -> Messages("label.sublet.annualRent"),
-                '_labelClass -> "form-label-bold",
-                'class -> "form-control input-currency",
-                '_pound -> true
+          @govukInput(
+              Input(
+                  id = s"sublet[$idx].subletPropertyPartDescription",
+                  name = s"sublet[$idx].subletPropertyPartDescription",
+                  value = theForm(s"sublet[$idx].subletPropertyPartDescription").value,
+                  classes = "govuk-input--width-20",
+                  attributes = Map(
+                      "data-hidden-by" -> s"sublet[$idx].subletPropertyPartDescription",
+                      "data-show-when-value-equals" -> "part"
+                  ),
+                  errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].subletPropertyPartDescription"),
+                  label = Label(
+                      content = Text(messages("label.sublet.subletPropertyPartDescription")),
+                      classes = "govuk-!-font-weight-bold"
+                  )
               )
+          )
 
-              @if(summary.isAgent) {
-                @includes.dateFields(theForm, "", false, "", s"sublet[$idx].rentFixedDate", "agent", label = Some("label.sublet.rentFixedDate.agent"))
-              } else {
-                @includes.dateFields(theForm, "", false, "", s"sublet[$idx].rentFixedDate", "", label = Some("label.sublet.rentFixedDate"))
-              }
+          @govukInput(
+              Input(
+                  id = s"sublet[$idx].subletPropertyReasonDescription",
+                  name = s"sublet[$idx].subletPropertyReasonDescription",
+                  value = theForm(s"sublet[$idx].subletPropertyReasonDescription").value,
+                  classes = "govuk-input--width-20",
+                  errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].subletPropertyReasonDescription"),
+                  label = Label(
+                      content = Text(messages("label.sublet.subletPropertyReasonDescription")),
+                      classes = "govuk-!-font-weight-bold"
+                  ),
+                  hint = Hint(content = Text(messages("hint.sublet.subletPropertyReasonDescription" + labelSuffix)))
+              )
+          )
 
-              <div class="panel-indent panel-indent-info hidden intel-alert sublet_rentFixedDate" data-intel="@verbalLeaseDate@writtenLeaseDate">@Messages("intel.alert.notBeforeLeaseDate") @verbalLeaseDate@writtenLeaseDate</div>
 
-              <a href="#" class="remove-multi-fields" role="button" style="display:none">@Messages("label.add.remove")</a>
-              </div>
-           }
+          @hmrcCurrencyInput(
+              CurrencyInput(
+                  id = s"sublet[$idx].annualRent",
+                  name = s"sublet[$idx].annualRent",
+                  value = theForm(s"sublet[$idx].annualRent").value,
+                  classes = "govuk-input--width-10",
+                  label = Label(
+                      content = Text(messages("label.sublet.annualRent"))
+                  ),
+                  errorMessage =  theForm.errors.asTextErrorMessageForField(s"sublet[$idx].annualRent")
+              )
+          )
+
+          @includes.dateFields2(
+              form = theForm,
+              field = s"sublet[$idx].rentFixedDate",
+              label = "label.sublet.rentFixedDate",
+              labelSuffix = labelSuffix,
+              govukDate = govukDateInput
+          )
+
+            </fieldset>
+          <a href="#" class="remove-multi-fields" role="button" style="display:none">@messages("label.add.remove")</a>
+
+          </div>
+       }
 
 
-            <div class="form-group">
-              <a href="#" class="add-multi-fields hide-if-no-js" role="button" >@Messages("label.add.sublet")</a>
-              <span style="display: none;" class="add-hint show-if-no-js"  >@Messages("error.too_many_sublets") </span>
-            </div>
-
+        <div class="form-group">
+          <a href="#" class="add-multi-fields hide-if-no-js" role="button" >@messages("label.add.sublet")</a>
+        </div>
     </fieldset>
 
-        </div>
 
-        @includes.continueButton()
-
-      </div>
-      <div class="column-third"></div>
-    </div>
- </main>
-
-    @includes.continueButtonStickyFooter()
-
+        @includes.continueSaveForLaterButtons(govukButton)
     }
 
-        @includes.formHelp()
+        @includes.formHelp2()
 }

@@ -186,7 +186,7 @@
         $('[data-hides-this][data-hidden-by]').addClass('hidden');
         //now run on page load to show any that should be shown based on which radios are already selected
         showFieldsAssociatedWithSelectedRadiosOnPageLoad();
-        $('.radio-button-that-show-hides input[type=radio]').on('change', function () {
+        $(document).on('change', '.radio-button-that-show-hides input[type=radio]' , function () {
             showHideFieldsBasedOnRadioButtonValue();
         });
     };
