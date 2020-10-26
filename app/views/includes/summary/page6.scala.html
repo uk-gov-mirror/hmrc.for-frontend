@@ -40,7 +40,7 @@
 
 
         @if(wa.rentOpenEnded == false) {
-          @summaryBlock((if(isAgent) Messages("label.writtenAgreement.leaselength.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.leaselength."+p6.leaseAgreementType.name)), 6, "writtenAgreement_leaseLength_years") {
+          @summaryBlock((if(isAgent) Messages("label.writtenAgreement.leaseLength.agent."+p6.leaseAgreementType.name) else Messages("label.writtenAgreement.leaseLength."+p6.leaseAgreementType.name)), 6, "writtenAgreement_leaseLength_years") {
             @wa.leaseLength.map { ll => <span class="yNumber">@{ll.years}</span> <span class="yText">years</span>, <span class="mNumber">@{ll.months}</span> <span class="mText">months</span> }
           }
         }
@@ -89,7 +89,7 @@
         }
 
         @if(!p6.verbalAgreementDetails.rentOpenEnded.getOrElse(true)) {
-            @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.leaselength.agent") else Messages("label.verbalAgreement.leaselength")), 6, "verbalAgreement_leaseLength_years_anchor") {
+            @summaryBlock(Messages(if(isAgent) Messages("label.verbalAgreement.leaseLength.agent") else Messages("label.verbalAgreement.leaseLength")), 6, "verbalAgreement_leaseLength_years_anchor") {
                 @p6.verbalAgreementDetails.leaseLength.map { d =>
                     @{d.years} years, @{d.months} months
                 }

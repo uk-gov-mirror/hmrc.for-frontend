@@ -73,7 +73,7 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
   }
 
   private def rejectSubmission = Future.successful {
-    Found(routes.Application.declarationError().url)
+    Found(routes.ApplicationController.declarationError().url)
   }
 
 }

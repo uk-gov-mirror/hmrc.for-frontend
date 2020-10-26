@@ -46,7 +46,7 @@
       <h1 class="form-title heading-large heading-confirmation">
         <span class="tick">&#10004;</span> @Messages("label.confirm.heading")
         <div class="summary-actions">
-          <a href="@routes.Application.print" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download")</a>
+          <a href="@routes.ApplicationController.print" class="confirm-download-link" role="button" target="_blank">@Messages("label.button.download")</a>
         </div>
       </h1>
 
@@ -57,7 +57,7 @@
           <li>@Messages("label.anyQuestions") <a href="mailto:formhelp@@voa.gsi.gov.uk">formhelp@@voa.gsi.gov.uk</a> @Messages("label.quoteRefNum", FormatRefNum(summary.referenceNumber))</li>
         </ul>
 
-        <p><a href="@routes.Application.index">@Messages("label.submitAnotherForm")</a></p>
+        <p><a href="@routes.ApplicationController.index">@Messages("label.submitAnotherForm")</a></p>
         
         <hr />
         

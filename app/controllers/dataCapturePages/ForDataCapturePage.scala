@@ -130,7 +130,7 @@ object UrlFor {
 
   private def actionFor(p: TargetPage) = p match {
     case PageToGoTo(p) => dataCapturePages.routes.PageController.showPage(p)
-    case SummaryPage => controllers.routes.Application.checkYourAnswers
+    case SummaryPage => controllers.routes.ApplicationController.checkYourAnswers
   }
 }
 
