@@ -34,7 +34,6 @@ var ref;
         VoaFor.isEdit();
         VoaFor.radioAgreement();
         VoaFor.agreementType();
-        VoaFor.populateLettingsAddress();
         VoaFor.getReferrer();
         VoaFor.formatPostcode();
         VoaFor.toggleAgentLeaseContainsRentReviews();
