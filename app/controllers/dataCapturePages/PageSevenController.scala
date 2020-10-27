@@ -28,14 +28,16 @@ import play.twirl.api.Html
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-class PageSevenController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents)
+class PageSevenController @Inject() (refNumAction: RefNumAction,
+                                     cc: MessagesControllerComponents,
+                                    part7:views.html.part7)
   extends ForDataCapturePage[PageSeven](refNumAction, cc) {
   val format = p7f
   val emptyForm = pageSevenForm
   val pageNumber: Int = 7
 
   def template(form: Form[PageSeven], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    views.html.part7(form, summary)
+    part7(form, summary)
   }
 
 }
