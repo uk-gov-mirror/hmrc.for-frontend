@@ -816,16 +816,23 @@ error.login.lockedOut=You are now locked out. You can try again after 24 hours.
 3=three
 2=two
 1=one
-writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day= ‘Step to’ date must be after ‘Step from’ date
-writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails1.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails2.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails3.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails4.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails5.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails6.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
-writtenAgreement.steppedDetails7.stepFrom.day.error.steppedDetails.overlappingDates=Add another stepped rent. The date range of each stepped rent should not overlap but a stepped rent can start on the same date and the previous one ends.
+writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails1.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails2.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails3.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails4.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails5.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails6.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
+writtenAgreement.steppedDetails7.stepFrom.day.error.steppedDetails.overlappingDates=Step from date must be the same as or after the Step to date of the previous step.
 
+writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day= ‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails1.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails2.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails3.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails4.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails5.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails6.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
+writtenAgreement.steppedDetails7.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=‘Step to’ date must be after ‘Step from’ date
 #ERROR PAGES
 ##############################
 error.404.heading=The page you requested cannot be found. Please try again.
