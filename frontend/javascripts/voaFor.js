@@ -315,44 +315,6 @@
             $('[name="continue_button"]').text(VoaMessages.textLabel('buttonUpdate')).attr('name', 'update_button');
         }
     };
-    //delete this after page 6 is done
-    VoaFor.radioAgreement = function () {
-        function radioAgrrementToggle() {
-            if (!$('[name="leaseAgreementType"]').is(':checked')) {
-                //do nothing
-            } else if ($('#leaseAgreementType_verbal').is(':checked')) {
-                $('.leaseAgreementVerbal').removeClass('hidden');
-                $('.leaseAgreementWritten').addClass('hidden');
-            } else {
-                $('.leaseAgreementVerbal').addClass('hidden');
-                $('.leaseAgreementWritten').removeClass('hidden');
-            }
-        }
-
-        radioAgrrementToggle();
-        $('[name="leaseAgreementType"]').change(function () {
-            radioAgrrementToggle();
-        });
-    };
-    //delete this after page 6 is done
-    VoaFor.agreementType = function () {
-
-        function swapAgreementType() {
-            if ($('#leaseAgreementType_leaseTenancy').is(':checked')) {
-                $('.agreementType').text(VoaMessages.textLabel('labelSingleLeaseTenancy'));
-            }
-
-            if ($('#leaseAgreementType_licenceOther').is(':checked')) {
-                $('.agreementType').text(VoaMessages.textLabel('labelLicenseWritten'));
-            }
-        }
-
-        swapAgreementType();
-
-        $('[name="leaseAgreementType"]').change(function () {
-            swapAgreementType();
-        });
-    };
 
     VoaFor.getReferrer = function () {
         var s = window.location.href, i = s.indexOf('?') + 1, r, v;

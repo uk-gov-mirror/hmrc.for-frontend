@@ -23,22 +23,22 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 @Singleton
 class PageController @Inject() (cc: MessagesControllerComponents,
-                                 application: Application,
-                                 pageZeroController: PageZeroController,
-                                 pageOneController: PageOneController,
-                                 pageTwoController: PageTwoController,
-                                 pageThreeController: PageThreeController,
-                                 pageFourController: PageFourController,
-                                 pageFiveController: PageFiveController,
-                                 pageSixController: PageSixController,
-                                 pageSevenController: PageSevenController,
-                                 pageEightController: PageEightController,
-                                 pageNineController: PageNineController,
-                                 pageTenController: PageTenController,
-                                 pageElevenController: PageElevenController,
-                                 pageTwelveController: PageTwelveController,
-                                 pageThirteenController: PageThirteenController,
-                                 pageFourteenController: PageFourteenController
+                                application: ApplicationController,
+                                pageZeroController: PageZeroController,
+                                pageOneController: PageOneController,
+                                pageTwoController: PageTwoController,
+                                pageThreeController: PageThreeController,
+                                pageFourController: PageFourController,
+                                pageFiveController: PageFiveController,
+                                pageSixController: PageSixController,
+                                pageSevenController: PageSevenController,
+                                pageEightController: PageEightController,
+                                pageNineController: PageNineController,
+                                pageTenController: PageTenController,
+                                pageElevenController: PageElevenController,
+                                pageTwelveController: PageTwelveController,
+                                pageThirteenController: PageThirteenController,
+                                pageFourteenController: PageFourteenController
 
                                )
 

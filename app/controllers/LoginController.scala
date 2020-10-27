@@ -100,7 +100,7 @@ class LoginController @Inject()
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
-      case Upstream4xxResponse(_, 403, _, _) => Redirect(routes.Application.fail())
+      case Upstream4xxResponse(_, 403, _, _) => Redirect(routes.ApplicationController.fail())
       case Upstream4xxResponse(body, 401, _, _) =>
         val failed = Json.parse(body).as[FailedLoginResponse]
         Logger.info(s"Failed login: RefNum: $ref1$ref2 Attempts remaining: ${failed.numberOfRemainingTriesUntilIPLockout}")

@@ -24,7 +24,13 @@
     @if(theForm.errors.nonEmpty) {
         @govukErrorSummary(
             ErrorSummary(
-                errorList = theForm.errors.asTextErrorLinks,
+                errorList = theForm.errors.map(error=> {
+                    FormError(
+                        error.key,
+                        error.messages.map(str=> str.replaceAll("[\\[|\\]]", "")),
+                        error.args
+                    )
+                }).asTextErrorLinks,
                 title = Text(messages("label.checkTheForm")))
         )
     }

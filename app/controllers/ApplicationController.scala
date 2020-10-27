@@ -32,13 +32,13 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class Application @Inject() (cc: MessagesControllerComponents,
-                             refNumAction: RefNumAction,
-                             pdfGenerator: PdfGenerator,
-                             repository: FormDocumentRepository,
-                             checkYourAnswersView: views.html.checkYourAnswers,
-                             declarationView: views.html.declaration,
-                             printAnswersView: views.html.print
+class ApplicationController @Inject()(cc: MessagesControllerComponents,
+                                      refNumAction: RefNumAction,
+                                      pdfGenerator: PdfGenerator,
+                                      repository: FormDocumentRepository,
+                                      checkYourAnswersView: views.html.checkYourAnswers,
+                                      declarationView: views.html.declaration,
+                                      printAnswersView: views.html.print
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 

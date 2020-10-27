@@ -21,8 +21,8 @@
 <ul>
 	<li><a href="@feedback" target="_blank" id="footerBetaFeedback">@Messages("link.feedback")<span class="visuallyhidden"> (@Messages("alt.newWindow"))</span></a></li>
     <li><a href="@((Play.current.injector.instanceOf[AccessibilityStatementConfig]).url.get)">@messages("footer.accessibility.text")</a></li>
-    <li><a href="@routes.Application.cookies">@Messages("heading.cookies")</a></li>
-    <li><a href="@routes.Application.termsandconditions">@Messages("heading.termsandconditions")</a></li>
+    <li><a href="@routes.ApplicationController.cookies">@Messages("heading.cookies")</a></li>
+    <li><a href="@routes.ApplicationController.termsandconditions">@Messages("heading.termsandconditions")</a></li>
     <li><a href="https://www.gov.uk/government/organisations/valuation-office-agency/about/personal-information-charter#your-privacy">@Messages("link.privacyPolicy")</a></li>
     <li>@includes.languageTemplate()</li>
 </ul>
