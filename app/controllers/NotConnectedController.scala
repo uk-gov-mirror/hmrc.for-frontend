@@ -48,7 +48,8 @@ class NotConnectedController @Inject()
   audit: Audit,
   cc: MessagesControllerComponents,
   notConnectedView:views.html.notConnected,
-  confirmNotConnectedView: views.html.confirmNotConnected
+  confirmNotConnectedView: views.html.confirmNotConnected,
+  errorView: views.html.error.error
   )(implicit ec: ExecutionContext)
                                        extends FrontendController(cc) {
 
@@ -70,7 +71,7 @@ class NotConnectedController @Inject()
       case Some(summary) => Ok(notConnectedView(form, summary))
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
       }
     }
   }
@@ -89,14 +90,14 @@ class NotConnectedController @Inject()
           }.recover {
             case e: Exception => {
               logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
-              InternalServerError(views.html.error.error500())
+              InternalServerError(errorView(500))
             }
           }
         }})
       }
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
       }
     }
   }
@@ -110,7 +111,7 @@ class NotConnectedController @Inject()
       case Some(summary) => Ok(confirmNotConnectedView(summary, feedbackForm)) //.withNewSession
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
       }
     }
   }

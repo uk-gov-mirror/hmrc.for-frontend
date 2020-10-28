@@ -22,6 +22,7 @@ import controllers._
 import controllers.dataCapturePages.ForDataCapturePage._
 import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
+import javax.inject.Inject
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
 import play.api.Logger
@@ -38,12 +39,14 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
-                                      override val controllerComponents: MessagesControllerComponents)
+abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
+                                      override val controllerComponents: MessagesControllerComponents,
+                                                 errorView: views.html.error.error
+                                               )
   extends FrontendController(controllerComponents) {
 
   implicit val format: Format[T]
-  implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+  implicit val ec: ExecutionContext = controllerComponents.executionContext
 
   def emptyForm: Form[T]
 
@@ -114,7 +117,10 @@ abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
 
   private def redirectToPage(page: Int) = Redirect(routes.PageController.showPage(page))
 
-  private def internalServerError(implicit rh: MessagesRequestHeader) = InternalServerError(views.html.error.error500())
+  private def internalServerError(implicit rh: MessagesRequestHeader) = {
+    implicit val request = Request(rh, "")
+    InternalServerError(errorView(500))
+  }
 }
 
 object UrlFor {

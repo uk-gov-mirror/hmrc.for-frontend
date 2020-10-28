@@ -29,8 +29,9 @@ import views.html.part13
 
 class PageThirteenController @Inject()(refNumAction: RefNumAction,
                                        cc: MessagesControllerComponents,
-                                       part13: part13)
-  extends ForDataCapturePage[PropertyAlterations](refNumAction, cc) {
+                                       part13: part13,
+                                       errorView: views.html.error.error)
+  extends ForDataCapturePage[PropertyAlterations](refNumAction, cc, errorView) {
   val format = palf
   val emptyForm = pageThirteenForm
   val pageNumber: Int = 13

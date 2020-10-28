@@ -28,8 +28,9 @@ import play.twirl.api.Html
 class PageNineController @Inject() (
                                      refNumAction: RefNumAction,
                                     cc: MessagesControllerComponents,
-                                   part9 : views.html.part9)
-  extends ForDataCapturePage[PageNine] (refNumAction, cc) {
+                                   part9 : views.html.part9,
+                                     errorView: views.html.error.error)
+  extends ForDataCapturePage[PageNine] (refNumAction, cc, errorView) {
   val format = p9f
   val emptyForm = pageNineForm
   val pageNumber: Int = 9

@@ -28,8 +28,11 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import views.html.part5
 
-class PageFiveController @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents, part5:part5)
-  extends ForDataCapturePage[PageFive] (refNumAction, cc)  {
+class PageFiveController @Inject() (refNumAction: RefNumAction,
+                                    cc: MessagesControllerComponents,
+                                    part5:part5,
+                                    errorView: views.html.error.error)
+  extends ForDataCapturePage[PageFive] (refNumAction, cc, errorView)  {
   val format = Json.format[PageFive]
   val emptyForm = pageFiveForm
   val pageNumber: Int = 5

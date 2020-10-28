@@ -30,8 +30,9 @@ import play.api.Play.current
 
 class PageSevenController @Inject() (refNumAction: RefNumAction,
                                      cc: MessagesControllerComponents,
-                                    part7:views.html.part7)
-  extends ForDataCapturePage[PageSeven](refNumAction, cc) {
+                                    part7:views.html.part7,
+                                     errorView: views.html.error.error)
+  extends ForDataCapturePage[PageSeven](refNumAction, cc, errorView) {
   val format = p7f
   val emptyForm = pageSevenForm
   val pageNumber: Int = 7

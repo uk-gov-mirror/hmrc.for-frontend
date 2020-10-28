@@ -31,8 +31,9 @@ import play.api.Play.current
 
 class PageFourController @Inject() (refNumAction: RefNumAction,
                                     cc: MessagesControllerComponents,
-                                    part4: views.html.part4)
-  extends ForDataCapturePage[PageFour] (refNumAction, cc) {
+                                    part4: views.html.part4,
+                                    errorView: views.html.error.error)
+  extends ForDataCapturePage[PageFour] (refNumAction, cc, errorView) {
   val format = p4f
   val emptyForm = pageFourForm
   val pageNumber: Int = 4

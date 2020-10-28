@@ -28,8 +28,11 @@ import play.twirl.api.Html
 import views.html.part1
 
 class PageOneController @Inject()
-(refNumAction: RefNumAction, cc: MessagesControllerComponents, part1: part1)
-  extends ForDataCapturePage[Address](refNumAction, cc) {
+(refNumAction: RefNumAction,
+ cc: MessagesControllerComponents,
+ part1: part1,
+ errorView: views.html.error.error)
+  extends ForDataCapturePage[Address](refNumAction, cc, errorView) {
 
   val format = addressFormat
   val emptyForm = pageOneForm
