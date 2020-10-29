@@ -336,51 +336,6 @@
         $('.form--feedback [name="referrer"], .form--feedback #referer').val(v);
     };
 
-    //to delete. handled server side now
-    VoaFor.formatPostcode = function () {
-        $(document).on('change', '.postcode', function (e) {
-            if ($(this).val()) {
-                $(this).val($(this).val().replace(' ', '').replace(/(.{3})$/, ' $1').toUpperCase());
-            }
-        });
-    };
-
-    VoaFor.toggleAgentLeaseContainsRentReviews = function () {
-        if ($('.form-error .leaseContainsRentReviews_agent') && $('#leaseContainsRentReviews .label-span').text() === VoaMessages.textLabel('labelLeaseContainsRentReviews')) {
-            $('.form-error .leaseContainsRentReviews_agent').text(VoaMessages.textLabel('labelLeaseContainsRentReviews'));
-        }
-
-    };
-
-    VoaFor.toggleImage = function () {
-        if ($('html[lang="cy"]').length > 0 && $('.letter-img').length > 0) {
-            $('html[lang="cy"] .letter-img').attr('src', $('.letter-img').attr('src').replace(/.png/g, '-cy.png'));
-        }
-    };
-
-    //to delete. wtf!
-    VoaFor.toggleYearsMonths = function () {
-        var yNumber = parseInt($('.yNumber').text(), 10);
-        var mNumber = parseInt($('.mNumber').text(), 10);
-        if (yNumber === 2) {
-            $('.yText').text(VoaMessages.textLabel('labelYears1'));
-        }
-        if (yNumber === 3 || yNumber === 4 || yNumber === 6) {
-            $('.yText').text(VoaMessages.textLabel('labelYears2'));
-        }
-        if (yNumber === 1 || yNumber === 5 || yNumber === 7 || yNumber === 8 || yNumber === 9 || yNumber === 10) {
-            $('.yText').text(VoaMessages.textLabel('labelYears3'));
-        }
-        if (yNumber >= 11) {
-            $('.yText').text(VoaMessages.textLabel('labelYears4'));
-        }
-        if (mNumber === 2) {
-            $('.mText').text(VoaMessages.textLabel('labelMonths2'));
-        } else {
-            $('.mText').text(VoaMessages.textLabel('labelMonths1'));
-        }
-    };
-
     VoaFor.timeOutReminder = function () {
         var timeout = $('#signOutTimeout').val();
         var countdown = $('#signOutCountdown').val();

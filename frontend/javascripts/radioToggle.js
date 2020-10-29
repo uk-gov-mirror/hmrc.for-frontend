@@ -76,7 +76,6 @@
 
     };
 
-
     VoaRadioToggle.radioDataShowFields = function () {
 
 

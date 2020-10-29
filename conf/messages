@@ -839,7 +839,7 @@ error.404.heading=The page you requested cannot be found. Please try again.
 error.408.heading=The page or service has timed out. Please re-enter your details or start again
 error.410.heading=The page you requested is no longer available
 error.500.heading=There is a problem with the page and it cannot be displayed. Please try again later.
-error.fail.heading=The reference number you entered does not match our records. Please check and try again.
+error.403.heading=The reference number you entered does not match our records. Please check and try again.
 error.duplicate.heading=You cannot edit this information because it has already been submitted.
 error.duplicate.title=Duplicate submission
 error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.

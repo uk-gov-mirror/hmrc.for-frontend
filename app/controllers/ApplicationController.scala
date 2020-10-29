@@ -65,10 +65,6 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def fail = Action { implicit request =>
-    Ok(views.html.fail())
-  }
-
   def startAgain = refNumAction.async { implicit request =>
     repository.clear(SessionId(hc), request.refNum) map { _ =>
       Redirect(dataCapturePages.routes.PageController.showPage(0))
