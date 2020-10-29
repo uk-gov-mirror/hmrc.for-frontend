@@ -14,32 +14,15 @@
  * limitations under the License.
  *@
 
-@import config.ForConfig
+@this( layout: main2)
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@()(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
 
-@bodyEnd = {
-@views.html.includes.javascripts()
-}
+@layout(pageHeading = messages("heading.sessionTimeout")){
 
-@main(title =Messages("heading.sessionTimeout") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false,needsTimeoutWarning=false) {
+    <p class="govuk-body">@Messages("sessionTimeout.copy")</p>
 
-<main id="content">
-    <div class="grid-row">
-        <div class="column-two-thirds">
+    <p class="govuk-body"><a class="govuk-link" href="@routes.LoginController.show()">@messages("sessionTimeout.button")</a></p>
 
-            <h1 class="form-title heading-xlarge">@Messages("heading.sessionTimeout")</h1>
-
-            <p>@Messages("sessionTimeout.copy")</p>
-
-            <p><a href="@routes.LoginController.show()">@Messages("sessionTimeout.button")</a></p>
-
-        </div>
-    </div>
-</main>
 }
