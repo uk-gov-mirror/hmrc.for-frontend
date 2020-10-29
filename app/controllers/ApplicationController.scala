@@ -39,8 +39,10 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
                                       checkYourAnswersView: views.html.checkYourAnswers,
                                       declarationView: views.html.declaration,
                                       printAnswersView: views.html.print,
-                                     errorView: views.html.error.error
+                                     errorView: views.html.error.error,
+                                     sessionTimeoutView: views.html.sessionTimeout
                                      )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+
 
 
   def declaration = refNumAction.async { implicit request =>
@@ -80,7 +82,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def sessionTimeout = Action { implicit request => Ok(views.html.sessionTimeout()) }
+  def sessionTimeout = Action { implicit request => Ok(sessionTimeoutView()) }
 
   def error404 = Action { implicit request =>
     Ok(errorView(404))
