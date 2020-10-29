@@ -22,6 +22,7 @@ import controllers._
 import controllers.dataCapturePages.ForDataCapturePage._
 import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
+import javax.inject.Inject
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
 import play.api.Logger
@@ -32,18 +33,18 @@ import play.api.mvc._
 import play.shaded.ahc.io.netty.handler.codec.http.QueryStringDecoder
 import play.twirl.api.Html
 import playconfig.{FormPersistence, SessionId}
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
+abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
                                       override val controllerComponents: MessagesControllerComponents)
   extends FrontendController(controllerComponents) {
 
   implicit val format: Format[T]
-  implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+  implicit val ec: ExecutionContext = controllerComponents.executionContext
 
   def emptyForm: Form[T]
 
@@ -60,7 +61,7 @@ abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
       case Some(doc) => showThisPageOrGoToNextAllowed(doc, request)
       case None =>
         Logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        internalServerError(request)
+        throw new BadRequestException("Could not find document in current session")
     }
   }
 
@@ -77,7 +78,7 @@ abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
   def save: Action[AnyContent] = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     saveForm(request.body.asFormUrlEncoded, SessionId(hc), request.refNum, pageNumber) flatMap {
       case Some((savedFields, summary)) => goToNextPage(extractAction(request.body.asFormUrlEncoded), summary, savedFields)
-      case None => internalServerError(request)
+      case None => throw new BadRequestException("go to error page")
     }
   }
 
@@ -114,7 +115,6 @@ abstract class ForDataCapturePage[T]( refNumAction: RefNumAction,
 
   private def redirectToPage(page: Int) = Redirect(routes.PageController.showPage(page))
 
-  private def internalServerError(implicit rh: MessagesRequestHeader) = InternalServerError(views.html.error.error500())
 }
 
 object UrlFor {

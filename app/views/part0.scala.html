@@ -54,7 +54,7 @@
                     AddressConnectionTypeNo.name -> messages("label.no.nac.oes")
                 ).map(i => RadioItem (
                     content = Text(i._2),
-                    checked = theForm("isRelated").value.map(_ == i.value).getOrElse(false),
+                    checked = i._1.equals(theForm("isRelated").value.getOrElse("")),
                     value=Option(i._1)
                   )
                 ),

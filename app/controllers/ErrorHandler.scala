@@ -22,31 +22,32 @@ import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.http.{BadRequestException, NotFoundException, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
-
+import play.api.mvc.Results._
 import scala.concurrent.Future
 
 @Singleton
-class ErrorHandler @Inject() (val messagesApi: MessagesApi) extends FrontendErrorHandler {
+class ErrorHandler @Inject() (val messagesApi: MessagesApi,
+                              errorView:views.html.error.error) extends FrontendErrorHandler {
 
-  override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
-    import play.api.mvc.Results._
-    implicit val requestHeader: RequestHeader = request
+  override def onServerError(header: RequestHeader, exception: Throwable): Future[Result] = {
+
+    implicit val request: Request[_] = Request( header,  "")
     exception.getCause match {
-      case e: BadRequestException => BadRequest(views.html.error.error500())
-      case Upstream4xxResponse(_, 404, _, _) => NotFound(views.html.error.error404())
-      case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(views.html.error.error408())
-      case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
-      case Upstream4xxResponse(_, 410, _, _) => Gone(views.html.error.error410())
-      case e: NotFoundException => NotFound(views.html.error.error404())
-      case _ => super.resolveError(request, exception)
+      case e: BadRequestException => BadRequest(errorView(500))
+      case Upstream4xxResponse(_, 404, _, _) => NotFound(errorView(404))
+      case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(errorView(408))
+      case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
+      case Upstream4xxResponse(_, 410, _, _) => Gone(errorView(410))
+      case e: NotFoundException => NotFound(errorView(404))
+      case _ => super.resolveError(header, exception)
     }
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
-    views.html.error.error500()
+    errorView(500)
   }
 
   override def notFoundTemplate(implicit request: Request[_]): Html = {
-    views.html.error.error404()
+    errorView(404)
   }
 }

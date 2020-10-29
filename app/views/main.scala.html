@@ -55,11 +55,7 @@ theForm: Option[Form[_]] = None)(content: Html)(implicit requestHeader: RequestH
     </div>
 }
 
-@layouts.govuk_template2(Some(title), "pre-gds-body", theForm = theForm)(head, empty, bodyEnd, insideHeader, empty, empty, footerLinks, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
+@layouts.govuk_template2(Some(title), "pre-gds-body", theForm = theForm)(head, empty, bodyEnd, insideHeader, empty, empty, headerClass=headerClass, needsTimeoutWarning=needsTimeoutWarning) {
     @headers
     @content
-}
-
-@footerLinks = {
-    @views.html.includes.footerLinks(feedbackUrl)
 }

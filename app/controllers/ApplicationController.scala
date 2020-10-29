@@ -38,8 +38,9 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
                                       repository: FormDocumentRepository,
                                       checkYourAnswersView: views.html.checkYourAnswers,
                                       declarationView: views.html.declaration,
-                                      printAnswersView: views.html.print
-                 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+                                      printAnswersView: views.html.print,
+                                     errorView: views.html.error.error
+                                     )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
   def declaration = refNumAction.async { implicit request =>
@@ -49,7 +50,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
         Ok(declarationView(Form(("", text)), fullName, userType, summary: Summary))
-      case None => InternalServerError(views.html.error.error500())
+      case None => InternalServerError(errorView(500))
     }
   }
 
@@ -60,7 +61,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
         Ok(declarationView(Form(("", text)).withError("declaration", Errors.declaration), fullName, userType, summary))
-      case None => InternalServerError(views.html.error.error500())
+      case None => InternalServerError(errorView(500))
     }
   }
 
@@ -85,38 +86,30 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
 
   def sessionTimeout = Action { implicit request => Ok(views.html.sessionTimeout()) }
 
-  def cookies = Action { implicit request =>
-    Ok(views.html.info.cookies())
-  }
-
-  def termsandconditions = Action { implicit request =>
-    Ok(views.html.info.termsAndConditions())
-  }
-
   def error404 = Action { implicit request =>
-    Ok(views.html.error.error404())
+    Ok(errorView(404))
   }
 
   def error408 = Action { implicit request =>
-    Ok(views.html.error.error408())
+    Ok(errorView(408))
   }
 
   def error409 = Action { implicit request =>
-    Ok(views.html.error.error409())
+    Ok(errorView(409))
   }
 
   def error410 = Action { implicit request =>
-    Ok(views.html.error.error410())
+    Ok(errorView(410))
   }
 
   def error500 = Action { implicit request =>
-    Ok(views.html.error.error500())
+    Ok(errorView(500))
   }
 
   def inpageVacatedForm = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) => Ok(views.html.inpageVacatedForm(Some(SummaryBuilder.build(doc))))
-      case _ => InternalServerError(views.html.error.error500())
+      case _ => InternalServerError(errorView(500))
     }
   }
 
@@ -130,7 +123,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
         val sub = SummaryBuilder.build(doc)
         Ok(checkYourAnswersView(sub))
       case None =>
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
     }
   }
 
@@ -140,7 +133,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
         val sub = SummaryBuilder.build(doc)
         Ok(printAnswersView(sub))
       case None =>
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
     }
   }
 

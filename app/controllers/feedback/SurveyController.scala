@@ -48,7 +48,9 @@ class SurveyController @Inject() (
                                    repository: FormDocumentRepository,
                                    refNumAction: RefNumAction,
                                    audit: Audit,
-                                   confirmationView: views.html.confirm)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+                                   confirmationView: views.html.confirm,
+                                   errorView: views.html.error.error
+                                 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
   import Survey._
 
   val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
@@ -66,6 +68,7 @@ class SurveyController @Inject() (
     )
   }
 
+  @deprecated
   def inpageAfterSubmissionFeedbackForm  = refNumAction { implicit request =>
     Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackFormNormalJourney))
   }
@@ -82,7 +85,7 @@ class SurveyController @Inject() (
           form.getOrElse(completedFeedbackFormNormalJourney), refNum,
           summary.customerDetails.flatMap(_.contactDetails.email),
           summary))
-      case None => InternalServerError(views.html.error.error500())
+      case None => InternalServerError(errorView(500))
     }
 
   private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) = {

@@ -28,7 +28,9 @@ import play.twirl.api.Html
 import views.html.part1
 
 class PageOneController @Inject()
-(refNumAction: RefNumAction, cc: MessagesControllerComponents, part1: part1)
+(refNumAction: RefNumAction,
+ cc: MessagesControllerComponents,
+ part1: part1)
   extends ForDataCapturePage[Address](refNumAction, cc) {
 
   val format = addressFormat
