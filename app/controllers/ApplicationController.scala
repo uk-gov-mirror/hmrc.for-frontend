@@ -38,7 +38,8 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
                                       repository: FormDocumentRepository,
                                       checkYourAnswersView: views.html.checkYourAnswers,
                                       declarationView: views.html.declaration,
-                                      printAnswersView: views.html.print
+                                      printAnswersView: views.html.print,
+                                      sessionTimeoutView: views.html.sessionTimeout
                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
@@ -83,7 +84,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def sessionTimeout = Action { implicit request => Ok(views.html.sessionTimeout()) }
+  def sessionTimeout = Action { implicit request => Ok(sessionTimeoutView()) }
 
   def cookies = Action { implicit request =>
     Ok(views.html.info.cookies())
