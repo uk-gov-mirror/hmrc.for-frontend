@@ -45,7 +45,7 @@ class NotConnectedControllerSpec extends FlatSpec with Matchers with MockitoSuga
     implicit val messageApi = mock[MessagesApi]
 
     val controller = new NotConnectedController(configration, formDocumentRepository, submissionConnector,
-      refNumAction(), cache, audit, stubMessagesControllerComponents(), mock[notConnected], mock[confirmNotConnected])
+      refNumAction(), cache, audit, stubMessagesControllerComponents(), mock[notConnected], mock[confirmNotConnected], mock[views.html.error.error])
 
     val fakeRequest = FakeRequest()
 
