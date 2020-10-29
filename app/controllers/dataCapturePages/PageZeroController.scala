@@ -32,10 +32,9 @@ import views.html.part0
 class PageZeroController @Inject() (
                                      refNumAction: RefNumAction,
                                      cc: MessagesControllerComponents,
-                                     part0: part0,
-                                     errorView: views.html.error.error
+                                     part0: part0
                                    )
-  extends ForDataCapturePage[AddressConnectionType](refNumAction, cc, errorView) {
+  extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
 
   override implicit val format: Format[AddressConnectionType] = formatAddressConnection
 

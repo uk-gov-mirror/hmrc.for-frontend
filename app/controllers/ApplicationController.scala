@@ -86,14 +86,6 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
 
   def sessionTimeout = Action { implicit request => Ok(views.html.sessionTimeout()) }
 
-  def cookies = Action { implicit request =>
-    Ok(views.html.info.cookies())
-  }
-
-  def termsandconditions = Action { implicit request =>
-    Ok(views.html.info.termsAndConditions())
-  }
-
   def error404 = Action { implicit request =>
     Ok(errorView(404))
   }

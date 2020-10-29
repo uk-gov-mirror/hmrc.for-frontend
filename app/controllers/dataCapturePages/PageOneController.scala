@@ -30,9 +30,8 @@ import views.html.part1
 class PageOneController @Inject()
 (refNumAction: RefNumAction,
  cc: MessagesControllerComponents,
- part1: part1,
- errorView: views.html.error.error)
-  extends ForDataCapturePage[Address](refNumAction, cc, errorView) {
+ part1: part1)
+  extends ForDataCapturePage[Address](refNumAction, cc) {
 
   val format = addressFormat
   val emptyForm = pageOneForm

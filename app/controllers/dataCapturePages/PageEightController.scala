@@ -28,9 +28,8 @@ import play.twirl.api.Html
 
 class PageEightController @Inject() (refNumAction: RefNumAction,
                                      cc: MessagesControllerComponents,
-                                    part8: views.html.part8,
-                                     errorView: views.html.error.error)
-  extends ForDataCapturePage[RentAgreement] (refNumAction, cc, errorView) {
+                                    part8: views.html.part8)
+  extends ForDataCapturePage[RentAgreement] (refNumAction, cc) {
   val format = raf
   val emptyForm = pageEightForm
   val pageNumber: Int = 8

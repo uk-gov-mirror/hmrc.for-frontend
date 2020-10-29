@@ -28,9 +28,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class PageThreeController  @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents,
-                                     part3: views.html.part3,
-                                      errorView: views.html.error.error)
-  extends ForDataCapturePage[PageThree](refNumAction, cc, errorView) {
+                                     part3: views.html.part3)
+  extends ForDataCapturePage[PageThree](refNumAction, cc) {
   val format = p3f
   val emptyForm = pageThreeForm
   val pageNumber: Int = 3

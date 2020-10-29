@@ -28,9 +28,8 @@ import play.twirl.api.Html
 
 class PageTenController @Inject() (refNumAction: RefNumAction,
                                    cc: MessagesControllerComponents,
-                                  part10:views.html.part10,
-                                   errorView: views.html.error.error)
-  extends ForDataCapturePage[WhatRentIncludes](refNumAction, cc, errorView) {
+                                  part10:views.html.part10)
+  extends ForDataCapturePage[WhatRentIncludes](refNumAction, cc) {
   val format = wrif
   val emptyForm = pageTenForm
   val pageNumber: Int = 10

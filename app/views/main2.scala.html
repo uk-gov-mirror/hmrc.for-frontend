@@ -116,8 +116,11 @@
                     FooterItem(
                         href = Some(messages("footer.links.cookies.url")),
                         text = Some(messages("footer.links.cookies.text"))),
-                    accessibilityStatementConfig.url.map(
-                        href => FooterItem(Some(messages("footer.accessibility.text")), Some(href))
+                    accessibilityStatementConfig.url.map( href =>
+                        FooterItem(
+                            Some(messages("footer.accessibility.text")),
+                            Some(href)
+                        )
                     ).get,
                     FooterItem(
                         href = Some(messages("footer.links.privacy_policy.url")),

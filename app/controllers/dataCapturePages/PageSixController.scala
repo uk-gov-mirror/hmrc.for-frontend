@@ -27,9 +27,8 @@ import play.twirl.api.Html
 
 class PageSixController @Inject() (refNumAction: RefNumAction,
                                    cc: MessagesControllerComponents,
-                                   part6: views.html.part6,
-                                   errorView: views.html.error.error)
-  extends ForDataCapturePage[PageSix](refNumAction, cc, errorView) {
+                                   part6: views.html.part6)
+  extends ForDataCapturePage[PageSix](refNumAction, cc) {
   val format = p6f
   val emptyForm = pageSixForm
   val pageNumber: Int = 6

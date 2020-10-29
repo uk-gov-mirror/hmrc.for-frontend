@@ -28,9 +28,8 @@ import views.html.part12
 
 class PageTwelveController @Inject() (refNumAction: RefNumAction,
                                       cc: MessagesControllerComponents,
-                                      part12:part12,
-                                      errorView: views.html.error.error)
-  extends ForDataCapturePage[PageTwelve](refNumAction, cc, errorView) {
+                                      part12:part12)
+  extends ForDataCapturePage[PageTwelve](refNumAction, cc) {
   val format = p12f
   val emptyForm = pageTwelveForm
   val pageNumber: Int = 12

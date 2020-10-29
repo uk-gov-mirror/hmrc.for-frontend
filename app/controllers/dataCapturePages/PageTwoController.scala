@@ -30,9 +30,8 @@ import views.html.part2
 class PageTwoController @Inject() (
                                     refNumAction: RefNumAction,
                                     cc: MessagesControllerComponents,
-                                    part2View:part2,
-                                    errorView: views.html.error.error)
-  extends ForDataCapturePage[CustomerDetails](refNumAction, cc, errorView)  {
+                                    part2View:part2)
+  extends ForDataCapturePage[CustomerDetails](refNumAction, cc)  {
   val format = cdf
   val emptyForm = pageTwoForm
   val pageNumber: Int = 2
