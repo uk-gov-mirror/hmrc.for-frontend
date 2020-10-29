@@ -14,34 +14,10 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
-@import play.api.data._
-@import org.joda.time.DateTime
-@import config.ForConfig
+@this( layout: main2)
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@()(implicit request: Request[_],  messages: Messages)
 
-    @headExtra = {
-        @views.html.includes.stylesheets()
-        @views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-    }
-    @bodyEnd = {
-        @views.html.includes.javascripts()
-    }
-
-
-@main(title =Messages("heading.login.lockedOut") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false,needsTimeoutWarning=false) {
-     <main id="content">
-            <div class="grid-row">
-                <div class="column-two-thirds">
-                    <h1 class="form-title heading-large">
-                        @Messages("heading.login.lockedOut")
-                    </h1>
-                    <p>
-                        @Messages("error.login.lockedOut")
-                    </p>
-                </div>
-            </div>
-    </main>
+@layout(pageHeading = messages("heading.login.lockedOut")){
+    <p class="govuk-body">@messages("error.login.lockedOut")</p>
 }
