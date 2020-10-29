@@ -57,14 +57,11 @@ object LoginController {
 }
 
 
-class LoginController @Inject()
-
-(
+class LoginController @Inject()(
   audit: Audit, 
   loginToHOD: LoginToHODAction, 
   cc: MessagesControllerComponents,
   login: login, 
-  loginFailedView: loginFailed,
   errorView: views.html.error.error,
   loginFailedView: loginFailed,
   lockedOutView: views.html.lockedOut
