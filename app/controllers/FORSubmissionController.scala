@@ -37,7 +37,8 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
                                          audit: connectors.Audit,
                                          refNumberAction: RefNumAction,
                                          submitBusinessRentalInformation: SubmitBusinessRentalInformation,
-                                         auditAddresses: AddressAuditing
+                                         auditAddresses: AddressAuditing,
+                                        errorView: views.html.error.error
                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation().url
@@ -60,7 +61,7 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
       // Metrics.submissions.mark() //TODO - Solve metrics
       Found(confirmationUrl)
     }
-  }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409()) }
+  }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409)) }
 
   protected def auditAddress[T](refNum: String, request: RefNumRequest[_]): Future[Unit] = {
     val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))

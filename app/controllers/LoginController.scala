@@ -57,12 +57,12 @@ object LoginController {
 }
 
 
-class LoginController @Inject()
-(
-  audit: Audit,
-  loginToHOD: LoginToHODAction,
+class LoginController @Inject()(
+  audit: Audit, 
+  loginToHOD: LoginToHODAction, 
   cc: MessagesControllerComponents,
-  login: login,
+  login: login, 
+  errorView: views.html.error.error,
   loginFailedView: loginFailed,
   lockedOutView: views.html.lockedOut
 )
@@ -105,7 +105,7 @@ class LoginController @Inject()
         auditLogin(ref1 + ref2, false)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
     }.recover {
-      case Upstream4xxResponse(_, 409, _, _) => Conflict(views.html.error.error409())
+      case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
       case Upstream4xxResponse(_, 403, _, _) => Redirect(routes.ApplicationController.fail())
       case Upstream4xxResponse(body, 401, _, _) =>
         val failed = Json.parse(body).as[FailedLoginResponse]

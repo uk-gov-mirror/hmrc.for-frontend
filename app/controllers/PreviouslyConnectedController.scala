@@ -32,11 +32,14 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class PreviouslyConnectedController @Inject()
-(val cc: MessagesControllerComponents,
- val cache: MongoSessionRepository,
- val repository: FormDocumentRepository,
- val refNumberAction: RefNumAction,
- previouslyConnected: views.html.previouslyConnected)
+(
+  val cc: MessagesControllerComponents,
+  val cache: MongoSessionRepository,
+  val repository: FormDocumentRepository,
+  val refNumberAction: RefNumAction,
+  previouslyConnected: views.html.previouslyConnected,
+  errorView: views.html.error.error
+)
                                              (implicit val ec: ExecutionContext) extends FrontendController(cc)  {
   val logger = Logger(this.getClass)
 
@@ -53,7 +56,7 @@ class PreviouslyConnectedController @Inject()
       case Some(summary) => Ok(previouslyConnected(formMapping, summary))
       case None => {
         logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
       }
     }
   }
@@ -71,7 +74,7 @@ class PreviouslyConnectedController @Inject()
       }
       case None => {
         logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        Future.successful(InternalServerError(views.html.error.error500()))
+        Future.successful(InternalServerError(errorView(500)))
       }
     }
   }

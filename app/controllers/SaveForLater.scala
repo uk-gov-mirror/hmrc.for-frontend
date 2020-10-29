@@ -53,7 +53,8 @@ class SaveForLater @Inject()
   saveForLaterResumeOptions: saveForLaterResumeOptions,
   saveForLaterLoginFailed: saveForLaterLoginFailed,
   savedForLater:savedForLater,
-  customPasswordSaveForLaterView: customPasswordSaveForLater
+  customPasswordSaveForLaterView: customPasswordSaveForLater,
+ errorView: views.html.error.error
 )
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
@@ -86,7 +87,7 @@ class SaveForLater @Inject()
           }
       }
       case None =>
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
     }
   }
 
@@ -112,7 +113,7 @@ class SaveForLater @Inject()
           )
         }
         case None =>
-          InternalServerError(views.html.error.error500())
+          InternalServerError(errorView(500))
       }
   }
 
@@ -167,7 +168,7 @@ class SaveForLater @Inject()
         }
       }
       case None =>
-        InternalServerError(views.html.error.error500())
+        InternalServerError(errorView(500))
     }
   }
 

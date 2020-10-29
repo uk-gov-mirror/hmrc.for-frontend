@@ -25,13 +25,17 @@ import models.pages.Summary
 import models.serviceContracts.submissions.{AddressConnectionType, AddressConnectionTypeNo}
 import play.api.data.Form
 import play.api.libs.json._
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part0
 
-class PageZeroController @Inject() (refNumAction: RefNumAction,
-                                    cc: MessagesControllerComponents,
-                                    part0: part0) extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
+class PageZeroController @Inject() (
+                                     refNumAction: RefNumAction,
+                                     cc: MessagesControllerComponents,
+                                     part0: part0
+                                   )
+  extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
+
   override implicit val format: Format[AddressConnectionType] = formatAddressConnection
 
   val emptyForm = pageZeroForm
