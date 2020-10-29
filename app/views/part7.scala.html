@@ -106,7 +106,6 @@ args = 'class -> "myForm", 'id -> "myFormId"
             )
           }
           ),
-          hint = Hint(content = HtmlContent(messages("hint.leaseContainsRentReviews"))),
           classes = "radio-button-that-show-hides",
           errorMessage = theForm.errors.asTextErrorMessageForField("rentReviewDetails.reviewIntervalType"),
           fieldset = Option(
@@ -137,7 +136,7 @@ args = 'class -> "myForm", 'id -> "myFormId"
         form = theForm,
         field = "rentReviewDetails.lastReviewDate",
         govukDate = govukDateInput,
-        helpText = messages("hint.lastReviewDate")
+        helpText = "<p>" + messages("hint.lastReviewDate") + "</p><p>" + messages("help.date.day.month.year") + "</p>"
       )
       @govukRadios(
         Radios(
@@ -154,7 +153,7 @@ args = 'class -> "myForm", 'id -> "myFormId"
           }
           ),
           classes = "govuk-radios--inline",
-          hint = Hint(content = HtmlContent(messages("hint.rentOnThisPropertyTheResultOf"))),
+          hint = Hint(content = HtmlContent(messages("hint.canRentReduced"))),
           errorMessage = theForm.errors.asTextErrorMessageForField("rentReviewDetails.canRentReduced"),
           fieldset = Option(
             Fieldset(

@@ -58,9 +58,16 @@ object LoginController {
 
 
 class LoginController @Inject()
-(audit: Audit, loginToHOD: LoginToHODAction, cc: MessagesControllerComponents,
- login: login, loginFailedView: loginFailed,
- errorView: views.html.error.error
+
+(
+  audit: Audit, 
+  loginToHOD: LoginToHODAction, 
+  cc: MessagesControllerComponents,
+  login: login, 
+  loginFailedView: loginFailed,
+  errorView: views.html.error.error,
+  loginFailedView: loginFailed,
+  lockedOutView: views.html.lockedOut
 )
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
@@ -119,7 +126,7 @@ class LoginController @Inject()
   }
 
   def lockedOut = Action { implicit request =>
-    Unauthorized(views.html.lockedOut())
+    Unauthorized(lockedOutView())
   }
 
   def loginFailed(attemptsRemaining: Int) = Action { implicit request =>
