@@ -813,9 +813,9 @@ error.408.heading=Daeth amser y dudalen neu’r gwasanaeth i ben. Rhowch eich ma
 error.410.heading=Nid yw’r dudalen y gofynnwyd amdani ar gael mwyach.
 error.500.heading=Mae problem gyda’r dudalen ac ni ellir ei dangos. Rhowch gynnig arall arni yn nes ymlaen.
 error.403.heading=Nid yw’r cyfeirnod rydych wedi’i roi yn cyd-fynd â’n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
-error.duplicate.heading=Ni allwch olygu’r wybodaeth hon mwyach gan ei bod wedi’i chyflwyno eisoes.
-error.duplicate.title=Cyflwyno dyblyg
-error.duplicate.copy=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
+error.409.heading=Ni allwch olygu’r wybodaeth hon mwyach gan ei bod wedi’i chyflwyno eisoes.
+error.409.body=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
+
 error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio’r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
 
 #SESSION TIMEOUT

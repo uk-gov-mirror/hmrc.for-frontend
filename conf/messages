@@ -840,9 +840,9 @@ error.408.heading=The page or service has timed out. Please re-enter your detail
 error.410.heading=The page you requested is no longer available
 error.500.heading=There is a problem with the page and it cannot be displayed. Please try again later.
 error.403.heading=The reference number you entered does not match our records. Please check and try again.
-error.duplicate.heading=You cannot edit this information because it has already been submitted.
-error.duplicate.title=Duplicate submission
-error.duplicate.copy=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.
+error.409.heading=You cannot edit this information because it has already been submitted.
+error.409.body=You can email us at <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> if you need further help.
+
 error.maxCurrencyAmountExceeded=Maximum amount exceeded - please contact the VOA
 
 #SESSION TIMEOUT
