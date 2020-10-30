@@ -316,6 +316,16 @@
         }
     };
 
+    VoaFor.doYouOwnTheProperty = function(){
+        $(':radio[name=propertyOwnedByYou]').on('click', function (){
+            $(':radio[name=propertyRentedByYou]').removeAttr('checked');
+            $('textarea#noRentDetails').removeClass('govuk-textarea--error');
+            var enclosingFormGroupEl = $('textarea#noRentDetails').closest('.govuk-form-group--error');
+            enclosingFormGroupEl.removeClass('govuk-form-group--error');
+            enclosingFormGroupEl.find('.govuk-error-message').remove();
+        });
+    };
+
     VoaFor.getReferrer = function () {
         var s = window.location.href, i = s.indexOf('?') + 1, r, v;
 
