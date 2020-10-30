@@ -25,6 +25,6 @@
     pageHeading = messages(s"error.${errorCode}.heading")
 ){
   @if(errorCode == 409){
-   <p class="govuk-body">@Html(Messages("error.duplicate.copy"))</p>
+   <p class="govuk-body">@Html(messages("error.409.body"))</p>
   }
 }
