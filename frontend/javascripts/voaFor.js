@@ -128,7 +128,6 @@
 
         $container.find('input[type="text"]').each(function () {
             var nameAttr = $(this).attr('name');
-            console.log('name: ', nameAttr);
             $(this).attr('name', nameAttr.replace(/\[(\d+)\]/g, '[' + index + ']'));
         });
         $container.find('input[type="radio"]').each(function () {

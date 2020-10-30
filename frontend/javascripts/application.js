@@ -33,9 +33,6 @@ var ref;
         VoaFor.updateLabelToggle();
         VoaFor.isEdit();
         VoaFor.getReferrer();
-        VoaFor.toggleAgentLeaseContainsRentReviews();
-        VoaFor.toggleImage();
-        VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
         VoaFor.doYouOwnTheProperty();
@@ -60,7 +57,6 @@ var ref;
         VoaCommon.details();
         VoaCommon.characterCount();
         VoaCommon.stickyFooter();
-        VoaCommon.setGdsClasses();
     });
 
 })(jQuery);

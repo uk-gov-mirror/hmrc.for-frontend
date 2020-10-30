@@ -78,7 +78,6 @@
                 url:  $(this).attr('action'),
                 data: VoaFeedback.prepareData($(this)),
                 success: function(msg) {
-                    console.log('Got success response: ' + msg);
                     $('.contact-form-copy').addClass('hidden');
                     $('.feedback-thankyou').removeClass('hidden');
                     $('.form--feedback').addClass('hidden');
