@@ -63,6 +63,7 @@ class LoginController @Inject()(
   cc: MessagesControllerComponents,
   login: login, 
   errorView: views.html.error.error,
+  loginFailedView: loginFailed,
   lockedOutView: views.html.lockedOut
 )
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
