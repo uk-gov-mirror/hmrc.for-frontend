@@ -38,6 +38,7 @@ var ref;
         VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
+        VoaFor.doYouOwnTheProperty();
 
         //feedback.js
         VoaFeedback.feedbackOverrides();
