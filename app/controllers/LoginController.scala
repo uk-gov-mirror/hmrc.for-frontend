@@ -62,7 +62,6 @@ class LoginController @Inject()(
   loginToHOD: LoginToHODAction, 
   cc: MessagesControllerComponents,
   login: login, 
-  loginFailedView: loginFailed,
   errorView: views.html.error.error,
   lockedOutView: views.html.lockedOut
 )
