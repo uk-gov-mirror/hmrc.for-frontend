@@ -33,7 +33,6 @@ var ref;
         VoaFor.updateLabelToggle();
         VoaFor.isEdit();
         VoaFor.getReferrer();
-        VoaFor.formatPostcode();
         VoaFor.toggleAgentLeaseContainsRentReviews();
         VoaFor.toggleImage();
         VoaFor.toggleYearsMonths();
