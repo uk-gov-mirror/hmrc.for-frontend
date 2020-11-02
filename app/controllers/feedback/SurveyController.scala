@@ -68,11 +68,6 @@ class SurveyController @Inject() (
     )
   }
 
-  @deprecated
-  def inpageAfterSubmissionFeedbackForm  = refNumAction { implicit request =>
-    Ok(views.html.inpageAfterSubmissionFeedbackForm(completedFeedbackFormNormalJourney))
-  }
-
   private def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
   }

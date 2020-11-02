@@ -66,10 +66,6 @@ GET         /surveyThankyou            controllers.feedback.SurveyController.sur
 POST        /survey 				   controllers.feedback.SurveyController.formCompleteFeedback
 
 # IN-PAGE FEEDBACK
-GET         /inpagefeedback 		        controllers.feedback.FeedbackController.inPageFeedback
-POST 		/sendbetafeedbacktohmrc         controllers.feedback.FeedbackController.sendBetaFeedbackToHmrc
-POST 		/sendbetafeedbacktohmrcnologin  controllers.feedback.FeedbackController.sendBetaFeedbackToHmrcNoLogin
-GET 		/inpagefeedbackNoLogin	        controllers.feedback.FeedbackController.inPageFeedbackNoLogin
 GET         /thankyou-for-your-feedback     controllers.feedback.FeedbackController.inPageFeedbackThankyou
 GET 		/feedback           	        controllers.feedback.FeedbackController.feedback
 POST 		/feedback           	        controllers.feedback.FeedbackController.handleFeedbackSubmit
@@ -82,4 +78,3 @@ POST        /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, p
 
 
 GET         /inpage-vacated-form       controllers.ApplicationController.inpageVacatedForm
-GET         /inpage-AfterSubmissionFeedback-form      controllers.feedback.SurveyController.inpageAfterSubmissionFeedbackForm
