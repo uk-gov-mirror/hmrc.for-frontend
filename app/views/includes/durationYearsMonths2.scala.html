@@ -69,11 +69,11 @@
 		formGroupClasses = (if(form.errors.exists(e => e.key.contains(field))) "govuk-form-group--error" else ""),
 		items = dateInputItems,
 		hint = Hint(
-			content = Text(helpText.getOrElse(messages("help.date.years.months")))
+			content = HtmlContent(helpText.getOrElse(messages("help.date.years.months")))
 		),
 		fieldset = Fieldset(
 			legend = Legend(
-				content = Text(messages(labelText)),
+				content = HtmlContent(messages(labelText)),
 				classes = "govuk-!-font-weight-bold"
 			)
 		),
