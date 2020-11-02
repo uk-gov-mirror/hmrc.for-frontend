@@ -21,23 +21,23 @@
 @import models.serviceContracts.submissions._
 
 @(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="heading-medium no-margin-top">@Messages("section13.heading")</h2>
+<h2 class="heading-medium no-margin-top">@messages("section13.heading")</h2>
 <dl class="govuk-check-your-answers cya-questions-long">
-    @summaryBlock(Messages(if(isAgent) Messages("label.propertyAlterations.agent") else Messages("label.propertyAlterations")), 13, "propertyAlterations") {
+    @summaryBlock(messages(if(isAgent) messages("label.propertyAlterations.agent") else messages("label.propertyAlterations")), 13, "propertyAlterations") {
         @displayBoolean(p13.propertyAlterations, if(isAgent) "2" else "1")
     }
 
     @if(p13.propertyAlterations) {
         @p13.propertyAlterationsDetails.zipWithIndex.map { case (details, idx) =>
             @summaryBlock(s"${idx + 1}", 13, s"propertyAlterationsDetails_description_div_${idx}") {
-                @Messages("alterationType." + details.alterationType.name)
+                @messages("alterationType." + details.alterationType.name)
                 <br/>
                 @(s"£${NumberFormat.getNumberInstance().format(details.cost)}")
                 <br/>
                 @displayRoughDate(details.date)
             }
         }
-        @summaryBlock(Messages(if(isAgent) Messages("label.requiredAnyWorks.agent") else Messages("label.requiredAnyWorks")), 13, "requiredAnyWorks") {
+        @summaryBlock(messages(if(isAgent) messages("label.requiredAnyWorks.agent") else messages("label.requiredAnyWorks")), 13, "requiredAnyWorks") {
             @p13.alterationsRequired.map { alterationRequiredValue =>
                 @displayBoolean(alterationRequiredValue, "8")
             }

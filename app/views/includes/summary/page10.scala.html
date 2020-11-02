@@ -21,71 +21,71 @@
 @import models.serviceContracts.submissions._
 
 @(p10: WhatRentIncludes, isAgent: Boolean, address: Option[String] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="heading-medium no-margin-top">@Messages("section10.heading")</h2>
+<h2 class="heading-medium no-margin-top">@messages("section10.heading")</h2>
 
 <dl class="govuk-check-your-answers cya-questions-long">
-    @summaryBlock(Messages(if(isAgent)  Messages("label.livingAccommodation.agent") else Messages("label.livingAccommodation")), 10, "livingAccommodation") {
+    @summaryBlock(messages(if(isAgent)  messages("label.livingAccommodation.agent") else messages("label.livingAccommodation")), 10, "livingAccommodation") {
         @displayBoolean(p10.livingAccommodation, "2")
     }
 
-    @summaryBlock(Messages(if(isAgent) Messages("label.partRent.agent") else Messages("label.partRent", address.getOrElse(""))), 10, "partRent") {
+    @summaryBlock(messages(if(isAgent) messages("label.partRent.agent") else messages("label.partRent", address.getOrElse(""))), 10, "partRent") {
         @displayBoolean(p10.partRent, "9")
     }
 
-    @summaryBlock(Messages("label.otherProperty"), 10, "otherProperty") {
+    @summaryBlock(messages("label.otherProperty"), 10, "otherProperty") {
         @displayBoolean(p10.otherProperty, "2")
     }
 
-    @summaryBlock(Messages(if(isAgent) Messages("label.landOnly.agent") else Messages("label.landOnly")), 10, "landOnly") {
+    @summaryBlock(messages(if(isAgent) messages("label.landOnly.agent") else messages("label.landOnly")), 10, "landOnly") {
         @displayBoolean(p10.landOnly, "9")
     }
 
-    @summaryBlock(Messages(if(isAgent) Messages("label.shellUnit.agent") else Messages("label.shellUnit")), 10, "shellUnit") {
+    @summaryBlock(messages(if(isAgent) messages("label.shellUnit.agent") else messages("label.shellUnit")), 10, "shellUnit") {
         @displayBoolean(p10.shellUnit, "9")
     }
 
     @if(p10.rentDetails) {
-        @summaryBlock(Messages(if(isAgent) Messages("label.rentDetails.agent") else Messages("label.rentDetails")), 10, "rentDetails") {
+        @summaryBlock(messages(if(isAgent) messages("label.rentDetails.agent") else messages("label.rentDetails")), 10, "rentDetails") {
             @p10.rentDetails.getOrElse("")
         }
     }
 
-    @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentIncludeParking.agent") else Messages("label.parking.rentIncludeParking")), 10, "parking_rentIncludeParking") {
+    @summaryBlock(messages(if(isAgent) messages("label.parking.rentIncludeParking.agent") else messages("label.parking.rentIncludeParking")), 10, "parking_rentIncludeParking") {
         @displayBoolean(p10.parking.rentIncludesParking, "2")
     }
 
     @if(p10.parking.rentIncludesParking) {
-        @summaryBlock(Messages("label.parking.rentIncludeParkingDetails"), 10, "parking.rentIncludeParkingDetails") {
+        @summaryBlock(messages("label.parking.rentIncludeParkingDetails"), 10, "parking.rentIncludeParkingDetails") {
             @p10.parking.rentIncludedParkingDetails.map { pd =>
-                @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
-                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
-                @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
+                @pd.openSpaces @if(pd.openSpaces > 1){@messages("label.openSpaces.summary.greaterthan1")}else{@messages("label.openSpaces.summary")}<br />
+                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@messages("label.coveredSpaces.summary.greaterthan1")}else{@messages("label.coveredSpaces.summary")}<br />
+                @pd.garages @if(pd.garages > 1){@messages("label.garages.summary.greaterthan1")}else{@messages("label.garages.summary")}
             }
         }
     }
 
-    @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParking.agent") else Messages("label.parking.rentSeparateParking")), 10, "parking_rentSeparateParking") {
+    @summaryBlock(messages(if(isAgent) messages("label.parking.rentSeparateParking.agent") else messages("label.parking.rentSeparateParking")), 10, "parking_rentSeparateParking") {
         @displayBoolean(p10.parking.rentHasSeparateParking, if(isAgent) "2" else "1")
     }
 
     @if(p10.parking.rentHasSeparateParking) {
-        @summaryBlock(Messages(if(isAgent) Messages("label.parking.rentSeparateParkingDetails.agent") else Messages("label.parking.rentSeparateParkingDetails")), 10, "parking.rentSeparateParkingDetails") {
+        @summaryBlock(messages(if(isAgent) messages("label.parking.rentSeparateParkingDetails.agent") else messages("label.parking.rentSeparateParkingDetails")), 10, "parking.rentSeparateParkingDetails") {
             @p10.parking.rentSeparateParkingDetails.map { pd =>
 
-                @pd.openSpaces @if(pd.openSpaces > 1){@Messages("label.openSpaces.summary.greaterthan1")}else{@Messages("label.openSpaces.summary")}<br />
-                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@Messages("label.coveredSpaces.summary.greaterthan1")}else{@Messages("label.coveredSpaces.summary")}<br />
-                @pd.garages @if(pd.garages > 1){@Messages("label.garages.summary.greaterthan1")}else{@Messages("label.garages.summary")}
+                @pd.openSpaces @if(pd.openSpaces > 1){@messages("label.openSpaces.summary.greaterthan1")}else{@messages("label.openSpaces.summary")}<br />
+                @pd.coveredSpaces @if(pd.coveredSpaces > 1){@messages("label.coveredSpaces.summary.greaterthan1")}else{@messages("label.coveredSpaces.summary")}<br />
+                @pd.garages @if(pd.garages > 1){@messages("label.garages.summary.greaterthan1")}else{@messages("label.garages.summary")}
 
             }
         }
 
-        @summaryBlock(Messages("label.parking.annualSeparateParking"), 10, "parking_annualSeparateParking") {
+        @summaryBlock(messages("label.parking.annualSeparateParking"), 10, "parking_annualSeparateParking") {
             @p10.parking.annualSeparateParkingAmount.map { sp =>
                 £@NumberFormat.getNumberInstance().format(sp)
             }
         }
 
-        @summaryBlock(Messages("label.parking.annualSeparateParkingDate"), 10, "parking_annualSeparateParkingDate_year") {
+        @summaryBlock(messages("label.parking.annualSeparateParkingDate"), 10, "parking_annualSeparateParkingDate_year") {
             @p10.parking.annualSeparateParkingFixedDate.map { as =>
                 @displayRoughDate(as)
             }

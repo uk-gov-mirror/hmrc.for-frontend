@@ -21,19 +21,19 @@
 
 @(p8: RentAgreement, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-    <h2 class="heading-medium no-margin-top">@if(isAgent){ @Messages("section8.heading.agent") }else{ @Messages("section8.heading")}</h2>
+    <h2 class="heading-medium no-margin-top">@if(isAgent){ @messages("section8.heading.agent") }else{ @messages("section8.heading")}</h2>
     <dl class="govuk-check-your-answers cya-questions-long">
-      @summaryBlock(Messages(if(isAgent) Messages("label.wasRentFixedBetween.agent") else Messages("label.wasRentFixedBetween")), 8, "wasRentFixedBetween") {
+      @summaryBlock(messages(if(isAgent) messages("label.wasRentFixedBetween.agent") else messages("label.wasRentFixedBetween")), 8, "wasRentFixedBetween") {
         @displayBoolean(p8.wasRentFixedBetween, "6")
       }
 
       @if(!p8.wasRentFixedBetween) {
-        @summaryBlock(Messages("label.notReviewRentFixed"), 8, "notReviewRentFixed") {
-          @p8.notReviewRentFixed.map(x => Messages(s"notReviewRentFixedTypes.${x.name}"))
+        @summaryBlock(messages("label.notReviewRentFixed"), 8, "notReviewRentFixed") {
+          @p8.notReviewRentFixed.map(x => messages(s"notReviewRentFixedTypes.${x.name}"))
         }
       }
 
-      @summaryBlock(Messages("label.rentSetByType"), 8, "rentSetByType") {
-        @Messages(s"rentSetByTypes.${p8.rentSetByType.name}")
+      @summaryBlock(messages("label.rentSetByType"), 8, "rentSetByType") {
+        @messages(s"rentSetByTypes.${p8.rentSetByType.name}")
       }
     </dl>

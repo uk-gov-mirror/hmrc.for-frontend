@@ -21,24 +21,24 @@
 
 @(p5: PageFive, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<h2 class="heading-medium no-margin-top">@Messages("section5.heading")</h2>
+<h2 class="heading-medium no-margin-top">@messages("section5.heading")</h2>
 <dl class="govuk-check-your-answers cya-questions-long">
-	@summaryBlock(Messages("label.landlordFullName"), 5, "landlordFullName") {
+	@summaryBlock(messages("label.landlordFullName"), 5, "landlordFullName") {
 		@p5.landlordFullName
 	}
 
 	@p5.landlordAddress.map { la =>
-	  @summaryBlock(Messages("label.address"), 5, "landlordAddress_buildingNameNumber") {
+	  @summaryBlock(messages("label.address"), 5, "landlordAddress_buildingNameNumber") {
 	    @displayAddress(la)
 	  }
 	}
 
-	@summaryBlock(Messages(if(isAgent) Messages("label.LandlordConnectionTypes.agent") else Messages("label.LandlordConnectionTypes")), 5, "landlordConnectType") {
-		@Messages(s"landlordConnectionType.${p5.landlordConnectionType.name}")
+	@summaryBlock(messages(if(isAgent) messages("label.LandlordConnectionTypes.agent") else messages("label.LandlordConnectionTypes")), 5, "landlordConnectType") {
+		@messages(s"landlordConnectionType.${p5.landlordConnectionType.name}")
 	}
 
 	@if(p5.landlordConnectionType == LandlordConnectionTypeOther) {
-		@summaryBlock(Messages(if(isAgent) Messages("label.landlordConnectText.agent") else Messages("label.landlordConnectText")), 5, "landlordConnectText") {
+		@summaryBlock(messages(if(isAgent) messages("label.landlordConnectText.agent") else messages("label.landlordConnectText")), 5, "landlordConnectText") {
 			@p5.landlordConnectText.getOrElse("")
 		}
 	}

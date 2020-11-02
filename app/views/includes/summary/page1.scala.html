@@ -22,18 +22,18 @@
 @(add: Address, summary: Summary)(implicit requestHeader: RequestHeader,  messages: Messages)
 
 @underReview = @{
-  if(summary.isUnderReview){"<br />" + Messages("label.underReview")} else{""}
+  if(summary.isUnderReview){"<br />" + messages("label.underReview")} else{""}
 }
 
-<h2 class="govuk-heading-m">@Messages("section1.heading")</h2>
+<h2 class="govuk-heading-m">@messages("section1.heading")</h2>
 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-	@summaryBlock(Messages("label.currentAddress"), 1, "isAddressCorrect") {
+	@summaryBlock(messages("label.currentAddress"), 1, "isAddressCorrect") {
 		@Html(summary.address.map(_.multiLine).getOrElse("") + underReview)
 	}
 
 
 	@if(summary.address.map(_.singleLine) != summary.propertyAddress.map(_.singleLine)) {
-		@summaryBlock(Messages("label.changedAddress"), 1, "address_buildingNameNumber") {
+		@summaryBlock(messages("label.changedAddress"), 1, "address_buildingNameNumber") {
 				@displayAddress(add)
 		}
 	}
