@@ -230,8 +230,8 @@
                 idPrefix = Option("parking.rentIncludeParking"),
                 classes = "radio-button-that-show-hides govuk-radios--inline",
                 items = Seq(
-                    "true" -> Messages("label.yes.ydy"),
-                    "false" -> Messages("label.no.nac.ydy")
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
                 ).map( radioItem => {
                     RadioItem (
                         content = Text(radioItem._2),
@@ -311,8 +311,8 @@
                 idPrefix = Option("parking.rentSeparateParking"),
                 classes = "radio-button-that-show-hides govuk-radios--inline",
                 items = Seq(
-                    "true" -> Messages("label.yes.ydy"),
-                    "false" -> Messages("label.no.nac.ydy")
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
                 ).map( radioItem => {
                     RadioItem (
                         content = Text(radioItem._2),

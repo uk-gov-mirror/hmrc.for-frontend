@@ -52,8 +52,8 @@
                 name = "haveYouBeenConnected",
                 idPrefix = Option("haveYouBeenConnected"),
                 items = Seq(
-                    "true" -> Messages("label.yes.iawn"),
-                    "false" -> Messages("label.no.na")
+                    "true" -> messages("label.yes.iawn"),
+                    "false" -> messages("label.no.na")
                 ).map(i => RadioItem (
                     content = Text(i._2),
                     checked = theForm("haveYouBeenConnected").value.map(_ == i.value).getOrElse(false),
