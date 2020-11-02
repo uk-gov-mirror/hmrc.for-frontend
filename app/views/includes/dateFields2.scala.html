@@ -83,7 +83,10 @@
             formGroupClasses = (if(form.errors.exists(e => e.key.contains(field))) "govuk-form-group--error" else ""),
             items = dateInputItems,
             hint = Hint(
-                content = HtmlContent(helpText.getOrElse(messages("help.date.day.month.year")))
+                content = HtmlContent(helpText.getOrElse(
+                    if(showDays) messages("help.date.day.month.year")
+                    else messages("help.date.month.year")
+                ))
             ),
             fieldset = Fieldset(
                 legend = Legend(
