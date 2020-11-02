@@ -63,8 +63,8 @@ args = 'class -> "myForm", 'id -> "myFormId"
       Radios(
         name = "leaseContainsRentReviews",
         items = Seq(
-          "true" -> Messages("label.yes.ydy"),
-          "false" -> Messages("label.no.nac.ydy")
+          "true" -> messages("label.yes.ydy"),
+          "false" -> messages("label.no.nac.ydy")
         ).map(radioItem => {
           RadioItem(
             content = Text(radioItem._2),
@@ -142,8 +142,8 @@ args = 'class -> "myForm", 'id -> "myFormId"
         Radios(
           name = "rentReviewDetails.canRentReduced",
           items = Seq(
-            "true" -> Messages("label.yes.gall"),
-            "false" -> Messages("label.no.na.all")
+            "true" -> messages("label.yes.gall"),
+            "false" -> messages("label.no.na.all")
           ).map(radioItem => {
             RadioItem(
               content = Text(radioItem._2),
@@ -172,8 +172,8 @@ args = 'class -> "myForm", 'id -> "myFormId"
         Radios(
           name = "rentReviewDetails.rentResultOfRentReview",
           items = Seq(
-            "true" -> Messages("label.yes.ydy"),
-            "false" -> Messages("label.no.nac.ydy")
+            "true" -> messages("label.yes.ydy"),
+            "false" -> messages("label.no.nac.ydy")
           ).map(radioItem => {
             RadioItem(
               content = Text(radioItem._2),
@@ -212,8 +212,8 @@ args = 'class -> "myForm", 'id -> "myFormId"
               Radios(
                 name = "rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween",
                 items = Seq(
-                  "true" -> Messages("label.yes.do"),
-                  "false" -> Messages("label.no.naddo")
+                  "true" -> messages("label.yes.do"),
+                  "false" -> messages("label.no.naddo")
                 ).map(radioItem => {
                   RadioItem(
                     content = Text(radioItem._2),
