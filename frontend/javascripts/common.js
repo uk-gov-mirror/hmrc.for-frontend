@@ -13,18 +13,6 @@
         return pathArray[index];
     };
 
-    VoaCommon.addErrorAnchors = function () {
-
-        $('.form-error li a').each(function(){
-            var parentId =  $(this).attr('href');
-            if ($(parentId + ' input').length !== 0){
-                $(this).attr('href', '#' + $(parentId + ' input:first').attr('id'));
-            } else {
-                $(this).attr('href', '#' + $(parentId + ' textarea:first').attr('id'));
-            }
-        });
-    };
-
     VoaCommon.anchorFocus = function () {
         if (window.location.hash) {
             var input = $(window.location.hash);
@@ -79,24 +67,6 @@
             }
             $(this).html(element.find('.showHide-group').is(':visible') ? VoaMessages.textLabel('findPostcode') : VoaMessages.textLabel('enterManual'));
         });
-    };
-
-    VoaCommon.showAddressfieldsCondition = function (that) {
-        if ($(that).find('.showHide-group .address-field-one input').val() !== '' ||
-            $(that).find('.showHide-group .address-field-two input').val() !== '' ||
-            $(that).find('.showHide-group .address-field-three input').val() !== '' ||
-            $(that).find('.showHide-group .address-field-postcode input').val() !== '') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    VoaCommon.showAddressfields = function (that) {
-        $(that).find('.showHide-group').css('display', 'inline-block');
-        $(that).find('.showHide-group .form-group').removeClass('hidden');
-        $(that).find('.form-group-lookup').css('display', 'none');
-        $(that).find('.manual-address').text(VoaMessages.textLabel('findPostcode'));
     };
 
     VoaCommon.details = function(){

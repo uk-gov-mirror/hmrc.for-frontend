@@ -22,7 +22,6 @@ var ref;
         //voaFor.js
         VoaFor.showHistoryBackLink();
         VoaFor.printPageShouldPrintOnLoad();
-        VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
         VoaFor.errorFocus();
         VoaFor.addField();
         VoaFor.removeField();
@@ -38,7 +37,6 @@ var ref;
         VoaFor.doYouOwnTheProperty();
 
         //feedback.js
-        VoaFeedback.feedbackOverrides();
         VoaFeedback.toggleHelp();
         VoaFeedback.helpForm();
 
@@ -46,9 +44,8 @@ var ref;
         VoaAlerts.intelAlert();
 
         //radioToggle.js
-        VoaRadioToggle.radioDataShowField();
-        VoaRadioToggle.radioDataShowFields();
-        
+        VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
+
         //common.js
         VoaCommon.GdsSelectionButtons();
         VoaCommon.linkShowManualAddress();

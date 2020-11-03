@@ -15,13 +15,6 @@
         }
     };
 
-    //delete after GDS
-    VoaFor.errorFocus = function () {
-        var $formErrors = $('.form-error');
-        if ($formErrors) {
-            $formErrors.focus();
-        }
-    };
 
     VoaFor.addField = function () {
         $(document).on('click', '.add', function (e) {
