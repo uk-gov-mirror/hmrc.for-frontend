@@ -37,7 +37,8 @@
 
         ) {
 
-            @helpers.hiddenInput(field = theForm("journey"))
+
+        <input type="hidden" id="journey" value="@theForm("journey").getOrElse("")"/>
 
             @govukRadios(
                 Radios(
