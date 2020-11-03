@@ -357,6 +357,26 @@ label.writtenAgreement.steppedDetails.hint=Nodwch swm y rhent grisiog.
 label.writtenAgreement.steppedDetails=Manylion rhent grisiog
 hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, nodwch fanylion y brydles sylfaenol ac yna cysylltwch â’r Swyddfa Brisio i roi manylion yn ymwneud â phrydlesi neu gytundebau eraill.
 
+writtenAgreement.steppedDetails.stepFrom.day.error.steppedDetails.overlappingDates= Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails0.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails1.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails2.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails3.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails4.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails5.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails6.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+writtenAgreement.steppedDetails7.stepFrom.day.error.steppedDetails.overlappingDates=Mae'n rhaid i'r dyddiad gris o fod ar ôl unrhyw ddyddiadau gris blaenorol
+
+writtenAgreement.steppedDetails.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails0.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails1.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails2.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails3.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails4.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails5.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails6.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+writtenAgreement.steppedDetails7.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
+
 #SECTION 7
 ###############################
 section7.heading=Adolygiadau rhent
