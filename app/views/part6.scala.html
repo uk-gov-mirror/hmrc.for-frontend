@@ -92,7 +92,7 @@
           data-hides-this="true"
           data-show-when-value-equals="verbal">
 
-      @includes.dateFields2(
+      @includes.dateFields(
         form = theForm,
         field = "verbalAgreement.startDate",
         labelSuffix = labelSuffix,
@@ -150,7 +150,7 @@
             data-hides-this="true"
             data-show-when-value-equals="licenceOther|leaseTenancy">
 
-        @includes.dateFields2(
+        @includes.dateFields(
           form = theForm,
           field = "writtenAgreement.startDate",
           govukDate = govukDateInput,
@@ -294,7 +294,7 @@
 
                 <h3 class="govuk-heading-m section-heading">@messages("heading.steppedRent") <span>@{idx + 1}</span></h3>
 
-                  @includes.dateFields2(
+                  @includes.dateFields(
                     form= theForm,
                     showDays = true,
                     field = s"writtenAgreement.steppedDetails[${idx}].stepFrom",
@@ -302,7 +302,7 @@
                     label = messages("label.steppedDetails.stepFrom"),
                     helpText = messages("help.steprent.dateto")
                   )
-                  @includes.dateFields2(
+                  @includes.dateFields(
                     form= theForm,
                     showDays = true,
                     field = s"writtenAgreement.steppedDetails[${idx}].stepTo",
@@ -346,5 +346,5 @@
 
     }
 
-        @includes.formHelp2()
+        @includes.formHelp()
 }

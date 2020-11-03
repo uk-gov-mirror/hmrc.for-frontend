@@ -135,7 +135,7 @@
 
         <div data-hidden-by="occupierType" data-show-when-value-equals="company|individuals" data-hides-this="true">
 
-        @includes.dateFields2(
+        @includes.dateFields(
             form =theForm,
             field = "firstOccupationDate",
             helpText = Option(messages("label.firstOccupationDate.help")),
@@ -248,5 +248,5 @@
       @includes.continueSaveForLaterButtons(govukButton)
     }
   
-    @includes.formHelp2()
+    @includes.formHelp()
 }
