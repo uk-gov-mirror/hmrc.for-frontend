@@ -58,14 +58,14 @@
 
     <p>
     @if(!hasTimedOut) {
-        <a href="@routes.SaveForLater.immediateResume" class="govuk-button">@messages("saveForLater.continue")</a>
+        <a href="@routes.SaveForLaterController.immediateResume" class="govuk-button">@messages("saveForLater.continue")</a>
         <a href="@routes.LoginController.logout" class="govuk-button">@messages("saveForLater.logout")</a>
     } else {
         <a class="govuk-button" href=@routes.LoginController.show>@messages("content.timeout.login")</a>
     }
     </p>
 
-    <form action="@routes.SaveForLater.resume()" method="post">
+    <form action="@routes.SaveForLaterController.resume()" method="post">
         @helper.CSRF.formField
         <input type="hidden" name="password" value="@password" />
     </form>

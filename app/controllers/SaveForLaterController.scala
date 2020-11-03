@@ -40,12 +40,12 @@ import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLate
 
 import scala.concurrent.{ExecutionContext, Future}
 
-object SaveForLater {
+object SaveForLaterController {
   val s4lIndicator = "s4l"
 }
 
 @Singleton
-class SaveForLater @Inject()
+class SaveForLaterController @Inject()
 (cc: MessagesControllerComponents,
   audit: Audit, refNumAction: RefNumAction,
   emailConnector: EmailConnector, config: Configuration,
@@ -58,7 +58,7 @@ class SaveForLater @Inject()
 )
 (implicit ec: ExecutionContext) extends FrontendController(cc) {
 
-  import SaveForLater._
+  import SaveForLaterController._
 
   val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
 

@@ -27,7 +27,7 @@
 @main_template(pageHeading = messages("saveForm.heading")) {
 
     <p class="govuk-body">@messages("saveForm.content")</p>
-    <a href="@{routes.SaveForLater.login}" class="govuk-button" data-module="govuk-button">@messages("saveForm.continue")</a>
+    <a href="@{routes.SaveForLaterController.login}" class="govuk-button" data-module="govuk-button">@messages("saveForm.continue")</a>
 
     <p class="govuk-body">
     <a href="@routes.ApplicationController.startAgain" class="govuk-link" >@messages("saveForm.start")</a>

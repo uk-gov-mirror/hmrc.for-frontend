@@ -32,16 +32,16 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class ApplicationController @Inject()(cc: MessagesControllerComponents,
-                                      refNumAction: RefNumAction,
-                                      pdfGenerator: PdfGenerator,
-                                      repository: FormDocumentRepository,
-                                      checkYourAnswersView: views.html.checkYourAnswers,
-                                      declarationView: views.html.declaration,
-                                      printAnswersView: views.html.print,
-                                     errorView: views.html.error.error,
-                                     sessionTimeoutView: views.html.sessionTimeout
-                                     )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+class ApplicationController @Inject()(
+  cc: MessagesControllerComponents,
+  refNumAction: RefNumAction,
+  repository: FormDocumentRepository,
+  checkYourAnswersView: views.html.checkYourAnswers,
+  declarationView: views.html.declaration,
+  printAnswersView: views.html.print,
+  errorView: views.html.error.error,
+  sessionTimeoutView: views.html.sessionTimeout
+)(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
 
