@@ -14,70 +14,41 @@
  * limitations under the License.
  *@
 
-@import config.ForConfig
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import uk.gov.hmrc.govukfrontend.views.Aliases.WarningText
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
+@this( layout: pageLayout, govukWarningText: GovukWarningText)
+@()(implicit request: Request[_],  messages: Messages)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-@views.html.includes.analytics(ForConfig.gtm, ForConfig.analytics.ga.startDate, ForConfig.analytics.ga.returnCount, ForConfig.analytics.ga.refNum)
-}
+@layout(pageHeading = messages("index.title")){
 
-@bodyEnd = {
-  @views.html.includes.javascripts()
-}
+    <p class="govuk-body">@Html(messages("index.subheader"))</p>
 
-@main(title =Messages("index.title") + " - " + Messages("project.name"), headExtra = headExtra, bodyEnd = bodyEnd, showAccountInfo = false, showBackButton = false,needsTimeoutWarning=false) {
+    <p class="govuk-body">@messages("index.info")</P>
 
- <main id="content">
-    <div class="grid-row">
-        <div class="column-two-thirds">
+    <ul class="list-bullet">
+        <li>@messages("index.leaseAgreement")</li>
+        <li>@messages("index.subLettingDetails")</li>
+        <li>@messages("index.improvementsDetails")</li>
+        <li>@messages("index.rentDetails")</li>
+        <li>@messages("index.landlordDetails")</li>
+        <li>@messages("index.reviewDetails")</li>
+        <li>@messages("index.rentFreePeriodDetails")</li>
+    </ul>
 
-            <h1 class="form-title heading-xlarge">@messages("index.title")</h1>
+    @govukWarningText(WarningText(content = Text(messages("index.takenToCourt"))))
 
-            <p>@Html(messages("index.subheader"))</p>
+    <a href="@routes.LoginController.show.url"
+        class="govuk-button button-get-started">@messages("index.start")</a>
 
-            <p>@messages("index.info")</P>
+    <h2 class="govuk-heading-m">@messages("index.before")</h2>
+    <p class="govuk-body">@messages("index.before.p1")</p>
+    <p class="govuk-body">@messages("index.before.p2")</p>
 
-            <ul class="list-bullet">
-                <li>@messages("index.leaseAgreement")</li>
-                <li>@messages("index.subLettingDetails")</li>
-                <li>@messages("index.improvementsDetails")</li>
-                <li>@messages("index.rentDetails")</li>
-                <li>@messages("index.landlordDetails")</li>
-                <li>@messages("index.reviewDetails")</li>
-                <li>@messages("index.rentFreePeriodDetails")</li>
-            </ul>
-
-            
-            <div class="clearfix"></div>
-            <p class="notice">
-                <i class="icon icon-important">
-                    <span class="visually-hidden">Warning</span>
-                </i>
-                <strong class="bold-small">
-                    @messages("index.takenToCourt")
-                </strong>
-            </p>
-            <div class="clearfix"></div>
-            
-            <a href="@routes.LoginController.show()" class="button button-get-started" role="button">@messages("index.start")</a>
-
-            <h2 class="heading-medium">@messages("index.before")</h2>
-            <p>@messages("index.before.p1")</p>
-            <p>@messages("index.before.p2")</p>
-
-            <h2 class="heading-medium">@messages("index.help")</h2>
-            <p>@messages("index.help.p1")</p>
-            <p>@messages("index.help.p2")</p>
-
-
-        </div>
-    </div>
-</main>
-    
-
-
+    <h2 class="govuk-heading-m">@messages("index.help")</h2>
+    <p class="govuk-body">@messages("index.help.p1")</p>
+    <p class="govuk-body">@messages("index.help.p2")</p>
 }
 
 

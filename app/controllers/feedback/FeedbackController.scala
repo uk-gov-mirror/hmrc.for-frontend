@@ -37,7 +37,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
-import views.html.{feedbackForm, inPageFeedbackThankyou}
+import views.html.{feedbackForm, feedbackThx}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -48,7 +48,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    repository: FormDocumentRepository,
                                    refNumAction: RefNumAction,
                                    override val servicesConfig: ServicesConfig,
-                                   feedbackThankyouView :inPageFeedbackThankyou,
+                                   feedbackThankyouView :feedbackThx,
                                    feedbackFormView: feedbackForm
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
@@ -83,7 +83,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
           case _ => log.error (s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
         }
         }
-        Redirect(routes.FeedbackController.inPageFeedbackThankyou)
+        Redirect(routes.FeedbackController.feedbackThankyou)
       }
     )
   }
@@ -92,7 +92,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
     Ok(feedbackFormView(feedbackForm))
   }
 
-  def inPageFeedbackThankyou = Action { implicit request =>
+  def feedbackThankyou = Action { implicit request =>
     Ok(feedbackThankyouView())
   }
 }

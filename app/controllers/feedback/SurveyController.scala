@@ -49,7 +49,8 @@ class SurveyController @Inject() (
                                    refNumAction: RefNumAction,
                                    audit: Audit,
                                    confirmationView: views.html.confirm,
-                                   errorView: views.html.error.error
+                                   errorView: views.html.error.error,
+                                   feedbackThxView: views.html.feedbackThx
                                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
   import Survey._
 
@@ -63,7 +64,7 @@ class SurveyController @Inject() (
     completedFeedbackForm.bindFromRequest.fold(
       formWithErrors => viewConfirmationPage(request.refNum, Some(formWithErrors)),
       success => {
-        sendFeedback(success, request.refNum) map { _ => Redirect(routes.SurveyController.surveyThankyou()) }
+        sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou()) }
       }
     )
   }
@@ -90,7 +91,7 @@ class SurveyController @Inject() (
   }
 
   def surveyThankyou = Action { implicit request =>
-    Ok(views.html.surveyThankyou()).withNewSession
+    Ok(feedbackThxView()).withNewSession
   }
 }
 

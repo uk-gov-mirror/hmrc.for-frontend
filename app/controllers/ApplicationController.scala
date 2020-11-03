@@ -40,6 +40,7 @@ class ApplicationController @Inject()(
   declarationView: views.html.declaration,
   printAnswersView: views.html.print,
   errorView: views.html.error.error,
+  indexView: views.html.index,
   sessionTimeoutView: views.html.sessionTimeout
 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
@@ -78,7 +79,7 @@ class ApplicationController @Inject()(
       Redirect(ForConfig.govukStartPage)
 
     }else{
-      Ok(views.html.index())
+      Ok(indexView())
     }
   }
 
@@ -102,13 +103,6 @@ class ApplicationController @Inject()(
 
   def error500 = Action { implicit request =>
     Ok(errorView(500))
-  }
-
-  def inpageVacatedForm = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) => Ok(views.html.inpageVacatedForm(Some(SummaryBuilder.build(doc))))
-      case _ => InternalServerError(errorView(500))
-    }
   }
 
   private def host(implicit request: RequestHeader): String = {
