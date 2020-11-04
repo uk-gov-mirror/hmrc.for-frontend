@@ -245,8 +245,7 @@ label.sublet.section.heading=Is-osod
 
 label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod (heb gynnwys TAW)
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
-label.sublet.annualRent.rentLengthType=Sut rydych chi’n cael eich rhent isosod?
-label.sublet.annualRent.rentLengthType.agent=Sut mae eich cleient yn cael y rhent isosod?
+
 label.sublet.rentFixedDate=Pryd dechreuodd y gosodiad neu’r is-osodiad?
 label.sublet.rentFixedDate.agent=Pryd dechreuodd gosodiad neu is-osodiad eich cleient?
 label.ammountPerYear=Swm bob blwyddyn

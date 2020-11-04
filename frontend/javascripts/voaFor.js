@@ -248,43 +248,6 @@
         setSelectSize();
     };
 
-    //to delete
-    VoaFor.rentLength = function () {
-        function setLengthLabel(name, spanName) {
-            var element = $('[name="' + name + '"]');
-
-            if (element.is(':checked')) {
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'annual') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'quarterly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'monthly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'weekly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
-                }
-            }
-            element.change(function () {
-                if ($(this).val() === 'annual') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
-                }
-                if ($(this).val() === 'quarterly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
-                }
-                if ($(this).val() === 'monthly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
-                }
-                if ($(this).val() === 'weekly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
-                }
-            });
-        }
-
-        setLengthLabel('totalRent.rentLengthType', 'totalRent-length');
-    };
 
     VoaFor.updateLabelToggle = function () {
         function changeButtonLabel() {
