@@ -264,7 +264,7 @@
             <legend class="form-label-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
 
 
-            @errorWrapper(
+            @multiFieldErrorWrapper(
                 Seq(theForm("parking.rentIncludeParkingDetails")),
                 "parking.rentIncludeParkingDetails",
                 true,
@@ -344,7 +344,7 @@
 
             <legend class="govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
             <p class="hidden">@messages("label.noJs.rentSeparateParkingDetails")</p>
-            @errorWrapper(
+            @multiFieldErrorWrapper(
                 Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
 
                 @govukInput(
