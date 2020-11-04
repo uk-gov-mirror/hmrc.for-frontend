@@ -22,7 +22,6 @@ var ref;
         //voaFor.js
         VoaFor.showHistoryBackLink();
         VoaFor.printPageShouldPrintOnLoad();
-        VoaFor.errorFocus();
         VoaFor.addField();
         VoaFor.removeField();
         VoaFor.addFieldMulti();
@@ -48,12 +47,9 @@ var ref;
 
         //common.js
         VoaCommon.GdsSelectionButtons();
-        VoaCommon.linkShowManualAddress();
-        VoaCommon.addErrorAnchors();
         VoaCommon.anchorFocus();
         VoaCommon.details();
         VoaCommon.characterCount();
-        VoaCommon.stickyFooter();
     });
 
 })(jQuery);

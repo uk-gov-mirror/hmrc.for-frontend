@@ -13,6 +13,7 @@
         return pathArray[index];
     };
 
+
     VoaCommon.anchorFocus = function () {
         if (window.location.hash) {
             var input = $(window.location.hash);
@@ -69,6 +70,24 @@
         });
     };
 
+    VoaCommon.showAddressfieldsCondition = function (that) {
+        if ($(that).find('.showHide-group .address-field-one input').val() !== '' ||
+            $(that).find('.showHide-group .address-field-two input').val() !== '' ||
+            $(that).find('.showHide-group .address-field-three input').val() !== '' ||
+            $(that).find('.showHide-group .address-field-postcode input').val() !== '') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    VoaCommon.showAddressfields = function (that) {
+        $(that).find('.showHide-group').css('display', 'inline-block');
+        $(that).find('.showHide-group .form-group').removeClass('hidden');
+        $(that).find('.form-group-lookup').css('display', 'none');
+        $(that).find('.manual-address').text(VoaMessages.textLabel('findPostcode'));
+    };
+
     VoaCommon.details = function(){
 
         $('details').each(function(){
@@ -80,9 +99,7 @@
                 $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelReveal'));
             }else{
                 $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelHide'));
-
             }
-
         });
     };
 
@@ -115,24 +132,5 @@
     };
 
 
-    VoaCommon.stickyFooter = function(){
-        var footerBar = $('#footerBar');
-        if(VoaCommon.getQueryString('edit')){
-            footerBar.css({display:'block'});
-            $(window).scroll(function(event) {
-                var d = $(document).height(),
-                w = $(window).height(),
-                s = $(this).scrollTop(),
-                bottomBound = 400;
-                if(d - (w + s) < (bottomBound+100)) {
-                    footerBar.css({ bottom: bottomBound - (d - (w + s)), display: 'none'});
-                } else {
-                    footerBar.css({ bottom: -30, display: 'inline-block'});
-                }
-            });
-        }else{
-            footerBar.css({display:'none'});
-        }
-    };
 
 })(jQuery);

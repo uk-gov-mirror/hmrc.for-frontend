@@ -15,7 +15,6 @@
         }
     };
 
-
     VoaFor.addField = function () {
         $(document).on('click', '.add', function (e) {
             e.preventDefault();
@@ -138,13 +137,13 @@
 
             $(this).closest('.multi-fields-group').attr('id', o + index);
         });
-        VoaRadioToggle.radioDataShowField();
-        VoaRadioToggle.radioDataShowFields();
         VoaCommon.GdsSelectionButtons();
     };
 
     VoaFor.addFieldMulti = function () {
 
+        //remove if js
+        $('.deleteifjs').remove();
 
         $(document).on('click', '.add-multi-fields', function (e) {
             e.preventDefault();
