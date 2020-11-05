@@ -20,7 +20,6 @@ import actions.RefNumAction
 import config.ForConfig
 import form.Errors
 import form.persistence.FormDocumentRepository
-import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.data.Form
