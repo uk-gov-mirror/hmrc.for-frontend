@@ -249,8 +249,7 @@ hint.sublet.subletPropertyReasonDescription=For example, residential use or comm
 label.sublet.annualRent=How much rent is paid each year for this let or sub-let (excluding VAT)?
 label.sublet.annualRent.annualRentExcludingVat.generic=Sub-let rent (excluding VAT)
 hint.sublet.annualRentExcludingVat=Excluding VAT
-label.sublet.annualRent.rentLengthType=How do you receive your sub-let rent?
-label.sublet.annualRent.rentLengthType.agent=How does your client receive the sub-let rent?
+
 label.sublet.rentFixedDate=When did the let or sub-let start?
 label.sublet.rentFixedDate.agent=When did your client’s let or sub-let start?
 label.ammountPerYear=Amount per year

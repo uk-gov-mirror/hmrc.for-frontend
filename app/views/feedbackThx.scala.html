@@ -14,22 +14,13 @@
  * limitations under the License.
  *@
 
-@import views.html.helper._
+@this(layout:pageLayout)
 
-@**
- * Generate an HTML textarea.
- *
- * Example:
- * {{{
- * @textarea(field = myForm("address"), args = 'rows -> 3, 'cols -> 50)
- * }}}
- *
- * @param field The form field.
- * @param args Set of extra attributes.
- * @param handler The field constructor.
- *@
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit handler: FieldConstructor, requestHeader: RequestHeader, messages: Messages)
+@()(implicit requestHeader: Request[_],  messages: Messages)
 
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
-    <textarea id="@(id)_text" name="@name" @toHtmlArgs(htmlArgs)>@value</textarea>
+@layout(pageHeading = messages("copy.feedback.thankyou"), showFeedback=false) {
+
+ <p class="govuk-body">
+   <a href="login">@messages("copy.feedback.anotherForm")</a>
+ </p>
 }

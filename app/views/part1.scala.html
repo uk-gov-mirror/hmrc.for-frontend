@@ -27,7 +27,7 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 
-@this(  layout: main2,
+@this(  layout: pageLayout,
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
@@ -102,8 +102,8 @@
 
         }
 
-     @includes.continueButtonOnly2(govukButton)
+     @includes.continueButton(govukButton)
 
     }
-    @includes.formHelp2()
+    @includes.formHelp()
 }

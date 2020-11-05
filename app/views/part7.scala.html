@@ -26,7 +26,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@this(  layout: main2,
+@this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukInput:  GovukInput,
@@ -132,7 +132,7 @@ args = 'class -> "myForm", 'id -> "myFormId"
          )
       </div>
 
-      @includes.dateFields2(
+      @includes.dateFields(
         form = theForm,
         field = "rentReviewDetails.lastReviewDate",
         govukDate = govukDateInput,
@@ -202,7 +202,7 @@ args = 'class -> "myForm", 'id -> "myFormId"
                 data-hides-this="true"
                 data-show-when-value-equals="true">
 
-            @includes.dateFields2(
+            @includes.dateFields(
               form = theForm,
               field = "rentReviewDetails.rentReviewResultsDetails.whenWasRentReview",
               govukDate = govukDateInput
@@ -273,5 +273,5 @@ args = 'class -> "myForm", 'id -> "myFormId"
 
     }
 
-        @includes.formHelp2()
+        @includes.formHelp()
 }

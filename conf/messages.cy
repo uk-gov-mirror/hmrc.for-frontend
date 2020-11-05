@@ -245,8 +245,7 @@ label.sublet.section.heading=Is-osod
 
 label.sublet.annualRent.annualRentExcludingVat.generic=Rhent isosod (heb gynnwys TAW)
 hint.sublet.annualRentExcludingVat=Heb gynnwys TAW
-label.sublet.annualRent.rentLengthType=Sut rydych chi’n cael eich rhent isosod?
-label.sublet.annualRent.rentLengthType.agent=Sut mae eich cleient yn cael y rhent isosod?
+
 label.sublet.rentFixedDate=Pryd dechreuodd y gosodiad neu’r is-osodiad?
 label.sublet.rentFixedDate.agent=Pryd dechreuodd gosodiad neu is-osodiad eich cleient?
 label.ammountPerYear=Swm bob blwyddyn
@@ -835,6 +834,7 @@ error.500.heading=Mae problem gyda’r dudalen ac ni ellir ei dangos. Rhowch gyn
 error.403.heading=Nid yw’r cyfeirnod rydych wedi’i roi yn cyd-fynd â’n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
 error.409.heading=Ni allwch olygu’r wybodaeth hon mwyach gan ei bod wedi’i chyflwyno eisoes.
 error.409.body=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
+
 error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio’r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
 
 #SESSION TIMEOUT

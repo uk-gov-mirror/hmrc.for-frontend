@@ -24,7 +24,7 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
-@this(main_template: main2,
+@this(main_template: pageLayout,
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
@@ -80,6 +80,6 @@
             <input type="hidden" name="start-time" value="@now" />
         }
 
-        @includes.continueButtonOnly2(govukButton)
+        @includes.continueButton(govukButton)
     }
 }

@@ -7,8 +7,6 @@ describe("Javascript test suite", function() {
 	beforeEach(function(){
 		loadFixtures('fragment.html');
 		//trigger functions
-        VoaRadioToggle.radioDataShowField();
-		VoaRadioToggle.radioDataShowFields();
 		VoaFor.addFieldMulti();
 		VoaFor.removeFieldMulti();
 	});
@@ -30,37 +28,6 @@ describe("Javascript test suite", function() {
         expect(setFixtures).toBeDefined();
     });
 
-	describe("Radio show/hide fields", function() {
-		it("Target group should not be visible", function() {
-			expect($('.question0')).toHaveClass('hidden');
-			expect($('.question0')).not.toBeVisible();
-	    });
-		it("Given \"Show element\" is checked target group should visible", function() {
-			$('#question0_false').prop('checked', true).change();
-			expect($('.question0')).not.toHaveClass('hidden');
-			expect($('.question0')).toBeVisible();
-	    });
-		it("Given \"Hide element\" is checked target group should not be visible", function() {
-			$('#question0_true').prop('checked', true).change();
-			expect($('.question0')).toHaveClass('hidden');
-			expect($('.question0')).not.toBeVisible();
-	    });
-    });
-
-	describe("Radio show/hide multiple fields", function() {
-		it("Target groups should not be visible", function() {
-			expect($('#question3_input, #question4_input')).not.toBeVisible();
-	    });
-		it("Given \"Show multiple elements\" is checked target group should visible", function() {
-			$('#question2_show').prop('checked', true).change();
-			expect($('#question3_input, #question4_input')).toBeVisible();
-	    });
-		it("Given \"Hide multiple elements\" is checked target group should not be visible", function() {
-			$('#question2_hide').prop('checked', true).change();
-			expect($('#question3_input, #question4_input')).not.toBeVisible();
-		});
-
-    });
 
 	describe("Add multiple fields", function() {
 		it("Should show 1 visible group", function() {
@@ -93,15 +60,6 @@ describe("Javascript test suite", function() {
 			$('.multi-fields-group:last .remove-multi-fields').trigger( "click" );
 			expect($('.multi-fields-group').length).toEqual(1);
 			expect($('.multi-fields-group:last .remove-multi-fields')).not.toBeVisible();
-		});
-	});
-
-	describe("Add anchors", function() {
-		it("Should add anchors to each fieldset", function() {
-			$('#radioFrag fieldset span').each(function(){
-				expect($(this).attr('id').indexOf('anchor')).not.toEqual(-1);
-				expect($(this).attr('id').indexOf('anchor')).toEqual(10);
-			});
 		});
 	});
 

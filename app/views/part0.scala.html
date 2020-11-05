@@ -25,7 +25,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
 
 @this(
-    main_template: main2,
+    main_template: pageLayout,
     govukWarningText: GovukWarningText,
     govukButton: GovukButton,
     govukRadios: GovukRadios,
@@ -72,8 +72,8 @@
                 )
             )
         )
-        @includes.continueButtonOnly2(govukButton)
+        @includes.continueButton(govukButton)
     }
 
-    @includes.formHelp2()
+    @includes.formHelp()
 }

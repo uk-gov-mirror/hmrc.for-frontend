@@ -15,7 +15,6 @@
  */
 
 import play.api.data.validation.ValidationResult
-import views.html.includes.errors
 import play.api.data.Mapping
 import play.api.data.FormError
 import play.api.data.validation.Valid

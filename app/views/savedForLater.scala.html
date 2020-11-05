@@ -20,7 +20,7 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 
-@this(main_template: main2, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel)
+@this(main_template: pageLayout, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel)
 
 @(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
 
@@ -58,14 +58,14 @@
 
     <p>
     @if(!hasTimedOut) {
-        <a href="@routes.SaveForLater.immediateResume" class="govuk-button">@messages("saveForLater.continue")</a>
+        <a href="@routes.SaveForLaterController.immediateResume" class="govuk-button">@messages("saveForLater.continue")</a>
         <a href="@routes.LoginController.logout" class="govuk-button">@messages("saveForLater.logout")</a>
     } else {
         <a class="govuk-button" href=@routes.LoginController.show>@messages("content.timeout.login")</a>
     }
     </p>
 
-    <form action="@routes.SaveForLater.resume()" method="post">
+    <form action="@routes.SaveForLaterController.resume()" method="post">
         @helper.CSRF.formField
         <input type="hidden" name="password" value="@password" />
     </form>
@@ -74,5 +74,5 @@
     </p>
 
 
-    @includes.formHelp2()
+    @includes.formHelp()
 }

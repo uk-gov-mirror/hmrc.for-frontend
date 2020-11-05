@@ -27,7 +27,7 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Fieldset
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Legend
 
-@this(  layout: main2,
+@this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
@@ -52,8 +52,8 @@
                 name = "haveYouBeenConnected",
                 idPrefix = Option("haveYouBeenConnected"),
                 items = Seq(
-                    "true" -> Messages("label.yes.iawn"),
-                    "false" -> Messages("label.no.na")
+                    "true" -> messages("label.yes.iawn"),
+                    "false" -> messages("label.no.na")
                 ).map(i => RadioItem (
                     content = Text(i._2),
                     checked = theForm("haveYouBeenConnected").value.map(_ == i.value).getOrElse(false),
@@ -75,7 +75,7 @@
                 )
             )
         )
-        @includes.continueButtonOnly2(govukButton)
+        @includes.continueButton(govukButton)
 
     }
 }

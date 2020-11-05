@@ -93,7 +93,7 @@ abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
         formWithErrors => displayForm(formWithErrors, summary, request),
         pageData => RedirectTo(Journey.pageToResumeAt(summary), request.headers)
       )
-      case controllers.dataCapturePages.ForDataCapturePage.Save => Redirect(controllers.routes.SaveForLater.saveForLater())
+      case controllers.dataCapturePages.ForDataCapturePage.Save => Redirect(controllers.routes.SaveForLaterController.saveForLater())
       case controllers.dataCapturePages.ForDataCapturePage.Back => getPage(pageNumber - 1, summary, request)
       case controllers.dataCapturePages.ForDataCapturePage.Unknown => redirectToPage(pageNumber)
     }
@@ -102,7 +102,7 @@ abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
   private def bindForm(requestData: Map[String, Seq[String]]) = emptyForm.bindFromRequest(requestData).convertGlobalToFieldErrors()
 
   private def displayForm(form: Form[T], summary: Summary, request: RefNumRequest[AnyContent]) =
-    request.flash.get(SaveForLater.s4lIndicator) match {
+    request.flash.get(SaveForLaterController.s4lIndicator) match {
       case Some(_) => Ok(template(form.copy(errors = Seq.empty), summary)(request))
       case _ if form.hasErrors => BadRequest(template(form, summary)(request))
       case _ => Ok(template(form, summary)(request))

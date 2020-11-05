@@ -16,19 +16,19 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-@this(main_template: main2)
+@this(main_template: pageLayout)
 
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(pageHeading = messages("saveForLater.invalidPassword")) {
 
     <p class="govuk-body">
-        <a href="@routes.SaveForLater.login" class="govuk-button">@messages("label.tryAgain")</a>
+        <a href="@routes.SaveForLaterController.login" class="govuk-button">@messages("label.tryAgain")</a>
     </p>
     <p class="govuk-body">@messages("saveForLater.haveYouForgotten")</p>
     <p class="govuk-body">
         <a href="@routes.ApplicationController.startAgain" >@messages("label.startFormAgain")</a>
     </p>
 
-    @includes.formHelp2()
+    @includes.formHelp()
 }

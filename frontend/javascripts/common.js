@@ -8,29 +8,11 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    VoaCommon.setGdsClasses = function(){
-        $('input[type=text]:not(.govuk-input)').addClass('govuk-input');
-        $('button:not(.govuk-button), .button:not(.govuk-button)').addClass('govuk-button');
-        $('label:not(.govuk-label)').addClass('govuk-label');
-        $('fieldset:not(.govuk-fieldset)').addClass('govuk-fieldset');
-    };
-
     VoaCommon.getSegment = function(index){
         var pathArray = window.location.pathname.split( '/' );
         return pathArray[index];
     };
 
-    VoaCommon.addErrorAnchors = function () {
-
-        $('.form-error li a').each(function(){
-            var parentId =  $(this).attr('href');
-            if ($(parentId + ' input').length !== 0){
-                $(this).attr('href', '#' + $(parentId + ' input:first').attr('id'));
-            } else {
-                $(this).attr('href', '#' + $(parentId + ' textarea:first').attr('id'));
-            }
-        });
-    };
 
     VoaCommon.anchorFocus = function () {
         if (window.location.hash) {
@@ -117,9 +99,7 @@
                 $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelReveal'));
             }else{
                 $(this).find('summary span.screenDetails').text(VoaMessages.textLabel('labelHide'));
-
             }
-
         });
     };
 
@@ -152,24 +132,5 @@
     };
 
 
-    VoaCommon.stickyFooter = function(){
-        var footerBar = $('#footerBar');
-        if(VoaCommon.getQueryString('edit')){
-            footerBar.css({display:'block'});
-            $(window).scroll(function(event) {
-                var d = $(document).height(),
-                w = $(window).height(),
-                s = $(this).scrollTop(),
-                bottomBound = 400;
-                if(d - (w + s) < (bottomBound+100)) {
-                    footerBar.css({ bottom: bottomBound - (d - (w + s)), display: 'none'});
-                } else {
-                    footerBar.css({ bottom: -30, display: 'inline-block'});
-                }
-            });
-        }else{
-            footerBar.css({display:'none'});
-        }
-    };
 
 })(jQuery);

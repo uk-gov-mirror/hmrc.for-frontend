@@ -21,30 +21,30 @@
 
 @(p9: PageNine, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-	<h2 class="heading-medium no-margin-top">@Messages("section9.heading")</h2>
+	<h2 class="heading-medium no-margin-top">@messages("section9.heading")</h2>
 	<dl class="govuk-check-your-answers cya-questions-long">
-    @summaryBlock(Messages("label.totalRent.annualRentExcludingVat"), 9, "totalRent_annualRentExcludingVat") {
+    @summaryBlock(messages("label.totalRent.annualRentExcludingVat"), 9, "totalRent_annualRentExcludingVat") {
 		   <span class='rentAmount'>£@NumberFormat.getNumberInstance().format(p9.totalRent.amount)</span>
 		}
 
-		@summaryBlock(Messages(if(isAgent) Messages("label.rentBecomePayable.agent") else Messages("label.rentBecomePayable")), 9, "rentBecomePayable_day") {
+		@summaryBlock(messages(if(isAgent) messages("label.rentBecomePayable.agent") else messages("label.rentBecomePayable")), 9, "rentBecomePayable_day") {
 			@displayLocalDate(p9.rentBecomePayable)
 		}
 
-		@summaryBlock(Messages("label.rentActuallyAgreed"), 9, "rentActuallyAgreed_day") {
+		@summaryBlock(messages("label.rentActuallyAgreed"), 9, "rentActuallyAgreed_day") {
 			@displayLocalDate(p9.rentActuallyAgreed)
 		}
 
-		@summaryBlock(Messages(if(isAgent) Messages("label.negotiatingNewRent.agent") else Messages("label.negotiatingNewRent")), 9, "negotiatingNewRent") {
+		@summaryBlock(messages(if(isAgent) messages("label.negotiatingNewRent.agent") else messages("label.negotiatingNewRent")), 9, "negotiatingNewRent") {
 			@displayBoolean(p9.negotiatingNewRent, if(isAgent) "1" else "7")
 		}
 
-		@summaryBlock(Messages("label.rentBasedOn"), 9, "rentBasedOn") {
-			@Messages(s"${RentBaseTypes.key}.${p9.rentBasis.name}")
+		@summaryBlock(messages("label.rentBasedOn"), 9, "rentBasedOn") {
+			@messages(s"${RentBaseTypes.key}.${p9.rentBasis.name}")
 		}
 
 		@if(p9.rentBasis != RentBaseTypeOpenMarket) {
-			@summaryBlock(Messages("label.rentBasedOnDetails"), 9, "rentBasedOnDetails") {
+			@summaryBlock(messages("label.rentBasedOnDetails"), 9, "rentBasedOnDetails") {
 				@p9.rentBasisOtherDetails.getOrElse("")
 			}
 		}

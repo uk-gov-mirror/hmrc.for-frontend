@@ -23,7 +23,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
-@this(  layout: main2,
+@this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukInput:  GovukInput,
@@ -230,8 +230,8 @@
                 idPrefix = Option("parking.rentIncludeParking"),
                 classes = "radio-button-that-show-hides govuk-radios--inline",
                 items = Seq(
-                    "true" -> Messages("label.yes.ydy"),
-                    "false" -> Messages("label.no.nac.ydy")
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
                 ).map( radioItem => {
                     RadioItem (
                         content = Text(radioItem._2),
@@ -264,7 +264,7 @@
             <legend class="form-label-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
 
 
-            @errorWrapper(
+            @multiFieldErrorWrapper(
                 Seq(theForm("parking.rentIncludeParkingDetails")),
                 "parking.rentIncludeParkingDetails",
                 true,
@@ -311,8 +311,8 @@
                 idPrefix = Option("parking.rentSeparateParking"),
                 classes = "radio-button-that-show-hides govuk-radios--inline",
                 items = Seq(
-                    "true" -> Messages("label.yes.ydy"),
-                    "false" -> Messages("label.no.nac.ydy")
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
                 ).map( radioItem => {
                     RadioItem (
                         content = Text(radioItem._2),
@@ -344,7 +344,7 @@
 
             <legend class="govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
             <p class="hidden">@messages("label.noJs.rentSeparateParkingDetails")</p>
-            @errorWrapper(
+            @multiFieldErrorWrapper(
                 Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {
 
                 @govukInput(
@@ -395,7 +395,7 @@
             )
 
 
-            @includes.dateFields2(
+            @includes.dateFields(
                 form = theForm,
                 field = "parking.annualSeparateParkingDate",
                 govukDate = govukDateInput)
@@ -405,5 +405,5 @@
     @includes.continueSaveForLaterButtons(govukButton)
     
     }
-     @includes.formHelp2()
+     @includes.formHelp()
 }

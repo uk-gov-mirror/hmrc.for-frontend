@@ -16,13 +16,6 @@
 
 @()(implicit req: RequestHeader, messages: Messages)
 
-@headExtra = {
-@views.html.includes.stylesheets()
-}
-
-@bodyEnd = { }
-
-@main(title=Messages("project.name")+" - "+Messages("api.heading"), headExtra=headExtra, bodyEnd=bodyEnd, showAccountInfo=false, summary = None) {
 <main id="content">
     <h1 class="form-title heading-xlarge">
         Rent and Lease Details Agent API Documentation (DRAFT)
@@ -1282,4 +1275,3 @@
 }</pre>
     </section>
 </main>
-}

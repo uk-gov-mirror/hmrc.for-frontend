@@ -14,10 +14,21 @@
  * limitations under the License.
  *@
 
-@()(implicit requestHeader: RequestHeader,  messages: Messages)
-<p>
-	<button type="submit" id="continue" name="continue_button" value="continue_button" class="button">@Messages("button.label.continue")</button>
-	<button type="submit" id="save" name="save_button" value="save_button" class="save button button-secondary">@Messages("button.label.save")</button>
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
+
+@(govukButton: GovukButton)(implicit request: Request[_], messages: Messages)
+<p class="govuk-body">
+    @govukButton(
+        Button(
+            attributes = Map("id" -> "continue", "novalidate" -> "novalidate"),
+            content = Text(messages("button.label.continue")),
+            name = "continue_button",
+            value = "continue_button",
+            inputType = "submit"
+        )
+    )
 </p>
 
 

@@ -15,14 +15,6 @@
         }
     };
 
-    //delete after GDS
-    VoaFor.errorFocus = function () {
-        var $formErrors = $('.form-error');
-        if ($formErrors) {
-            $formErrors.focus();
-        }
-    };
-
     VoaFor.addField = function () {
         $(document).on('click', '.add', function (e) {
             e.preventDefault();
@@ -128,7 +120,6 @@
 
         $container.find('input[type="text"]').each(function () {
             var nameAttr = $(this).attr('name');
-            console.log('name: ', nameAttr);
             $(this).attr('name', nameAttr.replace(/\[(\d+)\]/g, '[' + index + ']'));
         });
         $container.find('input[type="radio"]').each(function () {
@@ -146,13 +137,13 @@
 
             $(this).closest('.multi-fields-group').attr('id', o + index);
         });
-        VoaRadioToggle.radioDataShowField();
-        VoaRadioToggle.radioDataShowFields();
         VoaCommon.GdsSelectionButtons();
     };
 
     VoaFor.addFieldMulti = function () {
 
+        //remove if js
+        $('.deleteifjs').remove();
 
         $(document).on('click', '.add-multi-fields', function (e) {
             e.preventDefault();
@@ -257,43 +248,6 @@
         setSelectSize();
     };
 
-    //to delete
-    VoaFor.rentLength = function () {
-        function setLengthLabel(name, spanName) {
-            var element = $('[name="' + name + '"]');
-
-            if (element.is(':checked')) {
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'annual') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'quarterly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'monthly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
-                }
-                if ($('[name="totalRent.rentLengthType"]:checked').val() === 'weekly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
-                }
-            }
-            element.change(function () {
-                if ($(this).val() === 'annual') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelAnnual'));
-                }
-                if ($(this).val() === 'quarterly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelQuarterly'));
-                }
-                if ($(this).val() === 'monthly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelMonthly'));
-                }
-                if ($(this).val() === 'weekly') {
-                    $('.' + spanName + '').text(VoaMessages.textLabel('labelWeekly'));
-                }
-            });
-        }
-
-        setLengthLabel('totalRent.rentLengthType', 'totalRent-length');
-    };
 
     VoaFor.updateLabelToggle = function () {
         function changeButtonLabel() {
@@ -344,51 +298,6 @@
         });
 
         $('.form--feedback [name="referrer"], .form--feedback #referer').val(v);
-    };
-
-    //to delete. handled server side now
-    VoaFor.formatPostcode = function () {
-        $(document).on('change', '.postcode', function (e) {
-            if ($(this).val()) {
-                $(this).val($(this).val().replace(' ', '').replace(/(.{3})$/, ' $1').toUpperCase());
-            }
-        });
-    };
-
-    VoaFor.toggleAgentLeaseContainsRentReviews = function () {
-        if ($('.form-error .leaseContainsRentReviews_agent') && $('#leaseContainsRentReviews .label-span').text() === VoaMessages.textLabel('labelLeaseContainsRentReviews')) {
-            $('.form-error .leaseContainsRentReviews_agent').text(VoaMessages.textLabel('labelLeaseContainsRentReviews'));
-        }
-
-    };
-
-    VoaFor.toggleImage = function () {
-        if ($('html[lang="cy"]').length > 0 && $('.letter-img').length > 0) {
-            $('html[lang="cy"] .letter-img').attr('src', $('.letter-img').attr('src').replace(/.png/g, '-cy.png'));
-        }
-    };
-
-    //to delete. wtf!
-    VoaFor.toggleYearsMonths = function () {
-        var yNumber = parseInt($('.yNumber').text(), 10);
-        var mNumber = parseInt($('.mNumber').text(), 10);
-        if (yNumber === 2) {
-            $('.yText').text(VoaMessages.textLabel('labelYears1'));
-        }
-        if (yNumber === 3 || yNumber === 4 || yNumber === 6) {
-            $('.yText').text(VoaMessages.textLabel('labelYears2'));
-        }
-        if (yNumber === 1 || yNumber === 5 || yNumber === 7 || yNumber === 8 || yNumber === 9 || yNumber === 10) {
-            $('.yText').text(VoaMessages.textLabel('labelYears3'));
-        }
-        if (yNumber >= 11) {
-            $('.yText').text(VoaMessages.textLabel('labelYears4'));
-        }
-        if (mNumber === 2) {
-            $('.mText').text(VoaMessages.textLabel('labelMonths2'));
-        } else {
-            $('.mText').text(VoaMessages.textLabel('labelMonths1'));
-        }
     };
 
     VoaFor.timeOutReminder = function () {

@@ -20,7 +20,6 @@ import actions.RefNumAction
 import config.ForConfig
 import form.Errors
 import form.persistence.FormDocumentRepository
-import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.data.Form
@@ -32,16 +31,17 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class ApplicationController @Inject()(cc: MessagesControllerComponents,
-                                      refNumAction: RefNumAction,
-                                      pdfGenerator: PdfGenerator,
-                                      repository: FormDocumentRepository,
-                                      checkYourAnswersView: views.html.checkYourAnswers,
-                                      declarationView: views.html.declaration,
-                                      printAnswersView: views.html.print,
-                                     errorView: views.html.error.error,
-                                     sessionTimeoutView: views.html.sessionTimeout
-                                     )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+class ApplicationController @Inject()(
+  cc: MessagesControllerComponents,
+  refNumAction: RefNumAction,
+  repository: FormDocumentRepository,
+  checkYourAnswersView: views.html.checkYourAnswers,
+  declarationView: views.html.declaration,
+  printAnswersView: views.html.print,
+  errorView: views.html.error.error,
+  indexView: views.html.index,
+  sessionTimeoutView: views.html.sessionTimeout
+)(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
 
@@ -67,10 +67,6 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
     }
   }
 
-  def fail = Action { implicit request =>
-    Ok(views.html.fail())
-  }
-
   def startAgain = refNumAction.async { implicit request =>
     repository.clear(SessionId(hc), request.refNum) map { _ =>
       Redirect(dataCapturePages.routes.PageController.showPage(0))
@@ -82,7 +78,7 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
       Redirect(ForConfig.govukStartPage)
 
     }else{
-      Ok(views.html.index())
+      Ok(indexView())
     }
   }
 
@@ -106,13 +102,6 @@ class ApplicationController @Inject()(cc: MessagesControllerComponents,
 
   def error500 = Action { implicit request =>
     Ok(errorView(500))
-  }
-
-  def inpageVacatedForm = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) => Ok(views.html.inpageVacatedForm(Some(SummaryBuilder.build(doc))))
-      case _ => InternalServerError(errorView(500))
-    }
   }
 
   private def host(implicit request: RequestHeader): String = {

@@ -22,26 +22,19 @@ var ref;
         //voaFor.js
         VoaFor.showHistoryBackLink();
         VoaFor.printPageShouldPrintOnLoad();
-        VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
-        VoaFor.errorFocus();
         VoaFor.addField();
         VoaFor.removeField();
         VoaFor.addFieldMulti();
         VoaFor.removeFieldMulti();
         VoaFor.selectMobile();
-        VoaFor.rentLength();
         VoaFor.updateLabelToggle();
         VoaFor.isEdit();
         VoaFor.getReferrer();
-        VoaFor.toggleAgentLeaseContainsRentReviews();
-        VoaFor.toggleImage();
-        VoaFor.toggleYearsMonths();
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
         VoaFor.doYouOwnTheProperty();
 
         //feedback.js
-        VoaFeedback.feedbackOverrides();
         VoaFeedback.toggleHelp();
         VoaFeedback.helpForm();
 
@@ -49,18 +42,13 @@ var ref;
         VoaAlerts.intelAlert();
 
         //radioToggle.js
-        VoaRadioToggle.radioDataShowField();
-        VoaRadioToggle.radioDataShowFields();
-        
+        VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
+
         //common.js
         VoaCommon.GdsSelectionButtons();
-        VoaCommon.linkShowManualAddress();
-        VoaCommon.addErrorAnchors();
         VoaCommon.anchorFocus();
         VoaCommon.details();
         VoaCommon.characterCount();
-        VoaCommon.stickyFooter();
-        VoaCommon.setGdsClasses();
     });
 
 })(jQuery);

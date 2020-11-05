@@ -23,13 +23,13 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 
-@this(main_template: main2, govukInput: GovukInput, govukButton: GovukButton)
+@this(main_template: pageLayout, govukInput: GovukInput, govukButton: GovukButton)
 
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
 
-    @form(action = routes.SaveForLater.resume, args = 'class -> "myForm", 'id -> "myFormId") {
+    @form(action = routes.SaveForLaterController.resume, args = 'class -> "myForm", 'id -> "myFormId") {
        @helper.CSRF.formField
 
         @govukInput(
@@ -55,5 +55,5 @@
             )
         )
     }
-    @includes.formHelp2()
+    @includes.formHelp()
 }
