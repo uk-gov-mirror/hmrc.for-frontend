@@ -45,7 +45,6 @@ var ref;
         VoaRadioToggle.toggleFieldsBasedOnCheckedRadioButton();
 
         //common.js
-        VoaCommon.GdsSelectionButtons();
         VoaCommon.anchorFocus();
         VoaCommon.details();
         VoaCommon.characterCount();

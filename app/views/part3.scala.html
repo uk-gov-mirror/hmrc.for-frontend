@@ -63,8 +63,9 @@
                 formGroupClasses = "",
                 label = Label(
                     content = Text(messages("label.propertyType") ),
-                    classes = "govuk-!-font-weight-bold"
+                    classes = ""
                 ),
+                hint = Hint(content = Text(messages("propertyTypes.help"))),
                 errorMessage =  theForm.errors.asTextErrorMessageForField("propertyType")
             )
         )

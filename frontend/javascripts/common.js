@@ -46,11 +46,6 @@
         }
     };
 
-    VoaCommon.GdsSelectionButtons = function () {
-        var $blockLabels = $('.block-label input[type="radio"], .block-label input[type="checkbox"]');
-        new GOVUK.SelectionButtons($blockLabels);
-    };
-
     VoaCommon.linkShowManualAddress = function () {
         $('.showHide').click(function (e) {
             e.preventDefault();
