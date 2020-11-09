@@ -60,10 +60,9 @@
                 name = "propertyType",
                 value = theForm("propertyType").value,
                 classes = "govuk-input--width-20",
-                formGroupClasses = "",
                 label = Label(
                     content = Text(messages("label.propertyType") ),
-                    classes = ""
+                    classes = "govuk-!-font-weight-bold"
                 ),
                 hint = Hint(content = Text(messages("propertyTypes.help"))),
                 errorMessage =  theForm.errors.asTextErrorMessageForField("propertyType")
