@@ -137,7 +137,6 @@
 
             $(this).closest('.multi-fields-group').attr('id', o + index);
         });
-        VoaCommon.GdsSelectionButtons();
     };
 
     VoaFor.addFieldMulti = function () {

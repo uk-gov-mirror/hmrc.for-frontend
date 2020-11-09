@@ -17,7 +17,7 @@ describe("Javascript test suite", function() {
 	});
 
 	it('Namespace should be available on the jQuery object', function() {
-		expect(VoaCommon, VoaFor, GOVUK, VoaRadioToggle).toBeDefined();
+		expect(VoaCommon, VoaFor, VoaRadioToggle).toBeDefined();
 	});
 
   	it("It contains a spec with an expectation", function() {

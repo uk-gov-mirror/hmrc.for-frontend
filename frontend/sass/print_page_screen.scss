@@ -1,6 +1,6 @@
-div.print-your-answers {
-
-  div.signFooter {
+@media print {
+  div.sign-footer {
+    display:block;
     width: 100%;
     font-size: .9em;
 
@@ -39,8 +39,10 @@ div.print-your-answers {
   zoom: 1;
 }
 
-@media print {
-  .print-link {
-    display: none !important;
+  @media print {
+    a.print-link, a, .govuk-summary-list__actions,
+    .govuk-button, .button, button, .govuk-back-link,
+    .dontprint, footer, a.form-help-toggle {
+      display: none !important;
+    }
   }
-}
