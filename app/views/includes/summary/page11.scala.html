@@ -22,7 +22,7 @@
 
 @(p11: IncentivesAndPayments, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<h2 class="heading-medium no-margin-top">@messages("section11.heading")</h2>
+<h2 class="govuk-heading-m xx  no-margin-top">@messages("section11.heading")</h2>
 <dl class="govuk-check-your-answers cya-questions-long">
 	@summaryBlock(messages(if(isAgent) messages("label.rentFreePeriod.agent") else messages("label.rentFreePeriod")), 11, "rentFreePeriod") {
 		@displayBoolean(p11.rentFreePeriod, "6")

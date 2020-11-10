@@ -44,6 +44,9 @@ div#helpFormWrapper {
 #history-back.govuk-back-link {
   margin-bottom: 0;
 }
+ul#header-account-info{
+  padding: 0;
+}
 
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/hmrc-frontend/hmrc/all";

@@ -261,7 +261,7 @@
             data-hides-this="true"
             class="form-group parking.rentIncludeParking"
             id="parking.rentIncludeParkingDetails">
-            <legend class="form-label-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
+            <legend class="govuk-fieldset__legend govuk-!-font-weight-bold">@messages("label.parking.rentIncludeParkingDetails")</legend>
 
 
             @multiFieldErrorWrapper(
@@ -277,7 +277,7 @@
                         name = "parking.rentIncludeParkingDetails.openSpaces",
                         value = theForm("parking.rentIncludeParkingDetails.openSpaces").value,
                         formGroupClasses="form-group custom-140",
-                        classes = "govuk-input--width-20",
+                        classes = "govuk-input--width-10",
                         label = Label(content = Text(messages("label.openSpaces")))
                     )
                 )
@@ -342,7 +342,7 @@
             class="form-group  parking.rentSeparateParking"
             id="parking.rentSeparateParkingDetails">
 
-            <legend class="govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
+            <legend class="govuk-fieldset__legend govuk-!-font-weight-bold">@messages("label.parking.rentSeparateParkingDetails" + labelSuffix)</legend>
             <p class="hidden">@messages("label.noJs.rentSeparateParkingDetails")</p>
             @multiFieldErrorWrapper(
                 Seq(theForm("parking.rentSeparateParkingDetails")), "parking.rentSeparateParkingDetails", true, "form-field-group") {

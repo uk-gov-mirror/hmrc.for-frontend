@@ -23,7 +23,7 @@
 
 @agreementType = {@summary.lease.flatMap {d=>@d.leaseAgreementType.name}}
 
-<h2 class="heading-medium no-margin-top">@messages("section7.heading")</h2>
+<h2 class="govuk-heading-m xx  no-margin-top">@messages("section7.heading")</h2>
 <dl class="govuk-check-your-answers cya-questions-long">
 	@summaryBlock(messages(if(isAgent) messages("label.leaseContainsRentReviews.agent."+agreementType) else messages("label.leaseContainsRentReviews."+agreementType)), 7, "leaseContainsRentReviews") {
 		@displayBoolean(p7.leaseContainsRentReviews, "2")

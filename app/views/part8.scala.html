@@ -40,9 +40,12 @@
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @heading = @{if(summary.isAgent){ messages("section8.heading.agent") }else{ messages("section8.heading")}}
-
+@previousPage = @{
+    if(LeaseAgreementTypesVerbal.equals( summary.lease.get.leaseAgreementType)) 6
+    else 7
+}
 @layout(
-    showHistoryBack = true,
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(previousPage).url ,
     pageHeading = heading,
     summary = Some(summary),
     showAccountInfo = true,

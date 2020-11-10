@@ -22,11 +22,11 @@
     </h1>
     <p>This endpoint allows Forms of Return to be submitted to the VOA without using the web form.</p>
     <section id="resource" class="section flush--bottom">
-        <h2 class="heading-medium">Resource (Currently for testing only)</h2>
+        <h2 class="govuk-heading-m xx ">Resource (Currently for testing only)</h2>
         <pre class="snippet--block">POST /sending-rental-information/api/submit/{refNum}/{postcode}</pre>
     </section>
     <section id="path-parameters" class="section flush--bottom">
-        <h2 class="heading-medium">Path Parameters</h2>
+        <h2 class="govuk-heading-m xx ">Path Parameters</h2>
         <table><thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td class="snippet--inline">
             refNum
         </td><td class="snippet--inline">
@@ -42,13 +42,13 @@
         </td><td>The post code from the letter. Must be a valid UK postcode. Must be separated by a "+" instead of a space</td></tr></tbody></table>
     </section>
     <section id="content-types" class="section flush--bottom">
-        <h2 class="heading-medium">Accepted Media Types</h2>
+        <h2 class="govuk-heading-m xx ">Accepted Media Types</h2>
         <ul><li>
             <code class="snippet--inline">application/vnd.hmrc.1.0+json</code>
         </li></ul>
     </section>
     <section id="schemas" class="section flush--bottom">
-        <h2 class="heading-medium">Json schemas</h2>
+        <h2 class="govuk-heading-m xx ">Json schemas</h2>
         <p>Basic data validation is performed using json schemas, that may be found at /sending-rental-information/api/schema/{schemaName.json},
             e.g. <a href="/sending-rental-information/api/schema/defaultSchema.json">/sending-rental-information/api/schema/defaultSchema.json</a>.</p>
 
@@ -62,7 +62,7 @@
         </p>
     </section>
     <section id="data-types" class="section flush--bottom">
-        <h2 class="heading-medium">Additional Data Types Defined in the Schema</h2>
+        <h2 class="govuk-heading-m xx ">Additional Data Types Defined in the Schema</h2>
         <p>Address</p>
                 <pre class="snippet--block code">
 {
@@ -136,7 +136,7 @@
         </td><td>Required</td><td>Must be between 0 and 12 inclusive</td></tr></tbody></table>
     </section>
     <section id="sample-request" class="section flush--bottom">
-        <h2 class="heading-medium">Example Request When Client Rents the Property</h2>
+        <h2 class="govuk-heading-m xx ">Example Request When Client Rents the Property</h2>
                 <pre class="snippet--block code">
 {
   "referenceNumber": "9999000001",
@@ -245,7 +245,7 @@
     "anyOtherFactors": false
   }
 }</pre>
-        <h2 class="heading-medium">Example Request When Client Owns the Property</h2>
+        <h2 class="govuk-heading-m xx ">Example Request When Client Owns the Property</h2>
                 <pre class="snippet--block code">
 {
   "referenceNumber": "9999000001",
@@ -968,7 +968,7 @@
         </td><td>"Give details [of the other factors that affect the rent]"</td><td>Required if anyOtherFactors is true</td><td>Max length 124 characters</td></tr></tbody></table>
     </section>
     <section id="error-responses" class="section flush--bottom">
-        <h2 class="heading-medium">Error Scenarios</h2>
+        <h2 class="govuk-heading-m xx ">Error Scenarios</h2>
         <table><thead><tr><th>Scenario</th><th>HTTP Status</th><th>Code</th><th>Example error message</th></tr></thead><tbody><tr><td>Invalid refNum or postcode</td><td class="snippet--inline">
             401 (Unauthorized)
         </td><td class="snippet--inline">
@@ -998,7 +998,7 @@
         </td><td class="snippet--inline">
             INVALID_SUBMISSION
         </td><td>See Below</td></tr></tbody></table>
-        <h2 class="heading-medium">Examples of invalid JSON and response error messages</h2>
+        <h2 class="govuk-heading-m xx ">Examples of invalid JSON and response error messages</h2>
         <p>Request with invalid value for propertyAddress.isAddressCorrect</p>
                 <pre class="snippet--block code">
 {
