@@ -26,6 +26,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import models.pages.PageSeven
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
@@ -41,7 +42,7 @@
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @previousPage = @{
-    if(summary.rentReviews.get.leaseContainsRentReviews) 7
+    if(summary.rentReviews.getOrElse(PageSeven(leaseContainsRentReviews=false, None)).leaseContainsRentReviews) 7
     else 8
 }
 
