@@ -40,8 +40,13 @@
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
+@previousPage = @{
+    if(summary.rentReviews.get.leaseContainsRentReviews) 7
+    else 8
+}
+
 @layout(
-    showHistoryBack = true,
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(previousPage).url ,
     pageHeading = messages("section9.heading"),
     summary = Some(summary),
     showAccountInfo = true,
