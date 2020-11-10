@@ -98,14 +98,13 @@
 
               <h3 class="govuk-heading-m section-heading">@messages("label.sublet.section.heading") <span>@{idx + 1}</span></h3>
 
-              <fieldset class="form-group" id=@(s"sublet[${idx}].sublet")>
+              <fieldset id=@(s"sublet[${idx}].sublet")>
 
               @govukInput(
                   Input(
                       id = s"sublet[$idx].tenantFullName",
                       name = s"sublet[$idx].tenantFullName",
                       value = theForm(s"sublet[$idx].tenantFullName").value,
-                      formGroupClasses="form-group custom-140",
                       classes = "govuk-input--width-20",
                       errorMessage = theForm.errors.asTextErrorMessageForField(s"sublet[$idx].tenantFullName"),
                       label = Label(

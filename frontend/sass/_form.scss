@@ -1,13 +1,25 @@
-fieldset{
-  border:none;
-  padding:0px;
+fieldset {
+  border: none;
+  padding: 0px;
 }
-.multi-fields-group{
+
+.multi-fields-group {
   //display: inline-block;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: solid 1px $govuk-border-colour;
 }
-.add-multi-fields{
-  margin-bottom:20px;
+
+.add-multi-fields {
+  margin-bottom: 20px;
 }
+
+.custom-one-third {
+  width: 27%;
+  float: left;
+  margin-right: 5%;
+  &:last-of-type{
+    margin-right:0;
+  }
+}
+
