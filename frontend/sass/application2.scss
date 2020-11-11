@@ -1,3 +1,6 @@
+//this is needed to get the correct path to the images in the webjar of govuk-frontend
+$govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk/assets/";
+
 div.sign-footer{
   display:none;
 }
@@ -52,4 +55,6 @@ ul#header-account-info{
 @import "node_modules/hmrc-frontend/hmrc/all";
 @import "print_page_screen";
 @import "form";
+
+
 

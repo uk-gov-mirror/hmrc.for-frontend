@@ -78,7 +78,12 @@
     }
 
     @backLinkUrl.map{ url =>
-        <div>@govukBackLink(BackLink(href = url))</div>
+        <div>@govukBackLink(
+            BackLink(
+                href = url,
+                content = Text(messages("button.label.back"))
+            )
+        )</div>
     }
     @if(backLinkUrl.isEmpty && showHistoryBack) {
         <a href="javascript:history.back()" id="history-back"

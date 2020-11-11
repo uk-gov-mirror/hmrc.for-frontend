@@ -41,7 +41,10 @@ lazy val compileDeps = Seq(
   "uk.gov.hmrc" %% "mongo-caching" % "6.15.0-play-26",
   "uk.gov.hmrc" %% "simple-reactivemongo" % "7.30.0-play-26",
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
-  "nu.validator.htmlparser" % "htmlparser" % "1.4"
+  "nu.validator.htmlparser" % "htmlparser" % "1.4",
+  "org.webjars.npm" % "govuk-frontend" % "3.8.1",
+  "org.webjars.npm" % "hmrc-frontend" % "1.15.1",
+  "org.webjars.bower" % "compass-mixins" % "0.12.7"
 )
 
 val akkaVersion     = "2.5.23"
@@ -64,7 +67,6 @@ def testDeps(scope: String) = Seq(
   "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
   "org.mockito" %% "mockito-scala-scalatest" % "1.7.1" % scope
 )
-
 lazy val root = (project in file("."))
   .settings(
     DefaultBuildSettings.defaultSettings(),

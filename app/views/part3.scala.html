@@ -138,7 +138,7 @@
         @includes.dateFields(
             form =theForm,
             field = "firstOccupationDate",
-            helpText = Option(messages("label.firstOccupationDate.help")),
+            helpText = "<span>" + messages("label.firstOccupationDate.help") + "</span><br/><br/><span>" + messages("help.date.month.year") + "</p>",
             labelSuffix = labelSuffix,
             govukDate = govukDateInput,
             hiddenBy = Option(new HiddenBy("occupierType", Seq("company", "individuals")))
