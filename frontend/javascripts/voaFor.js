@@ -9,6 +9,13 @@
         $('a#history-back').show();
     };
 
+    VoaFor.setHelpGDSClasses = function(){
+        var $helpFormWrapper = $('#helpFormWrapper');
+        $helpFormWrapper.find('input[type=text]').removeClass('input--fullwidth').removeClass('form-control').addClass('govuk-input').addClass('govuk-!-margin-bottom-5');
+        $helpFormWrapper.find('button').removeClass('button').addClass('govuk-button');
+        $helpFormWrapper.find('label').removeClass('form-label').addClass('govuk-label');
+    };
+
     VoaFor.printPageShouldPrintOnLoad = function(){
         if($('div.govuk-grid-column-full.print-your-answers').length > 0){
             window.print();

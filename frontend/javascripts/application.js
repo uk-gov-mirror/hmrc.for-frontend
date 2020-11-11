@@ -33,6 +33,7 @@ var ref;
         VoaFor.addMultiButtonState();
         VoaFor.timeOutReminder();
         VoaFor.doYouOwnTheProperty();
+        VoaFor.setHelpGDSClasses();
 
         //feedback.js
         VoaFeedback.toggleHelp();
