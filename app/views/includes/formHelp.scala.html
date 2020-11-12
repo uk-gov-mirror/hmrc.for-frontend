@@ -18,34 +18,34 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-<div class="help-container">
+<div class="help-container dontprint">
     <div class="grid-row">
         <div class="column-two-thirds">
             <div class="help-with-form-container hide-if-no-js">
 
-                <p class="govuk-body">
-                    <a href="#" class="form-help-toggle govuk-link">@messages("label.help.link")</a>
-                </p>
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                            @messages("label.help.link")
+                        </span>
+                    </summary>
 
-                <div id="helpForm" class="govuk-body help__wrapper" style="display: none">
-                    <div class="help-content">
 
-                        <div class="form-title heading-large">
-                            <h2>@messages("label.help.title")</h2>
-                        </div>
+                    <div id="helpForm" class="govuk-body help__wrapper">
 
+                        <h2 class="govuk-heading-m govuk-!-margin-top-5">@messages("label.help.title")</h2>
                         <div class="contact-form-copy">
-                            <p>@messages("copy.form.help")</p>
-                            <p>@messages("copy.form.help.dont.include")</p>
+                            <p class="govuk-body">@messages("copy.form.help")</p>
+                            <p class="govuk-body">@messages("copy.form.help.dont.include")</p>
                         </div>
-
                         <p class="feedback-thankyou hidden">@messages("copy.form.help.thankyou")</p>
 
                         <div id="helpFormWrapper" class="element-hidden govuk-body">
                         @FormPartialProvider.getPartialContent(controllers.feedback.HMRCContact().hmrcHelpWithPageFormUrl)
                         </div>
                     </div>
-                </div>
+
+                </details>
             </div>
         </div>
     </div>

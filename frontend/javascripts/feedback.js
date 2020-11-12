@@ -1,12 +1,5 @@
 (function ($) {
 
-    VoaFeedback.toggleHelp = function(){
-        $('.form-help-toggle').click(function(e){
-            e.preventDefault();
-            $('#helpForm').toggle();
-        });
-    };
-
     VoaFeedback.helpForm = function() {
         $('#helpForm').on('submit', 'form', function(event) {
             event.preventDefault();

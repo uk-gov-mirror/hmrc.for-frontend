@@ -21,7 +21,7 @@
 
 @(p8: RentAgreement, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-    <h2 class="govuk-heading-m xx  no-margin-top">@if(isAgent){ @messages("section8.heading.agent") }else{ @messages("section8.heading")}</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-4">@if(isAgent){ @messages("section8.heading.agent") }else{ @messages("section8.heading")}</h2>
     <dl class="govuk-check-your-answers cya-questions-long">
       @summaryBlock(messages(if(isAgent) messages("label.wasRentFixedBetween.agent") else messages("label.wasRentFixedBetween")), 8, "wasRentFixedBetween") {
         @displayBoolean(p8.wasRentFixedBetween, "6")

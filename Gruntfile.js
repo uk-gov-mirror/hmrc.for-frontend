@@ -124,16 +124,7 @@ module.exports = function(grunt) {
                     src: '**',
                     dest: 'public/images/'
                 }]
-            },
-            cutstomImages: {
-                files: [{
-                    expand: true,
-                    cwd: 'frontend/images',
-                    src: '**',
-                    dest: 'public/images/'
-                }]
             }
-
         },
         cssmin: {
             target: {
@@ -147,17 +138,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // workaround for libsass
-        replace: {
-            fixSass: {
-                src: ['govuk_modules/govuk_template/**/*.scss', 'govuk_modules/govuk_frontend_toolkit/**/*.scss'],
-                overwrite: true,
-                replacements: [{
-                    from: /filter:chroma(.*);/g,
-                    to: 'filter:unquote("chroma$1");'
-                }]
-            }
-        },
         jshint: {
             options: grunt.file.readJSON('.jshintrc'),
             javascripts: {
@@ -290,12 +270,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('generate-assets', [
-        //'clean:start',
         'jshint',
         'copy',
         'uglify',
-        'replace',
-        'sass',
         'connect',
         'jasmine',
         'cssmin',

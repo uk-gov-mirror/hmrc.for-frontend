@@ -21,7 +21,7 @@
 @import models.serviceContracts.submissions._
 
 @(p10: WhatRentIncludes, isAgent: Boolean, address: Option[String] = None)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="govuk-heading-m xx  no-margin-top">@messages("section10.heading")</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section10.heading")</h2>
 
 <dl class="govuk-check-your-answers cya-questions-long">
     @summaryBlock(messages(if(isAgent)  messages("label.livingAccommodation.agent") else messages("label.livingAccommodation")), 10, "livingAccommodation") {

@@ -21,7 +21,7 @@
 @import models.serviceContracts.submissions._
 
 @(p13: PropertyAlterations, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="govuk-heading-m xx  no-margin-top">@messages("section13.heading")</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section13.heading")</h2>
 <dl class="govuk-check-your-answers cya-questions-long">
     @summaryBlock(messages(if(isAgent) messages("label.propertyAlterations.agent") else messages("label.propertyAlterations")), 13, "propertyAlterations") {
         @displayBoolean(p13.propertyAlterations, if(isAgent) "2" else "1")
