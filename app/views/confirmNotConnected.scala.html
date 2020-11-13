@@ -28,7 +28,7 @@
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         formWithCSFR:FormWithCSRF)
 
 @(summary: Summary, theForm: Form[_])(implicit request: Request[_],  messages: Messages)
@@ -53,5 +53,5 @@
 
     <hr/>
 
-    @views.html.includes.surveyFeedback(summary, theForm,govukButton, govukTextarea, govukRadios, formWithCSFR)
+    @views.html.includes.surveyFeedback(summary, theForm,govukButton, govukCharacterCount, govukRadios, formWithCSFR)
 }

@@ -21,14 +21,13 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import template.FormatRefNum
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         formWithCSFR: formWithCSRF)
 
 @(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_],  messages: Messages)
@@ -63,6 +62,7 @@
     </p>
 
     <hr/>
-    @views.html.includes.surveyFeedback(summary, theForm, govukButton, govukTextarea, govukRadios, formWithCSFR)
+
+    @views.html.includes.surveyFeedback(summary, theForm, govukButton, govukCharacterCount, govukRadios, formWithCSFR)
 
 }
