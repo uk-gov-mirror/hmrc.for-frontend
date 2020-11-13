@@ -21,7 +21,7 @@
 
 @(p9: PageNine, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-	<h2 class="govuk-heading-m xx  no-margin-top">@messages("section9.heading")</h2>
+	<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section9.heading")</h2>
 	<dl class="govuk-check-your-answers cya-questions-long">
     @summaryBlock(messages("label.totalRent.annualRentExcludingVat"), 9, "totalRent_annualRentExcludingVat") {
 		   <span class='rentAmount'>£@NumberFormat.getNumberInstance().format(p9.totalRent.amount)</span>

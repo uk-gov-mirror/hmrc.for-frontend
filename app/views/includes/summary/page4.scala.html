@@ -22,7 +22,7 @@
 @import models.serviceContracts.submissions._
 
   @(p4: PageFour, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
-    <h2 class="govuk-heading-m xx  no-margin-top">@messages("section4.heading")</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section4.heading")</h2>
     <dl class="govuk-check-your-answers cya-questions-long">
       @summaryBlock(messages("label.propertyIsSublet"), 4, "propertyIsSublet") {
         @displayBoolean(p4.propertyIsSublet, if(isAgent) "2" else "1")

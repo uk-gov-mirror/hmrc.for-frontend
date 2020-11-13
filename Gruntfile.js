@@ -133,7 +133,6 @@ module.exports = function(grunt) {
                     dest: 'public/images/'
                 }]
             }
-
         },
         cssmin: {
             target: {

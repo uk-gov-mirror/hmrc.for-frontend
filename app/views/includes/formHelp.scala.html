@@ -18,34 +18,38 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-<div class="help-container">
+<div class="help-container dontprint">
     <div class="grid-row">
         <div class="column-two-thirds">
-            <div class="help-with-form-container hide-if-no-js">
+            <div class="help-with-form-container hide-if-no-js" >
+                <details class="govuk-details" data-module="govuk-details"
+                >
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                            @messages("label.help.link")
+                        </span>
+                    </summary>
 
-                <p class="govuk-body">
-                    <a href="#" class="form-help-toggle govuk-link">@messages("label.help.link")</a>
-                </p>
 
-                <div id="helpForm" class="govuk-body help__wrapper" style="display: none">
-                    <div class="help-content">
+                    <div id="helpForm" class="govuk-body help__wrapper"
+                    style="position:relative; min-height:300px; ">
+                        <svg class="spinner" viewBox="0 0 50 50" style="display: none;">
+                            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                        </svg>
 
-                        <div class="form-title heading-large">
-                            <h2>@messages("label.help.title")</h2>
-                        </div>
-
+                        <h2 class="govuk-heading-m govuk-!-margin-top-5">@messages("label.help.title")</h2>
                         <div class="contact-form-copy">
-                            <p>@messages("copy.form.help")</p>
-                            <p>@messages("copy.form.help.dont.include")</p>
+                            <p class="govuk-body">@messages("copy.form.help")</p>
+                            <p class="govuk-body">@messages("copy.form.help.dont.include")</p>
                         </div>
-
                         <p class="feedback-thankyou hidden">@messages("copy.form.help.thankyou")</p>
 
                         <div id="helpFormWrapper" class="element-hidden govuk-body">
                         @FormPartialProvider.getPartialContent(controllers.feedback.HMRCContact().hmrcHelpWithPageFormUrl)
                         </div>
                     </div>
-                </div>
+
+                </details>
             </div>
         </div>
     </div>

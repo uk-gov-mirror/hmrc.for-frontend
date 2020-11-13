@@ -42,7 +42,7 @@
   @media print {
     a.print-link, a, .govuk-summary-list__actions,
     .govuk-button, .button, button, .govuk-back-link,
-    .dontprint, footer, a.form-help-toggle {
+    .dontprint, footer, .form-help-toggle, .help-container {
       display: none !important;
     }
   }

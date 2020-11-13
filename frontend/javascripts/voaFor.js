@@ -11,9 +11,12 @@
 
     VoaFor.setHelpGDSClasses = function(){
         var $helpFormWrapper = $('#helpFormWrapper');
-        $helpFormWrapper.find('input[type=text]').removeClass('input--fullwidth').removeClass('form-control').addClass('govuk-input').addClass('govuk-!-margin-bottom-5');
+        $helpFormWrapper.find('input[type=text]')
+            .removeClass('input--fullwidth').removeClass('form-control')
+            .addClass('govuk-input').addClass('govuk-!-margin-bottom-3');
         $helpFormWrapper.find('button').removeClass('button').addClass('govuk-button');
         $helpFormWrapper.find('label').removeClass('form-label').addClass('govuk-label');
+        $helpFormWrapper.find('h2, p').remove();
     };
 
     VoaFor.printPageShouldPrintOnLoad = function(){
