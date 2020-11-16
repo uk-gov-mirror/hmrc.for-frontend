@@ -51,8 +51,8 @@ class PageNineMappingSpec extends FlatSpec with Matchers {
   checkMissingField(keys.rentActuallyAgreedYear)
   checkMissingField(keys.rentActuallyAgreedMonth)
 
-  checkMissingField(keys.negotiatingNewRent, Errors.booleanMissing)
-  checkMissingField(keys.rentBasedOn, Errors.noValueSelected)
+  checkMissingField(keys.negotiatingNewRent, Errors.negotiatingNewRentRequired)
+  checkMissingField(keys.rentBasedOn, Errors.rentBasedOnRequired)
   checkMissingField(keys.rentBecomePayableDay)
   checkMissingField(keys.rentBecomePayableYear)
   checkMissingField(keys.rentBecomePayableMonth)

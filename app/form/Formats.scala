@@ -50,7 +50,7 @@ object Formats {
   implicit val reviewIntervalTypeFormat: Formatter[ReviewIntervalType] = namedEnumFormatter(ReviewIntervalTypes, Errors.rentReviewFrequencyRequired)
   implicit val rentFixedByTypeFormat: Formatter[RentFixedType] = namedEnumFormatter(RentFixedTypes, Errors.rentFixedByRequired)
 
-  implicit val rentBaseTypeFormat: Formatter[RentBaseType] = namedEnumFormatter(RentBaseTypes, Errors.rentBaseTypeRequired)
+  implicit val rentBaseTypeFormat: Formatter[RentBaseType] = namedEnumFormatter(RentBaseTypes, Errors.rentBasedOnRequired)
   implicit val notReviewRentFixedTypeFormat: Formatter[NotReviewRentFixedType] = namedEnumFormatter(NotReviewRentFixedTypes, Errors.whoWasTheRentFixedBetweenRequired)
   implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.isThisRentRequired)
 

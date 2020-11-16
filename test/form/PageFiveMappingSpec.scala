@@ -55,7 +55,7 @@ class PageFiveMappingSpec extends FlatSpec with Matchers {
     val data = baseData - "landlordConnectType"
     val form = bind(data)
 
-    mustOnlyContainError("landlordConnectType", Errors.noValueSelected, form)
+    mustOnlyContainError("landlordConnectType", Errors.LandlordConnectionTypeRequired, form)
   }
 
   it should "return required error if landlord connection text is missing and connection type is other" in {

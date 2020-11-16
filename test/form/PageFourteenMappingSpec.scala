@@ -34,7 +34,8 @@ class PageFourteenMappingSpec extends FlatSpec with Matchers {
     val testData: Map[String, String] = Map.empty
     val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
-    mustContainBooleanRequiredErrorFor("anyOtherFactors", results)
+    mustContainError("anyOtherFactors", Errors.anyOtherFactorsRequired, results)
+
   }
 
   it should "not accept form data when the other factors is selected, but no details given" in {

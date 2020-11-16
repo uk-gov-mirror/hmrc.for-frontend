@@ -30,7 +30,7 @@ object PageNineForm {
     "totalRent" -> annualRent,
     "rentBecomePayable" -> dateFieldsMapping("rentBecomePayable"),
     "rentActuallyAgreed" -> dateFieldsMapping("rentActuallyAgreed"),
-    "negotiatingNewRent" -> mandatoryBooleanWithError("error.negotiatingNewRent.required"),
+    "negotiatingNewRent" -> mandatoryBooleanWithError(Errors.negotiatingNewRentRequired),
     "rentBasedOn" -> rentBaseTypeMapping,
     "rentBasedOnDetails" -> mandatoryIfNot("rentBasedOn", RentBaseTypeOpenMarket.name, nonEmptyText(maxLength = 250))
   )(PageNine.apply)(PageNine.unapply)

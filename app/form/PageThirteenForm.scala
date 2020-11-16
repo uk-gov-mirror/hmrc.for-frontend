@@ -33,8 +33,10 @@ object PageThirteenForm {
       keys.propertyAlterations,
       IndexedMapping("propertyAlterationsDetails", propertyAlterationsDetailsMapping).verifying(Errors.tooManyAlterations, _.length <= 10)
     ),
-    keys.alterationsRequired -> mandatoryBooleanIfTrue(keys.propertyAlterations,
-      mandatoryBooleanWithError(Errors.tenantWasRequiredToMakeAlterationsRequired))
+    keys.alterationsRequired -> mandatoryBooleanIfTrue(
+      keys.propertyAlterations,
+      mandatoryBooleanWithError(Errors.tenantWasRequiredToMakeAlterationsRequired)
+    )
   ) (PropertyAlterations.apply)(PropertyAlterations.unapply))
 
   lazy val propertyAlterationsDetailsMapping = (indexed: String) => mapping(

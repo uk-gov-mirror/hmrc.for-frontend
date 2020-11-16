@@ -52,18 +52,19 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor("parking.annualSeparateParkingDate.year", f)
   }
 
-  it should "return a mandatory boolean error when a value for rentIncludeParking is not supplied" in {
+  it should "return a mandatory error when a value for rentIncludeParking is not supplied" in {
     val data: Map[String, String] = Map.empty
     val form = bind(data)
 
-    mustContainBooleanRequiredErrorFor(rentIncludeParkingKey, form)
+    mustContainError(rentIncludeParkingKey, Errors.includesParkingRequired, form)
   }
 
   it should "return a mandatory boolean error when a value for rentSeparateParking is not supplied" in {
     val data = fullData - rentSeparateParkingKey
     val form = bind(data)
 
-    mustContainBooleanRequiredErrorFor(rentSeparateParkingKey, form)
+    mustContainError(rentSeparateParkingKey, Errors.tenantPaysForParkingRequired, form)
+
   }
   
   it should "return a required field error when the rent included parking details are all 0" in {
@@ -153,11 +154,11 @@ class PageTenMappingSpec extends FlatSpec with Matchers {
     mustContainRequiredErrorFor(annualSeparateParkingYear, form)
   }
 
-  checkMissingField(Keys.partRent, Errors.booleanMissing)
-  checkMissingField(Keys.otherProperty, Errors.booleanMissing)
-  checkMissingField(Keys.livingAccommodation, Errors.booleanMissing)
-  checkMissingField(Keys.landOnly, Errors.booleanMissing)
-  checkMissingField(Keys.shellUnit, Errors.booleanMissing)
+  checkMissingField(Keys.partRent, Errors.isRentPaidForPartRequired)
+  checkMissingField(Keys.otherProperty, Errors.anyOtherBusinessPropertyRequired)
+  checkMissingField(Keys.livingAccommodation, Errors.includesLivingAccommodationRequired)
+  checkMissingField(Keys.landOnly, Errors.rentBasedOnLandOnlyRequired)
+  checkMissingField(Keys.shellUnit, Errors.rentBasedOnEmptyBuildingRequired)
 
   val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccommodation, Keys.landOnly, Keys.shellUnit)
 

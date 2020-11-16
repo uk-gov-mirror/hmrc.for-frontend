@@ -53,7 +53,7 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
     val data = Map.empty[String, String]
     val form = bind(data)
 
-    mustOnlyContainError(keys.leaseAgreementType, Errors.noValueSelected, form)
+    mustOnlyContainError(keys.leaseAgreementType, Errors.leaseAgreementTypeRequired, form)
   }
 
   it should "allow all fields to be optional when the agreement is verbal or written" in {
@@ -103,22 +103,22 @@ class PageSixMappingSpec extends FlatSpec with Matchers {
     val data = Map("leaseAgreementType" -> LeaseAgreementTypesLeaseTenancy.name)
     val form = bind(data)
 
-    mustContainError(writtenLeaseAgreementHasBreakClause, Errors.booleanMissing, form)
-    mustContainError(writtenAgreementIsStepped, Errors.booleanMissing, form)
+    mustContainError(writtenLeaseAgreementHasBreakClause, Errors.leaseAgreementBreakClauseRequired, form)
+    mustContainError(writtenAgreementIsStepped, Errors.leaseAgreementIsSteppedRequired, form)
     mustContainRequiredErrorFor(writtenStartDate + ".year", form)
     mustContainRequiredErrorFor(writtenStartDate + ".month", form)
-    mustContainError(writtenRentOpenEnded, Errors.booleanMissing, form)
+    mustContainError(writtenRentOpenEnded, Errors.leaseAgreementOpenEndedRequired, form)
   }
 
   it should "require all fields to be mandatory if the lease agreement type is other type of written agreement" in {
     val data = Map("leaseAgreementType" -> LeaseAgreementTypesLicenceOther.name)
     val form = bind(data)
 
-    mustContainError(writtenLeaseAgreementHasBreakClause, Errors.booleanMissing, form)
-    mustContainError(writtenAgreementIsStepped, Errors.booleanMissing, form)
+    mustContainError(writtenLeaseAgreementHasBreakClause, Errors.leaseAgreementBreakClauseRequired, form)
+    mustContainError(writtenAgreementIsStepped, Errors.leaseAgreementIsSteppedRequired, form)
     mustContainRequiredErrorFor(writtenStartDate + ".year", form)
     mustContainRequiredErrorFor(writtenStartDate + ".month", form)
-    mustContainError(writtenRentOpenEnded, Errors.booleanMissing, form)
+    mustContainError(writtenRentOpenEnded, Errors.leaseAgreementOpenEndedRequired, form)
   }
 
   it should "return an break clause required error when 'has break clause' is true and there are no break clause details" in {

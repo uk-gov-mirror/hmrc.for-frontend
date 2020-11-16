@@ -75,7 +75,7 @@ class PageSevenMappingSpec extends FlatSpec with Matchers {
     val res = bind(data)
     res.errors.isEmpty should be(false)
     res.errors.size should be(1)
-    containsError(res.errors, "rentReviewDetails.reviewIntervalType", "error.no_value_selected")
+    containsError(res.errors, "rentReviewDetails.reviewIntervalType", Errors.rentReviewFrequencyRequired)
   }
 
   "PageSevenData" should "bind with the fields and return issues when the year field of the last review date is missing" in {
@@ -90,14 +90,14 @@ class PageSevenMappingSpec extends FlatSpec with Matchers {
     val res = bind(data)
     res.errors.isEmpty should be(false)
     res.errors.size should be(1)
-    containsError(res.errors, "rentReviewDetails.canRentReduced", "error.boolean_missing")
+    containsError(res.errors, "rentReviewDetails.canRentReduced", Errors.rentCanBeReducedOnReviewRequired)
   }
 
   "PageSevenData" should "bind with the fields and return issues when connection type selection missing" in {
     val data = baseData - "rentReviewDetails.rentResultOfRentReview"
     val res = bind(data)
     res.errors.isEmpty should be(false)
-    containsError(res.errors, "rentReviewDetails.rentResultOfRentReview", "error.boolean_missing")
+    containsError(res.errors, "rentReviewDetails.rentResultOfRentReview", Errors.isRentResultOfReviewRequired)
   }
 
   "PageSevenData" should "bind with the fields and return issues when the date for the last effective rent review is missing" in {
@@ -111,7 +111,7 @@ class PageSevenMappingSpec extends FlatSpec with Matchers {
   "PageSevenData" should "not bind with the fields and return an error when the person who agreed the rent input is not selected" in {
     val data = baseData - "rentReviewDetails.rentReviewResultsDetails.rentFixedBy"
     val res = bind(data).convertGlobalToFieldErrors()
-    mustContainError("rentReviewDetails.rentReviewResultsDetails.rentFixedBy", Errors.noValueSelected, res)
+    mustContainError("rentReviewDetails.rentReviewResultsDetails.rentFixedBy", Errors.rentFixedByRequired, res)
   }
 
   "Page Seven Mapping" should "validate the Rent Interval duration" in {

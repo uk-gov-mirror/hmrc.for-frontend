@@ -60,13 +60,13 @@ class PageEightMappingSpec extends FlatSpec with Matchers {
     val res = bind(data)
     res.errors.isEmpty should be(false)
     res.errors.size should be(1)
-    containsError(res.errors, "wasRentFixedBetween", "error.boolean_missing")
+    containsError(res.errors, "wasRentFixedBetween", Errors.wasTheRentFixedBetweenRequired)
   }
 
   "PageEightData" should "not bind with the fields and return issues when no value input for the way that rent was fixed, when not between yourself and landlord" in {
     val data = baseData - "notReviewRentFixed"
     val res = bind(data).convertGlobalToFieldErrors()
-    mustContainError("notReviewRentFixed", Errors.noValueSelected, res)
+    mustContainError("notReviewRentFixed", Errors.whoWasTheRentFixedBetweenRequired, res)
   }
 
   "PageEightData" should "bind with the fields and return issues when no value input for the way that rent was set" in {
@@ -74,6 +74,6 @@ class PageEightMappingSpec extends FlatSpec with Matchers {
     val res = bind(data)
     res.errors.isEmpty should be(false)
     res.errors.size should be(1)
-    containsError(res.errors, "rentSetByType", Errors.noValueSelected)
+    containsError(res.errors, "rentSetByType", Errors.isThisRentRequired)
   }
 }

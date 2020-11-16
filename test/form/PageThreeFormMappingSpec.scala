@@ -81,7 +81,8 @@ class PageThreeFormMappingSpec extends FlatSpec with Matchers {
     val data = formData1.updated(keys.propertyOwnedByYou, "false") - keys.propertyRentedByYou
     val form = bind(data)
 
-    mustContainBooleanRequiredErrorFor(keys.propertyRentedByYou, form)
+    mustContainError(keys.propertyRentedByYou, Errors.propertyRentedByYouRequired, form)
+
   }
 
   it should "require a main contact name when occupier type is one or more individuals" in {

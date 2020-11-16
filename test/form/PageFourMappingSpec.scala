@@ -57,7 +57,7 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
     val data = fullData - keys.subletType
     val form = bind(data)
 
-    mustContainError(keys.subletType, Errors.noValueSelected, form)
+    mustContainError(keys.subletType, Errors.subletTypeRequired, form)
   }
 
   it should "not return required error for sublet information when we sublet whole property" in {
@@ -78,7 +78,7 @@ class PageFourMappingSpec extends FlatSpec with Matchers {
 
     requiredFields foreach { mustContainRequiredErrorFor(_, form) }
     //Radio buttons have different error code.
-    mustContainError(keys.subletType, Errors.noValueSelected, form)
+    mustContainError(keys.subletType, Errors.subletTypeRequired, form)
 
   }
 

@@ -40,11 +40,12 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     doesNotContainErrors(form)
   }
 
-  it should "return a boolean missing error when no value for whether work was required is entered" in {
+  it should "return a required error when no value for whether work was required is entered" in {
     val testData = baseData - keys.alterationsRequired
     val form = bind(testData)
 
-    mustContainBooleanRequiredErrorFor(keys.alterationsRequired, form)
+    mustContainError(keys.alterationsRequired, Errors.tenantWasRequiredToMakeAlterationsRequired, form)
+
   }
 
   it should "not throw errors if no improvements are selected, and the other fields exist" in {
@@ -58,18 +59,20 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     doesNotContainErrors(form)
   }
 
-  it should "return a boolean missing error when no value for alterations and improvements is selected in the form data" in {
+  it should "return a required error when no value for alterations and improvements is selected in the form data" in {
     val testData: Map[String, String] = Map.empty
     val form = bind(testData)
 
-    mustContainBooleanRequiredErrorFor(keys.propertyAlterations, form)
+    mustContainError(keys.propertyAlterations, Errors.hasTenantDonePropertyAlterationsRequired, form)
+
   }
 
   it should "return an error and not bind when no value for any of the details for the alterations or improvements is input" in {
     val testData = Map("propertyAlterations" -> "true")
     val form = bind(testData)
 
-    mustContainBooleanRequiredErrorFor(keys.alterationsRequired, form)
+    mustContainError(keys.alterationsRequired, Errors.tenantWasRequiredToMakeAlterationsRequired, form)
+
   }
 
   it should "return an error and not bind when no value for the cost of alterations or improvements is input" in {
@@ -83,7 +86,7 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
     val testData = baseData - indexedKey(0).alterationDetailsAlterationType
     val form = bind(testData)
 
-    mustContainError(indexedKey(0).alterationDetailsAlterationType, Errors.noValueSelected, form)
+    mustContainError(indexedKey(0).alterationDetailsAlterationType, Errors.whichWorksWereDoneRequired, form)
   }
 
   it should "return an error and not bind when no value for the date of alterations or improvements is input" in {
@@ -103,7 +106,7 @@ class PageThirteenMappingSpec extends FlatSpec with Matchers {
       )
     val form = bind(testData)
 
-    mustContainError(indexedKey(1).alterationDetailsAlterationType, Errors.noValueSelected, form)
+    mustContainError(indexedKey(1).alterationDetailsAlterationType, Errors.whichWorksWereDoneRequired, form)
   }
 
   it should "allow upto 10 alterations" in {
