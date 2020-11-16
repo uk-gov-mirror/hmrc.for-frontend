@@ -24,6 +24,7 @@ import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 import MappingSupport._
+import form.Errors.{propertyOwnedByYouRequired, propertyRentedByYouRequired}
 
 object PageThreeForm {
 
@@ -50,8 +51,8 @@ object PageThreeForm {
       mandatoryIfEqualToAny(keys.occupierType, Seq(OccupierTypeCompany.name,OccupierTypeIndividuals.name),
         monthYearRoughDateMapping(keys.firstOccupationDate)),
     keys.mainOccupierName -> mandatoryIfEqual(keys.occupierType, OccupierTypeIndividuals.name, nonEmptyText(maxLength = 50)) ,
-    keys.propertyOwnedByYou -> mandatoryBoolean,
-    keys.propertyRentedByYou -> mandatoryIfFalse(keys.propertyOwnedByYou, mandatoryBoolean),
+    keys.propertyOwnedByYou -> mandatoryBooleanWithError(propertyOwnedByYouRequired),
+    keys.propertyRentedByYou -> mandatoryIfFalse(keys.propertyOwnedByYou, mandatoryBooleanWithError(propertyRentedByYouRequired)),
     keys.noRentDetails -> mandatoryIfFalse(keys.propertyRentedByYou, nonEmptyText(maxLength=249))
   )(PageThree.apply)(PageThree.unapply)
 

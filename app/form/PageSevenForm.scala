@@ -17,6 +17,7 @@
 package form
 
 import form.DateMappings._
+import form.Errors.rentReviewDetailsRequired
 import form.MappingSupport._
 import models.pages._
 import models.serviceContracts.submissions.{RentReviewResultDetails, ReviewIntervalTypeOther}
@@ -29,7 +30,7 @@ object PageSevenForm {
 
   val rentReviewResultsDetailsMapping = mapping(
     "whenWasRentReview" -> monthYearRoughDateMapping("rentReviewDetails.rentReviewResultsDetails.whenWasRentReview"),
-    "rentAgreedBetween" -> mandatoryBoolean,
+    "rentAgreedBetween" -> mandatoryBooleanWithError(Errors.rentWasAgreedBetweenRequired),
     "rentFixedBy" -> mandatoryIfFalse("rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween", rentFixedByTypeMapping)
   )(RentReviewResultDetails.apply)(RentReviewResultDetails.unapply)
 
@@ -39,13 +40,13 @@ object PageSevenForm {
       mandatoryIfEqual("rentReviewDetails.reviewIntervalType", ReviewIntervalTypeOther.name,
         monthsYearDurationMapping("rentReviewDetails.reviewIntervalTypeSpecify")),
     "lastReviewDate" -> optional(monthYearRoughDateMapping("rentReviewDetails.lastReviewDate")),
-    "canRentReduced" -> mandatoryBoolean,
-    "rentResultOfRentReview" -> mandatoryBoolean,
+    "canRentReduced" -> mandatoryBooleanWithError(Errors.rentCanBeReducedOnReviewRequired),
+    "rentResultOfRentReview" -> mandatoryBooleanWithError(Errors.isRentResultOfReviewRequired),
     "rentReviewResultsDetails" -> mandatoryIfTrue("rentReviewDetails.rentResultOfRentReview", rentReviewResultsDetailsMapping)
   )(PageSevenDetails.apply)(PageSevenDetails.unapply)
 
   val pageSevenForm = Form(mapping(
-    "leaseContainsRentReviews" -> mandatoryBoolean,
+    "leaseContainsRentReviews" -> mandatoryBooleanWithError(rentReviewDetailsRequired),
     "rentReviewDetails" -> mandatoryIfTrue("leaseContainsRentReviews", rentReviewDetailsMapping)
   )(PageSeven.apply)(PageSeven.unapply))
 

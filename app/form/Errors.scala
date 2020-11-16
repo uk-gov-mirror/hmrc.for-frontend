@@ -33,16 +33,40 @@ object Errors {
   val addressBuildingNameNumberRequired = "error.address.buildingName.required"
   val addressTownCityRequired = "error.address.townCity.required"
   val addressPostcodeRequired = "error.address.postcode.required"
-  val rentReviewDetailsMissing = "error.rent_review_details.required"
-  val rentFixedByTypeMissing = "error.rent_fixed_by.required"
-  val leaseAgreementTypeMissing = "error.lease.agreement.type.missing"
-  val notReviewRentFixedTypeMissing = "error.not_review_rent_fixed_type.missing"
-  val rentSetByTypesMissing = "error.rent_set_by.missing"
-  val paymentDetailsMissing = "error.payment.details.required"
-  val responsibleTypesMissing = "error.responsible.types.missing"
+
+  val rentReviewDetailsRequired = "error.rentReviewDetails.required"
+  val rentReviewFrequencyRequired = "error.rentReviewFrequency.required"
+  val rentCanBeReducedOnReviewRequired = "error.canRentBeReducedOnReview.required"
+  val isRentResultOfReviewRequired = "error.isRentResultOfReview.required"
+  val rentWasAgreedBetweenRequired = "error.rentWasAgreedBetween.required"
+  val rentFixedByRequired = "error.rentWasFixedBy.required"
+
+  val rentBaseTypeRequired = "error.rentBaseOn.required"
+
+  val leaseAgreementTypeRequired = "error.leaseType.required"
+  val leaseAgreementOpenEndedRequired = "error.leaseOpenEnded.required"
+  val leaseAgreementBreakClauseRequired = "error.leaseHasBreakClause.required"
+  val leaseAgreementIsSteppedRequired = "error.steppedRent.required"
+
+
+  val includesLivingAccommodationRequired = "error.includesLivingAccommodation.required"
+  val isRentPaidForPartRequired = "error.isRentPaidForPart.required"
+  val anyOtherBusinessPropertyRequired = "error.anyOtherBusinessProperty.required"
+  val rentBasedOnLandOnlyRequired = "error.rentBasedOnLandOnly.required"
+  val rentBasedOnEmptyBuildingRequired = "error.rentBasedOnEmptyBuilding.required"
+  val includesParkingRequired = "error.rentIncludesParking.required"
+  val tenantPaysForParkingRequired = "error.tenantPaysForParking.required"
+
+
+  val rentFreePeriodRequired = "error.rentFreePeriod.required"
+  val paidCapitalSumRequired = "error.paidCapitalSum.required"
+  val receivedCapitalSumRequired = "error.receivedCapitalSum.required"
+  val responsibleOutsideRepairsRequired = "error.responsibleOutsideRepairs.required"
+  val responsibleInsideRepairsRequired = "error.responsibleInsideRepairs.required"
+
+
   val waterChargeResponsibleTypesMissing = "error.water.charges.responsible.types.missing"
   val bigDecimalNegative = "error.BigDecimal_negative"
-  val rentBaseTypeMissing = "error.rent.base.type.missing"
   val declaration = "error.declaration"
   val maxLength = "error.maxLength"
   val invalidPostcode = "error.invalid_postcode"
@@ -67,4 +91,14 @@ object Errors {
   val toDateIsAfterFromDate = "error.writtenAgreement.steppedDetails.stepTo.day"
   val overlappingDates = "error.steppedDetails.overlappingDates"
   val isConnectedError = "error.isRelated"
+
+  val userTypeRequired = "error.userType.required"
+  val contactTypeRequired = "error.contactType.required"
+  val occupierTypeRequired = "error.occupierType.required"
+  val propertyOwnedByYouRequired = "error.propertyOwnedByYou.required"
+  val propertyRentedByYouRequired = "error.propertyRentedByYou.required"
+  val propertyIsSublet = "error.propertyIsSublet.required"
+  val subletTypeRequired = "error.subletType.required"
+  val LandlordConnectionTypeRequired = "error.LandlordConnectionType.required"
+
 }

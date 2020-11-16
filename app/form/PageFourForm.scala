@@ -41,7 +41,7 @@ object PageFourForm {
   )(SubletDetails.apply)(SubletDetails.unapply)
 
   val pageFourMapping  = mapping(
-    "propertyIsSublet" -> mandatoryBoolean,
+    "propertyIsSublet" -> mandatoryBooleanWithError(Errors.propertyIsSublet),
     "sublet" -> onlyIfTrue("propertyIsSublet",
       IndexedMapping("sublet", subletMapping, allowEmpty = false, alwaysValidateFirstIndex = true).verifying(Errors.tooManySublets, _.length <= 5)
     )

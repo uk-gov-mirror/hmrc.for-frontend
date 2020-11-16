@@ -54,6 +54,7 @@ package object models {
   implicit val formatRentFixedByType: Format[RentFixedType] = generateFormat(RentFixedTypes)
   implicit val formatReviewalIntervalType: Format[ReviewIntervalType] = generateFormat(ReviewIntervalTypes)
   implicit val formatResponsibleType: Format[ResponsibleType] = generateFormat(ResponsibleTypes)
+//  implicit val formatResponsibleTypeOutsideRepairs: Format[ResponsibleTypeOutsideRepairs] = generateFormat(ResponsibleTypeOutsideRepairs)
   implicit val formatRentBaseType: Format[RentBaseType] = generateFormat(RentBaseTypes)
   implicit val formatRentLengthType: Format[RentLengthType] = generateFormat(RentLengthTypes)
   implicit val formatAlterationSetByType: Format[AlterationSetByType] = generateFormat(AlterationSetByType)
