@@ -48,11 +48,11 @@ object PageTenForm {
   }
 
   val pageTenMapping = mapping(
-    Keys.partRent -> mandatoryBoolean,
-    Keys.otherProperty -> mandatoryBoolean,
-    Keys.livingAccommodation -> mandatoryBoolean,
-    Keys.landOnly -> mandatoryBoolean,
-    Keys.shellUnit -> mandatoryBoolean,
+    Keys.partRent -> mandatoryBooleanWithError(Errors.isRentPaidForPartRequired),
+    Keys.otherProperty -> mandatoryBooleanWithError(Errors.anyOtherBusinessPropertyRequired),
+    Keys.livingAccommodation -> mandatoryBooleanWithError(Errors.includesLivingAccommodationRequired),
+    Keys.landOnly -> mandatoryBooleanWithError(Errors.rentBasedOnLandOnlyRequired),
+    Keys.shellUnit -> mandatoryBooleanWithError(Errors.rentBasedOnEmptyBuildingRequired),
     Keys.rentDetails -> mandatoryIfAnyAreTrue(
       Seq(Keys.shellUnit, Keys.landOnly, Keys.livingAccommodation, Keys.otherProperty, Keys.partRent),
       nonEmptyText(maxLength = 249), showNestedErrors = false
@@ -76,9 +76,9 @@ object ParkingMapping {
   def parkingMapping(prefix: String): Mapping[Parking] = {
     val pfx = prefix + "."
     mapping(
-      (Keys.rentIncludeParking, mandatoryBoolean),
+      (Keys.rentIncludeParking, mandatoryBooleanWithError(Errors.includesParkingRequired)),
       (Keys.rentIncludeParkingDetails, rentIncludeParkingMapping(pfx)),
-      (Keys.rentSeparateParking, mandatoryBoolean),
+      (Keys.rentSeparateParking, mandatoryBooleanWithError(Errors.tenantPaysForParkingRequired)),
       (Keys.rentSeparateParkingDetails, rentSeparateParkingDetailsMapping(pfx)),
       (Keys.annualSeparateParking, mandatoryIfTrue(pfx + Keys.rentSeparateParking, currency)),
       (Keys.annualSeparateParkingDate, mandatoryIfTrue(

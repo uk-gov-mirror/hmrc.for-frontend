@@ -35,9 +35,9 @@ object PageTwelveForm {
     "responsibleBuildingInsurance" -> responsibleTypeMapping,
     "ndrCharges" -> mandatoryBoolean,
     "ndrDetails" -> mandatoryIfTrue("ndrCharges", currency),
-    "waterCharges" -> mandatoryBoolean,
+    "waterCharges" -> mandatoryBooleanWithError(Errors.waterChargesIncludedRequired),
     "waterChargesCost" -> mandatoryIfTrue("waterCharges", currency),
-    "includedServices" -> mandatoryBoolean,
+    "includedServices" -> mandatoryBooleanWithError(Errors.serviceChargesIncludedRequired),
     "includedServicesDetails" -> onlyIfTrue(
       "includedServices", IndexedMapping("includedServicesDetails" , chargeDetailsMapping).verifying(Errors.tooManyServices, _.length <= 8)
     )

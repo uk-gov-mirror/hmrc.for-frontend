@@ -34,11 +34,12 @@ object PageElevenForm {
     "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate"))(CapitalDetails.apply)(CapitalDetails.unapply)
 
 
-  val pageElevenMapping = mapping("rentFreePeriod" -> mandatoryBoolean,
+  val pageElevenMapping = mapping(
+    "rentFreePeriod" -> mandatoryBooleanWithError(Errors.rentFreePeriodRequired),
     "rentFreePeriodDetails" -> mandatoryIfTrue("rentFreePeriod", freePeriodDetailsMapping),
-    "payCapitalSum" -> mandatoryBoolean,
+    "payCapitalSum" -> mandatoryBooleanWithError(Errors.paidCapitalSumRequired),
     "capitalPaidDetails" -> mandatoryIfTrue("payCapitalSum", capitalDetailsMapping("capitalPaidDetails")),
-    "receiveCapitalSum" -> mandatoryBoolean,
+    "receiveCapitalSum" -> mandatoryBooleanWithError(Errors.receivedCapitalSumRequired),
     "capitalReceivedDetails" -> mandatoryIfTrue("receiveCapitalSum", capitalDetailsMapping("capitalReceivedDetails"))
     )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
 

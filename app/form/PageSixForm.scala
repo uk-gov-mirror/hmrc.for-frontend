@@ -76,11 +76,11 @@ object PageSixForm {
 
   val writtenAgreementMapping = mapping(
     keys.startDate -> monthYearRoughDateMapping(s"$written.${keys.startDate}"),
-    keys.rentOpenEnded -> mandatoryBoolean,
+    keys.rentOpenEnded -> mandatoryBooleanWithError(Errors.leaseAgreementOpenEndedRequired),
     keys.leaseLength -> mandatoryIfFalse(s"$written.${keys.rentOpenEnded}", monthsYearDurationMapping(s"$written.${keys.leaseLength}")),
-    keys.leaseAgreementHasBreakClause -> mandatoryBoolean,
+    keys.leaseAgreementHasBreakClause -> mandatoryBooleanWithError(Errors.leaseAgreementBreakClauseRequired),
     keys.breakClauseDetails -> mandatoryIfTrue(s"$written.${keys.leaseAgreementHasBreakClause}", nonEmptyText(maxLength = 124)),
-    keys.agreementIsStepped -> mandatoryBoolean,
+    keys.agreementIsStepped -> mandatoryBooleanWithError(Errors.leaseAgreementIsSteppedRequired),
     keys.steppedDetails -> onlyIfTrue(s"$written.${keys.agreementIsStepped}", steppedDetailsListMapping)
   )(WrittenAgreement.apply)(WrittenAgreement.unapply).verifying(noOverlappingSteps)
 
@@ -88,7 +88,7 @@ object PageSixForm {
 
   val verbalAgreementMapping = mapping(
     keys.startDate -> optional(monthYearRoughDateMapping(s"$verbal.${keys.startDate}")),
-    keys.rentOpenEnded -> optional(mandatoryBoolean),
+    keys.rentOpenEnded -> optional(mandatoryBooleanWithError(Errors.leaseAgreementOpenEndedRequired)),
     keys.leaseLength -> mandatoryIfFalse(s"$verbal.${keys.rentOpenEnded}", monthsYearDurationMapping(s"$verbal.${keys.leaseLength}"))
   )(VerbalAgreement.apply)(VerbalAgreement.unapply)
 

@@ -69,6 +69,13 @@ object MappingSupport {
     .verifying(Errors.booleanMissing, _.isDefined)
     .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
 
+
+  def mandatoryBooleanWithError(message: String) = {
+    optional(boolean)
+      .verifying(message, _.isDefined)
+      .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
+  }
+
   import Formats._ // scalastyle:ignore
 
   val postcodeRegex = """(GIR ?0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKPSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) ?[0-9][A-Z-[CIKMOV]]{2})""" //scalastyle:ignore
@@ -85,7 +92,10 @@ object MappingSupport {
   val rentBaseTypeMapping: Mapping[RentBaseType] = Forms.of[RentBaseType]
   val notReviewRentFixedTypeMapping: Mapping[NotReviewRentFixedType] = Forms.of[NotReviewRentFixedType]
   val rentSetByTypeMapping: Mapping[RentSetByType] = Forms.of[RentSetByType]
+
   val responsibleTypeMapping: Mapping[ResponsibleType] = Forms.of[ResponsibleType]
+//  val responsibleOutsideRepairsMapping: Mapping[ResponsibleOutsideRepairs] = Forms.of[ResponsibleOutsideRepairs]
+
   val contactAddressTypeMapping: Mapping[ContactAddressType] = Forms.of[ContactAddressType]
   val rentLengthType: Mapping[RentLengthType] = Forms.of[RentLengthType]
   val postcode: Mapping[String] = text verifying(Errors.invalidPostcode, _.toUpperCase matches postcodeRegex)

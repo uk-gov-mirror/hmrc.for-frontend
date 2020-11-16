@@ -25,7 +25,7 @@ import MappingSupport._
 
 object PageFourteenForm {
   val pageFourteenForm = Form(mapping(
-    "anyOtherFactors" -> mandatoryBoolean,
+    "anyOtherFactors" -> mandatoryBooleanWithError(Errors.anyOtherFactorsRequired),
     "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors",nonEmptyText(maxLength = 124))
   )(OtherFactors.apply)(OtherFactors.unapply))
 }

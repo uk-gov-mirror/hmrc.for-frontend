@@ -28,12 +28,13 @@ import MappingSupport._
 object PageThirteenForm {
 
   val pageThirteenForm = Form(mapping(
-    keys.propertyAlterations -> mandatoryBoolean,
+    keys.propertyAlterations -> mandatoryBooleanWithError(Errors.hasTenantDonePropertyAlterationsRequired),
     keys.propertyAlterationsDetails -> onlyIfTrue(
       keys.propertyAlterations,
       IndexedMapping("propertyAlterationsDetails", propertyAlterationsDetailsMapping).verifying(Errors.tooManyAlterations, _.length <= 10)
     ),
-    keys.alterationsRequired -> mandatoryBooleanIfTrue(keys.propertyAlterations, mandatoryBoolean)
+    keys.alterationsRequired -> mandatoryBooleanIfTrue(keys.propertyAlterations,
+      mandatoryBooleanWithError(Errors.tenantWasRequiredToMakeAlterationsRequired))
   ) (PropertyAlterations.apply)(PropertyAlterations.unapply))
 
   lazy val propertyAlterationsDetailsMapping = (indexed: String) => mapping(
