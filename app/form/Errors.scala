@@ -26,13 +26,15 @@ object Errors {
   val alternativeAddressMissing = "error.alternative.address.missing"
   val alternativeContactMissing  = "error.alternative.contact.missing"
   val booleanMissing = "error.boolean_missing"
-  val contactMissing = "error.contact.missing"
-  val landlordConnectionTypeMissing = "error.landlord_connection_type_missing"
-  val lastReviewalIntervalTypeMissing = "error.rent_review_interval_type_missing"
-  val lastReviewalDateMissing = "error.last_review_date_missing"
   val addressBuildingNameNumberRequired = "error.address.buildingName.required"
   val addressTownCityRequired = "error.address.townCity.required"
   val addressPostcodeRequired = "error.address.postcode.required"
+
+  //page 8
+  val wasTheRentFixedBetweenRequired = "error.wasTheRentFixedBetween.required"
+  val whoWasTheRentFixedBetweenRequired = "error.whoWasTheRentFixedBetween.required"
+  val isThisRentRequired = "error.isThisRent.required"
+
 
   val rentReviewDetailsRequired = "error.rentReviewDetails.required"
   val rentReviewFrequencyRequired = "error.rentReviewFrequency.required"
@@ -43,12 +45,14 @@ object Errors {
 
   val rentBaseTypeRequired = "error.rentBaseOn.required"
 
+
   val leaseAgreementTypeRequired = "error.leaseType.required"
   val leaseAgreementOpenEndedRequired = "error.leaseOpenEnded.required"
   val leaseAgreementBreakClauseRequired = "error.leaseHasBreakClause.required"
   val leaseAgreementIsSteppedRequired = "error.steppedRent.required"
 
 
+  //page 10
   val includesLivingAccommodationRequired = "error.includesLivingAccommodation.required"
   val isRentPaidForPartRequired = "error.isRentPaidForPart.required"
   val anyOtherBusinessPropertyRequired = "error.anyOtherBusinessProperty.required"
@@ -61,11 +65,22 @@ object Errors {
   val rentFreePeriodRequired = "error.rentFreePeriod.required"
   val paidCapitalSumRequired = "error.paidCapitalSum.required"
   val receivedCapitalSumRequired = "error.receivedCapitalSum.required"
+
+  //page 12
   val responsibleOutsideRepairsRequired = "error.responsibleOutsideRepairs.required"
   val responsibleInsideRepairsRequired = "error.responsibleInsideRepairs.required"
 
+  val waterChargesIncludedRequired = "error.waterChargesIncluded.required"
+  val serviceChargesIncludedRequired = "error.serviceChargesIncluded.required"
 
-  val waterChargeResponsibleTypesMissing = "error.water.charges.responsible.types.missing"
+  //page 13
+  val hasTenantDonePropertyAlterationsRequired = "error.hasTenantDonePropertyAlterations.required"
+  val tenantWasRequiredToMakeAlterationsRequired = "error.tenantWasRequiredToMakeAlterations.required"
+  val whichWorksWereDoneRequired = "error.whichWorksWereDone.required"
+
+  //page 14
+  val anyOtherFactorsRequired="error.anyOtherFactors.required"
+
   val bigDecimalNegative = "error.BigDecimal_negative"
   val declaration = "error.declaration"
   val maxLength = "error.maxLength"

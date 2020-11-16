@@ -420,6 +420,10 @@ label.notReviewRentFixed=Was the rent fixed by
 label.rentSetByType=Is this rent
 label.noJs.notReviewRentFixed=Answer this only if you’ve selected ‘No’
 
+error.wasTheRentFixedBetween.required=Select ‘Yes’ if the rent was fixed between the tenant and landlord 
+error.whoWasTheRentFixedBetween.required=Select who the rent was fixed by
+error.isThisRent.required=Select the type of rent agreement
+
 #SECTION 9
 ###############################
 section9.heading=The rent
@@ -545,6 +549,9 @@ label.noJs.secton12=Answer this only if you’ve selected ‘Yes’
 error.responsibleOutsideRepairs.required=potaotes
 error.responsibleInsideRepairs.required=potaotes 2
 
+error.waterChargesIncluded.required=Select ‘Yes’ if the rent includes water charges
+error.serviceChargesIncluded.required=Select ‘Yes’ if the rent includes service charges
+
 #SECTION 13
 ###############################
 section13.heading=Alterations and improvements
@@ -572,6 +579,10 @@ alterationType.addLift=Installed lifts or escalators
 alterationType.addedParking=Added parking space
 alterationType.addedAirCondition=Added air conditioning
 
+error.hasTenantDonePropertyAlterations.required=Select ‘Yes’ if the tenant has carried out any major alterations
+error.tenantWasRequiredToMakeAlterations.required=Select ‘Yes’ if the tenant was required to carry out any works
+error.whichWorksWereDone.required=Select which works were carried out
+
 #SECTION 14
 ###############################
 section14.heading=Any other factors
@@ -581,6 +592,7 @@ label.anyOtherFactorsDetails=What else has affected the rent?
 hint.anyOtherFactorsDetails=For example, the permitted use of the property is very restricted or the rent includes an amount for trade fixtures and fittings. Include anything you have not had space to tell us about in an earlier section.
 label.noJs.anyOtherFactorsDetails=Answer this only if you’ve selected ‘Yes’
 
+error.anyOtherFactors.required=Select ‘Yes’ if anything else has affected the rent
 #CONFIRMATION
 ###############################
 label.confirm.heading=Thank you, your form has been successfully sent

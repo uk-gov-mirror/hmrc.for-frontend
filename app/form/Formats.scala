@@ -51,8 +51,8 @@ object Formats {
   implicit val rentFixedByTypeFormat: Formatter[RentFixedType] = namedEnumFormatter(RentFixedTypes, Errors.rentFixedByRequired)
 
   implicit val rentBaseTypeFormat: Formatter[RentBaseType] = namedEnumFormatter(RentBaseTypes, Errors.rentBaseTypeRequired)
-  implicit val notReviewRentFixedTypeFormat: Formatter[NotReviewRentFixedType] = namedEnumFormatter(NotReviewRentFixedTypes, Errors.noValueSelected)
-  implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.noValueSelected)
+  implicit val notReviewRentFixedTypeFormat: Formatter[NotReviewRentFixedType] = namedEnumFormatter(NotReviewRentFixedTypes, Errors.whoWasTheRentFixedBetweenRequired)
+  implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.isThisRentRequired)
 
   implicit val responsibleTypesFormat: Formatter[ResponsibleType] = namedEnumFormatter(ResponsibleTypes, Errors.noValueSelected)
 //  implicit val responsibleOutsideRepairsFormat: Formatter[ResponsibleOutsideRepairs] = namedEnumFormatter(ResponsibleOutsideRepairs, Errors.responsibleOutsideRepairsRequired)
@@ -61,7 +61,7 @@ object Formats {
   implicit val satisfactionFormatter: Formatter[Satisfaction] = namedEnumFormatter(SatisfactionTypes, Errors.noValueSelected)
 
   implicit val addressConnectionTypeFormatter: Formatter[AddressConnectionType] = namedEnumFormatter(AddressConnectionTypes, Errors.isConnectedError)
-  implicit val alterationSetByTypeFormatter: Formatter[AlterationSetByType] = namedEnumFormatter(AlterationSetByType, Errors.noValueSelected)
+  implicit val alterationSetByTypeFormatter: Formatter[AlterationSetByType] = namedEnumFormatter(AlterationSetByType, Errors.whichWorksWereDoneRequired)
   implicit val journeyFormatter: Formatter[Journey] = namedEnumFormatter(JourneyTypes, Errors.noValueSelected)
   implicit val subletTypeFormatter: Formatter[SubletType] = namedEnumFormatter(SubletType, Errors.subletTypeRequired)
 }
