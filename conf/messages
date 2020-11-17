@@ -546,9 +546,11 @@ info.responsibilitiesAndCosts.paying=Select ‘Landlord’ if the landlord direc
 info.responsibilitiesAndCosts.surcharge=Select ‘Tenant’ if the tenant pays directly for these items or pays an amount such as a service charge, to cover the costs.
 label.noJs.secton12=Answer this only if you’ve selected ‘Yes’
 
-error.responsibleOutsideRepairs.required=potaotes
-error.responsibleInsideRepairs.required=potaotes 2
+error.responsibleOutsideRepairs.required=Select who is responsible for paying for outside repairs
+error.responsibleInsideRepairs.required=Select who is responsible for paying for inside repairs
+error.responsibleBuildingInsurance.required=Select who is responsible for paying for buildings insurance
 
+error.businessRates.required=Select ‘Yes’ if the rent includes business rates
 error.waterChargesIncluded.required=Select ‘Yes’ if the rent includes water charges
 error.serviceChargesIncluded.required=Select ‘Yes’ if the rent includes service charges
 

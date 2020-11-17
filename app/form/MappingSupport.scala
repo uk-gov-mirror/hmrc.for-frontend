@@ -94,7 +94,6 @@ object MappingSupport {
   val rentSetByTypeMapping: Mapping[RentSetByType] = Forms.of[RentSetByType]
 
   val responsibleTypeMapping: Mapping[ResponsibleType] = Forms.of[ResponsibleType]
-//  val responsibleOutsideRepairsMapping: Mapping[ResponsibleOutsideRepairs] = Forms.of[ResponsibleOutsideRepairs]
 
   val contactAddressTypeMapping: Mapping[ContactAddressType] = Forms.of[ContactAddressType]
   val rentLengthType: Mapping[RentLengthType] = Forms.of[RentLengthType]

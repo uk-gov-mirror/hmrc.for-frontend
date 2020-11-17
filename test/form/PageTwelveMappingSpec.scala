@@ -79,21 +79,28 @@ class PageTwelveMappingSpec extends FlatSpec with Matchers {
     val data = baseData - "responsibleOutsideRepairs"
     val form = bind(data)
 
-    mustOnlyContainError("responsibleOutsideRepairs", Errors.noValueSelected, form)
+    mustOnlyContainError("responsibleOutsideRepairs", Errors.responsibleOutsideRepairsRequired, form)
   }
 
   it should "bind with the fields and return errors, when missing responsibility for inside repairs" in {
     val data = baseData - "responsibleInsideRepairs"
     val form = bind(data)
 
-    mustOnlyContainError("responsibleInsideRepairs", Errors.noValueSelected, form)
+    mustOnlyContainError("responsibleInsideRepairs", Errors.responsibleInsideRepairsRequired, form)
   }
 
   it should "bind with the fields and return errors, when missing responsibility for building insurance" in {
     val data = baseData - "responsibleBuildingInsurance"
     val form = bind(data)
 
-    mustOnlyContainError("responsibleBuildingInsurance", Errors.noValueSelected, form)
+    mustOnlyContainError("responsibleBuildingInsurance", Errors.responsibleBuildingInsuranceRequired, form)
+  }
+
+  it should "bind with the fields and return errors, when missing business rates" in {
+    val data = baseData - "ndrCharges"
+    val form = bind(data)
+
+    mustOnlyContainError("ndrCharges", Errors.businessRatesRequired, form)
   }
 
   it should "bind with the fields and return no errors, when the unnecessary cost details for water charges are not there" in {

@@ -23,7 +23,7 @@ import play.api.data.format.Formatter
 
 object Formats {
 
-  def namedEnumFormatter[T <: NamedEnum](named:NamedEnumSupport[T],missingCode:String): Formatter[T] = new Formatter[T] {
+  def namedEnumFormatter[T <: NamedEnum](named:NamedEnumSupport[T], missingCode:String): Formatter[T] = new Formatter[T] {
 
     override val format = Some((missingCode, Nil))
 
@@ -35,6 +35,24 @@ object Formats {
           Right(enumTypeValue)
         }
       resOpt.getOrElse(Left(Seq(FormError(key, missingCode, Nil))))
+    }
+
+    def unbind(key: String, value: T): Map[String, String] = Map(key -> value.name)
+  }
+
+  def namedEnumFormatterWithKeys[T <: NamedEnum](named:NamedEnumSupport[T], missingCodes:Map[String, String]): Formatter[T] = new Formatter[T] {
+
+    override val format = Some((Errors.required, Nil))
+
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], T] = {
+      val resOpt = for {
+        keyVal <- data.get(key)
+        enumTypeValue <- named.fromName(keyVal)
+      } yield {
+        Right(enumTypeValue)
+      }
+      val maybeString = missingCodes.get(key)
+      resOpt.getOrElse(Left(Seq(FormError(key, maybeString.getOrElse(Errors.required), Nil))))
     }
 
     def unbind(key: String, value: T): Map[String, String] = Map(key -> value.name)
@@ -54,8 +72,12 @@ object Formats {
   implicit val notReviewRentFixedTypeFormat: Formatter[NotReviewRentFixedType] = namedEnumFormatter(NotReviewRentFixedTypes, Errors.whoWasTheRentFixedBetweenRequired)
   implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.isThisRentRequired)
 
-  implicit val responsibleTypesFormat: Formatter[ResponsibleType] = namedEnumFormatter(ResponsibleTypes, Errors.noValueSelected)
-//  implicit val responsibleOutsideRepairsFormat: Formatter[ResponsibleOutsideRepairs] = namedEnumFormatter(ResponsibleOutsideRepairs, Errors.responsibleOutsideRepairsRequired)
+  implicit val responsibleTypesFormat: Formatter[ResponsibleType]
+  = namedEnumFormatterWithKeys(ResponsibleTypes, Map(
+    "responsibleOutsideRepairs" ->Errors.responsibleOutsideRepairsRequired,
+    "responsibleInsideRepairs" ->Errors.responsibleInsideRepairsRequired,
+    "responsibleBuildingInsurance" ->Errors.responsibleBuildingInsuranceRequired
+  ))
 
   implicit val formatRentLengthType: Formatter[RentLengthType] = namedEnumFormatter(RentLengthTypes, Errors.noValueSelected)
   implicit val satisfactionFormatter: Formatter[Satisfaction] = namedEnumFormatter(SatisfactionTypes, Errors.noValueSelected)

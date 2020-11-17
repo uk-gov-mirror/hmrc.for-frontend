@@ -33,7 +33,7 @@ object PageTwelveForm {
     "responsibleOutsideRepairs" -> responsibleTypeMapping,
     "responsibleInsideRepairs" -> responsibleTypeMapping,
     "responsibleBuildingInsurance" -> responsibleTypeMapping,
-    "ndrCharges" -> mandatoryBoolean,
+    "ndrCharges" -> mandatoryBooleanWithError(Errors.businessRatesRequired),
     "ndrDetails" -> mandatoryIfTrue("ndrCharges", currency),
     "waterCharges" -> mandatoryBooleanWithError(Errors.waterChargesIncludedRequired),
     "waterChargesCost" -> mandatoryIfTrue("waterCharges", currency),
