@@ -87,7 +87,7 @@ object DateMappings {
   )
 
   //  for precise dates, where all fields must be present and accurate
-  def dateFieldsMapping(prefix: String, allowFutureDates: Boolean = false): Mapping[LocalDate] = tuple(
+  def dateFieldsMapping(prefix: String, allowFutureDates: Boolean = false, errorMessage: String = Errors.invalidDate): Mapping[LocalDate] = tuple(
     "day" -> nonEmptyTextOr(
       prefix + ".day", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 31)
     ),

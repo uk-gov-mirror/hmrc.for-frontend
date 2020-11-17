@@ -35,8 +35,8 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
     val form = pageTwoForm.bind(formData)
 
     mustContainRequiredErrorFor(errorKey.fullName, form)
-    mustContainError(errorKey.userType, Errors.noValueSelected, form)
-    mustContainError(errorKey.contactType, Errors.noValueSelected, form)
+    mustContainError(errorKey.userType, Errors.userTypeRequired, form)
+    mustContainError(errorKey.contactType, Errors.contactTypeRequired, form)
   }
 
   it should "error if fullName is missing " in {
@@ -50,14 +50,14 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
     val formData = baseFormData - errorKey.userType
     val form = pageTwoForm.bind(formData)
 
-    mustContainError(errorKey.userType, Errors.noValueSelected, form)
+    mustContainError(errorKey.userType, Errors.userTypeRequired, form)
   }
 
   it should "error if contactType is missing " in {
     val formData = baseFormData - errorKey.contactType
     val form = pageTwoForm.bind(formData)
 
-    mustContainError(errorKey.contactType, Errors.noValueSelected, form)
+    mustContainError(errorKey.contactType, Errors.contactTypeRequired, form)
   }
 
 
@@ -74,14 +74,14 @@ class PageTwoFormMappingSpec extends FlatSpec with Matchers {
     val formData = baseFormData.updated("userType", "owner1")
     val form = pageTwoForm.bind(formData)
 
-    mustContainError(errorKey.userType, Errors.noValueSelected, form)
+    mustContainError(errorKey.userType, Errors.userTypeRequired, form)
   }
 
   it should "error if invalid contactType is provided" in {
     val formData = baseFormData.updated("contactType", "phone1")
     val form = pageTwoForm.bind(formData)
 
-    mustContainError(errorKey.contactType, Errors.noValueSelected, form)
+    mustContainError(errorKey.contactType, Errors.contactTypeRequired, form)
   }
 
 

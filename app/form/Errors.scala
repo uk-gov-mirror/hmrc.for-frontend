@@ -64,15 +64,13 @@ object Errors {
   val leaseAgreementBreakClauseRequired = "error.leaseHasBreakClause.required"
   val leaseAgreementIsSteppedRequired = "error.steppedRent.required"
 
-
+  //page 7
   val rentReviewDetailsRequired = "error.rentReviewDetails.required"
   val rentReviewFrequencyRequired = "error.rentReviewFrequency.required"
   val rentCanBeReducedOnReviewRequired = "error.canRentBeReducedOnReview.required"
   val isRentResultOfReviewRequired = "error.isRentResultOfReview.required"
   val rentWasAgreedBetweenRequired = "error.rentWasAgreedBetween.required"
   val rentFixedByRequired = "error.rentWasFixedBy.required"
-
-
   val rentBaseTypeRequired = "error.rentBaseOn.required"
 
   //page 8
@@ -94,7 +92,7 @@ object Errors {
   val parkingRequired = "error.required.parking"
   val tenantPaysForParkingRequired = "error.tenantPaysForParking.required"
 
-
+  //Page 11
   val rentFreePeriodRequired = "error.rentFreePeriod.required"
   val paidCapitalSumRequired = "error.paidCapitalSum.required"
   val receivedCapitalSumRequired = "error.receivedCapitalSum.required"
