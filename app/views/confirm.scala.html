@@ -58,11 +58,13 @@
 
 
     <p class="govuk-body">
-      <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
+      <a href="@controllers.feedback.routes.FeedbackController.feedback.url">@messages("confirm.link.feedback")</a>
     </p>
 
-    <hr/>
+    <p class="govuk-body">
+        <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
+    </p>
 
-    @views.html.includes.surveyFeedback(summary, theForm, govukButton, govukCharacterCount, govukRadios, formWithCSFR)
+
 
 }

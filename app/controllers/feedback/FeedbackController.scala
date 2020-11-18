@@ -21,6 +21,7 @@ import java.net.URLEncoder
 import actions.{RefNumAction, RefNumRequest}
 import connectors.ForHttp
 import controllers._
+import form.Errors
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.Feedback
@@ -58,7 +59,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   object FeedbackFormMapper{
     val feedbackForm = Form(
       mapping(
-        "feedback-rating" -> nonEmptyText,
+        "feedback-rating" -> optional(text).verifying("feedback.rating.required", _.isDefined),
         "feedback-name" -> text,
         "feedback-email" -> text,
         "service" -> text,

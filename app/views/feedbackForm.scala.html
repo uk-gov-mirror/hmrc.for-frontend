@@ -17,7 +17,7 @@
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput, GovukRadios, GovukTextarea, GovukWarningText}
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
@@ -33,7 +33,7 @@
         govukRadios: GovukRadios,
         govukErrorSummary:GovukErrorSummary,
         govukButton:GovukButton,
-        govukTextarea:GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         formWithCSFR: formWithCSRF
 )
 @(theForm: Form[Feedback])(implicit request: Request[_], messages: Messages)
@@ -81,19 +81,19 @@
             )
         )
 
-        <h2 class="govuk-heading-s">@messages("feedback.how.improve")</h2>
-
-        @govukTextarea(
-            Textarea(
-                id = "feedback-comments",
-                name = "feedback-comments",
+        @govukCharacterCount(
+            CharacterCount(
+                id = "details",
+                name = "details",
+                value = theForm("details").value,
+                rows = 8,
+                maxLength = 1200,
+                errorMessage = theForm.errors.asTextErrorMessageForField("details"),
                 label = Label(
-                    content = Text(messages("feedback.comments.label"))
+                    classes = "govuk-!-font-weight-bold",
+                    content = Text(messages("label.satisfactionSurveyComments"))
                 ),
-
-                hint = Hint(
-                    content = Text(messages("feedback.comments.hint"))
-                )
+                hint = Hint(content = Text(messages("text.survey.bottomImprove") + messages("text.survey.bottomCopy")))
             )
         )
 

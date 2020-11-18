@@ -18,7 +18,7 @@ package models
 
 
 case class Feedback(
-                     rating: String,
+                     rating: Option[String],
                      name: String,
                      email: String,
                      service: String,
