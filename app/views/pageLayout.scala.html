@@ -24,6 +24,7 @@
 
 @this(
         govukTemplate: govukTemplate,
+        govukHeader : GovukHeader,
         govukLayout: govukLayout,
         head: headTemplate,
         scripts: scriptsTemplate,
@@ -63,7 +64,6 @@
     @if(showFeedback) {
 
         @govukPhaseBanner(
-
             PhaseBanner(
                 classes = "dontprint",
                 tag = Option(Tag(Text("BETA"))),
@@ -148,9 +148,13 @@
     )
 }
 
+
 @govukTemplate(
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
-    headBlock = Some(head(uiLayoutHead)),
+    headBlock = head(uiLayoutHead),
+    headerBlock = govukHeader(Header(
+        serviceName = messages("service.name")
+    )),
     beforeContentBlock = Option(beforeBLock),
     mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),
     bodyEndBlock = Some(scripts(footer, withTimeoutDialog)),
