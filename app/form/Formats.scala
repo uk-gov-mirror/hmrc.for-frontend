@@ -72,8 +72,7 @@ object Formats {
   implicit val notReviewRentFixedTypeFormat: Formatter[NotReviewRentFixedType] = namedEnumFormatter(NotReviewRentFixedTypes, Errors.whoWasTheRentFixedBetweenRequired)
   implicit val rentSetByTypesFormat: Formatter[RentSetByType] = namedEnumFormatter(RentSetByTypes, Errors.isThisRentRequired)
 
-  implicit val responsibleTypesFormat: Formatter[ResponsibleType]
-  = namedEnumFormatterWithKeys(ResponsibleTypes, Map(
+  implicit val responsibleTypesFormat: Formatter[ResponsibleType] = namedEnumFormatterWithKeys(ResponsibleTypes, Map(
     "responsibleOutsideRepairs" ->Errors.responsibleOutsideRepairsRequired,
     "responsibleInsideRepairs" ->Errors.responsibleInsideRepairsRequired,
     "responsibleBuildingInsurance" ->Errors.responsibleBuildingInsuranceRequired

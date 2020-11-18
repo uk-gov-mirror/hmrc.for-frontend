@@ -428,7 +428,12 @@ label.rentBasedOn=Ar beth y mae’r rhent yn seiliedig?
 label.rentBasedOnDetails=Rhowch fanylion
 label.rentActuallyAgreed=Pryd cytunwyd ar y rhent neu pryd cafodd ei bennu?
 details.question.rentBasedOn=Dysgwch ragor am yr hyn y seilir eich rhent arno
-details.answer.rentBasedOn=<h3 class="font-bold">Gwerth ar y farchnad agored</h3><p>Y rhent yw’r hyn y gallai landlord ei ddisgwyl am eiddo, pe bai ar gael i’w osod i unrhyw un.</p><h3 class="font-bold">Canran o drosiant</h3><p>Mae’r rhent yn seiliedig ar ganran trosiant disgwyliedig y tenant.</p><h3 class="font-bold">Mynegeio</h3><p>Mae’r rhent yn cael ei adolygu bob blwyddyn ar sail mynegai (megis Mynegai Prisiau Manwerthu).</p><h3 class="font-bold">Arall</h3><p>Mae’n bosibl bod y rhent wedi’i gytuno arno mewn ffordd arall, megis Trefniant Gwirfoddol Cwmni (CVA).</p>
+rentBasedOn.openMarket.hint=Y rhent yw’r hyn y gallai landlord ei ddisgwyl am eiddo, pe bai ar gael i’w osod i unrhyw un.
+rentBasedOn.percentageTurnover.hint=Mae’r rhent yn seiliedig ar ganran trosiant disgwyliedig y tenant.           
+rentBasedOn.indexation.hint=Mae’r rhent yn cael ei adolygu bob blwyddyn ar sail mynegai (megis Mynegai Prisiau Manwerthu).    
+rentBasedOn.other.hint=Mae’n bosibl bod y rhent wedi’i gytuno arno mewn ffordd arall, megis Trefniant Gwirfoddol Cwmni (CVA).   
+
+
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 
 #SECTION 10
@@ -574,6 +579,7 @@ label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda�
 hint.limit=Yr uchafswm yw 1200 o nodau
 text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
 text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
+confirm.link.feedback=Rhowch eich adborth i ni am y gwasanaeth hwn.
 
 #SURVEY THANKYOU
 ###############################
@@ -695,7 +701,7 @@ feedback.how.improve=Sut y gallwn wella’r ffurflen hon?
 feedback.comments.hint=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol. Er enghraifft, eich rhif Yswiriant Gwladol neu rif eich cerdyn credyd.
 feedback.comments.label=Sylwadau (dewisol)
 feedback.button=Anfon
-
+feedback.rating.required=Dewiswch pa mor fodlon ydych chi gyda'r gwasanaeth hwn
 #VACATED FORM
 ###############################
 label.help.title.vacated=Nid oes gennych gysylltiad â’r eiddo hwn ar hyn o bryd

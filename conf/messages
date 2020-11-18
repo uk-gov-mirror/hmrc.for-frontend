@@ -440,7 +440,13 @@ label.rentBasedOn=What is the rent based on?
 label.rentBasedOnDetails=Provide details
 label.rentActuallyAgreed=When was the rent amount agreed or set?
 details.question.rentBasedOn=Learn more about what your rent is based on
-details.answer.rentBasedOn=<h3 class="font-bold">Open market value</h3><p>The rent is what a landlord could expect for a property, if it were available to let to anyone.</p><h3 class="font-bold">A percentage of turnover</h3><p>The rent is based on a percentage of the tenant’s expected turnover.</p><h3 class="font-bold">Indexation</h3><p>The rent is reviewed every year based on an index (such as the Retail Price Index).</p><h3 class="font-bold">Other</h3><p>The rent may have been agreed another way, such as a Company Voluntary Arrangement (CVA).</p>
+rentBasedOn.openMarket.hint=The rent is what a landlord could expect for a property, if it were available to let to anyone.
+#leave this blank please as there should be no hint for openMarketPercentage!
+rentBasedOn.percentageOpenMarket.hint=
+rentBasedOn.percentageTurnover.hint=The rent is based on a percentage of the tenant’s expected turnover.
+rentBasedOn.indexation.hint=The rent is reviewed every year based on an index (such as the Retail Price Index).
+rentBasedOn.other.hint=The rent may have been agreed another way, such as a Company Voluntary Arrangement (CVA).
+
 label.noJs.rentBasedOnDetails=Answer this only if you’ve selected ‘Other’
 
 error.negotiatingNewRent.required=Select ‘Yes’ if the tenant or agent is negotiating a new rent
@@ -619,7 +625,7 @@ label.details=How can we improve this service?
 hint.limit=Limit is 1200 characters
 text.survey.bottomCopy=Don’t include any personal or financial information, for example your National Insurance or credit card numbers.
 text.survey.bottomImprove=To help us improve this service, include as much information as possible. For example if a question was confusing, let us know which one.
-
+confirm.link.feedback=Please give us your feedback about this service.
 #SURVEY THANKYOU
 ###############################
 heading.feedback.thankyou=Thank you for your feedback
@@ -742,6 +748,7 @@ feedback.how.improve=How can we improve this form?
 feedback.comments.hint=Do not include any personal or financial information. For example, your National Insurance or credit card numbers
 feedback.comments.label=Comments (optional)
 feedback.button=Send
+feedback.rating.required=Select how satisfied you are with this service
 
 #VACATED FORM
 ###############################
