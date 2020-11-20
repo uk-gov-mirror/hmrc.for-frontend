@@ -579,7 +579,7 @@ label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda�
 hint.limit=Yr uchafswm yw 1200 o nodau
 text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
 text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
-confirm.link.feedback=Rhowch eich adborth i ni am y gwasanaeth hwn.
+confirm.link.feedback=Beth oeddech chi'n feddwl o'r gwasanaeth hwn?
 
 #SURVEY THANKYOU
 ###############################
@@ -686,18 +686,19 @@ copy.form.help=Os oes angen help arnoch i gwblhau’r ffurflen hon, dywedwch wrt
 copy.form.help.dont.include=Peidiwch â chynnwys unrhyw wybodaeth bersonol na gwybodaeth ariannol (fel eich manylion rhent).
 copy.form.help.thankyou=Rydym wedi cael eich cais. Os ydych wedi gofyn am help, byddwn yn cysylltu â chi yn y man.
 label.feedback.heading=Adborth
+label.feedback.p1=Rydym yn defnyddio adborth er mwyn gwella ein gwasanaethau.
 copy.feedback=Os oes angen help arnoch i gwblhau’r ffurflen hon, defnyddiwch y ddolen ‘Cael help gyda’r dudalen hon’ sydd ar  bob tudalen.
 copy.feedback.thankyou=Diolch am eich adborth
 copy.feedback.anotherForm=Cyflwyno ffurflen arall
 label.feedback.error=Cafwyd gwall wrth anfon eich adborth.
 #Feedback form
-feedback.satisfaction.label=Pa mor fodlon ydych chi ar y gwasanaeth?
-feedback.rating.5=Da iawn
-feedback.rating.4=Da
-feedback.rating.3=Niwtral
-feedback.rating.2=Gwael
-feedback.rating.1=Gwael iawn
-feedback.how.improve=Sut y gallwn wella’r ffurflen hon?
+feedback.satisfaction.label=Ar y cyfan, sut oeddwch chi’n teimlo ynglŷn â’r gwasanaeth hwn?
+feedback.rating.5=Bodlon iawn
+feedback.rating.4=Bodlon
+feedback.rating.3=Ddim yn fodlon nac yn anfodlon
+feedback.rating.2=Anfodlon
+feedback.rating.1=Anfodlon iawn
+label.feedback.comments=Sut fedrwn ni wella’r gwasanaeth hwn? (dewisol)
 feedback.comments.hint=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol. Er enghraifft, eich rhif Yswiriant Gwladol neu rif eich cerdyn credyd.
 feedback.comments.label=Sylwadau (dewisol)
 feedback.button=Anfon

@@ -42,6 +42,8 @@
 
     @includes.summaryErrors(theForm, govukErrorSummary)
 
+    <p class="govuk-body">@messages("label.feedback.p1")</p>
+
     @formWithCSFR( action = routes.FeedbackController.handleFeedbackSubmit, args = 'novalidate -> "novalidate") {
 
 
@@ -91,7 +93,7 @@
                 errorMessage = theForm.errors.asTextErrorMessageForField("details"),
                 label = Label(
                     classes = "govuk-!-font-weight-bold",
-                    content = Text(messages("label.satisfactionSurveyComments"))
+                    content = Text(messages("label.feedback.comments"))
                 ),
                 hint = Hint(content = Text(messages("text.survey.bottomImprove") + messages("text.survey.bottomCopy")))
             )
