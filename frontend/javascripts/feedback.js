@@ -35,10 +35,8 @@
                         $('.feedback-thankyou').removeClass('hidden');
                         $('.form--feedback').addClass('hidden');
                     }, 1500);
-
                 }
             });
-
         });
     };
 

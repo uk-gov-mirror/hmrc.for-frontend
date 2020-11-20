@@ -619,13 +619,12 @@ label.giveFeedback=Click here to send us feedback
 label.feedback.headingAfterSubmitting=Feedback
 label.finish=Finish
 label.satisfactionSurvey=Overall, how would you describe your experience with the form?
-label.satisfactionSurveyComments=How can we improve this service? (optional)
 label.satisfaction=Overall, how would you describe your experience with the form?
 label.details=How can we improve this service?
 hint.limit=Limit is 1200 characters
 text.survey.bottomCopy=Don’t include any personal or financial information, for example your National Insurance or credit card numbers.
 text.survey.bottomImprove=To help us improve this service, include as much information as possible. For example if a question was confusing, let us know which one.
-confirm.link.feedback=Please give us your feedback about this service.
+confirm.link.feedback=What did you think of this service?
 #SURVEY THANKYOU
 ###############################
 heading.feedback.thankyou=Thank you for your feedback
@@ -730,21 +729,22 @@ label.help.title=Page help
 copy.form.help=If you need help completing this form, tell us what the problem is in the comments section.
 copy.form.help.dont.include=Don’t include any personal or financial information (such as your rent details).
 copy.form.help.thankyou=We have received your request. If you have asked for help we’ll be in touch shortly.
-label.feedback.heading=Feedback
+label.feedback.p1=We use feedback to make our services better.
 copy.feedback=If you need help completing this form, use the ‘Get help with this form’ link on each page.
-copy.feedback.thankyou=Thank you for your feedback
-copy.feedback.anotherForm=Submit another form
 label.feedback.error=There was an error sending your feedback.
 copy.form.help.thankyouvacated=Thank you for submitting this feedback, there will be no need for you to continue with the on-line form and we will contact you if we need more information.
 
-#Feedback form
-feedback.satisfaction.label=How satisfied are you with this service?
-feedback.rating.5=Very good
-feedback.rating.4=Good
-feedback.rating.3=Neutral
-feedback.rating.2=Bad
-feedback.rating.1=Very bad
-feedback.how.improve=How can we improve this form?
+#Feedback page
+label.feedback.heading=Give Feedback
+copy.feedback.thankyou=Thank you for your feedback
+copy.feedback.anotherForm=Submit another form
+feedback.satisfaction.label=Overall, how did you feel about this service?
+feedback.rating.5=Very satisfied
+feedback.rating.4=Satisfied
+feedback.rating.3=Neither satisfied or dissatisfied
+feedback.rating.2=Dissatisfied
+feedback.rating.1=Very dissatisfied
+label.feedback.comments=How could we improve this service? (optional)
 feedback.comments.hint=Do not include any personal or financial information. For example, your National Insurance or credit card numbers
 feedback.comments.label=Comments (optional)
 feedback.button=Send
