@@ -579,7 +579,7 @@ label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda�
 hint.limit=Yr uchafswm yw 1200 o nodau
 text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
 text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
-confirm.link.feedback=Beth oeddech chi'n feddwl o'r gwasanaeth hwn?
+confirm.link.feedback=Beth oeddech chi'n feddwl o'r gwasanaeth hwn
 
 #SURVEY THANKYOU
 ###############################
@@ -703,6 +703,8 @@ feedback.comments.hint=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariann
 feedback.comments.label=Sylwadau (dewisol)
 feedback.button=Anfon
 feedback.rating.required=Dewiswch pa mor fodlon ydych chi gyda'r gwasanaeth hwn
+feedback.commments.maxLength=Rhaid i'r sylwadau fod yn 1200 nod neu lai
+
 #VACATED FORM
 ###############################
 label.help.title.vacated=Nid oes gennych gysylltiad â’r eiddo hwn ar hyn o bryd

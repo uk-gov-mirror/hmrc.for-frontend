@@ -749,6 +749,7 @@ feedback.comments.hint=Do not include any personal or financial information. For
 feedback.comments.label=Comments (optional)
 feedback.button=Send
 feedback.rating.required=Select how satisfied you are with this service
+feedback.commments.maxLength=Comments must be 1200 characters or fewer
 
 #VACATED FORM
 ###############################

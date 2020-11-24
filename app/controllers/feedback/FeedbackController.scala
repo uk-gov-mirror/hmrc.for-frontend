@@ -64,7 +64,9 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
         "feedback-email" -> text,
         "service" -> text,
         "referrer" -> text,
-        "feedback-comments" -> optional(text)
+        "feedback-comments" -> optional(text).verifying("feedback.commments.maxLength", it => {
+          it.getOrElse("").length < 1200
+        })
       )(Feedback.apply)(Feedback.unapply)
     )
   }
