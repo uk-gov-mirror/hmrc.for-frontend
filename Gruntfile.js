@@ -4,16 +4,9 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Clean
         clean: {
-            //remove any unwanted files
-            end: [
-                'public/javascripts/application.js',
-                'public/javascripts/common.js',
-                'public/javascripts/feedback.js',
-                'public/javascripts/messages.js',
-                'public/javascripts/radioToggle.js',
-                'public/javascripts/voaFor.js',
-                'public/javascripts/intelAlerts.js'
-            ]
+            public: {
+                src:['public/**/*']
+            }
         },
         connect: {
             server: {
@@ -289,7 +282,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('generate-assets', [
-        //'clean:start',
+        'clean',
         'jshint',
         'copy',
         'uglify',
@@ -297,8 +290,7 @@ module.exports = function(grunt) {
         'sass',
         'connect',
         'jasmine',
-        'cssmin',
-        'clean:end'
+        'cssmin'
     ]);
 
     grunt.registerTask('default', [
