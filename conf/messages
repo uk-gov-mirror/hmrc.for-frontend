@@ -610,7 +610,9 @@ label.email.sent=We’ll send a copy of your submission to the email address you
 label.email.request=You’ll need to provide an email address if you want a confirmation email.
 label.whatNext=What happens next?
 label.emailCopyWillBeSent=If you provided an email address, we’ll send a copy of what you submitted.
-label.weMayContactYou=We may need to contact you to check some of the details you provided
+confirm.copy.list.1=We’ll update our records with the information you have given.
+confirm.copy.list.2=You do not need to contact us, but we may need to contact you to check some of the details you provided.
+
 label.quoteRefNum=If you have any questions about your form send an email, quoting your reference number {0}, to
 label.formHelpEmail=formhelp@voa.gsi.gov.uk
 label.submitAnotherForm=I would like to submit another form
@@ -624,7 +626,7 @@ label.details=How can we improve this service?
 hint.limit=Limit is 1200 characters
 text.survey.bottomCopy=Don’t include any personal or financial information, for example your National Insurance or credit card numbers.
 text.survey.bottomImprove=To help us improve this service, include as much information as possible. For example if a question was confusing, let us know which one.
-confirm.link.feedback=What did you think of this service?
+confirm.link.feedback=What did you think of this service? (takes 30 seconds)
 #SURVEY THANKYOU
 ###############################
 heading.feedback.thankyou=Thank you for your feedback

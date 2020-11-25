@@ -566,12 +566,14 @@ label.email.sent=Anfonwn gopi o’ch cyflwyniad i’r cyfeiriad e-bost a roddwyd
 label.email.request=Bydd angen i chi darparu cyfeiriad e-bost os ydych am gael e-bost cadarnhau.
 label.whatNext=Yr hyn sy’n digwydd nesaf
 label.emailCopyWillBeSent=Os ydych wedi rhoi cyfeiriad e-bost i ni, byddwn yn anfon copi o’r hyn a gyflwynwyd gennych.
-label.weMayContactYou=Efallai y bydd angen i ni gysylltu â chi yn y dyfodol i gadarnhau rhai o’r manylion a roddwyd gennych.
-label.anyQuestions=Os oes gennych unrhyw gwestiynau ynglŷn â’ch ffurflen, cysylltwch â ni
+
+confirm.copy.list.1=Byddwn yn diweddaru ein cofnodion gyda’r wybodaeth rydych wedi’i rhoi.
+confirm.copy.list.2=Nid oes angen i chi gysylltu â ni, ond efallai y bydd angen i ni gysylltu â chi i wirio rhai o’r manylion a roesoch.
+
 label.quoteRefNum=gan ddyfynnu eich cyfeirnod {0}.
 label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
 label.feedback.headingAfterSubmitting=Adborth
-label.finish=Gorffen
+
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda’r ffurflen hon?
 label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn? (dewisol)
 label.details=Sut y gallwn wella’r gwasanaeth hwn?
@@ -579,11 +581,7 @@ label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda�
 hint.limit=Yr uchafswm yw 1200 o nodau
 text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
 text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
-confirm.link.feedback=Beth oeddech chi'n feddwl o'r gwasanaeth hwn
-
-#SURVEY THANKYOU
-###############################
-heading.feedback.thankyou=Diolch am eich adborth
+confirm.link.feedback=Beth oeddech chi'n feddwl o'r gwasanaeth hwn? (mae’n cymryd 30 eiliad)
 
 #DECLARATION
 ###############################
