@@ -564,7 +564,7 @@ label.confirm.subheading=Eich rhif cyflwyno ffurflen yw:
 label.button.download=Argraffwch gopi o'ch ffurflen (yn agor mewn tab newydd)
 label.email.sent=Anfonwn gopi o’ch cyflwyniad i’r cyfeiriad e-bost a roddwyd gennych.
 label.email.request=Bydd angen i chi darparu cyfeiriad e-bost os ydych am gael e-bost cadarnhau.
-label.whatNext=Yr hyn sy’n digwydd nesaf
+label.whatNext=Beth sy’n digwydd nesaf
 label.emailCopyWillBeSent=Os ydych wedi rhoi cyfeiriad e-bost i ni, byddwn yn anfon copi o’r hyn a gyflwynwyd gennych.
 
 confirm.copy.list.1=Byddwn yn diweddaru ein cofnodion gyda’r wybodaeth rydych wedi’i rhoi.
