@@ -51,11 +51,8 @@
     
     <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
 
-    <ul class="govuk-list govuk-list--bullet">
-        <li>@messages("confirm.copy.list.1")</li>
-        <li>@messages("confirm.copy.list.2")</li>
-    </ul><br>
-
+   <p class="govuk-body">@messages("confirm.copy.list.1")</p>
+   <p class="govuk-body">@messages("confirm.copy.list.2")</p>
 
     <p class="govuk-body">
       <a href="@controllers.feedback.routes.FeedbackController.feedback.url">@messages("confirm.link.feedback")</a>
