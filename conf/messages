@@ -747,7 +747,7 @@ feedback.rating.1=Very dissatisfied
 label.feedback.comments=How could we improve this service? (optional)
 feedback.comments.hint=Do not include any personal or financial information. For example, your National Insurance or credit card numbers
 feedback.comments.label=Comments (optional)
-feedback.button=Send
+
 feedback.rating.required=Select how satisfied you are with this service
 feedback.commments.maxLength=Comments must be 1200 characters or fewer
 

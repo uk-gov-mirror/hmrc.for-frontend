@@ -701,7 +701,6 @@ feedback.rating.1=Anfodlon iawn
 label.feedback.comments=Sut fedrwn ni wella’r gwasanaeth hwn? (dewisol)
 feedback.comments.hint=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol. Er enghraifft, eich rhif Yswiriant Gwladol neu rif eich cerdyn credyd.
 feedback.comments.label=Sylwadau (dewisol)
-feedback.button=Anfon
 feedback.rating.required=Dewiswch pa mor fodlon ydych chi gyda'r gwasanaeth hwn
 feedback.commments.maxLength=Rhaid i'r sylwadau fod yn 1200 nod neu lai
 
