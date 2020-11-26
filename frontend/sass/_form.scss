@@ -14,15 +14,6 @@ fieldset {
   margin-bottom: 20px;
 }
 
-.custom-one-third {
-  width: 27%;
-  float: left;
-  margin-right: 5%;
-  &:last-of-type{
-    margin-right:0;
-  }
-}
-
 .visually-hidden, .visuallyhidden {
   position: absolute;
   overflow: hidden;
