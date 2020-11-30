@@ -7,8 +7,8 @@
     "node": "~10.16.1"
   },
   "dependencies": {
-    "govuk-frontend": "~3.9.1",
-    "hmrc-frontend": "1.17.0"
+    "govuk-frontend": "~3.10.0",
+    "hmrc-frontend": "1.21.0"
   },
   "devDependencies": {
     "grunt": "^1.1.0",

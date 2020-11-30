@@ -555,7 +555,6 @@ label.noJs.secton12=Answer this only if you’ve selected ‘Yes’
 error.responsibleOutsideRepairs.required=Select who is responsible for paying for outside repairs
 error.responsibleInsideRepairs.required=Select who is responsible for paying for inside repairs
 error.responsibleBuildingInsurance.required=Select who is responsible for paying for buildings insurance
-
 error.businessRates.required=Select ‘Yes’ if the rent includes business rates
 error.waterChargesIncluded.required=Select ‘Yes’ if the rent includes water charges
 error.serviceChargesIncluded.required=Select ‘Yes’ if the rent includes service charges
@@ -601,6 +600,7 @@ hint.anyOtherFactorsDetails=For example, the permitted use of the property is ve
 label.noJs.anyOtherFactorsDetails=Answer this only if you’ve selected ‘Yes’
 
 error.anyOtherFactors.required=Select ‘Yes’ if anything else has affected the rent
+
 #CONFIRMATION
 ###############################
 label.confirm.heading=Thank you, your form has been successfully sent
