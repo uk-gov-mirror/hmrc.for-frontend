@@ -193,6 +193,9 @@ label.noJs.contactDetails.contactAddressType=Dylech ond ateb hyn os ydych wedi d
 label.noJs.alternativeAddress.buildingNameNumber=Dylech ond ateb hyn os ydych wedi dewis ‘Rwyf am i chi gysylltu â mi mewn cyfeiriad amgen’
 label.noJs.alternativeContact.fullName=Dylech ond ateb hyn os ydych wedi dewis ‘Rwyf am i chi gysylltu â rhywun arall ar fy rhan’
 
+error.userType.required=Dewiswch eich cysylltiad â’r eiddo
+error.contactType.required=Dewiswch sut yr hoffech i ni gysylltu â chi
+
 #SECTION 3
 ##############################
 section3.heading=Ynglŷn â’r eiddo
@@ -230,6 +233,9 @@ label.noJs.propertyRentedBy=Dylech ond ateb hyn os ydych wedi dewis ‘Nac ydy �
 label.noRentDetails=Dywedwch wrthym pam nad ydych yn talu rhent ar yr eiddo yma
 label.noRentDetails.agent=Dywedwch wrthym pam nad oes gan eich cleient i dalu rhent ar yr eiddo hwn
 
+error.occupierType.required=Dewiswch bwy sy’n meddiannu’r eiddo
+error.propertyOwnedByYou.required=Dewiswch ‘Ydw’ os taw chi sy’n berchen ar yr eiddo
+error.propertyRentedByYou.required=Dewiswch ‘Ydw’ os ydych chi’n talu rhent ar yr eiddo
 
 #SECTION 4
 ###############################
@@ -264,6 +270,9 @@ label.sublet.subletType=Faint o’r eiddo sy’n cael ei osod neu ei is-osod?
 subletType.all=Y cyfan
 subletType.part=Rhan ohono
 
+error.propertyIsSublet.required=Dewiswch ‘Oes’ os oes unrhyw ran o’r eiddo yn cael ei osod neu ei is-osod i unrhyw un arall
+error.subletType.required=Dewiswch faint o'r eiddo sy'n cael ei osod neu ei is-osod
+
 #SECTION 5
 ###############################
 section5.heading=Y landlord
@@ -293,6 +302,8 @@ label.landlordOverseasAddress.street1=Ail linell y cyfeiriad
 label.landlordOverseasAddress.street2=Trydedd linell y cyfeiriad
 label.noJs.landlordConnect=Dylech ond ateb hyn os ydych wedi dewis ‘Cysylltiad arall’
 intel.alert.landlordName=A ydych chi’n siŵr bod hyn yn gywir? Mae enw’r landlord ac enw’r tenantiaid yr un fath?
+
+error.LandlordConnectionType.required=Dewiswch a oes cysylltiad rhwng y landlord a’r tenant
 
 #SECTION 6
 ###############################
@@ -376,6 +387,11 @@ writtenAgreement.steppedDetails5.stepTo.day.error.writtenAgreement.steppedDetail
 writtenAgreement.steppedDetails6.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
 writtenAgreement.steppedDetails7.stepTo.day.error.writtenAgreement.steppedDetails.stepTo.day=Mae'n rhaid i'r dyddiad gris i fod ar ôl y dyddiad gris o
 
+error.leaseType.required=Dewiswch y math o brydles neu gytundeb
+error.leaseOpenEnded.required=Dewiswch ‘Ydy’ os yw’r cytundeb cyfredol yn benagored
+error.leaseHasBreakClause.required=Dewiswch ‘Ydy’ os gellir dod â’r cytundeb cyfredol i ben yn gynnar
+error.steppedRent.required=Dewiswch ‘Ydy’ os yw’r rhent yn seiliedig ar gytundeb rhent grisiog
+
 #SECTION 7
 ###############################
 section7.heading=Adolygiadau rhent
@@ -402,6 +418,13 @@ label.noJs.rentReviewDetails.rentReviewResultsDetails.rentFixedBy=Dylech ond ate
 label.noJs.rentReviewDetails.reviewIntervalTypeSpecify=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 hint.rentOnThisPropertyTheResultOf=Dewiswch ‘Ydy’ hyd yn oed os na newidiodd y rhent o ganlyniad i’r adolygiad.
 
+error.rentReviewDetails.required=Dewiswch ‘Ydy’ os yw’r cytundeb cyfredol yn cynnwys unrhyw adolygiadau rhent
+error.rentReviewFrequency.required=Dewiswch ba mor aml mae’r rhent yn cael ei adolygu
+error.canRentBeReducedOnReview.required=Dewiswch ‘Oes’ os oes modd gostwng y rhent
+error.isRentResultOfReview.required=Dewiswch ‘Ydy’ os yw’r rhent cyfredol yn ganlyniad adolygiad rhent
+error.rentWasAgreedBetween.required=Dewiswch ‘Do’ os cafodd y rhent ei bennu rhwng y tenant a’r landlord
+error.rentWasFixedBy.required=Dewiswch gan bwy y cafodd y rhent ei bennu
+
 #SECTION 8
 ###############################
 section8.heading=Sut cafodd y rhent ei bennu
@@ -411,6 +434,11 @@ label.wasRentFixedBetween.agent=A bennwyd y rhent rhwng eich cleient (neu chi) a
 label.notReviewRentFixed=A bennwyd y rhent drwy
 label.rentSetByType=A yw’r rhent hwn yn
 label.noJs.notReviewRentFixed=Dylech ond ateb hyn os ydych wedi dewis ‘Na’
+
+error.wasTheRentFixedBetween.required=Dewiswch ‘Do’ os cafodd y rhent ei bennu rhwng y tenant a’r landlord 
+error.whoWasTheRentFixedBetween.required=Dewiswch gan bwy y cafodd y rhent ei bennu
+error.isThisRent.required=Dewiswch y math o gytundeb rhent
+
 
 #SECTION 9
 ###############################
@@ -433,8 +461,10 @@ rentBasedOn.percentageTurnover.hint=Mae’r rhent yn seiliedig ar ganran trosian
 rentBasedOn.indexation.hint=Mae’r rhent yn cael ei adolygu bob blwyddyn ar sail mynegai (megis Mynegai Prisiau Manwerthu).    
 rentBasedOn.other.hint=Mae’n bosibl bod y rhent wedi’i gytuno arno mewn ffordd arall, megis Trefniant Gwirfoddol Cwmni (CVA).   
 
-
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
+
+error.negotiatingNewRent.required=Dewiswch ‘Ydy’ os yw’r tenant neu’r asiant yn negodi rhent newydd
+error.rentBaseOn.required=Dewiswch beth mae’r rhent yn seiliedig arno
 
 #SECTION 10
 ###############################
@@ -473,6 +503,14 @@ label.parking.annualSeparateParkingDate=Pryd cafodd y taliad hwn ei bennu?
 label.noJs.rentIncludeParkingDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Ydy/Ydw’
 label.noJs.rentSeparateParkingDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Ydy/Ydw’
 
+error.includesLivingAccommodation.required=Dewiswch ‘Ydy’ os yw’r rhent yn cynnwys unrhyw lety byw
+error.isRentPaidForPart.required=Dewiswch ‘Ydy’ os mai dim ond am ran o’r cyfeiriad y telir y rhent
+error.anyOtherBusinessProperty.required=Dewiswch ‘Ydy’ os yw’r rhent yn cynnwys eiddo busnes arall
+error.rentBasedOnLandOnly.required=Dewiswch ‘Ydy’ os yw’r rhent ar gyfer y tir yn unig
+error.rentBasedOnEmptyBuilding.required=Dewiswch ‘Ydy’ os yw’r rhent yn seiliedig ar adeilad gwag
+error.rentIncludesParking.required=Dewiswch ‘Ydy’ os yw’r rhent yn cynnwys defnyddio mannau parcio
+error.tenantPaysForParking.required=Dewiswch ‘Ydy’ os yw’r tenant yn talu ychwanegol am unrhyw parcio
+
 #SECTION 11
 ###############################
 section11.heading=Cymhellion a thaliadau
@@ -500,6 +538,10 @@ label.noJs.capitalPaidDetails.capitalSum=Dylech ond ateb hyn os ydych wedi dewis
 label.noJs.rentFreePeriodDetails.rentFreePeriodDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
 label.noJs.rentFreePeriodDetails.rentFreePeriodLength=Dylech ond ateb hyn os ydych wedi dewis ‘Do’
 
+error.rentFreePeriod.required=Dewiswch ‘Oedd’ os oedd cyfnod di-rent
+error.paidCapitalSum.required=Dewiswch ‘Do’ os talodd y tenant i ymgymryd â’r brydles
+error.receivedCapitalSum.required=Dewiswch ‘Do’ os talwyd y tenant i ymgymryd â’r brydles
+
 #SECTION 12
 ###############################
 section12.heading=Cyfrifoldebau a chostau
@@ -523,6 +565,13 @@ hint.includedServicesDetails.chargeCost=Os nad ydych yn gallu rhoi unrhyw symiau
 info.responsibilitiesAndCosts.paying=Dewiswch ‘Landlord’ os yw’r landlord yn talu biliau’r eitemau hyn yn uniongyrchol, heb ofyn am gyfraniad gan y tenant.
 info.responsibilitiesAndCosts.surcharge=Dewiswch ‘Tenant’ os yw’r tenant yn talu’n uniongyrchol am yr eitemau hyn, neu’n talu swm fel tâl gwasanaeth er mwyn talu’r costau.
 label.noJs.secton12=Dylech ond ateb hyn os ydych wedi dewis ‘Ie’
+
+error.responsibleOutsideRepairs.required=Dewiswch bwy sy’n gyfrifol am dalu am atgyweiriadau allanol
+error.responsibleInsideRepairs.required=Dewiswch bwy sy’n gyfrifol am dalu am atgyweiriadau y tu mewn
+error.responsibleBuildingInsurance.required=Dewiswch bwy sy’n gyfrifol am dalu am yswiriant adeiladau
+error.businessRates.required=Dewiswch ‘Ydyn’ os yw’r rhent yn cynnwys trethi busnes
+error.waterChargesIncluded.required=Dewiswch ‘Ydyn’ os yw’r rhent yn cynnwys taliadau dŵr
+error.serviceChargesIncluded.required=Dewiswch ‘Ydyn’ os yw’r rhent yn cynnwys taliadau gwasanaeth
 
 #SECTION 13
 ###############################
@@ -548,6 +597,10 @@ alterationType.addLift=Wedi gosod lifftiau neu risiau symudol
 alterationType.addedParking=Wedi ychwanegu lle i barcio
 alterationType.addedAirCondition=Wedi ychwanegu aerdymheru
 
+error.hasTenantDonePropertyAlterations.required=Dewiswch ‘ydy’ os yw’r tenant wedi gwneud unrhyw newidiadau mawr
+error.tenantWasRequiredToMakeAlterations.required=Dewiswch ‘oedd’ os oedd rhaid i’r tenant gyflawni unrhyw waith
+error.whichWorksWereDone.required=Dewiswch ba waith a gyflawnwyd
+
 #SECTION 14
 ###############################
 section14.heading=Unrhyw ffactorau eraill
@@ -556,6 +609,8 @@ label.anyOtherFactors.agent=A oes unrhyw beth arall wedi effeithio ar y rhent y 
 label.anyOtherFactorsDetails=Beth arall sydd wedi effeithio ar y rhent?
 hint.anyOtherFactorsDetails=Er enghraifft, bod cyfyngiadau llym ar y defnydd a ganiateir o’r eiddo, neu fod y rhent yn cynnwys swm ar gyfer darnau gosod ac addurniadau masnach. Cofiwch gynnwys unrhyw beth nad oedd gennych le i roi gwybod i ni amdano mewn adran flaenorol.
 label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes’
+
+error.anyOtherFactors.required=Dewiswch ‘Oes’ os oes unrhyw beth arall wedi effeithio ar y rhent
 
 #CONFIRMATION
 ###############################
