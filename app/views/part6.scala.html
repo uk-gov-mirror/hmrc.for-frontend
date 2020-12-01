@@ -54,7 +54,7 @@
   summary = Some(summary),
   showAccountInfo = true,
   showSection = true,
-  errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+  theForm = theForm
 ){
 
   @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(6), args = 'class -> "myForm", 'id -> "myFormId") {

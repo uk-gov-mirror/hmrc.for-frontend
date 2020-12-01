@@ -44,7 +44,7 @@
     backLinkUrl = routes.PreviouslyConnectedController.onPageView.url,
     summary = Some(summary),
     showAccountInfo = true,
-    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+    theForm = theForm
 ) {
 
     <p class="govuk-body">@messages("notConnected.subheading")</p>
