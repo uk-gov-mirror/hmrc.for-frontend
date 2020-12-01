@@ -22,11 +22,12 @@ import actions.{RefNumAction, RefNumRequest}
 import connectors.ForHttp
 import controllers._
 import form.Errors
+import form.Formats._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
-import models.Feedback
+import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
 import models.pages.SummaryBuilder
-import play.api.data.Form
+import play.api.data.{Form, Forms}
 import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
 import play.api.mvc._
 import play.api.{Logger, Play}
@@ -64,6 +65,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
         "feedback-email" -> text,
         "service" -> text,
         "referrer" -> text,
+        "journey" -> Forms.of[Journey],
         "feedback-comments" -> optional(text).verifying("feedback.commments.maxLength", it => {
           it.getOrElse("").length < 1200
         })
@@ -92,7 +94,10 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
   }
 
   def feedback = Action { implicit request =>
-    Ok(feedbackFormView(feedbackForm))
+    Ok(feedbackFormView(feedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors))
+  }
+  def notConnectedFeedback = Action { implicit request =>
+    Ok(feedbackFormView(feedbackForm.bind(Map("journey" -> NotConnectedJourney.name)).discardingErrors))
   }
 
   def feedbackThankyou = Action { implicit request =>

@@ -67,6 +67,7 @@ POST        /survey 				   controllers.feedback.SurveyController.formCompleteFee
 # IN-PAGE FEEDBACK
 GET         /thankyou-for-your-feedback     controllers.feedback.FeedbackController.feedbackThankyou
 GET 		/feedback           	        controllers.feedback.FeedbackController.feedback
+GET 		/notConnectedFeedback  	        controllers.feedback.FeedbackController.notConnectedFeedback
 POST 		/feedback           	        controllers.feedback.FeedbackController.handleFeedbackSubmit
 
 

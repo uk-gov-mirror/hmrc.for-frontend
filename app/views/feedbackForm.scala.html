@@ -44,14 +44,16 @@
 
     <p class="govuk-body">@messages("label.feedback.p1")</p>
 
-    @formWithCSFR( action = routes.FeedbackController.handleFeedbackSubmit, args = 'novalidate -> "novalidate") {
-
+    @formWithCSFR(
+        action = routes.FeedbackController.handleFeedbackSubmit,
+        args = 'novalidate -> "novalidate" ) {
 
         <input type="hidden" name="feedback-name" value="Anonymous user"/>
         <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>
         <input type="hidden" name="referrer" value="@request.host@request.uri"/>
         <input type="hidden" name="service"  value="RALD">
         <input type="hidden" name="canOmitComments"  value="true">
+        <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
 
         @govukRadios(
             Radios(
