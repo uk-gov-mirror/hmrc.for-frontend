@@ -14,12 +14,11 @@
  * limitations under the License.
  *@
 
+@import play.api.Configuration
 @import org.joda.time.DateTime
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput}
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
@@ -42,7 +41,8 @@
 @main_template(
     pageHeading = messages("login.heading"),
     pageTitle = title,
-    errorSummary = includes.summaryErrors(theForm, govukErrorSummary)
+    errorSummary = includes.summaryErrors(theForm, govukErrorSummary),
+    showBanner = true
 ) {
 
     <p class="govuk-body">@messages("label.letter")</p>

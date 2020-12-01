@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import play.api.Configuration
 @import models.pages.Summary
 @import play.api.Play.current
 @import uk.gov.hmrc.govukfrontend.views.html.components._
@@ -34,6 +35,7 @@
         footer: Footer,
         govukFooter: govukFooter,
         accessibilityStatementConfig: AccessibilityStatementConfig,
+        configuration: Configuration,
         uiLayoutHead: Head
 )
 
@@ -41,6 +43,7 @@
     pageTitle: Option[String] = None,
     pageHeading: String,
     errorSummary: Option[Html] = None,
+    showBanner: Boolean = false,
     showH1: Boolean = true,
     showSection: Boolean = false,
     showFeedback: Boolean = true,
@@ -56,9 +59,9 @@
 
 @beforeBLock = {
 
-    <input type="hidden" id="signOutUrl" value=@current.configuration.getString("signout.url").get />
-    <input type="hidden" id="signOutTimeout" value=@current.configuration.getString("signout.timeout").get />
-    <input type="hidden" id="signOutCountdown" value=@current.configuration.getString("signout.countdown").get />
+    <input type="hidden" id="signOutUrl" value="@configuration.get[String]("signout.url").get" />
+    <input type="hidden" id="signOutTimeout" value="@configuration.get[String]("signout.timeout").get" />
+    <input type="hidden" id="signOutCountdown" value="@configuration.get[String]("signout.countdown").get" />
 
 
     @if(showFeedback) {
@@ -100,6 +103,21 @@
 
         @if(errorSummary){
             @errorSummary
+        }
+
+        @if(showBanner && configuration.get[Boolean]("bannerNotice.enabled")){
+
+            <div class="govuk-notification-banner" role="region"
+            aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    @configuration.get[String]("bannerNotice." + messages.lang.code + ".title")
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <p class="govuk-notification-banner__heading">@Html(configuration.get[String]("bannerNotice." + messages.lang.code + ".body"))</p>
+                </div>
+            </div>
         }
         @if(showSection){
             <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>

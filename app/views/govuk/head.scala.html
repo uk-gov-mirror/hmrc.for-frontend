@@ -16,8 +16,9 @@
 
 @import play.api.Play.current
 @import uk.gov.hmrc.play.views.html.layouts.Head
+@import play.api.Configuration
 
-@this()
+@this(configuration: Configuration)
 
 @(uiLayoutHead: Head)
 
@@ -32,10 +33,10 @@
 
  <meta
  name="hmrc-timeout-dialog"
- data-timeout="@{current.configuration.getString("signout.timeout").get}"
- data-countdown="@{current.configuration.getString("signout.countdown").get}"
+ data-timeout="@{configuration.get[String]("signout.timeout").get}"
+ data-countdown="@{configuration.get[String]("signout.countdown").get}"
  data-keep-alive-url=""
- data-sign-out-url="@{current.configuration.getString("signout.url").get}"
+ data-sign-out-url="@{configuration.get[String]("signout.url").get}"
  data-title=""
  data-message=""
  dat-message-suffix=""
