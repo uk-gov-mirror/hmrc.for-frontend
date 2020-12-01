@@ -36,13 +36,14 @@
         govukFooter: govukFooter,
         accessibilityStatementConfig: AccessibilityStatementConfig,
         configuration: Configuration,
-        uiLayoutHead: Head
+        uiLayoutHead: Head,
+        govukErrorSummary: GovukErrorSummary
 )
 
 @(
     pageTitle: Option[String] = None,
     pageHeading: String,
-    errorSummary: Option[Html] = None,
+    theForm: Form[_] = null,
     showBanner: Boolean = false,
     showH1: Boolean = true,
     showSection: Boolean = false,
@@ -101,11 +102,11 @@
     <div class="govuk-grid-row">
         <div class="@gridClasses">
 
-        @if(errorSummary){
-            @errorSummary
+        @if(theForm!=null){
+            @includes.summaryErrors(theForm = theForm, govukErrorSummary = govukErrorSummary)
         }
 
-        @if(showBanner && configuration.get[Boolean]("bannerNotice.enabled")){
+        @if(showBanner && configuration.get[Boolean]("bannerNotice.enabled") && (theForm == null || theForm.errors.isEmpty) ){
 
             <div class="govuk-notification-banner" role="region"
             aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">

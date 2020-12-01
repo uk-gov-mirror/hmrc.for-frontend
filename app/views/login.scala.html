@@ -41,7 +41,7 @@
 @main_template(
     pageHeading = messages("login.heading"),
     pageTitle = title,
-    errorSummary = includes.summaryErrors(theForm, govukErrorSummary),
+    theForm = theForm,
     showBanner = true
 ) {
 
