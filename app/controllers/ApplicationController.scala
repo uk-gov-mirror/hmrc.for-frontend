@@ -22,6 +22,7 @@ import form.Errors
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.pages._
+import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -40,7 +41,9 @@ class ApplicationController @Inject()(
   printAnswersView: views.html.print,
   errorView: views.html.error.error,
   indexView: views.html.index,
-  sessionTimeoutView: views.html.sessionTimeout
+  sessionTimeoutView: views.html.sessionTimeout,
+  importantInformationView: views.html.importantInformation,
+ configuration: Configuration
 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
 
@@ -130,5 +133,13 @@ class ApplicationController @Inject()(
 
   def docs = Action { implicit request =>
     Ok(views.html.api.apidoc())
+  }
+
+  def importantInformation = Action { implicit request =>
+    if(configuration.get[Boolean]("bannerNotice.enabled")){
+      Ok(importantInformationView())
+    }else{
+      Redirect(routes.LoginController.show())
+    }
   }
 }

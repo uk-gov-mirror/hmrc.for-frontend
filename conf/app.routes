@@ -62,7 +62,7 @@ GET         /500                       controllers.ApplicationController.error50
 GET         /lookup                    controllers.AddressLookup.getAddress(postcode:String)
 
 # SURVEY
-POST        /survey 				   controllers.feedback.SurveyController.formCompleteFeedback
+POST        /survey                         controllers.feedback.SurveyController.formCompleteFeedback
 
 # IN-PAGE FEEDBACK
 GET         /thankyou-for-your-feedback     controllers.feedback.FeedbackController.feedbackThankyou
@@ -71,6 +71,8 @@ POST 		/feedback           	        controllers.feedback.FeedbackController.hand
 
 
 # AGENT API
-GET         /api/documentation         controllers.AgentAPI.getDocs
-GET         /api/schema/*name          controllers.AgentAPI.getSchema(name)
-POST        /api/submit/:refNum/:postcode  controllers.AgentAPI.submit(refNum, postcode)
+GET         /api/documentation              controllers.AgentAPI.getDocs
+GET         /api/schema/*name               controllers.AgentAPI.getSchema(name)
+POST        /api/submit/:refNum/:postcode   controllers.AgentAPI.submit(refNum, postcode)
+
+GET         /important-information          controllers.ApplicationController.importantInformation
