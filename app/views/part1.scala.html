@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
 @import models._
 @import models.pages.Summary
 @import models.serviceContracts.submissions._
@@ -70,44 +68,43 @@
 
           @govukInput(
           Input(
-            id = "street1",
-            name = "street1",
+              id = "street1",
+              name = "street1",
               value = getAddressFieldValueOrDefaultUnlessErrors("street1", address.street1.getOrElse("")),
               attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
-            classes = "govuk-!-width-one-half",
-            label = Label(
-              content = Text(messages("label.address.street1"))
-            ),
-            errorMessage = theForm.errors.asTextErrorMessageForField("street1")
+              classes = "govuk-!-width-one-half",
+              label = Label(
+                  content = Text(messages("label.street1"))
+              ),
+              errorMessage = theForm.errors.asTextErrorMessageForField("street1")
           )
         )
 
         @govukInput(
           Input(
-            id = "street2",
-            name = "street2",
+              id = "street2",
+              name = "street2",
               value = getAddressFieldValueOrDefaultUnlessErrors("street2", address.street1.getOrElse("")),
-
               attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
-            classes = "govuk-!-width-one-half",
-            label = Label(
-              content = Text(messages("label.address.street2"))
-            ),
-            errorMessage = theForm.errors.asTextErrorMessageForField("street2")
+              classes = "govuk-!-width-one-half",
+              label = Label(
+                  content = Text(messages("label.street2"))
+              ),
+              errorMessage = theForm.errors.asTextErrorMessageForField("street2")
           )
         )
 
         @govukInput(
           Input(
-            id = "postcode",
-            name = "postcode",
-            attributes = Map("data-undo-value" -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2")),
-              value = getAddressFieldValueOrDefaultUnlessErrors("postcode", address.postcode.getOrElse("")).replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$","$1 $2"),
-            classes = "govuk-!-width-one-half",
-            label = Label(
-              content = Text(messages("label.postcode"))
-            ),
-            errorMessage = theForm.errors.asTextErrorMessageForField("postcode")
+              id = "postcode",
+              name = "postcode",
+              attributes = Map("data-undo-value" -> address.postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$", "$1 $2")),
+              value = getAddressFieldValueOrDefaultUnlessErrors("postcode", address.postcode.getOrElse("")).replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$", "$1 $2"),
+              classes = "govuk-!-width-one-half",
+              label = Label(
+                  content = Text(messages("label.postcode"))
+              ),
+              errorMessage = theForm.errors.asTextErrorMessageForField("postcode")
           )
         )
 

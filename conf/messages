@@ -132,7 +132,7 @@ error.isRelated=Select ‘Yes’ if you are still connected
 ##############################
 section1.heading=Edit address
 label.yes.change.address=Yes - I want to edit the address
-label.buildingNameNumber=Address line 1 (optional)
+label.buildingNameNumber=Address line 1
 label.changedAddress=Changed address
 label.address=Address
 label.UKInternationaladdress= UK/International Address
