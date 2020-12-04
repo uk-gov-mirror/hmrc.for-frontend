@@ -23,4 +23,5 @@ case class Feedback(
                      email: String,
                      service: String,
                      referrer: String,
+                      journey: Journey,
                      comments: Option[String])

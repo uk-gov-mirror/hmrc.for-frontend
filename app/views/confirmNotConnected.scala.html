@@ -51,7 +51,7 @@
 
     <p class="govuk-body"><a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a></p>
 
-    <hr/>
+    <a  class="govuk-link"
+        href="@controllers.feedback.routes.FeedbackController.notConnectedFeedback.url">@messages("confirm.link.feedback")</a>
 
-    @views.html.includes.surveyFeedback(summary, theForm,govukButton, govukCharacterCount, govukRadios, formWithCSFR)
 }
