@@ -141,6 +141,7 @@ label.address.street2=Town or city
 label.addresss.townCity=Town or city
 label.postcode=Postcode
 label.ukOrInternationalPostcode=Postcode / Zipcode
+label.buildingNameNumber.optional=Address line 1  (optional)
 label.street1=Address line 2 (optional)
 label.street2=Address line 3 (optional)
 label.townCity=Town or city

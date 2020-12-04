@@ -142,6 +142,7 @@ label.address.street2=Tref neu ddinas
 label.addresss.townCity=Tref neu ddinas
 label.postcode=Cod post
 
+label.buildingNameNumber.optional=Llinell 1 y cyfeiriad (dewisol)
 label.street1=Ail linell y cyfeiriad (dewisol)
 label.street2=Tref neu ddinas (dewisol)
 label.townCity=Tref neu ddinas
