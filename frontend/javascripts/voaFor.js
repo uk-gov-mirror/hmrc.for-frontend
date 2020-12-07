@@ -257,22 +257,6 @@
         setSelectSize();
     };
 
-
-    VoaFor.updateLabelToggle = function () {
-        function changeButtonLabel() {
-            if ($('.section1 #isAddressCorrect_false').is(':checked') || VoaCommon.getQueryString('edit')) {
-                $('.section1 button#continue').text(VoaMessages.textLabel('buttonUpdate'));
-            } else {
-                $('.section1 button#continue').text(VoaMessages.textLabel('buttonContinue'));
-            }
-        }
-
-        $('.section1 [name="isAddressCorrect"]').change(function () {
-            changeButtonLabel();
-        });
-        changeButtonLabel();
-    };
-
     VoaFor.isEdit = function () {
         if (VoaCommon.getQueryString('edit')) {
             $('[name="continue_button"]').text(VoaMessages.textLabel('buttonUpdate')).attr('name', 'update_button');
