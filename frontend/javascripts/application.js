@@ -27,7 +27,6 @@ var ref;
         VoaFor.addFieldMulti();
         VoaFor.removeFieldMulti();
         VoaFor.selectMobile();
-        VoaFor.updateLabelToggle();
         VoaFor.isEdit();
         VoaFor.getReferrer();
         VoaFor.addMultiButtonState();

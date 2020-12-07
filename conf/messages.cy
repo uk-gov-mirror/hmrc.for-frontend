@@ -110,7 +110,6 @@ label.no.na = Na
 button.label.back=Yn ôl
 button.label.continue=Yn eich blaen
 button.label.save=Cadw ar gyfer nes ymlaen
-button.label.pdf=Lawrlwytho PDF
 
 #LOGIN
 ##############################
