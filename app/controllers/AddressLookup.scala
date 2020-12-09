@@ -18,6 +18,7 @@ package controllers
 
 import actions.RefNumAction
 import connectors.ForHttp
+
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json.JsValue
 import play.api.mvc.MessagesControllerComponents
@@ -25,11 +26,11 @@ import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton()
-class AddressLookup @Inject()(cc: MessagesControllerComponents, refNumAction: RefNumAction, http: ForHttp, serviceConfig: ServicesConfig)
+class AddressLookup @Inject()(cc: MessagesControllerComponents, refNumAction: RefNumAction, http: ForHttp,
+                              serviceConfig: ServicesConfig)(implicit ec: ExecutionContext)
   extends FrontendController(cc) {
 
   val serviceUrl = serviceConfig.baseUrl("address-lookup")

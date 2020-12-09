@@ -4,7 +4,7 @@ import sbt.Keys.dependencyOverrides
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
-import uk.gov.hmrc.DefaultBuildSettings.addTestReportOption
+import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings, scalaSettings}
 
 lazy val scoverageSettings = {
   import scoverage.ScoverageKeys
@@ -24,22 +24,21 @@ lazy val scoverageSettings = {
 lazy val compileDeps = Seq(
   filters,
   ws,
-  "javax.inject" % "javax.inject" % "1",
+  "uk.gov.hmrc" %% "bootstrap-play-26" % "2.2.0",
   "uk.gov.hmrc" %% "json-encryption" % "4.8.0-play-26",
-  "uk.gov.hmrc" %% "http-caching-client" % "9.1.0-play-26",
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.3.0-play-26",
-  "uk.gov.hmrc" %% "http-verbs-play-26" % "11.7.0",
-  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.16.0",
-  "uk.gov.hmrc" %% "play-partials" % "6.11.0-play-26",
+  "uk.gov.hmrc" %% "http-caching-client" % "9.2.0-play-26",
+  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.4.0-play-26",
+  "uk.gov.hmrc" %% "play-partials" % "7.1.0-play-26",
   "uk.gov.hmrc" %% "play-ui" % "8.18.0-play-26",
   "uk.gov.hmrc" %% "url-builder" % "3.4.0-play-26",
   "uk.gov.hmrc" %% "play-frontend-govuk" % "0.56.0-play-26",
   "uk.gov.hmrc" %% "play-frontend-hmrc" % "0.29.0-play-26",
+  "uk.gov.hmrc" %% "play-language" % "4.5.0-play-26",
+  "uk.gov.hmrc" %% "mongo-caching" % "6.16.0-play-26",
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.31.0-play-26",
   "com.typesafe.play" %% "play-json-joda" % "2.6.14",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
-  "uk.gov.hmrc" %% "play-language" % "4.4.0-play-26",
-  "uk.gov.hmrc" %% "mongo-caching" % "6.15.0-play-26",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.30.0-play-26",
+  "javax.inject" % "javax.inject" % "1",
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
   "nu.validator.htmlparser" % "htmlparser" % "1.4",
   "org.webjars.npm" % "govuk-frontend" % "3.8.1",
@@ -47,18 +46,8 @@ lazy val compileDeps = Seq(
   "org.webjars.bower" % "compass-mixins" % "0.12.7"
 )
 
-val akkaVersion     = "2.5.23"
-val akkaHttpVersion = "10.0.15"
 val scalatestPlusPlayVersion = "3.1.3"
 val pegdownVersion = "1.6.0"
-
-val dependencyOverride = Seq(
-  "com.typesafe.akka" %% "akka-stream"    % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-protobuf"  % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-slf4j"     % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-actor"     % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion force()
-)
 
 def testDeps(scope: String) = Seq(
   "org.pegdown" % "pegdown" % pegdownVersion % scope,
@@ -68,10 +57,11 @@ def testDeps(scope: String) = Seq(
   "org.mockito" %% "mockito-scala-scalatest" % "1.7.1" % scope
 )
 lazy val root = (project in file("."))
+  .settings(scalaSettings: _*)
+  .settings(defaultSettings(): _*)
   .settings(
-    DefaultBuildSettings.defaultSettings(),
     name := "for-frontend",
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.12.12",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     resolvers := Seq(
@@ -81,7 +71,6 @@ lazy val root = (project in file("."))
       Resolver.jcenterRepo
     ),
     libraryDependencies ++= compileDeps ++ testDeps("test") ++ testDeps("it"),
-    dependencyOverrides ++= dependencyOverride,
     publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,

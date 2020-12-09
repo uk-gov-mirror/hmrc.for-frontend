@@ -24,7 +24,6 @@ import controllers.toFut
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json.{Format, Json}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[SessionScopedFormDocumentRepository])
