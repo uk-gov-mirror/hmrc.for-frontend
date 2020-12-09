@@ -97,8 +97,8 @@ object MappingSupport {
 
   val contactAddressTypeMapping: Mapping[ContactAddressType] = Forms.of[ContactAddressType]
   val rentLengthType: Mapping[RentLengthType] = Forms.of[RentLengthType]
-  val postcode: Mapping[String] = text verifying(Errors.invalidPostcode, _.toUpperCase matches postcodeRegex)
-  val loginPostcode: Mapping[String] = text verifying(Errors.invalidPostcodeOnLetter, _.toUpperCase matches postcodeRegex)
+  val postcode: Mapping[String] = PostcodeMapping.postcode()
+  val loginPostcode: Mapping[String] = PostcodeMapping.postcode(Errors.invalidPostcodeOnLetter, Errors.invalidPostcodeOnLetter)
   val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
   val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
   val alterationSetByTypeMapping: Mapping[AlterationSetByType] = Forms.of[AlterationSetByType]
