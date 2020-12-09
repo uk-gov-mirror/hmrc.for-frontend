@@ -4,7 +4,7 @@ import sbt.Keys.dependencyOverrides
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
-import uk.gov.hmrc.DefaultBuildSettings.addTestReportOption
+import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings, scalaSettings}
 
 lazy val scoverageSettings = {
   import scoverage.ScoverageKeys
@@ -47,18 +47,8 @@ lazy val compileDeps = Seq(
   "org.webjars.bower" % "compass-mixins" % "0.12.7"
 )
 
-val akkaVersion     = "2.5.23"
-val akkaHttpVersion = "10.0.15"
 val scalatestPlusPlayVersion = "3.1.3"
 val pegdownVersion = "1.6.0"
-
-val dependencyOverride = Seq(
-  "com.typesafe.akka" %% "akka-stream"    % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-protobuf"  % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-slf4j"     % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-actor"     % akkaVersion     force(),
-  "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion force()
-)
 
 def testDeps(scope: String) = Seq(
   "org.pegdown" % "pegdown" % pegdownVersion % scope,
@@ -68,10 +58,11 @@ def testDeps(scope: String) = Seq(
   "org.mockito" %% "mockito-scala-scalatest" % "1.7.1" % scope
 )
 lazy val root = (project in file("."))
+  .settings(scalaSettings: _*)
+  .settings(defaultSettings(): _*)
   .settings(
-    DefaultBuildSettings.defaultSettings(),
     name := "for-frontend",
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.12.12",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     resolvers := Seq(
@@ -81,7 +72,6 @@ lazy val root = (project in file("."))
       Resolver.jcenterRepo
     ),
     libraryDependencies ++= compileDeps ++ testDeps("test") ++ testDeps("it"),
-    dependencyOverrides ++= dependencyOverride,
     publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
