@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
 @import helpers._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
@@ -27,7 +26,7 @@
         govukWarningText: GovukWarningText,
         govukErrorSummary: GovukErrorSummary,
         govukDetails:GovukDetails,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -42,7 +41,7 @@
     gridClasses = "govuk-grid-column-full"
 ){
 
-    @formWithCSFR(
+    @formWithCSRF(
         action = routes.FORSubmissionController.submit,
         args = 'class -> "declaration", 'id -> "myFormId"
 

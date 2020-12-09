@@ -16,7 +16,6 @@
 
 @import play.api.Configuration
 @import models.pages.Summary
-@import play.api.Play.current
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.layouts.{govukLayout, govukTemplate}
 @import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
@@ -172,7 +171,8 @@
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.name") + " - " + messages("gov.name"),
     headBlock = head(uiLayoutHead),
     headerBlock = govukHeader(Header(
-        serviceName = messages("service.name")
+        serviceName = messages("service.name"),
+        serviceUrl= routes.ApplicationController.index.url
     )),
     beforeContentBlock = Option(beforeBLock),
     mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),

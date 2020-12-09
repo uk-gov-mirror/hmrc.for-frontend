@@ -17,7 +17,6 @@
 @import models.serviceContracts.submissions._
 @import play.api.data._
 @import models.pages.Summary
-@import models.journeys.Journey
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
@@ -31,7 +30,7 @@
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[PreviouslyConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -45,7 +44,7 @@
 
     @includes.summaryErrors(theForm, govukErrorSummary)
 
-    @formWithCSFR(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
 
         @govukRadios(
             Radios(

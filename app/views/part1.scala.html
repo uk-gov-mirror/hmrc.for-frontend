@@ -29,7 +29,7 @@
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[Address], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -48,7 +48,7 @@
     theForm = theForm
 ){
 
-  @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(1),
+  @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(1),
     args = 'class -> "section1", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
       @defining(Addresses.getAddress(summary)) { address =>

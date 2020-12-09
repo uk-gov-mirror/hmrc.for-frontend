@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import play.api.data._
 @import models.pages.Summary
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-@import uk.gov.hmrc.govukfrontend.views.Aliases.Panel
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{Panel, Text}
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 
 @this( layout: pageLayout,
@@ -29,7 +26,7 @@
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSFR:FormWithCSRF)
+        formWithCSRF:FormWithCSRF)
 
 @(summary: Summary, theForm: Form[_])(implicit request: Request[_],  messages: Messages)
 

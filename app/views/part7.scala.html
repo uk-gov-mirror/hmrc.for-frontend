@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
 @import helpers._
 @import helpers.summary._
 @import models._
@@ -34,7 +33,7 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -53,7 +52,7 @@
   theForm = theForm
 ){
 
-  @formWithCSFR(
+  @formWithCSRF(
 action = dataCapturePages.routes.PageController.savePage(7),
 args = 'class -> "myForm", 'id -> "myFormId"
   ) {

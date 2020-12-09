@@ -18,17 +18,7 @@
 @import models.serviceContracts.submissions._
 @import models.pages.Summary
 @import play.api.data._
-@import _root_.template.Helper._
 @import helpers._
-@import helpers.summary._
-@import org.joda.time.DateTime
-@import _root_.template.FormatRefNum
-@import config.ForConfig
-@import models._
-@import models.pages.{PageSix, Summary}
-@import models.serviceContracts.submissions._
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
-@import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
@@ -42,7 +32,7 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -57,7 +47,7 @@
   theForm = theForm
 ){
 
-  @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(6), args = 'class -> "myForm", 'id -> "myFormId") {
+  @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(6), args = 'class -> "myForm", 'id -> "myFormId") {
 
     <!-- What type of lease or agreement do you have? -->
     @govukRadios(

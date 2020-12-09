@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
 @import models.pages.{PageFour, Summary}
 @import models.serviceContracts.submissions.SubletType
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
@@ -23,7 +21,6 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import models.serviceContracts.submissions.Address
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 
 @this(  layout: pageLayout,
@@ -35,7 +32,7 @@
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
         govukDetails:GovukDetails,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[PageFour], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -59,7 +56,7 @@
     theForm = theForm
 ){
 
-    @formWithCSFR(
+    @formWithCSRF(
         action = dataCapturePages.routes.PageController.savePage(4),
         args = 'class -> "myForm", 'id -> "myFormId"
     ) {

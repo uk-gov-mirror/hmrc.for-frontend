@@ -14,28 +14,23 @@
  * limitations under the License.
  *@
 
-@import models._
-@import models.serviceContracts.submissions._
+@import form.NotConnectedPropertyForm
 @import models.pages.Summary
-@import models.journeys.Journey
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput, GovukTextarea}
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import form.NotConnectedPropertyForm
 
 @this(  layout: pageLayout,
         govukTextarea: GovukTextarea,
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -49,7 +44,7 @@
 
     <p class="govuk-body">@messages("notConnected.subheading")</p>
 
-    @formWithCSFR(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
 
         @govukInput(
             Input(

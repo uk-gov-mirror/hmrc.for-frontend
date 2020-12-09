@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
 @import models.pages.Summary
 @import models.serviceContracts.submissions.ResponsibleTypes
 @import play.api.data._
@@ -33,7 +31,7 @@
         hmrcCurrencyInput: HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
         govukDetails: GovukDetails,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_], messages: Messages)
 
@@ -55,7 +53,7 @@
 
     <p class="govuk-!-font-size-27 govuk-!-font-weight-bold govuk-body">@messages("section12.under.terms.text")</p>
 
-    @formWithCSFR(
+    @formWithCSRF(
         action = dataCapturePages.routes.PageController.savePage(12),
         args = 'class -> "myForm", 'id -> "myFormId"
     ) {
