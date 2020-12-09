@@ -14,21 +14,17 @@
  * limitations under the License.
  *@
 
-@import _root_.template.Helper._
-@import helpers._
 @import models.pages.Summary
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import template.FormatRefNum
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_],  messages: Messages)
 

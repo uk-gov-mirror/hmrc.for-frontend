@@ -25,13 +25,13 @@
     govukButton: GovukButton,
     govukCharacterCount: GovukCharacterCount,
     govukRadios: GovukRadios,
-    formWithCSFR:FormWithCSRF)(implicit requestHeader: Request[_], messages: Messages)
+    formWithCSRF:FormWithCSRF)(implicit requestHeader: Request[_], messages: Messages)
 
 
 
 <h1 class="govuk-heading-l">@messages("label.feedback.headingAfterSubmitting")</h1>
 
-@formWithCSFR(
+@formWithCSRF(
     action = feedback.routes.SurveyController.formCompleteFeedback,
     args = 'class -> "satisfactionSurvey", 'id -> "myFormId"
 

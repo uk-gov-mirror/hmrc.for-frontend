@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import helpers._
+@import helpers.form
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
@@ -23,13 +23,15 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(
     main_template: pageLayout,
     govukWarningText: GovukWarningText,
     govukButton: GovukButton,
     govukRadios: GovukRadios,
-    govukErrorSummary: GovukErrorSummary
+    govukErrorSummary: GovukErrorSummary,
+    formWithCSRF: formWithCSRF
 )
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
@@ -38,7 +40,8 @@
 
 @main_template(pageHeading = heading, showH1 = false) {
 
-    @form(action = dataCapturePages.routes.PageController.savePage(0), args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
+    @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(0),
+        args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
 
         @includes.summaryErrors(theForm, govukErrorSummary)
 

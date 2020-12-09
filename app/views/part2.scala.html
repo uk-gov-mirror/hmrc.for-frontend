@@ -33,7 +33,7 @@
         govukButton: GovukButton,
         govukInput:  GovukInput,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -46,7 +46,7 @@
     theForm = theForm
 ){
 
-  @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
+  @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(2), args = 'class -> "myForm", 'id -> "myFormId") {
 
     <p class="govuk-body">@messages("section2.subheading")</p>
 

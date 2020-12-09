@@ -18,10 +18,6 @@
 @import models.serviceContracts.submissions._
 @import models.pages.Summary
 @import play.api.data._
-@import _root_.template.Helper._
-@import helpers._
-@import models._
-@import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
@@ -35,7 +31,7 @@
     govukErrorSummary: GovukErrorSummary,
     govukDateInput:GovukDateInput,
     govukTextarea: GovukTextarea,
-    formWithCSFR: formWithCSRF)
+    formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -53,7 +49,7 @@
     theForm = theForm
 ){
 
-    @formWithCSFR(
+    @formWithCSRF(
         action = dataCapturePages.routes.PageController.savePage(8),
         args = 'class -> "myForm", 'id -> "myFormId") {
 

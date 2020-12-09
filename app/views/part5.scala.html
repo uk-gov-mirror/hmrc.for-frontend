@@ -18,7 +18,6 @@
 @import models.pages.{PageFive, Summary}
 @import models.serviceContracts.submissions._
 @import play.api.data._
-@import template.HiddenBy
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
@@ -34,7 +33,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         govukTextarea: GovukTextarea,
-        formWithCSFR: formWithCSRF)
+        formWithCSRF: formWithCSRF)
 
 @(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -49,7 +48,7 @@
 
     <p class="govuk-body">@messages("section5.heading.help")</p>
 
-    @formWithCSFR(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(5), args = 'class -> "myForm", 'id -> "myFormId") {
 
     @govukInput(
         Input(
