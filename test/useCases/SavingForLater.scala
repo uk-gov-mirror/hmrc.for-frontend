@@ -21,10 +21,10 @@ import connectors.Document
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import testutils._
-
-import scala.util.Random
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
+
+import scala.util.Random
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
 

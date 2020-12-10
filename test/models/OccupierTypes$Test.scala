@@ -16,9 +16,9 @@
 
 package models
 
-import models.serviceContracts.submissions.{OccupierTypeCompany, OccupierTypeNobody, OccupierType, OccupierTypeIndividuals}
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{JsSuccess, JsResult, Json}
+import models.serviceContracts.submissions.{OccupierType, OccupierTypeCompany, OccupierTypeIndividuals, OccupierTypeNobody}
+import org.scalatest.{FlatSpec, Matchers}
+import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 class OccupierTypes$Test extends FlatSpec with Matchers {
 

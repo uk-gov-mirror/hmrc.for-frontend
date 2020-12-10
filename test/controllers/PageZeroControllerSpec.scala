@@ -23,13 +23,13 @@ import org.joda.time.DateTime
 import org.scalatestplus.mockito.MockitoSugar.mock
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import play.filters.csrf._
 import uk.gov.hmrc.http.HeaderNames
 import utils.Helpers._
-import play.api.inject.bind
 import utils.stubs.StubFormDocumentRepo
 import views.html.part0
 

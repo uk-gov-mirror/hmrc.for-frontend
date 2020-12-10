@@ -24,11 +24,11 @@ import models.pages.Summary
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import org.scalatest.Matchers
 import play.api.mvc.Request
+import uk.gov.hmrc.http.HeaderCarrier
 import useCases.SubmissionBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 object StubSubmissionConnector { def apply() = new StubSubmissionConnector }
 

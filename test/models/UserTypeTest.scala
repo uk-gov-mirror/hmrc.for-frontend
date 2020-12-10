@@ -18,8 +18,7 @@ package models
 
 import models.serviceContracts.submissions._
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.libs.json.{JsSuccess, JsResult, Json}
-import models._
+import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 class UserTypeTest extends FlatSpec with Matchers {
 

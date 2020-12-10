@@ -22,7 +22,7 @@ import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import useCases.{Now, ReferenceNumber}
+import useCases.{ReferenceNumber}
 import useCases.SaveInProgressSubmissionForLater.UpdateDocumentInCurrentSession
 
 import scala.concurrent.Future

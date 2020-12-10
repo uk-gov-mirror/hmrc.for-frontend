@@ -18,7 +18,7 @@ package models
 
 import models.serviceContracts.submissions.Address
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.libs.json.{JsSuccess, JsResult, Json}
+import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 class PageOneMappingSpec extends FlatSpec with Matchers {
 

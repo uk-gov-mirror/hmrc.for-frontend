@@ -17,7 +17,7 @@
 package form
 
 import models._
-import models.serviceContracts.submissions.{WhatRentIncludes, Parking, ParkingDetails}
+import models.serviceContracts.submissions.{Parking, ParkingDetails, WhatRentIncludes}
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.data.FormError
 

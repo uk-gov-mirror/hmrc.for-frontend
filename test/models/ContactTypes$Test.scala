@@ -16,9 +16,9 @@
 
 package models
 
-import models.serviceContracts.submissions.{ContactTypeEmail, ContactType, ContactTypePhone}
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{JsSuccess, JsResult, Json}
+import models.serviceContracts.submissions.{ContactType, ContactTypeEmail, ContactTypePhone}
+import org.scalatest.{FlatSpec, Matchers}
+import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 
 class ContactTypes$Test extends FlatSpec with Matchers {

@@ -15,26 +15,6 @@
  */
 
 package config
-
-import controllers.toFut
-import org.joda.time.DateTime
-import play.api.Configuration
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.Results._
-import play.api.mvc._
-import play.i18n.MessagesApi
-import play.twirl.api.Html
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.http._
-import uk.gov.hmrc.play.language.LanguageUtils
-import useCases.Now
-
-import scala.concurrent.Future
-import scala.concurrent.duration.Duration
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.routing.Router.Tags.RouteActionMethod
-import uk.gov.hmrc.http.{BadRequestException, NotFoundException, Upstream4xxResponse}
 /*
 object ForGlobal extends ForGlobal
 

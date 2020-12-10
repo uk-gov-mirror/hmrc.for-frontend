@@ -14,20 +14,28 @@
  * limitations under the License.
  *@
 
-@import helpers._
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 
-@this(main_template: pageLayout, govukInput: GovukInput, govukButton: GovukButton)
+@this(
+        main_template: pageLayout,
+        govukInput: GovukInput,
+        govukButton: GovukButton,
+        formWithCSRF: formWithCSRF
+)
 
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
 
-    @form(action = routes.SaveForLaterController.resume, args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(
+        action = routes.SaveForLaterController.resume,
+        args = 'class -> "myForm", 'id -> "myFormId"
+    ) {
        @helper.CSRF.formField
 
         @govukInput(

@@ -16,19 +16,16 @@
 
 package form
 
-import models._
 import models.pages.PageTwelve
-import models.serviceContracts.submissions.{ResponsibleTenant, ChargeDetails, Responsibilities}
-import org.scalatest.{ FlatSpec, Matchers }
-import play.api.data.{ Form, FormError }
-import utils.FormBindingTestAssertions._
+import models.serviceContracts.submissions.{ChargeDetails, ResponsibleTenant}
+import org.scalatest.{FlatSpec, Matchers}
 
 class PageTwelveMappingSpec extends FlatSpec with Matchers {
 
   import PageTwelveForm._
-  import utils.MappingSpecs._
-  import utils.FormBindingTestAssertions._
   import TestData._
+  import utils.FormBindingTestAssertions._
+  import utils.MappingSpecs._
 
   "Page Twelve Mapping" should "bind with the fields and not return issues" in {
     mustBind(bind(baseData)) { _ => () }

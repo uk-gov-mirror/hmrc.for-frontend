@@ -16,23 +16,18 @@
 
 package controllers
 
-import connectors.{Audit, HODConnector}
-import form.persistence.FormDocumentRepository
-import models.FORLoginResponse
-import models.serviceContracts.submissions.Address
+import connectors.Audit
 import org.joda.time.DateTime
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.{JsObject, Json}
-import play.api.test.{FakeRequest, Helpers}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import playconfig.LoginToHODAction
 import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
-import utils.Helpers._
 import security.{LoginResult, NoExistingDocument}
 import uk.gov.hmrc.http.HeaderCarrier
+import utils.Helpers._
 import views.html.{login, loginFailed}
 
 import scala.concurrent.{ExecutionContext, Future}

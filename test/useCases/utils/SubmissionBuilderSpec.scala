@@ -24,7 +24,7 @@ import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.OptionValues._
 import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.{FlatSpec, Matchers}
-import useCases.{DefaultSubmissionBuilder, SubmissionBuilder}
+import useCases.DefaultSubmissionBuilder
 
 class SubmissionBuilderSpec extends FlatSpec with Matchers {
 

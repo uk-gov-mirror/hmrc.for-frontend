@@ -18,11 +18,11 @@ package helpers
 
 import akka.stream.Materializer
 import connectors.Audit
+import models.pages.{PageFour, SubletDetails, Summary}
+import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, SubletPart}
 import models.{LookupServiceAddress, RoughDate}
-import models.pages.{PageFive, PageFour, SubletDetails, Summary}
-import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, LandlordConnectionTypeNone, SubletPart}
 import org.joda.time.DateTime
-import org.mockito.{Mockito, MockitoSugar}
+import org.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.inject.ApplicationLifecycle
 import play.api.test.FakeRequest
@@ -77,11 +77,6 @@ class AddressAuditingSpec extends FlatSpec with Matchers {
       None, None, None, None, None, None, None, None, None, None, voaAddress, Nil)
   }
 
-  private def summaryWithLandlordAddress(original: Option[LookupServiceAddress], submitted: Option[Address]): Summary = {
-    Summary("1234567890", DateTime.now, None, None, None, None, None,
-      Some(PageFive(Some("Mr Landlord"), submitted, LandlordConnectionTypeNone, None)),
-      None, None, None, None, None, None, None, None, None, None, Nil)
-  }
 }
 
 object TestData {

@@ -21,8 +21,6 @@ import connectors.ForHttp
 import net.ceedubs.ficus.Ficus._
 import play.api.{Configuration, Play}
 
-import scala.concurrent.duration._
-
 object ForConfig {
   val config = Play.current.configuration
   val http = Play.current.injector.instanceOf[ForHttp]

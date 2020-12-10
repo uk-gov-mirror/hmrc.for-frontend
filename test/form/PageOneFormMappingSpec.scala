@@ -17,7 +17,6 @@
 package form
 
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.data.FormError
 
 class PageOneFormMappingSpec extends FlatSpec with Matchers {
   import TestData._

@@ -16,8 +16,8 @@
 
 package form
 
-import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.OptionValues._
+import org.scalatest.{FlatSpec, Matchers}
 
 class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
 

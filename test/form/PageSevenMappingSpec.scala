@@ -16,10 +16,9 @@
 
 package form
 
-import models._
 import models.serviceContracts.submissions.ReviewIntervalTypeOther
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.data.{Form, FormError}
+import play.api.data.FormError
 import utils.FormBindingTestAssertions._
 
 class PageSevenMappingSpec extends FlatSpec with Matchers {
