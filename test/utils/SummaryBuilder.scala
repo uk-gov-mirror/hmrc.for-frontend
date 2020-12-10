@@ -84,18 +84,6 @@ object SummaryBuilder {
     noRentDetails = None
   )
 
-  private lazy val propertyNotOwnedOrRented = PageThree(
-    propertyType = "property type",
-    occupierType = OccupierTypeCompany,
-    occupierCompanyName = Some("Some Company"),
-    occupierCompanyContact = Some("Some Company Contact"),
-    firstOccupationDate = Some(RoughDate(Some(28), Some(2), 2015)),
-    None,
-    propertyOwnedByYou = false,
-    propertyRentedByYou = Some(false),
-    noRentDetails = None
-  )
-
   private lazy val propertyNotSublet = PageFour(
     false, List.empty
   )
@@ -112,19 +100,9 @@ object SummaryBuilder {
   private lazy val pageSixData = PageSix(
     LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement()
   )
-  private lazy val pageSixNoVerbal = PageSix(
-    LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement()
-  )
-  private lazy val leaseAgreementTenancy = PageSix(
-    LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement()
-  )
-  private lazy val pageSixVerbal = PageSix(
-    LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false))
-  )
+
   private lazy val pageSevenData = PageSeven(false, None)
   private lazy val pageEightData = RentAgreement(true, None, RentSetByTypeNewLease)
-  private lazy val hasNoRentReviews = PageSeven(false, None)
-  private lazy val hasRentReviews = PageSeven(true, None)
   private lazy val pageNineData = PageNine(
     AnnualRent( 8.99), rentBecomePayable = new LocalDate(2010, 2, 27), rentActuallyAgreed = new LocalDate(2005, 4, 2),
     negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None

@@ -16,9 +16,9 @@
 
 package form
 
-import org.scalatest.{ FlatSpec, Matchers }
-import utils.FormBindingTestAssertions._
 import org.joda.time.DateTime
+import org.scalatest.{FlatSpec, Matchers}
+import utils.FormBindingTestAssertions._
 
 class LoginMappingSpec extends FlatSpec with Matchers {
 	val loginForm = controllers.LoginController.loginForm

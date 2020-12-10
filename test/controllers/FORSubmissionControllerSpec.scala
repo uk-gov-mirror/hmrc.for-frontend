@@ -20,7 +20,7 @@ import form.persistence.FormDocumentRepository
 import javax.inject.Singleton
 import models.serviceContracts.submissions.Submission
 import org.scalatest.{FreeSpec, GivenWhenThen, Matchers, MustMatchers}
-import org.scalatestplus.play.guice.{GuiceFakeApplicationFactory, GuiceOneAppPerSuite, GuiceOneAppPerTest}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest

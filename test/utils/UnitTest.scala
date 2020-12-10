@@ -16,7 +16,7 @@
 
 package utils
 
-import org.scalatest.{FlatSpec, Matchers, WordSpec}
+import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 
 abstract class UnitTest extends WordSpec with Matchers with FutureAwaits with DefaultAwaitTimeout with BehaviourVerification

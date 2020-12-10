@@ -246,9 +246,6 @@ trait DateMappingSpecs { this: CommonSpecs =>
   }
 
   private def fullDateMustBeInPast[T](field: String, form: Form[T], formData: Map[String, String]) {
-    val dayKey = field + ".day"
-    val monthKey = field + ".month"
-    val yearKey = field + ".year"
 
     val tomorrow = DateTime.now.plusDays(1)
 
@@ -275,10 +272,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
   }
   
   def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String]) {
-    val dayKey = field + ".day"
-    val monthKey = field + ".month"
-    val yearKey = field + ".year"
-    
+
     val invalid = Seq(
       ("29", "2", "2015"),
       ("31", "9", "2015")

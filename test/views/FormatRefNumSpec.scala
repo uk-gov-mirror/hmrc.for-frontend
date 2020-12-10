@@ -16,7 +16,7 @@
 
 package views
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import template.FormatRefNum
 
 class FormatRefNumSpec extends FlatSpec with Matchers {

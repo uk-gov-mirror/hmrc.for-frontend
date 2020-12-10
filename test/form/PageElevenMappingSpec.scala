@@ -16,9 +16,8 @@
 
 package form
 
-import models._
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.data.{Form, FormError}
+import play.api.data.FormError
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
 

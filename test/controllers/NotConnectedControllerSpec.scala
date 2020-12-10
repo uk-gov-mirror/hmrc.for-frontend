@@ -20,13 +20,12 @@ import connectors.{Audit, SubmissionConnector}
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.Configuration
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.Helpers._
-import views.html.{confirmNotConnected, notConnected, part0}
+import views.html.{confirmNotConnected, notConnected}
 
 import scala.concurrent.ExecutionContext
 

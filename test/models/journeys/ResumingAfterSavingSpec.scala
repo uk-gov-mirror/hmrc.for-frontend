@@ -16,8 +16,8 @@
 
 package models.journeys
 
-import org.scalatest.{ FlatSpec, Matchers }
 import org.scalatest.prop.TableDrivenPropertyChecks
+import org.scalatest.{FlatSpec, Matchers}
 import utils.SummaryBuilder._
 
 class ResumingAfterSavingSpec extends FlatSpec with Matchers with TableDrivenPropertyChecks {

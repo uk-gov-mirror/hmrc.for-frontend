@@ -16,8 +16,8 @@
 
 package form
 
-import org.scalatest.{Matchers, FlatSpec}
-import PageFourteenForm._
+import form.PageFourteenForm._
+import org.scalatest.{FlatSpec, Matchers}
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
 

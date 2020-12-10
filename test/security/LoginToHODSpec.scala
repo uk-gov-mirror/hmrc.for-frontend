@@ -20,9 +20,9 @@ import connectors.Document
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
+import uk.gov.hmrc.http.HeaderCarrier
 import useCases.ReferenceNumber
 import utils.UnitTest
-import uk.gov.hmrc.http.HeaderCarrier
 
 class LoginToHODSpec extends UnitTest {
   import TestData._

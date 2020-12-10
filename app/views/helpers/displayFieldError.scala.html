@@ -16,4 +16,4 @@
 
 @(error:FormError)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<p class="govuk-error-message">@Messages(error.message, error.args:_*)</p>
+<p class="govuk-error-message">@messages(error.message, error.args:_*)</p>

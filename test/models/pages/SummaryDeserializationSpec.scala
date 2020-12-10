@@ -17,7 +17,6 @@
 package models.pages
 
 import connectors.{Document, Page}
-import models.RentLengthTypeQuarterly
 import models.serviceContracts.submissions.OccupierTypeIndividuals
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers, OptionValues}

@@ -107,10 +107,6 @@ class ApplicationController @Inject()(
     Ok(errorView(500))
   }
 
-  private def host(implicit request: RequestHeader): String = {
-    s"${ForConfig.pdfProtocol}://${request.host}/"
-  }
-
   def checkYourAnswers = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>

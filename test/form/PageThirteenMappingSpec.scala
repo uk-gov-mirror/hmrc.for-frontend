@@ -16,12 +16,12 @@
 
 package form
 
+import form.PageThirteenForm.pageThirteenForm
+import models._
 import models.serviceContracts.submissions.{AlterationSetByTypeAddLift, AlterationSetByTypeExtension, PropertyAlterations, PropertyAlterationsDetails}
 import org.scalatest.{FlatSpec, Matchers}
-import PageThirteenForm.pageThirteenForm
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
-import models._
 
 class PageThirteenMappingSpec extends FlatSpec with Matchers {
 
