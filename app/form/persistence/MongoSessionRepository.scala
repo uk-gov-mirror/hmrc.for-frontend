@@ -106,6 +106,12 @@ class MongoSessionRepository @Inject() (mongo: ReactiveMongoComponent, ec: Execu
     collection.update(false).one(q,u, upsert = true)
   }
 
+  def removeCache(cacheId: String) = {
+    val q = Json.obj("_id" -> cacheId)
+    implicit val _ec = ec
+    collection.delete(false).one(q, limit = Option(1)).map(_ => ())
+  }
+
 
   implicit val instantTimeRead: Reads[Instant] =
     (__ \ "$date").read[Long].map { dateTime =>

@@ -32,6 +32,7 @@ trait FormDocumentRepository {
   def updatePage(documentId: String, referenceNumber: String, page: Page): Future[Unit]
   def store(documentId: String, referenceNumber: String, doc: Document): Future[Unit]
   def clear(documentId: String, referenceNumber: String): Future[Unit]
+  def remove(documentId: String): Future[Unit]
 }
 
 @Singleton
@@ -84,6 +85,10 @@ class SessionScopedFormDocumentRepository @Inject() (cache: MongoSessionReposito
       case Some(doc) => store(documentId, referenceNumber, doc.copy(pages = Seq.empty))
       case None => ()
     }
+  }
+
+  override def remove(documentId: String): Future[Unit] = {
+    cache.removeCache(documentId)
   }
 }
 
