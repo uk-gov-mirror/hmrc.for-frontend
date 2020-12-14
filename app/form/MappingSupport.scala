@@ -76,14 +76,6 @@ object MappingSupport {
       .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
   }
 
-  def nonEmptyTextWithError(errorMessage: String, minLength:Int = 0, maxLength: Int) = {
-    text.verifying(errorMessage, txt => {
-      println("*****************")
-      println("***************** Oh no!")
-      txt != null && txt.length > minLength && txt.length <= maxLength
-    })
-  }
-
   import Formats._ // scalastyle:ignore
 
   val postcodeRegex = """(GIR ?0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKPSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) ?[0-9][A-Z-[CIKMOV]]{2})""" //scalastyle:ignore
