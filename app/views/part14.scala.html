@@ -28,7 +28,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         govukDetails:GovukDetails,
         formWithCSRF: formWithCSRF)
 
@@ -81,12 +81,13 @@
         )
     )
 
-    @govukTextarea(
-        Textarea(
+    @govukCharacterCount(
+        CharacterCount(
             id = "anyOtherFactorsDetails",
             name = "anyOtherFactorsDetails",
             value = theForm("anyOtherFactorsDetails").value,
             rows = 4,
+            maxLength=124,
             errorMessage = theForm.errors.asTextErrorMessageForField("anyOtherFactorsDetails"),
             attributes = Map(
                 "data-hidden-by" -> "anyOtherFactors",
@@ -97,6 +98,7 @@
             )
         )
     )
+
 
 
      @includes.continueSaveForLaterButtons(govukButton)

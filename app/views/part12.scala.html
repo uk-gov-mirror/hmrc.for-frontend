@@ -29,7 +29,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput: GovukDateInput,
         hmrcCurrencyInput: HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         govukDetails: GovukDetails,
         formWithCSRF: formWithCSRF)
 
@@ -292,12 +292,14 @@
                     errorMessage =  theForm.errors.asTextErrorMessageForField("includedServicesDetails[0].chargeCost")
                 )
             )
-            @govukTextarea(
-                Textarea(
+
+            @govukCharacterCount(
+                CharacterCount(
                     id = "includedServicesDetails[0].chargeDescription",
                     name = "includedServicesDetails[0].chargeDescription",
                     value = theForm("includedServicesDetails[0].chargeDescription").value,
-                    rows = 6,
+                    rows = 3,
+                    maxLength=50,
                     hint = Hint(content = Text(messages("hint.includedServicesDetails.chargeDescription"))),
                     errorMessage = theForm.errors.asTextErrorMessageForField("includedServicesDetails[0].chargeDescription"),
                     label = Label(
@@ -306,6 +308,7 @@
                     )
                 )
             )
+
 
         </fieldset>
 

@@ -32,7 +32,7 @@
         govukInput:  GovukInput,
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         formWithCSRF: formWithCSRF)
 
 @(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages)
@@ -93,16 +93,17 @@
         )
     )
 
-    @govukInput(
-        Input(
+    @govukCharacterCount(
+        CharacterCount(
             id = "landlordConnectText",
             name = "landlordConnectText",
             value = theForm("landlordConnectText").value,
-            classes = "govuk-input--width-20",
             attributes = Map(
                 "data-hidden-by" -> "landlordConnectType",
                 "data-show-when-value-equals" -> "other"
             ),
+            rows = 4,
+            maxLength = 100,
             label = Label(
                 content = Text(if(summary.isAgent) messages("label.landlordConnectText.agent") else messages("label.landlordConnectText")  ),
                 classes = "govuk-!-font-weight-bold"

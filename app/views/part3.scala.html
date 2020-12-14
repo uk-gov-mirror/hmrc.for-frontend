@@ -35,6 +35,7 @@
     govukErrorSummary: GovukErrorSummary,
     govukDateInput: GovukDateInput,
     govukTextarea: GovukTextarea,
+    govukCharacterCount: GovukCharacterCount,
     formWithCSRF: formWithCSRF
 )
 
@@ -224,25 +225,26 @@
                     )
                 )
             )
-
-            @govukTextarea(
-                Textarea(
+            @govukCharacterCount(
+                CharacterCount(
                     id = "noRentDetails",
-                    rows = 6,
                     name = "noRentDetails",
                     value = theForm("noRentDetails").value,
                     attributes = Map(
                         "data-hidden-by" -> "propertyRentedByYou",
                         "data-show-when-value-equals" -> "false"
                     ),
+                    rows = 8,
+                    maxLength = 249,
+                    errorMessage = theForm.errors.asTextErrorMessageForField("noRentDetails"),
                     label = Label(
                         content = Text(if(summary.isAgent)  messages("label.noRentDetails.agent")  else  messages("label.noRentDetails")),
                         classes = "govuk-!-font-weight-bold"
 
-                    ),
-                    errorMessage = theForm.errors.asTextErrorMessageForField("noRentDetails")
+                    )
                 )
             )
+
             </fieldset>
 
       @includes.continueSaveForLaterButtons(govukButton)
