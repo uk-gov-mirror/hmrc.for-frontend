@@ -80,6 +80,8 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
   override def store(documentId: String, referenceNumber: String, doc: Document): Future[Unit] = ???
 
   override def clear(documentId: String, referenceNumber: String): Future[Unit] = ???
+
+  override def remove(documentId: String): Future[Unit] = Future.successful(())
 }
 
 object StubAddressAuditing extends AddressAuditing(null) {

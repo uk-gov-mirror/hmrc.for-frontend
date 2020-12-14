@@ -62,8 +62,8 @@ class NotConnectedController @Inject()
     }
   }
 
-  def clearSummary(implicit request: RefNumRequest[_]) = {
-    repository.clear(SessionId(hc), request.refNum)
+  def removeSession(implicit request: RefNumRequest[_]) = {
+    repository.remove(SessionId(hc))
   }
 
   def onPageView = refNumAction.async { implicit request =>
@@ -107,11 +107,14 @@ class NotConnectedController @Inject()
       Map("journey" -> NotConnectedJourney.name)
     ).discardingErrors
 
-    findSummary.map {
-      case Some(summary) => Ok(confirmNotConnectedView(summary, feedbackForm)) //.withNewSession
+    findSummary.flatMap {
+      case Some(summary) => {
+          removeSession
+          .map(_ => Ok(confirmNotConnectedView(summary, feedbackForm)))
+      } //.withNewSession
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
+        Future.successful(InternalServerError(errorView(500)))
       }
     }
   }
