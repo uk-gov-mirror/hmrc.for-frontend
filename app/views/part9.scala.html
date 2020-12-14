@@ -34,6 +34,7 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         govukDetails:GovukDetails,
         formWithCSRF: formWithCSRF)
 
@@ -138,16 +139,17 @@
           )
       )
 
-      @govukInput(
-          Input(
+      @govukCharacterCount(
+          CharacterCount(
               id = "rentBasedOnDetails",
               name = "rentBasedOnDetails",
               value = theForm("rentBasedOnDetails").value,
-              classes = "govuk-input--width-20",
               attributes = Map(
                   "data-hidden-by" -> "rentBasedOn",
                   "data-show-when-value-equals" -> "other|indexation|indexation|percentageTurnover|percentageOpenMarket"
               ),
+              rows = 6,
+              maxLength = 250,
               label = Label(
                   content = Text(messages("label.rentBasedOnDetails")),
                   classes = "govuk-!-font-weight-bold"

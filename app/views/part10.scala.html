@@ -29,7 +29,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         govukDetails:GovukDetails,
         formWithCSRF: formWithCSRF)
 
@@ -206,22 +206,22 @@
             )
         )
 
-    @govukTextarea(
-        Textarea(
-            id = "rentDetails",
-            name = "rentDetails",
-            value = theForm("rentDetails").value,
-            rows = 6,
-            errorMessage = theForm.errors.asTextErrorMessageForField("rentDetails"),
-            attributes = Map(
-                "data-hidden-by" -> "livingAccommodation|otherProperty|partRent|landOnly|shellUnit",
-                "data-show-when-value-equals" -> "true|true|true|true|true"),
-            label = Label(
-                content = Text( messages("label.rentDetails" + labelSuffix))
+        @govukCharacterCount(
+            CharacterCount(
+                id = "rentDetails",
+                name = "rentDetails",
+                value = theForm("rentDetails").value,
+                rows = 6,
+                maxLength = 249,
+                errorMessage = theForm.errors.asTextErrorMessageForField("rentDetails"),
+                attributes = Map(
+                    "data-hidden-by" -> "livingAccommodation|otherProperty|partRent|landOnly|shellUnit",
+                    "data-show-when-value-equals" -> "true|true|true|true|true"),
+                label = Label(
+                    content = Text( messages("label.rentDetails" + labelSuffix))
+                )
             )
         )
-    )
-
 
         @govukRadios(
             Radios(

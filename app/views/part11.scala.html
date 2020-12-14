@@ -28,7 +28,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         govukDetails:GovukDetails,
         formWithCSRF: formWithCSRF)
 
@@ -99,19 +99,19 @@
             )
         )
 
-        @govukTextarea(
-            Textarea(
+        @govukCharacterCount(
+            CharacterCount(
                 id = "rentFreePeriodDetails.rentFreePeriodDetails",
                 name = "rentFreePeriodDetails.rentFreePeriodDetails",
                 value = theForm("rentFreePeriodDetails.rentFreePeriodDetails").value,
                 rows = 6,
+                maxLength = 250,
                 errorMessage = theForm.errors.asTextErrorMessageForField("rentFreePeriodDetails.rentFreePeriodDetails"),
                 label = Label(
                     content = Text( messages("label.rentFreePeriodDetails.rentFreePeriodDetails" + labelSuffix)),
                     classes = "govuk-!-font-weight-bold"
                 ),
                 hint = Hint(content = Text(messages("hint.rentFreePeriodDetails.rentFreePeriodDetails")))
-
             )
         )
 

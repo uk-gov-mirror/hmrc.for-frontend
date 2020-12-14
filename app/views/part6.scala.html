@@ -32,6 +32,7 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
+        govukCharacterCount: GovukCharacterCount,
         formWithCSRF: formWithCSRF)
 
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
@@ -219,16 +220,18 @@
             )
           )
 
-          @govukTextarea(
-            Textarea(
+          @govukCharacterCount(
+            CharacterCount(
               id = "writtenAgreement.breakClauseDetails",
               name = "writtenAgreement.breakClauseDetails",
               value = theForm("writtenAgreement.breakClauseDetails").value,
-              rows = 4,
-              errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.breakClauseDetails"),
               attributes = Map(
                 "data-hidden-by" -> "writtenAgreement.leaseAgreementHasBreakClause",
-                "data-show-when-value-equals" -> "true"),
+                "data-show-when-value-equals" -> "true"
+              ),
+              rows = 5,
+              maxLength = 124,
+              errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.breakClauseDetails"),
               label = Label(
                 classes = "govuk-!-font-weight-bold",
                 content = Text( messages("label.writtenAgreement.breakClauseDetails"))
