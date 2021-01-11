@@ -100,6 +100,7 @@ package object models {
   implicit val sdfm = Json.format[SubletDetails]
   implicit val p3f = Json.format[PageThree]
   implicit val p4f = Json.format[PageFour]
+  implicit val p5f = Json.format[PageFive]
   implicit val p6f = Json.format[PageSix]
   implicit val p7f = Json.format[PageSeven]
   implicit val p9f = Json.format[PageNine]
