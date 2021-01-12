@@ -18,10 +18,12 @@ package connectors
 
 import akka.stream.Materializer
 import com.google.inject.ImplementedBy
+import models.pages.Summary
+
 import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.Submission
 import play.api.inject.ApplicationLifecycle
-import play.api.libs.json.OWrites
+import play.api.libs.json.{Json, OWrites}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
@@ -35,15 +37,34 @@ trait Audit extends AuditConnector {
 
   implicit def ec: ExecutionContext
 
+  private val AUDIT_SOURCE = "for-frontend"
+
   def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val tags = hc.toAuditTags()
-    val de = DataEvent(auditSource = "for-frontend", auditType = event, tags = tags, detail = detail)
+    val de = DataEvent(auditSource = AUDIT_SOURCE, auditType = event, tags = tags, detail = detail)
     sendEvent(de)
+  }
+
+  /**
+   * Don't use this in the rest of application(unless you know what are you doing).
+   * Summary doesn't have defined formatter,
+   * it is constructed manually when is deserialized from session or DB.
+   */
+  private val summaryWriter = {
+    import play.api.libs.json._
+    import play.api.libs.json.JodaWrites._
+    Json.writes[Summary]
+  }
+
+  def apply(even: String, sum: Summary)(implicit hc: HeaderCarrier): Future[AuditResult] = {
+    val details = Json.toJson(sum)(summaryWriter)
+    val dataEvent = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = even, tags = hc.toAuditTags(), detail = details)
+    sendExtendedEvent(dataEvent)
   }
 
   def apply(event: String, submission: Submission)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val sub = (implicitly[OWrites[Submission]]).writes(submission)
-    val de = ExtendedDataEvent(auditSource = "for-frontend", auditType = event, detail = sub)
+    val de = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = event, detail = sub)
     sendExtendedEvent(de)
   }
 

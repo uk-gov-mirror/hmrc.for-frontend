@@ -118,9 +118,7 @@ class SaveForLaterController @Inject()
   }
 
   def auditSavedForLater(sum: Summary)(implicit headerCarrier: HeaderCarrier) = audit(
-    "SavedForLater", Map(
-      Audit.referenceNumber -> sum.referenceNumber, "name" -> sum.submitter
-    )
+    "SavedForLater", sum
   )
 
   def resumeOptions = refNumAction.async { implicit request =>
