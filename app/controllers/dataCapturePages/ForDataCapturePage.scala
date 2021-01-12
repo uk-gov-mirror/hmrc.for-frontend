@@ -22,10 +22,11 @@ import controllers._
 import controllers.dataCapturePages.ForDataCapturePage._
 import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
+
 import javax.inject.Inject
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
-import play.api.Logger
+import play.api.{Logger, Play}
 import play.api.data.Form
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
@@ -45,6 +46,8 @@ abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
 
   implicit val format: Format[T]
   implicit val ec: ExecutionContext = controllerComponents.executionContext
+
+  def audit = Play.current.injector.instanceOf[Audit]
 
   def emptyForm: Form[T]
 
@@ -87,16 +90,28 @@ abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
     action match {
       case controllers.dataCapturePages.ForDataCapturePage.Continue => bindForm(savedFields).fold(
         formWithErrors => displayForm(formWithErrors, summary, request),
-        pageData => getPage(pageNumber + 1, summary, request)
+        pageData => {
+          auditFormSubmission(pageData)
+          getPage(pageNumber + 1, summary, request)
+        }
       )
       case controllers.dataCapturePages.ForDataCapturePage.Update => bindForm(savedFields).fold(
         formWithErrors => displayForm(formWithErrors, summary, request),
-        pageData => RedirectTo(Journey.pageToResumeAt(summary), request.headers)
+        pageData => {
+          auditFormSubmission(pageData)
+          RedirectTo(Journey.pageToResumeAt(summary), request.headers)
+        }
       )
       case controllers.dataCapturePages.ForDataCapturePage.Save => Redirect(controllers.routes.SaveForLaterController.saveForLater())
       case controllers.dataCapturePages.ForDataCapturePage.Back => getPage(pageNumber - 1, summary, request)
       case controllers.dataCapturePages.ForDataCapturePage.Unknown => redirectToPage(pageNumber)
     }
+  }
+
+  def auditFormSubmission(formData: T)(implicit request: RefNumRequest[AnyContent]): Unit = { //TODO maybe future?? or fire&forget
+    //Get only form data, not additional POST data like CSRF token.
+    val data = emptyForm.fill(formData).data.+(Audit.referenceNumber -> request.refNum)
+    audit("ContinueNextPage", data)
   }
 
   private def bindForm(requestData: Map[String, Seq[String]]) = emptyForm.bindFromRequest(requestData).convertGlobalToFieldErrors()
