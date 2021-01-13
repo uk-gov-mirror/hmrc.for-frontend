@@ -76,7 +76,7 @@ class SaveForLaterController @Inject()
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
-              auditSavedForLater(sum)
+              auditSavedForLater(sum, request)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
 
@@ -102,7 +102,7 @@ class SaveForLaterController @Inject()
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
-                auditSavedForLater(sum)
+                auditSavedForLater(sum, request)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
 
@@ -117,9 +117,11 @@ class SaveForLaterController @Inject()
       }
   }
 
-  def auditSavedForLater(sum: Summary)(implicit headerCarrier: HeaderCarrier) = audit(
-    "SavedForLater", sum
-  )
+  def auditSavedForLater(sum: Summary, request: RefNumRequest[AnyContent])(implicit headerCarrier: HeaderCarrier) = {
+    audit(
+      "SavedForLater", sum, request.headers.get("Referer").getOrElse("-")
+    )
+  }
 
   def resumeOptions = refNumAction.async { implicit request =>
     Ok(saveForLaterResumeOptions())
