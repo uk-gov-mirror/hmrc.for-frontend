@@ -32,7 +32,7 @@
 
     <div class="summary-actions govuk-!-margin-top-5 dontprint" >
         <a id="continue" href="@routes.ApplicationController.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
-        <a href="@routes.SaveForLaterController.saveForLater" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
+        <a href="@routes.SaveForLaterController.saveForLater(request.path)" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
     </div>
     <a class="govuk-link print-link" href="" onclick="javascript:window.print();return false;">@messages("label.print.printorsave")</a>
 

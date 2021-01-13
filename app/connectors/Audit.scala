@@ -56,10 +56,10 @@ trait Audit extends AuditConnector {
     Json.writes[Summary]
   }
 
-  def apply(even: String, sum: Summary, referer: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
+  def apply(even: String, sum: Summary, exitPath: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val details = Json.toJson(sum)(summaryWriter)
 
-    val tags = hc.toAuditTags().+("referer" -> referer)
+    val tags = hc.toAuditTags().+("exitPath" -> exitPath)
 
     val dataEvent = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = even, tags = tags, detail = details)
     sendExtendedEvent(dataEvent)
