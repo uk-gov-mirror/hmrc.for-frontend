@@ -22,8 +22,8 @@ GET         /login/en                  controllers.CustomLanguageController.show
 GET         /login/cy                  controllers.CustomLanguageController.showWelsh
 
 #SAVE4LATER
-GET         /saved                     controllers.SaveForLaterController.saveForLater
-POST        /saved                     controllers.SaveForLaterController.customPasswordSaveForLater
+GET         /saved                     controllers.SaveForLaterController.saveForLater(path: String)
+POST        /saved                     controllers.SaveForLaterController.customPasswordSaveForLater(path: String)
 GET         /saved/login               controllers.SaveForLaterController.login
 GET         /savedForm                 controllers.SaveForLaterController.resumeOptions
 POST 		/resume					   controllers.SaveForLaterController.resume

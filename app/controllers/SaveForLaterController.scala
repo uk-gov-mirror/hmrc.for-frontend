@@ -69,21 +69,21 @@ class SaveForLaterController @Inject()
   lazy val repository: FormDocumentRepository = FormPersistence.formDocumentRepository
 
 
-  def saveForLater = refNumAction.async { implicit request =>
+  def saveForLater(exitPath: String) = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
       case Some(doc) => {
         val sum = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
             playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
-              auditSavedForLater(sum, request)
+              auditSavedForLater(sum, exitPath)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
 
               Ok(savedForLater(sum, pw, expiryDate))
             }
           } else {
-            Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword))
+            Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword, exitPath)) //TODO - pass path
           }
       }
       case None =>
@@ -91,18 +91,18 @@ class SaveForLaterController @Inject()
     }
   }
 
-  def customPasswordSaveForLater = refNumAction.async { implicit request =>
+  def customPasswordSaveForLater(exitPath: String) = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
         case Some(doc) => {
           val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
             formErrors => {
-              Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors))
+              Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors, exitPath))
             },
             validData => {
               playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
-                auditSavedForLater(sum, request)
+                auditSavedForLater(sum, exitPath)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
 
@@ -117,9 +117,9 @@ class SaveForLaterController @Inject()
       }
   }
 
-  def auditSavedForLater(sum: Summary, request: RefNumRequest[AnyContent])(implicit headerCarrier: HeaderCarrier) = {
+  def auditSavedForLater(sum: Summary, exitPath: String)(implicit headerCarrier: HeaderCarrier) = {
     audit(
-      "SavedForLater", sum, request.headers.get("Referer").getOrElse("-")
+      "SavedForLater", sum, exitPath
     )
   }
 
