@@ -368,7 +368,7 @@ label.writtenAgreement.steppedDetails.stepFrom=Step from
 label.writtenAgreement.steppedDetails.stepTo=Step to
 label.writtenAgreement.steppedDetails.amount=The rent paid or to be paid during this period (excluding VAT).
 label.writtenAgreement.steppedDetails.amount.agent=The rent your client will pay or have paid during this stepped-rent period (excluding VAT).
-label.writtenAgreement.steppedDetails.hint=Enter the stepped-rent amount.
+label.writtenAgreement.steppedDetails.hint=Enter the annual rent even if the period is for less than or more than a year.
 label.writtenAgreement.steppedDetails=Stepped-rent details
 hint.leaseAgreementType=For multiple leases or tenancy agreements, enter details of the primary lease then contact the Valuation Office Agency to provide details of the other lease or agreements.
 

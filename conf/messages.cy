@@ -363,7 +363,7 @@ help.steprent.datefrom=Er enghraifft, 28 3 2012
 label.writtenAgreement.steppedDetails.stepFrom=Gris o
 label.writtenAgreement.steppedDetails.stepTo=Gris i
 label.writtenAgreement.steppedDetails.amount=Y rhent a dalwyd neu sydd i’w dalu yn ystod y cyfnod hwn (ac eithrio TAW).
-label.writtenAgreement.steppedDetails.hint=Nodwch swm y rhent grisiog.
+label.writtenAgreement.steppedDetails.hint=Rhowch y rhent blynyddol hyd yn oed os yw’r cyfnod am lai na neu fwy na blwyddyn.
 label.writtenAgreement.steppedDetails=Manylion rhent grisiog
 hint.leaseAgreementType=Ar gyfer prydlesi neu gytundebau tenantiaeth lluosog, nodwch fanylion y brydles sylfaenol ac yna cysylltwch â’r Swyddfa Brisio i roi manylion yn ymwneud â phrydlesi neu gytundebau eraill.
 
