@@ -1,8 +1,6 @@
 Rent And Lease Details Frontend
 ===============================
 
-test gpg
-
 [![Build Status](https://travis-ci.org/hmrc/for-frontend.svg?branch=master)](https://travis-ci.org/hmrc/for-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/for-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/for-frontend/_latestVersion)
 
 Supplying business rental information is an important activity that allows the VOA (valuation office agency) to calculate the rateable value of a property. 
