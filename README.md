@@ -54,4 +54,4 @@ sm --stop FOR_FRONTEND
 sbt 'run 9521'
 
 #to test 
-sbt test
+
