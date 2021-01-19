@@ -20,9 +20,10 @@ import actions.{RefNumAction, RefNumRequest}
 import connectors.Audit
 import form.Formats._
 import form.persistence.FormDocumentRepository
+
 import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
-import models.{Journey, NormalJourney, Satisfaction}
+import models.{Journey, NormalJourney, Satisfaction, contactDetailsFormat}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
 import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequestHeader, Request, RequestHeader}
@@ -50,11 +51,17 @@ class SurveyController @Inject() (
                                    audit: Audit,
                                    confirmationView: views.html.confirm,
                                    errorView: views.html.error.error,
-                                   feedbackThxView: views.html.feedbackThx
+                                   feedbackThxView: views.html.feedbackThx,
+                                   surveyView: views.html.survey
                                  )(implicit ec: ExecutionContext) extends FrontendController(cc) {
   import Survey._
 
   val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
+
+  def onPageView(journey: String) = refNumAction { implicit request =>
+    val form = completedFeedbackForm.copy(data = Map("journey" -> journey))
+    Ok(surveyView(form))
+  }
 
   def confirmation = refNumAction.async { implicit request =>
     viewConfirmationPage(request.refNum)

@@ -62,6 +62,7 @@ GET         /500                       controllers.ApplicationController.error50
 GET         /lookup                    controllers.AddressLookup.getAddress(postcode:String)
 
 # SURVEY
+GET         /survey                         controllers.feedback.SurveyController.onPageView(journey: String)
 POST        /survey                         controllers.feedback.SurveyController.formCompleteFeedback
 
 # IN-PAGE FEEDBACK
