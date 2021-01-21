@@ -443,12 +443,13 @@ hint.rentBasedOnDetailsPercentageTurnover=Provide the base rent (and its percent
 hint.rentBasedOnDetailsOther=For example, the date and details of the CVA, or a description of any other basis.
 label.rentActuallyAgreed=When was the rent amount agreed or set?
 details.question.rentBasedOn=Learn more about what your rent is based on
-rentBasedOn.openMarket.hint=The rent is what a landlord could expect for a property, if it were available to let to anyone.
+rentBasedOn.openMarket.hint=The rent is what a landlord could expect for the property if it were available to anyone.
 #leave this blank please as there should be no hint for openMarketPercentage!
-rentBasedOn.percentageOpenMarket.hint=
+#hint for openMarketPercentage added as per VOA-2321
+rentBasedOn.percentageOpenMarket.hint=The rent is a percentage of what a landlord could expect for the property if it were available to anyone.
 rentBasedOn.percentageTurnover.hint=The rent is based on a percentage of the tenant’s expected turnover.
-rentBasedOn.indexation.hint=The rent is reviewed every year based on an index (such as the Retail Price Index).
-rentBasedOn.other.hint=The rent may have been agreed another way, such as a Company Voluntary Arrangement (CVA).
+rentBasedOn.indexation.hint=The rent is reviewed according to an index (such as the Retail Price Index).
+rentBasedOn.other.hint=The rent has been agreed another way, such as a Company Voluntary Arrangement (CVA) or Total Occupancy Cost leases (TOCs).
 
 label.noJs.rentBasedOnDetails=Answer this only if you’ve selected ‘Other’
 

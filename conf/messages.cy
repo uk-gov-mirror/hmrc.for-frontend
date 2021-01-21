@@ -459,10 +459,11 @@ hint.rentBasedOnDetailsPercentageTurnover=Darparwch y rhent sylfaenol (a’i gan
 hint.rentBasedOnDetailsOther=Er enghraifft, dyddiad a manylion y Gytundeb Gwirfoddol Cwmni, neu ddisgrifiad o unrhyw sail arall.
 label.rentActuallyAgreed=Pryd cytunwyd ar y rhent neu pryd cafodd ei bennu?
 details.question.rentBasedOn=Dysgwch ragor am yr hyn y seilir eich rhent arno
-rentBasedOn.openMarket.hint=Y rhent yw’r hyn y gallai landlord ei ddisgwyl am eiddo, pe bai ar gael i’w osod i unrhyw un.
-rentBasedOn.percentageTurnover.hint=Mae’r rhent yn seiliedig ar ganran trosiant disgwyliedig y tenant.           
-rentBasedOn.indexation.hint=Mae’r rhent yn cael ei adolygu bob blwyddyn ar sail mynegai (megis Mynegai Prisiau Manwerthu).    
-rentBasedOn.other.hint=Mae’n bosibl bod y rhent wedi’i gytuno arno mewn ffordd arall, megis Trefniant Gwirfoddol Cwmni (CVA).   
+rentBasedOn.openMarket.hint=Y rhent yw’r hyn y gallai landlord ei ddisgwyl am yr eiddo pe bai ar gael i unrhyw un.
+rentBasedOn.percentageOpenMarket.hint=Mae’r rhent yn ganran o’r hyn y gallai landlord ei ddisgwyl am yr eiddo pe bai ar gael i unrhyw un.
+rentBasedOn.percentageTurnover.hint=Mae’r rhent yn seiliedig ar ganran o drosiant disgwyliedig y tenant.
+rentBasedOn.indexation.hint=Adolygir y rhent yn ôl mynegai (fel y Mynegai Prisiau Manwerth)
+rentBasedOn.other.hint=Cytunwyd ar y rhent mewn ffordd arall, fel Trefniant Gwirfoddol Cwmni (CVA) neu brydlesi Cyfanswm Cost Deiliadaeth (TOCs)
 
 label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall’
 
