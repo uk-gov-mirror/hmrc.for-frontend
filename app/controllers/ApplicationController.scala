@@ -18,8 +18,10 @@ package controllers
 
 import actions.RefNumAction
 import config.ForConfig
+import connectors.Audit
 import form.Errors
 import form.persistence.FormDocumentRepository
+
 import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.Configuration
@@ -27,6 +29,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext
@@ -43,14 +46,20 @@ class ApplicationController @Inject()(
   indexView: views.html.index,
   sessionTimeoutView: views.html.sessionTimeout,
   importantInformationView: views.html.importantInformation,
- configuration: Configuration
+  configuration: Configuration,
+  audit: Audit
 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
-
+  private def updatePath(hc: HeaderCarrier, path: String): HeaderCarrier = {
+    val otherHeaders = hc.otherHeaders.map(x => if(x._1 == "path")("path", path)else x)
+    hc.copy(otherHeaders = otherHeaders)
+  }
 
   def declaration = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
+        audit("ContinueNextPage", Map(Audit.referenceNumber -> request.refNum))(
+          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"))
         val summary = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
