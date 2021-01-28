@@ -222,9 +222,9 @@
 
           @govukCharacterCount(
             CharacterCount(
-              id = "writtenAgreement.breakClauseDetails",
-              name = "writtenAgreement.breakClauseDetails",
-              value = theForm("writtenAgreement.breakClauseDetails").value,
+              id = "breakClauseDetails",
+              name = "breakClauseDetails",
+              value = theForm("breakClauseDetails").value,
               attributes = Map(
                 "data-hidden-by" -> "writtenAgreement.leaseAgreementHasBreakClause",
                 "data-show-when-value-equals" -> "true"
@@ -234,10 +234,11 @@
               errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.breakClauseDetails"),
               label = Label(
                 classes = "govuk-!-font-weight-bold",
-                content = Text( messages("label.writtenAgreement.breakClauseDetails"))
+                content = Text(messages("label.writtenAgreement.breakClauseDetails"))
               )
             )
           )
+
 
           @govukRadios(
           Radios(
