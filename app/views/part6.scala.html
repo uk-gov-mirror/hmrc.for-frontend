@@ -188,6 +188,7 @@
                 govukDate = govukDateInput,
                 labelSuffix = labelSuffix
               )
+
         </div>
 
           @govukRadios(
@@ -220,15 +221,16 @@
             )
           )
 
+        <div
+              data-hidden-by="writtenAgreement.leaseAgreementHasBreakClause"
+              data-hides-this="true"
+              data-show-when-value-equals="true">
+
           @govukCharacterCount(
             CharacterCount(
-              id = "breakClauseDetails",
-              name = "breakClauseDetails",
-              value = theForm("breakClauseDetails").value,
-              attributes = Map(
-                "data-hidden-by" -> "writtenAgreement.leaseAgreementHasBreakClause",
-                "data-show-when-value-equals" -> "true"
-              ),
+              id = "writtenAgreement.breakClauseDetails",
+              name = "writtenAgreement.breakClauseDetails",
+              value = theForm("writtenAgreement.breakClauseDetails").value,
               rows = 5,
               maxLength = 124,
               errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.breakClauseDetails"),
@@ -239,6 +241,7 @@
             )
           )
 
+        </div>
 
           @govukRadios(
           Radios(
