@@ -45,6 +45,12 @@
     else 8
 }
 
+@textAreaHint = {
+    <span data-hidden-by="rentBasedOn" data-hides-this="true" data-show-when-value-equals="percentageOpenMarket">@messages("hint.rentBasedOnDetailsOpenMarket")</span>
+    <span data-hidden-by="rentBasedOn" data-hides-this="true" data-show-when-value-equals="percentageTurnover">@messages("hint.rentBasedOnDetailsPercentageTurnover")</span>
+    <span data-hidden-by="rentBasedOn" data-hides-this="true" data-show-when-value-equals="other">@messages("hint.rentBasedOnDetailsOther")</span>
+}
+
 @layout(
     backLinkUrl = dataCapturePages.routes.PageController.showPage(previousPage).url ,
     pageHeading = messages("section9.heading"),
@@ -139,7 +145,6 @@
           )
       )
 
-
      @govukCharacterCount(
          CharacterCount(
              id = "rentBasedOnDetails",
@@ -147,7 +152,7 @@
              value = theForm("rentBasedOnDetails").value,
              attributes = Map(
                  "data-hidden-by" -> "rentBasedOn",
-                 "data-show-when-value-equals" -> "percentageOpenMarket"
+                 "data-show-when-value-equals" -> "percentageOpenMarket|percentageTurnover|other"
              ),
              rows = 6,
              maxLength = 250,
@@ -155,47 +160,7 @@
                  content = Text(messages("label.rentBasedOnDetails")),
                  classes = "govuk-!-font-weight-bold"
              ),
-             hint = Hint(content = Text(messages("hint.rentBasedOnDetailsOpenMarket"))),
-             errorMessage =  theForm.errors.asTextErrorMessageForField("rentBasedOnDetails")
-         )
-     )
-
-     @govukCharacterCount(
-         CharacterCount(
-             id = "rentBasedOnDetails",
-             name = "rentBasedOnDetails",
-             value = theForm("rentBasedOnDetails").value,
-             attributes = Map(
-                 "data-hidden-by" -> "rentBasedOn",
-                 "data-show-when-value-equals" -> "percentageTurnover"
-             ),
-             rows = 6,
-             maxLength = 250,
-             label = Label(
-                 content = Text(messages("label.rentBasedOnDetails")),
-                 classes = "govuk-!-font-weight-bold"
-             ),
-             hint = Hint(content= Text(messages("hint.rentBasedOnDetailsPercentageTurnover"))),
-             errorMessage =  theForm.errors.asTextErrorMessageForField("rentBasedOnDetails")
-         )
-     )
-
-     @govukCharacterCount(
-         CharacterCount(
-             id = "rentBasedOnDetails",
-             name = "rentBasedOnDetails",
-             value = theForm("rentBasedOnDetails").value,
-             attributes = Map(
-                 "data-hidden-by" -> "rentBasedOn",
-                 "data-show-when-value-equals" -> "other"
-             ),
-             rows = 6,
-             maxLength = 250,
-             label = Label(
-                 content = Text(messages("label.rentBasedOnDetails")),
-                 classes = "govuk-!-font-weight-bold"
-             ),
-             hint = Hint(content = Text(messages("hint.rentBasedOnDetailsOther"))),
+             hint = Hint(content = HtmlContent(textAreaHint)),
              errorMessage =  theForm.errors.asTextErrorMessageForField("rentBasedOnDetails")
          )
      )
