@@ -1,0 +1,129 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.pages.Summary
+@import play.api.data._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+
+@this(  layout: pageLayout,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        govukCharacterCount: GovukCharacterCount,
+        govukDetails: GovukDetails,
+        formWithCSRF: formWithCSRF)
+
+@(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@feedbackForm = {
+    @formWithCSRF(
+        action = feedback.routes.SurveyController.formCompleteFeedback,
+        args = 'novalidate -> "novalidate" ) {
+            <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
+
+        @govukRadios(
+            Radios(
+                name = "satisfaction",
+                idPrefix="satisfaction",
+                items = Seq(
+                    "verySatisfied", "satisfied", "neither", "dissatisfied", "veryDissatisfied"
+                ).map(radioItem => RadioItem(
+                    content = Text(messages("satisfactionSurveyType." + radioItem)),
+                    checked = theForm("satisfaction").value.exists(_ == radioItem),
+                    value = Option(radioItem)
+                )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("satisfaction"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.satisfactionSurvey")),
+                                isPageHeading = true,
+                                classes = "govuk-fieldset__legend--s"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        @govukCharacterCount(
+            CharacterCount(
+                id = "details",
+                name = "details",
+                value = theForm("details").value,
+                rows = 8,
+                maxLength = 1200,
+                errorMessage = theForm.errors.asTextErrorMessageForField("details"),
+                label = Label(
+                    classes = "govuk-!-font-weight-bold",
+                    content = Text(messages("label.feedback.comments"))
+                ),
+                hint = Hint(content = Text(messages("text.survey.bottomCopy")))
+            )
+        )
+
+
+            <p class="govuk-body">
+            @govukButton(
+            Button(
+            attributes = Map("id" -> "send", "novalidate" -> "novalidate"),
+            content = Text(messages("button.label.submit")),
+            name = "send",
+            value = "send",
+            inputType = "submit"
+            )
+            )
+            </p>
+    }
+}
+
+
+@layout(
+    pageHeading = messages("label.confirm.heading"),
+    showH1 = false,
+    summary = Some(summary),
+    showAccountInfo = true,
+    theForm = theForm
+){
+    <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
+    </div>
+
+
+
+    <p class="govuk-body">
+        <a href="@routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
+    </p>
+
+    <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
+
+   <p class="govuk-body">@messages("confirm.copy.list.1")</p>
+   <p class="govuk-body">@messages("confirm.copy.list.2")</p>
+   <p class="govuk-body">
+    <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
+   </p>
+
+
+    @govukDetails(Details( id=Option("surway-details"), open=false, summary = Text("What did you think of this service?"),
+        content = HtmlContent(feedbackForm)
+    ))
+
+
+}
