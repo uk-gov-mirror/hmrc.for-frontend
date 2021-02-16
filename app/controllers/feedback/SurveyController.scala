@@ -31,7 +31,7 @@ import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 object Survey {
   val completedFeedbackForm = Form(mapping(
@@ -50,6 +50,8 @@ class SurveyController @Inject() (
                                    refNumAction: RefNumAction,
                                    audit: Audit,
                                    confirmationView: views.html.confirm,
+                                   confirmationViewB: views.html.confirmB,
+                                   confirmationViewC: views.html.confirmC,
                                    errorView: views.html.error.error,
                                    feedbackThxView: views.html.feedbackThx,
                                    surveyView: views.html.survey
@@ -67,9 +69,35 @@ class SurveyController @Inject() (
     viewConfirmationPage(request.refNum)
   }
 
+  def confirmationB = refNumAction.async { implicit request =>
+
+    repository.findById(SessionId(hc), request.refNum) map {
+      case Some(doc) =>
+        val summary = SummaryBuilder.build(doc)
+        Ok(confirmationViewB(
+          completedFeedbackFormNormalJourney, request.refNum,
+          summary.customerDetails.flatMap(_.contactDetails.email),
+          summary))
+    }
+
+  }
+
+  def confirmationC = refNumAction.async { implicit request =>
+
+    repository.findById(SessionId(hc), request.refNum) map {
+      case Some(doc) =>
+        val summary = SummaryBuilder.build(doc)
+        Ok(confirmationViewC(
+          completedFeedbackFormNormalJourney, request.refNum,
+          summary.customerDetails.flatMap(_.contactDetails.email),
+          summary))
+    }
+
+  }
+
   def formCompleteFeedback = refNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest.fold(
-      formWithErrors => viewConfirmationPage(request.refNum, Some(formWithErrors)),
+      formWithErrors => Future.successful(BadRequest(surveyView(formWithErrors))),
       success => {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou()) }
       }
