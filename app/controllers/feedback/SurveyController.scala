@@ -37,7 +37,8 @@ object Survey {
   val completedFeedbackForm = Form(mapping(
     "satisfaction" -> Forms.of[Satisfaction],
     "details" -> text(maxLength = 1200),
-    "journey" -> Forms.of[Journey]
+    "journey" -> Forms.of[Journey],
+    "surveyUrl" -> text(maxLength = 20)
   )(SurveyFeedback.apply)(SurveyFeedback.unapply))
 
 }
@@ -61,7 +62,7 @@ class SurveyController @Inject() (
   val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
 
   def onPageView(journey: String) = refNumAction { implicit request =>
-    val form = completedFeedbackForm.copy(data = Map("journey" -> journey))
+    val form = completedFeedbackForm.copy(data = Map("journey" -> journey, "surveyUrl" -> "survey"))
     Ok(surveyView(form))
   }
 
@@ -75,7 +76,7 @@ class SurveyController @Inject() (
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationViewB(
-          completedFeedbackFormNormalJourney, request.refNum,
+          completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "submission-received")).discardingErrors, request.refNum,
           summary.customerDetails.flatMap(_.contactDetails.email),
           summary))
     }
@@ -88,7 +89,7 @@ class SurveyController @Inject() (
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationViewC(
-          completedFeedbackFormNormalJourney, request.refNum,
+          completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "submission-accepted")).discardingErrors, request.refNum,
           summary.customerDetails.flatMap(_.contactDetails.email),
           summary))
     }
@@ -113,14 +114,15 @@ class SurveyController @Inject() (
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationView(
-          form.getOrElse(completedFeedbackFormNormalJourney), refNum,
+          form.getOrElse(completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "survey")).discardingErrors), refNum,
           summary.customerDetails.flatMap(_.contactDetails.email),
           summary))
       case None => InternalServerError(errorView(500))
     }
 
   private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) = {
-    audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name)).flatMap { _ =>
+    audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum,
+      "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl )).flatMap { _ =>
       audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
     }
   }
@@ -130,4 +132,4 @@ class SurveyController @Inject() (
   }
 }
 
-case class SurveyFeedback(satisfaction: Satisfaction, details: String, journey: Journey)
+case class SurveyFeedback(satisfaction: Satisfaction, details: String, journey: Journey, surveyUrl: String)
