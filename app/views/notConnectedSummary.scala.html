@@ -36,11 +36,135 @@
 
 @layout(
     pageHeading = messages("heading.summary"),
-    backLinkUrl = routes.PreviouslyConnectedController.onPageView.url,
+    backLinkUrl = routes.NotConnectedController.onPageView.url,
     summary = Some(summary),
     showAccountInfo = true,
     theForm = theForm
 ) {
+@includes.previouslyConnectedTable(summary)
 
+<!-- THIS IS WHERE THE PULLING OF INFORMATION NEEDS TO LIVE
+
+INFORMATION THAT IS REQUIRED -
+
+http://localhost:9521/sending-rental-information/page/0 - ARE YOU STILL CONNECTED TO THIS ADDRESS? ANSWER IS ALWAYS NO
+
+http://localhost:9521/sending-rental-information/previously-connected - HAVE YOU EVER BEEN CONNECTED TO THE PROPERTY? \
+YES OR NO
+
+http://localhost:9521/sending-rental-information/not-connected - LABEL FOR NAME, PHONE, EMAIL AND ADDITIONAL INFO
+
+NEED TO CREATE A CACHE/REUSE CACHE TO MOVE INFORMATION OVER TO NEXT PAGE
+
+BLUEPRINT
+
+CHECK YOU ANSWERS AS HEADER
+
+ARE YOU STILL CONNECTED TO THIS ADDRESS?        ANSWER
+
+HAVE YOU EVER BEEN CONNECTED TO THIS ADDRESS?   ANSWER
+
+NAME                                            ANSWER
+
+PHONE                                           ANSWER
+
+EMAIL                                           ANSWER
+
+ADDITIONAL INFO                                 ANSWER
+
+
+-->
+
+@govukInput(
+Input(
+id = "connectedToAddress",
+name = "connectedToAddress",
+value = theForm("connectedToAddress").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.connectedToAddress")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("connectedToAddress")
+)
+)
+
+
+@govukInput(
+Input(
+id = "previouslyConnected",
+name = "previouslyConnected",
+value = theForm("previouslyConnected").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.previouslyConnected")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("previouslyConnected")
+)
+)
+
+@govukInput(
+Input(
+id = "fullName",
+name = "fullName",
+value = theForm("fullName").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.fullName")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("fullName")
+)
+)
+
+@govukInput(
+Input(
+id = "phoneNumber",
+name = "phoneNumber",
+value = theForm("phoneNumber").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.phoneNumber")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("phoneNumber")
+)
+)
+
+
+
+@govukInput(
+Input(
+id = "email",
+name = "email",
+value = theForm("email").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.email")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("email")
+)
+)
+
+@govukInput(
+Input(
+id = "additionalInformation",
+name = "additionalInformation",
+value = theForm("additionalInformation").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.additionalInformation")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("additionalInformation")
+)
+)
+
+
+
+
+@includes.formHelp()
 
 }
