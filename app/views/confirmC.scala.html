@@ -62,6 +62,7 @@
         args = 'novalidate -> "novalidate" ) {
 
         <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
+        <input type="hidden" id="surveyUrl" name="surveyUrl" value="@theForm("surveyUrl").value.getOrElse("")"/>
 
     @govukRadios(
         Radios(
