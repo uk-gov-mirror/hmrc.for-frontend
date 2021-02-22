@@ -1,0 +1,43 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.journeys.Journey
+
+@this(  layout: pageLayout)
+
+@(summary: models.pages.Summary, forPdf: Boolean = false)(implicit request: Request[_],  messages: Messages)
+
+@layout(
+    backLinkUrl = dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary)).url,
+    pageHeading = messages("heading.summary"),
+    summary = Some(summary),
+    showAccountInfo = true,
+    gridClasses = "govuk-grid-column-full"
+){
+
+    @includes.checkYourAnswersTable(summary)
+
+    <div class="summary-actions govuk-!-margin-top-5 dontprint" >
+        <a id="continue" href="@routes.ApplicationController.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
+        <a href="@routes.SaveForLaterController.saveForLater(request.path)" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
+    </div>
+    <a class="govuk-link print-link" href="" onclick="javascript:window.print();return false;">@messages("label.print.printorsave")</a>
+
+
+    @views.html.includes.signFooter(summary)
+
+    @includes.formHelp()a
+}
