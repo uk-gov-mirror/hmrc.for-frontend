@@ -57,7 +57,7 @@ class PageNineMappingSpec extends FlatSpec with Matchers {
   checkMissingField(keys.rentBecomePayableYear)
   checkMissingField(keys.rentBecomePayableMonth)
 
-  RentBaseTypes.all.filter(_ != RentBaseTypeOpenMarket).foreach { rentBasis =>
+  RentBaseTypes.all.filter(x => (x != RentBaseTypeOpenMarket && x != RentBaseTypeIndexation) ).foreach { rentBasis =>
     "A form with 'rent basis' of '" + rentBasis.name + "' but a missing 'rent basis other' field" should "return required error for rent based on details" in {
       val testData = fullData.updated(keys.rentBasedOn, rentBasis.name) - keys.rentBasedOnDetails
       val res = bind(testData)

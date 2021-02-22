@@ -17,7 +17,7 @@
 package form
 
 import models.pages.PageNine
-import models.serviceContracts.submissions.RentBaseTypeOpenMarket
+import models.serviceContracts.submissions.{RentBaseTypeOpenMarket, RentBaseTypeOther, RentBaseTypePercentageOpenMarket, RentBaseTypePercentageTurnover}
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._
@@ -32,7 +32,9 @@ object PageNineForm {
     "rentActuallyAgreed" -> dateFieldsMapping("rentActuallyAgreed"),
     "negotiatingNewRent" -> mandatoryBooleanWithError(Errors.negotiatingNewRentRequired),
     "rentBasedOn" -> rentBaseTypeMapping,
-    "rentBasedOnDetails" -> mandatoryIfNot("rentBasedOn", RentBaseTypeOpenMarket.name, nonEmptyText(maxLength = 250))
+    "rentBasedOnDetails" -> mandatoryAndOnlyIfAnyOf("rentBasedOn",
+      Seq(RentBaseTypePercentageOpenMarket.name, RentBaseTypePercentageTurnover.name, RentBaseTypeOther.name),
+      nonEmptyText(maxLength = 250))
   )(PageNine.apply)(PageNine.unapply)
 
   val pageNineForm = Form(pageNineMaping)
