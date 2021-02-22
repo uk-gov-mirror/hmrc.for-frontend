@@ -29,8 +29,8 @@ case class NotConnectedSummary(
 
 
 }
-
-case class NoMainAddress(refNum: String) extends Exception(refNum)
-case object NoReferenceNumber extends Exception
-case class UsersAddressSelectionError(refNum: String) extends Exception(refNum)
-case class VOAHeldAddressSelectionError(refNum: String) extends Exception(refNum)
+//
+//case class NoMainAddress(refNum: String) extends Exception(refNum)
+//case object NoReferenceNumber extends Exception
+//case class UsersAddressSelectionError(refNum: String) extends Exception(refNum)
+//case class VOAHeldAddressSelectionError(refNum: String) extends Exception(refNum)
