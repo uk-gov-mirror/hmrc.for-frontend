@@ -25,7 +25,7 @@ case class NotConnectedSummary(
   previouslyConnected: PreviouslyConnected,
   removeConnection: NotConnectedSubmission,
   ) {
-  
+
 
 
 }

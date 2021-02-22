@@ -34,7 +34,7 @@ object NotConnectedSummaryBuilder extends NotConnectedSummaryBuilder {
     val pSummary = findPage(doc, 15, formMapping) //Have you ever been connected? (previously-connected)
     val rSummary = findPage(doc, 16, form)// Remove connection to property; Full name, Address, Phone, Email (not-connected)
 
-    Summary()
+    NotConnectedSummary(p0, pSummary, rSummary)
   }
 
   private def findPage[T](doc: Document, pageNumber: Int, form: Form[T]) = doc.page(pageNumber) flatMap { p =>
