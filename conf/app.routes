@@ -45,6 +45,7 @@ POST        /previously-connected           controllers.PreviouslyConnectedContr
 GET         /not-connected             controllers.NotConnectedController.onPageView
 POST        /not-connected             controllers.NotConnectedController.onPageSubmit
 GET         /not-connected-confirmation controllers.NotConnectedController.onConfirmationView
+GET         /not-connected-summary      controllers.NotConnectedSummaryController.onPageView
 
 
 GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)

@@ -1,0 +1,170 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import form.NotConnectedPropertyForm
+@import models.pages.Summary
+@import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput, GovukTextarea}
+@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
+
+@this(  layout: pageLayout,
+        govukTextarea: GovukTextarea,
+        govukInput: GovukInput,
+        govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formWithCSRF: formWithCSRF)
+
+@(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@layout(
+    pageHeading = messages("heading.summary"),
+    backLinkUrl = routes.NotConnectedController.onPageView.url,
+    summary = Some(summary),
+    showAccountInfo = true,
+    theForm = theForm
+) {
+@includes.previouslyConnectedTable(summary)
+
+<!-- THIS IS WHERE THE PULLING OF INFORMATION NEEDS TO LIVE
+
+INFORMATION THAT IS REQUIRED -
+
+http://localhost:9521/sending-rental-information/page/0 - ARE YOU STILL CONNECTED TO THIS ADDRESS? ANSWER IS ALWAYS NO
+
+http://localhost:9521/sending-rental-information/previously-connected - HAVE YOU EVER BEEN CONNECTED TO THE PROPERTY? \
+YES OR NO
+
+http://localhost:9521/sending-rental-information/not-connected - LABEL FOR NAME, PHONE, EMAIL AND ADDITIONAL INFO
+
+NEED TO CREATE A CACHE/REUSE CACHE TO MOVE INFORMATION OVER TO NEXT PAGE
+
+BLUEPRINT
+
+CHECK YOU ANSWERS AS HEADER
+
+ARE YOU STILL CONNECTED TO THIS ADDRESS?        ANSWER
+
+HAVE YOU EVER BEEN CONNECTED TO THIS ADDRESS?   ANSWER
+
+NAME                                            ANSWER
+
+PHONE                                           ANSWER
+
+EMAIL                                           ANSWER
+
+ADDITIONAL INFO                                 ANSWER
+
+
+-->
+
+@govukInput(
+Input(
+id = "connectedToAddress",
+name = "connectedToAddress",
+value = theForm("connectedToAddress").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.connectedToAddress")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("connectedToAddress")
+)
+)
+
+
+@govukInput(
+Input(
+id = "previouslyConnected",
+name = "previouslyConnected",
+value = theForm("previouslyConnected").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.previouslyConnected")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("previouslyConnected")
+)
+)
+
+@govukInput(
+Input(
+id = "fullName",
+name = "fullName",
+value = theForm("fullName").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.fullName")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("fullName")
+)
+)
+
+@govukInput(
+Input(
+id = "phoneNumber",
+name = "phoneNumber",
+value = theForm("phoneNumber").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.phoneNumber")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("phoneNumber")
+)
+)
+
+
+
+@govukInput(
+Input(
+id = "email",
+name = "email",
+value = theForm("email").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("label.email")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("email")
+)
+)
+
+@govukInput(
+Input(
+id = "additionalInformation",
+name = "additionalInformation",
+value = theForm("additionalInformation").value,
+classes = "govuk-input--width-20",
+label = Label(
+content = Text(messages("notConnected.additionalInformation")),
+classes = "govuk-!-font-weight-bold"
+),
+errorMessage =  theForm.errors.asTextErrorMessageForField("additionalInformation")
+)
+)
+
+
+
+
+@includes.formHelp()
+
+}
