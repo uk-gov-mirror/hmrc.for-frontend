@@ -26,24 +26,30 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
 
 @this(  layout: pageLayout,
-        govukTextarea: GovukTextarea,
-        govukInput: GovukInput,
-        govukButton: GovukButton,
-        govukErrorSummary: GovukErrorSummary,
-        formWithCSRF: formWithCSRF)
+govukTextarea: GovukTextarea,
+govukInput: GovukInput,
+govukButton: GovukButton,
+govukErrorSummary: GovukErrorSummary,
+formWithCSRF: formWithCSRF)
 
 @(theForm: Form[NotConnectedPropertyForm], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
 @layout(
-    pageHeading = messages("heading.summary"),
-    backLinkUrl = routes.NotConnectedController.onPageView.url,
-    summary = Some(summary),
-    showAccountInfo = true,
-    theForm = theForm
+pageHeading = messages("heading.summary"),
+backLinkUrl = routes.NotConnectedController.onPageView.url,
+summary = Some(summary),
+showAccountInfo = true,
+theForm = theForm
 ) {
-@includes.previouslyConnectedTable(summary)
+
+@formWithCSRF(action = controllers.routes.NotConnectedSummaryController.onPageView(), args = 'class -> "myForm", 'id -> "myFormId") {
 
 
+
+@includes.submitButton(govukButton)
+
+}
+}
 
 <!-- THIS IS WHERE THE PULLING OF INFORMATION NEEDS TO LIVE
 
@@ -76,7 +82,3 @@ ADDITIONAL INFO                                 ANSWER
 
 
 -->
-
-@includes.formHelp()
-
-}
