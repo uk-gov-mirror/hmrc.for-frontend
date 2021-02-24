@@ -79,20 +79,20 @@ class NotConnectedSummaryController @Inject()
 
     findSummary.flatMap {
       case Some(summary) => {
-        form.bindFromRequest().fold({ formWithErrors =>
-          Future.successful(Ok(notConnectedView(formWithErrors, summary)))
-        }, { formWithData => {
-          audit.sendExplicitAudit("NotConnectedSubmission",
-            Json.obj(Audit.referenceNumber -> summary.referenceNumber))
-          submitToHod(formWithData, summary).map { _ =>
-            Redirect(routes.NotConnectedController.onConfirmationView)
-          }.recover {
-            case e: Exception => {
-              logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
-              InternalServerError(errorView(500))
-            }
-          }
-        }})
+//        form.bindFromRequest().fold({ formWithErrors =>
+//          Future.successful(Ok(notConnectedView(formWithErrors, summary)))
+//        }, { formWithData => {
+//          audit.sendExplicitAudit("NotConnectedSubmission",
+//            Json.obj(Audit.referenceNumber -> summary.referenceNumber))
+//          submitToHod(formWithData, summary).map { _ =>
+            Redirect(routes.NotConnectedController.onConfirmationView())
+//          }.recover {
+//            case e: Exception => {
+//              logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
+//              InternalServerError(errorView(500))
+//            }
+//          }
+//        }})
       }
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
