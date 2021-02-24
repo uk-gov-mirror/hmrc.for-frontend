@@ -19,4 +19,4 @@ package models.pages
 import models._
 import models.serviceContracts.submissions._
 
-case class PageZero()
+case class PageZero(stillConnected: Option[String])

@@ -47,7 +47,7 @@ object NotConnectedSummaryBuilder extends NotConnectedSummaryBuilder {
   def build(doc: Document): Summary = {
     val p0 = findPage(doc, 0, pageZeroForm) //Are you still connected? (page 0)
 //    val pSummary = findPage(doc, 15, formMapping) //Have you ever been connected? (previously-connected)
-//    //val rSummary = // Remove connection to property; Full name, Address, Phone, Email (not-connected)
+//    val rSummary = // Remove connection to property; Full name, Address, Phone, Email (not-connected)
 
 
     val p1 = findPage(doc, 1, pageOneForm)
