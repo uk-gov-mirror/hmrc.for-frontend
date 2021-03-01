@@ -16,16 +16,19 @@
 
 @import play.api.Configuration
 @import uk.gov.hmrc.play.views.html.layouts.Head
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcTrackingConsentSnippet
 
-@this(configuration: Configuration)
+@this(configuration: Configuration, hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
 
-@(uiLayoutHead: Head)
+@(uiLayoutHead: Head)(implicit messages: Messages)
 
  @if(playconfig.Environment.isDev){
   <link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
  }else{
   <link href='@controllers.routes.Assets.at("stylesheets/application2.min.css")' media="all" rel="stylesheet" type="text/css" />
  }
+
+@hmrcTrackingConsentSnippet()
 
 @*this is to include the application.css from asssets frontend to style the timeout*@
 @uiLayoutHead(linkElem = None, headScripts = None)
