@@ -36,15 +36,6 @@ object ForConfig {
   lazy val apiTestAccountPrefix = getString("agentApi.testAccountPrefix")
   lazy val showNewNotConnectedPage = getBoolean("showNewNotConnectedPage")
   lazy val pdfProtocol = getString("pdf.protocol")
-  lazy val gtm = getString("analytics.ga.GTM")
-
-  val analytics = new {
-    val ga = new {
-      lazy val startDate = prodOnlyConf("analytics.ga.startDate")
-      lazy val returnCount = prodOnlyConf("analytics.ga.returnCount")
-      lazy val refNum = prodOnlyConf("analytics.ga.refNum")
-    }
-  }
 
   val loginPageNotice = new {
     val enabled = getBoolean("loginPageNotice.enabled")

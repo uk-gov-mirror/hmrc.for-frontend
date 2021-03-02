@@ -27,7 +27,6 @@
 }
 
 <script src='@controllers.routes.Assets.at("lib/govuk-frontend/govuk/all.js")'></script>
-<script id="GTM" GTMCode="@{config.ForConfig.gtm}" src='@routes.Assets.at("javascripts/govuk-google-tag-manager.js")' type="text/javascript"></script>
 <script>window.GOVUKFrontend.initAll();</script>
 <script src="https://cdn.optimizely.com/js/@{configuration.getOptional[String]("optimizely.projectId").getOrElse("")}.js"></script>
 

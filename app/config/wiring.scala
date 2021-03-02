@@ -171,5 +171,4 @@ object LoginToHOD  {
 
 object Environment {
   def isDev = Play.current.mode == Mode.Dev
-  val analytics = ForConfig.analytics
 }
