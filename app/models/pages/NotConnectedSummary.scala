@@ -20,10 +20,11 @@ import models.serviceContracts.submissions._
 import org.joda.time.DateTime
 
 case class NotConnectedSummary(
-
-  stillConnected: Option[PageZero],
+//                                referenceNumber: String,
+//                                address: Option[Address] = None,
+//  stillConnected: Option[PageZero],
   previouslyConnected: PreviouslyConnected,
-  removeConnection: NotConnectedSubmission,
+                                notConnection: NotConnected
   ) {
 
 

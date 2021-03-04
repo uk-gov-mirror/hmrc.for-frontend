@@ -19,12 +19,10 @@ package controllers
 import actions.{RefNumAction, RefNumRequest}
 import connectors.{Audit, SubmissionConnector}
 import controllers.feedback.Survey
-import form.NotConnectedPropertyForm
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
-import form.NotConnectedPropertyForm.form
 import models.NotConnectedJourney
 import models.pages.{Summary, SummaryBuilder}
-import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
+import models.serviceContracts.submissions.{NotConnected, NotConnectedSubmission, PreviouslyConnected}
 import play.api.libs.json.Json
 import play.api.mvc.MessagesControllerComponents
 import play.api.{Configuration, Logger}
@@ -38,7 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 @Singleton
-class NotConnectedSummaryController @Inject()
+class NotConnectedCheckYourAnswersController @Inject()
 ( configuration: Configuration,
   repository: FormDocumentRepository,
   submissionConnector: SubmissionConnector,
@@ -46,13 +44,13 @@ class NotConnectedSummaryController @Inject()
   cache: MongoSessionRepository,
   audit: Audit,
   cc: MessagesControllerComponents,
-  notConnectedView:views.html.notConnectedSummary,
+  notConnectedCheckYourAnswers: views.html.notConnectedCheckYourAnswers,
   confirmNotConnectedView: views.html.confirmNotConnected,
   errorView: views.html.error.error
   )(implicit ec: ExecutionContext)
                                        extends FrontendController(cc) {
 
-  val logger = Logger(classOf[NotConnectedSummaryController])
+  val logger = Logger(classOf[NotConnectedCheckYourAnswersController])
 
   def findSummary(implicit request: RefNumRequest[_]) = {
     repository.findById(SessionId(hc), request.refNum) flatMap {
@@ -67,7 +65,7 @@ class NotConnectedSummaryController @Inject()
 
   def onPageView = refNumAction.async { implicit request =>
     findSummary.map {
-      case Some(summary) => Ok(notConnectedView(form, summary))
+      case Some(summary) => Ok(notConnectedCheckYourAnswers(summary))
       case None => {
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         InternalServerError(errorView(500))
@@ -76,27 +74,17 @@ class NotConnectedSummaryController @Inject()
   }
 
   def onPageSubmit = refNumAction.async { implicit request =>
-
     findSummary.flatMap {
       case Some(summary) => {
-        form.bindFromRequest().fold({ formWithErrors =>
-          Future.successful(Ok(notConnectedView(formWithErrors, summary)))
-        }, { formWithData => {
-          audit.sendExplicitAudit("NotConnectedSubmission",
-            Json.obj(Audit.referenceNumber -> summary.referenceNumber))
-          submitToHod(formWithData, summary).map { _ =>
-            Redirect(routes.NotConnectedController.onConfirmationView)
-          }.recover {
+        audit.sendExplicitAudit("NotConnectedSubmission", Json.obj(Audit.referenceNumber -> summary.referenceNumber))
+        submitToHod(summary).map { _ =>
+          Redirect(routes.NotConnectedCheckYourAnswersController.onConfirmationView)
+        }.recover {
             case e: Exception => {
               logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
               InternalServerError(errorView(500))
-            }
           }
-        }})
-      }
-      case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
+        }
       }
     }
   }
@@ -122,24 +110,32 @@ class NotConnectedSummaryController @Inject()
     cache.fetchAndGetEntry[PreviouslyConnected](SessionId(hc), PreviouslyConnectedController.cacheKey).flatMap {
       case Some(x) => Future.successful(x)
       case None => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
-
     }
-
   }
 
-  private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
-    getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
-      val submission = NotConnectedSubmission(
-        summary.referenceNumber,
-        summary.address.get,
-        submissionForm.fullName,
-        submissionForm.email,
-        submissionForm.phoneNumber,
-        submissionForm.additionalInformation,
-        Instant.now(),
-        previouslyConnected.previouslyConnected
-      )
-      submissionConnector.submitNotConnected(summary.referenceNumber, submission)
+  def getNotConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+    cache.fetchAndGetEntry[NotConnected](SessionId(hc), NotConnectedController.cacheKey).flatMap {
+      case Some(x) => Future.successful(x)
+      case None => Future.failed(new RuntimeException("Unable to find record in cache for not connected"))
+    }
+  }
+
+  private def submitToHod(summary: Summary)(implicit hc: HeaderCarrier) = {
+    getNotConnectedFromCache.flatMap { notConnected =>
+      getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
+        val submission = NotConnectedSubmission(
+          summary.referenceNumber,
+          summary.address.get,
+          notConnected.fullName,
+          notConnected.email,
+          notConnected.phoneNumber,
+          notConnected.additionalInformation,
+          Instant.now(),
+          previouslyConnected.previouslyConnected
+        )
+
+        submissionConnector.submitNotConnected(summary.referenceNumber, submission)
+      }
     }
   }
 

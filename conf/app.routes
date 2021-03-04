@@ -42,10 +42,11 @@ GET         /logout                                     controllers.LoginControl
 GET         /previously-connected           controllers.PreviouslyConnectedController.onPageView
 POST        /previously-connected           controllers.PreviouslyConnectedController.onPageSubmit
 
-GET         /not-connected             controllers.NotConnectedController.onPageView
-POST        /not-connected             controllers.NotConnectedController.onPageSubmit
-GET         /not-connected-confirmation controllers.NotConnectedController.onConfirmationView
-GET         /not-connected-summary      controllers.NotConnectedSummaryController.onPageView
+GET         /not-connected              controllers.NotConnectedController.onPageView
+POST        /not-connected              controllers.NotConnectedController.onPageSubmit
+GET         /not-connected-summary      controllers.NotConnectedCheckYourAnswersController.onPageView
+POST        /not-connected-summary      controllers.NotConnectedCheckYourAnswersController.onPageSubmit
+GET         /not-connected-confirmation controllers.NotConnectedCheckYourAnswersController.onConfirmationView
 
 
 GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)
