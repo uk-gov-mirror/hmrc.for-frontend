@@ -23,6 +23,7 @@ import play.api.data.format.Formatter
 import play.api.data.validation.Constraints.emailAddress
 import play.api.data.validation.{Constraint, Valid}
 import play.api.data.Forms._
+import play.api.libs.json.Json
 
 case class NotConnectedPropertyForm( fullName: String,
                                      email: Option[String],
@@ -69,4 +70,5 @@ object NotConnectedPropertyForm {
     )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
   )
 
+  implicit val format = Json.format[NotConnectedPropertyForm]
 }

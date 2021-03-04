@@ -16,23 +16,16 @@
 
 package controllers
 
-import java.time.Instant
-
 import actions.{RefNumAction, RefNumRequest}
-import connectors.{Audit, SubmissionConnector}
-import controllers.feedback.{Survey}
-import form.NotConnectedPropertyForm
+import controllers.NotConnectedController.cacheKey
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import form.NotConnectedPropertyForm.form
+
 import javax.inject.{Inject, Singleton}
-import models.NotConnectedJourney
-import models.pages.{Summary, SummaryBuilder}
-import models.serviceContracts.submissions.{NotConnectedSubmission, PreviouslyConnected}
-import play.api.libs.json.Json
+import models.pages.SummaryBuilder
 import play.api.mvc.MessagesControllerComponents
-import play.api.{Configuration, Logger}
+import play.api.Logger
 import playconfig.SessionId
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -40,15 +33,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class NotConnectedController @Inject()
-( configuration: Configuration,
-  repository: FormDocumentRepository,
-  submissionConnector: SubmissionConnector,
+( repository: FormDocumentRepository,
   refNumAction: RefNumAction,
   cache: MongoSessionRepository,
-  audit: Audit,
   cc: MessagesControllerComponents,
   notConnectedView:views.html.notConnected,
-  confirmNotConnectedView: views.html.confirmNotConnected,
   errorView: views.html.error.error
   )(implicit ec: ExecutionContext)
                                        extends FrontendController(cc) {
@@ -60,10 +49,6 @@ class NotConnectedController @Inject()
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None => None
     }
-  }
-
-  def removeSession(implicit request: RefNumRequest[_]) = {
-    repository.remove(SessionId(hc))
   }
 
   def onPageView = refNumAction.async { implicit request =>
@@ -80,68 +65,22 @@ class NotConnectedController @Inject()
 
     findSummary.flatMap {
       case Some(summary) => {
-        form.bindFromRequest().fold({ formWithErrors =>
+        form.bindFromRequest().fold( formWithErrors => {
           Future.successful(Ok(notConnectedView(formWithErrors, summary)))
-        }, { formWithData => {
-          audit.sendExplicitAudit("NotConnectedSubmission",
-            Json.obj(Audit.referenceNumber -> summary.referenceNumber))
-          submitToHod(formWithData, summary).map { _ =>
-            Redirect(routes.NotConnectedController.onConfirmationView)
-          }.recover {
-            case e: Exception => {
-              logger.error(s"Could not send data to HOD - ${request.refNum} - ${hc.sessionId}")
-              InternalServerError(errorView(500))
-            }
+        }, {formWithData =>
+          cache.cache(SessionId(hc), cacheKey, formWithData).map { cacheWriteResult =>
+            Redirect(routes.NotConnectedCheckYourAnswersController.onPageView)
           }
-        }})
+        })
       }
       case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
-      }
-    }
-  }
-
-  def onConfirmationView() = refNumAction.async { implicit request =>
-    val feedbackForm = Survey.completedFeedbackForm.bind(
-      Map("journey" -> NotConnectedJourney.name)
-    ).discardingErrors
-
-    findSummary.flatMap {
-      case Some(summary) => {
-          removeSession
-          .map(_ => Ok(confirmNotConnectedView(summary, feedbackForm)))
-      } //.withNewSession
-      case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         Future.successful(InternalServerError(errorView(500)))
       }
     }
   }
+}
 
-  def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier)  = {
-    cache.fetchAndGetEntry[PreviouslyConnected](SessionId(hc), PreviouslyConnectedController.cacheKey).flatMap {
-      case Some(x) => Future.successful(x)
-      case None => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
-
-    }
-
-  }
-
-  private def submitToHod(submissionForm: NotConnectedPropertyForm, summary: Summary)(implicit hc: HeaderCarrier) = {
-    getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
-      val submission = NotConnectedSubmission(
-        summary.referenceNumber,
-        summary.address.get,
-        submissionForm.fullName,
-        submissionForm.email,
-        submissionForm.phoneNumber,
-        submissionForm.additionalInformation,
-        Instant.now(),
-        previouslyConnected.previouslyConnected
-      )
-      submissionConnector.submitNotConnected(summary.referenceNumber, submission)
-    }
-  }
-
+object NotConnectedController {
+  val cacheKey = "NotConnected"
 }
