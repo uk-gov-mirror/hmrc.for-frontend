@@ -21,7 +21,7 @@ import connectors.{Audit, SubmissionConnector}
 import controllers.feedback.Survey
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import models.NotConnectedJourney
-import models.pages.{Summary, SummaryBuilder}
+import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnected, NotConnectedSubmission, PreviouslyConnected}
 import play.api.libs.json.Json
 import play.api.mvc.MessagesControllerComponents
@@ -58,16 +58,26 @@ class NotConnectedCheckYourAnswersController @Inject()
     }
   }
 
+  def findNotConnected(sum: Summary)(implicit hc: HeaderCarrier) = {
+    getNotConnectedFromCache.flatMap { notConnected =>
+      getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
+        Option(NotConnectedSummary(sum, previouslyConnected, notConnected))
+      }
+    }
+  }
+
   def removeSession(implicit request: RefNumRequest[_]) = {
     repository.remove(SessionId(hc))
   }
 
   def onPageView = refNumAction.async { implicit request =>
-    findSummary.map {
-      case Some(summary) => Ok(notConnectedCheckYourAnswers(summary))
-      case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
+    findSummary.flatMap { summary =>
+      findNotConnected(summary.get).map {
+        case Some(notConnectedSummary) => Ok(notConnectedCheckYourAnswers(notConnectedSummary))
+        case None => {
+          logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+          InternalServerError(errorView(500))
+        }
       }
     }
   }

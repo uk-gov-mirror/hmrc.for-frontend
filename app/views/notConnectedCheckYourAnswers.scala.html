@@ -14,25 +14,31 @@
  * limitations under the License.
  *@
 
-@import models.pages.Summary
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton}
+@import models.pages.NotConnectedSummary
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(  layout: pageLayout,
         govukButton: GovukButton,
         formWithCSRF: formWithCSRF)
 
-@(summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
 
 @layout(
     pageHeading = messages("heading.summary"),
     backLinkUrl = routes.NotConnectedController.onPageView.url,
-    summary = Some(summary),
-    showAccountInfo = true
+    summary = Some(notConnectedSummary.summary),
+    showAccountInfo = true,
+    gridClasses = "govuk-grid-column-full"
 ) {
 
     @formWithCSRF(action = controllers.routes.NotConnectedCheckYourAnswersController.onPageSubmit, args = 'class -> "myForm", 'id -> "myFormId") {
-        @includes.continueButton(govukButton)
+
+        @includes.notConnectedCheckYourAnswersTable(notConnectedSummary)
+
+        </br>
+
+        @includes.submitButton(govukButton)
     }
 
     <a class="govuk-link print-link" href="" onclick="javascript:window.print();return false;">@messages("label.print.printorsave")</a>

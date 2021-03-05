@@ -1,0 +1,35 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import helpers.summary._
+@import models.pages._
+
+@(notConnectedSummary: NotConnectedSummary)(implicit requestHeader: RequestHeader, messages: Messages)
+
+<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("notConnected.previouslyConnected")</h2>
+<dl class="govuk-check-your-answers cya-questions-long">
+
+    @notConnectedSummaryBlock(messages("notConnected.previouslyConnected"),
+        "/sending-rental-information/previously-connected?edit=haveYouBeenConnected#haveYouBeenConnected",
+        "haveYouBeenConnected") {
+        @{notConnectedSummary.previouslyConnected.get.previouslyConnected match {
+            case true => "Yes"
+            case false => "No"
+        }
+        }
+    }
+
+</dl>
