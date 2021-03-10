@@ -28,22 +28,27 @@
        @notConnectedSummary.notConnected.get.fullName
     }
 
-  @notConnectedSummaryBlock(messages("label.email"),
-    "/sending-rental-information/not-connected?edit=email#email",
-    "email") {
-      @notConnectedSummary.notConnected.get.email.getOrElse("-")
+  @if(notConnectedSummary.notConnected.get.email.nonEmpty) {
+    @notConnectedSummaryBlock(messages("label.email"),
+        "/sending-rental-information/not-connected?edit=email#email",
+        "email") {
+        @notConnectedSummary.notConnected.get.email.getOrElse("-")
     }
+  }
 
-  @notConnectedSummaryBlock(messages("label.phoneNumber"),
-    "/sending-rental-information/not-connected?edit=phoneNumber#phoneNumber",
-    "phoneNumber") {
-      @notConnectedSummary.notConnected.get.phoneNumber.getOrElse("-")
-    }
+  @if(notConnectedSummary.notConnected.get.phoneNumber.nonEmpty) {
+    @notConnectedSummaryBlock(messages("label.phoneNumber"),
+      "/sending-rental-information/not-connected?edit=phoneNumber#phoneNumber", "phoneNumber") {
+        @notConnectedSummary.notConnected.get.phoneNumber.getOrElse("-")
+      }
+  }
 
-  @notConnectedSummaryBlock(messages("notConnected.additionalInformation"),
-    "/sending-rental-information/not-connected?edit=additionalInformation#additionalInformation",
-    "additionalInformation") {
-      @notConnectedSummary.notConnected.get.additionalInformation.getOrElse("-")
-    }
+  @if(notConnectedSummary.notConnected.get.additionalInformation.get.nonEmpty) {
+    @notConnectedSummaryBlock(messages("notConnected.additionalInformation"),
+      "/sending-rental-information/not-connected?edit=additionalInformation#additionalInformation",
+      "additionalInformation") {
+        @notConnectedSummary.notConnected.get.additionalInformation
+      }
+  }
 
 </dl>

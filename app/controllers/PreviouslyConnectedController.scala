@@ -20,12 +20,15 @@ import _root_.form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import actions.{RefNumAction, RefNumRequest}
 import controllers.PreviouslyConnectedController.cacheKey
 import form.PreviouslyConnectedForm.formMapping
+
 import javax.inject.{Inject, Singleton}
-import models.pages.SummaryBuilder
+import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
+import models.serviceContracts.submissions.PreviouslyConnected
 import models.serviceContracts.submissions.PreviouslyConnected.format
 import play.api.Logger
 import play.api.mvc.MessagesControllerComponents
 import playconfig.SessionId
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -50,15 +53,38 @@ class PreviouslyConnectedController @Inject()
     }
   }
 
+  def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+    cache.fetchAndGetEntry[PreviouslyConnected](SessionId(hc), PreviouslyConnectedController.cacheKey).flatMap {
+      case Some(x) => Some(x)
+      case None => None
+    }
+  }
+
+  def findNotConnected(sum: Summary)(implicit hc: HeaderCarrier) = {
+    getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
+      Option(NotConnectedSummary(sum, previouslyConnected, None))
+    }
+  }
+
+  def getForm(notConnectedSummary: NotConnectedSummary) = {
+    notConnectedSummary.previouslyConnected match {
+      case Some(x) => formMapping.fill(x)
+      case None => formMapping
+    }
+  }
 
   def onPageView = refNumberAction.async { implicit request =>
-    findSummary.map {
-      case Some(summary) => Ok(previouslyConnected(formMapping, summary))
-      case None => {
-        logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
+      findSummary.flatMap { summary =>
+        findNotConnected(summary.get).map {
+          case Some(notConnectedSummary) => {
+            Ok(previouslyConnected(getForm(notConnectedSummary), summary.get))
+          }
+          case None => {
+            logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+            InternalServerError(errorView(500))
+          }
+        }
       }
-    }
   }
 
   def onPageSubmit = refNumberAction.async { implicit request =>
