@@ -16,6 +16,7 @@
 
 package form
 
+import models.serviceContracts.submissions.NotConnected
 import org.apache.commons.lang3.StringUtils
 import play.api.data.Forms.mapping
 import play.api.data.{FieldMapping, Form, FormError, Mapping}
@@ -66,8 +67,8 @@ object NotConnectedPropertyForm {
       "fullName" -> nonEmptyText,
       "email" -> atLeastOneMapping("phoneNumber", emailAddress),
       "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
-      "additionalInformation" -> text
-    )(NotConnectedPropertyForm.apply)(NotConnectedPropertyForm.unapply)
+      "additionalInformation" -> optional(text)
+    )(NotConnected.apply)(NotConnected.unapply)
   )
 
   implicit val format = Json.format[NotConnectedPropertyForm]

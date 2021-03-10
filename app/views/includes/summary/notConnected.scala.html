@@ -43,7 +43,7 @@
       }
   }
 
-  @if(notConnectedSummary.notConnected.get.additionalInformation.get.nonEmpty) {
+  @if(notConnectedSummary.notConnected.get.additionalInformation.nonEmpty) {
     @notConnectedSummaryBlock(messages("notConnected.additionalInformation"),
       "/sending-rental-information/not-connected?edit=additionalInformation#additionalInformation",
       "additionalInformation") {

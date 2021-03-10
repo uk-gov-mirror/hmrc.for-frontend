@@ -22,10 +22,12 @@ import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import form.NotConnectedPropertyForm.form
 
 import javax.inject.{Inject, Singleton}
-import models.pages.SummaryBuilder
+import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
+import models.serviceContracts.submissions.NotConnected
 import play.api.mvc.MessagesControllerComponents
 import play.api.Logger
 import playconfig.SessionId
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -51,12 +53,33 @@ class NotConnectedController @Inject()
     }
   }
 
+  def getNotConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+    cache.fetchAndGetEntry[NotConnected](SessionId(hc), NotConnectedController.cacheKey).flatMap {
+      case Some(x) => Some(x)
+      case None => None
+    }
+  }
+
+  def findNotConnected(sum: Summary)(implicit hc: HeaderCarrier) = {
+    getNotConnectedFromCache().flatMap { notConnected =>
+      Option(NotConnectedSummary(sum, None, notConnected))
+    }
+  }
+
+  def getForm(notConnectedSummary: NotConnectedSummary) = {
+    notConnectedSummary.notConnected match {
+      case Some(x) => form.fill(x)
+      case None => form
+    }
+  }
   def onPageView = refNumAction.async { implicit request =>
-    findSummary.map {
-      case Some(summary) => Ok(notConnectedView(form, summary))
-      case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        InternalServerError(errorView(500))
+    findSummary.flatMap { summary =>
+      findNotConnected(summary.get).map {
+        case Some(notConnected) => Ok(notConnectedView(getForm(notConnected), summary.get))
+        case None => {
+          logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+          InternalServerError(errorView(500))
+        }
       }
     }
   }
