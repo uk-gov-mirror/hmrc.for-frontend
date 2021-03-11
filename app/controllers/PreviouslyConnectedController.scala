@@ -19,10 +19,11 @@ package controllers
 import _root_.form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import actions.{RefNumAction, RefNumRequest}
 import controllers.PreviouslyConnectedController.cacheKey
+import controllers.dataCapturePages.ForDataCapturePage
 import form.PreviouslyConnectedForm.formMapping
 
 import javax.inject.{Inject, Singleton}
-import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
+import models.pages.{NotConnectedSummary, SummaryBuilder}
 import models.serviceContracts.submissions.PreviouslyConnected
 import models.serviceContracts.submissions.PreviouslyConnected.format
 import play.api.Logger
@@ -60,9 +61,11 @@ class PreviouslyConnectedController @Inject()
     }
   }
 
-  def findNotConnected(sum: Summary)(implicit hc: HeaderCarrier) = {
-    getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
-      Option(NotConnectedSummary(sum, previouslyConnected, None))
+  def findNotConnectedSummary(implicit request: RefNumRequest[_], hc: HeaderCarrier) = {
+    findSummary.flatMap { summary =>
+      getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
+        Option(NotConnectedSummary(summary.get, previouslyConnected, None))
+      }
     }
   }
 
@@ -74,17 +77,13 @@ class PreviouslyConnectedController @Inject()
   }
 
   def onPageView = refNumberAction.async { implicit request =>
-      findSummary.flatMap { summary =>
-        findNotConnected(summary.get).map {
-          case Some(notConnectedSummary) => {
-            Ok(previouslyConnected(getForm(notConnectedSummary), summary.get))
-          }
-          case None => {
-            logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-            InternalServerError(errorView(500))
-          }
-        }
+    findNotConnectedSummary.map {
+      case Some(notConnectedSummary) => Ok(previouslyConnected(getForm(notConnectedSummary), notConnectedSummary.summary))
+      case None => {
+        logger.warn(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        InternalServerError(errorView(500))
       }
+    }
   }
 
   def onPageSubmit = refNumberAction.async { implicit request =>
@@ -94,7 +93,10 @@ class PreviouslyConnectedController @Inject()
           Future.successful(Ok(previouslyConnected(formWithErrors, summary)))
         }, {formWithData =>
           cache.cache(SessionId(hc), cacheKey, formWithData).map { cacheWriteResult =>
-            Redirect(routes.NotConnectedController.onPageView())
+            ForDataCapturePage.extractAction(request.body.asFormUrlEncoded) match {
+              case ForDataCapturePage.Update => Redirect(routes.NotConnectedCheckYourAnswersController.onPageView())
+              case _ => Redirect(routes.NotConnectedController.onPageView())
+            }
           }
         })
       }
