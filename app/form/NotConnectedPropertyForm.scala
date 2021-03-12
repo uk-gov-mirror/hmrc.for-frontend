@@ -29,7 +29,7 @@ import play.api.libs.json.Json
 case class NotConnectedPropertyForm( fullName: String,
                                      email: Option[String],
                                      phoneNumber: Option[String],
-                                     additionalInformation: String
+                                     additionalInformation: Option[String]
                                    )
 
 

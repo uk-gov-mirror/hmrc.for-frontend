@@ -16,38 +16,37 @@
 
 package controllers
 
+import connectors.{Audit, SubmissionConnector}
+import controllers.Assets.SEE_OTHER
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.Helpers._
-import views.html.notConnected
+import views.html.{confirmNotConnected, notConnectedCheckYourAnswers}
 
 import scala.concurrent.ExecutionContext
 
-class NotConnectedControllerSpec extends FlatSpec with Matchers with MockitoSugar {
+class NotConnectedCheckYourAnswersControllerSpec extends FlatSpec with Matchers with MockitoSugar {
 
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 
-  "NotConnectedController" should "move to check your answers" in {
+  "NotConnectedCheckYourAnswersController" should "Audit submission" in {
 
-    val cache = mock[MongoSessionRepository]
     val formDocumentRepository = mock[FormDocumentRepository]
+    val submissionConnector = mock[SubmissionConnector]
+    val cache = mock[MongoSessionRepository]
+    val audit = mock[Audit]
 
-    implicit val messageApi = mock[MessagesApi]
+    val controller = new NotConnectedCheckYourAnswersController(formDocumentRepository, submissionConnector, refNumAction(), cache, audit,
+      stubMessagesControllerComponents(), mock[notConnectedCheckYourAnswers], mock[confirmNotConnected], mock[views.html.error.error])
 
-    val controller = new NotConnectedController(formDocumentRepository, refNumAction(), cache,
-      stubMessagesControllerComponents(), mock[notConnected], mock[views.html.error.error])
+    val request = FakeRequest()
 
-    val fakeRequest = FakeRequest()
+    val response = controller.onPageSubmit().apply(request)
 
-    val result = controller.onPageSubmit().apply(fakeRequest)
-
-    status(result) shouldBe(SEE_OTHER)
-
+    status(response) shouldBe(SEE_OTHER)
   }
-
 
 }

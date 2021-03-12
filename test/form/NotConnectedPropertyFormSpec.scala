@@ -16,6 +16,7 @@
 
 package form
 
+import models.serviceContracts.submissions.NotConnected
 import org.scalatest.OptionValues._
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -37,11 +38,11 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
     formWithData.errors shouldBe empty
 
     formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnectedPropertyForm(
+    formWithData.value.value shouldBe(NotConnected(
       "John Doe",
       Some("john@example.com"),
       Some("078333232211"),
-      "Some additional information"
+      Some("Some additional information")
     ))
 
   }
@@ -53,11 +54,11 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
     formWithData.errors shouldBe empty
 
     formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnectedPropertyForm(
+    formWithData.value.value shouldBe(NotConnected(
       "John Doe",
       None,
       Some("078333232211"),
-      "Some additional information"
+      Some("Some additional information")
     ))
 
   }
@@ -69,11 +70,27 @@ class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
     formWithData.errors shouldBe empty
 
     formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnectedPropertyForm(
+    formWithData.value.value shouldBe(NotConnected(
       "John Doe",
       Some("john@example.com"),
       None,
-      "Some additional information"
+      Some("Some additional information")
+    ))
+
+  }
+
+  it should "map form without additional information" in {
+
+    val formWithData = NotConnectedPropertyForm.form.bind(baseDate - "additionalInformation")
+
+    formWithData.errors shouldBe empty
+
+    formWithData.value shouldBe defined
+    formWithData.value.value shouldBe(NotConnected(
+      "John Doe",
+      Some("john@example.com"),
+      Some("078333232211"),
+      None
     ))
 
   }

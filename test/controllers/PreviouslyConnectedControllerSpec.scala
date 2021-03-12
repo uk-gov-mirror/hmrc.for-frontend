@@ -19,37 +19,32 @@ package controllers
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.Helpers.{refNumAction, stubMessagesControllerComponents}
 import views.html.error.error
 import views.html.previouslyConnected
 
+import scala.concurrent.ExecutionContext
+
 class PreviouslyConnectedControllerSpec extends FlatSpec with Matchers with MockitoSugar {
 
+  implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 
-
-  //TODO Unable to test. Lot of static dependencies.
-  "Controller" should "redirect after form submission" ignore {
+  "PreviouslyConnectedController" should "redirect after form submission" in {
 
     val cache = mock[MongoSessionRepository]
-
     val formDocumentRepository = mock[FormDocumentRepository]
 
-    val controller = new PreviouslyConnectedController(???, cache, formDocumentRepository, ???, mock[previouslyConnected], mock[error])(???)
+    val controller = new PreviouslyConnectedController(stubMessagesControllerComponents(), cache, formDocumentRepository,
+      refNumAction(), mock[previouslyConnected], mock[error])
 
-    val request = FakeRequest("POST", "/path").withSession("refNum" ->"11122")
+    val request = FakeRequest()
 
     val response = controller.onPageSubmit().apply(request)
 
-    status(response) shouldBe(303)
-
-    header("location", response).value shouldBe "/sending-rental-information/page/1"
-
-
+    status(response) shouldBe(SEE_OTHER)
 
   }
-
-
 
 }
