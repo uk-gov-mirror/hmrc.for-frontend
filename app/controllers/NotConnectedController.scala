@@ -110,11 +110,10 @@ class NotConnectedController @Inject()
     findSummary.flatMap {
       case Some(summary) => {
           removeSession
-          .map(_ => Ok(confirmNotConnectedView(summary, feedbackForm)))
+          .map(_ => Ok(confirmNotConnectedView(feedbackForm)))
       } //.withNewSession
       case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
-        Future.successful(InternalServerError(errorView(500)))
+        Future.successful(Ok(confirmNotConnectedView(feedbackForm)))
       }
     }
   }

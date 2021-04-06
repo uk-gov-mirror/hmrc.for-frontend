@@ -33,13 +33,13 @@
         formWithCSRF:FormWithCSRF
 )
 
-@(summary: Summary, theForm: Form[_])(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[_])(implicit request: Request[_],  messages: Messages)
 
 
 @layout(
     pageHeading = messages("notConnected.thankYou"),
     showH1 = false,
-    summary = Some(summary),
+    summary = None,
     showAccountInfo = true,
     withTimeoutDialog = false
 ){
@@ -51,9 +51,11 @@
     <p class="govuk-body">@messages("notConnected.whatNext2")</p>
     <p class="govuk-body">@messages("notConnected.whatNext3")</p>
 
+    @*
     <p class="govuk-body">
         <a href="@controllers.routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
     </p>
+    *@
 
     <p class="govuk-body">
         <a href="login">@messages("copy.feedback.anotherForm")</a>
@@ -65,74 +67,69 @@
 
     <p class="govuk-body">@messages("label.feedback.p1")</p>
 
+    <p class="govuk-body">
     @formWithCSRF(
-        action = routes.FeedbackController.handleFeedbackSubmit,
-        args = 'novalidate -> "novalidate" ) {
+        action = feedback.routes.SurveyController.formCompleteFeedback,
+        args = 'novalidate -> "novalidate") {
 
-    <input type="hidden" name="feedback-name" value="Anonymous user"/>
-    <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>
-    <input type="hidden" name="referrer" value="@request.host@request.uri"/>
-    <input type="hidden" name="service"  value="RALD">
-    <input type="hidden" name="canOmitComments"  value="true">
-    <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
+        <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
+        <input type="hidden" id="surveyUrl" name="surveyUrl" value="@theForm("surveyUrl").value.getOrElse("")"/>
 
-        @govukRadios(
-            Radios(
-                name = "feedback-rating",
-                idPrefix="feedback-rating",
-                items = Seq(
-                    "5" -> messages("feedback.rating.5"),
-                    "4" -> messages("feedback.rating.4"),
-                    "3" -> messages("feedback.rating.3"),
-                    "2" -> messages("feedback.rating.2"),
-                    "1" -> messages("feedback.rating.1")
-                ).map(radioItem => RadioItem(
-                    content = Text(radioItem._2),
-                    checked = radioItem._1.equals(theForm("feedback-rating").value.getOrElse("")),
-                    value = Option(radioItem._1)
-                )
-                ),
-                errorMessage = theForm.errors.asTextErrorMessageForField("feedback-rating"),
-                fieldset = Option(
-                    Fieldset(
-                        legend = Option(
-                            Legend(
-                                content = Text(messages("feedback.satisfaction.label")),
-                                isPageHeading = true,
-                                classes = "govuk-fieldset__legend--s"
-                            )
+    @govukRadios(
+        Radios(
+            name = "satisfaction",
+            idPrefix = "satisfaction",
+            items = Seq(
+                "verySatisfied", "satisfied", "neither", "dissatisfied", "veryDissatisfied"
+            ).map(radioItem => RadioItem(
+                content = Text(messages("satisfactionSurveyType." + radioItem)),
+                checked = theForm("satisfaction").value.exists(_ == radioItem),
+                value = Option(radioItem)
+            )
+            ),
+            errorMessage = theForm.errors.asTextErrorMessageForField("satisfaction"),
+            fieldset = Option(
+                Fieldset(
+                    legend = Option(
+                        Legend(
+                            content = Text(messages("label.satisfactionSurvey")),
+                            isPageHeading = true,
+                            classes = "govuk-fieldset__legend--s"
                         )
                     )
                 )
             )
         )
+    )
 
-        @govukCharacterCount(
-            CharacterCount(
-                id = "feedback-comments",
-                name = "feedback-comments",
-                value = theForm("feedback-comments").value,
-                rows = 8,
-                maxLength = 1200,
-                errorMessage = theForm.errors.asTextErrorMessageForField("feedback-comments"),
-                label = Label(
-                    classes = "govuk-!-font-weight-bold",
-                    content = Text(messages("label.feedback.comments"))
-                ),
-                hint = Hint(content = Text(messages("text.survey.bottomCopy")))
-            )
+    @govukCharacterCount(
+        CharacterCount(
+            id = "details",
+            name = "details",
+            value = theForm("details").value,
+            rows = 8,
+            maxLength = 1200,
+            errorMessage = theForm.errors.asTextErrorMessageForField("details"),
+            label = Label(
+                classes = "govuk-!-font-weight-bold",
+                content = Text(messages("label.feedback.comments"))
+            ),
+            hint = Hint(content = Text(messages("text.survey.bottomCopy")))
         )
+    )
 
-        <p class="govuk-body">
-            @govukButton(
-                Button(
-                    attributes = Map("id" -> "send", "novalidate" -> "novalidate"),
-                    content = Text(messages("button.label.submit")),
-                    name = "send",
-                    value = "send",
-                    inputType = "submit"
-                )
-            )
-        </p>
-    }
+
+    <p class="govuk-body">
+    @govukButton(
+        Button(
+            attributes = Map("id" -> "send", "novalidate" -> "novalidate"),
+            content = Text(messages("button.label.submit")),
+            name = "send",
+            value = "send",
+            inputType = "submit"
+        )
+    )
+    </p>
+}
+    </p>
 }
