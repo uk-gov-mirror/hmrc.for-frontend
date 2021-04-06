@@ -40,21 +40,25 @@
             <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
         </div>
 
-
-        <p class="govuk-body">
-            <a href="@routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
-        </p>
-
         <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
 
         <p class="govuk-body">@messages("confirm.copy.list.1")</p>
         <p class="govuk-body">@messages("confirm.copy.list.2")</p>
 
         <p class="govuk-body">
+            <a href="@routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
+        </p>
+
+        <p class="govuk-body">
             <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
         </p>
 
-        <br />
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h2 class="govuk-heading-m">@messages("heading.giveFeedback")</h2>
+
+        <p class="govuk-body">@messages("label.feedback.p1")</p>
+
         <p class="govuk-body">
         @formWithCSRF(
             action = feedback.routes.SurveyController.formCompleteFeedback,
