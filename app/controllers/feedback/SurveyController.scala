@@ -51,8 +51,6 @@ class SurveyController @Inject() (
                                    refNumAction: RefNumAction,
                                    audit: Audit,
                                    confirmationView: views.html.confirm,
-                                   confirmationViewB: views.html.confirmB,
-                                   confirmationViewC: views.html.confirmC,
                                    errorView: views.html.error.error,
                                    feedbackThxView: views.html.feedbackThx,
                                    surveyView: views.html.survey
@@ -70,32 +68,6 @@ class SurveyController @Inject() (
     viewConfirmationPage(request.refNum)
   }
 
-  def confirmationB = refNumAction.async { implicit request =>
-
-    repository.findById(SessionId(hc), request.refNum) map {
-      case Some(doc) =>
-        val summary = SummaryBuilder.build(doc)
-        Ok(confirmationViewB(
-          completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "submission-received")).discardingErrors, request.refNum,
-          summary.customerDetails.flatMap(_.contactDetails.email),
-          summary))
-    }
-
-  }
-
-  def confirmationC = refNumAction.async { implicit request =>
-
-    repository.findById(SessionId(hc), request.refNum) map {
-      case Some(doc) =>
-        val summary = SummaryBuilder.build(doc)
-        Ok(confirmationViewC(
-          completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "submission-accepted")).discardingErrors, request.refNum,
-          summary.customerDetails.flatMap(_.contactDetails.email),
-          summary))
-    }
-
-  }
-
   def formCompleteFeedback = refNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(surveyView(formWithErrors))),
@@ -103,10 +75,6 @@ class SurveyController @Inject() (
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou()) }
       }
     )
-  }
-
-  private def host(implicit request: RequestHeader): String = {
-    s"http://${request.host}/"
   }
 
   private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit request:RefNumRequest[AnyContent] ) =
