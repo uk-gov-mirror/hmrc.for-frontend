@@ -109,7 +109,6 @@ class NotConnectedCheckYourAnswersController @Inject()
           .map(_ => Ok(confirmNotConnectedView(feedbackForm)))
       } //.withNewSession
       case None => {
-        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         Future.successful(Ok(confirmNotConnectedView(feedbackForm)))
       }
     }
