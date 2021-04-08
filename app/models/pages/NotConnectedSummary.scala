@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package models.serviceContracts.submissions
+package models.pages
 
-import play.api.libs.json._
+import models.serviceContracts.submissions.{NotConnected, PreviouslyConnected}
 
-case class NotConnected(fullName: String, emailAddress: Option[String], phoneNumber: Option[String], additionalInformation: Option[String])
-
-object NotConnected {
-
-  implicit  val format = Json.format[NotConnected]
+case class NotConnectedSummary(summary: Summary, previouslyConnected: Option[PreviouslyConnected], notConnected: Option[NotConnected])
+{
 
 }

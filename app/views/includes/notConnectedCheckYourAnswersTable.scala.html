@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package models.serviceContracts.submissions
+@import models.pages.NotConnectedSummary
 
-import play.api.libs.json._
+@(notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
 
-case class NotConnected(fullName: String, emailAddress: Option[String], phoneNumber: Option[String], additionalInformation: Option[String])
+@views.html.includes.summary.previouslyConnected(notConnectedSummary)
 
-object NotConnected {
-
-  implicit  val format = Json.format[NotConnected]
-
-}
+@views.html.includes.summary.notConnected(notConnectedSummary)

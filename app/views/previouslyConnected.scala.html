@@ -55,7 +55,7 @@
                     "false" -> messages("label.no.na")
                 ).map(i => RadioItem (
                     content = Text(i._2),
-                    checked = theForm("haveYouBeenConnected").value.map(_ == i.value).getOrElse(false),
+                    checked = i._1.equals(theForm("haveYouBeenConnected").value.getOrElse("")),
                     value=Option(i._1)
                 )
                 ),
