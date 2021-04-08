@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, messages: Messages)
-  <div id="@linkId" class="govuk-summary-list__row govuk-body">
-      <dt class="govuk-summary-list__key">@fieldName</dt>
-      <dd class="govuk-summary-list__value">@answer</dd>
-      <dd class="govuk-summary-list__actions">
-          <a
-            href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId"
-            class="govuk-link">@messages("label.edit") <span class="visually-hidden">@fieldName</span></a>
-      </dd>
-  </div>
+package models.pages
+
+import models.serviceContracts.submissions.{NotConnected, PreviouslyConnected}
+
+case class NotConnectedSummary(summary: Summary, previouslyConnected: Option[PreviouslyConnected], notConnected: Option[NotConnected])
+{
+
+}

@@ -16,12 +16,21 @@
 
 package models.serviceContracts.submissions
 
+import java.time.Instant
+
 import play.api.libs.json._
 
-case class NotConnected(fullName: String, emailAddress: Option[String], phoneNumber: Option[String], additionalInformation: Option[String])
+case class NotConnectedSubmission( id: String,
+                                   address: Address,
+                                   fullName: String,
+                                   emailAddress: Option[String],
+                                   phoneNumber: Option[String],
+                                   additionalInformation: Option[String],
+                                   createdAt: Instant,
+                                   previouslyConnected: Boolean
+                                 )
+object NotConnectedSubmission {
 
-object NotConnected {
-
-  implicit  val format = Json.format[NotConnected]
+  implicit  val format = Json.format[NotConnectedSubmission]
 
 }
