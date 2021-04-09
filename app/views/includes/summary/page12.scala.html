@@ -21,8 +21,8 @@
 @import models.serviceContracts.submissions._
 
 @(p12: PageTwelve)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section12.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@messages("section12.heading")</h2>
+<dl class="govuk-summary-list">
     @summaryBlock(messages("label.responsibleOutsideRepairs"), 12, "responsibleOutsideRepairs") {
         @messages(s"responsibleType.${p12.responsibleOutsideRepairs.name}")
 

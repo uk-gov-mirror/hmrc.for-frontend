@@ -20,8 +20,8 @@
 @import models.serviceContracts.submissions._
 
 @(p14: OtherFactors, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
-<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section14.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@messages("section14.heading")</h2>
+<dl class="govuk-summary-list">
 	@summaryBlock(messages(if(isAgent) messages("label.anyOtherFactors.agent") else messages("label.anyOtherFactors")), 14, "anyOtherFactors") {
 	    @displayBoolean(p14.anyOtherFactors, "3")
 	}
