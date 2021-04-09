@@ -21,8 +21,8 @@
 
 @(p5: PageFive, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section5.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@messages("section5.heading")</h2>
+<dl class="govuk-summary-list">
 	@summaryBlock(messages("label.landlordFullName"), 5, "landlordFullName") {
 		@p5.landlordFullName
 	}

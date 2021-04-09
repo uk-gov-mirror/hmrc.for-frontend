@@ -15,12 +15,12 @@
  *@
 
 @(fieldName: String, page: Int, linkId: String)(answer: Html)(implicit requestHeader: RequestHeader, messages: Messages)
-  <div id="@linkId" class="govuk-summary-list__row govuk-body">
+  <div id="@linkId" class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">@fieldName</dt>
       <dd class="govuk-summary-list__value">@answer</dd>
       <dd class="govuk-summary-list__actions">
           <a
             href="@dataCapturePages.routes.PageController.showPage(page)?edit=@linkId#@linkId"
-            class="govuk-link">@messages("label.edit") <span class="visually-hidden">@fieldName</span></a>
+            class="govuk-link">@messages("label.edit") <span class="govuk-visually-hidden">@fieldName</span></a>
       </dd>
   </div>

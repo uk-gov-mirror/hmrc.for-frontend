@@ -21,8 +21,8 @@
 
 @(p3: PageThree, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section3.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@messages("section3.heading")</h2>
+<dl class="govuk-summary-list">
   @summaryBlock(messages("label.propertyType"), 3, "propertyType") {
     @p3.propertyType
   }

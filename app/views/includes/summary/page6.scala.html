@@ -22,8 +22,8 @@
 
 @(p6: PageSix, isAgent: Boolean)(implicit requestHeader: RequestHeader,  messages: Messages)
 
-<h2 class="govuk-heading-m govuk-!-margin-top-4">@messages("section6.heading")</h2>
-<dl class="govuk-check-your-answers cya-questions-long">
+<h2 class="govuk-heading-m">@messages("section6.heading")</h2>
+<dl class="govuk-summary-list">
     @summaryBlock(messages(if(isAgent) messages("label.leaseAgreementType.agent") else messages("label.leaseAgreementType")), 6, "leaseAgreementType") {
       @messages(s"${LeaseAgreementTypes.all.head.key}.${p6.leaseAgreementType.name}")
     }
