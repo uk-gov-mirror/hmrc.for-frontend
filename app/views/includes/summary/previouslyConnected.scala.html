@@ -19,9 +19,6 @@
 
 @(notConnectedSummary: NotConnectedSummary)(implicit requestHeader: RequestHeader, messages: Messages)
 
-<h2 class="govuk-heading-m">@messages("notConnected.previouslyConnected")</h2>
-<dl class="govuk-summary-list">
-
 @notConnectedSummaryBlock(messages("notConnected.previouslyConnected"),
     "/sending-rental-information/previously-connected?edit=haveYouBeenConnected#haveYouBeenConnected",
     "haveYouBeenConnected") {
@@ -32,4 +29,3 @@
     }
 }
 
-</dl>
