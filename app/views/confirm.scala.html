@@ -36,22 +36,30 @@
         showAccountInfo = true,
         theForm = theForm
     ) {
-        <div class="govuk-panel govuk-panel--confirmation">
+
+        <div class="govuk-panel govuk-panel--confirmation no-print">
             <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
         </div>
+
+        <p class="govuk-!-display-none-print govuk-body">
+            <a href="javascript:window.print();"
+               class="govuk-link print-link">@messages("print.link")</a> @messages("print.link.cantPrintLater")
+        </p>
 
         <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
 
         <p class="govuk-body">@messages("confirm.copy.list.1")</p>
         <p class="govuk-body">@messages("confirm.copy.list.2")</p>
 
-        <p class="govuk-body">
-            <a href="@routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
-        </p>
+        <div class="print-only">
+            @includes.checkYourAnswersTable(summary)
+        </div>
 
+    <section class="govuk-!-display-none-print">
         <p class="govuk-body">
             <a href="@routes.LoginController.show">@messages("label.submitAnotherForm")</a>
         </p>
+
 
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
@@ -124,4 +132,5 @@
         </p>
     }
         </p>
+</section>
     }
