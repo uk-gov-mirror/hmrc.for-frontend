@@ -965,3 +965,7 @@ index.help.p2=You can find their contact details on the letter sent by the VOA.
 
 footer.links.language.url = /sending-rental-information/language/cymraeg
 footer.links.language.text = Cymraeg
+
+#CONFIRMATION INFORMATION
+print.link=Print a copy of your form
+print.link.cantPrintLater=(you will not be able to print a copy later)

@@ -24,3 +24,13 @@ fieldset {
   padding: 0;
   border: 0;
 }
+
+.print-only {
+    display:none;
+  }
+
+  @media print {
+    .print-only {display:block;}
+}
+
+

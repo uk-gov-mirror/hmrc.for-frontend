@@ -950,3 +950,6 @@ index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
 
 footer.links.language.url = /sending-rental-information/language/english
 footer.links.language.text = English
+
+#CONFIRMATION INFORMATION
+print.link=Argraffwch gopi o'ch ffurflen
