@@ -41,6 +41,14 @@
             <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
         </div>
 
+        <div class="govuk-body">
+            @if(email.nonEmpty) {
+
+            @messages("emailAddress.confirmation") <h3 style="display: inline;" class="govuk-heading-s"> @email.get </h3>
+
+            }
+        </div>
+
         <p class="govuk-!-display-none-print govuk-body">
             <a href="javascript:window.print();"
                class="govuk-link print-link">@messages("print.link")</a> @messages("print.link.cantPrintLater")
