@@ -11,6 +11,7 @@ failedLogin.heading=Login error
 lockedOut.heading=Locked out
 label.continue=Continue
 button.label.submit=Submit
+button.label.submitFeedback=Submit your feedback
 optional=(optional)
 help.date.month.year=For example, 3 2011
 help.optional.date.month.year=For example, 3 2011 (optional)
@@ -612,20 +613,21 @@ label.confirm.subheading=Your form submission number is:
 label.button.download=Print a copy of your form (opens in a new tab)
 label.email.sent=We’ll send a copy of your submission to the email address you provided.
 label.email.request=You’ll need to provide an email address if you want a confirmation email.
-label.whatNext=What happens next?
+label.whatNext=What happens next
 label.emailCopyWillBeSent=If you provided an email address, we’ll send a copy of what you submitted.
 confirm.copy.list.1=We’ll update our records with the information you have given.
 confirm.copy.list.2=You do not need to contact us, but we may need to contact you to check some of the details you provided.
 
 label.quoteRefNum=If you have any questions about your form send an email, quoting your reference number {0}, to
 label.formHelpEmail=formhelp@voa.gsi.gov.uk
-label.submitAnotherForm=I would like to submit another form
+label.submitAnotherForm=Submit another form
 label.FeedbackLastPage=To help us improve our services please provide your feedback by clicking here
 label.giveFeedback=Click here to send us feedback
 label.feedback.headingAfterSubmitting=Feedback
 label.finish=Finish
 label.satisfactionSurvey=Overall, how would you describe your experience with the form?
 label.satisfaction=Overall, how would you describe your experience with the form?
+label.satisfaction.1=Overall, how did you feel about this service?
 label.details=How can we improve this service?
 label.detailsOptional=How can we improve this service? (Optional)
 hint.limit=Limit is 1200 characters
@@ -728,7 +730,7 @@ heading.summary.pdf.footnote=This is a Notice served under paragraph 5(1) of sch
 
 #FEEDBACK
 ###############################
-heading.giveFeedback=Give feedback
+heading.giveFeedback=Give feedback for rent and lease details
 copy.giveFeedback=Leave your suggestions or comments about our service.
 button.label.submit.feedback=Send feedback
 link.feedback=Feedback
