@@ -41,6 +41,7 @@
             <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
         </div>
 
+<<<<<<< Updated upstream
         <div class="govuk-body">
             @if(email.nonEmpty) {
 
@@ -48,6 +49,13 @@
 
             }
         </div>
+=======
+        <p class="govuk-body">
+            @if(email.nonEmpty) {
+                @messages("emailAddress.confirmation") <span style="font-weight:bold;">@email.getOrElse("")</span>
+            }
+        </p>
+>>>>>>> Stashed changes
 
         <p class="govuk-!-display-none-print govuk-body">
             <a href="javascript:window.print();"
@@ -73,8 +81,11 @@
 
         <h2 class="govuk-heading-m">@messages("heading.giveFeedback")</h2>
 
+<<<<<<< Updated upstream
         <p class="govuk-body">@messages("label.satisfaction.1")</p>
 
+=======
+>>>>>>> Stashed changes
         <p class="govuk-body">
         @formWithCSRF(
             action = feedback.routes.SurveyController.formCompleteFeedback,
