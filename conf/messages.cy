@@ -630,13 +630,14 @@ confirm.copy.list.1=Byddwn yn diweddaru ein cofnodion gyda’r wybodaeth rydych 
 confirm.copy.list.2=Nid oes angen i chi gysylltu â ni, ond efallai y bydd angen i ni gysylltu â chi i wirio rhai o’r manylion a roesoch.
 
 label.quoteRefNum=gan ddyfynnu eich cyfeirnod {0}.
-label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
+label.submitAnotherForm=Cyflwyno ffurflen arall
 label.feedback.headingAfterSubmitting=Adborth
 
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda’r ffurflen hon?
 label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn? (dewisol)
 label.details=Sut y gallwn wella’r gwasanaeth hwn?
 label.satisfaction=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda’r ffurflen hon?
+label.satisfaction.1=Ar y cyfan, sut oeddwch chi’n teimlo ynglŷn â’r gwasanaeth hwn?
 hint.limit=Yr uchafswm yw 1200 o nodau
 text.survey.bottomCopy=Peidiwch â chynnwys unrhyw wybodaeth bersonol nac ariannol, er enghraifft eich rhif Yswiriant Gwladol neu rifau cardiau credyd.
 text.survey.bottomImprove=Er mwyn ein helpu i wella’r gwasanaeth hwn, dylech gynnwys cymaint o wybodaeth â phosibl. Er enghraifft, os oedd cwestiwn yn ddryslyd, gadewch i ni wybod pa un.
@@ -733,9 +734,10 @@ heading.summary.pdf.footnote=Hysbysiad yw hwn o dan baragraff 5(1) o atodlen 9 i
 
 #FEEDBACK
 ###############################
-heading.giveFeedback=Rhoi adborth
+heading.giveFeedback=Rhoi adborth ar gyfer manylion rhent a phrydles
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â’n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
+button.label.submitFeedback=Cyflwyno eich adborth
 link.feedback=Adborth
 label.help.link=Cael help gyda’r ffurflen
 label.help.title=Help ar gyfer y dudalen
@@ -952,4 +954,6 @@ footer.links.language.url = /sending-rental-information/language/english
 footer.links.language.text = English
 
 #CONFIRMATION INFORMATION
-print.link=Argraffwch gopi o'ch ffurflen
+emailAddress.confirmation=Rydym wedi anfon e-bost cardarnhau at
+print.link=Argraffu copi o’ch ffurflen
+print.link.cantPrintLater=(ni fyddwch yn gallu argraffu copi yn ddiweddarach)
