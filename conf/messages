@@ -102,7 +102,7 @@ label.yes.ydyn=Yes
 label.no.nac.ydyn=No
 label.yes.oedd=Yes
 label.no.nac.oedd=No
-label.yes.iawn = Yes 
+label.yes.iawn = Yes
 label.no.na = No
 
 #BUTTON LABELS
@@ -421,7 +421,7 @@ label.notReviewRentFixed=Was the rent fixed by
 label.rentSetByType=Is this rent
 label.noJs.notReviewRentFixed=Answer this only if you’ve selected ‘No’
 
-error.wasTheRentFixedBetween.required=Select ‘Yes’ if the rent was fixed between the tenant and landlord 
+error.wasTheRentFixedBetween.required=Select ‘Yes’ if the rent was fixed between the tenant and landlord
 error.whoWasTheRentFixedBetween.required=Select who the rent was fixed by
 error.isThisRent.required=Select the type of rent agreement
 
@@ -969,5 +969,6 @@ footer.links.language.url = /sending-rental-information/language/cymraeg
 footer.links.language.text = Cymraeg
 
 #CONFIRMATION INFORMATION
+emailAddress.confirmation=We have sent a confirmation email to
 print.link=Print a copy of your form
 print.link.cantPrintLater=(you will not be able to print a copy later)

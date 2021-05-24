@@ -11,6 +11,7 @@ failedLogin.heading=Gwall mewngofnodi
 lockedOut.heading=Wedi eich cloi allan
 label.continue=Yn eich blaen
 button.label.submit=Cyflwyno
+button.label.submitFeedback=Cyflwyno eich adborth
 optional=(dewisol)
 help.date.month.year=Er enghraifft, 3 2011
 help.optional.date.month.year=Er enghraifft, 3 2011 (dewisol)
@@ -632,6 +633,7 @@ confirm.copy.list.2=Nid oes angen i chi gysylltu â ni, ond efallai y bydd angen
 label.quoteRefNum=gan ddyfynnu eich cyfeirnod {0}.
 label.submitAnotherForm=Hoffwn gyflwyno ffurflen arall
 label.feedback.headingAfterSubmitting=Adborth
+label.submitAnotherForm=Cyflwyno ffurflen arall
 
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda’r ffurflen hon?
 label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn? (dewisol)
@@ -733,7 +735,7 @@ heading.summary.pdf.footnote=Hysbysiad yw hwn o dan baragraff 5(1) o atodlen 9 i
 
 #FEEDBACK
 ###############################
-heading.giveFeedback=Rhoi adborth
+heading.giveFeedback=Rhoi adborth ar gyfer manylion rhent a phrydles
 copy.giveFeedback=Gadewch awgrymiadau neu sylwadau ynglŷn â’n gwasanaeth.
 button.label.submit.feedback=Anfon adborth
 link.feedback=Adborth
@@ -952,4 +954,6 @@ footer.links.language.url = /sending-rental-information/language/english
 footer.links.language.text = English
 
 #CONFIRMATION INFORMATION
+emailAddress.confirmation=Rydym wedi anfon e-bost cardarnhau at
 print.link=Argraffwch gopi o'ch ffurflen
+print.link.cantPrintLater=(ni fyddwch yn gallu argraffu copi yn ddiweddarach)
