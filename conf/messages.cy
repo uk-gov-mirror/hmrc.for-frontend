@@ -11,6 +11,7 @@ failedLogin.heading=Gwall mewngofnodi
 lockedOut.heading=Wedi eich cloi allan
 label.continue=Yn eich blaen
 button.label.submit=Cyflwyno
+button.label.submitFeedback=Cyflwyno eich adborth
 optional=(dewisol)
 help.date.month.year=Er enghraifft, 3 2011
 help.optional.date.month.year=Er enghraifft, 3 2011 (dewisol)
@@ -632,6 +633,7 @@ confirm.copy.list.2=Nid oes angen i chi gysylltu â ni, ond efallai y bydd angen
 label.quoteRefNum=gan ddyfynnu eich cyfeirnod {0}.
 label.submitAnotherForm=Cyflwyno ffurflen arall
 label.feedback.headingAfterSubmitting=Adborth
+label.submitAnotherForm=Cyflwyno ffurflen arall
 
 label.satisfactionSurvey=Yn gyffredinol, sut y byddech yn disgrifio’ch profiad gyda’r ffurflen hon?
 label.satisfactionSurveyComments=Sut y gallwn wella’r gwasanaeth hwn? (dewisol)
@@ -957,3 +959,4 @@ footer.links.language.text = English
 emailAddress.confirmation=Rydym wedi anfon e-bost cardarnhau at
 print.link=Argraffu copi o’ch ffurflen
 print.link.cantPrintLater=(ni fyddwch yn gallu argraffu copi yn ddiweddarach)
+
