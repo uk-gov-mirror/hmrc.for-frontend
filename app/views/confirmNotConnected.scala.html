@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import models.pages.Summary
+@import models.pages.NotConnectedSummary
 @import controllers.feedback.routes
 @import play.api.data._
 @import controllers.routes.ApplicationController._
@@ -25,7 +25,6 @@
 
 @this(
         layout: pageLayout,
-        govukPanel:GovukPanel,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
@@ -33,18 +32,31 @@
         formWithCSRF:FormWithCSRF
 )
 
-@(theForm: Form[_])(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[_], notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
 
 
 @layout(
-    pageHeading = messages("notConnected.thankYou"),
+    pageHeading = messages("label.confirm.heading"),
     showH1 = false,
-    summary = None,
     showAccountInfo = true,
-    withTimeoutDialog = false
+    withTimeoutDialog = false,
+    theForm = theForm
 ){
 
-    @govukPanel(Panel(title = Text(messages("notConnected.thankYou"))))
+    <div class="govuk-panel govuk-panel--confirmation no-print">
+        <h1 class="govuk-panel__title">@messages("label.confirm.heading")</h1>
+    </div>
+
+    <p class="govuk-body">
+        @if(notConnectedSummary.notConnected.get.emailAddress.nonEmpty) {
+            @messages("emailAddress.confirmation") <span style="font-weight:bold;">@notConnectedSummary.notConnected.get.emailAddress.getOrElse("")</span>
+        }
+    </p>
+
+    <p class="govuk-!-display-none-print govuk-body">
+        <a href="javascript:window.print();"
+           class="govuk-link print-link">@messages("print.link")</a> @messages("print.link.cantPrintLater")
+    </p>
 
     <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
     <p class="govuk-body">@messages("notConnected.whatNext1")</p>
@@ -52,84 +64,83 @@
     <p class="govuk-body">@messages("notConnected.whatNext3")</p>
 
     @*
-    <p class="govuk-body">
-        <a href="@controllers.routes.ApplicationController.print" class="print-link govuk-link" target="_blank">@messages("label.button.download")</a>
-    </p>
+        <div class="print-only">
+            @includes.notConnectedCheckYourAnswersTable(notConnectedSummary)
+        </div>
     *@
 
-    <p class="govuk-body">
-        <a href="login">@messages("copy.feedback.anotherForm")</a>
-    </p>
+    <section class="govuk-!-display-none-print">
+        <p class="govuk-body">
+            <a href="login">@messages("copy.feedback.anotherForm")</a>
+        </p>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <h2 class="govuk-heading-m">@messages("heading.giveFeedback")</h2>
+        <h2 class="govuk-heading-m">@messages("heading.giveFeedback")</h2>
 
-    <p class="govuk-body">@messages("label.feedback.p1")</p>
+        <p class="govuk-body">
+        @formWithCSRF(
+            action = feedback.routes.SurveyController.formCompleteFeedback,
+            args = 'novalidate -> "novalidate") {
 
-    <p class="govuk-body">
-    @formWithCSRF(
-        action = feedback.routes.SurveyController.formCompleteFeedback,
-        args = 'novalidate -> "novalidate") {
+            <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
+            <input type="hidden" id="surveyUrl" name="surveyUrl" value="@theForm("surveyUrl").value.getOrElse("")"/>
 
-        <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
-        <input type="hidden" id="surveyUrl" name="surveyUrl" value="@theForm("surveyUrl").value.getOrElse("")"/>
-
-    @govukRadios(
-        Radios(
-            name = "satisfaction",
-            idPrefix = "satisfaction",
-            items = Seq(
-                "verySatisfied", "satisfied", "neither", "dissatisfied", "veryDissatisfied"
-            ).map(radioItem => RadioItem(
-                content = Text(messages("satisfactionSurveyType." + radioItem)),
-                checked = theForm("satisfaction").value.exists(_ == radioItem),
-                value = Option(radioItem)
-            )
-            ),
-            errorMessage = theForm.errors.asTextErrorMessageForField("satisfaction"),
-            fieldset = Option(
-                Fieldset(
-                    legend = Option(
-                        Legend(
-                            content = Text(messages("label.satisfactionSurvey")),
-                            isPageHeading = true,
-                            classes = "govuk-fieldset__legend--s"
+        @govukRadios(
+            Radios(
+                name = "satisfaction",
+                idPrefix = "satisfaction",
+                items = Seq(
+                    "verySatisfied", "satisfied", "neither", "dissatisfied", "veryDissatisfied"
+                ).map(radioItem => RadioItem(
+                    content = Text(messages("satisfactionSurveyType." + radioItem)),
+                    checked = theForm("satisfaction").value.exists(_ == radioItem),
+                    value = Option(radioItem)
+                )
+                ),
+                errorMessage = theForm.errors.asTextErrorMessageForField("satisfaction"),
+                fieldset = Option(
+                    Fieldset(
+                        legend = Option(
+                            Legend(
+                                content = Text(messages("label.satisfactionSurvey")),
+                                isPageHeading = true,
+                                classes = "govuk-fieldset__legend--s"
+                            )
                         )
                     )
                 )
             )
         )
-    )
 
-    @govukCharacterCount(
-        CharacterCount(
-            id = "details",
-            name = "details",
-            value = theForm("details").value,
-            rows = 8,
-            maxLength = 1200,
-            errorMessage = theForm.errors.asTextErrorMessageForField("details"),
-            label = Label(
-                classes = "govuk-!-font-weight-bold",
-                content = Text(messages("label.feedback.comments"))
-            ),
-            hint = Hint(content = Text(messages("text.survey.bottomCopy")))
+        @govukCharacterCount(
+            CharacterCount(
+                id = "details",
+                name = "details",
+                value = theForm("details").value,
+                rows = 8,
+                maxLength = 1200,
+                errorMessage = theForm.errors.asTextErrorMessageForField("details"),
+                label = Label(
+                    content = Text(messages("label.feedback.comments"))
+                ),
+                hint = Hint(content = Text(messages("text.survey.bottomCopy")))
+            )
         )
-    )
 
 
-    <p class="govuk-body">
-    @govukButton(
-        Button(
-            attributes = Map("id" -> "send", "novalidate" -> "novalidate"),
-            content = Text(messages("button.label.submit")),
-            name = "send",
-            value = "send",
-            inputType = "submit"
+        <p class="govuk-body">
+        @govukButton(
+            Button(
+                attributes = Map("id" -> "send", "novalidate" -> "novalidate"),
+                content = Text(messages("button.label.submitFeedback")),
+                name = "send",
+                value = "send",
+                inputType = "submit"
+            )
         )
-    )
-    </p>
-}
-    </p>
+        </p>
+    }
+        </p>
+    </section>
 }

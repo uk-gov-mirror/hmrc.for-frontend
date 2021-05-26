@@ -18,7 +18,10 @@ package models.pages
 
 import models.serviceContracts.submissions.{NotConnected, PreviouslyConnected}
 
-case class NotConnectedSummary(summary: Summary, previouslyConnected: Option[PreviouslyConnected], notConnected: Option[NotConnected])
+case class NotConnectedSummary(
+  summary: Summary,
+  previouslyConnected: Option[PreviouslyConnected],
+  notConnected: Option[NotConnected])
 {
 
 }
