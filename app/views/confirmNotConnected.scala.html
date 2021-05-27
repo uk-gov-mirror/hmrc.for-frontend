@@ -48,8 +48,8 @@
     </div>
 
     <p class="govuk-body">
-        @if(notConnectedSummary.nonEmpty) {
-            @messages("emailAddress.confirmation") <span style="font-weight:bold">@notConnectedSummary.get.notConnected.get.emailAddress.getOrElse("-")</span></p>
+        @if(notConnectedSummary.get.notConnected.get.emailAddress.nonEmpty) {
+            @messages("emailAddress.confirmation") <span style="font-weight:bold;">@notConnectedSummary.get.notConnected.get.emailAddress.getOrElse("")</span>
         }
     </p>
 
@@ -64,9 +64,9 @@
     <p class="govuk-body">@messages("notConnected.whatNext3")</p>
 
 
-        <div class="print-only">
-            @includes.notConnectedCheckYourAnswersTable(notConnectedSummary.get)
-        </div>
+    <div class="print-only">
+        @includes.notConnectedCheckYourAnswersTable(notConnectedSummary.get)
+    </div>
 
 
     <section class="govuk-!-display-none-print">
