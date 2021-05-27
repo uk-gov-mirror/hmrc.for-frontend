@@ -32,7 +32,7 @@
         formWithCSRF:FormWithCSRF
 )
 
-@(theForm: Form[_], notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[_], notConnectedSummary: Option[NotConnectedSummary])(implicit request: Request[_],  messages: Messages)
 
 
 @layout(
@@ -48,8 +48,8 @@
     </div>
 
     <p class="govuk-body">
-        @if(notConnectedSummary.notConnected.get.emailAddress.nonEmpty) {
-            @messages("emailAddress.confirmation") <span style="font-weight:bold;">@notConnectedSummary.notConnected.get.emailAddress.getOrElse("")</span>
+        @if(notConnectedSummary.nonEmpty) {
+            @messages("emailAddress.confirmation") <span style="font-weight:bold">@notConnectedSummary.get.notConnected.get.emailAddress.getOrElse("-")</span></p>
         }
     </p>
 
@@ -63,11 +63,11 @@
     <p class="govuk-body">@messages("notConnected.whatNext2")</p>
     <p class="govuk-body">@messages("notConnected.whatNext3")</p>
 
-    @*
+
         <div class="print-only">
-            @includes.notConnectedCheckYourAnswersTable(notConnectedSummary)
+            @includes.notConnectedCheckYourAnswersTable(notConnectedSummary.get)
         </div>
-    *@
+
 
     <section class="govuk-!-display-none-print">
         <p class="govuk-body">

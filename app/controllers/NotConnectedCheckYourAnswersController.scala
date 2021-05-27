@@ -112,6 +112,15 @@ class NotConnectedCheckYourAnswersController @Inject()
         case None => Future.successful(Ok(confirmNotConnectedView(feedbackForm, null)))
       }
     }
+
+    findSummary.flatMap { summary =>
+      findNotConnected(summary.get).flatMap {
+        case Some(notConnectedSummary) => {
+          removeSession.map(_ => Ok(confirmNotConnectedView(feedbackForm, Some(notConnectedSummary))))
+        }
+        case None => Future.successful(Ok(confirmNotConnectedView(feedbackForm, None)))
+      }
+    }
   }
 
   def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier)  = {
