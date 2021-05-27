@@ -103,13 +103,13 @@ class NotConnectedCheckYourAnswersController @Inject()
       Map("journey" -> NotConnectedJourney.name)
     ).discardingErrors
 
-    findSummary.flatMap {
-      case Some(summary) => {
-        removeSession
-          .map(_ => Ok(confirmNotConnectedView(feedbackForm)))
-      } //.withNewSession
-      case None => {
-        Future.successful(Ok(confirmNotConnectedView(feedbackForm)))
+    findSummary.flatMap { summary =>
+      findNotConnected(summary.get).flatMap {
+        case Some(notConnectedSummary) => {
+          removeSession
+            .map(_ => Ok(confirmNotConnectedView(feedbackForm, Some(notConnectedSummary).get)))
+        }
+        case None => Future.successful(Ok(confirmNotConnectedView(feedbackForm, null)))
       }
     }
   }
