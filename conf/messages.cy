@@ -775,7 +775,7 @@ hint.vacated.form=<p>Anfonwch:</p>\
   <li>Eich rhif teleffôn cyswllt</li>\
   </ul>\
   </p>\
-  <p>i <a href="mailto:formhelp@voa.gsi.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="gasendWelsh()">formhelp@voa.gsi.gov.uk</a> os gwelwch yn dda.</p>
+  <p>i <a href="mailto:formhelp@voa.gov.uk?subject=Ffurflen cyn-berchennog/ddeiliad&body=Ebostiwch eich cyfeirnod, cyfeiriad e-bost a/neu rif ffôn yn unig i ni. Os bydd angen rhagor o wybodaeth arnom, byddwn yn cysylltu â chi maes o law." target="_blank" id="mailto" onclick="gasendWelsh()">formhelp@voa.gov.uk</a> os gwelwch yn dda.</p>
 
 
 
@@ -902,7 +902,7 @@ error.410.heading=Nid yw’r dudalen y gofynnwyd amdani ar gael mwyach.
 error.500.heading=Mae problem gyda’r dudalen ac ni ellir ei dangos. Rhowch gynnig arall arni yn nes ymlaen.
 error.403.heading=Nid yw’r cyfeirnod rydych wedi’i roi yn cyd-fynd â’n cofnodion. Cadarnhewch fod y rhif cywir gennych a rhowch gynnig arall arni.
 error.409.heading=Ni allwch olygu’r wybodaeth hon mwyach gan ei bod wedi’i chyflwyno eisoes.
-error.409.body=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gsi.gov.uk">formhelp@voa.gsi.gov.uk</a> os bydd angen rhagor o help arnoch.
+error.409.body=Gallwch anfon e-bost atom yn <a href="mailto:formhelp@voa.gov.uk">formhelp@voa.gov.uk</a> os bydd angen rhagor o help arnoch.
 
 error.maxCurrencyAmountExceeded=Rydych wedi mynd heibio’r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
 
