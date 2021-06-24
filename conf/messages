@@ -320,6 +320,7 @@ hint.steppedDetailsYear=You’ll usually find these in your lease or written agr
 label.rentOpenEnded=Is the lease or agreement open ended?
 label.writtenAgreement.leaseAgreementHasBreakClause=Can the landlord or tenant end the agreement early?
 label.writtenAgreement.breakClauseDetails=Provide details of the break clause
+label.writtenAgreement.breakClauseDetails.hint=Such as the date of the clause, who can trigger it, and details of any penalties or concessions.
 label.writtenAgreement.agreementIsStepped=Is the rent based on a stepped-rent agreement?
 label.writtenAgreement.agreementIsStepped.agent=Is your client’s rent a stepped rent agreement?
 label.writtenAgreement.steppedDetailsYear=Provide details of the stepped rent

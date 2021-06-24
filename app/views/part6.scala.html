@@ -233,6 +233,7 @@
               value = theForm("writtenAgreement.breakClauseDetails").value,
               rows = 5,
               maxLength = 124,
+              hint = Hint(content = Text(messages("label.writtenAgreement.breakClauseDetails.hint"))),
               errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.breakClauseDetails"),
               label = Label(
                 classes = "govuk-!-font-weight-bold",
