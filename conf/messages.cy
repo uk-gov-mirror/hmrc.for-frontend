@@ -310,6 +310,7 @@ error.LandlordConnectionType.required=Dewiswch a oes cysylltiad rhwng y landlord
 ###############################
 section6.heading=Y brydles neu’r cytundeb presennol
 label.breakClauseDetails=Rhowch fanylion y cymal torri
+label.writtenAgreement.breakClauseDetails.hint=Megis dyddiad y cymal, pwy all ei sbarduno, a manylion unrhyw gosbau neu gonsesiynau.
 label.agreementIsStepped=A yw eich rhent yn rhent gris?
 hint.steppedDetailsYear=Byddwch fel arfer yn dod o hyd i’r rhain yn eich prydles neu eich cytundeb ysgrifenedig.
 label.rentOpenEnded=A yw brydles neu’r cytundeb yn benagored?
