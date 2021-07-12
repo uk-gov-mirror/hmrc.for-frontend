@@ -613,7 +613,7 @@ section14.heading=Unrhyw ffactorau eraill
 label.anyOtherFactors=A oes rhywbeth arall wedi effeithio ar y rhent?
 label.anyOtherFactors.agent=A oes unrhyw beth arall wedi effeithio ar y rhent y mae eich cleient yn ei dalu?
 label.anyOtherFactorsDetails=Beth arall sydd wedi effeithio ar y rhent?
-hint.anyOtherFactorsDetails=Er enghraifft, bod cyfyngiadau llym ar y defnydd a ganiateir o’r eiddo, neu fod y rhent yn cynnwys swm ar gyfer darnau gosod ac addurniadau masnach. Cofiwch gynnwys unrhyw beth nad oedd gennych le i roi gwybod i ni amdano mewn adran flaenorol.
+hint.anyOtherFactorsDetails=Er enghraifft, os yw’r brydles yn cael ei chontractio allan o Ddeddf Landlord a Thenant 1954 (mae’r tenant wedi ildio’r hawl i adnewyddu prydles pan ddaw’r brydles gyfredol i ben), mae’r rhent yn cynnwys gosodiadau a ffitiadau masnach, neu mae’r defnydd a ganiateir o’r adeilad yn gyfyngedig iawn. Dylech gynnwys unrhyw beth arall nad ydych wedi cael lle i ddweud wrthym amdano mewn adran gynharach.
 label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes’
 
 error.anyOtherFactors.required=Dewiswch ‘Oes’ os oes unrhyw beth arall wedi effeithio ar y rhent
