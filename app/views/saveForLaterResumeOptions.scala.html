@@ -15,10 +15,12 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
+@import scala.concurrent.ExecutionContext
 
-@this(main_template: pageLayout, govukButton: GovukButton)
+@this(main_template: pageLayout, govukButton: GovukButton, formHelp: includes.formHelp )
 
-@()(implicit request: Request[_], messages: Messages)
+
+@()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @main_template(pageHeading = messages("saveForm.heading")) {
 
@@ -29,5 +31,5 @@
     <a href="@routes.ApplicationController.startAgain" class="govuk-link" >@messages("saveForm.start")</a>
     </p>
 
-   @includes.formHelp()
+   @formHelp()
 }

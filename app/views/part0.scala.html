@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
@@ -30,10 +31,12 @@
     govukButton: GovukButton,
     govukRadios: GovukRadios,
     govukErrorSummary: GovukErrorSummary,
-    formWithCSRF: formWithCSRF
+    formWithCSRF: formWithCSRF,
+    formHelp: includes.formHelp
 )
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @heading = @{messages("section0.intro.text", summary.address.map(_.singleLine).getOrElse(""))}
 
@@ -77,5 +80,5 @@
         @includes.continueButton(govukButton)
     }
 
-    @includes.formHelp()
+    @formHelp()
 }

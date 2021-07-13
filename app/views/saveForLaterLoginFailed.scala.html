@@ -14,9 +14,11 @@
  * limitations under the License.
  *@
 
-@this(main_template: pageLayout)
+@import scala.concurrent.ExecutionContext
 
-@()(implicit request: Request[_], messages: Messages)
+@this(main_template: pageLayout, formHelp: includes.formHelp)
+
+@()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @main_template(pageHeading = messages("saveForLater.invalidPassword")) {
 
@@ -28,5 +30,5 @@
         <a href="@routes.ApplicationController.startAgain" >@messages("label.startFormAgain")</a>
     </p>
 
-    @includes.formHelp()
+    @formHelp()
 }

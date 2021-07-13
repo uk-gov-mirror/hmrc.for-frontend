@@ -20,11 +20,12 @@ import akka.actor.ActorSystem
 import com.google.inject.ImplementedBy
 import com.typesafe.config.Config
 import config.ForConfig
+
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.libs.json.Writes
 import play.api.libs.ws.WSClient
-import uk.gov.hmrc.http.HeaderNames.trueClientIp
+import uk.gov.hmrc.http.HeaderNames.{trueClientIp, trueClientPort}
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
@@ -53,9 +54,14 @@ class ForHttpClient @Inject() (val config: Configuration, override protected val
 
   // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
   // An IP address needs to be injected because of the lockout mechanism
-  override def doGet(url: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    val hc2 = if (useDummyIp) hc.withExtraHeaders((trueClientIp, "")) else hc
-    super.doGet(url, headers)(hc2, ec).map { res =>
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
+    val headers2 = if(useDummyIp) {
+      (trueClientIp, "") +: (headers.filterNot(x => x._1.toLowerCase == trueClientIp.toLowerCase))
+    }else {
+      headers
+    }
+
+    super.doGet(url, headers2)(ec).map { res =>
       res.status match {
         case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.allHeaders)
         case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.allHeaders)
@@ -67,11 +73,11 @@ class ForHttpClient @Inject() (val config: Configuration, override protected val
   override def doPut[A](url: String,
                         body: A,
                         headers: Seq[(String, String)])(implicit rds: Writes[A],
-                                                        hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    super.doPut(url, body, headers)(rds, hc, ec).map { res =>
+                                                        ec: ExecutionContext): Future[HttpResponse] = {
+    super.doPut(url, body, headers)(rds, ec).map { res =>
       if (res.status == 400) throw new BadRequestException(res.body) else res
     }(ec)
   }
 
-  override protected def configuration: Option[Config] = Some(config.underlying)
+  override protected def configuration: Config = config.underlying
 }

@@ -21,8 +21,7 @@ import connectors.Document
 import org.joda.time.DateTime
 import org.scalatest.{FlatSpec, Matchers}
 import testutils._
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 
 import scala.util.Random
 

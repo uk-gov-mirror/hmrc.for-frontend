@@ -23,15 +23,15 @@ import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
 import org.scalatestplus.play.guice._
-import play.api.Play
+import play.api.{Configuration, Play}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.libs.ws.WSClient
 import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.http.{HeaderCarrier, _}
 import play.api.inject.bind
-import javax.inject.Singleton
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite {
@@ -49,10 +49,8 @@ trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite 
     .build()
 }
 
-class TestHttpClient extends ForHttp {
+class TestHttpClient @Inject()(val configuration: Config) extends ForHttp {
   import views.html.helper.urlEncode
-
-  override protected def configuration: Option[Config] = None
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
@@ -103,21 +101,21 @@ class TestHttpClient extends ForHttp {
     stubPut(s"$baseForUrl/submissions/$refNum", submission, headers, response)
   }
 
-  override def doGet(url: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    stubbedGets.find(x => x._1 == url && x._2.forall(y => hc.headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
+    stubbedGets.find(x => x._1 == url && x._2.forall(y => headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, res)) => Future.successful(res)
-      case _ => throw new HttpRequestNotStubbed(url, hc)
+      case _ => throw new HttpRequestNotStubbed(url, headers)
     }
   }
 
-  override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    stubbedPuts.find(x => x._1 == url && x._2 == body && x._3.forall(y => hc.headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
+  override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], ec: ExecutionContext): Future[HttpResponse] = {
+    stubbedPuts.find(x => x._1 == url && x._2 == body && x._3.forall(y => headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, _, res)) => Future.successful(res)
-      case _ => throw new HttpRequestNotStubbed(url, hc)
+      case _ => throw new HttpRequestNotStubbed(url, headers)
     }
   }
 
-  override def doPutString(url: String, body: String, headers: Seq[(String, String)])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
+  override def doPutString(url: String, body: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
     Thread.sleep(100000000l)
     Future.failed(new RuntimeException("stupid error"))
   }
@@ -129,5 +127,5 @@ class TestHttpClient extends ForHttp {
   override def wsClient: WSClient = ???
 }
 
-class HttpRequestNotStubbed[A](url: String, hc: HeaderCarrier, data: Option[A] = None)
-  extends Exception(s"Request not stubbed: $url - ${hc.headers} ${data.map { d => s"- $d" }.getOrElse("")}")
+class HttpRequestNotStubbed[A](url: String, headers: Seq[(String, String)], data: Option[A] = None)
+  extends Exception(s"Request not stubbed: $url - ${headers} ${data.map { d => s"- $d" }.getOrElse("")}")

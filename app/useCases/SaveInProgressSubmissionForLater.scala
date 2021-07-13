@@ -23,8 +23,7 @@ import security.LoginToHOD.AuthToken
 
 import scala.concurrent.Future
 import scala.util.Random
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.Authorization
+import uk.gov.hmrc.http.{HeaderCarrier, Authorization}
 
 object SaveInProgressSubmissionForLater {
   type SaveInProgressSubmissionForLater = HeaderCarrier => (Document, HeaderCarrier) => Future[SaveForLaterPassword]

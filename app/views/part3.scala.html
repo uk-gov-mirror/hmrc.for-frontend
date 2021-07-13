@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import models._
 @import models.pages.{PageThree, Summary}
 @import models.serviceContracts.submissions._
@@ -36,10 +37,12 @@
     govukDateInput: GovukDateInput,
     govukTextarea: GovukTextarea,
     govukCharacterCount: GovukCharacterCount,
-    formWithCSRF: formWithCSRF
+    formWithCSRF: formWithCSRF,
+    formHelp: includes.formHelp
 )
 
-@(theForm: Form[PageThree], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[PageThree], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
@@ -250,5 +253,5 @@
       @includes.continueSaveForLaterButtons(govukButton)
     }
   
-    @includes.formHelp()
+    @formHelp()
 }

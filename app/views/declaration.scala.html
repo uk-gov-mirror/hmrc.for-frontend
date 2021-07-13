@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import helpers._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
@@ -26,9 +27,11 @@
         govukWarningText: GovukWarningText,
         govukErrorSummary: GovukErrorSummary,
         govukDetails:GovukDetails,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp)
 
-@(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
@@ -68,5 +71,5 @@
     
     }
 
-    @includes.formHelp()
+    @formHelp()
 }
