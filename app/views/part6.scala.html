@@ -22,7 +22,8 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.{HmrcCurrencyInput, CurrencyInput}
+@import scala.concurrent.ExecutionContext
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
@@ -33,9 +34,12 @@
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp
+)
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
@@ -345,5 +349,5 @@
 
     }
 
-        @includes.formHelp()
+        @formHelp()
 }

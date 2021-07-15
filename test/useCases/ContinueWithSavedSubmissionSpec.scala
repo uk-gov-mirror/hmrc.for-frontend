@@ -21,8 +21,8 @@ import connectors.Document
 import models.journeys.SummaryPage
 import models.pages.Summary
 import org.joda.time.DateTime
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.Authorization
+import uk.gov.hmrc.http.{HeaderCarrier,Authorization}
+
 
 class ContinueWithSavedSubmissionSpec extends UnitTest {
 

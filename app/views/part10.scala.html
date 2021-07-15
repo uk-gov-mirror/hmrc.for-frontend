@@ -14,13 +14,14 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import helpers._
 @import models.pages.Summary
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.{HmrcCurrencyInput, CurrencyInput}
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
@@ -31,9 +32,11 @@
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukCharacterCount: GovukCharacterCount,
         govukDetails:GovukDetails,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp)
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
@@ -422,5 +425,5 @@
     @includes.continueSaveForLaterButtons(govukButton)
     
     }
-     @includes.formHelp()
+     @formHelp()
 }

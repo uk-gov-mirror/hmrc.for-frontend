@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import models.serviceContracts.submissions._
 @import play.api.data._
 @import models.pages.Summary
@@ -33,9 +34,11 @@
         govukButton: GovukButton,
         govukInput:  GovukInput,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp)
 
-@(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @layout(
     pageHeading = messages("section2.heading"),
@@ -179,5 +182,5 @@
 
     }
 
-    @includes.formHelp()
+    @formHelp()
 }

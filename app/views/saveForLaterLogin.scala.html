@@ -20,15 +20,18 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import scala.concurrent.ExecutionContext
 
 @this(
         main_template: pageLayout,
         govukInput: GovukInput,
         govukButton: GovukButton,
-        formWithCSRF: formWithCSRF
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp
 )
 
-@()(implicit request: Request[_], messages: Messages)
+
+@()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
 
@@ -61,5 +64,5 @@
             )
         )
     }
-    @includes.formHelp()
+    @formHelp()
 }

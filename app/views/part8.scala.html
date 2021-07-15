@@ -23,6 +23,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import scala.concurrent.ExecutionContext
 
 @this(  layout: pageLayout,
     govukRadios: GovukRadios,
@@ -31,9 +32,11 @@
     govukErrorSummary: GovukErrorSummary,
     govukDateInput:GovukDateInput,
     govukTextarea: GovukTextarea,
-    formWithCSRF: formWithCSRF)
+    formWithCSRF: formWithCSRF,
+    formHelp: includes.formHelp)
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @heading = @{if(summary.isAgent){ messages("section8.heading.agent") }else{ messages("section8.heading")}}
 @previousPage = @{
@@ -140,5 +143,5 @@
     @includes.continueSaveForLaterButtons(govukButton)
     
     }
-    @includes.formHelp()
+    @formHelp()
 }

@@ -19,10 +19,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukWarningText,GovukPanel}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
+@import scala.concurrent.ExecutionContext
 
-@this(main_template: pageLayout, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel)
+@this(main_template: pageLayout, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel, formHelp: includes.formHelp )
 
-@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
+@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @title = @{
     if(!hasTimedOut) {
@@ -74,5 +75,5 @@
     </p>
 
 
-    @includes.formHelp()
+    @formHelp()
 }

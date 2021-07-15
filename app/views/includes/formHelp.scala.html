@@ -14,9 +14,12 @@
  * limitations under the License.
  *@
 
-@import playconfig.FormPartialProvider
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import scala.concurrent.ExecutionContext
 
-@()(implicit request: Request[_], messages: Messages)
+@this(partialRetriever: FormPartialRetriever)
+
+@()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 
     <details class="govuk-details" data-module="govuk-details">
@@ -39,7 +42,7 @@
             <p class="feedback-thankyou hidden">@messages("copy.form.help.thankyou")</p>
 
             <div id="helpFormWrapper" class="element-hidden govuk-body">
-            @FormPartialProvider.getPartialContent(controllers.feedback.HMRCContact().hmrcHelpWithPageFormUrl)
+                @partialRetriever.getPartialContent(controllers.feedback.HMRCContact().hmrcHelpWithPageFormUrl)
             </div>
         </div>
     </details>

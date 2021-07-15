@@ -18,6 +18,7 @@ package controllers
 
 import connectors.Audit
 import form.{Errors, MappingSupport}
+
 import javax.inject.Inject
 import org.joda.time.DateTime
 import play.Logger
@@ -28,8 +29,7 @@ import play.api.libs.json.{Format, Json}
 import play.api.mvc._
 import playconfig.LoginToHODAction
 import security.{DocumentPreviouslySaved, NoExistingDocument}
-import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionId, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.{login, loginFailed}
 

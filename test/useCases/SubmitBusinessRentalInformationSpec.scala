@@ -22,8 +22,7 @@ import models._
 import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{FreeSpec, Matchers}
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._

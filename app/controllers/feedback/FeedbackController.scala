@@ -54,7 +54,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    feedbackFormView: feedbackForm
                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
 
-  override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
+  //override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
   val log = Logger(this.getClass)
 
   object FeedbackFormMapper{

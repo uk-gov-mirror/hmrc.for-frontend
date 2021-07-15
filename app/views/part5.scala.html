@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import scala.concurrent.ExecutionContext
 @import models._
 @import models.pages.{PageFive, Summary}
 @import models.serviceContracts.submissions._
@@ -33,9 +34,11 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: formWithCSRF,
+        formHelp: includes.formHelp)
 
-@(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages)
+
+@(theForm: Form[PageFive], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext )
 
 @layout(
     backLinkUrl = dataCapturePages.routes.PageController.showPage(4).url,
@@ -116,6 +119,6 @@
         @includes.continueSaveForLaterButtons(govukButton)
     }
 
-    @includes.formHelp()
+    @formHelp()
 }
 
