@@ -100,7 +100,7 @@ class LoginController @Inject()(
     loginToHOD(hc2)(ref1, ref2, cleanPostcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
         auditLogin(ref1 + ref2, true)(hc2)
-        withNewSession(Redirect(routes.SaveForLaterController.resumeOptions()), token, s"$ref1$ref2", sessionId)
+        withNewSession(Redirect(routes.SaveForLaterController.login()), token, s"$ref1$ref2", sessionId)
       case NoExistingDocument(token) =>
         auditLogin(ref1 + ref2, false)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)

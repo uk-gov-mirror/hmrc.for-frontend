@@ -15,7 +15,7 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukInput}
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
@@ -34,6 +34,8 @@
 @()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
+
+    <h3 class="govuk-body">@messages("saveForLater.hint")</h3>
 
     @formWithCSRF(
         action = routes.SaveForLaterController.resume,
@@ -64,5 +66,11 @@
             )
         )
     }
+
+    <p class="govuk-body">
+        <a href="@routes.ApplicationController.startAgain" class="govuk-link" >@messages("saveForm.start")</a>
+    </p>
+
+
     @formHelp()
 }
