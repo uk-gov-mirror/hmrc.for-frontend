@@ -675,6 +675,7 @@ saveForLater.confirmPassword=Cadarnhau’r cyfrinair
 saveForLater.validPassword=Rhaid i’r cyfrinair fod o leiaf 7 nod yn hir.
 saveForLater.print=Argraffwch y dudalen hon
 saveForLater.pleaseEnterPassword=Rhowch eich cyfrinair
+saveForLater.invalidPassword=Rhowch y cyfrinair cywir
 saveForLater.hint=Hwn fydd y cyfrinair a grëwyd gennych neu'r un a roddwyd ichi pan gawsoch eich amseru o'r gwasanaeth.
 saveForLater.invalidPassword=Nid yw’r cyfrinair a roddwyd gennych yn gywir
 saveForLater.haveYouForgotten=Os ydych wedi anghofio eich cyfrinair, bydd angen i chi roi eich holl wybodaeth eto

@@ -26,14 +26,15 @@
         main_template: pageLayout,
         govukInput: GovukInput,
         govukButton: GovukButton,
+        govukErrorSummary: GovukErrorSummary,
         formWithCSRF: formWithCSRF,
         formHelp: includes.formHelp
 )
 
 
-@()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
+@(theForm: Form[SaveForLaterLogin])(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
-@main_template(pageHeading = messages("saveForLater.pleaseEnterPassword")) {
+@main_template(pageHeading = messages("saveForLater.pleaseEnterPassword"), theForm = theForm) {
 
     <h3 class="govuk-body">@messages("saveForLater.hint")</h3>
 
@@ -46,9 +47,9 @@
         @govukInput(
             Input(
                 id = "password",
+                name = "password",
                 inputType = "password",
                 autocomplete = "off",
-                name = "password",
                 classes = "govuk-input--width-10",
                 label = Label(
                     content = Text(messages("saveForLater.password"))
