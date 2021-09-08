@@ -24,7 +24,6 @@ GET         /login/cy                  controllers.CustomLanguageController.show
 GET         /saved                     controllers.SaveForLaterController.saveForLater(path: String)
 POST        /saved                     controllers.SaveForLaterController.customPasswordSaveForLater(path: String)
 GET         /saved/login               controllers.SaveForLaterController.login
-GET         /savedForm                 controllers.SaveForLaterController.resumeOptions
 POST 		/resume					   controllers.SaveForLaterController.resume
 GET 		/immediateresume		   controllers.SaveForLaterController.immediateResume
 GET         /timeout                   controllers.SaveForLaterController.timeout
