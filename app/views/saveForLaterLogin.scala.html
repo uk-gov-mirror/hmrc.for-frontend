@@ -16,6 +16,7 @@
 
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
@@ -53,7 +54,8 @@
                 classes = "govuk-input--width-10",
                 label = Label(
                     content = Text(messages("saveForLater.password"))
-                )
+                ),
+                errorMessage =  theForm.errors.asTextErrorMessageForField("password")
             )
         )
         @govukButton(

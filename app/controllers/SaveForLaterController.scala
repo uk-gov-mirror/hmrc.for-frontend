@@ -29,7 +29,7 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, saveForLaterResumeOptions, savedForLater}
+import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, savedForLater}
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
 import playconfig.{FormPersistence, SessionId}
@@ -51,7 +51,6 @@ class SaveForLaterController @Inject()
   audit: Audit, refNumAction: RefNumAction,
   emailConnector: EmailConnector, config: Configuration,
   saveForLaterLogin: saveForLaterLogin,
-  saveForLaterResumeOptions: saveForLaterResumeOptions,
   saveForLaterLoginFailed: saveForLaterLoginFailed,
   savedForLater:savedForLater,
   customPasswordSaveForLaterView: customPasswordSaveForLater,
@@ -122,10 +121,6 @@ class SaveForLaterController @Inject()
     audit(
       "SavedForLater", sum, exitPath
     )
-  }
-
-  def resumeOptions = refNumAction.async { implicit request =>
-    Ok(saveForLaterResumeOptions())
   }
 
   def login = refNumAction.async { implicit request =>
