@@ -23,6 +23,7 @@ import models.pages.Summary
 import org.joda.time.DateTime
 import uk.gov.hmrc.http.{HeaderCarrier,Authorization}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class ContinueWithSavedSubmissionSpec extends UnitTest {
 

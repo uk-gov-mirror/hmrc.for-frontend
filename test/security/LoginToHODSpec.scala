@@ -24,6 +24,8 @@ import uk.gov.hmrc.http.HeaderCarrier
 import useCases.ReferenceNumber
 import utils.UnitTest
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class LoginToHODSpec extends UnitTest {
   import TestData._
 
