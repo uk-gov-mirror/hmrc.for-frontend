@@ -17,11 +17,12 @@
 package form
 
 import models.serviceContracts.submissions.ReviewIntervalTypeOther
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 import utils.FormBindingTestAssertions._
 
-class PageSevenMappingSpec extends FlatSpec with Matchers {
+class PageSevenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageSevenForm._
   import utils.MappingSpecs._

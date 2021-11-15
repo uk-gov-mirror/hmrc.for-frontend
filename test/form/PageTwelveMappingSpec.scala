@@ -18,9 +18,10 @@ package form
 
 import models.pages.PageTwelve
 import models.serviceContracts.submissions.{ChargeDetails, ResponsibleTenant}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class PageTwelveMappingSpec extends FlatSpec with Matchers {
+class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageTwelveForm._
   import TestData._

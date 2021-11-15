@@ -20,9 +20,8 @@
 @import models.serviceContracts.submissions._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukErrorSummary, _}
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
@@ -34,7 +33,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukDateInput:GovukDateInput,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF,
+        formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
 

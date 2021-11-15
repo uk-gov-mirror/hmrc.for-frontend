@@ -20,11 +20,12 @@ import models._
 import models.pages._
 import models.serviceContracts.submissions._
 import org.joda.time.LocalDate
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
 
-class PageNineMappingSpec extends FlatSpec with Matchers {
+class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageNineForm._
   import TestData._

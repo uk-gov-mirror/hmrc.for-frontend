@@ -21,11 +21,10 @@ import controllers.toFut
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import useCases.{ReferenceNumber}
+import useCases.ReferenceNumber
 import useCases.SaveInProgressSubmissionForLater.UpdateDocumentInCurrentSession
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
 
 object LoginToHOD {
@@ -41,7 +40,7 @@ object LoginToHOD {
   type StoreDocumentWithCredentialsInSession = (FORLoginResponse, ReferenceNumber) => Future[Unit]
 
   def apply(v: VerifyCredentials, l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession)
-           (r1: Ref1, r2: Ref2, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier): Future[LoginResult] =
+           (r1: Ref1, r2: Ref2, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[LoginResult] =
     for {
       rn <- ref(r1, r2)
       lr <- v(r1, r2, pc)

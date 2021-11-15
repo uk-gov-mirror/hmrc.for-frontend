@@ -22,40 +22,38 @@ import controllers._
 import controllers.dataCapturePages.ForDataCapturePage._
 import form._
 import form.persistence.{BuildForm, FormDocumentRepository, SaveForm, SaveFormInRepository}
-
-import javax.inject.Inject
 import models.journeys._
 import models.pages.{Summary, SummaryBuilder}
-import play.api.{Logger, Play}
+import play.api.Logging
 import play.api.data.Form
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
 import play.api.mvc._
 import play.shaded.ahc.io.netty.handler.codec.http.QueryStringDecoder
 import play.twirl.api.Html
-import playconfig.{FormPersistence, SessionId}
+import playconfig.SessionId
 import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
+abstract class ForDataCapturePage[T] (audit: Audit,
+                                      formDocumentRepository: FormDocumentRepository,
+                                      refNumAction: RefNumAction,
                                       override val controllerComponents: MessagesControllerComponents)
-  extends FrontendController(controllerComponents) {
+  extends FrontendController(controllerComponents) with Logging {
 
   implicit val format: Format[T]
   implicit val ec: ExecutionContext = controllerComponents.executionContext
-
-  def audit = Play.current.injector.instanceOf[Audit]
 
   def emptyForm: Form[T]
 
   def pageNumber: Int
 
-  def saveForm: SaveForm = new SaveFormInRepository(FormPersistence.formDocumentRepository, SummaryBuilder)
+  def saveForm: SaveForm = new SaveFormInRepository(formDocumentRepository, SummaryBuilder)
 
-  def repository: FormDocumentRepository = FormPersistence.formDocumentRepository
+  def repository: FormDocumentRepository = formDocumentRepository
 
   def template(form: Form[T], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html
 
@@ -63,7 +61,7 @@ abstract class ForDataCapturePage[T] ( refNumAction: RefNumAction,
     repository.findById(SessionId(hc), request.refNum) flatMap {
       case Some(doc) => showThisPageOrGoToNextAllowed(doc, request)
       case None =>
-        Logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
+        logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         throw new BadRequestException("Could not find document in current session")
     }
   }

@@ -17,22 +17,20 @@
 package playconfig
 
 import com.google.inject.ImplementedBy
-import config.ForConfig
-import connectors.{ForHttp, HODConnector}
+import connectors.HODConnector
 import form.persistence.FormDocumentRepository
-import javax.inject.Singleton
+
+import javax.inject.{Inject, Singleton}
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import org.joda.time.DateTime
-import play.api.{Mode, Play}
 import security.LoginToHOD._
-import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases._
+
+import scala.concurrent.ExecutionContext
 
 
 //object FORAuditConnector extends AuditConnector with AppName with AppNameHelper {
@@ -121,28 +119,24 @@ trait Audit {
 //    .getOrElse(throw new Exception("No config setting for expiry days"))
 //}
 
-object FormPersistence {
-  lazy val formDocumentRepository = Play.current.injector.instanceOf[FormDocumentRepository]
-}
-
 object SessionId {
   def apply(implicit hc: HeaderCarrier): String = hc.sessionId.map(_.value).getOrElse(throw SessionIdMissing())
 }
 case class SessionIdMissing() extends Exception
 
 object SaveForLater {
-  def apply(): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
-    Generate7LengthLowercaseAlphaNumPassword.apply, StoreInProgressSubmissionFor90Days.apply _,
+  def apply()(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
+    Generate7LengthLowercaseAlphaNumPassword(), StoreInProgressSubmissionFor90Days.apply _,
     UpdateDocumentInCurrentSession.apply _
   )
-  def apply(pwd: String): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
+  def apply(pwd: String)(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
     UseUserAlphaNumPassword(pwd), StoreInProgressSubmissionFor90Days.apply _,
     UpdateDocumentInCurrentSession.apply _
   )
 }
 
 object ContinueWithSavedSubmission {
-  def apply(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
+  def apply()(implicit hc: HeaderCarrier, ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
     LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply,
     SummaryBuilder.build, Journey.pageToResumeAt, () => DateTime.now
   )
@@ -155,20 +149,13 @@ object ContinueWithSavedSubmission {
  */
 @ImplementedBy(classOf[DefaultLoginToHodAction])
 trait LoginToHODAction {
-  def apply(implicit hc: HeaderCarrier): LoginToHOD
+  def apply(implicit hc: HeaderCarrier, ec: ExecutionContext): LoginToHOD
 }
 
 @Singleton
-class DefaultLoginToHodAction() extends LoginToHODAction {
-  override def apply(implicit hc: HeaderCarrier): LoginToHOD = LoginToHOD.apply
-}
+class DefaultLoginToHodAction @Inject() (implicit hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository) extends LoginToHODAction {
 
-object LoginToHOD  {
-  def apply(implicit hc: HeaderCarrier): LoginToHOD = security.LoginToHOD(
-    HODConnector().verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
+  override def apply(implicit hc: HeaderCarrier, ec: ExecutionContext): LoginToHOD = security.LoginToHOD(
+    hodConnector.verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
   )
-}
-
-object Environment {
-  def isDev = Play.current.mode == Mode.Dev
 }

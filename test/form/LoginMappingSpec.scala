@@ -17,10 +17,11 @@
 package form
 
 import org.joda.time.DateTime
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import utils.FormBindingTestAssertions._
 
-class LoginMappingSpec extends FlatSpec with Matchers {
+class LoginMappingSpec extends AnyFlatSpec with should.Matchers {
 	val loginForm = controllers.LoginController.loginForm
 
 	behavior of "Login Mapping"

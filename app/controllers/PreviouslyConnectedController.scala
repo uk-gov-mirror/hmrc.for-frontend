@@ -94,8 +94,8 @@ class PreviouslyConnectedController @Inject()
         }, {formWithData =>
           cache.cache(SessionId(hc), cacheKey, formWithData).map { cacheWriteResult =>
             ForDataCapturePage.extractAction(request.body.asFormUrlEncoded) match {
-              case ForDataCapturePage.Update => Redirect(routes.NotConnectedCheckYourAnswersController.onPageView())
-              case _ => Redirect(routes.NotConnectedController.onPageView())
+              case ForDataCapturePage.Update => Redirect(routes.NotConnectedCheckYourAnswersController.onPageView)
+              case _ => Redirect(routes.NotConnectedController.onPageView)
             }
           }
         })

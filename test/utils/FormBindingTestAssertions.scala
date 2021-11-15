@@ -17,10 +17,10 @@
 package utils
 
 import form.Errors
-import org.scalatest.Matchers
+import org.scalatest.matchers.should
 import play.api.data.Form
 
-object FormBindingTestAssertions extends Matchers {
+object FormBindingTestAssertions extends should.Matchers {
 
   def doesNotContainErrors[T](f: Form[T]): Unit = {
     if (f.hasErrors) {

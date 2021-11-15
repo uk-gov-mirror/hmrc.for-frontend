@@ -16,9 +16,10 @@
 
 package form
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class PageOneFormMappingSpec extends FlatSpec with Matchers {
+class PageOneFormMappingSpec extends AnyFlatSpec with should.Matchers {
   import TestData._
   import form.PageOneForm._
   import utils.MappingSpecs._

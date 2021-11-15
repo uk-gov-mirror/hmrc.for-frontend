@@ -16,10 +16,11 @@
 
 package views
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import template.FormatRefNum
 
-class FormatRefNumSpec extends FlatSpec with Matchers {
+class FormatRefNumSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "format ref num"
 

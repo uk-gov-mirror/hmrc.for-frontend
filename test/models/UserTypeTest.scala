@@ -17,10 +17,11 @@
 package models
 
 import models.serviceContracts.submissions._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.libs.json.{JsResult, JsSuccess, Json}
 
-class UserTypeTest extends FlatSpec with Matchers {
+class UserTypeTest extends AnyFlatSpec with should.Matchers {
 
   val jsonOccupier = "\"occupier\""
   val jsonOccupiersAgent = "\"occupiersAgent\""

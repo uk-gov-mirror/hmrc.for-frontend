@@ -21,20 +21,21 @@ import play.api.Configuration
 import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc._
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class CustomLanguageController @Inject()(configuration: Configuration,
                                          languageUtils: LanguageUtils,
-                                         cc: ControllerComponents)(implicit messages: MessagesApi)
+                                         cc: ControllerComponents)(implicit messages: MessagesApi, ec: ExecutionContext)
   extends LanguageController(languageUtils, cc) {
 
   def showEnglish = Action.async { implicit request =>
-    switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
+    switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show.url))
   }
 
   def showWelsh = Action.async { implicit request =>
-    switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show().url))
+    switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show.url))
   }
 
   override protected def fallbackURL: String = configuration.get[String]("language.fallbackUrl").getOrElse("/")

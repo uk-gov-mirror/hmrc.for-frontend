@@ -111,7 +111,7 @@ trait HMRCContact {
 
   val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
-  val feedbackUrl = routes.FeedbackController.feedback().url
+  val feedbackUrl = routes.FeedbackController.feedback.url
   val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
   val hmrcHelpWithPageFormUrl = s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
@@ -123,15 +123,4 @@ trait HMRCContact {
   }
 
   private def urlEncode(value: String) = URLEncoder.encode(value, "UTF-8")
-}
-
-@deprecated
-object HMRCContact {
-  def apply(): HMRCContact = {
-    val config = Play.current.injector.instanceOf[ServicesConfig]
-    new HMRCContactImpl(config)
-  }
-
-  private class HMRCContactImpl(val servicesConfig: ServicesConfig) extends HMRCContact
-
 }

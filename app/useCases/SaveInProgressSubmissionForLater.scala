@@ -17,13 +17,13 @@
 package useCases
 
 import connectors.{Document, HODConnector}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import playconfig.{FormPersistence, SessionId}
+import playconfig.SessionId
+import form.persistence.FormDocumentRepository
 import security.LoginToHOD.AuthToken
+import uk.gov.hmrc.http.{Authorization, HeaderCarrier}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
-import uk.gov.hmrc.http.{HeaderCarrier, Authorization}
 
 object SaveInProgressSubmissionForLater {
   type SaveInProgressSubmissionForLater = HeaderCarrier => (Document, HeaderCarrier) => Future[SaveForLaterPassword]
@@ -33,30 +33,30 @@ object SaveInProgressSubmissionForLater {
   type StoreInProgressSubmission = Document => Future[Unit]
 
   def apply(gp: GenerateSaveForLaterPassword, s: StoreInProgressSubmission, u: UpdateDocumentInCurrentSession)
-           (d: Document, hc: HeaderCarrier): Future[String] = {
+           (d: Document, hc: HeaderCarrier)(implicit ec: ExecutionContext): Future[String] = {
     val p = d.saveForLaterPassword getOrElse gp()
     val nd = d.copy(saveForLaterPassword = Some(p))
     s(nd) map { _ =>  u(hc, d.referenceNumber, nd) } map { _ => p }
   }
   def apply(p: SaveForLaterPassword, s: StoreInProgressSubmission, u: UpdateDocumentInCurrentSession)
-           (d: Document, hc: HeaderCarrier): Future[String] = {
+           (d: Document, hc: HeaderCarrier)(implicit ec: ExecutionContext): Future[String] = {
     val nd = d.copy(saveForLaterPassword = Some(p))
     s(nd) map { _ =>  u(hc, d.referenceNumber, nd) } map { _ => p }
   }
 }
 
 object StoreInProgressSubmissionFor90Days {
-  def apply(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = HODConnector().saveForLater(d)
+  def apply(d: Document)(implicit hc: HeaderCarrier, hodConnector: HODConnector): Future[Unit] = hodConnector.saveForLater(d)
 }
 
 object LoadSavedForLaterDocument {
-  def apply(a: AuthToken, r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] =
-    HODConnector().loadSavedDocument(r)(hc.copy(authorization = Some(Authorization(a))))
+  def apply(a: AuthToken, r: ReferenceNumber)(implicit hc: HeaderCarrier, hodConnector: HODConnector): Future[Option[Document]] =
+    hodConnector.loadSavedDocument(r)(hc.copy(authorization = Some(Authorization(a))))
 }
 
 object UpdateDocumentInCurrentSession {
-  def apply(h: HeaderCarrier, r: ReferenceNumber, d: Document): Future[Unit] =
-    FormPersistence.formDocumentRepository.store(SessionId(h), r, d)
+  def apply(h: HeaderCarrier, r: ReferenceNumber, d: Document)(implicit formDocumentRepository: FormDocumentRepository): Future[Unit] =
+    formDocumentRepository.store(SessionId(h), r, d)
 }
 
 object Generate7LengthLowercaseAlphaNumPassword {

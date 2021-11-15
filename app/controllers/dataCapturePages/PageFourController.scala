@@ -17,22 +17,24 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageFourForm.pageFourForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages._
-import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 
-class PageFourController @Inject() (refNumAction: RefNumAction,
+class PageFourController @Inject() (audit: Audit,
+                                    formDocumentRepository: FormDocumentRepository,
+                                    refNumAction: RefNumAction,
                                     cc: MessagesControllerComponents,
                                     part4: views.html.part4)
-  extends ForDataCapturePage[PageFour] (refNumAction, cc) {
+  extends ForDataCapturePage[PageFour] (audit, formDocumentRepository, refNumAction, cc) {
   val format = p4f
   val emptyForm = pageFourForm
   val pageNumber: Int = 4

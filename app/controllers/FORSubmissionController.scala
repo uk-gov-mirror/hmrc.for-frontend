@@ -41,7 +41,7 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
                                         errorView: views.html.error.error
                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
-  lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation().url
+  lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation.url
 
   def submit: Action[AnyContent] = refNumberAction.async { implicit request:RefNumRequest[AnyContent] =>
     request.body.asFormUrlEncoded.flatMap { body =>
@@ -74,7 +74,7 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
   }
 
   private def rejectSubmission = Future.successful {
-    Found(routes.ApplicationController.declarationError().url)
+    Found(routes.ApplicationController.declarationError.url)
   }
 
 }

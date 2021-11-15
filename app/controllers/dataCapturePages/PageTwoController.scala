@@ -17,7 +17,10 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageTwoForm.pageTwoForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.Summary
@@ -27,11 +30,12 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part2
 
-class PageTwoController @Inject() (
-                                    refNumAction: RefNumAction,
-                                    cc: MessagesControllerComponents,
-                                    part2View:part2)
-  extends ForDataCapturePage[CustomerDetails](refNumAction, cc)  {
+class PageTwoController @Inject() (audit: Audit,
+                                   formDocumentRepository: FormDocumentRepository,
+                                   refNumAction: RefNumAction,
+                                   cc: MessagesControllerComponents,
+                                   part2View:part2)
+  extends ForDataCapturePage[CustomerDetails](audit, formDocumentRepository, refNumAction, cc)  {
   val format = cdf
   val emptyForm = pageTwoForm
   val pageNumber: Int = 2

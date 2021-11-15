@@ -17,10 +17,12 @@
 package form
 
 import org.scalatest.prop.TableDrivenPropertyChecks
-import org.scalatest.{EitherValues, FlatSpec, Matchers}
+import org.scalatest.EitherValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
-class PostcodeMappingSpec extends FlatSpec with Matchers with EitherValues with TableDrivenPropertyChecks {
+class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherValues with TableDrivenPropertyChecks {
 
   val positiveTestData = Table(
     ("raw postcode", "formated postcode"),

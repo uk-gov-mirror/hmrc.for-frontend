@@ -78,7 +78,7 @@ class LoginController @Inject()(
   def logout = Action { implicit request =>
     val refNum = request.session.get("refNum").getOrElse("-")
     audit.sendExplicitAudit("Logout", Json.obj(Audit.referenceNumber -> refNum))
-    Redirect(routes.LoginController.show()).withNewSession
+    Redirect(routes.LoginController.show).withNewSession
   }
 
   def submit = Action.async { implicit request =>
@@ -97,10 +97,10 @@ class LoginController @Inject()(
     var cleanPostcode = postcode.replaceAll("[^\\w\\d]", "")
     cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
     //TODO - refactor
-    loginToHOD(hc2)(ref1, ref2, cleanPostcode, startTime).flatMap {
+    loginToHOD(hc2, ec)(ref1, ref2, cleanPostcode, startTime).flatMap {
       case DocumentPreviouslySaved(doc, token) =>
         auditLogin(ref1 + ref2, true)(hc2)
-        withNewSession(Redirect(routes.SaveForLaterController.login()), token, s"$ref1$ref2", sessionId)
+        withNewSession(Redirect(routes.SaveForLaterController.login), token, s"$ref1$ref2", sessionId)
       case NoExistingDocument(token) =>
         auditLogin(ref1 + ref2, false)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)

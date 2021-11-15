@@ -17,7 +17,10 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageTenForm.pageTenForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.Summary
@@ -26,10 +29,12 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageTenController @Inject() (refNumAction: RefNumAction,
+class PageTenController @Inject() (audit: Audit,
+                                   formDocumentRepository: FormDocumentRepository,
+                                   refNumAction: RefNumAction,
                                    cc: MessagesControllerComponents,
-                                  part10:views.html.part10)
-  extends ForDataCapturePage[WhatRentIncludes](refNumAction, cc) {
+                                   part10:views.html.part10)
+  extends ForDataCapturePage[WhatRentIncludes](audit, formDocumentRepository, refNumAction, cc) {
   val format = wrif
   val emptyForm = pageTenForm
   val pageNumber: Int = 10

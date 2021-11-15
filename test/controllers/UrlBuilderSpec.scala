@@ -18,21 +18,22 @@ package controllers
 
 import controllers.dataCapturePages.UrlFor
 import models.journeys.SummaryPage
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.test.FakeHeaders
 
-class UrlBuilderSpec extends FlatSpec with Matchers {
+class UrlBuilderSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "URL Builder"
 
   it should "add the anchor of the element the user was last editing if the user is in edit mode" in {
     val refererHeader = FakeHeaders(Seq(("referer", "http://localhost/page1?edit=anAnchor")))
     val url = UrlFor(SummaryPage, refererHeader)      
-    assert(url === routes.ApplicationController.checkYourAnswers().url + "#anAnchor")
+    assert(url === routes.ApplicationController.checkYourAnswers.url + "#anAnchor")
   }
 
   it should "return just the base url if the user is not in edit mode" in {
     val url = UrlFor(SummaryPage, FakeHeaders())
-    assert(url === routes.ApplicationController.checkYourAnswers().url)
+    assert(url === routes.ApplicationController.checkYourAnswers.url)
   }
 }

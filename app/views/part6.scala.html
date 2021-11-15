@@ -21,7 +21,6 @@
 @import helpers._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.{HmrcCurrencyInput, CurrencyInput}
 @import scala.concurrent.ExecutionContext
 
@@ -34,7 +33,7 @@
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF,
+        formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp
 )
 

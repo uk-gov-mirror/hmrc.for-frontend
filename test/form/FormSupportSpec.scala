@@ -16,9 +16,10 @@
 
 package form
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
-class FormSupportSpec extends FlatSpec with Matchers {
+class FormSupportSpec extends AnyFlatSpec with should.Matchers {
 
 
   "converting a field specific FormError" should "result in the same FormError" in {

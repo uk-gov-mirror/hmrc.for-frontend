@@ -16,23 +16,23 @@
 
 package helpers
 
-import akka.stream.Materializer
 import connectors.Audit
 import models.pages.{PageFour, SubletDetails, Summary}
 import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, SubletPart}
 import models.{LookupServiceAddress, RoughDate}
 import org.joda.time.DateTime
-import org.mockito.MockitoSugar
-import org.scalatest.{FlatSpec, Matchers}
-import play.api.inject.ApplicationLifecycle
+import org.mockito.scalatest.MockitoSugar
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditResult.Disabled
+import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, DatastreamMetrics}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddressAuditingSpec extends FlatSpec with Matchers {
+class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
   import TestData._
 
   behavior of "Address Auditing"
@@ -93,7 +93,7 @@ object TestAddressAuditing extends AddressAuditing(StubAuditer) {
   protected val audit = StubAuditer
 }
 
-object StubAuditer extends Audit with Matchers with MockitoSugar {
+object StubAuditer extends Audit with should.Matchers with MockitoSugar {
   private case class AuditEvent(event: String, detail: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
@@ -115,7 +115,8 @@ object StubAuditer extends Audit with Matchers with MockitoSugar {
 
   override def auditingConfig: AuditingConfig = mock[AuditingConfig]
 
-  override def materializer: Materializer = mock[Materializer]
+  override def auditChannel: AuditChannel = mock[AuditChannel]
 
-  override def lifecycle: ApplicationLifecycle = mock[ApplicationLifecycle]
+  override def datastreamMetrics: DatastreamMetrics = mock[DatastreamMetrics]
+
 }

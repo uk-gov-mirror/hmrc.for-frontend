@@ -19,10 +19,12 @@ package models
 import java.time.Instant
 
 import models.serviceContracts.submissions.{Address, NotConnectedSubmission}
-import org.scalatest.{EitherValues, FlatSpec, Matchers}
+import org.scalatest.EitherValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.libs.json.JsString
 
-class NotConnectedSerializationSpec extends FlatSpec with Matchers with EitherValues {
+class NotConnectedSerializationSpec extends AnyFlatSpec with should.Matchers with EitherValues {
 
   /*
     GMT: Wednesday, 31 July 2019 15:18:15

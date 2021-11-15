@@ -16,13 +16,13 @@
 
 package utils
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should
 import security.ArgumentsDidNotMatch
 import testutils._
 
 import scala.concurrent.Future
 
-trait BehaviourVerification extends Matchers {
+trait BehaviourVerification extends should.Matchers {
   def respondWith[A, B](a: A)(b: B): A => Future[B] = aa => {
     if (a == aa) Future.successful(b) else throw ArgumentsDidNotMatch(Seq(a), Seq(aa))
   }

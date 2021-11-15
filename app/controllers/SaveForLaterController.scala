@@ -32,7 +32,7 @@ import play.api.libs.json.Json
 import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, savedForLater}
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
-import playconfig.{FormPersistence, SessionId}
+import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
@@ -56,7 +56,7 @@ class SaveForLaterController @Inject()
   customPasswordSaveForLaterView: customPasswordSaveForLater,
  errorView: views.html.error.error
 )
-(implicit ec: ExecutionContext) extends FrontendController(cc) {
+(implicit ec: ExecutionContext, hodConnector: HODConnector, repository: FormDocumentRepository) extends FrontendController(cc) {
 
   import SaveForLaterController._
 
@@ -64,10 +64,7 @@ class SaveForLaterController @Inject()
 
   lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()
 
-  def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission(hc)
-
-  lazy val repository: FormDocumentRepository = FormPersistence.formDocumentRepository
-
+  def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission()
 
   def saveForLater(exitPath: String) = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
@@ -75,7 +72,8 @@ class SaveForLaterController @Inject()
         val sum = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
-            playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc).flatMap { pw =>
+            val saveSubmissionForLater = playconfig.SaveForLater(doc.saveForLaterPassword.get)
+            saveSubmissionForLater(hc)(doc, hc).flatMap { pw =>
               auditSavedForLater(sum, exitPath)
               val email = sum.customerDetails.flatMap(_.contactDetails.email)
               emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
@@ -101,7 +99,8 @@ class SaveForLaterController @Inject()
               Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors, exitPath))
             },
             validData => {
-              playconfig.SaveForLater(validData.password)(hc)(doc, hc).flatMap { pw =>
+              val saveSubmissionForLater = playconfig.SaveForLater(validData.password)
+              saveSubmissionForLater(hc)(doc, hc).flatMap { pw =>
                 auditSavedForLater(sum, exitPath)
                 val email = sum.customerDetails.flatMap(_.contactDetails.email)
                 emailConnector.sendEmail(sum.referenceNumber, sum.addressVOABelievesIsCorrect.postcode, email, expiryDate)
@@ -153,12 +152,8 @@ class SaveForLaterController @Inject()
   def timeout = refNumAction.async { implicit request =>
     repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
       case Some(doc) => {
-        val save4laterResponse = (if (doc.saveForLaterPassword.isDefined) {
-          playconfig.SaveForLater(doc.saveForLaterPassword.get)(hc)(doc, hc)
-        } else {
-          playconfig.SaveForLater()(hc)(doc, hc)
-        })
-        save4laterResponse.flatMap { pw =>
+        val saveSubmissionForLater = doc.saveForLaterPassword.fold(playconfig.SaveForLater())(playconfig.SaveForLater(_))
+        saveSubmissionForLater(hc)(doc, hc).flatMap { pw =>
           val sum = SummaryBuilder.build(doc)
           audit.sendExplicitAudit("UserTimeout", Json.obj(
             Audit.referenceNumber -> sum.referenceNumber))

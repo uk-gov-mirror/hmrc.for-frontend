@@ -21,9 +21,10 @@ import com.typesafe.config.Config
 import connectors.ForHttp
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
-import org.scalatest.{BeforeAndAfterAll, FreeSpec, FreeSpecLike, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import org.scalatestplus.play.guice._
-import play.api.{Configuration, Play}
+import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.libs.ws.WSClient
@@ -34,14 +35,12 @@ import play.api.inject.bind
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
-trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite {
+trait AcceptanceTest extends AnyFlatSpec with should.Matchers with GuiceOneServerPerSuite {
   private lazy val testConfigs = Map("auditing.enabled" -> false, "agentApi.testAccountsOnly" -> true)
 
   def http: TestHttpClient = app.injector.instanceOf[ForHttp].asInstanceOf[TestHttpClient]
 
-  override lazy val port = 9521
-
-  override def fakeApplication() = new GuiceApplicationBuilder()
+  override def fakeApplication(): Application = new GuiceApplicationBuilder()
     .configure(testConfigs)
     .overrides(
       bind[ForHttp].to[TestHttpClient].in[Singleton]
@@ -49,7 +48,7 @@ trait AcceptanceTest extends FreeSpec with Matchers with GuiceOneServerPerSuite 
     .build()
 }
 
-class TestHttpClient @Inject()(val configuration: Config) extends ForHttp {
+class TestHttpClient @Inject()(val configuration: Config, val actorSystem: ActorSystem) extends ForHttp {
   import views.html.helper.urlEncode
 
   private val baseForUrl = "http://localhost:9522/for"
@@ -119,8 +118,6 @@ class TestHttpClient @Inject()(val configuration: Config) extends ForHttp {
     Thread.sleep(100000000l)
     Future.failed(new RuntimeException("stupid error"))
   }
-
-  override protected def actorSystem: ActorSystem = Play.current.actorSystem
 
   override val hooks: Seq[HttpHook] = Seq.empty[HttpHook]
 

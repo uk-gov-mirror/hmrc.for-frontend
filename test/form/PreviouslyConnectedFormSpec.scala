@@ -17,9 +17,11 @@
 package form
 
 import models.serviceContracts.submissions.PreviouslyConnected
-import org.scalatest.{FlatSpec, Matchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class PreviouslyConnectedFormSpec extends FlatSpec with Matchers with OptionValues {
+class PreviouslyConnectedFormSpec extends AnyFlatSpec with should.Matchers with OptionValues {
 
   val formData = Map(
     "haveYouBeenConnected" -> "true"

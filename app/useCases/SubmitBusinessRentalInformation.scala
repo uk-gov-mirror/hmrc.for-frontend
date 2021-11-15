@@ -23,10 +23,9 @@ import javax.inject.{Inject, Singleton}
 import models.journeys.Paths
 import models.pages._
 import models.serviceContracts.submissions._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import playconfig.SessionId
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
 
 @ImplementedBy(classOf[SubmitBusinessRentalInformationToBackendApi])
@@ -34,22 +33,16 @@ trait SubmitBusinessRentalInformation {
   def apply(refNum: String)(implicit hs: HeaderCarrier): Future[Submission]
 }
 
-object SubmitBusinessRentalInformation {
-  def apply(repository: FormDocumentRepository, builder: SubmissionBuilder, subConnector: SubmissionConnector): SubmitBusinessRentalInformation = {
-    new SubmitBusinessRentalInformationToBackendApi(repository, builder, subConnector)
-  }
-}
-
 @Singleton
 class SubmitBusinessRentalInformationToBackendApi @Inject()(repository: FormDocumentRepository, builder: SubmissionBuilder,
-  subConnector: SubmissionConnector) extends SubmitBusinessRentalInformation {
+  subConnector: SubmissionConnector)(implicit ec: ExecutionContext) extends SubmitBusinessRentalInformation {
 
   def apply(refNum: String)(implicit hc: HeaderCarrier): Future[Submission] = {
     repository.findById(SessionId(hc), refNum) .flatMap {
       case Some(doc) =>
         val sub = builder.build(doc)
         subConnector.submit(refNum, sub) map { _ => sub }
-      case None => Future.failed(new RentalInformationCouldNotBeRetrieved(refNum))
+      case None => Future.failed(RentalInformationCouldNotBeRetrieved(refNum))
     }
   }
 }

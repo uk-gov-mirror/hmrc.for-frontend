@@ -16,14 +16,12 @@
 
 @import scala.concurrent.ExecutionContext
 @import models.pages.Summary
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import models.serviceContracts.submissions.{AddressConnectionTypeNo, AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Text, Legend}
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(
     main_template: pageLayout,
@@ -31,7 +29,7 @@
     govukButton: GovukButton,
     govukRadios: GovukRadios,
     govukErrorSummary: GovukErrorSummary,
-    formWithCSRF: formWithCSRF,
+    formWithCSRF: FormWithCSRF,
     formHelp: includes.formHelp
 )
 

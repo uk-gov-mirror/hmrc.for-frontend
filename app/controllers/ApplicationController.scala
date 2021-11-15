@@ -47,7 +47,8 @@ class ApplicationController @Inject()(
   sessionTimeoutView: views.html.sessionTimeout,
   importantInformationView: views.html.importantInformation,
   configuration: Configuration,
-  audit: Audit
+  audit: Audit,
+  forConfig: ForConfig
 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
 
   private def updatePath(hc: HeaderCarrier, path: String): HeaderCarrier = {
@@ -86,10 +87,9 @@ class ApplicationController @Inject()(
   }
 
   def index = Action { implicit request =>
-    if(ForConfig.startPageRedirect){
-      Redirect(ForConfig.govukStartPage)
-
-    }else{
+    if (forConfig.startPageRedirect) {
+      Redirect(forConfig.govukStartPage)
+    } else {
       Ok(indexView())
     }
   }
@@ -144,7 +144,7 @@ class ApplicationController @Inject()(
     if(configuration.get[Boolean]("bannerNotice.enabled")){
       Ok(importantInformationView())
     }else{
-      Redirect(routes.LoginController.show())
+      Redirect(routes.LoginController.show)
     }
   }
 }

@@ -18,10 +18,8 @@
 @import play.api.data._
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukRadios, GovukWarningText}
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Fieldset
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Legend
@@ -30,7 +28,7 @@
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: FormWithCSRF)
 
 @(theForm: Form[PreviouslyConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -44,7 +42,7 @@
 
     @includes.summaryErrors(theForm, govukErrorSummary)
 
-    @formWithCSRF(action = controllers.routes.PreviouslyConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(action = controllers.routes.PreviouslyConnectedController.onPageSubmit, args = 'class -> "myForm", 'id -> "myFormId") {
 
         @govukRadios(
             Radios(

@@ -63,12 +63,6 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig,
 
 }
 
-object SubmissionConnector {
-  def apply():SubmissionConnector = {
-    Play.current.injector.instanceOf(classOf[SubmissionConnector])
-  }
-}
-
 @ImplementedBy(classOf[HodSubmissionConnector])
 trait SubmissionConnector {
   def submit(refNum: String, submisson: Submission)(implicit hc: HeaderCarrier): Future[Unit]

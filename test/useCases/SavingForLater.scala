@@ -19,10 +19,12 @@ package useCases
 import _root_.utils.UnitTest
 import connectors.Document
 import org.joda.time.DateTime
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import testutils._
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
@@ -65,7 +67,7 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
   }
 }
 
-class Generate7LengthLowercaseAlphaNumPasswordSpec extends FlatSpec with Matchers {
+class Generate7LengthLowercaseAlphaNumPasswordSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "Generate 7 length lowercase alpha numeric password spec"
 

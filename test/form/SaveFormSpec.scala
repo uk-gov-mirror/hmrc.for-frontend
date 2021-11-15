@@ -22,13 +22,14 @@ import models.RoughDate
 import models.pages._
 import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should
+import org.scalatest.wordspec.AnyWordSpec
 import utils.stubs.StubFormDocumentRepo
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class SaveFormSpec extends WordSpec with Matchers {
+class SaveFormSpec extends AnyWordSpec with should.Matchers {
   import TestData._
   implicit val ex = scala.concurrent.ExecutionContext.Implicits.global
 

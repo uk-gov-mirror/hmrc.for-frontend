@@ -46,10 +46,12 @@ trait ForHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost w
 }
 
 @Singleton
-class ForHttpClient @Inject() (val config: Configuration, override protected val actorSystem: ActorSystem,
-                    override val wsClient: WSClient)  extends ForHttp {
+class ForHttpClient @Inject() (val config: Configuration,
+                               forConfig: ForConfig,
+                               override protected val actorSystem: ActorSystem,
+                               override val wsClient: WSClient)  extends ForHttp {
 
-  lazy val useDummyIp = ForConfig.useDummyIp
+  lazy val useDummyIp = forConfig.useDummyIp
   override val hooks: Seq[HttpHook] = Seq.empty
 
   // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it

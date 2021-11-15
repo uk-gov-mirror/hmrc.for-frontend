@@ -23,10 +23,11 @@ import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.OptionValues._
 import org.scalatest.prop.TableDrivenPropertyChecks._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import useCases.DefaultSubmissionBuilder
 
-class SubmissionBuilderSpec extends FlatSpec with Matchers {
+class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
 
   import TestData._
 

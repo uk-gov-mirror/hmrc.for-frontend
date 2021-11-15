@@ -18,14 +18,13 @@
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: FormWithCSRF)
 
 @(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_], messages: Messages)
 

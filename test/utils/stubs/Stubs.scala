@@ -22,7 +22,7 @@ import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
 import models.pages.Summary
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
-import org.scalatest.Matchers
+import org.scalatest.matchers.should
 import play.api.mvc.Request
 import uk.gov.hmrc.http.HeaderCarrier
 import useCases.SubmissionBuilder
@@ -32,7 +32,7 @@ import scala.concurrent.Future
 
 object StubSubmissionConnector { def apply() = new StubSubmissionConnector }
 
-class StubSubmissionConnector extends SubmissionConnector with Matchers {
+class StubSubmissionConnector extends SubmissionConnector with should.Matchers {
   var submissions: Map[String, Submission] = Map.empty
 
   def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
