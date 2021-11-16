@@ -25,20 +25,15 @@ import javax.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.libs.json.Writes
 import play.api.libs.ws.WSClient
-import uk.gov.hmrc.http.HeaderNames.{trueClientIp, trueClientPort}
+import uk.gov.hmrc.http.HeaderNames.trueClientIp
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHook
-import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.play.http.ws._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /*
-
-
-
 with HttpDelete with WSDelete  with AppName with RunMode
-
  */
 @ImplementedBy(classOf[ForHttpClient])
 trait ForHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost with WSPost {

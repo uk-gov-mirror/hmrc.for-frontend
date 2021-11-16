@@ -17,7 +17,6 @@
 package utils
 
 import actions.RefNumAction
-import akka.stream.testkit.NoMaterializer
 import play.api.mvc._
 import play.api.test.FakeRequest
 
@@ -29,8 +28,6 @@ object Helpers {
 
   def refNumAction(): RefNumAction = {
     val cc = play.api.test.Helpers.stubControllerComponents()
-
-    implicit val mat = NoMaterializer
 
     new RefNumAction(new play.api.mvc.BodyParsers.Default(cc.parsers), cc.messagesApi)(cc.executionContext)
   }

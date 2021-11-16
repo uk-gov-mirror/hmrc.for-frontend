@@ -47,13 +47,13 @@ class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherVa
 
   "PostcodeMapper" should "Map correct postcode" in {
     val formData = Map("" -> "BN12 4AX")
-    postcode.bind(formData).right.value shouldBe("BN12 4AX")
+    postcode.bind(formData).value shouldBe("BN12 4AX")
   }
 
   it should "sucessfully format and validate all correct postcodes" in {
     forAll(positiveTestData) { (rawPostcode: String, formattedPostcode: String) =>
       postcode.bind(Map("" -> rawPostcode))
-        .right.value shouldBe(formattedPostcode)
+        .value shouldBe(formattedPostcode)
     }
   }
 

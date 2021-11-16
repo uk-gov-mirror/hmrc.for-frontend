@@ -20,7 +20,6 @@ import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.Helpers.refNumAction

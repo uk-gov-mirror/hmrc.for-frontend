@@ -51,8 +51,7 @@ class POSTingSubmissionJson extends AcceptanceTest {
       http.stubValidCredentials(valid.ref1, valid.ref2, valid.postcode)
 
       http.stubSubmission(valid.refNum, invalidSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(
-        responseStatus = 400,
-        responseJson = Some(Json.parse(submissionErrorFromHodAdapter))
+        400, Json.parse(submissionErrorFromHodAdapter), noHeaders
       ))
 
       val res = AgentApi.submit(valid.refNum, valid.postcode, invalidSubmission)
@@ -63,7 +62,9 @@ class POSTingSubmissionJson extends AcceptanceTest {
 
   "When the submission json is valid" should
       "A 200 Ok response is returned" in {
-        http.stubSubmission(valid.refNum, validSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(200, responseJson = Some(Json.parse("{}"))))
+        http.stubSubmission(valid.refNum, validSubmission, Seq(HeaderNames.authorisation -> "token"), HttpResponse(
+          200, Json.parse("{}"), noHeaders
+        ))
 
         val res = AgentApi.submit(valid.refNum, valid.postcode, validSubmission)
 
@@ -118,13 +119,13 @@ class POSTingSubmissionJson extends AcceptanceTest {
 
     def submit(refNum: String, postcode: String, submission: JsValue) =
       await(WS.url(s"http://localhost:$port/sending-rental-information/api/submit/$refNum/$postcode")
-        .withHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
-        .withHeaders("X-Requested-With" -> "IT-Test")
+        .addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+        .addHttpHeaders("X-Requested-With" -> "IT-Test")
         .post(submission))
 
     def submitWithoutAcceptHeader(refNum: String, postcode: String, submission: JsValue) =
       await(WS.url(s"http://localhost:$port/sending-rental-information/api/submit/$refNum/$postcode")
-        .withHeaders("X-Requested-With" -> "IT-Test")
+        .addHttpHeaders("X-Requested-With" -> "IT-Test")
         .post(submission))
   }
 }

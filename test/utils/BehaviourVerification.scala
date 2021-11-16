@@ -42,10 +42,10 @@ trait BehaviourVerification extends should.Matchers {
     a => Future.successful(x(a))
 
   def set[A,B,R](x: ((A,B)) => R): (A,B) => Future[R] =
-    (a, b) => Future.successful(x(a, b))
+    (a, b) => Future.successful(x((a, b)))
 
   def set[A,B,C,R](x: ((A,B,C)) => R): (A,B,C) => Future[R] =
-    (a, b, c) => Future.successful(x(a, b, c))
+    (a, b, c) => Future.successful(x((a, b, c)))
 
   def none[A,B,C]: (A,B) => Future[Option[C]] =
     (_, _) => None

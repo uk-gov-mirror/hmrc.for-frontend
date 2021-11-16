@@ -21,7 +21,6 @@ import play.api.data.validation.Valid
 import play.api.data.validation.ValidationError
 import play.api.data.validation.Invalid
 import play.api.data.Form
-import models.pages._
 
 package object form {
 

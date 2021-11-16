@@ -30,7 +30,7 @@ import play.api.mvc._
 import playconfig.LoginToHODAction
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId, SessionKeys, Upstream4xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{login, loginFailed}
 
 import scala.concurrent.{ExecutionContext, Future}

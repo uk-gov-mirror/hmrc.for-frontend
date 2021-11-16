@@ -17,7 +17,7 @@
 package form
 
 import form.DateMappings._
-import form.MappingSupport.{mandatoryBoolean, _}
+import form.MappingSupport._
 import models.serviceContracts.submissions.{Parking, WhatRentIncludes}
 import play.api.data.{Mapping, Form}
 import play.api.data.Forms.{mapping, nonEmptyText}

@@ -16,7 +16,7 @@
 
 package controllers
 
-import actions.{RefNumAction, RefNumRequest}
+import actions.RefNumAction
 import connectors.{Audit, EmailConnector, HODConnector}
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
 import form.CustomUserPasswordForm
@@ -31,15 +31,15 @@ import play.api.data.Forms._
 import play.api.libs.json.Json
 import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, savedForLater}
 import play.api.i18n.Messages
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.MessagesControllerComponents
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
 import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
-import useCases.{IncorrectPassword, PasswordsMatch, ReferenceNumber, SaveForLaterPassword}
+import useCases.{IncorrectPassword, PasswordsMatch}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 object SaveForLaterController {
   val s4lIndicator = "s4l"

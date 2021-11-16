@@ -32,7 +32,7 @@ import play.api.mvc._
 import play.shaded.ahc.io.netty.handler.codec.http.QueryStringDecoder
 import play.twirl.api.Html
 import playconfig.SessionId
-import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier}
+import uk.gov.hmrc.http.BadRequestException
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.collection.JavaConverters._
@@ -121,7 +121,7 @@ abstract class ForDataCapturePage[T] (audit: Audit,
       case _ => Ok(template(form, summary)(request))
     }
 
-  private def getPage(nextPage: Int, summary: Summary, request: RefNumRequest[AnyContent])(implicit hc: HeaderCarrier) = {
+  private def getPage(nextPage: Int, summary: Summary, request: RefNumRequest[AnyContent]) = {
     val p = Journey.nextPageAllowable(nextPage, summary, Some(pageNumber))
     RedirectTo(p, request.headers)
   }

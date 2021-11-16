@@ -46,7 +46,7 @@ class LoginToHODSpec extends UnitTest {
       }
 
       "loads an empty document with the retrieved credentials and the current time as the journey start time into the session in case the user cannot login or wants to start again" in {
-        assert(updated === (hc, refNum, Document(refNum, now, address = Some(loginResponse.address))))
+        assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
       }
     }
 
@@ -62,7 +62,7 @@ class LoginToHODSpec extends UnitTest {
        }
 
        "loads an empty document with the retrieved credentials into the session" in {
-         assert(updated === (hc, refNum, Document(refNum, now, address = Some(loginResponse.address))))
+         assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
        }
      }
   }

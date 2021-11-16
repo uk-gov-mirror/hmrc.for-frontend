@@ -29,14 +29,20 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.libs.ws.WSClient
 import uk.gov.hmrc.http.hooks.HttpHook
-import uk.gov.hmrc.http.{HeaderCarrier, _}
+import uk.gov.hmrc.http._
 import play.api.inject.bind
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
+object AcceptanceTest {
+  val noHeaders: Map[String, Seq[String]] = Map.empty
+}
+
 trait AcceptanceTest extends AnyFlatSpec with should.Matchers with GuiceOneServerPerSuite {
   private lazy val testConfigs = Map("auditing.enabled" -> false, "agentApi.testAccountsOnly" -> true)
+
+  val noHeaders: Map[String, Seq[String]] = AcceptanceTest.noHeaders
 
   def http: TestHttpClient = app.injector.instanceOf[ForHttp].asInstanceOf[TestHttpClient]
 
@@ -50,6 +56,7 @@ trait AcceptanceTest extends AnyFlatSpec with should.Matchers with GuiceOneServe
 
 class TestHttpClient @Inject()(val configuration: Config, val actorSystem: ActorSystem) extends ForHttp {
   import views.html.helper.urlEncode
+  import AcceptanceTest.noHeaders
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
@@ -58,41 +65,40 @@ class TestHttpClient @Inject()(val configuration: Config, val actorSystem: Actor
   private var stubbedPuts: Seq[(String, Any, Headers, HttpResponse)] = Nil // scalastyle:ignore
 
   def stubGet(url: String, headers: Seq[(String, String)], response: HttpResponse) = {
-    stubbedGets :+= (url, headers, response)
+    stubbedGets :+= ((url, headers, response))
   }
 
   def stubPut[A](url: String, body: A, headers: Seq[(String, String)], response: HttpResponse) = {
-    stubbedPuts :+= (url, body, headers, response)
+    stubbedPuts :+= ((url, body, headers, response))
   }
 
   def stubValidCredentials(ref1: String, ref2: String, postcode: String) = {
     stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      responseStatus = 200,
-      responseJson = Some(Json.toJson(FORLoginResponse("token", Address("1", None, None, "AA11 1AA"))))
+      200, Json.toJson(FORLoginResponse("token", Address("1", None, None, "AA11 1AA"))), noHeaders
     ))
   }
 
   def stubInvalidCredentials(ref1: String, ref2: String, postcode: String) = {
     stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      responseStatus = 401,
-      responseJson = Some(Json.parse("""{"numberOfRemainingTriesUntilIPLockout":4}"""))))
+      401, Json.parse("""{"numberOfRemainingTriesUntilIPLockout":4}"""), noHeaders
+    ))
   }
 
   def stubConflictingCredentials(ref1: String, ref2: String, postcode: String) = {
     stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      responseStatus = 409,
-      responseJson = Some(Json.parse("{\"error\":\"Duplicate submission. 1234567890\"}"))))
+      409, Json.parse("{\"error\":\"Duplicate submission. 1234567890\"}"), noHeaders
+    ))
   }
 
   def stubIPLockout(ref1: String, ref2: String, postcode: String) = {
     stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      responseStatus = 401,
-      responseJson = Some(Json.parse("""{"numberOfRemainingTriesUntilIPLockout":0}"""))))
+      401, Json.parse("""{"numberOfRemainingTriesUntilIPLockout":0}"""), noHeaders
+    ))
   }
 
   def stubInternalServerError(ref1: String, ref2: String, postcode: String) = {
     stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      responseStatus = 500
+      500, ""
     ))
   }
 

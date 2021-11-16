@@ -73,7 +73,7 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
   var storedPages: Seq[(String, String, Page)] = Seq.empty
 
   override def updatePage(documentId: String, referenceNumber: String, page: Page): Future[Unit] = {
-    storedPages = storedPages :+(documentId, referenceNumber, page)
+    storedPages = storedPages :+((documentId, referenceNumber, page))
     Future.successful(Unit)
   }
 

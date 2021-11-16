@@ -18,7 +18,7 @@ package controllers
 
 import javax.inject._
 import play.api.Configuration
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.Lang
 import play.api.mvc._
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
@@ -27,7 +27,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class CustomLanguageController @Inject()(configuration: Configuration,
                                          languageUtils: LanguageUtils,
-                                         cc: ControllerComponents)(implicit messages: MessagesApi, ec: ExecutionContext)
+                                         cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends LanguageController(languageUtils, cc) {
 
   def showEnglish = Action.async { implicit request =>

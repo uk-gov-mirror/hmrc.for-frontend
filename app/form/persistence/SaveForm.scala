@@ -19,7 +19,6 @@ package form.persistence
 import connectors.{Document, Page}
 import controllers.toFut
 import models.pages.{Summary, SummaryBuilder}
-import play.api.libs.json.Json
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -36,7 +35,6 @@ class SaveFormInRepository(repository: FormDocumentRepository, builder: SummaryB
       case None => None
     }
 
-  // scalastyle:off line.size.limit
   private def save(doc: Document, formData: Option[Map[String, Seq[String]]], pageNumber: Int, sessionId: String, refNum: String) =
     formData map { fields =>
       val nonEmptyFields = fields.filterNot(x => x._2.isEmpty || x._2.head.isEmpty || x._1 == "csrfToken") // when JS is not enabled lots of empty fields will be passed in
@@ -44,7 +42,6 @@ class SaveFormInRepository(repository: FormDocumentRepository, builder: SummaryB
       val page = Page(pageNumber, trimmed)
       repository.updatePage(sessionId, refNum, page).map { _ => Some((trimmed, page))}
     } getOrElse Future.successful(None)
-  // scalastyle:on line.size.limit
 
 }
 

@@ -47,7 +47,7 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
       }
 
       "update the document in the current session with the password" in {
-        assert(updated === (hc, ref, savedDoc))
+        assert(updated === ((hc, ref, savedDoc)))
       }
     }
 

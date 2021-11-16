@@ -17,7 +17,7 @@
 package form
 
 import models.pages.PageNine
-import models.serviceContracts.submissions.{RentBaseTypeOpenMarket, RentBaseTypeOther, RentBaseTypePercentageOpenMarket, RentBaseTypePercentageTurnover}
+import models.serviceContracts.submissions.{RentBaseTypeOther, RentBaseTypePercentageOpenMarket, RentBaseTypePercentageTurnover}
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
 import uk.gov.voa.play.form.ConditionalMappings._

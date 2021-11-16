@@ -30,7 +30,7 @@ import play.api.data.Forms._
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.ExecutionContext
 
@@ -136,7 +136,7 @@ class ApplicationController @Inject()(
     }
   }
 
-  def docs = Action { implicit request =>
+  def docs = Action {
     Ok(views.html.api.apidoc())
   }
 

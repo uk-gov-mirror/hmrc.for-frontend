@@ -28,8 +28,6 @@ import form.Errors.{propertyOwnedByYouRequired, propertyRentedByYouRequired}
 
 object PageThreeForm {
 
-  private lazy val basePageThreeForm: Form[PageThree] = Form(basePageThreeMapping)
-
   val keys = new {
     val propertyType = "propertyType"
     val occupierType = "occupierType"

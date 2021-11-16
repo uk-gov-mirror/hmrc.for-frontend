@@ -25,7 +25,7 @@ import play.api.libs.json._
 import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.http.{Request => _, _}
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,7 +39,7 @@ class AgentAPI @Inject()(cc: MessagesControllerComponents,
                          forConfig: ForConfig)(implicit ec: ExecutionContext)
   extends FrontendController(cc)  with HeaderValidator {
 
-  def getDocs = Action { implicit request =>
+  def getDocs = Action {
     Ok(views.html.api.apidoc())
   }
 

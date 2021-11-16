@@ -18,26 +18,21 @@ package controllers.feedback
 
 import java.net.URLEncoder
 
-import actions.{RefNumAction, RefNumRequest}
+import actions.RefNumAction
 import connectors.ForHttp
 import controllers._
-import form.Errors
 import form.Formats._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
-import models.pages.SummaryBuilder
 import play.api.data.{Form, Forms}
-import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
+import play.api.data.Forms.{mapping, optional, text}
 import play.api.mvc._
-import play.api.{Logger, Play}
-import play.twirl.api.Html
-import playconfig.SessionId
-import uk.gov.hmrc.crypto.PlainText
+import play.api.Logger
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
 import views.html.{feedbackForm, feedbackThx}
 

@@ -49,7 +49,7 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
 
       "load the saved document into the current session updating the journey resumptions with the current date and time" in {
         val docWithNowResumption = doc.copy(journeyResumptions = doc.journeyResumptions :+ now)
-        assert(updated === (hc, ref, docWithNowResumption))
+        assert(updated === ((hc, ref, docWithNowResumption)))
       }
     }
 
