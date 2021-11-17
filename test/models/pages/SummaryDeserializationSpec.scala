@@ -19,9 +19,11 @@ package models.pages
 import connectors.{Document, Page}
 import models.serviceContracts.submissions.OccupierTypeIndividuals
 import org.joda.time.DateTime
-import org.scalatest.{FlatSpec, Matchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class SummaryDeserializationSpec extends FlatSpec with Matchers with OptionValues {
+class SummaryDeserializationSpec extends AnyFlatSpec with should.Matchers with OptionValues {
 
   val pages: Seq[Page] = Seq(
     Page(3, Map(

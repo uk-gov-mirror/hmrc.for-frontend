@@ -17,10 +17,9 @@
 package form
 
 
-import models.serviceContracts.submissions.{PreviouslyConnected}
+import models.serviceContracts.submissions.PreviouslyConnected
 import play.api.data.Form
 import play.api.data.Forms._
-import MappingSupport._
 
 object PreviouslyConnectedForm {
 

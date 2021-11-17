@@ -16,12 +16,13 @@
 
 package form
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
 
-class PageElevenMappingSpec extends FlatSpec with Matchers {
+class PageElevenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageElevenForm._
 

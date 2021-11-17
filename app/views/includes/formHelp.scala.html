@@ -15,12 +15,18 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 @import scala.concurrent.ExecutionContext
 
-@this(partialRetriever: FormPartialRetriever)
+@this(partialRetriever: FormPartialRetriever, servicesConfig: ServicesConfig)
 
 @()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
+@hmrcHelpWithPageFormUrl = @{
+    val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
+    val serviceIdentifier = "RALD"
+    s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
+}
 
     <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -42,7 +48,7 @@
             <p class="feedback-thankyou hidden">@messages("copy.form.help.thankyou")</p>
 
             <div id="helpFormWrapper" class="element-hidden govuk-body">
-                @partialRetriever.getPartialContent(controllers.feedback.HMRCContact().hmrcHelpWithPageFormUrl)
+                @partialRetriever.getPartialContent(hmrcHelpWithPageFormUrl)
             </div>
         </div>
     </details>

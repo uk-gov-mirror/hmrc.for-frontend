@@ -18,9 +18,10 @@ package form
 
 import models.serviceContracts.submissions.NotConnected
 import org.scalatest.OptionValues._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class NotConnectedPropertyFormSpec extends FlatSpec with Matchers {
+class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
   val baseDate = Map (
     "fullName" -> "John Doe",

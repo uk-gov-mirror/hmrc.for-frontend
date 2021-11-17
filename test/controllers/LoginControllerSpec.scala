@@ -19,7 +19,8 @@ package controllers
 import connectors.Audit
 import org.joda.time.DateTime
 import org.mockito.scalatest.MockitoSugar
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.libs.json.{JsObject, Json}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -27,12 +28,12 @@ import playconfig.LoginToHODAction
 import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
 import security.{LoginResult, NoExistingDocument}
 import uk.gov.hmrc.http.HeaderCarrier
-import utils.Helpers._
+import utils.Helpers.fakeRequest2MessageRequest
 import views.html.{login, loginFailed}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
+class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
   implicit val globalEc = scala.concurrent.ExecutionContext.Implicits.global
 
   "login controller" should "Audit successful login" in {
@@ -48,7 +49,7 @@ class LoginControllerSpec extends FlatSpec with Matchers with MockitoSugar {
 
     val loginToHod = mock[LoginToHODAction]
     val time = DateTime.now()
-    when(loginToHod.apply(any[HeaderCarrier])).thenReturn(loginToHodFunction)
+    when(loginToHod.apply(any[HeaderCarrier], any[ExecutionContext])).thenReturn(loginToHodFunction)
 
     val loginController:LoginController = new LoginController(audit, loginToHod, stubMessagesControllerComponents(), mock[login], mock[views.html.error.error], mock[loginFailed], mock[views.html.lockedOut])
 

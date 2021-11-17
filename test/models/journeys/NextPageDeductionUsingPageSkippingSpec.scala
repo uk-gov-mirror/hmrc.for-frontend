@@ -21,9 +21,11 @@ import models.journeys.Journey._
 import models.pages._
 import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
-import org.scalatest.{FlatSpec, Matchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class NextPageDeductionUsingPageSkippingSpec extends FlatSpec with Matchers with OptionValues {
+class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Matchers with OptionValues {
 
   "nextPageAllowable for page four" should "return summary when you say you own property and do not sublet" in {
     val pageFourData = PageFour(false, List.empty)

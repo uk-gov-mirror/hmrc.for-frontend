@@ -15,12 +15,12 @@
  *@
 
 @import models.pages.NotConnectedSummary
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(  layout: pageLayout,
         govukButton: GovukButton,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: FormWithCSRF)
 
 @(notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
 

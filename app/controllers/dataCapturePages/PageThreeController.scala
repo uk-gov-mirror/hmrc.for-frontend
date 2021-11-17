@@ -17,19 +17,23 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageThreeForm.pageThreeForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.{PageThree, Summary}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class PageThreeController  @Inject() (refNumAction: RefNumAction, cc: MessagesControllerComponents,
-                                     part3: views.html.part3)
-  extends ForDataCapturePage[PageThree](refNumAction, cc) {
+class PageThreeController  @Inject() (audit: Audit,
+                                      formDocumentRepository: FormDocumentRepository,
+                                      refNumAction: RefNumAction,
+                                      cc: MessagesControllerComponents,
+                                      part3: views.html.part3)
+  extends ForDataCapturePage[PageThree](audit, formDocumentRepository, refNumAction, cc) {
   val format = p3f
   val emptyForm = pageThreeForm
   val pageNumber: Int = 3

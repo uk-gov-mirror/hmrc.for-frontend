@@ -19,7 +19,6 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
@@ -33,7 +32,7 @@
         govukErrorSummary:GovukErrorSummary,
         govukButton:GovukButton,
         govukCharacterCount: GovukCharacterCount,
-        formWithCSRF: formWithCSRF
+        formWithCSRF: FormWithCSRF
 )
 @(theForm: Form[Feedback])(implicit request: Request[_], messages: Messages)
 

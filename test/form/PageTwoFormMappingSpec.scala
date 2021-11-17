@@ -18,10 +18,11 @@ package form
 
 import models.serviceContracts.submissions
 import models.serviceContracts.submissions._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
-class PageTwoFormMappingSpec extends FlatSpec with Matchers {
+class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import TestData._
   import form.PageTwoForm._

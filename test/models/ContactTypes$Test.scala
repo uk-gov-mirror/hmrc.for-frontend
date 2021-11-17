@@ -17,11 +17,12 @@
 package models
 
 import models.serviceContracts.submissions.{ContactType, ContactTypeEmail, ContactTypePhone}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 
-class ContactTypes$Test extends FlatSpec with Matchers {
+class ContactTypes$Test extends AnyFlatSpec with should.Matchers {
 
   val jsonPhone = """"phone""""
   val jsonEmail = """"email""""

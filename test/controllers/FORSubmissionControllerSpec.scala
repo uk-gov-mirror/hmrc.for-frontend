@@ -19,7 +19,9 @@ package controllers
 import form.persistence.FormDocumentRepository
 import javax.inject.Singleton
 import models.serviceContracts.submissions.Submission
-import org.scalatest.{FreeSpec, GivenWhenThen, Matchers, MustMatchers}
+import org.scalatest.GivenWhenThen
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -31,7 +33,7 @@ import utils.stubs.StubFormDocumentRepoProvider
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenThen with GuiceOneAppPerSuite {
+class FORSubmissionControllerSpec extends AnyFlatSpec with should.Matchers with GivenWhenThen with GuiceOneAppPerSuite {
 
   import TestData._
 
@@ -42,10 +44,11 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenT
     )
     .configure(Map("auditing.enabled" -> false)).build()
 
-  "When a submission is received and the declaration has been agreed to" - {
-    def submit = app.injector.instanceOf[SubmitBusinessRentalInformation].asInstanceOf[StubSubmitBRI]
-    def controller = app.injector.instanceOf[FORSubmissionController]
+  def submit: StubSubmitBRI = app.injector.instanceOf[SubmitBusinessRentalInformation].asInstanceOf[StubSubmitBRI]
 
+  def controller: FORSubmissionController = app.injector.instanceOf[FORSubmissionController]
+
+  "When a submission is received and the declaration has been agreed to" should
     "A 302 response redirecting to the confirmation page is returned" in {
       val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
       val response = Await.result(controller.submit()(request), 5 seconds)
@@ -56,20 +59,16 @@ class FORSubmissionControllerSpec extends FreeSpec with Matchers with GivenWhenT
 
       And("The Business rental information submission process is initiated")
       submit.assertBRISubmittedFor(refNum)
-    }
-
   }
 
-  "When a submission is received and the declaration has not been agreed to" - {
-    def controller = app.injector.instanceOf[FORSubmissionController]
-
+  "When a submission is received and the declaration has not been agreed to" should
     "A redirect to the declaration error page is returned" in {
+
       val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "false"))
       val response = Await.result(controller.submit()(request), 5 seconds)
 
       response.header.status should equal(302)
       assert(response.header.headers("Location") === declarationErrorUrl)
-    }
   }
 
   object TestData {
@@ -88,7 +87,7 @@ object StubSubmitBRI {
   def apply() = new StubSubmitBRI
 }
 
-class StubSubmitBRI extends SubmitBusinessRentalInformation with MustMatchers {
+class StubSubmitBRI extends SubmitBusinessRentalInformation with should.Matchers {
   lazy val stubSubmission = Submission(
     None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
   )
@@ -104,6 +103,7 @@ class StubSubmitBRI extends SubmitBusinessRentalInformation with MustMatchers {
   }
 
   def assertBRISubmittedFor(refNum: String) {
-    submittedRefNums must equal(Seq(refNum))
+    submittedRefNums should equal(Seq(refNum))
   }
+
 }

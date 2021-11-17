@@ -16,17 +16,12 @@
 
 package config
 
-import com.typesafe.config.Config
-import connectors.ForHttp
-import net.ceedubs.ficus.Ficus._
-import play.api.{Configuration, Play}
+import play.api.Configuration
 
-object ForConfig {
-  val config = Play.current.configuration
-  val http = Play.current.injector.instanceOf[ForHttp]
+import javax.inject.{Inject, Singleton}
 
-  lazy val controllerConfigs = config.underlying.as[Config]("controllers")
-  def metricsConfig: Option[Configuration] = config.getConfig("microservice.metrics")
+@Singleton
+class ForConfig @Inject() (config: Configuration) {
 
   lazy val useDummyIp = getBoolean("useDummyTrueIP")
   lazy val startPageRedirect = getBoolean("startPageRedirect")
@@ -34,26 +29,10 @@ object ForConfig {
   lazy val agentApiEnabled = getBoolean("agentApi.enabled")
   lazy val apiTestAccountsOnly = getBoolean("agentApi.testAccountsOnly")
   lazy val apiTestAccountPrefix = getString("agentApi.testAccountPrefix")
-  lazy val showNewNotConnectedPage = getBoolean("showNewNotConnectedPage")
-  lazy val pdfProtocol = getString("pdf.protocol")
 
-  val loginPageNotice = new {
-    val enabled = getBoolean("loginPageNotice.enabled")
-    //app configs don't allow spaces in values
-    val englishTitle = getString("loginPageNotice.englishTitle").replaceAll("_", " ")
-    val welshTitle = getString("loginPageNotice.welshTitle").replaceAll("_", " ")
-    val englishBody = getString("loginPageNotice.englishBody").replaceAll("_", " ")
-    val welshBody = getString("loginPageNotice.welshBody").replaceAll("_", " ")
-  }
+  private def getString(key: String): String = config.getOptional[String](key).getOrElse(throw ConfigSettingMissing(key))
+  private def getBoolean(key: String): Boolean = config.getOptional[Boolean](key).getOrElse(throw ConfigSettingMissing(key))
 
-  lazy val optimizelyId = config.getString(s"optimizely.projectId").getOrElse("")
-
-  private def prodOnlyConf(key: String) = getString(key)
-
-  private def getString(key: String) = config.getString(key).getOrElse(throw ConfigSettingMissing(key))
-  private def getInt(key: String): Int = play.api.Play.current.configuration.getInt(key).getOrElse(throw ConfigSettingMissing(key))
-
-  private def getBoolean(key: String) = config.getString(key).map(_.toBoolean).getOrElse(throw ConfigSettingMissing(key))
 }
 
 case class ConfigSettingMissing(key: String) extends Exception(key)

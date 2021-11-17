@@ -23,13 +23,12 @@ import form.persistence.FormDocumentRepository
 
 import javax.inject.{Inject, Singleton}
 import models.pages.SummaryBuilder
-import models.{Journey, NormalJourney, Satisfaction, contactDetailsFormat}
+import models.{Journey, NormalJourney, Satisfaction}
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
-import play.api.mvc.{AnyContent, MessagesControllerComponents, MessagesRequestHeader, Request, RequestHeader}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import playconfig.SessionId
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -72,7 +71,7 @@ class SurveyController @Inject() (
     completedFeedbackForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(surveyView(formWithErrors))),
       success => {
-        sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou()) }
+        sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou) }
       }
     )
   }

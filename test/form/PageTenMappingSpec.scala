@@ -18,10 +18,11 @@ package form
 
 import models._
 import models.serviceContracts.submissions.{Parking, ParkingDetails, WhatRentIncludes}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
-class PageTenMappingSpec extends FlatSpec with Matchers {
+class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageTenForm._
   import TestData._

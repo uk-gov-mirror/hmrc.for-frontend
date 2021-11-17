@@ -17,8 +17,11 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import controllers.dataCapturePages.ForDataCapturePage.FormAction
 import form.PageZeroForm.pageZeroForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.Summary
@@ -29,12 +32,12 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part0
 
-class PageZeroController @Inject() (
-                                     refNumAction: RefNumAction,
-                                     cc: MessagesControllerComponents,
-                                     part0: part0
-                                   )
-  extends ForDataCapturePage[AddressConnectionType](refNumAction, cc) {
+class PageZeroController @Inject() (audit: Audit,
+                                    formDocumentRepository: FormDocumentRepository,
+                                    refNumAction: RefNumAction,
+                                    cc: MessagesControllerComponents,
+                                    part0: part0)
+  extends ForDataCapturePage[AddressConnectionType](audit, formDocumentRepository, refNumAction, cc) {
 
   override implicit val format: Format[AddressConnectionType] = formatAddressConnection
 
@@ -48,7 +51,7 @@ class PageZeroController @Inject() (
   override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) = {
     action match {
       case ForDataCapturePage.Continue => summary.addressConnection match {
-        case Some(AddressConnectionTypeNo) => Redirect(controllers.routes.PreviouslyConnectedController.onPageView())
+        case Some(AddressConnectionTypeNo) => Redirect(controllers.routes.PreviouslyConnectedController.onPageView)
         case _ => super.goToNextPage(action, summary, savedFields)
        }
       case _ => super.goToNextPage(action, summary, savedFields)

@@ -19,14 +19,13 @@ package form.persistence
 import java.time.Instant
 
 import javax.inject.{Inject, Singleton}
-import play.api.{Logger, Play}
+import play.api.Logger
 import play.api.libs.json.{JsObject, JsValue, Json, Reads, Writes, __}
 import play.modules.reactivemongo.ReactiveMongoComponent
 import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.api.commands.UpdateWriteResult
 import reactivemongo.api.indexes.{Index, IndexType}
 import reactivemongo.bson.BSONDocument
-import uk.gov.hmrc.http.HeaderCarrier
 import reactivemongo.play.json.ImplicitBSONHandlers._
 
 import scala.concurrent.{ExecutionContext, Future}

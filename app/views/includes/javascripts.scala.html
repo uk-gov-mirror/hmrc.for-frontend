@@ -14,6 +14,11 @@
  * limitations under the License.
  *@
 
+@import play.api.Environment
+@import play.api.Mode.Dev
+
+@this(environment: Environment)
+
 @()
 <!-- Javascript -->
 <script type="text/javascript">
@@ -21,7 +26,7 @@
 </script>
 
 	<script src="@routes.Assets.at("javascripts/vendor/jquery-1.11.3.min.js")" type="text/javascript"></script>
-	@if(playconfig.Environment.isDev){
+	@if(environment.mode == Dev){
         <script src="@routes.Assets.at(s"javascripts/app.js")" type="text/javascript"></script>
     }else{
         <script src="@routes.Assets.at("javascripts/app.min.js")" type="text/javascript"></script>

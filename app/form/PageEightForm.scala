@@ -19,7 +19,6 @@ package form
 import models.serviceContracts.submissions.RentAgreement
 import play.api.data.Form
 import play.api.data.Forms.mapping
-import play.api.data.validation.{Constraint, Valid}
 import uk.gov.voa.play.form.ConditionalMappings._
 import MappingSupport._
 

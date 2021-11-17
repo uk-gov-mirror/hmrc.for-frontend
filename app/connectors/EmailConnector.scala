@@ -16,10 +16,9 @@
 
 package connectors
 
-import config.ForConfig
 import javax.inject.{Inject, Singleton}
 import org.joda.time.LocalDate
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import play.api.libs.json._
 
 import scala.concurrent.{ExecutionContext, Future}

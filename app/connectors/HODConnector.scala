@@ -21,7 +21,6 @@ import controllers.toFut
 import javax.inject.{Inject, Singleton}
 import models.FORLoginResponse
 import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
-import play.api.Play
 import play.api.libs.json.{Format, JsValue}
 import useCases.ReferenceNumber
 import views.html.helper.urlEncode
@@ -135,9 +134,4 @@ trait HODConnector {
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit]
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]]
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue]
-}
-
-object HODConnector {
-  @deprecated
-  def apply(): HODConnector = Play.current.injector.instanceOf[HODConnector]
 }

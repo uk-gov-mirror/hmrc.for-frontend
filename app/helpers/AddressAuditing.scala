@@ -17,13 +17,11 @@
 package helpers
 
 import connectors.Audit
-import form.MappingSupport
 import javax.inject.{Inject, Singleton}
-import models.LookupServiceAddress
 import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.mvc.Request
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import scala.concurrent.Future
 
@@ -42,7 +40,7 @@ class AddressAuditing @Inject() (audit: Audit)  {
   }
 
   private def auditAddressChange(auditType: String, address: Address, request: Request[_], additionalDetails: Map[String, String] = Map.empty) = {
-    val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     audit(
       auditType,
       detail = Map(

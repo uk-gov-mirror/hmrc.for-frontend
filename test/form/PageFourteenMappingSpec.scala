@@ -17,11 +17,12 @@
 package form
 
 import form.PageFourteenForm._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
 
-class PageFourteenMappingSpec extends FlatSpec with Matchers {
+class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   "page fourteen form" should "accept the simple answer no for binding form data" in {
     val testData = Map("anyOtherFactors" -> "false")

@@ -17,7 +17,6 @@
 package template
 
 import play.api.data.FormError
-import play.api.data.Form
 import play.api.data.Field
 
 object HtmlSupport {

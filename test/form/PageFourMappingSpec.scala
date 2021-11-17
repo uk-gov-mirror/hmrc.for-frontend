@@ -19,10 +19,11 @@ package form
 import models._
 import models.pages._
 import models.serviceContracts.submissions.{Address, SubletAll, SubletPart}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
-class PageFourMappingSpec extends FlatSpec with Matchers {
+class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageFourForm._
   import TestData._

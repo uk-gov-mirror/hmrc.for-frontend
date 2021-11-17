@@ -17,19 +17,24 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageFourteenForm.pageFourteenForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.Summary
 import models.serviceContracts.submissions.OtherFactors
 import play.api.data.Form
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageFourteenController @Inject() (refNumAction: RefNumAction,
+class PageFourteenController @Inject() (audit: Audit,
+                                        formDocumentRepository: FormDocumentRepository,
+                                        refNumAction: RefNumAction,
                                         cc: MessagesControllerComponents,
                                         part14:views.html.part14)
-  extends ForDataCapturePage[OtherFactors](refNumAction, cc)  {
+  extends ForDataCapturePage[OtherFactors](audit, formDocumentRepository, refNumAction, cc)  {
   val format = otf
   val emptyForm = pageFourteenForm
   val pageNumber: Int = 14

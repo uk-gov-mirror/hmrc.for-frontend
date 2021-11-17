@@ -16,63 +16,42 @@
 
 package controllers
 
-import connectors.Document
+import connectors.{Audit, Document}
 import controllers.dataCapturePages.PageZeroController
 import form.persistence.FormDocumentRepository
 import org.joda.time.DateTime
-import org.scalatestplus.mockito.MockitoSugar.mock
+import org.mockito.scalatest.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.filters.csrf._
 import uk.gov.hmrc.http.HeaderNames
-import utils.Helpers._
+import utils.Helpers.refNumAction
 import utils.stubs.StubFormDocumentRepo
 import views.html.part0
 
-/*
-TODO - This test shoould be moved to IT or should be rewriten not to use OneServerPerSuite.
- */
-class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
-  //implicit override lazy val app: play.api.Application =
+class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with MockitoSugar {
+
+  private val testRefNum = "1234567890"
+  private val sessionId = java.util.UUID.randomUUID().toString
+  private val documentRepository = StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now())))
+  private val audit = mock[Audit]
 
   override def fakeApplication(): play.api.Application = {
     new GuiceApplicationBuilder()
       .overrides(
-        bind[FormDocumentRepository].toInstance(StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now()))))
+        bind[Audit].toInstance(audit),
+        bind[FormDocumentRepository].toInstance(documentRepository)
       )
       .configure(Map("auditing.enabled" -> false))
       .build()
   }
 
-  val testRefNum = "1234567890"
-  val sessionId = java.util.UUID.randomUUID().toString
-
-  def addToken[T](fakeRequest: FakeRequest[T])(implicit app: play.api.Application) = {
-    val csrfConfig     = app.injector.instanceOf[CSRFConfigProvider].get
-    val csrfFilter     = app.injector.instanceOf[CSRFFilter]
-    val token          = csrfFilter.tokenProvider.generateToken
-
-    fakeRequest.withHeaders(csrfConfig.headerName -> token)
-
-//    fakeRequest.copyFakeRequest(tags = fakeRequest.tags ++ Map(
-//      Token.NameRequestTag  -> csrfConfig.tokenName,
-//      Token.RequestTag      -> token
-//    )).withHeaders((csrfConfig.headerName, token))
-  }
-
-//  private object TestPageZeroController extends PageZeroController {
-//    override def saveForm: SaveForm = new SaveFormInRepository(repository, SummaryBuilder)
-//    override def repository: FormDocumentRepository = StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, DateTime.now())))
-//  }
-
-
   "Page zero controller" should {
     "redirect to page 1 if user want to change address" in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
+      val pageZeroController = new PageZeroController(audit, documentRepository, refNumAction(), stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)
@@ -90,7 +69,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
     }
 
     "redirect to page 2 if user doesn't want to change address" in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
+      val pageZeroController = new PageZeroController(audit, documentRepository, refNumAction(), stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)
@@ -109,7 +88,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite {
 
 
     "redirect to not connected page if user is not connected with property " in {
-      val pageZeroController = new PageZeroController(refNumAction, stubMessagesControllerComponents(), mock[part0])
+      val pageZeroController = new PageZeroController(audit, documentRepository, refNumAction(), stubMessagesControllerComponents(), mock[part0])
 
       val request = FakeRequest()
         .withHeaders(HeaderNames.xSessionId -> sessionId)

@@ -16,13 +16,13 @@
 
 package utils
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should
 import security.ArgumentsDidNotMatch
 import testutils._
 
 import scala.concurrent.Future
 
-trait BehaviourVerification extends Matchers {
+trait BehaviourVerification extends should.Matchers {
   def respondWith[A, B](a: A)(b: B): A => Future[B] = aa => {
     if (a == aa) Future.successful(b) else throw ArgumentsDidNotMatch(Seq(a), Seq(aa))
   }
@@ -42,10 +42,10 @@ trait BehaviourVerification extends Matchers {
     a => Future.successful(x(a))
 
   def set[A,B,R](x: ((A,B)) => R): (A,B) => Future[R] =
-    (a, b) => Future.successful(x(a, b))
+    (a, b) => Future.successful(x((a, b)))
 
   def set[A,B,C,R](x: ((A,B,C)) => R): (A,B,C) => Future[R] =
-    (a, b, c) => Future.successful(x(a, b, c))
+    (a, b, c) => Future.successful(x((a, b, c)))
 
   def none[A,B,C]: (A,B) => Future[Option[C]] =
     (_, _) => None

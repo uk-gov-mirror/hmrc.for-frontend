@@ -17,10 +17,11 @@
 package models.journeys
 
 import org.scalatest.prop.TableDrivenPropertyChecks
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import utils.SummaryBuilder._
 
-class ResumingAfterSavingSpec extends FlatSpec with Matchers with TableDrivenPropertyChecks {
+class ResumingAfterSavingSpec extends AnyFlatSpec with should.Matchers with TableDrivenPropertyChecks {
 	import TestData._
 
 	behavior of "Page to resume at"

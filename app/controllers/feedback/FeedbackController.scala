@@ -18,26 +18,21 @@ package controllers.feedback
 
 import java.net.URLEncoder
 
-import actions.{RefNumAction, RefNumRequest}
+import actions.RefNumAction
 import connectors.ForHttp
 import controllers._
-import form.Errors
 import form.Formats._
 import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
-import models.pages.SummaryBuilder
 import play.api.data.{Form, Forms}
-import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
+import play.api.data.Forms.{mapping, optional, text}
 import play.api.mvc._
-import play.api.{Logger, Play}
-import play.twirl.api.Html
-import playconfig.SessionId
-import uk.gov.hmrc.crypto.PlainText
+import play.api.Logger
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.partials._
 import views.html.{feedbackForm, feedbackThx}
 
@@ -111,7 +106,7 @@ trait HMRCContact {
 
   val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
-  val feedbackUrl = routes.FeedbackController.feedback().url
+  val feedbackUrl = routes.FeedbackController.feedback.url
   val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
   val hmrcHelpWithPageFormUrl = s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
@@ -123,15 +118,4 @@ trait HMRCContact {
   }
 
   private def urlEncode(value: String) = URLEncoder.encode(value, "UTF-8")
-}
-
-@deprecated
-object HMRCContact {
-  def apply(): HMRCContact = {
-    val config = Play.current.injector.instanceOf[ServicesConfig]
-    new HMRCContactImpl(config)
-  }
-
-  private class HMRCContactImpl(val servicesConfig: ServicesConfig) extends HMRCContact
-
 }

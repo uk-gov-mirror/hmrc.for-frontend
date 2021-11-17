@@ -15,11 +15,9 @@
  *@
 
 @import scala.concurrent.ExecutionContext
-@import helpers._
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 
 @this(  layout: pageLayout,
         govukCheckboxes: GovukCheckboxes,
@@ -27,13 +25,11 @@
         govukWarningText: GovukWarningText,
         govukErrorSummary: GovukErrorSummary,
         govukDetails:GovukDetails,
-        formWithCSRF: formWithCSRF,
+        formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
 
 @(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
-
-@labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 
 @layout(
     backLinkUrl = routes.ApplicationController.checkYourAnswers.url,

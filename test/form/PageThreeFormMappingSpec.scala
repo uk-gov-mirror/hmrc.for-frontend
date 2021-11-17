@@ -20,11 +20,12 @@ import form.PageThreeForm._
 import models._
 import models.pages.PageThree
 import models.serviceContracts.submissions.{OccupierTypeCompany, OccupierTypeIndividuals}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import utils.FormBindingTestAssertions._
 import utils.MappingSpecs._
 
-class PageThreeFormMappingSpec extends FlatSpec with Matchers {
+class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import TestData._
 

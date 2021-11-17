@@ -21,22 +21,25 @@ import connectors.{Document, Page}
 import models._
 import models.serviceContracts.submissions._
 import org.joda.time.{DateTime, LocalDate}
-import org.scalatest.{FreeSpec, Matchers}
+import org.scalatest.matchers.should
+import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 
 import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
-class SubmitBusinessRentalInformationSpec extends FreeSpec with Matchers {
+class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers {
 	import TestData._
   implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
 
-  "Assuming a complete, valid document (representing FOR submission details) exists for a refNum" - {
+  "Assuming a complete, valid document (representing FOR submission details) exists for a refNum" when {
     val repo = StubFormDocumentRepo((sessionId, refNum, document))
     builder.stubBuild(document, submission)
 
-    "When a submission for the refNum is received" - {
-      Await.result(SubmitBusinessRentalInformation(repo, builder, subConnector)(refNum), 10 seconds)
+    "a submission for the refNum is received" should {
+      val submit = new SubmitBusinessRentalInformationToBackendApi(repo, builder, subConnector)
+      Await.result(submit(refNum), 10 seconds)
 
       "The information will be formatted using the submission schema and posted to the back-end" in {
         subConnector.verifyWasSubmitted(refNum, submission)
@@ -48,7 +51,8 @@ class SubmitBusinessRentalInformationSpec extends FreeSpec with Matchers {
   "An error is returned when a document for the refNum does not exist" in {
     val invalidRefNum = "adlkjfalsjd"
     val ex = intercept[RentalInformationCouldNotBeRetrieved] {
-      Await.result(SubmitBusinessRentalInformation(StubFormDocumentRepo(), builder, subConnector)(invalidRefNum), 10 seconds)
+      val submit = new SubmitBusinessRentalInformationToBackendApi(StubFormDocumentRepo(), builder, subConnector)
+      Await.result(submit(invalidRefNum), 10 seconds)
     }
     assert(ex.refNum === invalidRefNum)
   }

@@ -19,7 +19,6 @@ import play.api.data.{FormError, Mapping}
 import play.api.data.validation.Constraint
 import uk.gov.voa.play.form.Condition
 import uk.gov.voa.play.form.ConditionalMappings._
-import uk.gov.voa.play.form._
 
 object ConditionalMapping {
   def ifTrueElse[T](fieldName: String, trueMapping: Mapping[T], falseMapping: Mapping[T]): Mapping[T] =

@@ -19,10 +19,8 @@ package connectors
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import com.google.inject.ImplementedBy
-import config.ForConfig
 import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
-import play.api.{Application, Configuration, Play}
 import play.api.http.HttpEntity
 import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
@@ -61,12 +59,6 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig,
     http.PUT(s"$serviceUrl/for/submissions/notConnected/${submission.id}", submission).map(_ => ())
   }
 
-}
-
-object SubmissionConnector {
-  def apply():SubmissionConnector = {
-    Play.current.injector.instanceOf(classOf[SubmissionConnector])
-  }
 }
 
 @ImplementedBy(classOf[HodSubmissionConnector])

@@ -16,7 +16,8 @@
 
 package utils
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 
-abstract class UnitTest extends WordSpec with Matchers with FutureAwaits with DefaultAwaitTimeout with BehaviourVerification
+abstract class UnitTest extends AnyWordSpec with should.Matchers with FutureAwaits with DefaultAwaitTimeout with BehaviourVerification

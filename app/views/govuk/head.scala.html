@@ -15,14 +15,16 @@
  *@
 
 @import play.api.Configuration
+@import play.api.Environment
+@import play.api.Mode.Dev
 @import uk.gov.hmrc.play.views.html.layouts.Head
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcTrackingConsentSnippet
 
-@this(configuration: Configuration, hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
+@this(configuration: Configuration, environment: Environment, hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
 
 @(uiLayoutHead: Head)(implicit messages: Messages)
 
- @if(playconfig.Environment.isDev){
+ @if(environment.mode == Dev){
   <link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
  }else{
   <link href='@controllers.routes.Assets.at("stylesheets/application2.min.css")' media="all" rel="stylesheet" type="text/css" />

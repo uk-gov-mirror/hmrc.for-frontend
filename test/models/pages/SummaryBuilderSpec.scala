@@ -18,9 +18,10 @@ package models.pages
 
 import connectors.Document
 import org.joda.time.DateTime
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class SummaryBuilderSpec extends FlatSpec with Matchers {
+class SummaryBuilderSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "Summary builder"
 

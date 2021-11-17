@@ -17,7 +17,10 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageEightForm.pageEightForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.Summary
@@ -26,10 +29,12 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageEightController @Inject() (refNumAction: RefNumAction,
+class PageEightController @Inject() (audit: Audit,
+                                     formDocumentRepository: FormDocumentRepository,
+                                     refNumAction: RefNumAction,
                                      cc: MessagesControllerComponents,
-                                    part8: views.html.part8)
-  extends ForDataCapturePage[RentAgreement] (refNumAction, cc) {
+                                     part8: views.html.part8)
+  extends ForDataCapturePage[RentAgreement] (audit, formDocumentRepository, refNumAction, cc) {
   val format = raf
   val emptyForm = pageEightForm
   val pageNumber: Int = 8

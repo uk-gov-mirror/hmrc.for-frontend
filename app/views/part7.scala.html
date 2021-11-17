@@ -22,7 +22,6 @@
 @import play.api.data._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import scala.concurrent.ExecutionContext
 
@@ -34,7 +33,7 @@
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
-        formWithCSRF: formWithCSRF,
+        formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
 

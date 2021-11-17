@@ -14,7 +14,7 @@ object JavaScriptBuild {
 
   val javaScriptUiSettings = Seq(
     uiDirectory := {
-      (baseDirectory in Compile).value
+      (Compile / baseDirectory).value
     },
     commands ++=  Seq(Grunt.gruntCommand(uiDirectory.value), npmCommand(uiDirectory.value)),
     npmInstall := {

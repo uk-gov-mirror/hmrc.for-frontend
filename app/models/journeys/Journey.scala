@@ -42,7 +42,7 @@ object Journey {
     }
   }
 
-  private def pageToShow(target: Int, summary: Summary, current: Option[Int] = None): Int = {
+  private def pageToShow(target: Int, summary: Summary, current: Option[Int]): Int = {
     val path = Paths.pathFor(summary)
     if (target == 0) {
       target

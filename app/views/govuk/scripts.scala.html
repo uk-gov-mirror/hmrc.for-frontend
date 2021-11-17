@@ -16,8 +16,9 @@
 
 @import play.api.Configuration
 @import uk.gov.hmrc.play.views.html.layouts.Footer
+@import views.html.includes.javascripts
 
-@this(configuration: Configuration)
+@this(configuration: Configuration, javascripts: javascripts)
 
 @(footer: Footer, withTimeoutDialog: Boolean)
 
@@ -30,4 +31,4 @@
 <script>window.GOVUKFrontend.initAll();</script>
 <script src="https://cdn.optimizely.com/js/@{configuration.getOptional[String]("optimizely.projectId").getOrElse("")}.js"></script>
 
-@includes.javascripts()
+@javascripts()

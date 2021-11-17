@@ -17,10 +17,11 @@
 package models
 
 import models.serviceContracts.submissions.Address
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.libs.json.{JsResult, JsSuccess, Json}
 
-class PageOneMappingSpec extends FlatSpec with Matchers {
+class PageOneMappingSpec extends AnyFlatSpec with should.Matchers {
 
 
   val json2 = """{"buildingNameNumber":"Some House","street1":"Some Street","street2":"Some City","postcode":"AA11 1AA"}"""

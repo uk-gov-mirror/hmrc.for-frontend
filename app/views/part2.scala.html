@@ -19,10 +19,8 @@
 @import play.api.data._
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.components.GovukErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
@@ -34,7 +32,7 @@
         govukButton: GovukButton,
         govukInput:  GovukInput,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSRF: formWithCSRF,
+        formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
 

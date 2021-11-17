@@ -17,22 +17,21 @@
 @import play.api.Configuration
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.layouts.{govukLayout, govukTemplate}
 @import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
 @import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
 
 @this(
-        govukTemplate: govukTemplate,
+        govukTemplate: GovukTemplate,
         govukHeader : GovukHeader,
-        govukLayout: govukLayout,
+        govukLayout: GovukLayout,
         head: headTemplate,
         scripts: scriptsTemplate,
-        govukPhaseBanner: govukPhaseBanner,
+        govukPhaseBanner: GovukPhaseBanner,
         govukBackLink: GovukBackLink,
         govukSummaryList: GovukSummaryList,
         footer: Footer,
-        govukFooter: govukFooter,
+        govukFooter: GovukFooter,
         accessibilityStatementConfig: AccessibilityStatementConfig,
         configuration: Configuration,
         uiLayoutHead: Head,

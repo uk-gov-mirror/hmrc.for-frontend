@@ -17,9 +17,8 @@
 @import models.serviceContracts.submissions.NotConnected
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukErrorSummary, GovukInput, GovukTextarea}
-@import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
@@ -30,7 +29,7 @@
         govukInput: GovukInput,
         govukButton: GovukButton,
         govukErrorSummary: GovukErrorSummary,
-        formWithCSRF: formWithCSRF)
+        formWithCSRF: FormWithCSRF)
 
 @(theForm: Form[NotConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
 
@@ -44,7 +43,7 @@
 
     <p class="govuk-body">@messages("notConnected.subheading")</p>
 
-    @formWithCSRF(action = controllers.routes.NotConnectedController.onPageSubmit(), args = 'class -> "myForm", 'id -> "myFormId") {
+    @formWithCSRF(action = controllers.routes.NotConnectedController.onPageSubmit, args = 'class -> "myForm", 'id -> "myFormId") {
 
         @govukInput(
             Input(

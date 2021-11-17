@@ -17,11 +17,12 @@
 package form
 
 import models.serviceContracts.submissions.Address
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.Forms._
 import play.api.data.Mapping
 import play.api.data.validation.{Invalid, Valid, ValidationResult}
-class PageOneFormMapping2Spec extends FlatSpec with Matchers {
+class PageOneFormMapping2Spec extends AnyFlatSpec with should.Matchers {
 
   def getAddressMapping(strict: Boolean): Mapping[Address] = {
     def choose[T](mapping1: Mapping[T], mapping2: Mapping[T]): Mapping[T] = {

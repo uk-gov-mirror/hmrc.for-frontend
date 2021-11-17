@@ -1,10 +1,8 @@
 
 import play.core.PlayVersion
-import sbt.Keys.dependencyOverrides
-import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
-import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
 lazy val scoverageSettings = {
   import scoverage.ScoverageKeys
@@ -14,54 +12,53 @@ lazy val scoverageSettings = {
      """.*\.Routes;.*\.RoutesPrefix;.*Filters?;MicroserviceAuditConnector;Module;GraphiteStartUp;.*\.Reverse[^.]*;""" +
     """views\..*;.*\.template\.scala""",
 
-    ScoverageKeys.coverageMinimum := 80.00,
+    ScoverageKeys.coverageMinimumStmtTotal := 80.00,
     ScoverageKeys.coverageFailOnMinimum := false,
     ScoverageKeys.coverageHighlighting := true,
-    parallelExecution in Test := false
+    Test / parallelExecution := false
   )
 }
 
 lazy val compileDeps = Seq(
   filters,
   ws,
-  "uk.gov.hmrc" %% "bootstrap-play-26" % "4.0.0",
-  "uk.gov.hmrc" %% "json-encryption" % "4.10.0-play-26",
-  "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-26",
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.9.0-play-26",
-  "uk.gov.hmrc" %% "play-partials" % "8.1.0-play-26",
-  "uk.gov.hmrc" %% "play-ui" % "9.6.0-play-26",
-  "uk.gov.hmrc" %% "url-builder" % "3.5.0-play-26",
-  "uk.gov.hmrc" %% "play-frontend-govuk" % "0.80.0-play-26",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "0.82.0-play-26",
-  "uk.gov.hmrc" %% "play-language" % "5.1.0-play-26",
-  "uk.gov.hmrc" %% "mongo-caching" % "7.0.0-play-26",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "8.0.0-play-26",
-  "com.typesafe.play" %% "play-json-joda" % "2.6.14",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.16.0",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "1.25.0-play-28",
+  "uk.gov.hmrc" %% "json-encryption" % "4.10.0-play-28",
+  "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-28",
+  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.10.0-play-28",
+  "uk.gov.hmrc" %% "play-partials" % "8.2.0-play-28",
+  "uk.gov.hmrc" %% "play-ui" % "9.7.0-play-28",
+  "uk.gov.hmrc" %% "url-builder" % "3.5.0-play-28",
+  "uk.gov.hmrc" %% "mongo-caching" % "7.0.0-play-28",
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "8.0.0-play-28",
+  "com.typesafe.play" %% "play-json-joda" % "2.9.2",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
-  "javax.inject" % "javax.inject" % "1",
-  "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.16",
-  "nu.validator.htmlparser" % "htmlparser" % "1.4",
-  "org.webjars.npm" % "govuk-frontend" % "3.8.1",
-  "org.webjars.npm" % "hmrc-frontend" % "1.15.1",
-  "org.webjars.bower" % "compass-mixins" % "0.12.7"
+  "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.22",
+  "nu.validator" % "htmlparser" % "1.4.16",
+  "org.webjars.npm" % "govuk-frontend" % "3.14.0",
+  "org.webjars.npm" % "hmrc-frontend" % "1.35.2",
+  "org.webjars.bower" % "compass-mixins" % "1.0.2"
 )
 
-val scalatestPlusPlayVersion = "3.1.3"
-val pegdownVersion = "1.6.0"
+val scalatestPlusPlayVersion = "5.1.0"
+val scalatestVersion = "3.2.10"
+val mockitoScalaVersion = "1.16.46"
+val flexmarkVersion = "0.62.2"
 
 def testDeps(scope: String) = Seq(
-  "org.pegdown" % "pegdown" % pegdownVersion % scope,
-  "org.jsoup" % "jsoup" % "1.8.1" % scope,
   "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
+  "org.scalatest" %% "scalatest" % scalatestVersion % scope,
   "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
-  "org.mockito" %% "mockito-scala-scalatest" % "1.7.1" % scope
+  "org.mockito" %% "mockito-scala-scalatest" % mockitoScalaVersion % scope,
+  "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope // for scalatest 3.1+
 )
 lazy val root = (project in file("."))
   .settings(scalaSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
     name := "for-frontend",
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.12.15",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     resolvers += Resolver.bintrayRepo("hmrc", "releases"),
@@ -70,7 +67,7 @@ lazy val root = (project in file("."))
     publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
-    unmanagedResourceDirectories in Compile += baseDirectory.value / "resources",
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
     majorVersion := 3,
   ).settings(JavaScriptBuild.javaScriptUiSettings: _*)
   .configs(IntegrationTest)

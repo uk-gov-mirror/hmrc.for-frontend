@@ -18,7 +18,6 @@ package models
 
 import models.serviceContracts.submissions._
 import play.api.i18n.Messages
-import play.api.i18n.Lang
 
 object EnumOptions {
 

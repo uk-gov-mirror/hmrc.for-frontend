@@ -17,21 +17,23 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageSevenForm.pageSevenForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models._
 import models.pages.{PageSeven, Summary}
-import models.serviceContracts.submissions.{UserTypeOccupiersAgent, UserTypeOwnersAgent}
 import play.api.data.Form
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class PageSevenController @Inject() (refNumAction: RefNumAction,
+class PageSevenController @Inject() (audit: Audit,
+                                     formDocumentRepository: FormDocumentRepository,
+                                     refNumAction: RefNumAction,
                                      cc: MessagesControllerComponents,
-                                    part7:views.html.part7)
-  extends ForDataCapturePage[PageSeven](refNumAction, cc) {
+                                     part7:views.html.part7)
+  extends ForDataCapturePage[PageSeven](audit, formDocumentRepository, refNumAction, cc) {
   val format = p7f
   val emptyForm = pageSevenForm
   val pageNumber: Int = 7

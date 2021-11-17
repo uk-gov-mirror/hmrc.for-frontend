@@ -21,22 +21,25 @@ import connectors.{Audit, HODConnector, HodSubmissionConnector}
 import javax.inject.Inject
 import models._
 import org.joda.time.DateTime
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
 import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.http.{Request => _, _}
-import uk.gov.hmrc.play.HeaderCarrierConverter
-import uk.gov.hmrc.play.bootstrap.controller.{BackendController, FrontendController}
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
-class AgentAPI @Inject()(cc: MessagesControllerComponents, hodConnector: HODConnector, submissionConnector: HodSubmissionConnector, audit: Audit)
+class AgentAPI @Inject()(cc: MessagesControllerComponents,
+                         hodConnector: HODConnector,
+                         submissionConnector: HodSubmissionConnector,
+                         audit: Audit,
+                         forConfig: ForConfig)(implicit ec: ExecutionContext)
   extends FrontendController(cc)  with HeaderValidator {
 
-  def getDocs = Action { implicit request =>
+  def getDocs = Action {
     Ok(views.html.api.apidoc())
   }
 
@@ -47,9 +50,9 @@ class AgentAPI @Inject()(cc: MessagesControllerComponents, hodConnector: HODConn
   }
 
   def submit(refNum: String, postcode: String): Action[AnyContent] = mustHaveValidAcceptHeader.async { implicit request =>
-    (ForConfig.agentApiEnabled, ForConfig.apiTestAccountsOnly) match {
+    (forConfig.agentApiEnabled, forConfig.apiTestAccountsOnly) match {
       case (false, _) => NotFound
-      case (true, true) if !refNum.startsWith(ForConfig.apiTestAccountPrefix) => mustUseTestCredentials(refNum, postcode)
+      case (true, true) if !refNum.startsWith(forConfig.apiTestAccountPrefix) => mustUseTestCredentials(refNum, postcode)
       case (true, _) =>
         request.body.asJson.map {
           checkCredentialsAndSubmit(_, refNum, postcode)

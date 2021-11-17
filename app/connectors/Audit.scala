@@ -16,17 +16,15 @@
 
 package connectors
 
-import akka.stream.Materializer
 import com.google.inject.ImplementedBy
 import models.pages.Summary
 
 import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.Submission
-import play.api.inject.ApplicationLifecycle
 import play.api.libs.json.{Json, OWrites}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
-import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
+import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, AuditConnector, AuditResult, DatastreamMetrics}
 import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
 import uk.gov.hmrc.play.audit.AuditExtensions._
 
@@ -79,7 +77,7 @@ object Audit {
 
 @Singleton
 class ForAuditConnector @Inject() (val auditingConfig: AuditingConfig,
-                                   override val materializer: Materializer,
-                                   override val lifecycle: ApplicationLifecycle
+                                   val auditChannel: AuditChannel,
+                                   val datastreamMetrics: DatastreamMetrics
                                   )(implicit val ec: ExecutionContext) extends Audit {
 }

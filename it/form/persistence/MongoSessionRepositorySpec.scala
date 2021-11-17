@@ -19,8 +19,7 @@ package form.persistence
 import java.util.UUID
 
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
-import play.api.libs.json._
+import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.Json
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import MongoSessionRepositorySpecData._

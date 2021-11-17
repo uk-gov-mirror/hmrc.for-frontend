@@ -22,10 +22,11 @@ import models.journeys.Paths._
 import models.pages._
 import models.serviceContracts.submissions._
 import org.joda.time.LocalDate
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import utils.{SummaryBuilder => summaryBuilder}
 
-class PathingLogicSpec extends FlatSpec with Matchers {
+class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
 
   "isShortPath" should "return true when the property is owned but not sublet" in {
     val sub = summaryBuilder(page3 = Some(propertyOwned), page4 = Some(propertyNotSublet))

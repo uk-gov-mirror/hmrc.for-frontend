@@ -18,27 +18,9 @@ package utils
 
 import actions.RefNumAction
 import play.api.mvc._
-import play.api.test.{FakeRequest, NoMaterializer}
+import play.api.test.FakeRequest
 
 object Helpers {
-
-  def stubMessagesControllerComponents(): MessagesControllerComponents = {
-    val helpers = play.api.test.Helpers
-    val cc = play.api.test.Helpers.stubControllerComponents()
-
-    val messagesActionBuilder: MessagesActionBuilder = new DefaultMessagesActionBuilderImpl(cc.parsers.default, cc.messagesApi)(cc.executionContext)
-    val actionBuilder = DefaultActionBuilder(helpers.stubBodyParser(AnyContentAsEmpty))(cc.executionContext)
-
-    DefaultMessagesControllerComponents(
-      messagesActionBuilder,
-      actionBuilder,
-      cc.parsers,
-      cc.messagesApi,
-      cc.langs,
-      cc.fileMimeTypes,
-      cc.executionContext
-    )
-  }
 
   implicit def fakeRequest2MessageRequest[A](fakeRequest: FakeRequest[A]): MessagesRequest[A] = {
     new MessagesRequest[A](fakeRequest, play.api.test.Helpers.stubMessagesApi())
@@ -46,8 +28,6 @@ object Helpers {
 
   def refNumAction(): RefNumAction = {
     val cc = play.api.test.Helpers.stubControllerComponents()
-
-    implicit val mat = NoMaterializer
 
     new RefNumAction(new play.api.mvc.BodyParsers.Default(cc.parsers), cc.messagesApi)(cc.executionContext)
   }

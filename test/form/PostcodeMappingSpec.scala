@@ -17,10 +17,12 @@
 package form
 
 import org.scalatest.prop.TableDrivenPropertyChecks
-import org.scalatest.{EitherValues, FlatSpec, Matchers}
+import org.scalatest.EitherValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.data.FormError
 
-class PostcodeMappingSpec extends FlatSpec with Matchers with EitherValues with TableDrivenPropertyChecks {
+class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherValues with TableDrivenPropertyChecks {
 
   val positiveTestData = Table(
     ("raw postcode", "formated postcode"),
@@ -45,13 +47,13 @@ class PostcodeMappingSpec extends FlatSpec with Matchers with EitherValues with 
 
   "PostcodeMapper" should "Map correct postcode" in {
     val formData = Map("" -> "BN12 4AX")
-    postcode.bind(formData).right.value shouldBe("BN12 4AX")
+    postcode.bind(formData).value shouldBe("BN12 4AX")
   }
 
   it should "sucessfully format and validate all correct postcodes" in {
     forAll(positiveTestData) { (rawPostcode: String, formattedPostcode: String) =>
       postcode.bind(Map("" -> rawPostcode))
-        .right.value shouldBe(formattedPostcode)
+        .value shouldBe(formattedPostcode)
     }
   }
 

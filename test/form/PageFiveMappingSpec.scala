@@ -17,9 +17,10 @@
 package form
 
 import models.serviceContracts.submissions.LandlordConnectionTypeOther
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class PageFiveMappingSpec extends FlatSpec with Matchers {
+class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageFiveForm._
   import TestData._

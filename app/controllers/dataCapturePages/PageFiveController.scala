@@ -17,21 +17,24 @@
 package controllers.dataCapturePages
 
 import actions.{RefNumAction, RefNumRequest}
+import connectors.Audit
 import form.PageFiveForm.pageFiveForm
+import form.persistence.FormDocumentRepository
+
 import javax.inject.Inject
 import models.pages.{PageFive, Summary}
 import play.api.data.Form
 import play.api.libs.json.Json
-import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import views.html.part5
 
-class PageFiveController @Inject() (refNumAction: RefNumAction,
+class PageFiveController @Inject() (audit: Audit,
+                                    formDocumentRepository: FormDocumentRepository,
+                                    refNumAction: RefNumAction,
                                     cc: MessagesControllerComponents,
                                     part5:part5)
-  extends ForDataCapturePage[PageFive] (refNumAction, cc)  {
+  extends ForDataCapturePage[PageFive] (audit, formDocumentRepository, refNumAction, cc)  {
   val format = Json.format[PageFive]
   val emptyForm = pageFiveForm
   val pageNumber: Int = 5

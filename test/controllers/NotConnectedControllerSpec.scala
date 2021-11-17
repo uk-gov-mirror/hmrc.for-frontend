@@ -16,20 +16,18 @@
 
 package controllers
 
-import connectors.{Audit, SubmissionConnector}
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.mockito.scalatest.MockitoSugar
-import org.scalatest.{FlatSpec, Matchers}
-import play.api.Configuration
-import play.api.i18n.MessagesApi
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import utils.Helpers._
+import utils.Helpers.refNumAction
 import views.html.notConnected
 
 import scala.concurrent.ExecutionContext
 
-class NotConnectedControllerSpec extends FlatSpec with Matchers with MockitoSugar {
+class NotConnectedControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
 
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 
@@ -37,8 +35,6 @@ class NotConnectedControllerSpec extends FlatSpec with Matchers with MockitoSuga
 
     val cache = mock[MongoSessionRepository]
     val formDocumentRepository = mock[FormDocumentRepository]
-
-    implicit val messageApi = mock[MessagesApi]
 
     val controller = new NotConnectedController(formDocumentRepository, refNumAction(), cache,
       stubMessagesControllerComponents(), mock[notConnected], mock[views.html.error.error])
