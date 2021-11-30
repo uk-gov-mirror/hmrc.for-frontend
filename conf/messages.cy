@@ -791,6 +791,8 @@ notConnected.subheading = Byddwn yn defnyddio’r manylion hyn os bydd angen i n
 notConnected.additionalInformation = Gwybodaeth ychwanegol
 notConnected.additionalInformationHelp = Er enghraifft, enw’r perchennog neu’r meddiannydd presennol.
 notConnected.emailOrPhone = Rhaid i chi roi rhif ffôn neu gyfeiriad e-bost
+notConnected.error.nameInvalid = Gallwch ond nodi’r cymeriadau hyn: A-Y, a-y, -, ., (), ", comaau, a bylchau
+
 notConnected.thankYou = Diolch, mae eich manylion wedi eu cyflwyno.
 notConnected.whatNext1 = Mae’n bosibl y byddwn yn cysylltu â chi er mwyn gwirio rhai o’r manylion.
 notConnected.whatNext2 = Ni fyddwch yn cael unrhyw lythyrau pellach oni bai eu bod eisoes wedi eu hanfon.

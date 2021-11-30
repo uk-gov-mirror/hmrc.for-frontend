@@ -22,9 +22,11 @@ import play.api.data.Forms.mapping
 import play.api.data.{FieldMapping, Form, FormError, Mapping}
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints.emailAddress
-import play.api.data.validation.{Constraint, Valid}
+import play.api.data.validation.{Constraint, Constraints, Valid}
 import play.api.data.Forms._
 import play.api.libs.json.Json
+
+import scala.util.matching.Regex
 
 case class NotConnectedPropertyForm( fullName: String,
                                      email: Option[String],
@@ -62,9 +64,11 @@ object NotConnectedPropertyForm {
     FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
   }
 
+  private val fullNameRegex: Regex = """^[A-Za-z\-.,()'"\s]+$""".r
+
   val form = Form(
     mapping(
-      "fullName" -> nonEmptyText,
+      "fullName" -> nonEmptyText.verifying(Constraints.pattern(fullNameRegex, error = "notConnected.error.nameInvalid")),
       "email" -> atLeastOneMapping("phoneNumber", emailAddress),
       "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
       "additionalInformation" -> optional(text)
