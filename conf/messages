@@ -787,6 +787,7 @@ notConnected.subheading = We’ll use these details if we need to contact you.
 notConnected.additionalInformation = Additional information
 notConnected.additionalInformationHelp = For example, the name of the current owner or occupier.
 notConnected.emailOrPhone = You must provide a phone number or email address
+notConnected.error.nameInvalid = You can only enter these characters: A-Z, a-z, -, ., (), ", commas, and spaces
 
 notConnected.thankYou = Thank you, your details have been sent.
 notConnected.whatNext1 = We may contact you to check some of the details.
