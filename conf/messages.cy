@@ -957,9 +957,6 @@ index.help=Os oes angen help
 index.help.p1=Cysylltwch ȃ’ch Swyddfa Brisio leol ynglyn ȃ help i ddefnyddio y gwasanaeth.
 index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
 
-footer.links.language.url = /sending-rental-information/language/english
-footer.links.language.text = English
-
 #CONFIRMATION INFORMATION
 emailAddress.confirmation=Rydym wedi anfon e-bost cardarnhau at
 print.link=Argraffu copi o’ch ffurflen

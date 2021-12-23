@@ -969,9 +969,6 @@ index.help=If you need help
 index.help.p1=Contact the VOA team in your area for help with using the service.
 index.help.p2=You can find their contact details on the letter sent by the VOA.
 
-footer.links.language.url = /sending-rental-information/language/cymraeg
-footer.links.language.text = Cymraeg
-
 #CONFIRMATION INFORMATION
 emailAddress.confirmation=We have sent a confirmation email to
 print.link=Print a copy of your form

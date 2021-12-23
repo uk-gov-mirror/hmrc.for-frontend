@@ -20,6 +20,7 @@
 @import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
 @import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
 @import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
 
 @this(
         govukTemplate: GovukTemplate,
@@ -35,6 +36,7 @@
         accessibilityStatementConfig: AccessibilityStatementConfig,
         configuration: Configuration,
         uiLayoutHead: Head,
+        hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
         govukErrorSummary: GovukErrorSummary
 )
 
@@ -75,6 +77,9 @@
             )
         )
     }
+
+    @hmrcLanguageSelectHelper()
+
     @if(showAccountInfo && summary.isDefined){
         @views.html.includes.account_info_header(summary.get)
     }
@@ -152,12 +157,7 @@
                         text = Some(messages("footer.links.terms_and_conditions.text"))),
                     FooterItem(
                         href = Some(messages("footer.links.help_page.url")),
-                        text = Some(messages("footer.links.help_page.text"))),
-
-                    FooterItem(
-                        href = Some(messages("footer.links.language.url")),
-                        text = Some(messages("footer.links.language.text")))
-
+                        text = Some(messages("footer.links.help_page.text")))
                 )
             )
             )
