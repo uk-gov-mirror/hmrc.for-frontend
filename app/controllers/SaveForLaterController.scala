@@ -164,8 +164,7 @@ class SaveForLaterController @Inject()
           Ok(savedForLater(sum, pw, expiryDate, hasTimedOut = true))
         }
       }
-      case None =>
-        InternalServerError(errorView(500))
+      case None => Redirect(routes.LoginController.logout)
     }
   }
 

@@ -293,19 +293,4 @@
         $('.form--feedback [name="referrer"], .form--feedback #referer').val(v);
     };
 
-    VoaFor.timeOutReminder = function () {
-        var timeout = $('#signOutTimeout').val();
-        var countdown = $('#signOutCountdown').val();
-        var signOutUrl = $('#signOutUrl').val();
-
-        if (window.GOVUK.timeoutDialog && signOutUrl) {
-            window.GOVUK.timeoutDialog({
-                timeout: timeout,
-                countdown: countdown,
-                keepAliveUrl: window.location,
-                signOutUrl: signOutUrl
-            });
-        }
-    };
-
 })(jQuery);
