@@ -18,24 +18,18 @@
 @import models.pages.Summary
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.config.AccessibilityStatementConfig
-@import uk.gov.hmrc.play.views.html.layouts.{Footer, Head}
-@import views.html.govuk.{head => headTemplate, scripts => scriptsTemplate}
+@import views.html.govuk.{head, scripts}
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLayout
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
 
 @this(
-        govukTemplate: GovukTemplate,
-        govukHeader : GovukHeader,
-        govukLayout: GovukLayout,
-        head: headTemplate,
-        scripts: scriptsTemplate,
+        hmrcLayout: HmrcLayout,
+        headTemplate: head,
+        scriptsTemplate: scripts,
         govukPhaseBanner: GovukPhaseBanner,
         govukBackLink: GovukBackLink,
-        govukSummaryList: GovukSummaryList,
-        footer: Footer,
-        govukFooter: GovukFooter,
         accessibilityStatementConfig: AccessibilityStatementConfig,
         configuration: Configuration,
-        uiLayoutHead: Head,
         hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
         govukErrorSummary: GovukErrorSummary
 )
@@ -59,11 +53,6 @@
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @beforeBLock = {
-
-    <input type="hidden" id="signOutUrl" value="@configuration.get[String]("signout.url").get" />
-    <input type="hidden" id="signOutTimeout" value="@configuration.get[String]("signout.timeout").get" />
-    <input type="hidden" id="signOutCountdown" value="@configuration.get[String]("signout.countdown").get" />
-
 
     @if(showFeedback) {
 
@@ -134,47 +123,13 @@
     </div>
 }
 
-@footerDefault = {
-    @govukFooter(
-
-        Footer(
-            meta = Some(Meta(
-                items = Seq(
-                    FooterItem(
-                        href = Some(messages("footer.links.cookies.url")),
-                        text = Some(messages("footer.links.cookies.text"))),
-                    accessibilityStatementConfig.url.map( href =>
-                        FooterItem(
-                            Some(messages("footer.accessibility.text")),
-                            Some(href)
-                        )
-                    ).get,
-                    FooterItem(
-                        href = Some(messages("footer.links.privacy_policy.url")),
-                        text = Some(messages("footer.links.privacy_policy.text"))),
-                    FooterItem(
-                        href = Some(messages("footer.links.terms_and_conditions.url")),
-                        text = Some(messages("footer.links.terms_and_conditions.text"))),
-                    FooterItem(
-                        href = Some(messages("footer.links.help_page.url")),
-                        text = Some(messages("footer.links.help_page.text")))
-                )
-            )
-            )
-        )
-    )
-}
-
-
-@govukTemplate(
+@hmrcLayout(
     pageTitle = pageTitle.getOrElse(pageHeading) + " - " + messages("project.header") + " - " + messages("gov.name"),
-    headBlock = head(uiLayoutHead),
-    headerBlock = govukHeader(Header(
-        serviceName = messages("service.name"),
-        serviceUrl= routes.ApplicationController.index.url
-    )),
+    isWelshTranslationAvailable = true,
+    serviceName = Some(messages("service.name")),
+    serviceUrl= Some(routes.ApplicationController.index.url),
+    additionalHeadBlock = Some(headTemplate(withTimeoutDialog)),
+    additionalScriptsBlock = Some(scriptsTemplate()),
     beforeContentBlock = Option(beforeBLock),
-    mainClasses = Some("govuk-main-wrapper govuk-main-wrapper--auto-spacing"),
-    bodyEndBlock = Some(scripts(footer, withTimeoutDialog)),
-    footerBlock = if(showFooter) footerDefault else Html("")
+    mainContentLayout = Some(identity)
 )(contentWithHeading)

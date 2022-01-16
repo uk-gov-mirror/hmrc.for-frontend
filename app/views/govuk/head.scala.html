@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import play.api.Configuration
 @import play.api.Environment
 @import play.api.Mode.Dev
-@import uk.gov.hmrc.play.views.html.layouts.Head
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcTrackingConsentSnippet
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcTimeoutDialogHelper
 
-@this(configuration: Configuration, environment: Environment, hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
+@this(
+        environment: Environment,
+        hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper
+)
 
-@(uiLayoutHead: Head)(implicit messages: Messages)
+@(enableTimeoutDialog: Boolean)(implicit request: RequestHeader, messages: Messages)
 
  @if(environment.mode == Dev){
   <link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
@@ -30,20 +31,8 @@
   <link href='@controllers.routes.Assets.at("stylesheets/application2.min.css")' media="all" rel="stylesheet" type="text/css" />
  }
 
-@hmrcTrackingConsentSnippet()
-
-@*this is to include the application.css from asssets frontend to style the timeout*@
-@uiLayoutHead(linkElem = None, headScripts = None)
-
- <meta
- name="hmrc-timeout-dialog"
- data-timeout="@{configuration.get[String]("signout.timeout").get}"
- data-countdown="@{configuration.get[String]("signout.countdown").get}"
- data-keep-alive-url=""
- data-sign-out-url="@{configuration.get[String]("signout.url").get}"
- data-title=""
- data-message=""
- dat-message-suffix=""
- data-keep-alive-button-text=""
- data-sign-out-button-text=""
- />
+@if(enableTimeoutDialog) {
+ @hmrcTimeoutDialogHelper(
+  signOutUrl = routes.LoginController.logout.url
+ )
+}
