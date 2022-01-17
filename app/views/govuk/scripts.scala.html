@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,12 @@
  *@
 
 @import play.api.Configuration
-@import uk.gov.hmrc.play.views.html.layouts.Footer
 @import views.html.includes.javascripts
 
 @this(configuration: Configuration, javascripts: javascripts)
 
-@(footer: Footer, withTimeoutDialog: Boolean)
+@()
 
-@if(withTimeoutDialog) {
-  @* include assets frontend js for now for the timeout. We will upgrade to HMRC frontend timeout in due course (promise) *@
-  @footer(analyticsToken = None, analyticsHost = "auto", ssoUrl = None, scriptElem = None, gaCalls = None)
-}
-
-<script src='@controllers.routes.Assets.at("lib/govuk-frontend/govuk/all.js")'></script>
-<script>window.GOVUKFrontend.initAll();</script>
 <script src="https://cdn.optimizely.com/js/@{configuration.getOptional[String]("optimizely.projectId").getOrElse("")}.js"></script>
 
 @javascripts()

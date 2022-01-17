@@ -22,13 +22,12 @@ lazy val scoverageSettings = {
 lazy val compileDeps = Seq(
   filters,
   ws,
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.16.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "1.26.0-play-28",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.19.0",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "1.31.0-play-28",
   "uk.gov.hmrc" %% "json-encryption" % "4.10.0-play-28",
   "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.10.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.2.0-play-28",
-  "uk.gov.hmrc" %% "play-ui" % "9.7.0-play-28",
   "uk.gov.hmrc" %% "url-builder" % "3.5.0-play-28",
   "uk.gov.hmrc" %% "mongo-caching" % "7.1.0-play-28",
   "uk.gov.hmrc" %% "simple-reactivemongo" % "8.0.0-play-28",
@@ -36,8 +35,6 @@ lazy val compileDeps = Seq(
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.22",
   "nu.validator" % "htmlparser" % "1.4.16",
-  "org.webjars.npm" % "govuk-frontend" % "3.14.0",
-  "org.webjars.npm" % "hmrc-frontend" % "1.35.2",
   "org.webjars.bower" % "compass-mixins" % "1.0.2"
 )
 

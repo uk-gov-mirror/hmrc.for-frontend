@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ class ApplicationController @Inject()(
   repository: FormDocumentRepository,
   checkYourAnswersView: views.html.checkYourAnswers,
   declarationView: views.html.declaration,
-  printAnswersView: views.html.print,
   errorView: views.html.error.error,
   indexView: views.html.index,
   sessionTimeoutView: views.html.sessionTimeout,
@@ -126,15 +125,6 @@ class ApplicationController @Inject()(
     }
   }
 
-  def print = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
-      case Some(doc) =>
-        val sub = SummaryBuilder.build(doc)
-        Ok(printAnswersView(sub))
-      case None =>
-        InternalServerError(errorView(500))
-    }
-  }
 
   def docs = Action {
     Ok(views.html.api.apidoc())

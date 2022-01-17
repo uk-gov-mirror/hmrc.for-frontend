@@ -30,7 +30,6 @@ var ref;
         VoaFor.isEdit();
         VoaFor.getReferrer();
         VoaFor.addMultiButtonState();
-        VoaFor.timeOutReminder();
         VoaFor.doYouOwnTheProperty();
         VoaFor.setHelpGDSClasses();
 

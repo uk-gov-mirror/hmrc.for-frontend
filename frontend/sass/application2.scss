@@ -1,6 +1,3 @@
-//this is needed to get the correct path to the images in the webjar of govuk-frontend
-$govuk-assets-path: "/sending-rental-information/assets/lib/govuk-frontend/govuk/assets/";
-
 div.sign-footer{
   display:none;
 }
@@ -36,7 +33,7 @@ div#helpFormWrapper {
 }
 
 .govuk-main-wrapper {
-  padding-top: 15px !important;
+  padding-top: 0 !important;
   padding-bottom: 40px;
 }
 
@@ -51,8 +48,6 @@ ul#header-account-info{
   padding: 0;
 }
 
-@import "node_modules/govuk-frontend/govuk/all";
-@import "node_modules/hmrc-frontend/hmrc/all";
 @import "print_page_screen";
 @import "form";
 @import "spinner";
