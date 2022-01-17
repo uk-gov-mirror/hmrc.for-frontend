@@ -35,8 +35,6 @@ lazy val compileDeps = Seq(
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.22",
   "nu.validator" % "htmlparser" % "1.4.16",
-  "org.webjars.npm" % "govuk-frontend" % "3.14.0",
-  "org.webjars.npm" % "hmrc-frontend" % "1.35.2",
   "org.webjars.bower" % "compass-mixins" % "1.0.2"
 )
 

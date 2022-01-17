@@ -19,10 +19,6 @@ module.exports = function(grunt) {
         sass: {
             dev: {
                 options: {
-                    includePaths: [
-                        'govuk_modules/govuk_template/assets/stylesheets',
-                        'govuk_modules/govuk_frontend_toolkit/stylesheets'
-                    ],
                     lineNumbers: true,
                     style: 'expanded',
                     implementation: nodeSass
@@ -37,10 +33,6 @@ module.exports = function(grunt) {
             },
             prod: {
                 options: {
-                    includePaths: [
-                        'govuk_modules/govuk_template/assets/stylesheets',
-                        'govuk_modules/govuk_frontend_toolkit/stylesheets'
-                    ],
                     lineNumbers: false,
                     style: 'compressed',
                     sourcemap: false,
@@ -58,64 +50,12 @@ module.exports = function(grunt) {
 
         // Copies templates and assets from external modules and dirs
         copy: {
-            govukElements: {
-                files: [{
-                    expand: true,
-                    cwd: 'node_modules/govuk-elements-sass/public/sass',
-                    src: ['**', '!_govuk-elements.scss', '!_elements.scss', '!_frontend-toolkit.scss' ],
-                    dest: 'frontend/sass'
-                }]
-            },
             assets: {
                 files: [{
                     expand: true,
                     cwd: 'frontend/',
                     src: ['**/*', '!sass/**', '!jasmine/**', '!javascripts/polyfills/**'],
                     dest: 'public/'
-                }]
-            },
-            govuk: {
-                files: [{
-                    expand: true,
-                    cwd: 'node_modules/govuk_frontend_toolkit',
-                    src: '**',
-                    dest: 'govuk_modules/govuk_frontend_toolkit/'
-                }, {
-                    expand: true,
-                    cwd: 'node_modules/govuk_template_mustache/',
-                    src: '**',
-                    dest: 'govuk_modules/govuk_template/'
-                }]
-            },
-            govukModules: {
-                files: [{
-                    expand: true,
-                    cwd: 'govuk_modules/govuk_template/assets/images',
-                    src: '**.*',
-                    dest: 'public/images/'
-                }, {
-                    expand: true,
-                    cwd: 'govuk_modules/govuk_template/assets/stylesheets',
-                    src: '**',
-                    dest: 'public/stylesheets/'
-                }, {
-                    expand: true,
-                    cwd: 'govuk_modules/govuk_frontend_toolkit/images',
-                    src: '**',
-                    dest: 'public/images/'
-                }]
-            },
-            hmrcModules: {
-                files: [ {
-                    expand: true,
-                    cwd: 'govuk_modules/govuk_template/assets/stylesheets',
-                    src: '**',
-                    dest: 'public/stylesheets/'
-                }, {
-                    expand: true,
-                    cwd: 'govuk_modules/govuk_frontend_toolkit/images',
-                    src: '**',
-                    dest: 'public/images/'
                 }]
             },
             cutstomImages: {
@@ -160,7 +100,6 @@ module.exports = function(grunt) {
             }
         },
         uglify: {
-
             app: {
                 options: {
                     mangle: true,
@@ -169,34 +108,6 @@ module.exports = function(grunt) {
                 files: {
                     'public/javascripts/app.min.js': [
                         'frontend/javascripts/**.js'
-                    ]
-                }
-            },
-            gds: {
-                files: {
-                    'public/javascripts/selection-buttons.min.js': [
-                        'node_modules/govuk_frontend_toolkit/javascripts/govuk/selection-buttons.js'
-                    ]
-                }
-            },
-            govukTemplate: {
-                files: {
-                    'public/javascripts/govuk-template.min.js': [
-                        'govuk_modules/govuk_template/assets/javascripts/govuk-template.js'
-                    ]
-                }
-            },
-            ie: {
-                files: {
-                    'public/javascripts/ie.min.js': [
-                        'govuk_modules/govuk_template/assets/javascripts/ie.js'
-                    ]
-                }
-            },
-            bind: {
-                files: {
-                    'public/javascripts/polyfills/bind.min.js': [
-                        'govuk_modules/govuk_frontend_toolkit/javascripts/vendor/polyfills/bind.js'
                     ]
                 }
             },

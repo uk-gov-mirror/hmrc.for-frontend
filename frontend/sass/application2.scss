@@ -2,6 +2,24 @@ div.sign-footer{
   display:none;
 }
 
+#timeout-dialog.timeout-dialog {
+  * {
+    font-family: "GDS Transport", Arial, sans-serif;
+    font-size: 19px;
+  }
+
+  button, a {
+    line-height: 40px;
+    height: 40px;
+    vertical-align: middle;
+    padding: 0 16px;
+  }
+
+  a:focus {
+    box-shadow: 0 2px black;
+  }
+}
+
 div#helpFormWrapper {
   input[type=text] {
     width: 100%;
