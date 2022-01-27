@@ -45,7 +45,7 @@ object PageSixForm {
     val rentOpenEnded = "rentOpenEnded"
   }
 
-  def toDateIsAfterFromDate(index: String): Constraint[(LocalDate, LocalDate)] = Constraint("constraints.steppedDetails.toAfterFrom") {
+  def toDateIsAfterFromDate: Constraint[(LocalDate, LocalDate)] = Constraint("constraints.steppedDetails.toAfterFrom") {
     case (stepFrom, stepTo) =>
       val cond = stepTo.isAfter(stepFrom)
       createFieldConstraintFor(cond, Errors.toDateIsAfterFromDate, Seq(s"${keys.to}.day"))
@@ -70,7 +70,7 @@ object PageSixForm {
     index -> tuple(
       keys.from -> dateFieldsMapping(s"$index.stepFrom", allowFutureDates = true),
       keys.to -> dateFieldsMapping(s"$index.stepTo", allowFutureDates = true)
-    ).verifying(toDateIsAfterFromDate(index)),
+    ).verifying(toDateIsAfterFromDate),
     (index + "." + keys.amount) -> currency
   )((dates, amount) => SteppedDetails(dates._1, dates._2, amount))(stepped => Option((stepped.stepFrom, stepped.stepTo), stepped.amount))
 
