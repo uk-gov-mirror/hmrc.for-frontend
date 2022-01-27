@@ -20,7 +20,8 @@ import form.DateMappings._
 import form.MappingSupport._
 import models.pages.{PageSix, _}
 import models.serviceContracts.submissions._
-import play.api.data.Forms.{mapping, nonEmptyText, optional}
+import org.joda.time.LocalDate
+import play.api.data.Forms.{mapping, nonEmptyText, optional, tuple}
 import play.api.data._
 import play.api.data.validation.Constraint
 import uk.gov.voa.play.form.ConditionalMappings._
@@ -44,11 +45,12 @@ object PageSixForm {
     val rentOpenEnded = "rentOpenEnded"
   }
 
-  def toDateIsAfterFromDate(index: String): Constraint[SteppedDetails] = Constraint("constraints.steppedDetails.toAfterFrom") { steppedDetails => {
-    val cond = steppedDetails.stepTo.isAfter(steppedDetails.stepFrom)
-    createFieldConstraintFor(cond, Errors.toDateIsAfterFromDate, Seq(s"$index.${keys.to}.day"))
+  def toDateIsAfterFromDate: Constraint[(LocalDate, LocalDate)] = Constraint("constraints.steppedDetails.toAfterFrom") {
+    case (stepFrom, stepTo) =>
+      val cond = stepTo.isAfter(stepFrom)
+      createFieldConstraintFor(cond, Errors.toDateIsAfterFromDate, Seq(s"${keys.to}.day"))
   }
-  }
+
 
   def noOverlappingSteps: Constraint[WrittenAgreement] = Constraint("constraints.steppedDetails.overlappingSteps") { writtenAgreement => {
     val steppedDetails = writtenAgreement.steppedDetails
@@ -65,14 +67,17 @@ object PageSixForm {
   }
 
   val steppedDetailsMapping = (index: String) => mapping(
-    (index + "." + keys.from) -> dateFieldsMapping(s"$index.stepFrom", allowFutureDates = true),
-    (index + "." + keys.to) -> dateFieldsMapping(s"$index.stepTo", allowFutureDates = true),
+    index -> tuple(
+      keys.from -> dateFieldsMapping(s"$index.stepFrom", allowFutureDates = true),
+      keys.to -> dateFieldsMapping(s"$index.stepTo", allowFutureDates = true)
+    ).verifying(toDateIsAfterFromDate),
     (index + "." + keys.amount) -> currency
-  )(SteppedDetails.apply)(SteppedDetails.unapply).verifying(toDateIsAfterFromDate(index))
+  )((dates, amount) => SteppedDetails(dates._1, dates._2, amount))(stepped => Option((stepped.stepFrom, stepped.stepTo), stepped.amount))
 
   val written = keys.writtenAgreement
 
-  val steppedDetailsListMapping = IndexedMapping(s"$written.steppedDetails", steppedDetailsMapping).verifying(Errors.tooManySteppedRents, _.length <= 7)
+  val steppedDetailsListMapping = IndexedMapping(s"$written.steppedDetails", steppedDetailsMapping, alwaysValidateFirstIndex = true)
+    .verifying(Errors.tooManySteppedRents, _.length <= 7)
 
   val writtenAgreementMapping = mapping(
     keys.startDate -> monthYearRoughDateMapping(s"$written.${keys.startDate}"),
