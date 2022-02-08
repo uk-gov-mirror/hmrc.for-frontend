@@ -19,7 +19,7 @@ package helpers
 import connectors.Audit
 import models.pages.{PageFour, SubletDetails, Summary}
 import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, SubletPart}
-import models.{LookupServiceAddress, RoughDate}
+import models.RoughDate
 import org.joda.time.DateTime
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
@@ -81,7 +81,6 @@ class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoS
 
 object TestData {
   val propertyAddress = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
-  val fromPostcodeLookup = LookupServiceAddress("1 The Road", Some("The Town"), None, "AA11 1AA", "GB1234567890")
   val unchanged = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
   val manual = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
   val oneLineChanged = Address("1A The Road", Some("The Town"), None, "AA11 1AA")

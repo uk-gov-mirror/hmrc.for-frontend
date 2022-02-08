@@ -58,9 +58,6 @@ GET         /409                       controllers.ApplicationController.error40
 GET         /410                       controllers.ApplicationController.error410
 GET         /500                       controllers.ApplicationController.error500
 
-# LOOKUP API
-GET         /lookup                    controllers.AddressLookup.getAddress(postcode:String)
-
 # SURVEY
 GET         /survey                         controllers.feedback.SurveyController.onPageView(journey: String)
 POST        /survey                         controllers.feedback.SurveyController.formCompleteFeedback
