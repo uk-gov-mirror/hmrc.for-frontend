@@ -1,11 +1,11 @@
 
 import play.core.PlayVersion
+import scoverage.ScoverageKeys
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
 import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
-lazy val scoverageSettings = {
-  import scoverage.ScoverageKeys
+val scoverageSettings = {
   Seq(
     // Semicolon-separated list of regexs matching classes to exclude
     ScoverageKeys.coverageExcludedPackages := """<empty>;uk\.gov\.hmrc\.BuildInfo;""" +
@@ -19,18 +19,15 @@ lazy val scoverageSettings = {
   )
 }
 
-lazy val compileDeps = Seq(
+val compileDeps = Seq(
   filters,
   ws,
   "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.20.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.3.0-play-28",
-  "uk.gov.hmrc" %% "json-encryption" % "4.11.0-play-28",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.4.0-play-28",
   "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.11.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.2.0-play-28",
-  "uk.gov.hmrc" %% "url-builder" % "3.5.0-play-28",
   "uk.gov.hmrc" %% "mongo-caching" % "7.1.0-play-28",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "8.0.0-play-28",
   "com.typesafe.play" %% "play-json-joda" % "2.9.2",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.22",
@@ -39,8 +36,8 @@ lazy val compileDeps = Seq(
 )
 
 val scalatestPlusPlayVersion = "5.1.0"
-val scalatestVersion = "3.2.10"
-val mockitoScalaVersion = "1.16.46"
+val scalatestVersion = "3.2.11"
+val mockitoScalaVersion = "1.17.0"
 val flexmarkVersion = "0.62.2"
 
 def testDeps(scope: String) = Seq(
@@ -50,6 +47,7 @@ def testDeps(scope: String) = Seq(
   "org.mockito" %% "mockito-scala-scalatest" % mockitoScalaVersion % scope,
   "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope // for scalatest 3.1+
 )
+
 lazy val root = (project in file("."))
   .settings(scalaSettings: _*)
   .settings(defaultSettings(): _*)

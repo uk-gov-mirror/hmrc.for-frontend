@@ -26,6 +26,7 @@ import models.serviceContracts.submissions.{NotConnected, NotConnectedSubmission
 import play.api.libs.json.Json
 import play.api.mvc.MessagesControllerComponents
 import play.api.Logger
+import play.api.i18n.Messages
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -127,7 +128,7 @@ class NotConnectedCheckYourAnswersController @Inject()
     }
   }
 
-  private def submitToHod(summary: Summary)(implicit hc: HeaderCarrier) = {
+  private def submitToHod(summary: Summary)(implicit hc: HeaderCarrier, messages: Messages) = {
     getNotConnectedFromCache.flatMap { notConnected =>
       getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
         val submission = NotConnectedSubmission(
@@ -138,7 +139,8 @@ class NotConnectedCheckYourAnswersController @Inject()
           notConnected.phoneNumber,
           notConnected.additionalInformation,
           Instant.now(),
-          previouslyConnected.previouslyConnected
+          previouslyConnected.previouslyConnected,
+          messages.lang.language
         )
 
         submissionConnector.submitNotConnected(summary.referenceNumber, submission)
