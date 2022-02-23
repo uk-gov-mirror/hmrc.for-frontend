@@ -21,28 +21,10 @@ import models.serviceContracts.submissions._
 import play.api.data.Forms._
 import play.api.data.validation._
 import play.api.data.{FormError, Forms, Mapping}
-import uk.gov.voa.play.form.ConditionalMappings._
 import ConditionalMapping._
+import play.api.data.validation.Constraints.{maxLength, minLength, nonEmpty, pattern}
 
 object MappingSupport {
-
-  def checkEmail(prefix: String, contactDetails: ContactDetails): ValidationResult =
-    checkFieldConstraint(contactDetails.email.isDefined, prefix + "email1", Errors.contactEmailRequired)
-
-  def checkPhone(prefix: String, contactDetails: ContactDetails): ValidationResult =
-    checkFieldConstraint(contactDetails.phone.isDefined, prefix + "phone", Errors.contactPhoneRequired)
-
-  val emailsMatch: Constraint[ContactDetails] = Constraint("constraints.emails.match")({ contactDetails => {
-    val cond = contactDetails.email == contactDetails.emailConfirmed
-    createFieldConstraintFor(cond, "email.mismatch", Seq("email1", "email2"))
-  }
-  })
-  def emailsNotTooLong(maxLength: Int): Constraint[ContactDetails] = Constraint("constraints.emails.tooLong")({ contactDetails => {
-    val cond = (contactDetails.email.isEmpty || contactDetails.email.get.length <= maxLength) &&
-      (contactDetails.emailConfirmed.isEmpty || contactDetails.emailConfirmed.get.length <= maxLength)
-    createFieldConstraintFor(cond, "email.tooLong", Seq("email1", "email2"))
-  }
-  })
 
   val positiveBigDecimal = bigDecimal
     .verifying("error.BigDecimal_negative", _ >= 0.0000)
@@ -81,7 +63,6 @@ object MappingSupport {
   val postcodeRegex = """(GIR ?0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKPSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) ?[0-9][A-Z-[CIKMOV]]{2})""" //scalastyle:ignore
   val phoneRegex = """^^[0-9\s\+()-]+$"""
   val userType: Mapping[UserType] = Forms.of[UserType]
-  val contactType: Mapping[ContactType] = Forms.of[ContactType]
   val contactAddressType: Mapping[ContactAddressType] = Forms.of[ContactAddressType]
   val propertyType: Mapping[PropertyType] = Forms.of[PropertyType]
   val occupierType: Mapping[OccupierType] = Forms.of[OccupierType]
@@ -125,24 +106,19 @@ object MappingSupport {
     "postcode" -> default(text(maxLength = 10), "")
   )(Address.apply)(Address.unapply)
 
-  def contactDetailsMappingFor(contactTypeField: String): Mapping[ContactDetails] = {
+  val contactDetailsMapping: Mapping[ContactDetails] =
     mapping(
-      "phone" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypePhone.name),
-        nonEmptyTextOr("contactDetails.phone", phoneNumber)),
-      "email1" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypeEmail.name), email),
-      "email2" -> mandatoryIfAnyOf(contactTypeField, Seq(ContactTypeEmail.name), email)
-    )(ContactDetails.apply)(ContactDetails.unapply) verifying (emailsMatch, emailsNotTooLong(50))
-  }
-
-  val alternativeContactDetailsMapping = mapping(
-    "phone" -> optional(phoneNumber),
-    "email1" -> optional(email),
-    "email2" -> optional(email)
-  )((p, e1, e2) =>
-    ContactDetails(p, e1, e2)
-  )(details =>
-    Some((details.phone, details.email, details.emailConfirmed))
-  ) verifying emailsMatch
+      "phone" -> default(text, "").verifying(
+        nonEmpty(errorMessage = Errors.contactPhoneRequired),
+        pattern(phoneRegex.r, error = Errors.invalidPhone),
+        minLength(11, "error.contact.phone.minLength"),
+        maxLength(20, "error.contact.phone.maxLength")
+      ),
+      "email1" -> default(email, "").verifying(
+        nonEmpty(errorMessage = Errors.contactEmailRequired),
+        maxLength(50, "contactDetails.email1.email.tooLong")
+      )
+    )(ContactDetails.apply)(ContactDetails.unapply)
 
   def parkingDetailsMapping(key: String): Mapping[ParkingDetails] = mapping(
     "openSpaces" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999),
