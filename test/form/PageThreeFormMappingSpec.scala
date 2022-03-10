@@ -43,8 +43,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.firstOccupationDateMonth - keys.firstOccupationDateYear
     val form = bind(dataMap)
 
-    mustContainRequiredErrorFor(keys.firstOccupationDateMonth, form)
-    mustContainRequiredErrorFor(keys.firstOccupationDateYear, form)
+    mustContainError(keys.firstOccupationDateMonth, "error.month.required", form)
+    mustContainError(keys.firstOccupationDateYear, "error.year.required", form)
     form.errors.size should be(2)
   }
 
@@ -52,8 +52,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeIndividuals.name) - keys.firstOccupationDateMonth - keys.firstOccupationDateYear
     val form = bind(dataMap)
 
-    mustContainRequiredErrorFor(keys.firstOccupationDateMonth, form)
-    mustContainRequiredErrorFor(keys.firstOccupationDateYear, form)
+    mustContainError(keys.firstOccupationDateMonth, "error.month.required", form)
+    mustContainError(keys.firstOccupationDateYear, "error.year.required", form)
   }
 
   "Page Three mapping" should "allow up to 100 letters, numbers, spaces, and special characters for 'Other' property type details" in {
