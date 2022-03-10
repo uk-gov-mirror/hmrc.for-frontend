@@ -88,15 +88,17 @@ object DateMappings {
   )
 
   //  for precise dates, where all fields must be present and accurate
-  def dateFieldsMapping(prefix: String, allowFutureDates: Boolean = false, errorMessage: String = Errors.invalidDate): Mapping[LocalDate] = tuple(
+  def dateFieldsMapping(prefix: String, allowFutureDates: Boolean = false, errorMessage: String = Errors.invalidDate, fieldErrorPart: String = ""): Mapping[LocalDate] = tuple(
     "day" -> nonEmptyTextOr(
       prefix + ".day", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 31)
     ),
     "month" -> nonEmptyTextOr(
-      prefix + ".month", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12)
+      prefix + ".month", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12),
+      s"error$fieldErrorPart.month.required"
     ),
     "year" -> nonEmptyTextOr(
-      prefix + ".year", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4)
+      prefix + ".year", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4),
+      s"error$fieldErrorPart.year.required"
     )).verifying(
       if(allowFutureDates) fullDateIsAfter1900 else fullDateIsInPastAndAfter1900
     ).transform(
