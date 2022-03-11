@@ -74,7 +74,7 @@ trait CurrencySpecs { this: CommonSpecs =>
 
   private def validateWeeklyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
     val data = formData.updated(s"$field.rentLengthType", RentLengthTypeWeekly.name)
-    
+
     val valid = Seq("192307.69", "1", "250", "55421")
     validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
 
@@ -84,7 +84,7 @@ trait CurrencySpecs { this: CommonSpecs =>
 
   private def validateMonthlyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
     val data = formData.updated(s"$field.rentLengthType", RentLengthTypeMonthly.name)
-    
+
     val valid = Seq("833333.33", "1", "250", "55421")
     validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
 
@@ -94,7 +94,7 @@ trait CurrencySpecs { this: CommonSpecs =>
 
   private def validateQuarterlyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
     val data = formData.updated(s"$field.rentLengthType", RentLengthTypeQuarterly.name)
-    
+
     val valid = Seq("2499999.99", "1", "250", "55421")
     validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
 
@@ -148,7 +148,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     yearMustBe1900OrLater(field, form, formData, fieldErrorPart)
     ignoresLeadingAndTraillingWhitespace(field, form, formData)
   }
-  
+
   private def validateDay[T](field: String, form: Form[T], formData: Map[String, String]) {
     dayCanOnlyBe1to31(field, form, formData)
     cannotBeEmptyString(field + ".day", form, formData)
@@ -270,7 +270,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
       doesNotContainErrors(f)
     }
   }
-  
+
   def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String]) {
 
     val invalid = Seq(
@@ -281,7 +281,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
       val f = updateFullDateAndBind(field, iv, form, formData)
       mustOnlyContainError(field, Errors.invalidDate, f)
     }
-    
+
     val valid = Seq(
       ("29", "2", "2012"),
       ("31", "8", "2015"),
@@ -375,9 +375,9 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
 
   private def withAddressValues(m: Map[String, String], prefix: String): Map[String, String] = {
     m.updated(prefix + addressKeys.buildingNameOrNumber, "123 Nice House")
-     .updated(prefix + addressKeys.street1, "A long street")
-     .updated(prefix + addressKeys.street2, "A small grove")
-     .updated(prefix + addressKeys.postcode, "RU45 9LS")
+      .updated(prefix + addressKeys.street1, "A long street")
+      .updated(prefix + addressKeys.street2, "A small grove")
+      .updated(prefix + addressKeys.postcode, "RU45 9LS")
   }
 
   private def validateAddressLine[T](field: String, form: Form[T], formData: Map[String, String],
@@ -432,7 +432,7 @@ trait CommonSpecs {
       val d = formData.updated(field, v)
       val f = form.bind(d).convertGlobalToFieldErrors()
       doesNotContainErrors(f)
-    } 
+    }
   }
 
   protected def cannotBeEmptyString[T](field: String, form: Form[T], formData: Map[String, String]) {
