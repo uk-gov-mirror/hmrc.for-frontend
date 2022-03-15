@@ -43,7 +43,7 @@ object MappingSupport {
     .verifying(nonEmpty(errorMessage = Errors.required + fieldErrorPart))
     .verifying(Errors.invalidCurrency + fieldErrorPart, x => x == "" || ((x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000))
     .transform({ s: String => BigDecimal(s.replace(",", "")) }, { v: BigDecimal => v.toString })
-    .verifying(Errors.maxCurrencyAmountExceeded, _ <= cdbMaxCurrencyAmount)
+    .verifying(Errors.maxCurrencyAmountExceeded + fieldErrorPart, _ <= cdbMaxCurrencyAmount)
 
   val nonNegativeCurrency: Mapping[BigDecimal] = text
     .verifying(Errors.invalidCurrency, x => (x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000)

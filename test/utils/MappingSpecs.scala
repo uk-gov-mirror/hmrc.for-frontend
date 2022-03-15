@@ -105,7 +105,7 @@ trait CurrencySpecs { this: CommonSpecs =>
   def validateCurrency[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
     validateError(field, invalidCurrencyValues, Errors.invalidCurrency + fieldErrorPart, form, formData)
     validateNoError(field, validCurrencyValues, form, formData)
-    validateDoesNotExceedMaxCurrencyAmount(field, form, formData)
+    validateDoesNotExceedMaxCurrencyAmount(field, form, formData, fieldErrorPart)
   }
 
   def validateNonNegativeCurrency[T](field: String, form: Form[T], formData: Map[String, String]) {
@@ -115,8 +115,8 @@ trait CurrencySpecs { this: CommonSpecs =>
     validateDoesNotExceedMaxCurrencyAmount(field, form, formData)
   }
 
-  def validateDoesNotExceedMaxCurrencyAmount[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
-    validateError(field, excessiveCurrencyValues, Errors.maxCurrencyAmountExceeded, form, formData)
+  def validateDoesNotExceedMaxCurrencyAmount[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
+    validateError(field, excessiveCurrencyValues, Errors.maxCurrencyAmountExceeded + fieldErrorPart, form, formData)
   }
 }
 
@@ -134,9 +134,9 @@ trait DateMappingSpecs { this: CommonSpecs =>
     mustBeInPast(field, form, formData, fieldErrorPart)
   }
 
-  def validateDate[T](field: String, form: Form[T], formData: Map[String, String]) {
-    validateAnyDate(field, form, formData)
-    validateDay(field, form, formData)
+  def validateDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    validateAnyDate(field, form, formData, fieldErrorPart)
+    validateDay(field, form, formData, fieldErrorPart)
     dateMayBeInFuture(field, form, formData)
   }
 
@@ -149,10 +149,10 @@ trait DateMappingSpecs { this: CommonSpecs =>
     ignoresLeadingAndTraillingWhitespace(field, form, formData)
   }
 
-  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
     dayCanOnlyBe1to31(field, form, formData)
-    cannotBeEmptyString(field + ".day", form, formData)
-    mustBeValidDayInMonth(field, form, formData)
+    containError(field + ".day", s"error$fieldErrorPart.day.required", form, formData)
+    mustBeValidDayInMonth(field, form, formData, fieldErrorPart)
   }
 
   private def dayCanOnlyBe1to31[T](field: String, form: Form[T], formData: Map[String, String]) {
@@ -271,7 +271,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     }
   }
 
-  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String]) {
+  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
 
     val invalid = Seq(
       ("29", "2", "2015"),
@@ -279,7 +279,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     )
     invalid foreach { iv =>
       val f = updateFullDateAndBind(field, iv, form, formData)
-      mustOnlyContainError(field, Errors.invalidDate, f)
+      mustOnlyContainError(field, Errors.invalidDate + fieldErrorPart, f)
     }
 
     val valid = Seq(
@@ -304,9 +304,9 @@ trait DateMappingSpecs { this: CommonSpecs =>
 
 trait DurationMappingSpecs { this: CommonSpecs =>
 
-  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String]) = {
-    cannotBeEmptyString(prefix + ".years", form, formData)
-    cannotBeEmptyString(prefix + ".months", form, formData)
+  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    containError(prefix + ".years", s"error$fieldErrorPart.years.required", form, formData)
+    containError(prefix + ".months", s"error$fieldErrorPart.months.required", form, formData)
     monthDurationCanOnlyBeUpTo12(prefix, form, formData)
     yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
   }
