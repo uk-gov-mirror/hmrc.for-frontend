@@ -469,6 +469,15 @@ error.isRentResultOfReview.required=Dewiswch ‘Ydy’ os yw’r rhent cyfredol 
 error.rentWasAgreedBetween.required=Dewiswch ‘Do’ os cafodd y rhent ei bennu rhwng y tenant a’r landlord
 error.rentWasFixedBy.required=Dewiswch gan bwy y cafodd y rhent ei bennu
 
+error.rentReviewIntervalOther.years.required = Mae’n rhaid llenwi hwn
+error.rentReviewIntervalOther.months.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.lastRentReviewDate = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_must_be_in_past.lastRentReviewDate = Mae’n rhaid i’r dyddiad fod yn y gorffennol
+error.rentResultOfReview.month.required = Mae’n rhaid llenwi hwn
+error.rentResultOfReview.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.rentResultOfReview = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_must_be_in_past.rentResultOfReview = Mae’n rhaid i’r dyddiad fod yn y gorffennol
+
 #SECTION 8
 ###############################
 section8.heading=Sut cafodd y rhent ei bennu

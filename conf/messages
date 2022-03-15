@@ -454,6 +454,15 @@ error.isRentResultOfReview.required=Select ‘Yes’ if the current rent is a re
 error.rentWasAgreedBetween.required=Select ‘Yes’ if the rent was fixed between the tenant and landlord
 error.rentWasFixedBy.required=Select who the rent was fixed by
 
+error.rentReviewIntervalOther.years.required = Enter how many years between rent reviews
+error.rentReviewIntervalOther.months.required = Enter how many months between rent reviews
+error.date_before_1900.lastRentReviewDate = The last review date must be between January 1900 and today
+error.date_must_be_in_past.lastRentReviewDate = The last review date must be between January 1900 and today
+error.rentResultOfReview.month.required = Enter the month of the rent review
+error.rentResultOfReview.year.required = Enter the year of the rent review
+error.date_before_1900.rentResultOfReview = The rent review date must be between January 1900 and today
+error.date_must_be_in_past.rentResultOfReview = The rent review date must be between January 1900 and today
+
 #SECTION 8
 ###############################
 section8.heading=How the rent was fixed
