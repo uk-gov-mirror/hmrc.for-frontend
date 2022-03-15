@@ -134,9 +134,9 @@ trait DateMappingSpecs { this: CommonSpecs =>
     mustBeInPast(field, form, formData, fieldErrorPart)
   }
 
-  def validateDate[T](field: String, form: Form[T], formData: Map[String, String]) {
-    validateAnyDate(field, form, formData)
-    validateDay(field, form, formData)
+  def validateDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    validateAnyDate(field, form, formData, fieldErrorPart)
+    validateDay(field, form, formData, fieldErrorPart)
     dateMayBeInFuture(field, form, formData)
   }
 
@@ -152,7 +152,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
   private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
     dayCanOnlyBe1to31(field, form, formData)
     containError(field + ".day", s"error$fieldErrorPart.day.required", form, formData)
-    mustBeValidDayInMonth(field, form, formData)
+    mustBeValidDayInMonth(field, form, formData, fieldErrorPart)
   }
 
   private def dayCanOnlyBe1to31[T](field: String, form: Form[T], formData: Map[String, String]) {
@@ -271,7 +271,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     }
   }
 
-  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String]) {
+  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
 
     val invalid = Seq(
       ("29", "2", "2015"),
@@ -279,7 +279,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     )
     invalid foreach { iv =>
       val f = updateFullDateAndBind(field, iv, form, formData)
-      mustOnlyContainError(field, Errors.invalidDate, f)
+      mustOnlyContainError(field, Errors.invalidDate + fieldErrorPart, f)
     }
 
     val valid = Seq(
