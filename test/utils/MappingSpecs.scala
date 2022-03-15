@@ -105,7 +105,7 @@ trait CurrencySpecs { this: CommonSpecs =>
   def validateCurrency[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
     validateError(field, invalidCurrencyValues, Errors.invalidCurrency + fieldErrorPart, form, formData)
     validateNoError(field, validCurrencyValues, form, formData)
-    validateDoesNotExceedMaxCurrencyAmount(field, form, formData)
+    validateDoesNotExceedMaxCurrencyAmount(field, form, formData, fieldErrorPart)
   }
 
   def validateNonNegativeCurrency[T](field: String, form: Form[T], formData: Map[String, String]) {
@@ -115,8 +115,8 @@ trait CurrencySpecs { this: CommonSpecs =>
     validateDoesNotExceedMaxCurrencyAmount(field, form, formData)
   }
 
-  def validateDoesNotExceedMaxCurrencyAmount[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
-    validateError(field, excessiveCurrencyValues, Errors.maxCurrencyAmountExceeded, form, formData)
+  def validateDoesNotExceedMaxCurrencyAmount[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
+    validateError(field, excessiveCurrencyValues, Errors.maxCurrencyAmountExceeded + fieldErrorPart, form, formData)
   }
 }
 
@@ -149,9 +149,9 @@ trait DateMappingSpecs { this: CommonSpecs =>
     ignoresLeadingAndTraillingWhitespace(field, form, formData)
   }
 
-  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
     dayCanOnlyBe1to31(field, form, formData)
-    cannotBeEmptyString(field + ".day", form, formData)
+    containError(field + ".day", s"error$fieldErrorPart.day.required", form, formData)
     mustBeValidDayInMonth(field, form, formData)
   }
 
@@ -304,9 +304,9 @@ trait DateMappingSpecs { this: CommonSpecs =>
 
 trait DurationMappingSpecs { this: CommonSpecs =>
 
-  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String]) = {
-    cannotBeEmptyString(prefix + ".years", form, formData)
-    cannotBeEmptyString(prefix + ".months", form, formData)
+  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    containError(prefix + ".years", s"error$fieldErrorPart.years.required", form, formData)
+    containError(prefix + ".months", s"error$fieldErrorPart.months.required", form, formData)
     monthDurationCanOnlyBeUpTo12(prefix, form, formData)
     yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
   }

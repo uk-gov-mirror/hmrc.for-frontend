@@ -291,6 +291,7 @@ error.subletPropertyReasonDescription.required = Mae’n rhaid llenwi hwn
 error.subletPropertyReasonDescription.maxLength = Rhaid i fod yn 100 nod neu lai
 error.required.sublet.annualRent = Mae’n rhaid llenwi hwn
 error.invalid_currency.sublet.annualRent = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.maxCurrencyAmountExceeded.sublet.annualRent = Rydych wedi mynd heibio’r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
 error.date_must_be_in_past.sublet.rentFixedDate = Mae’n rhaid i’r dyddiad fod yn y gorffennol
 error.date_before_1900.sublet.rentFixedDate = Mae’n rhaid i hwn fod o 1900 ymlaen
 
@@ -416,6 +417,24 @@ error.leaseType.required=Dewiswch y math o brydles neu gytundeb
 error.leaseOpenEnded.required=Dewiswch ‘Ydy’ os yw’r cytundeb cyfredol yn benagored
 error.leaseHasBreakClause.required=Dewiswch ‘Ydy’ os gellir dod â’r cytundeb cyfredol i ben yn gynnar
 error.steppedRent.required=Dewiswch ‘Ydy’ os yw’r rhent yn seiliedig ar gytundeb rhent grisiog
+
+error.writtenAgreement.startDate.month.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.startDate.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.writtenAgreement.startDate = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.writtenAgreement.leaseLength.months.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.leaseLength.years.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.breakClauseDetails.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.breakClauseDetails.maxLength = Rhaid i fod yn 124 nod neu lai
+error.required.writtenAgreement.steppedDetails.amount = Mae’n rhaid llenwi hwn
+error.invalid_currency.writtenAgreement.steppedDetails.amount = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.writtenAgreement.steppedDetails.stepFrom.day.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.steppedDetails.stepFrom.month.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.steppedDetails.stepFrom.year.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.steppedDetails.stepTo.day.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.steppedDetails.stepTo.month.required = Mae’n rhaid llenwi hwn
+error.writtenAgreement.steppedDetails.stepTo.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.writtenAgreement.steppedDetails.stepFrom = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_before_1900.writtenAgreement.steppedDetails.stepTo = Mae’n rhaid i hwn fod o 1900 ymlaen
 
 #SECTION 7
 ###############################
@@ -911,6 +930,9 @@ error.invalid_number = Mae’n rhaid i hwn ddefnyddio rhifau
 error.date_before_1900=Mae’n rhaid i hwn fod o 1900 ymlaen
 error.duration.years=Ni all hwn fod yn fwy na 999
 error.duration.months=Ni all hwn fod yn fwy na 12
+error.months.required = Mae’n rhaid llenwi hwn
+error.years.required = Mae’n rhaid llenwi hwn
+
 error.too_many_stepped_rents=Gallwch ond rhoi saith cam
 error.too_many_services=Gallwch ond rhoi manylion 10 o wasanaethau
 error.too_many_alterations=Gallwch ond rhoi manylion 10 o addasiadau

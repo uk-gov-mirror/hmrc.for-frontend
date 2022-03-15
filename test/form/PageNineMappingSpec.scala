@@ -48,13 +48,13 @@ class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
   }
   checkMissingField(keys.annualRentExcludingVat)
 
-  checkMissingField(keys.rentActuallyAgreedDay)
+  checkMissingField(keys.rentActuallyAgreedDay, "error.day.required")
   checkMissingField(keys.rentActuallyAgreedYear, "error.year.required")
   checkMissingField(keys.rentActuallyAgreedMonth, "error.month.required")
 
   checkMissingField(keys.negotiatingNewRent, Errors.negotiatingNewRentRequired)
   checkMissingField(keys.rentBasedOn, Errors.rentBasedOnRequired)
-  checkMissingField(keys.rentBecomePayableDay)
+  checkMissingField(keys.rentBecomePayableDay, "error.day.required")
   checkMissingField(keys.rentBecomePayableYear, "error.year.required")
   checkMissingField(keys.rentBecomePayableMonth, "error.month.required")
 

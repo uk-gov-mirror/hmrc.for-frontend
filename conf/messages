@@ -296,6 +296,7 @@ error.subletPropertyReasonDescription.required = Enter what the property is used
 error.subletPropertyReasonDescription.maxLength = The property use must be 100 characters or fewer
 error.required.sublet.annualRent = Enter how much rent is paid
 error.invalid_currency.sublet.annualRent = The rent paid must be a number
+error.maxCurrencyAmountExceeded.sublet.annualRent = Maximum amount exceeded - please contact the VOA
 error.date_must_be_in_past.sublet.rentFixedDate = The date the let or sub-let started must be in the past
 error.date_before_1900.sublet.rentFixedDate = The date the let or sub-let started must be after December 1899
 
@@ -401,6 +402,24 @@ error.leaseType.required=Select the type of lease or agreement
 error.leaseOpenEnded.required=Select ‘Yes’ if the current agreement is open-ended
 error.leaseHasBreakClause.required=Select ‘Yes’ if the current agreement can be ended early
 error.steppedRent.required=Select ‘Yes’ if the rent is based on a stepped-rent agreement
+
+error.writtenAgreement.startDate.month.required = The date the current agreement started must include a month
+error.writtenAgreement.startDate.year.required = The date the current agreement started must include a year
+error.date_before_1900.writtenAgreement.startDate = The date the current agreement started must be after December 1899
+error.writtenAgreement.leaseLength.months.required = Enter how many months the current agreement is for
+error.writtenAgreement.leaseLength.years.required = Enter how many years the current agreement is for
+error.writtenAgreement.breakClauseDetails.required = Enter the details of the break clause
+error.writtenAgreement.breakClauseDetails.maxLength = Details of the break clause must be 124 characters or fewer
+error.required.writtenAgreement.steppedDetails.amount = Enter the current annual rent
+error.invalid_currency.writtenAgreement.steppedDetails.amount = The rent must be a number between 1 and 9999999
+error.writtenAgreement.steppedDetails.stepFrom.day.required = The date rent step starts must include a day
+error.writtenAgreement.steppedDetails.stepFrom.month.required = The date the rent step starts must include a month
+error.writtenAgreement.steppedDetails.stepFrom.year.required = The date the rent step starts must include a year
+error.writtenAgreement.steppedDetails.stepTo.day.required = The date rent step ends must include a day
+error.writtenAgreement.steppedDetails.stepTo.month.required = The date the rent step ends must include a month
+error.writtenAgreement.steppedDetails.stepTo.year.required = The date the rent step ends must include a year
+error.date_before_1900.writtenAgreement.steppedDetails.stepFrom = The date the rent step starts must be on or after 1 January 1900
+error.date_before_1900.writtenAgreement.steppedDetails.stepTo = The date the rent step ends must be on or after 1 January 1900
 
 #SECTION 7
 ###############################
@@ -902,9 +921,11 @@ error.invalid_date = Enter a valid date
 error.date_must_be_in_past = Date must be in the past
 error.number = This must be a number
 error.invalid_number = This must be a number
-error.date_before_1900 = Date must be after December 1899
-error.duration.years=This can be no more than 999
-error.duration.months=This can be no more than 12
+error.date_before_1900 = Date must be on or after 1 January 1900
+error.duration.years = Years must be a number between 0 and  999
+error.duration.months = Months must be a number between 0 and 12
+error.months.required = Enter months amount
+error.years.required = Enter years amount
 
 error.too_many_stepped_rents=You can only provide 7 steps
 error.too_many_services=You can only provide details of 10 services
@@ -922,6 +943,7 @@ error.line2.maxLength = Second line of address must be 50 characters or fewer
 error.line3.maxLength = Third line of address must be 50 characters or fewer
 error.postcode.required = Enter the postcode
 error.postcode.maxLength = Postcode must be 10 characters or fewer
+error.day.required = The date must include a day
 error.month.required = The date must include a month
 error.year.required = The date must include a year
 
