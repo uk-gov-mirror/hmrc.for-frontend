@@ -523,6 +523,25 @@ label.noJs.rentBasedOnDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Arall�
 error.negotiatingNewRent.required=Dewiswch ‘Ydy’ os yw’r tenant neu’r asiant yn negodi rhent newydd
 error.rentBaseOn.required=Dewiswch beth mae’r rhent yn seiliedig arno
 
+error.required.annualRentExcludingVat = Mae’n rhaid llenwi hwn
+error.invalid_currency.annualRentExcludingVat = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.maxCurrencyAmountExceeded.annualRentExcludingVat = Rydych wedi mynd heibio’r terfyn - cysylltwch ag Asiantaeth y Swyddfa Brisio
+
+error.rentBasedOnDetails.required = Mae’n rhaid llenwi hwn
+error.rentBasedOnDetails.maxLength = Rhaid i fod yn 250 nod neu lai
+
+error.rentBecomePayable.day.required = Mae’n rhaid llenwi hwn
+error.rentBecomePayable.month.required = Mae’n rhaid llenwi hwn
+error.rentBecomePayable.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.rentBecomePayable = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_must_be_in_past.rentBecomePayable = Mae’n rhaid i’r dyddiad fod yn y gorffennol
+
+error.rentActuallyAgreed.day.required = Mae’n rhaid llenwi hwn
+error.rentActuallyAgreed.month.required = Mae’n rhaid llenwi hwn
+error.rentActuallyAgreed.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.rentActuallyAgreed = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_must_be_in_past.rentActuallyAgreed = Mae’n rhaid i’r dyddiad fod yn y gorffennol
+
 #SECTION 10
 ###############################
 section10.heading=Beth mae’r rhent yn ei gynnwys

@@ -34,7 +34,7 @@ object MappingSupport {
   val cdbMaxCurrencyAmount = 9999999.99
 
   lazy val annualRent: Mapping[AnnualRent] = mapping(
-    "annualRentExcludingVat" -> currency
+    "annualRentExcludingVat" -> currencyMapping(".annualRentExcludingVat")
   )(AnnualRent.apply)(AnnualRent.unapply).verifying(Errors.maxCurrencyAmountExceeded, _.amount <= cdbMaxCurrencyAmount)
 
   val currency: Mapping[BigDecimal] = currencyMapping()
