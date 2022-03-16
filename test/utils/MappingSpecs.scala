@@ -66,40 +66,22 @@ trait CurrencySpecs { this: CommonSpecs =>
 
   val validCurrencyValues = Seq("1", "22.2", "24.35", "10000.88", "20000", "2222222.22", "22,000.55", "9999999.99")
 
-  def validateAnnualRent[T](field: String, form: Form[T], formData: Map[String, String]) {
-    validateWeeklyRentalPeriod(field, form, formData)
-    validateMonthlyRentalPeriod(field, form, formData)
-    validateQuarterlyRentalPeriod(field, form, formData)
+  val validAmount = Seq("192307.69", "1", "250", "55421")
+  val exceededMax = Seq("10000000", "10000001", "19999999.99")
+
+  def validateAnnualRent[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    checkAnnualRentAmount(RentLengthTypeWeekly, field, form, formData, fieldErrorPart)
+    checkAnnualRentAmount(RentLengthTypeMonthly, field, form, formData, fieldErrorPart)
+    checkAnnualRentAmount(RentLengthTypeQuarterly, field, form, formData, fieldErrorPart)
   }
 
-  private def validateWeeklyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
-    val data = formData.updated(s"$field.rentLengthType", RentLengthTypeWeekly.name)
+  private def checkAnnualRentAmount[T](rentLengthType: RentLengthType, field: String, form: Form[T],
+                                       formData: Map[String, String], fieldErrorPart: String) {
+    val data = formData.updated(s"$field.rentLengthType", rentLengthType.name)
+    val annualRentField = s"$field.annualRentExcludingVat"
 
-    val valid = Seq("192307.69", "1", "250", "55421")
-    validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
-
-    val invalid = Seq("192307.70", "9000000", "250000")
-    validateError(s"$field.annualRentExcludingVat", invalid, Errors.maxCurrencyAmountExceeded, form, data, Some(field))
-  }
-
-  private def validateMonthlyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
-    val data = formData.updated(s"$field.rentLengthType", RentLengthTypeMonthly.name)
-
-    val valid = Seq("833333.33", "1", "250", "55421")
-    validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
-
-    val invalid = Seq("833333.34", "9000000")
-    validateError(s"$field.annualRentExcludingVat", invalid, Errors.maxCurrencyAmountExceeded, form, data, Some(field))
-  }
-
-  private def validateQuarterlyRentalPeriod[T](field: String, form: Form[T], formData: Map[String, String]) {
-    val data = formData.updated(s"$field.rentLengthType", RentLengthTypeQuarterly.name)
-
-    val valid = Seq("2499999.99", "1", "250", "55421")
-    validateNoError(s"$field.annualRentExcludingVat", valid, form, data)
-
-    val invalid = Seq("2500000.00", "9000000")
-    validateError(s"$field.annualRentExcludingVat", invalid, Errors.maxCurrencyAmountExceeded, form, data, Some(field))
+    validateNoError(annualRentField, validAmount, form, data)
+    validateError(annualRentField, exceededMax, Errors.maxCurrencyAmountExceeded + fieldErrorPart, form, data, Some(annualRentField))
   }
 
   def validateCurrency[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
@@ -123,10 +105,10 @@ trait CurrencySpecs { this: CommonSpecs =>
 trait DateMappingSpecs { this: CommonSpecs =>
   import org.joda.time.DateTime
 
-  def validateFullDateInPast[T](field: String, form: Form[T], formData: Map[String, String]) {
-    validateAnyDate(field, form, formData)
-    validateDay(field, form, formData)
-    fullDateMustBeInPast(field, form, formData)
+  def validateFullDateInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+    validateAnyDate(field, form, formData, fieldErrorPart)
+    validateDay(field, form, formData, fieldErrorPart)
+    fullDateMustBeInPast(field, form, formData, fieldErrorPart)
   }
 
   def validatePastDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
@@ -140,7 +122,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     dateMayBeInFuture(field, form, formData)
   }
 
-  private def validateAnyDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  private def validateAnyDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
     monthCanOnlyBe1to12(field, form, formData)
     containError(field + ".month", s"error$fieldErrorPart.month.required", form, formData)
     containError(field + ".year", s"error$fieldErrorPart.year.required", form, formData)
@@ -149,7 +131,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     ignoresLeadingAndTraillingWhitespace(field, form, formData)
   }
 
-  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
     dayCanOnlyBe1to31(field, form, formData)
     containError(field + ".day", s"error$fieldErrorPart.day.required", form, formData)
     mustBeValidDayInMonth(field, form, formData, fieldErrorPart)
@@ -245,7 +227,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     doesNotContainErrors(res)
   }
 
-  private def fullDateMustBeInPast[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def fullDateMustBeInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
 
     val tomorrow = DateTime.now.plusDays(1)
 
@@ -255,7 +237,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
       (tomorrow.getDayOfMonth.toString, tomorrow.getMonthOfYear.toString, tomorrow.getYear.toString))
     invalid foreach { iv =>
       val f = updateFullDateAndBind(field, iv, form, formData)
-      mustOnlyContainError(field, Errors.dateMustBeInPast, f)
+      mustOnlyContainError(field, Errors.dateMustBeInPast + fieldErrorPart, f)
     }
 
     val yesterday = DateTime.now.minusDays(1)

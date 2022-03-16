@@ -509,6 +509,25 @@ label.noJs.rentBasedOnDetails=Answer this only if you’ve selected ‘Other’
 error.negotiatingNewRent.required=Select ‘Yes’ if the tenant or agent is negotiating a new rent
 error.rentBaseOn.required=Select what the rent is based on
 
+error.required.annualRentExcludingVat = Enter the current annual rent
+error.invalid_currency.annualRentExcludingVat = The rent must be a number between 1 and 9999999
+error.maxCurrencyAmountExceeded.annualRentExcludingVat = The rent must be a number between 1 and 9999999
+
+error.rentBasedOnDetails.required = Enter details of the rent basis
+error.rentBasedOnDetails.maxLength = Details of the rent basis must be 250 characters or fewer
+
+error.rentBecomePayable.day.required = Enter the date the tenant started paying the current rent
+error.rentBecomePayable.month.required = The date the tenant started paying the current rent must include a month
+error.rentBecomePayable.year.required = The date the tenant started paying the current rent must include a year
+error.date_before_1900.rentBecomePayable = The date the tenant started paying the current rent must be between 1 January 1900 and today
+error.date_must_be_in_past.rentBecomePayable = The date the tenant started paying the current rent must be between 1 January 1900 and today
+
+error.rentActuallyAgreed.day.required = Enter the date the rent amount was agreed
+error.rentActuallyAgreed.month.required = The date the rent amount was agreed must include a month
+error.rentActuallyAgreed.year.required = The date the rent amount was agreed must include a year
+error.date_before_1900.rentActuallyAgreed = The date the rent amount was agreed must be between 1 January 1900 and today
+error.date_must_be_in_past.rentActuallyAgreed = The date the rent amount was agreed must be between 1 January 1900 and today
+
 #SECTION 10
 ###############################
 section10.heading=What the rent includes
