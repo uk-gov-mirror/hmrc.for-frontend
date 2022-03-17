@@ -412,6 +412,7 @@ error.writtenAgreement.breakClauseDetails.required = Enter the details of the br
 error.writtenAgreement.breakClauseDetails.maxLength = Details of the break clause must be 124 characters or fewer
 error.required.writtenAgreement.steppedDetails.amount = Enter the current annual rent
 error.invalid_currency.writtenAgreement.steppedDetails.amount = The rent must be a number between 1 and 9999999
+error.maxCurrencyAmountExceeded.writtenAgreement.steppedDetails.amount = The rent must be a number between 1 and 9999999
 error.writtenAgreement.steppedDetails.stepFrom.day.required = The date rent step starts must include a day
 error.writtenAgreement.steppedDetails.stepFrom.month.required = The date the rent step starts must include a month
 error.writtenAgreement.steppedDetails.stepFrom.year.required = The date the rent step starts must include a year

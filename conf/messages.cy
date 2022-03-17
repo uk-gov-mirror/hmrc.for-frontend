@@ -427,6 +427,7 @@ error.writtenAgreement.breakClauseDetails.required = Mae’n rhaid llenwi hwn
 error.writtenAgreement.breakClauseDetails.maxLength = Rhaid i fod yn 124 nod neu lai
 error.required.writtenAgreement.steppedDetails.amount = Mae’n rhaid llenwi hwn
 error.invalid_currency.writtenAgreement.steppedDetails.amount = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.maxCurrencyAmountExceeded.writtenAgreement.steppedDetails.amount = Rhaid i hyn fod yn rhif sy’n fw y na 0
 error.writtenAgreement.steppedDetails.stepFrom.day.required = Mae’n rhaid llenwi hwn
 error.writtenAgreement.steppedDetails.stepFrom.month.required = Mae’n rhaid llenwi hwn
 error.writtenAgreement.steppedDetails.stepFrom.year.required = Mae’n rhaid llenwi hwn
