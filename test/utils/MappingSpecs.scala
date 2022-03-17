@@ -39,14 +39,16 @@ object MappingSpecs extends DateMappingSpecs with DurationMappingSpecs with Addr
     limitedToNChars(fieldName, 20, form, formData)
   }
 
-  def validateUptoNDigits[T](field: String, digits: Int, form: Form[T], formData: Map[String, String]) {
-    limitedToNDigits(field, digits, form, formData)
-    canOnlyContainDigits(field, digits, form, formData)
+  def validateUptoNDigits[T](field: String, digits: Int, form: Form[T], formData: Map[String, String],
+                             errorMaxLengthKeyOpt: Option[String] = None, errorInvalidNumberKeyOpt: Option[String] = None) {
+    limitedToNDigits(field, digits, form, formData, errorMaxLengthKeyOpt)
+    canOnlyContainDigits(field, digits, form, formData, errorInvalidNumberKeyOpt)
   }
 
-  private def canOnlyContainDigits[T](field: String, maxLength: Int, form: Form[T], formData: Map[String, String]) {
+  private def canOnlyContainDigits[T](field: String, maxLength: Int, form: Form[T], formData: Map[String, String],
+                                      errorInvalidNumberKeyOpt: Option[String] = None) {
     val invalid = Seq( (1 to maxLength).map(_ => "a").mkString(""), "b", "C" )
-    validateError(field, invalid, Errors.number, form, formData)
+    validateError(field, invalid, errorInvalidNumberKeyOpt.getOrElse(Errors.number), form, formData)
 
     val valid = Seq( (1 to maxLength).map(_ => "1").mkString(""), "1", "9")
     validateNoError(field, valid, form, formData)
@@ -446,11 +448,17 @@ trait CommonSpecs {
     doesNotContainErrors(f2)
   }
 
-  def limitedToNDigits[T](field: String, n: Int, form: Form[T], formData: Map[String, String]) {
+  def limitedToNDigits[T](field: String, n: Int, form: Form[T], formData: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None) {
     val fifty1Chars = (1 to (n + 1)).map(_ => 1).mkString("")
     val data = formData.updated(field, fifty1Chars)
     val f = form.bind(data).convertGlobalToFieldErrors()
-    mustContainMaxLengthErrorFor(field, f)
+
+    errorMaxLengthKeyOpt.map { errorKey =>
+      containError(field, errorKey, f, formData)
+    }.getOrElse {
+      mustContainMaxLengthErrorFor(field, f)
+    }
+
 
     val fiftyChars = (1 to n).map(_ => 1).mkString("")
     val data2 = formData.updated(field, fiftyChars)

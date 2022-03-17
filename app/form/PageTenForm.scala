@@ -19,11 +19,11 @@ package form
 import form.DateMappings._
 import form.MappingSupport._
 import models.serviceContracts.submissions.{Parking, WhatRentIncludes}
-import play.api.data.{Mapping, Form}
-import play.api.data.Forms.{mapping, nonEmptyText}
+import play.api.data.{Form, Mapping}
+import play.api.data.Forms.{default, mapping, text}
 import uk.gov.voa.play.form.ConditionalMappings._
-
 import PageTenForm._
+import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 
 object PageTenForm {
 
@@ -55,7 +55,10 @@ object PageTenForm {
     Keys.shellUnit -> mandatoryBooleanWithError(Errors.rentBasedOnEmptyBuildingRequired),
     Keys.rentDetails -> mandatoryIfAnyAreTrue(
       Seq(Keys.shellUnit, Keys.landOnly, Keys.livingAccommodation, Keys.otherProperty, Keys.partRent),
-      nonEmptyText(maxLength = 249), showNestedErrors = false
+      default(text, "").verifying(
+        nonEmpty(errorMessage = "error.rentDetails.required"),
+        maxLength(249, "error.rentDetails.maxLength")
+      ), showNestedErrors = false
     ),
     "parking" -> ParkingMapping.parkingMapping("parking")
   )(WhatRentIncludes.apply)(WhatRentIncludes.unapply)
@@ -80,9 +83,9 @@ object ParkingMapping {
       (Keys.rentIncludeParkingDetails, rentIncludeParkingMapping(pfx)),
       (Keys.rentSeparateParking, mandatoryBooleanWithError(Errors.tenantPaysForParkingRequired)),
       (Keys.rentSeparateParkingDetails, rentSeparateParkingDetailsMapping(pfx)),
-      (Keys.annualSeparateParking, mandatoryIfTrue(pfx + Keys.rentSeparateParking, currency)),
+      (Keys.annualSeparateParking, mandatoryIfTrue(pfx + Keys.rentSeparateParking, currencyMapping(".annualSeparateParkingAmount"))),
       (Keys.annualSeparateParkingDate, mandatoryIfTrue(
-        pfx + Keys.rentSeparateParking, monthYearRoughDateMapping(pfx + Keys.annualSeparateParkingDate)))
+        pfx + Keys.rentSeparateParking, monthYearRoughDateMapping(pfx + Keys.annualSeparateParkingDate, ".annualSeparateParkingDate")))
     )(Parking.apply)(Parking.unapply)
   }
 }
