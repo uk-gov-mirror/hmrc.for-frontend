@@ -32,6 +32,7 @@ object MappingSupport {
 
   val decimalRegex = """^[0-9]{1,10}\.?[0-9]{0,2}$"""
   val cdbMaxCurrencyAmount = 9999999.99
+  val spacesIntRegex = """^\-?\d{1,10}$""".r
 
   lazy val annualRent: Mapping[AnnualRent] = mapping(
     "annualRentExcludingVat" -> currencyMapping(".annualRentExcludingVat")
@@ -138,17 +139,23 @@ object MappingSupport {
     )(ContactDetails.apply)(ContactDetails.unapply)
 
   def parkingDetailsMapping(key: String): Mapping[ParkingDetails] = mapping(
-    "openSpaces" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999),
-    "coveredSpaces" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999),
-    "garages" -> default(number(min = 0), 0).verifying(Errors.maxLength, _ <= 9999)
+    "openSpaces" -> spacesOrGaragesMapping(key, "openSpaces"),
+    "coveredSpaces" -> spacesOrGaragesMapping(key, "coveredSpaces"),
+    "garages" -> spacesOrGaragesMapping(key, "garages")
   )(ParkingDetails.apply)(ParkingDetails.unapply) verifying atLeastOneParkingDetailRequired(key)
+
+  private def spacesOrGaragesMapping(key: String, field: String): Mapping[Int] = default(text, "0")
+    .verifying(s"${Errors.invalidNumber}.$key.$field", x => x == "0" || spacesIntRegex.findFirstIn(x).isDefined )
+    .transform[Int](_.replace(",", "").toInt, _.toString)
+    .verifying(s"error.minValue.$key.$field", _ >= 0)
+    .verifying(s"error.maxValue.$key.$field", _ <= 9999)
 
   def atLeastOneParkingDetailRequired(key: String): Constraint[ParkingDetails] =
     Constraint[ParkingDetails]("constraints.parkingDetails") { pd =>
       if (pd.openSpaces > 0 || pd.coveredSpaces > 0 || pd.garages > 0) {
         Valid
       } else {
-        Invalid(ValidationError(Errors.parkingRequired))
+        Invalid(ValidationError(s"${Errors.required}.$key"))
       }
     }
 

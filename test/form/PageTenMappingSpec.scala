@@ -46,11 +46,11 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "never allow empty parking values when parking is specified" in {
     val f = bind(realExampleData)
-    mustContainError("parking.rentIncludeParkingDetails", Errors.parkingRequired, f)
-    mustContainError("parking.rentSeparateParkingDetails", Errors.parkingRequired, f)
-    mustContainRequiredErrorFor("parking.annualSeparateParking", f)
-    mustContainError("parking.annualSeparateParkingDate.month", "error.month.required", f)
-    mustContainError("parking.annualSeparateParkingDate.year", "error.year.required", f)
+    mustContainError("parking.rentIncludeParkingDetails", "error.required.parking.rentIncludeParkingDetails", f)
+    mustContainError("parking.rentSeparateParkingDetails", "error.required.parking.rentSeparateParkingDetails", f)
+    mustContainError("parking.annualSeparateParking", "error.required.annualSeparateParkingAmount", f)
+    mustContainError("parking.annualSeparateParkingDate.month", "error.annualSeparateParkingDate.month.required", f)
+    mustContainError("parking.annualSeparateParkingDate.year", "error.annualSeparateParkingDate.year.required", f)
   }
 
   it should "return a mandatory error when a value for rentIncludeParking is not supplied" in {
@@ -74,7 +74,7 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
                        .updated(rentIncludedParkingCovered, "0")
     val form = bind(data)
 
-    mustContainError(rentIncludedParkingDetailsPrefix, Errors.parkingRequired, form)
+    mustContainError(rentIncludedParkingDetailsPrefix, "error.required.parking.rentIncludeParkingDetails", form)
   }
 
   it should "return a required field error when the rent included parking details are all empty" in {
@@ -83,29 +83,35 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
                        .updated(rentIncludedParkingCovered, "")
     val form = bind(data)
 
-    mustContainError(rentIncludedParkingDetailsPrefix, Errors.parkingRequired, form)
+    mustContainError(rentIncludedParkingDetailsPrefix, "error.required.parking.rentIncludeParkingDetails", form)
   }
 
   it should "allow up to 249 letters, numbers, spaces, and special characters for rent details" in {
-    validateLettersNumsSpecCharsUptoLength(Keys.rentDetails, 249, pageTenForm, fullData)
+    validateLettersNumsSpecCharsUptoLength(Keys.rentDetails, 249, pageTenForm, fullData, Some("error.rentDetails.maxLength"))
   }
 
   it should "allow upto 4 digits for all car parking quantities" in {
-    validateUptoNDigits(rentIncludedParkingGarages, 4, pageTenForm, fullData)
-    validateUptoNDigits(rentIncludedParkingOpen, 4, pageTenForm, fullData)
-    validateUptoNDigits(rentIncludedParkingCovered, 4, pageTenForm, fullData)
+    validateUptoNDigits(rentIncludedParkingGarages, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentIncludeParkingDetails.garages"), Some("error.invalid_number.parking.rentIncludeParkingDetails.garages"))
+    validateUptoNDigits(rentIncludedParkingOpen, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentIncludeParkingDetails.openSpaces"), Some("error.invalid_number.parking.rentIncludeParkingDetails.openSpaces"))
+    validateUptoNDigits(rentIncludedParkingCovered, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentIncludeParkingDetails.coveredSpaces"), Some("error.invalid_number.parking.rentIncludeParkingDetails.coveredSpaces"))
 
-    validateUptoNDigits(rentSeparateParkingGarages, 4, pageTenForm, fullData)
-    validateUptoNDigits(rentSeparateParkingOpen, 4, pageTenForm, fullData)
-    validateUptoNDigits(rentSeparateParkingCovered, 4, pageTenForm, fullData)
+    validateUptoNDigits(rentSeparateParkingGarages, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentSeparateParkingDetails.garages"), Some("error.invalid_number.parking.rentSeparateParkingDetails.garages"))
+    validateUptoNDigits(rentSeparateParkingOpen, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentSeparateParkingDetails.openSpaces"), Some("error.invalid_number.parking.rentSeparateParkingDetails.openSpaces"))
+    validateUptoNDigits(rentSeparateParkingCovered, 4, pageTenForm, fullData,
+      Some("error.maxValue.parking.rentSeparateParkingDetails.coveredSpaces"), Some("error.invalid_number.parking.rentSeparateParkingDetails.coveredSpaces"))
   }
 
   it should "validate annual payment as 9 digits and 2 decimals" in {
-    validateCurrency(annualSeparateParking, pageTenForm, fullData)
+    validateCurrency(annualSeparateParking, pageTenForm, fullData, ".annualSeparateParkingAmount")
   }
 
   it should "validate annual separate parking date as a date in the past" in {
-    validatePastDate(annualSeparateParkingPaymentFixedDate, pageTenForm, fullData)
+    validatePastDate(annualSeparateParkingPaymentFixedDate, pageTenForm, fullData, ".annualSeparateParkingDate")
   }
 
   it should "return a required error when rent details are required but not given" in {
@@ -115,7 +121,7 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
       val data = dataNoDetailsRequired.updated(field, "true") - Keys.rentDetails
       val form = bind(data)
 
-      mustContainRequiredErrorFor(Keys.rentDetails, form)
+      mustContainError(Keys.rentDetails, "error.rentDetails.required", form)
     }
   }
 
@@ -129,30 +135,30 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
     val data = fullData - rentIncludedParkingGarages - rentSeparateParkingOpen - rentIncludedParkingCovered
     val form = bind(data)
 
-    mustContainError(rentIncludedParkingDetailsPrefix, Errors.parkingRequired, form)
+    mustContainError(rentIncludedParkingDetailsPrefix, "error.required.parking.rentIncludeParkingDetails", form)
   }
 
   "when rentSeparateParking is true but no rent separate or annual parking details have been supplied" should "return a required error for rentSeparateParkingDetails" in {
     val data = fullData - rentSeparateParkingGarages - annualSeparateParking
     val form = bind(data)
 
-    mustContainError(rentSeparateParkingDetailsPrefix, Errors.parkingRequired, form)
-    mustContainRequiredErrorFor(annualSeparateParking, form)
+    mustContainError(rentSeparateParkingDetailsPrefix, "error.required.parking.rentSeparateParkingDetails", form)
+    mustContainError(annualSeparateParking, "error.required.annualSeparateParkingAmount", form)
   }
 
   "When rentSeparateParking is true but no annual separate parking amount has been supplied" should "return a required error for annualSeparateParking" in {
     val data = fullData - annualSeparateParking
     val form = bind(data)
 
-    mustContainRequiredErrorFor(annualSeparateParking, form)
+    mustContainError(annualSeparateParking, "error.required.annualSeparateParkingAmount", form)
   }
 
   "When rentSeparateParking is true but no payment fixed date is supplied" should "return a required error for annual separate parking payment fixed date" in {
     val data = fullData - annualSeparateParkingMonths - annualSeparateParkingYear
     val form = bind(data)
 
-    mustContainError(annualSeparateParkingMonths, "error.month.required", form)
-    mustContainError(annualSeparateParkingYear, "error.year.required", form)
+    mustContainError(annualSeparateParkingMonths, "error.annualSeparateParkingDate.month.required", form)
+    mustContainError(annualSeparateParkingYear, "error.annualSeparateParkingDate.year.required", form)
   }
 
   checkMissingField(Keys.partRent, Errors.isRentPaidForPartRequired)

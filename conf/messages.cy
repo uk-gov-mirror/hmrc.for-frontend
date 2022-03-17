@@ -593,6 +593,43 @@ error.rentBasedOnEmptyBuilding.required=Dewiswch ‘Ydy’ os yw’r rhent yn se
 error.rentIncludesParking.required=Dewiswch ‘Ydy’ os yw’r rhent yn cynnwys defnyddio mannau parcio
 error.tenantPaysForParking.required=Dewiswch ‘Ydy’ os yw’r tenant yn talu ychwanegol am unrhyw parcio
 
+
+error.rentDetails.required = Mae’n rhaid llenwi hwn
+error.rentDetails.maxLength = Rhaid i fod yn 249 nod neu lai
+
+error.required.parking.rentIncludeParkingDetails = Rhaid llenwi o leiaf un a gyda gwerth sy’n fwy na 0
+error.required.parking.rentSeparateParkingDetails = Rhaid llenwi o leiaf un a gyda gwerth sy’n fwy na 0
+
+error.invalid_number.parking.rentIncludeParkingDetails.openSpaces = Mae’n rhaid i hwn ddefnyddio rhifau
+error.invalid_number.parking.rentIncludeParkingDetails.coveredSpaces = Mae’n rhaid i hwn ddefnyddio rhifau
+error.invalid_number.parking.rentIncludeParkingDetails.garages = Mae’n rhaid i hwn ddefnyddio rhifau
+error.invalid_number.parking.rentSeparateParkingDetails.openSpaces = Mae’n rhaid i hwn ddefnyddio rhifau
+error.invalid_number.parking.rentSeparateParkingDetails.coveredSpaces = Mae’n rhaid i hwn ddefnyddio rhifau
+error.invalid_number.parking.rentSeparateParkingDetails.garages = Mae’n rhaid i hwn ddefnyddio rhifau
+
+error.minValue.parking.rentIncludeParkingDetails.openSpaces = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.minValue.parking.rentIncludeParkingDetails.coveredSpaces = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.minValue.parking.rentIncludeParkingDetails.garages = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.minValue.parking.rentSeparateParkingDetails.openSpaces = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.minValue.parking.rentSeparateParkingDetails.coveredSpaces = Rhaid i hyn fod yn rhif sy’n fw y na 0
+error.minValue.parking.rentSeparateParkingDetails.garages = Rhaid i hyn fod yn rhif sy’n fw y na 0
+
+error.maxValue.parking.rentIncludeParkingDetails.openSpaces = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+error.maxValue.parking.rentIncludeParkingDetails.coveredSpaces = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+error.maxValue.parking.rentIncludeParkingDetails.garages = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+error.maxValue.parking.rentSeparateParkingDetails.openSpaces = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+error.maxValue.parking.rentSeparateParkingDetails.coveredSpaces = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+error.maxValue.parking.rentSeparateParkingDetails.garages = Rhaid i hyn fod yn rhif sy’n lai y na 9999
+
+error.required.annualSeparateParkingAmount = Mae’n rhaid llenwi hwn
+error.invalid_currency.annualSeparateParkingAmount = Rhaid i hyn fod yn rhif sy’n
+error.maxCurrencyAmountExceeded.annualSeparateParkingAmount = Rhaid i hyn fod yn rhif sy’n lai y na 9999999
+
+error.annualSeparateParkingDate.month.required = Mae’n rhaid llenwi hwn
+error.annualSeparateParkingDate.year.required = Mae’n rhaid llenwi hwn
+error.date_before_1900.annualSeparateParkingDate = Mae’n rhaid i hwn fod o 1900 ymlaen
+error.date_must_be_in_past.annualSeparateParkingDate = Mae’n rhaid i’r dyddiad fod yn y gorffennol
+
 #SECTION 11
 ###############################
 section11.heading=Cymhellion a thaliadau

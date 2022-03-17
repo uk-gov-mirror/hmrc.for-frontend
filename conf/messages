@@ -579,6 +579,42 @@ error.rentBasedOnEmptyBuilding.required=Select ‘Yes’ if the rent is based on
 error.rentIncludesParking.required=Select ‘Yes’ if the rent includes use of parking spaces
 error.tenantPaysForParking.required=Select ‘Yes’ if the tenant pays extra for any parking
 
+error.rentDetails.required = Enter details about what the rent includes
+error.rentDetails.maxLength = Details about what the rent includes must be 249 characters or fewer
+
+error.required.parking.rentIncludeParkingDetails = Enter how many spaces or garages are included in the rent
+error.required.parking.rentSeparateParkingDetails = Enter how many spaces or garages are included in the rent
+
+error.invalid_number.parking.rentIncludeParkingDetails.openSpaces = Open spaces must be a number
+error.invalid_number.parking.rentIncludeParkingDetails.coveredSpaces = Covered spaces must be a number
+error.invalid_number.parking.rentIncludeParkingDetails.garages = Garages must be a number
+error.invalid_number.parking.rentSeparateParkingDetails.openSpaces = Open spaces must be a number
+error.invalid_number.parking.rentSeparateParkingDetails.coveredSpaces = Covered spaces must be a number
+error.invalid_number.parking.rentSeparateParkingDetails.garages = Garages must be a number
+
+error.minValue.parking.rentIncludeParkingDetails.openSpaces = Open spaces must be a number between 0 and 9999
+error.minValue.parking.rentIncludeParkingDetails.coveredSpaces = Covered spaces must be a number between 0 and 9999
+error.minValue.parking.rentIncludeParkingDetails.garages = Garages must be a number between 0 and 9999
+error.minValue.parking.rentSeparateParkingDetails.openSpaces = Open spaces must be a number between 0 and 9999
+error.minValue.parking.rentSeparateParkingDetails.coveredSpaces = Covered spaces must be a number between 0 and 9999
+error.minValue.parking.rentSeparateParkingDetails.garages = Garages must be a number between 0 and 9999
+
+error.maxValue.parking.rentIncludeParkingDetails.openSpaces = Open spaces must be 9999 or fewer
+error.maxValue.parking.rentIncludeParkingDetails.coveredSpaces = Covered spaces must be 9999 or fewer
+error.maxValue.parking.rentIncludeParkingDetails.garages = Garages must be 9999 or fewer
+error.maxValue.parking.rentSeparateParkingDetails.openSpaces = Open spaces must be 9999 or fewer
+error.maxValue.parking.rentSeparateParkingDetails.coveredSpaces = Covered spaces must be 9999 or fewer
+error.maxValue.parking.rentSeparateParkingDetails.garages = Garages must be 9999 or fewer
+
+error.required.annualSeparateParkingAmount = Enter the amount paid
+error.invalid_currency.annualSeparateParkingAmount = Amount paid must be a number between 1 and 9999999
+error.maxCurrencyAmountExceeded.annualSeparateParkingAmount = Amount paid must be a number between 1 and 9999999
+
+error.annualSeparateParkingDate.month.required = The date the payment was fixed must include a month
+error.annualSeparateParkingDate.year.required = The date the payment was fixed must include a year
+error.date_before_1900.annualSeparateParkingDate = The date the payment was fixed must be between January 1900 and today
+error.date_must_be_in_past.annualSeparateParkingDate = The date the payment was fixed must be between January 1900 and today
+
 #SECTION 11
 ###############################
 section11.heading=Incentives and payments
