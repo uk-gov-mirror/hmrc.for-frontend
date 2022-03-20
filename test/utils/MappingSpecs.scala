@@ -46,7 +46,7 @@ object MappingSpecs extends DateMappingSpecs with DurationMappingSpecs with Addr
   }
 
   private def canOnlyContainDigits[T](field: String, maxLength: Int, form: Form[T], formData: Map[String, String],
-                                      errorInvalidNumberKeyOpt: Option[String] = None) {
+                                      errorInvalidNumberKeyOpt: Option[String]) {
     val invalid = Seq( (1 to maxLength).map(_ => "a").mkString(""), "b", "C" )
     validateError(field, invalid, errorInvalidNumberKeyOpt.getOrElse(Errors.number), form, formData)
 
