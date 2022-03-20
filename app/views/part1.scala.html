@@ -73,7 +73,7 @@
               id = "street1",
               name = "street1",
               value = getAddressFieldValueOrDefaultUnlessErrors("street1", address.street1.getOrElse("")),
-              attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
+              attributes = Map("data-undo-value" -> address.street1.getOrElse("")),
               classes = "govuk-!-width-one-half",
               label = Label(
                   content = Text(messages("label.street1"))
@@ -86,7 +86,7 @@
           Input(
               id = "street2",
               name = "street2",
-              value = getAddressFieldValueOrDefaultUnlessErrors("street2", address.street1.getOrElse("")),
+              value = getAddressFieldValueOrDefaultUnlessErrors("street2", address.street2.getOrElse("")),
               attributes = Map("data-undo-value" -> address.street2.getOrElse("")),
               classes = "govuk-!-width-one-half",
               label = Label(
