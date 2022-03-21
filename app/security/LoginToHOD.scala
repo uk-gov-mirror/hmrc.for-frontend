@@ -46,7 +46,7 @@ object LoginToHOD {
       lr <- v(r1, r2, pc)
       _ <- u(hc, rn, doc(rn, lr.address, st))
       sd <- l(lr.forAuthToken, rn)
-    } yield sd map { dps(_, lr.forAuthToken) } getOrElse ned(lr.forAuthToken)
+    } yield sd map { dps(_, lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
 
   private def ref(r1: Ref1, r2: Ref2): Future[String] = s"$r1$r2"
   private def doc(r: ReferenceNumber, a: Address, d: DateTime) = Document(r, d, address = Some(a))
@@ -55,5 +55,5 @@ object LoginToHOD {
 }
 
 sealed trait LoginResult
-case class DocumentPreviouslySaved(doc: Document, token: String) extends LoginResult
-case class NoExistingDocument(token: String) extends LoginResult
+case class DocumentPreviouslySaved(doc: Document, token: String, address: Address) extends LoginResult
+case class NoExistingDocument(token: String, address: Address) extends LoginResult

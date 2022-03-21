@@ -18,6 +18,7 @@ package controllers
 
 import connectors.Audit
 import form.{Errors, MappingSupport}
+import models.serviceContracts.submissions.Address
 
 import javax.inject.Inject
 import org.joda.time.DateTime
@@ -98,11 +99,11 @@ class LoginController @Inject()(
     cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
     //TODO - refactor
     loginToHOD(hc2, ec)(ref1, ref2, cleanPostcode, startTime).flatMap {
-      case DocumentPreviouslySaved(doc, token) =>
-        auditLogin(ref1 + ref2, true)(hc2)
+      case DocumentPreviouslySaved(doc, token, address) =>
+        auditLogin(ref1 + ref2, true, address)(hc2)
         withNewSession(Redirect(routes.SaveForLaterController.login), token, s"$ref1$ref2", sessionId)
-      case NoExistingDocument(token) =>
-        auditLogin(ref1 + ref2, false)(hc2)
+      case NoExistingDocument(token, address) =>
+        auditLogin(ref1 + ref2, false, address)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
@@ -117,9 +118,9 @@ class LoginController @Inject()(
     }
   }
 
-  private def auditLogin(refNumber: String, returnUser: Boolean)(implicit hc: HeaderCarrier) = {
-
-    audit.sendExplicitAudit("UserLogin", Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber))
+  private def auditLogin(refNumber: String, returnUser: Boolean, address: Address)(implicit hc: HeaderCarrier): Unit = {
+    val json = Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber, "address" -> address)
+    audit.sendExplicitAudit("UserLogin", json)
   }
 
   def lockedOut = Action { implicit request =>

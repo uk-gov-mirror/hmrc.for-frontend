@@ -17,6 +17,7 @@
 package controllers
 
 import connectors.Audit
+import models.serviceContracts.submissions.Address
 import org.joda.time.DateTime
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
@@ -26,7 +27,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import playconfig.LoginToHODAction
 import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
-import security.{LoginResult, NoExistingDocument}
+import security.NoExistingDocument
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Helpers.fakeRequest2MessageRequest
 import views.html.{login, loginFailed}
@@ -36,6 +37,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
   implicit val globalEc = scala.concurrent.ExecutionContext.Implicits.global
 
+  private val testAddress = Address("13", Some("Street"), Some("City"), "AA11 1AA")
+
   "login controller" should "Audit successful login" in {
 
     val audit = mock[Audit]
@@ -44,7 +47,7 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val loginToHodFunction = (ref1: Ref1, ref2: Ref2, postcode: Postcode, start:StartTime) =>{
       assert(ref1.equals("01234567"))
       assert(ref2.equals("000"))
-      Future.successful(NoExistingDocument("token"))
+      Future.successful(NoExistingDocument("token", testAddress))
     }
 
     val loginToHod = mock[LoginToHODAction]
@@ -59,7 +62,8 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
 
     status(response) shouldBe(SEE_OTHER)
 
-    verify(audit).sendExplicitAudit(eqTo("UserLogin"), eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false))
+    verify(audit).sendExplicitAudit(eqTo("UserLogin"),
+      eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false, "address" -> testAddress))
     )(any[HeaderCarrier], any[ExecutionContext])
 
   }
@@ -79,10 +83,6 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
     verify(audit).sendExplicitAudit(eqTo("Logout"), eqTo(Json.obj(Audit.referenceNumber -> "-"))
     )(any[HeaderCarrier], any[ExecutionContext])
 
-  }
-
-  def loginToHod(ref1: String, ref2: String, postcode: String, start: DateTime): Future[LoginResult] = {
-    Future.successful(NoExistingDocument("secureKey"))
   }
 
 }
