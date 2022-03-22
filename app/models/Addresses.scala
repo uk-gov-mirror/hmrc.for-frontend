@@ -16,6 +16,7 @@
 
 package models
 
+import connectors.Audit
 import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.libs.json.{JsObject, Json}
@@ -30,10 +31,10 @@ object Addresses {
   }
 
   def addressJson(summary: Summary): JsObject =
-    summary.address.fold(Json.obj())(address => Json.obj("address" -> address)) ++
+    summary.address.fold(Json.obj())(address => Json.obj(Audit.address -> address)) ++
       summary.propertyAddress
         .filter(newAddress => !summary.address.contains(newAddress))
-        .fold(Json.obj())(newAddress => Json.obj("updatedAddress" -> newAddress))
+        .fold(Json.obj())(newAddress => Json.obj(Audit.updatedAddress -> newAddress))
 
 }
 

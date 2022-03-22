@@ -73,6 +73,8 @@ trait Audit extends AuditConnector {
 
 object Audit {
   val referenceNumber = "referenceNumber"
+  val address = "address"
+  val updatedAddress = "updatedAddress"
 }
 
 @Singleton

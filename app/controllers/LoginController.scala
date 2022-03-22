@@ -119,7 +119,7 @@ class LoginController @Inject()(
   }
 
   private def auditLogin(refNumber: String, returnUser: Boolean, address: Address)(implicit hc: HeaderCarrier): Unit = {
-    val json = Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber, "address" -> address)
+    val json = Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber, Audit.address -> address)
     audit.sendExplicitAudit("UserLogin", json)
   }
 
