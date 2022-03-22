@@ -112,8 +112,6 @@ abstract class ForDataCapturePage[T] (audit: Audit,
     val json = Json.toJson(emptyForm.fill(formData).data).as[JsObject] ++
       Json.obj(Audit.referenceNumber -> request.refNum) ++ Addresses.addressJson(summary)
 
-    println(Json.prettyPrint(json))
-
     audit.sendExplicitAudit("ContinueNextPage", json)
   }
 

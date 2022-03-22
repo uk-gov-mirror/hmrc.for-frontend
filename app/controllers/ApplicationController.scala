@@ -21,12 +21,14 @@ import config.ForConfig
 import connectors.Audit
 import form.Errors
 import form.persistence.FormDocumentRepository
+import models.Addresses
 
 import javax.inject.{Inject, Singleton}
 import models.pages._
 import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
@@ -58,11 +60,14 @@ class ApplicationController @Inject()(
   def declaration = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
-        audit("ContinueNextPage", Map(Audit.referenceNumber -> request.refNum))(
-          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"))
         val summary = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
+
+        val json = Json.obj(Audit.referenceNumber -> request.refNum) ++ Addresses.addressJson(summary)
+        audit.sendExplicitAudit("ContinueNextPage", json)(
+          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"), ec)
+
         Ok(declarationView(Form(("", text)), fullName, userType, summary: Summary))
       case None => InternalServerError(errorView(500))
     }

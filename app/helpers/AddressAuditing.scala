@@ -17,10 +17,12 @@
 package helpers
 
 import connectors.Audit
+
 import javax.inject.{Inject, Singleton}
 import models.pages.Summary
 import models.serviceContracts.submissions.Address
 import play.api.mvc.Request
+import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import scala.concurrent.Future
@@ -30,26 +32,24 @@ import scala.concurrent.Future
 class AddressAuditing @Inject() (audit: Audit)  {
 
   def apply(s: Summary, request: Request[_]): Future[Unit] = {
-    s.propertyAddress.map(p1 => auditManualAddress(s.addressUserBelievesIsCorrect, request))
-    s.sublet.foreach(p4 => p4.sublet.foreach(sub => auditManualAddress(sub.tenantAddress, request)))
+    if (s.propertyAddress.isDefined) auditManualAddress(s.referenceNumber, s.addressUserBelievesIsCorrect, request)
+    s.sublet.foreach(p4 => p4.sublet.foreach(sub => auditManualAddress(s.referenceNumber, sub.tenantAddress, request)))
     Future.successful(())
   }
 
-  private def auditManualAddress(address: Address, request: Request[_]) = {
-    auditAddressChange("manualAddressSubmitted", address, request)
-  }
-
-  private def auditAddressChange(auditType: String, address: Address, request: Request[_], additionalDetails: Map[String, String] = Map.empty) = {
+  private def auditManualAddress(referenceNumber: String, address: Address, request: Request[_]): Future[AuditResult] = {
     val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     audit(
-      auditType,
+      "manualAddressSubmitted",
       detail = Map(
+        Audit.referenceNumber -> referenceNumber,
         "submittedLine1" -> address.buildingNameNumber,
         "submittedLine2" -> address.street1.getOrElse(""),
         "submittedLine3" -> address.street2.getOrElse(""),
         "submittedPostcode" -> address.postcode,
         "transactionName" -> "sending_rental_information"
-      ) ++ additionalDetails
+      )
     )(hc)
   }
+
 }
