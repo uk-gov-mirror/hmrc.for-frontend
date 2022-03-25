@@ -20,7 +20,7 @@ import actions.{RefNumAction, RefNumRequest}
 import connectors.{Audit, SubmissionConnector}
 import controllers.feedback.Survey
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
-import models.NotConnectedJourney
+import models.{Addresses, NotConnectedJourney}
 import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnected, NotConnectedSubmission, PreviouslyConnected}
 import play.api.libs.json.Json
@@ -86,7 +86,8 @@ class NotConnectedCheckYourAnswersController @Inject()
   def onPageSubmit = refNumAction.async { implicit request =>
     findSummary.flatMap {
       case Some(summary) => {
-        audit.sendExplicitAudit("NotConnectedSubmission", Json.obj(Audit.referenceNumber -> summary.referenceNumber))
+        val json = Json.obj(Audit.referenceNumber -> summary.referenceNumber) ++ Addresses.addressJson(summary)
+        audit.sendExplicitAudit("NotConnectedSubmission", json)
         submitToHod(summary).map { _ =>
           Redirect(routes.NotConnectedCheckYourAnswersController.onConfirmationView)
         }.recover {
