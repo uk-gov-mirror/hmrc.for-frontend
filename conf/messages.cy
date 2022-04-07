@@ -325,7 +325,7 @@ label.landlordOverseasAddress.street2=Trydedd linell y cyfeiriad
 label.noJs.landlordConnect=Dylech ond ateb hyn os ydych wedi dewis ‘Cysylltiad arall’
 intel.alert.landlordName=A ydych chi’n siŵr bod hyn yn gywir? Mae enw’r landlord ac enw’r tenantiaid yr un fath?
 
-error.landlordFullName.maxLength = Mae’n rhaid i enw'r landlord fod yn 50 o gymeriadau neu lai
+error.landlordFullName.maxLength = Mae’n rhaid i enw’r landlord fod yn 50 o gymeriadau neu lai
 error.LandlordConnectionType.required = Dewiswch a oes cysylltiad rhwng y landlord a’r tenant
 error.landlordConnectText.required = Nodwch eich cysylltiad â’r landlord
 error.landlordConnectText.maxLength = Mae’n rhaid i’ch cysylltiad â’r landlord fod yn 100 o gymeriadau neu lai
