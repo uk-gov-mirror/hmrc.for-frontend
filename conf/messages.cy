@@ -325,10 +325,10 @@ label.landlordOverseasAddress.street2=Trydedd linell y cyfeiriad
 label.noJs.landlordConnect=Dylech ond ateb hyn os ydych wedi dewis ‘Cysylltiad arall’
 intel.alert.landlordName=A ydych chi’n siŵr bod hyn yn gywir? Mae enw’r landlord ac enw’r tenantiaid yr un fath?
 
-error.landlordFullName.maxLength = Rhaid i fod yn 50 nod neu lai
+error.landlordFullName.maxLength = Mae’n rhaid i enw'r landlord fod yn 50 o gymeriadau neu lai
 error.LandlordConnectionType.required = Dewiswch a oes cysylltiad rhwng y landlord a’r tenant
-error.landlordConnectText.required = Mae’n rhaid llenwi hwn
-error.landlordConnectText.maxLength = Rhaid i fod yn 100 nod neu lai
+error.landlordConnectText.required = Nodwch eich cysylltiad â’r landlord
+error.landlordConnectText.maxLength = Mae’n rhaid i’ch cysylltiad â’r landlord fod yn 100 o gymeriadau neu lai
 
 #SECTION 6
 ###############################
@@ -1013,10 +1013,10 @@ error.login.lockedOut=Rydych wedi eich cloi allan nawr. Gallwch roi cynnig arall
 
 error.buildingNameNumber.required = Nodwch linell gyntaf y cyfeiriad
 error.buildingNameNumber.maxLength = Mae’n rhaid i linell gyntaf y cyfeiriad fod yn 50 o gymeriadau neu lai
-error.line2.maxLength = Rhaid i fod yn 50 nod neu lai
-error.line3.maxLength = Rhaid i fod yn 50 nod neu lai
+error.line2.maxLength = Mae’n rhaid i ail linell y cyfeiriad fod yn 50 o gymeriadau neu lai
+error.line3.maxLength = Mae’n rhaid i drydedd linell y cyfeiriad fod yn 50 o gymeriadau neu lai
 error.postcode.required = Nodwch y cod post
-error.postcode.maxLength = Rhaid i fod yn 10 nod neu lai
+error.postcode.maxLength = Mae’n rhaid i’r cod post fod yn 10 o gymeriadau neu lai
 error.month.required = Mae’n rhaid llenwi hwn
 error.year.required = Mae’n rhaid llenwi hwn
 
