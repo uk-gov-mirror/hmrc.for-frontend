@@ -43,7 +43,7 @@ class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
     val testData = Map("anyOtherFactors" -> "true")
     val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
-    mustContainRequiredErrorFor("anyOtherFactorsDetails", results)
+    mustContainError("anyOtherFactorsDetails","error.anyOtherFactorsText.required", results)
   }
 
   it should " accept form data when the other factors is selected, and bind details given" in {
@@ -55,6 +55,6 @@ class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   "Page Fourteen Mapping" should "validate the other factors details" in {
     val data = Map("anyOtherFactors" -> "true")
-    validateLettersNumsSpecCharsUptoLength("anyOtherFactorsDetails", 124, pageFourteenForm, data)
+    validateLettersNumsSpecCharsUptoLength("anyOtherFactorsDetails", 124, pageFourteenForm, data, Some("error.anyOtherFactorsText.required"))
   }
 }
