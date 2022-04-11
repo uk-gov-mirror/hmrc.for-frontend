@@ -718,6 +718,8 @@ hint.anyOtherFactorsDetails=For example, whether the lease is contracted out of 
 label.noJs.anyOtherFactorsDetails=Answer this only if you’ve selected ‘Yes’
 
 error.anyOtherFactors.required=Select ‘Yes’ if anything else has affected the rent
+error.anyOtherFactorsText.required=Enter what else has affected the rent
+error.anyOtherFactorsText.maxLength=Details about what else has affected the rent must be 124 characters or fewer
 
 #CONFIRMATION
 ###############################
@@ -988,7 +990,7 @@ error.number = This must be a number
 error.invalid_number = This must be a number
 error.date_before_1900 = Date must be on or after 1 January 1900
 error.date_before_1900.firstOccupationDate = Date must be on or after 1 January 1900
-error.duration.years = Years must be a number between 0 and  999
+error.duration.years = Years must be a number between 0 and 999
 error.duration.months = Months must be a number between 0 and 12
 error.months.required = Enter months amount
 error.years.required = Enter years amount

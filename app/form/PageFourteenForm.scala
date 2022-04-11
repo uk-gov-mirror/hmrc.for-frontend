@@ -20,12 +20,15 @@ import models.serviceContracts.submissions.OtherFactors
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
-
 import MappingSupport._
+import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 
 object PageFourteenForm {
   val pageFourteenForm = Form(mapping(
     "anyOtherFactors" -> mandatoryBooleanWithError(Errors.anyOtherFactorsRequired),
-    "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors",nonEmptyText(maxLength = 124))
+    "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors", default(text, "").verifying(
+      nonEmpty(errorMessage = "error.anyOtherFactorsText.required"),
+      maxLength(124, "error.anyOtherFactorsText.maxLength")
+    ))
   )(OtherFactors.apply)(OtherFactors.unapply))
 }
