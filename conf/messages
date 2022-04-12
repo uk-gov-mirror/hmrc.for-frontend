@@ -717,9 +717,9 @@ label.anyOtherFactorsDetails=What else has affected the rent?
 hint.anyOtherFactorsDetails=For example, whether the lease is contracted out of the Landlord and Tenant Act 1954 (the tenant has given up the right to renew the lease when the current lease ends), the rent includes trade fixtures & fittings, or the permitted use of the building is very restricted. Include anything you have not had space to tell us about in an earlier section.
 label.noJs.anyOtherFactorsDetails=Answer this only if you’ve selected ‘Yes’
 
-error.anyOtherFactors.required=Select ‘Yes’ if anything else has affected the rent
-error.anyOtherFactorsText.required=Enter what else has affected the rent
-error.anyOtherFactorsText.maxLength=Details about what else has affected the rent must be 124 characters or fewer
+error.anyOtherFactorsDetails.required=Select ‘Yes’ if anything else has affected the rent
+error.anyOtherFactorsDetailsText.required=Enter what else has affected the rent
+error.anyOtherFactorsDetailsText.maxLength=Details about what else has affected the rent must be 124 characters or fewer
 
 #CONFIRMATION
 ###############################

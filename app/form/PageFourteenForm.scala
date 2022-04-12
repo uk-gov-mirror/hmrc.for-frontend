@@ -27,8 +27,8 @@ object PageFourteenForm {
   val pageFourteenForm = Form(mapping(
     "anyOtherFactors" -> mandatoryBooleanWithError(Errors.anyOtherFactorsRequired),
     "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors", default(text, "").verifying(
-      nonEmpty(errorMessage = "error.anyOtherFactorsText.required"),
-      maxLength(124, "error.anyOtherFactorsText.maxLength")
+      nonEmpty(errorMessage = "error.anyOtherFactorsDetailsText.required"),
+      maxLength(124, "error.anyOtherFactorsDetailsText.maxLength")
     ))
   )(OtherFactors.apply)(OtherFactors.unapply))
 }

@@ -54,7 +54,8 @@ class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   "Page Fourteen Mapping" should "validate the other factors details" in {
-    val data = Map("anyOtherFactors" -> "true")
-    validateLettersNumsSpecCharsUptoLength("anyOtherFactorsDetails", 124, pageFourteenForm, data, Some("error.anyOtherFactorsText.required"))
+    val testData = Map("anyOtherFactors" -> "true", "anyOtherFactorsDetails" -> "This is exactly 125 characters long. This is to make sure that the code and unit tests validity checks run smoothly. Great!!!")
+
+    validateLettersNumsSpecCharsUptoLength("anyOtherFactorsDetails", 124, pageFourteenForm, testData, Some("error.anyOtherFactorsDetailsText.maxLength"))
   }
 }
