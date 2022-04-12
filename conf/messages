@@ -708,6 +708,12 @@ error.hasTenantDonePropertyAlterations.required=Select ‘Yes’ if the tenant h
 error.tenantWasRequiredToMakeAlterations.required=Select ‘Yes’ if the tenant was required to carry out any works
 error.whichWorksWereDone.required=Select which works were carried out
 
+error.required.alternationCost = Enter the cost of the work
+error.invalid_currency.alternationCost = Cost of work must be a number between 0 and 9999999
+error.maxCurrencyAmountExceeded.alternationCost = Cost of work must be a number between 0 and 9999999
+error.alternationCost.month.required= The date of the works must include a month
+error.alternationCost.year.required = The date of the works must include a year
+
 #SECTION 14
 ###############################
 section14.heading=Any other factors
