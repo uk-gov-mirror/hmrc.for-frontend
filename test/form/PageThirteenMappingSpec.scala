@@ -80,7 +80,7 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
     val testData = baseData - indexedKey(0).alterationDetailsCost
     val form = bind(testData)
 
-    mustContainRequiredErrorFor(indexedKey(0).alterationDetailsCost, form)
+    mustContainError(indexedKey(0).alterationDetailsCost, "error.required.alternationCost",  form)
   }
 
   it should "return an error and not bind when no value for the alterationType of alterations or improvements is input" in {
@@ -94,7 +94,7 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
     val testData = baseData - indexedKey(0).alterationDetailsDateMonth - indexedKey(0).alterationDetailsDateYear
     val form = bind(testData)
 
-    mustContainError(indexedKey(0).alterationDetailsDateYear, "error.year.required", form)
+    mustContainError(indexedKey(0).alterationDetailsDateYear, "error.alternationCost.year.required", form)
   }
 
   it should "return an error and not bind when multiple alterations are entered and one is missing the alterationType" in {
@@ -118,19 +118,19 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "validate the date of the first property alteration" in {
-    validatePastDate("propertyAlterationsDetails[0].date", pageThirteenForm, baseData)
+    validatePastDate("propertyAlterationsDetails[0].date", pageThirteenForm, baseData, ".alternationCost")
   }
 
   it should "validate the cost of the first property alteration" in {
-    validateCurrency("propertyAlterationsDetails[0].cost", pageThirteenForm, baseData)
+    validateCurrency("propertyAlterationsDetails[0].cost", pageThirteenForm, baseData, ".alternationCost")
   }
 
   it should "validate the date of the second property alteration" in {
-    validatePastDate("propertyAlterationsDetails[1].date", pageThirteenForm, dataWithSecondAlteration)
+    validatePastDate("propertyAlterationsDetails[1].date", pageThirteenForm, dataWithSecondAlteration, ".alternationCost")
   }
 
   it should "validate the cost of the second property alteration" in {
-    validateCurrency(indexedKey(1).alterationDetailsCost, pageThirteenForm, dataWithSecondAlteration)
+    validateCurrency(indexedKey(1).alterationDetailsCost, pageThirteenForm, dataWithSecondAlteration, ".alternationCost")
   }
 
   object TestData {

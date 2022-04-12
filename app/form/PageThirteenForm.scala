@@ -40,9 +40,9 @@ object PageThirteenForm {
   ) (PropertyAlterations.apply)(PropertyAlterations.unapply))
 
   lazy val propertyAlterationsDetailsMapping = (indexed: String) => mapping(
-    s"$indexed.date" -> monthYearRoughDateMapping(s"$indexed.date"),
+    s"$indexed.date" -> monthYearRoughDateMapping(s"$indexed.date", ".alternationCost"),
     s"$indexed.alterationType" -> alterationSetByTypeMapping,
-    s"$indexed.cost" -> currency
+    s"$indexed.cost" -> currencyMapping(".alternationCost")
 
   )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)
 
