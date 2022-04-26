@@ -713,6 +713,7 @@ error.invalid_currency.alternationCost = Cost of work must be a number between 0
 error.maxCurrencyAmountExceeded.alternationCost = Cost of work must be a number between 0 and 9999999
 error.alternationCost.month.required= The date of the works must include a month
 error.alternationCost.year.required = The date of the works must include a year
+error.date_before_1900.alternationCost=The date of the works must be between January 1900 and today
 
 #SECTION 14
 ###############################
