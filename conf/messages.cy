@@ -764,6 +764,9 @@ hint.anyOtherFactorsDetails=Er enghraifft, os yw’r brydles yn cael ei chontrac
 label.noJs.anyOtherFactorsDetails=Dylech ond ateb hyn os ydych wedi dewis ‘Oes’
 
 error.anyOtherFactors.required=Dewiswch ‘Oes’ os oes unrhyw beth arall wedi effeithio ar y rhent
+error.anyOtherFactorsDetailsText.required=Nodwch beth arall sydd wedi effeithio ar y rhent
+error.anyOtherFactors.required=Nodwch beth arall sydd wedi effeithio ar y rhent
+error.anyOtherFactorsDetailsText.maxLength=Mae’n rhaid i fanylion ynghylch beth arall sydd wedi effeithio ar y rhent fod yn 124 o gymeriadau neu lai
 
 #CONFIRMATION
 ###############################
