@@ -660,6 +660,22 @@ error.rentFreePeriod.required=Dewiswch ‘Oedd’ os oedd cyfnod di-rent
 error.paidCapitalSum.required=Dewiswch ‘Do’ os talodd y tenant i ymgymryd â’r brydles
 error.receivedCapitalSum.required=Dewiswch ‘Do’ os talwyd y tenant i ymgymryd â’r brydles
 
+error.minValueRentFree.required= Mae’n rhaid i’r cyfnod di-rent fod yn rhif rhwng 1 a 999
+error.maxValueRentFree.required= Mae’n rhaid i’r cyfnod di-rent fod yn rhif rhwng 1 a 999
+error.maxValueRentFreeIsBlank.required = Mae’n rhaid i hwn ddefnyddio rhifau
+error.empty.required=Enter how many months the rent-free period was for
+error.empty.required=Nodwch sawl mis yr oedd y cyfnod di-rent ar ei gyfer
+
+error.rentFreePeriod.required=Nodwch y rheswm dros y cyfnod di-rent
+error.rentFreePeriod.maxLength=Mae’n rhaid i’r rheswm dros y cyfnod di-rent fod yn 250 o gymeriadau neu lai
+
+error.required.amountPaidReceived=Nodwch y swm a ddaeth i law
+error.maxCurrencyAmountExceeded.amountPaidReceived=Mae’n rhaid i’r swm a ddaeth i law fod yn rhif rhwng 1 a 9999999
+error.invalid_currency.amountPaidReceived=Mae’n rhaid i hwn ddefnyddio rhifau
+error.amountPaidReceived.month.required= Mae’n rhaid i’r dyddiad y daeth y taliad i law gynnwys mis
+error.amountPaidReceived.year.required = Mae’n rhaid i’r dyddiad y daeth y taliad i law gynnwys blwyddyn
+error.date_before_1900.amountPaidReceived=Mae’n rhaid i’r dyddiad y daeth y taliad i law fod rhwng Ionawr 1900 a heddiw
+
 #SECTION 12
 ###############################
 section12.heading=Cyfrifoldebau a chostau
