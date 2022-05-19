@@ -58,11 +58,11 @@ class SubmitBusinessRentalInformationToBackendApi @Inject()(
             auditFormSubmissionAndAddress(success = true, submission, someDoc)
             submission
           }
-        ).recover {
+        ).recoverWith {
           case ex: Throwable =>
             logger.error("Error on form submission", ex)
             auditFormSubmissionAndAddress(success = false, submission, someDoc)
-            submission
+            Future.failed(ex)
         }
       case None =>
         logger.error(s"Rental information could not be retrieved for reference: $refNum")
