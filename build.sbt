@@ -7,7 +7,7 @@ import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
 val scoverageSettings = {
   Seq(
-    // Semicolon-separated list of regexs matching classes to exclude
+    // Semicolon-separated list of regex matching classes to exclude
     ScoverageKeys.coverageExcludedPackages := """<empty>;uk\.gov\.hmrc\.BuildInfo;""" +
      """.*\.Routes;.*\.RoutesPrefix;.*Filters?;MicroserviceAuditConnector;Module;GraphiteStartUp;.*\.Reverse[^.]*;""" +
     """views\..*;.*\.template\.scala""",
@@ -23,7 +23,7 @@ val compileDeps = Seq(
   filters,
   ws,
   "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.24.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.18.0-play-28",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.20.0-play-28",
   "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.64.0",
   "uk.gov.hmrc" %% "http-caching-client" % "9.6.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.11.0-play-28",
