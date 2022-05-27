@@ -42,9 +42,9 @@ class MongoSessionRepositorySpec extends PlaySpec with OptionValues  with Future
       val formId = "formId"
       val testObject = MongoSessionRepositorySpecData(name = "John", buildingNumber = 100)
 
-      await(mongoSessionrepository().cache(cacheId, formId, testObject)(format, ec))
+      await(mongoSessionrepository().cache(cacheId, formId, testObject)(format))
 
-      val res = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, formId)(format, ec))
+      val res = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, formId)(format))
       res.value mustBe(testObject)
 
     }
@@ -56,13 +56,13 @@ class MongoSessionRepositorySpec extends PlaySpec with OptionValues  with Future
       val testObject1 = MongoSessionRepositorySpecData(name = "John", buildingNumber = 100)
       val testObject2 = MongoSessionRepositorySpecData(name = "Peter", buildingNumber = -200)
 
-      await(mongoSessionrepository().cache(cacheId, page1, testObject1)(format, ec))
-      await(mongoSessionrepository().cache(cacheId, page2, testObject2)(format, ec))
+      await(mongoSessionrepository().cache(cacheId, page1, testObject1)(format))
+      await(mongoSessionrepository().cache(cacheId, page2, testObject2)(format))
 
 
-      val testObjectFromDatabase1 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page1)(format, ec))
+      val testObjectFromDatabase1 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page1)(format))
       testObjectFromDatabase1.value mustBe(testObject1)
-      val testObjectFromDatabase2 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page2)(format, ec))
+      val testObjectFromDatabase2 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page2)(format))
       testObjectFromDatabase2.value mustBe(testObject2)
     }
   }

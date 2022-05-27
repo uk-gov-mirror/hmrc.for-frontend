@@ -19,7 +19,7 @@ package form
 import models.pages._
 import models.serviceContracts.submissions.ChargeDetails
 import play.api.data.Form
-import play.api.data.Forms.{default, mapping, nonEmptyText, text}
+import play.api.data.Forms.{default, mapping, text}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 import MappingSupport._
