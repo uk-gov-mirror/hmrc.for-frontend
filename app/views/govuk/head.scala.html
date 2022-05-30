@@ -25,11 +25,7 @@
 
 @(enableTimeoutDialog: Boolean)(implicit request: RequestHeader, messages: Messages)
 
- @if(environment.mode == Dev){
-  <link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
- }else{
-  <link href='@controllers.routes.Assets.at("stylesheets/application2.min.css")' media="all" rel="stylesheet" type="text/css" />
- }
+<link href='@controllers.routes.Assets.at("stylesheets/application2.css")' media="all" rel="stylesheet" type="text/css" />
 
 @if(enableTimeoutDialog) {
  @hmrcTimeoutDialogHelper(
