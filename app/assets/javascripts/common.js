@@ -8,9 +8,8 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    VoaCommon.getSegment = function(index){
-        var pathArray = window.location.pathname.split( '/' );
-        return pathArray[index];
+    VoaCommon.getSegment = function(index) {
+        return window.location.pathname.split('/')[index];
     };
 
 

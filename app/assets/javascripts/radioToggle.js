@@ -34,8 +34,7 @@
                             var curr = fieldsThatShowHideThis[i];
                             var $masterEl = $('input[name=' + curr + ']:checked');
                             //get the corresponding value that would show this
-                            var valThatShows = valuesOfFieldsThatShowThis[i];
-                            if (valThatShows === $masterEl.val()) {
+                            if (valuesOfFieldsThatShowThis[i] === $masterEl.val()) {
                                 //if any field should show this we show it, so break loop.
                                 show = true;
                                 break;
