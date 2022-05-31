@@ -75,7 +75,10 @@ lazy val root = (project in file("."))
   .disablePlugins(plugins.JUnitXmlReportPlugin)
   .settings(
     Concat.groups := Seq(
-      "javascripts/app.js" -> group((baseDirectory.value / "app" / "assets" / "javascripts") * "*.js")
+      "javascripts/app.js" -> group(Seq(
+        "javascripts/application.js", "javascripts/common.js", "javascripts/feedback.js", "javascripts/intelAlerts.js",
+        "javascripts/messages.js", "javascripts/radioToggle.js", "javascripts/voaFor.js"
+      ))
     ),
     // prevent removal of unused code which generates warning errors due to use of third-party libs
     uglifyCompressOptions := Seq("unused=false", "dead_code=false"),
