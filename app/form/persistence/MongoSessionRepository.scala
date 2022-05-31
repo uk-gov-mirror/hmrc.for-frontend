@@ -41,10 +41,10 @@ class MongoSessionRepository @Inject()(
     cacheIdType = SimpleCacheId
   ) {
 
-  def fetchAndGetEntry[T](cacheId: String, key: String)(implicit rds: Reads[T], ec: ExecutionContext): Future[Option[T]] =
+  def fetchAndGetEntry[T](cacheId: String, key: String)(implicit rds: Reads[T]): Future[Option[T]] =
     get[T](cacheId)(DataKey(key))
 
-  def cache[A](cacheId: String, formKey: String, body: A)(implicit wts: Writes[A], ec: ExecutionContext): Future[CacheItem] =
+  def cache[A](cacheId: String, formKey: String, body: A)(implicit wts: Writes[A]): Future[CacheItem] =
     put(cacheId)(DataKey(formKey), body)
 
   def removeCache(cacheId: String): Future[Unit] =

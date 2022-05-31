@@ -74,7 +74,7 @@
       var details = list[i];
 
       // Detect native implementations
-      details.__native = typeof(details.open) == 'boolean';
+      details.__native = typeof(details.open) === 'boolean';
 
       // Save shortcuts to the inner summary and content elements
       details.__summary = details.getElementsByTagName('summary').item(0);
@@ -127,8 +127,8 @@
     function statechange(summary) {
 
       // Update aria-expanded attribute on click
-      var expanded = summary.__details.__summary.getAttribute('aria-expanded') == 'true';
-      var hidden = summary.__details.__content.getAttribute('aria-hidden') == 'true';
+      var expanded = summary.__details.__summary.getAttribute('aria-expanded') === 'true';
+      var hidden = summary.__details.__content.getAttribute('aria-hidden') === 'true';
 
       summary.__details.__summary.setAttribute('aria-expanded', (expanded ? 'false' : 'true'));
       summary.__details.__content.setAttribute('aria-hidden', (hidden ? 'false' : 'true'));

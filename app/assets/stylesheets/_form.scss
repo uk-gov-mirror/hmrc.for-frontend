@@ -26,11 +26,9 @@ fieldset {
 }
 
 .print-only {
-    display:none;
-  }
-
-  @media print {
-    .print-only {display:block;}
+  display:none;
 }
 
-
+@media print {
+  .print-only {display:block;}
+}

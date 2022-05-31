@@ -70,8 +70,7 @@
 
             var label = $container.find('label[for=\'' + oldId + '\']');
             if (label !== undefined) {
-                var labelForAttr = label.attr('for');
-                if (labelForAttr !== undefined) {
+                if (label.attr('for') !== undefined) {
                     label.attr('for', newId);
                 }
             }
