@@ -24,7 +24,7 @@ val scoverageSettings = {
 val compileDeps = Seq(
   filters,
   "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.24.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.20.0-play-28",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.21.0-play-28",
   "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.64.0",
   "uk.gov.hmrc" %% "http-caching-client" % "9.6.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.11.0-play-28",
