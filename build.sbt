@@ -25,7 +25,7 @@ val compileDeps = Seq(
   filters,
   "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.24.0",
   "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.21.0-play-28",
-  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.64.0",
+  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.65.0",
   "uk.gov.hmrc" %% "http-caching-client" % "9.6.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.11.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.3.0-play-28",
@@ -33,6 +33,7 @@ val compileDeps = Seq(
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
   "org.xhtmlrenderer" % "flying-saucer-pdf-itext5" % "9.1.22",
   "nu.validator" % "htmlparser" % "1.4.16",
+  "org.webjars" % "jquery" % "3.6.0",
   "org.webjars.bower" % "compass-mixins" % "1.0.2"
 )
 
@@ -54,7 +55,7 @@ lazy val root = (project in file("."))
   .settings(defaultSettings(): _*)
   .settings(
     name := "for-frontend",
-    scalaVersion := "2.12.15",
+    scalaVersion := "2.12.16",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     resolvers += Resolver.bintrayRepo("hmrc", "releases"),
