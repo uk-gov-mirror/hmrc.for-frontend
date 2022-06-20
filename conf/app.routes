@@ -68,10 +68,4 @@ GET 		/feedback           	        controllers.feedback.FeedbackController.feedb
 GET 		/notConnectedFeedback  	        controllers.feedback.FeedbackController.notConnectedFeedback
 POST 		/feedback           	        controllers.feedback.FeedbackController.handleFeedbackSubmit
 
-
-# AGENT API
-GET         /api/documentation              controllers.AgentAPI.getDocs
-GET         /api/schema/*name               controllers.AgentAPI.getSchema(name)
-POST        /api/submit/:refNum/:postcode   controllers.AgentAPI.submit(refNum, postcode)
-
 GET         /important-information          controllers.ApplicationController.importantInformation
