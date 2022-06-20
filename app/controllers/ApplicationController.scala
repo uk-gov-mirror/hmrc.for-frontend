@@ -130,11 +130,6 @@ class ApplicationController @Inject()(
     }
   }
 
-
-  def docs = Action {
-    Ok(views.html.api.apidoc())
-  }
-
   def importantInformation = Action { implicit request =>
     if(configuration.get[Boolean]("bannerNotice.enabled")){
       Ok(importantInformationView())
