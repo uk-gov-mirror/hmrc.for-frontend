@@ -25,12 +25,14 @@ import testutils._
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Random
+import java.security.SecureRandom
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
 
+  private val random = new SecureRandom()
+
   "Save an in progress document for later" when {
-    val pas = s"thisisapassorwd${Random.nextDouble}"
+    val pas = s"thisisapassorwd${random.nextDouble}"
     val ref = "1111111222"
     val sid = java.util.UUID.randomUUID().toString
     val hc = HeaderCarrier(sessionId = Some(SessionId(sid)))
@@ -52,15 +54,15 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
     }
 
     "saving a new document for a reference number that has already saved a document" should {
-      val oldP = s"oldPassword${Random.nextDouble}"
-      val newP = s"newPassword${Random.nextDouble}"
+      val oldP = s"oldPassword${random.nextDouble}"
+      val newP = s"newPassword${random.nextDouble}"
       val ref = "77788899902"
       val doc = Document(ref, DateTime.now, saveForLaterPassword = Some(oldP))
       var savedDoc: Document = null
 
       "use the existing password if a document already has a save for later password" in {
         var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-        val s = SaveInProgressSubmissionForLater(() => newP, set(savedDoc = _), (a, b, c) => updated = (a, b, c)) _
+        val s = SaveInProgressSubmissionForLater(() => newP, set[Document, Unit](savedDoc = _), (a, b, c) => updated = (a, b, c)) _
         assert(await(s(doc, hc)) === oldP)
       }
     }

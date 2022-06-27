@@ -22,6 +22,7 @@ import form.persistence.FormDocumentRepository
 import security.LoginToHOD.AuthToken
 import uk.gov.hmrc.http.{Authorization, HeaderCarrier}
 
+import java.security.SecureRandom
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
 
@@ -60,11 +61,11 @@ object UpdateDocumentInCurrentSession {
 }
 
 object Generate7LengthLowercaseAlphaNumPassword {
-  val validDigits = (2 to 9).toSeq
-  val validChars = "abcdefghjkmnpqrstuvwxyz".toCharArray
-  val allValid: Seq[Any] = validDigits ++ validChars
+  private val validDigits = 2 to 9
+  private val validChars = "abcdefghjkmnpqrstuvwxyz".toCharArray
+  private val allValid: Seq[Any] = validDigits ++ validChars
 
-  def apply(): SaveForLaterPassword = (1 to 7).map { _ => Random.shuffle(allValid).head }.mkString
+  def apply(): SaveForLaterPassword = (1 to 7).map { _ => new Random(new SecureRandom()).shuffle(allValid).head }.mkString
 }
 
 object UseUserAlphaNumPassword {
