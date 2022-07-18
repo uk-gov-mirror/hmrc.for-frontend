@@ -85,7 +85,7 @@ object MappingSupport {
   val rentLengthType: Mapping[RentLengthType] = Forms.of[RentLengthType]
   val postcode: Mapping[String] = PostcodeMapping.postcode()
   val loginPostcode: Mapping[String] = PostcodeMapping.postcode(Errors.invalidPostcodeOnLetter, Errors.invalidPostcodeOnLetter)
-  val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20) verifying(Errors.invalidPhone, _ matches phoneRegex)
+  val phoneNumber: Mapping[String] = nonEmptyText(maxLength = 20).verifying(Errors.invalidPhone, _ matches phoneRegex)
   val addressConnectionType: Mapping[AddressConnectionType] = Forms.of[AddressConnectionType]
   val alterationSetByTypeMapping: Mapping[AlterationSetByType] = Forms.of[AlterationSetByType]
   val subletTypeMapping: Mapping[SubletType] = Forms.of[SubletType]

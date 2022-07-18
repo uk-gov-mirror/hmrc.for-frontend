@@ -60,7 +60,7 @@ class NotConnectedCheckYourAnswersController @Inject()
   }
 
   def findNotConnected(sum: Summary)(implicit hc: HeaderCarrier) = {
-    getNotConnectedFromCache.flatMap { notConnected =>
+    getNotConnectedFromCache().flatMap { notConnected =>
       getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
         Option(NotConnectedSummary(sum, previouslyConnected, notConnected))
       }
@@ -100,7 +100,7 @@ class NotConnectedCheckYourAnswersController @Inject()
     }
   }
 
-  def onConfirmationView() = refNumAction.async { implicit request =>
+  def onConfirmationView = refNumAction.async { implicit request =>
     val feedbackForm = Survey.completedFeedbackForm.bind(
       Map("journey" -> NotConnectedJourney.name)
     ).discardingErrors
@@ -122,7 +122,7 @@ class NotConnectedCheckYourAnswersController @Inject()
     }
   }
 
-  def getNotConnectedFromCache()(implicit hc: HeaderCarrier)  = {
+  def getNotConnectedFromCache()(implicit hc: HeaderCarrier): Future[NotConnected] = {
     cache.fetchAndGetEntry[NotConnected](SessionId(hc), NotConnectedController.cacheKey).flatMap {
       case Some(x) => Future.successful(x)
       case None => Future.failed(new RuntimeException("Unable to find record in cache for not connected"))
@@ -130,7 +130,7 @@ class NotConnectedCheckYourAnswersController @Inject()
   }
 
   private def submitToHod(summary: Summary)(implicit hc: HeaderCarrier, messages: Messages) = {
-    getNotConnectedFromCache.flatMap { notConnected =>
+    getNotConnectedFromCache().flatMap { notConnected =>
       getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
         val submission = NotConnectedSubmission(
           summary.referenceNumber,

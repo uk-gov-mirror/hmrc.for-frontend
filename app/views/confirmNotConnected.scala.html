@@ -78,7 +78,7 @@
         <p class="govuk-body">
         @formWithCSRF(
             action = feedback.routes.SurveyController.formCompleteFeedback,
-            args = 'novalidate -> "novalidate") {
+            args = Symbol("novalidate") -> "novalidate") {
 
             <input type="hidden" id="journey" name="journey" value="@theForm("journey").value.getOrElse(NormalJourney.name)"/>
             <input type="hidden" id="surveyUrl" name="surveyUrl" value="@theForm("surveyUrl").value.getOrElse("")"/>
@@ -91,7 +91,7 @@
                     "verySatisfied", "satisfied", "neither", "dissatisfied", "veryDissatisfied"
                 ).map(radioItem => RadioItem(
                     content = Text(messages("satisfactionSurveyType." + radioItem)),
-                    checked = theForm("satisfaction").value.exists(_ == radioItem),
+                    checked = theForm("satisfaction").value.contains(radioItem),
                     value = Option(radioItem)
                 )
                 ),

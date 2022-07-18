@@ -121,7 +121,7 @@ class TestHttpClient @Inject()(val configuration: Config, val actorSystem: Actor
   }
 
   override def doPutString(url: String, body: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
-    Thread.sleep(100000000l)
+    Thread.sleep(100000000L)
     Future.failed(new RuntimeException("stupid error"))
   }
 

@@ -500,7 +500,7 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
       (doc2, submission2)
     )
 
-    def assertEqual(x: Submission, y: Submission) {
+    def assertEqual(x: Submission, y: Submission): Unit = {
       assert(x.propertyAddress === y.propertyAddress)
       assert(x.customerDetails === y.customerDetails)
       assert(x.theProperty === y.theProperty)

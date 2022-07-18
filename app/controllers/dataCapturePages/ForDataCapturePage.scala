@@ -129,7 +129,7 @@ abstract class ForDataCapturePage[T] (audit: Audit,
     RedirectTo(p, request.headers)
   }
 
-  private def redirectToPage(page: Int) = Redirect(routes.PageController.showPage(page))
+  private def redirectToPage(page: Int) = Redirect(controllers.dataCapturePages.routes.PageController.showPage(page))
 
 }
 

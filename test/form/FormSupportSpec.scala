@@ -24,18 +24,18 @@ class FormSupportSpec extends AnyFlatSpec with should.Matchers {
 
   "converting a field specific FormError" should "result in the same FormError" in {
     val fe1 = FormError("field", "message", "arg1")
-    fe1.convert should be(fe1)
+    fe1.convert() should be(fe1)
   }
 
   "converting a global FormError that has more 1 message" should "result in the same FormError" in {
     val fe1 = FormError("", Seq("message1", "message2"), "arg1")
-    fe1.convert should be(fe1)
+    fe1.convert() should be(fe1)
   }
 
   "converting a global FormError with a message that is just 'fieldError' followed by '.bob1.bob2' " should "result in the FormError(\"bob1\".\"bob1.bob2\")" in {
     val fe1 = FormError("", "fieldError|field1.field2|code1.code2", "arg1")
     val fe2 = FormError("field1.field2", "field1.field2.code1.code2", "arg1")
-    fe1.convert should be(fe2)
+    fe1.convert() should be(fe2)
   }
   
 }

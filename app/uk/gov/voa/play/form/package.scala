@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package util
+package uk.gov.voa.play
 
-import play.twirl.api.Html
+// TODO: Remove package uk.gov.voa.play.form if library uk.gov.hmrc:play-conditional-form-mapping_2.13 for Scala 2.13 released
+// https://artefacts.tax.service.gov.uk/ui/packages?name=%2Aplay-conditional-form-mapping%2A&type=packages
 
-object FieldElementsHelper {
-
-  implicit class FieldLabelHelper(elements: views.html.helper.FieldElements) {
-
-    def raldLabel: Any = {
-      elements.args.get(Symbol("_label")).filter(_.isInstanceOf[Html]).getOrElse(elements.label)
-    }
-
-
+package object form {
+  implicit val emptyOption = None
+  implicit val emptyList = List()
+  implicit class conditionOpts(c: Condition) {
+    def and(c2: Condition): Condition = d => c(d) && c2(d)
   }
-
+  type Condition = Map[String, String] => Boolean
 }
