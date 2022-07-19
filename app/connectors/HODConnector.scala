@@ -74,7 +74,7 @@ class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(impli
       if(isAddressCorrect.contains("false")) {
         updateChangedAddresToNewModel(doc, page1)
       }else {
-        val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.mapValues(Seq(_)) )
+        val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.mapValues(Seq(_)).toMap )
         updateDocWithPageZeroAndRemovePageOne(doc, page0)
       }
     }
@@ -88,11 +88,11 @@ class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(impli
       }else {
         (key, value)
       }
-    }.filterKeys(_ != "isAddressCorrect")
+    }.filterKeys(_ != "isAddressCorrect").toMap
 
     val newPage1 = page1.copy(fields = page1Data)
 
-    val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYesChangeAddress).data.mapValues(Seq(_)))
+    val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYesChangeAddress).data.mapValues(Seq(_)).toMap)
 
     val newPages = Seq(page0, newPage1) ++ (document.pages.filterNot(x => x.pageNumber == 0 || x.pageNumber == 1))
 

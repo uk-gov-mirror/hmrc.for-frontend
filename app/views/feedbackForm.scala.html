@@ -44,7 +44,7 @@
 
     @formWithCSRF(
         action = routes.FeedbackController.handleFeedbackSubmit,
-        args = 'novalidate -> "novalidate" ) {
+        args = Symbol("novalidate") -> "novalidate" ) {
 
         <input type="hidden" name="feedback-name" value="Anonymous user"/>
         <input type="hidden" name="feedback-email" value="anonymous@@anonymous.com"/>

@@ -42,7 +42,7 @@
 
     @formWithCSRF(
         action = routes.FORSubmissionController.submit,
-        args = 'class -> "declaration", 'id -> "myFormId"
+        args = Symbol("class") -> "declaration", Symbol("id") -> "myFormId"
 
     ) {
 

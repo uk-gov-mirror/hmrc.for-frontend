@@ -68,7 +68,7 @@ class SurveyController @Inject() (
   }
 
   def formCompleteFeedback = refNumAction.async { implicit request =>
-    completedFeedbackForm.bindFromRequest.fold(
+    completedFeedbackForm.bindFromRequest().fold(
       formWithErrors => Future.successful(BadRequest(surveyView(formWithErrors))),
       success => {
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou) }

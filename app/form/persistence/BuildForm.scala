@@ -22,6 +22,6 @@ import form._
 
 object BuildForm {
   def apply[T](doc: Document, page: Int, emptyForm: Form[T]): Form[T] = doc.page(page).map { p =>
-    emptyForm.bindFromRequest(p.fields).convertGlobalToFieldErrors
+    emptyForm.bindFromRequest(p.fields).convertGlobalToFieldErrors()
   } getOrElse emptyForm
 }

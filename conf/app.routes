@@ -7,7 +7,7 @@
 GET         /                          controllers.ApplicationController.index
 
 GET         /confirmation              controllers.feedback.SurveyController.confirmation
-GET         /declaration               controllers.ApplicationController.declaration()
+GET         /declaration               controllers.ApplicationController.declaration
 GET         /declarationError          controllers.ApplicationController.declarationError
 POST        /declaration               controllers.FORSubmissionController.submit
 GET         /check-your-answers        controllers.ApplicationController.checkYourAnswers

@@ -96,7 +96,7 @@ class SaveForLaterController @Inject()
         case Some(doc) => {
           val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val sum = SummaryBuilder.build(doc)
-          CustomUserPasswordForm.customUserPassword.bindFromRequest.fold(
+          CustomUserPasswordForm.customUserPassword.bindFromRequest().fold(
             formErrors => {
               Ok(customPasswordSaveForLaterView(sum, expiryDate, formErrors, exitPath))
             },
@@ -123,7 +123,7 @@ class SaveForLaterController @Inject()
   }
 
   def resume = refNumAction.async { implicit request =>
-    saveForLaterForm.bindFromRequest.fold(
+    saveForLaterForm.bindFromRequest().fold(
       formWithErrors => BadRequest(saveForLaterLogin(formWithErrors)),
       s4l => continue(hc)(s4l.password, request.refNum) flatMap {
         case PasswordsMatch(pageToResumeAt) => RedirectTo(pageToResumeAt, request.headers).flashing((s4lIndicator, s4lIndicator))

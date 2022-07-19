@@ -17,14 +17,13 @@
 package form
 
 import models.serviceContracts.submissions.NotConnected
-import org.apache.commons.lang3.StringUtils
 import play.api.data.Forms.mapping
 import play.api.data.{FieldMapping, Form, FormError, Mapping}
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints.emailAddress
 import play.api.data.validation.{Constraint, Constraints, Valid}
 import play.api.data.Forms._
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 import scala.util.matching.Regex
 
@@ -39,10 +38,10 @@ object NotConnectedPropertyForm {
   def atLeastOneKeyFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
 
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
-      if (data.get(key).exists(value => StringUtils.isNotBlank(value))) {
+      if (data.get(key).exists(!_.isBlank)) {
         Right(data.get(key).map(_.trim))
       } else {
-        if (data.get(anotherKey).exists(value => StringUtils.isNotBlank(value))) {
+        if (data.get(anotherKey).exists(!_.isBlank)) {
           Right(None)
         } else {
           Left(Seq(FormError(key, "notConnected.emailOrPhone")))
@@ -75,5 +74,6 @@ object NotConnectedPropertyForm {
     )(NotConnected.apply)(NotConnected.unapply)
   )
 
-  implicit val format = Json.format[NotConnectedPropertyForm]
+  implicit val format: OFormat[NotConnectedPropertyForm] = Json.format[NotConnectedPropertyForm]
+
 }

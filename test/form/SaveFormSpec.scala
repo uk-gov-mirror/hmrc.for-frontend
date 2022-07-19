@@ -28,6 +28,7 @@ import utils.stubs.StubFormDocumentRepo
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class SaveFormSpec extends AnyWordSpec with should.Matchers {
   import TestData._

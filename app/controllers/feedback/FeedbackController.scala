@@ -70,7 +70,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
 
   import FeedbackFormMapper.feedbackForm
 
-  def handleFeedbackSubmit() = Action.async { implicit request =>
+  def handleFeedbackSubmit = Action.async { implicit request =>
     val formUrlEncoded = request.body.asFormUrlEncoded
     feedbackForm.bindFromRequest().fold(
       formWithErrors => Future.successful({
@@ -83,7 +83,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
           case _ => log.error (s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
         }
         }
-        Redirect(routes.FeedbackController.feedbackThankyou)
+        Redirect(controllers.feedback.routes.FeedbackController.feedbackThankyou)
       }
     )
   }
@@ -106,7 +106,7 @@ trait HMRCContact {
 
   val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
   val serviceIdentifier = "RALD"
-  val feedbackUrl = routes.FeedbackController.feedback.url
+  val feedbackUrl = controllers.feedback.routes.FeedbackController.feedback.url
   val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
   val hmrcHelpWithPageFormUrl = s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"

@@ -56,7 +56,7 @@ object PageSixForm {
 
   def toDateIsAfterTenYears: Constraint[(LocalDate, LocalDate)] =  Constraint("constraints.steppedDetails.invalidRange") {
     case (stepFrom, stepTo) =>
-      val dateFormatPattern = DateTimeFormat.forPattern("d MMMM YYYY")
+      val dateFormatPattern = DateTimeFormat.forPattern("d MMMM yyyy")
       val maxFutureDate = stepFrom.plusYears(10)
 
       if (stepTo.isBefore(maxFutureDate.plusDays(1)))

@@ -27,7 +27,6 @@ import play.api.mvc.Request
 import uk.gov.hmrc.http.HeaderCarrier
 import useCases.SubmissionBuilder
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object StubSubmissionConnector { def apply() = new StubSubmissionConnector }
@@ -37,10 +36,10 @@ class StubSubmissionConnector extends SubmissionConnector with should.Matchers {
 
   def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] = {
     submissions = submissions.updated(refNum, submission)
-    Future { Unit }
+    Future.unit
   }
 
-  def verifyWasSubmitted(refNum: String, sub: Submission) {
+  def verifyWasSubmitted(refNum: String, sub: Submission): Unit = {
     submissions.get(refNum) match {
       case None => fail(s"No submission for $refNum")
       case Some(x) => assert(x === sub)
@@ -74,7 +73,7 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
 
   override def updatePage(documentId: String, referenceNumber: String, page: Page): Future[Unit] = {
     storedPages = storedPages :+((documentId, referenceNumber, page))
-    Future.successful(Unit)
+    Future.unit
   }
 
   override def store(documentId: String, referenceNumber: String, doc: Document): Future[Unit] = ???

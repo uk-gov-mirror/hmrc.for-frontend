@@ -23,11 +23,10 @@ val scoverageSettings = {
 
 val compileDeps = Seq(
   filters,
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.24.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.21.0-play-28",
-  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.66.0",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "6.3.0",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.22.0-play-28",
+  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.67.0",
   "uk.gov.hmrc" %% "http-caching-client" % "9.6.0-play-28",
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.11.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.3.0-play-28",
   "com.typesafe.play" %% "play-json-joda" % "2.9.2",
   "com.typesafe.play" %% "play-joda-forms" % PlayVersion.current,
@@ -40,14 +39,14 @@ val compileDeps = Seq(
 val scalatestPlusPlayVersion = "5.1.0"
 val scalatestVersion = "3.2.12"
 val mockitoScalaVersion = "1.17.7"
-val flexmarkVersion = "0.62.2"
+val flexMarkVersion = "0.64.0"
 
 def testDeps(scope: String) = Seq(
   "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
   "org.scalatest" %% "scalatest" % scalatestVersion % scope,
   "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
   "org.mockito" %% "mockito-scala-scalatest" % mockitoScalaVersion % scope,
-  "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope // for scalatest 3.1+
+  "com.vladsch.flexmark" % "flexmark-all" % flexMarkVersion % scope // for scalatest 3.2.x
 )
 
 lazy val root = (project in file("."))
@@ -55,7 +54,8 @@ lazy val root = (project in file("."))
   .settings(defaultSettings(): _*)
   .settings(
     name := "for-frontend",
-    scalaVersion := "2.12.16",
+    scalaVersion := "2.13.8",
+    DefaultBuildSettings.targetJvm := "jvm-11",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     resolvers += Resolver.bintrayRepo("hmrc", "releases"),
@@ -64,8 +64,7 @@ lazy val root = (project in file("."))
     publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
-    majorVersion := 3,
+    majorVersion := 3
   )
   .configs(IntegrationTest)
   .settings(

@@ -23,30 +23,30 @@ import utils.FormBindingTestAssertions._
 
 object MappingSpecs extends DateMappingSpecs with DurationMappingSpecs with AddressMappingSpecs with CurrencySpecs with CommonSpecs {
 
-  def validateFullName[T](form: Form[T], formData: Map[String, String], field: String, errorMaxLengthKeyOpt: Option[String] = None) {
+  def validateFullName[T](form: Form[T], formData: Map[String, String], field: String, errorMaxLengthKeyOpt: Option[String] = None): Unit = {
     validateLettersNumsSpecCharsUptoLength(field, 50, form, formData, errorMaxLengthKeyOpt)
   }
 
-  def validatePhone[T](form: Form[T], formData: Map[String, String], prefix: String) = {
+  def validatePhone[T](form: Form[T], formData: Map[String, String], prefix: String): Unit = {
     validateOptionalPhone(form, formData, prefix)
     val fieldName = prefix + ".phone"
     verifyIsMandatory(fieldName, form, formData)
   }
 
-  def validateOptionalPhone[T](form: Form[T], formData: Map[String, String], prefix: String) = {
+  def validateOptionalPhone[T](form: Form[T], formData: Map[String, String], prefix: String): Unit = {
     val fieldName = prefix + ".phone"
     canOnlyContainNumbersAndSpecialCharacters(fieldName, form, formData)
     limitedToNChars(fieldName, 20, form, formData)
   }
 
   def validateUptoNDigits[T](field: String, digits: Int, form: Form[T], formData: Map[String, String],
-                             errorMaxLengthKeyOpt: Option[String] = None, errorInvalidNumberKeyOpt: Option[String] = None) {
+                             errorMaxLengthKeyOpt: Option[String] = None, errorInvalidNumberKeyOpt: Option[String] = None): Unit = {
     limitedToNDigits(field, digits, form, formData, errorMaxLengthKeyOpt)
     canOnlyContainDigits(field, digits, form, formData, errorInvalidNumberKeyOpt)
   }
 
   private def canOnlyContainDigits[T](field: String, maxLength: Int, form: Form[T], formData: Map[String, String],
-                                      errorInvalidNumberKeyOpt: Option[String]) {
+                                      errorInvalidNumberKeyOpt: Option[String]): Unit = {
     val invalid = Seq( (1 to maxLength).map(_ => "a").mkString(""), "b", "C" )
     validateError(field, invalid, errorInvalidNumberKeyOpt.getOrElse(Errors.number), form, formData)
 
@@ -71,14 +71,14 @@ trait CurrencySpecs { this: CommonSpecs =>
   val validAmount = Seq("192307.69", "1", "250", "55421")
   val exceededMax = Seq("10000000", "10000001", "19999999.99")
 
-  def validateAnnualRent[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validateAnnualRent[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     checkAnnualRentAmount(RentLengthTypeWeekly, field, form, formData, fieldErrorPart)
     checkAnnualRentAmount(RentLengthTypeMonthly, field, form, formData, fieldErrorPart)
     checkAnnualRentAmount(RentLengthTypeQuarterly, field, form, formData, fieldErrorPart)
   }
 
   private def checkAnnualRentAmount[T](rentLengthType: RentLengthType, field: String, form: Form[T],
-                                       formData: Map[String, String], fieldErrorPart: String) {
+                                       formData: Map[String, String], fieldErrorPart: String): Unit = {
     val data = formData.updated(s"$field.rentLengthType", rentLengthType.name)
     val annualRentField = s"$field.annualRentExcludingVat"
 
@@ -86,13 +86,13 @@ trait CurrencySpecs { this: CommonSpecs =>
     validateError(annualRentField, exceededMax, Errors.maxCurrencyAmountExceeded + fieldErrorPart, form, data, Some(annualRentField))
   }
 
-  def validateCurrency[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validateCurrency[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     validateError(field, invalidCurrencyValues, Errors.invalidCurrency + fieldErrorPart, form, formData)
     validateNoError(field, validCurrencyValues, form, formData)
     validateDoesNotExceedMaxCurrencyAmount(field, form, formData, fieldErrorPart)
   }
 
-  def validateNonNegativeCurrency[T](field: String, form: Form[T], formData: Map[String, String]) {
+  def validateNonNegativeCurrency[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     validateError(field, invalidCurrencyValues, Errors.invalidCurrency, form, formData)
     val valid = validCurrencyValues ++ Seq("0", "0.05", "0.99", "0.01")
     validateNoError(field, valid, form, formData)
@@ -107,24 +107,24 @@ trait CurrencySpecs { this: CommonSpecs =>
 trait DateMappingSpecs { this: CommonSpecs =>
   import org.joda.time.DateTime
 
-  def validateFullDateInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validateFullDateInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     validateAnyDate(field, form, formData, fieldErrorPart)
     validateDay(field, form, formData, fieldErrorPart)
     fullDateMustBeInPast(field, form, formData, fieldErrorPart)
   }
 
-  def validatePastDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validatePastDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     validateAnyDate(field, form, formData, fieldErrorPart)
     mustBeInPast(field, form, formData, fieldErrorPart)
   }
 
-  def validateDate[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validateDate[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     validateAnyDateStepRent(field, form, formData, fieldErrorPart)
     validateDay(field(0), form, formData, fieldErrorPart)
     dateMayBeInFuture(field(0), form, formData)
   }
 
-  private def validateAnyDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def validateAnyDate[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     monthCanOnlyBe1to12(field, form, formData)
     containError(field + ".month", s"error$fieldErrorPart.month.required", form, formData)
     containError(field + ".year", s"error$fieldErrorPart.year.required", form, formData)
@@ -133,7 +133,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     ignoresLeadingAndTraillingWhitespace(field, form, formData)
   }
 
-  private def validateAnyDateStepRent[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def validateAnyDateStepRent[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     monthCanOnlyBe1to12(field(0), form, formData)
     containError(field(0) + ".month", s"error$fieldErrorPart.month.required", form, formData)
     containError(field(0) + ".year", s"error$fieldErrorPart.year.required", form, formData)
@@ -142,13 +142,13 @@ trait DateMappingSpecs { this: CommonSpecs =>
     ignoresLeadingAndTraillingWhitespace(field(0), form, formData)
   }
 
-  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def validateDay[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     dayCanOnlyBe1to31(field, form, formData)
     containError(field + ".day", s"error$fieldErrorPart.day.required", form, formData)
     mustBeValidDayInMonth(field, form, formData, fieldErrorPart)
   }
 
-  private def dayCanOnlyBe1to31[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def dayCanOnlyBe1to31[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key = field + ".day"
     val data = formData.
       updated(field + ".month", "1").
@@ -161,7 +161,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     validateNoError(key, valid, form, data)
   }
 
-  private def monthCanOnlyBe1to12[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def monthCanOnlyBe1to12[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key = field + ".month"
     val data = formData.updated(field + ".year", "2014")
 
@@ -172,13 +172,13 @@ trait DateMappingSpecs { this: CommonSpecs =>
     validateNoError(field, valid, form, data)
   }
 
-  private def yearCanOnlyBe4Digits[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def yearCanOnlyBe4Digits[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key = field + ".year"
     val invalid = Seq("abc", "12345", "-1000")
     validateError(key, invalid, Errors.invalidDate, form, formData)
   }
 
-  private def yearMustBe1900OrLater[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def yearMustBe1900OrLater[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     val key = field + ".year"
 
     val invalid = Seq("1899", "1000", "0001")
@@ -188,7 +188,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     valid foreach { v => validateNoError(key, valid, form, formData) }
   }
 
-  private def yearMustBe1900OrLaterStepRent[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def yearMustBe1900OrLaterStepRent[T](field: Seq[String], form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     val fromKey = field(0) + ".year"
     val toKey = field(1) + ".year"
 
@@ -203,7 +203,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     }
   }
 
-  private def ignoresLeadingAndTraillingWhitespace[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def ignoresLeadingAndTraillingWhitespace[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val yearKey = field + ".year"
     val monthKey = field + ".month"
 
@@ -212,7 +212,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     doesNotContainErrors(f)
   }
 
-  private def mustBeInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def mustBeInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
     val monthKey = field + ".month"
     val yearKey = field + ".year"
 
@@ -239,7 +239,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     }
   }
 
-  private def dateMayBeInFuture[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def dateMayBeInFuture[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val monthKey = field + ".month"
     val yearKey = field + ".year"
 
@@ -253,7 +253,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     doesNotContainErrors(res)
   }
 
-  private def fullDateMustBeInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String) {
+  private def fullDateMustBeInPast[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String): Unit = {
 
     val tomorrow = DateTime.now.plusDays(1)
 
@@ -279,7 +279,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
     }
   }
 
-  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def mustBeValidDayInMonth[T](field: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
 
     val invalid = Seq(
       ("29", "2", "2021"),
@@ -312,19 +312,19 @@ trait DateMappingSpecs { this: CommonSpecs =>
 
 trait DurationMappingSpecs { this: CommonSpecs =>
 
-  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = "") {
+  def validatesDuration[T](prefix: String, form: Form[T], formData: Map[String, String], fieldErrorPart: String = ""): Unit = {
     containError(prefix + ".years", s"error$fieldErrorPart.years.required", form, formData)
     containError(prefix + ".months", s"error$fieldErrorPart.months.required", form, formData)
     monthDurationCanOnlyBeUpTo12(prefix, form, formData)
     yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
   }
 
-  def validatesDurationMonths[T](prefix: String, form: Form[T], formData: Map[String, String]) = {
+  def validatesDurationMonths[T](prefix: String, form: Form[T], formData: Map[String, String]): Unit = {
     cannotBeEmptyString(prefix, form, formData)
     yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
   }
 
-  private def monthDurationCanOnlyBeUpTo12[T](field: String, form: Form[T], formData: Map[String, String]) {
+  private def monthDurationCanOnlyBeUpTo12[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key = field + ".months"
     val data = formData.updated(field + ".year", "2014")
 
@@ -335,7 +335,7 @@ trait DurationMappingSpecs { this: CommonSpecs =>
     validateNoError(field, valid, form, data)
   }
 
-  private def yearDurationCanOnlyBe3Digits[T](prefix: String, n: Int, form: Form[T], formData: Map[String, String]) = {
+  private def yearDurationCanOnlyBe3Digits[T](prefix: String, n: Int, form: Form[T], formData: Map[String, String]): Unit = {
     val key = prefix + ".years"
     val invalid = Seq("abc", "1234", "-100")
     validateError(key, invalid, Errors.invalidDurationYears, form, formData)
@@ -353,7 +353,7 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
     val postcode = "postcode"
   }
 
-  def validateAddress[T](form: Form[T], formData: Map[String, String]) {
+  def validateAddress[T](form: Form[T], formData: Map[String, String]): Unit = {
     validateAddressLine(addressKeys.buildingNameOrNumber, form, formData,
       Some("error.buildingNameNumber.required"), Some("error.buildingNameNumber.maxLength"))
     validateAddressLine(addressKeys.street1, form, formData)
@@ -361,7 +361,7 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
     validatesPostcode(addressKeys.postcode, form, formData)
   }
 
-  def validateAddress[T](form: Form[T], formData: Map[String, String], fieldPrefix: String) {
+  def validateAddress[T](form: Form[T], formData: Map[String, String], fieldPrefix: String): Unit = {
     val prefix = fieldPrefix + "."
     val dwa = withAddressValues(formData, prefix)
     validateAddressLine(prefix + addressKeys.buildingNameOrNumber, form, dwa,
@@ -371,7 +371,7 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
     validatesPostcode(prefix + addressKeys.postcode, form, dwa)
   }
 
-  def validateOverseasAddress[T](form: Form[T], formData: Map[String, String], fieldPrefix: String) {
+  def validateOverseasAddress[T](form: Form[T], formData: Map[String, String], fieldPrefix: String): Unit = {
     val prefix = fieldPrefix + "."
     val dwa = withAddressValues(formData, prefix)
     validateAddressLine(prefix + addressKeys.buildingNameOrNumber, form, dwa,
@@ -390,7 +390,7 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
 
   private def validateAddressLine[T](field: String, form: Form[T], formData: Map[String, String],
                                      errorRequiredKeyOpt: Option[String] = None,
-                                     errorMaxLengthKeyOpt: Option[String] = None) {
+                                     errorMaxLengthKeyOpt: Option[String] = None): Unit = {
     errorRequiredKeyOpt.map { errorKey =>
       containError(field, errorKey, form, formData)
     }.getOrElse {
@@ -404,18 +404,18 @@ trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
 
 trait PostcodeMappingSpecs { this: CommonSpecs =>
 
-  protected def validatesPostcode[T](field: String, form: Form[T], formData: Map[String, String]) {
+  protected def validatesPostcode[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     allowsValidPostcodes(field, form, formData)
     rejectsInvalidPostcodes(field, form, formData)
     containError(field, "error.postcode.required", form, formData)
   }
 
-  protected def allowsValidPostcodes[T](field: String, form: Form[T], formData: Map[String, String]) {
+  protected def allowsValidPostcodes[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val validPostcodes = Seq("AA11 1BW", "AA1A 1AA", "AA11 1HS", "AA1 5UT", "AA1A 2BX", "AA2N 4JS")
     validateNoError(field, validPostcodes, form, formData)
   }
 
-  protected def rejectsInvalidPostcodes[T](field: String, form: Form[T], formData: Map[String, String]) {
+  protected def rejectsInvalidPostcodes[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val invalidPostcodes = Seq("Steve", "AAAA11", "01111111111", "POST CODE", "Generic Headphones")
     invalidPostcodes foreach { pc =>
       val data = formData.updated(field, pc)
@@ -427,7 +427,7 @@ trait PostcodeMappingSpecs { this: CommonSpecs =>
 
 trait CommonSpecs {
 
-  protected def validateError[T](field: String, values: Seq[String], error: String, form: Form[T], formData: Map[String, String], errorKey: Option[String] = None) {
+  protected def validateError[T](field: String, values: Seq[String], error: String, form: Form[T], formData: Map[String, String], errorKey: Option[String] = None): Unit = {
     values foreach { v =>
       val d = formData.updated(field, v)
       val f = form.bind(d).convertGlobalToFieldErrors()
@@ -435,7 +435,7 @@ trait CommonSpecs {
     }
   }
 
-  protected def validateNoError[T](field: String, values: Seq[String], form: Form[T], formData: Map[String, String]) {
+  protected def validateNoError[T](field: String, values: Seq[String], form: Form[T], formData: Map[String, String]): Unit = {
     values foreach { v =>
       val d = formData.updated(field, v)
       val f = form.bind(d).convertGlobalToFieldErrors()
@@ -443,19 +443,19 @@ trait CommonSpecs {
     }
   }
 
-  protected def cannotBeEmptyString[T](field: String, form: Form[T], formData: Map[String, String]) {
+  protected def cannotBeEmptyString[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val data = formData.updated(field, "")
     val f = form.bind(data).convertGlobalToFieldErrors()
     mustOnlyContainRequiredErrorFor(field, f)
   }
 
-  protected def containError[T](field: String, errorKey: String, form: Form[T], formData: Map[String, String]) {
+  protected def containError[T](field: String, errorKey: String, form: Form[T], formData: Map[String, String]): Unit = {
     val data = formData.updated(field, "")
     val f = form.bind(data).convertGlobalToFieldErrors()
     mustContainError(field, errorKey, f)
   }
 
-  def limitedToNChars[T](field: String, n: Int, form: Form[T], formData: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None) {
+  def limitedToNChars[T](field: String, n: Int, form: Form[T], formData: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None): Unit = {
     val fifty1Chars = (1 to (n + 1)).map(_ => "1").mkString("")
     val data = formData.updated(field, fifty1Chars)
     val f = form.bind(data).convertGlobalToFieldErrors()
@@ -472,7 +472,7 @@ trait CommonSpecs {
     doesNotContainErrors(f2)
   }
 
-  def limitedToNDigits[T](field: String, n: Int, form: Form[T], formData: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None) {
+  def limitedToNDigits[T](field: String, n: Int, form: Form[T], formData: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None): Unit = {
     val fifty1Chars = (1 to (n + 1)).map(_ => 1).mkString("")
     val data = formData.updated(field, fifty1Chars)
     val f = form.bind(data).convertGlobalToFieldErrors()
@@ -490,7 +490,7 @@ trait CommonSpecs {
     doesNotContainErrors(f2)
   }
 
-  def canOnlyContainNumbersAndSpecialCharacters[T](field: String, form: Form[T], formData: Map[String, String]) = {
+  def canOnlyContainNumbersAndSpecialCharacters[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val valid = Seq("012345678901", "+4412345678901", "012345 678 901", "012345-678-901", "(012345) 678 901")
     validateNoError(field, valid, form, formData)
 
@@ -498,29 +498,29 @@ trait CommonSpecs {
     validateError(field, invalid, Errors.invalidPhone, form, formData)
   }
 
-  def validateLettersNumsSpecCharsUptoLength[T](field: String, maxLength: Int, form: Form[T], data: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None) {
+  def validateLettersNumsSpecCharsUptoLength[T](field: String, maxLength: Int, form: Form[T], data: Map[String, String], errorMaxLengthKeyOpt: Option[String] = None): Unit = {
     canContainsLettersNumbersSpacesSpecialAccentCharacters(field, form, data, maxLength)
     limitedToNChars(field, maxLength, form, data, errorMaxLengthKeyOpt)
   }
 
-  def verifyIsMandatory[T](field: String, form: Form[T], formData: Map[String, String]) {
+  def verifyIsMandatory[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val f = form.bind(formData - field).convertGlobalToFieldErrors()
     mustContainRequiredErrorFor(field, f)
     cannotBeEmptyString(field, form, formData)
   }
 
-  def verifyIsNotMandatory[T](field: String, form: Form[T], formData: Map[String, String]) {
+  def verifyIsNotMandatory[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val f = form.bind(formData - field).convertGlobalToFieldErrors()
     doesNotContainErrors(f)
   }
 
-  def canContainsLettersNumbersSpacesSpecialAccentCharacters[T](field: String, form: Form[T], formData: Map[String, String], maxLength: Int = 100) {
+  def canContainsLettersNumbersSpacesSpecialAccentCharacters[T](field: String, form: Form[T], formData: Map[String, String], maxLength: Int = 100): Unit = {
     val chars = "111  ABCdef &;*/.() Â ê Ê î Î ô Ô û Û"
     chars.sliding(maxLength).toSeq.foreach { x =>
       val data = formData.updated(field, x)
       val f = form.bind(data).convertGlobalToFieldErrors()
       doesNotContainErrors(f)
-      assert(f.data.get(field).get === x)
+      assert(f.data(field) === x)
     }
   }
 
