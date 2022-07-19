@@ -39,14 +39,14 @@ val compileDeps = Seq(
 val scalatestPlusPlayVersion = "5.1.0"
 val scalatestVersion = "3.2.12"
 val mockitoScalaVersion = "1.17.7"
-val flexmarkVersion = "0.64.0"
+val flexMarkVersion = "0.64.0"
 
 def testDeps(scope: String) = Seq(
   "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
   "org.scalatest" %% "scalatest" % scalatestVersion % scope,
   "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlusPlayVersion % scope,
   "org.mockito" %% "mockito-scala-scalatest" % mockitoScalaVersion % scope,
-  "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope // for scalatest 3.1+
+  "com.vladsch.flexmark" % "flexmark-all" % flexMarkVersion % scope // for scalatest 3.2.x
 )
 
 lazy val root = (project in file("."))
@@ -64,8 +64,7 @@ lazy val root = (project in file("."))
     publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
-    majorVersion := 3,
+    majorVersion := 3
   )
   .configs(IntegrationTest)
   .settings(
