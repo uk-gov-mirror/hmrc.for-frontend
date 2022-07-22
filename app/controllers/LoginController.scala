@@ -131,7 +131,7 @@ class LoginController @Inject()(
         logger.warn(s"Failed login: RefNum: $ref1$ref2 Attempts remaining: $remainingAttempts")
         if (remainingAttempts < 1) {
           val clientIP = r.headers.get(trueClientIp).getOrElse("")
-          auditLockedOut(cleanedRefNumber, cleanPostcode, clientIP)(hc2)
+          auditLockedOut(cleanedRefNumber, postcode, cleanPostcode, clientIP)(hc2)
 
           Redirect(routes.LoginController.lockedOut)
         } else {
@@ -145,8 +145,13 @@ class LoginController @Inject()(
     audit.sendExplicitAudit("UserLogin", json)
   }
 
-  private def auditLockedOut(refNumber: String, postcode: String, lockedIP: String)(implicit hc: HeaderCarrier): Unit = {
-    val detailJson = Json.obj(Audit.referenceNumber -> refNumber, "postcode" -> postcode, "lockedIP" -> lockedIP)
+  private def auditLockedOut(refNumber: String, postcode: String, postcodeCleaned: String, lockedIP: String)(implicit hc: HeaderCarrier): Unit = {
+    val detailJson = Json.obj(
+      Audit.referenceNumber -> refNumber,
+      "postcode" -> postcode,
+      "postcodeCleaned" -> postcodeCleaned,
+      "lockedIP" -> lockedIP
+    )
     audit.sendExplicitAudit("LockedOut", detailJson)
   }
 
