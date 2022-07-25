@@ -24,6 +24,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import scala.concurrent.ExecutionContext
+@import util.DateUtil
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
@@ -137,7 +138,7 @@ args = 'class -> "myForm", 'id -> "myFormId"
         form = theForm,
         field = "rentReviewDetails.lastReviewDate",
         govukDate = govukDateInput,
-        helpText = "<p>" + messages("hint.lastReviewDate") + "</p><p>" + messages("help.date.month.year") + "</p>"
+        helpText = "<p>" + messages("hint.lastReviewDate") + "</p><p>" + messages("help.date.month.year", DateUtil.exampleMonthYear(1)) + "</p>"
       )
       @govukRadios(
         Radios(

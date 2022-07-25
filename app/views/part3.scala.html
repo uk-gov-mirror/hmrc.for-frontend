@@ -26,6 +26,7 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+@import util.DateUtil
 
 @this(
     layout: pageLayout,
@@ -141,7 +142,7 @@
         @includes.dateFields(
             form =theForm,
             field = "firstOccupationDate",
-            helpText = "<span>" + messages("label.firstOccupationDate.help") + "</span><br/><br/><span>" + messages("help.date.month.year") + "</p>",
+            helpText = "<span>" + messages("label.firstOccupationDate.help") + "</span><br/><br/><span>" + messages("help.date.month.year", DateUtil.exampleMonthYear(1)) + "</p>",
             labelSuffix = labelSuffix,
             govukDate = govukDateInput,
             hiddenBy = Option(new HiddenBy("occupierType", Seq("company", "individuals")))
