@@ -25,8 +25,7 @@
         govukWarningText: GovukWarningText,
         govukErrorSummary: GovukErrorSummary,
         govukDetails:GovukDetails,
-        formWithCSRF: FormWithCSRF,
-        formHelp: includes.formHelp)
+        formWithCSRF: FormWithCSRF)
 
 
 @(theForm: Form[_], fullName: String, userType: String, summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
@@ -64,8 +63,7 @@
         )
 
         @includes.submitButton(govukButton)
-    
+
     }
 
-    @formHelp()
 }
