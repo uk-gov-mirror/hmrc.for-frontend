@@ -24,8 +24,7 @@ import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 import MappingSupport._
-import form.Errors.{propertyOwnedByYouRequired, propertyRentedByYouRequired,
-}
+import form.Errors.{propertyOwnedByYouRequired, propertyRentedByYouRequired}
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 
 object PageThreeForm {
@@ -57,7 +56,13 @@ object PageThreeForm {
         maxLength(50, "error.companyName.maxLength")
       )),
 
-    keys.occupierCompanyContact -> onlyIf(isEqual(keys.occupierType, OccupierTypeCompany.name), optional(text(maxLength = 50))),
+    keys.occupierCompanyContact -> onlyIf(
+      isEqual(keys.occupierType, OccupierTypeCompany.name),
+      default(text, "").verifying(
+        nonEmpty(errorMessage = "error.occupierCompanyContact.required"),
+        maxLength(50, "error.occupierCompanyContact.maxLength")
+      ).transform[Option[String]](Option(_), _.getOrElse(""))
+    ),
 
     keys.firstOccupationDate ->
       mandatoryIfEqualToAny(
