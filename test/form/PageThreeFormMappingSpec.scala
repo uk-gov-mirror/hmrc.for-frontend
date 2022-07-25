@@ -74,8 +74,22 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     validateLettersNumsSpecCharsUptoLength(keys.occupierCompanyName, 50, pageThreeForm, formData1, Some("error.companyName.maxLength"))
   }
 
-  it should "allow up to 50 letters, numbers, spaces, and special characters for Company contact" in {
-    validateLettersNumsSpecCharsUptoLength(keys.occupierCompanyContact, 50, pageThreeForm, formData1)
+  it should "require occupier company contact for selected occupier type Company" in {
+    val data = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.occupierCompanyContact
+    val form = bind(data)
+
+    mustContainError(keys.occupierCompanyContact, "error.occupierCompanyContact.required", form)
+  }
+
+  it should "not require occupier company contact for selected occupier type Individuals" in {
+    val data = formData1.updated(keys.occupierType, OccupierTypeIndividuals.name) - keys.occupierCompanyContact
+    val form = bind(data)
+
+    mustNotContainErrorFor(keys.occupierCompanyContact, form)
+  }
+
+  it should "allow up to 50 letters, numbers, spaces, and special characters for occupier company contact" in {
+    validateLettersNumsSpecCharsUptoLength(keys.occupierCompanyContact, 50, pageThreeForm, formData1, Some("error.occupierCompanyContact.maxLength"))
   }
 
   it should "require an answer to property is rented by you, when specifying property not owned by you" in {
@@ -83,7 +97,6 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     val form = bind(data)
 
     mustContainError(keys.propertyRentedByYou, Errors.propertyRentedByYouRequired, form)
-
   }
 
   it should "require a main contact name when occupier type is one or more individuals" in {
