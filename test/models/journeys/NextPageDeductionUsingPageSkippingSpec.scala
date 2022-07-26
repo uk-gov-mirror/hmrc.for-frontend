@@ -282,7 +282,7 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
     )
   )
 
-  lazy val pageFiveData = PageFive("name", Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
+  lazy val pageFiveData = PageFive(Some("name"), Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
   lazy val pageSixData = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
   lazy val pageSixNoVerbal = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
   lazy val pageSixVerbal = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false)))
