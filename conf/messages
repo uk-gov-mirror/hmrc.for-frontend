@@ -310,7 +310,7 @@ section5.heading.help=Give the landlord’s details even if the rent is paid to 
 landlordConnectionType.noConnected=No connection
 landlordConnectionType.family=Family
 landlordConnectionType.other=Other connection
-label.landlordFullName=Landlord’s full name (optional)
+label.landlordFullName=Landlord’s full name
 hint.landlordConnect=For example, the landlord and tenant may be business partners, or the tenant may be the landlord’s holding or subsidiary company.
 label.landlordConnectText=Connection to the landlord
 label.landlordConnectText.agent=Their connection to the landlord
@@ -332,6 +332,7 @@ label.landlordOverseasAddress.street2=Address line 3
 label.noJs.landlordConnect=Answer this only if you’ve selected ‘Other connection’
 intel.alert.landlordName=Are you sure this is correct? The landlord’s name is the same as the tenant’s.
 
+error.landlordFullName.required = Enter the Landlord’s full name
 error.landlordFullName.maxLength = Landlord’s name must be 50 characters or fewer
 error.LandlordConnectionType.required = Select if there is a connection between the landlord and tenant
 error.landlordConnectText.required = Enter the connection to the landlord

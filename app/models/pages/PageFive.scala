@@ -18,7 +18,7 @@ package models.pages
 
 import models.serviceContracts.submissions.{Address, LandlordConnectionType}
 
-case class PageFive(landlordFullName: Option[String],
+case class PageFive(landlordFullName: String,
                     landlordAddress: Option[Address],
                     landlordConnectionType: LandlordConnectionType,
                     landlordConnectText: Option[String])
