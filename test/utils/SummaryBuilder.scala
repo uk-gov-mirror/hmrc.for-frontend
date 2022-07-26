@@ -95,7 +95,7 @@ object SummaryBuilder {
   )
 
   private lazy val pageFiveData = PageFive(
-    "name", Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None
+    Some("name"), Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None
   )
   private lazy val pageSixData = PageSix(
     LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement()
