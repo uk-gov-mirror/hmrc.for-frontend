@@ -31,11 +31,11 @@ class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
     mustBind(bind(baseData)) { _ => () }
   }
 
-  it should "bind with the fields landlordFulName and does not return any errors" in {
+  it should "require the field landlordFulName" in {
     val data = baseData - "landlordFullName"
     val form = bind(data)
 
-    doesNotContainErrors(form)
+    mustContainError("landlordFullName", "error.landlordFullName.required", form)
   }
 
   it should "allow letters, numbers, spaces and special chars with upto 50 chars for landlord's name" in {

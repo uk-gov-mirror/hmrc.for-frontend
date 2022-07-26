@@ -147,7 +147,7 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
   )
 
   private def toLandlord(p5: PageFive) = Landlord(
-    p5.landlordFullName, p5.landlordAddress, p5.landlordConnectionType, p5.landlordConnectText
+    Option(p5.landlordFullName), p5.landlordAddress, p5.landlordConnectionType, p5.landlordConnectText
   )
 
   private def toLeaseOrAgreement(p6: PageSix) = p6 match {

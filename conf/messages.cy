@@ -305,7 +305,7 @@ section5.heading.help=Rhowch fanylion y landlord, hyd yn oed os caiff y rhent ei
 landlordConnectionType.noConnected=Dim cysylltiad
 landlordConnectionType.family=Teulu
 landlordConnectionType.other=Cysylltiad arall
-label.landlordFullName=Enw llawn y landlord (dewisol)
+label.landlordFullName=Enw llawn y landlord
 hint.landlordConnect=Er enghraifft, gall y landlord a’r tenant fod yn bartneriaid busnes, neu gall y tenant fod yn gwmni daliannol neu’n is-gwmni i’r landlord.
 label.landlordConnectText=Cysylltiad â’r landlord
 label.landlordConnectText.agent=Eu cysylltiad â’r landlord
@@ -327,6 +327,7 @@ label.landlordOverseasAddress.street2=Trydedd linell y cyfeiriad
 label.noJs.landlordConnect=Dylech ond ateb hyn os ydych wedi dewis ‘Cysylltiad arall’
 intel.alert.landlordName=A ydych chi’n siŵr bod hyn yn gywir? Mae enw’r landlord ac enw’r tenantiaid yr un fath?
 
+error.landlordFullName.required = Rhowch enw llawn y landlord
 error.landlordFullName.maxLength = Mae’n rhaid i enw’r landlord fod yn 50 o gymeriadau neu lai
 error.LandlordConnectionType.required = Dewiswch a oes cysylltiad rhwng y landlord a’r tenant
 error.landlordConnectText.required = Nodwch eich cysylltiad â’r landlord
