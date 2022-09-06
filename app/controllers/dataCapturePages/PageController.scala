@@ -44,7 +44,9 @@ class PageController @Inject() (cc: MessagesControllerComponents,
 
   extends FrontendController(cc) {
 
-  def showPage(pageNumber: Int): Action[AnyContent] =
+  def showPage(pageNumber: Int): Action[AnyContent] = showPageVariant(pageNumber, 0)
+
+  def showPageVariant(pageNumber: Int, variant: Int): Action[AnyContent] =
     pageNumber match {
       case 0 => pageZeroController.show
       case 1 => pageOneController.show
@@ -52,7 +54,7 @@ class PageController @Inject() (cc: MessagesControllerComponents,
       case 3 => pageThreeController.show
       case 4 => pageFourController.show
       case 5 => pageFiveController.show
-      case 6 => pageSixController.show
+      case 6 => pageSixController.show(variant)
       case 7 => pageSevenController.show
       case 8 => pageEightController.show
       case 9 => pageNineController.show

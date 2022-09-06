@@ -24,6 +24,7 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.{HmrcCurrencyInput, CurrencyInput}
 @import scala.concurrent.ExecutionContext
 @import util.DateUtil
+@import controllers.dataCapturePages.ForDataCapturePage.variantAttr
 
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
@@ -34,14 +35,41 @@
         hmrcCurrencyInput : HmrcCurrencyInput,
         govukTextarea: GovukTextarea,
         govukCharacterCount: GovukCharacterCount,
+        govukDetails: GovukDetails,
         formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp
 )
 
-
 @(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages, ec: ExecutionContext)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
+
+@variant = @{ request.attrs.get(variantAttr).getOrElse(0) }
+
+@agreementIsSteppedLabel = @{
+  variant match {
+    case 2 => messages("label.writtenAgreement.agreementIsStepped.variant2")
+    case _ => messages("label.writtenAgreement.agreementIsStepped" + labelSuffix)
+  }
+}
+
+@steppedRentContentV1 = {
+  <p class="govuk-body">@messages("details.answer.steppedRent.variant1.p1")</p>
+  <p class="govuk-body">@messages("details.answer.steppedRent.variant1.p2")</p>
+}
+
+@steppedRentHint = @{
+  variant match {
+    case 1 =>
+      HtmlContent(govukDetails(Details(
+        summary = Text(messages("details.answer.steppedRent.variant1.summary")),
+        content = HtmlContent(steppedRentContentV1)
+      )))
+    case 2 => Text(messages("details.answer.steppedRent.variant2"))
+    case 3 => Text(messages("details.answer.steppedRent.variant3"))
+    case _ => Text(messages("details.answer.steppedRent" + labelSuffix))
+  }
+}
 
 @layout(
   backLinkUrl = dataCapturePages.routes.PageController.showPage(5).url,
@@ -53,6 +81,8 @@
 ){
 
   @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(6), args = 'class -> "myForm", 'id -> "myFormId") {
+
+    <input type="hidden" name="variant" value="@variant" />
 
     <!-- What type of lease or agreement do you have? -->
     @govukRadios(
@@ -262,14 +292,14 @@
               )
             }
             ),
-            hint = Hint(content = Text(messages("details.answer.steppedRent" + labelSuffix))),
+            hint = Hint(content = steppedRentHint),
             classes = "radio-button-that-show-hides govuk-radios--inline",
             errorMessage = theForm.errors.asTextErrorMessageForField("writtenAgreement.agreementIsStepped"),
             fieldset = Option(
               Fieldset(
                 legend = Option(
                   Legend(
-                    content = Text(messages("label.writtenAgreement.agreementIsStepped" + labelSuffix)),
+                    content = Text(agreementIsSteppedLabel),
                     classes = "govuk-!-font-weight-bold"
                   )
                 )

@@ -48,6 +48,9 @@ GET         /not-connected-confirmation controllers.NotConnectedCheckYourAnswers
 GET         /page/:pageNumber          controllers.dataCapturePages.PageController.showPage(pageNumber:Int)
 POST        /page/:pageNumber          controllers.dataCapturePages.PageController.savePage(pageNumber:Int)
 
+# TODO: Remove after A/B testing VOA-3424
+GET         /page/:page/:variant       controllers.dataCapturePages.PageController.showPageVariant(page: Int, variant: Int)
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 

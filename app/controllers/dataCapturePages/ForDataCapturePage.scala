@@ -28,6 +28,7 @@ import models.pages.{Summary, SummaryBuilder}
 import play.api.Logging
 import play.api.data.Form
 import play.api.libs.json.{Format, JsObject, Json}
+import play.api.libs.typedmap.TypedKey
 import play.api.mvc.Results.Redirect
 import play.api.mvc._
 import play.shaded.ahc.io.netty.handler.codec.http.QueryStringDecoder
@@ -58,9 +59,13 @@ abstract class ForDataCapturePage[T] (audit: Audit,
 
   def template(form: Form[T], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html
 
-  def show: Action[AnyContent] = refNumAction.async { implicit request =>
+  def show: Action[AnyContent] = show(0)
+
+  def show(variant: Int): Action[AnyContent] = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum) flatMap {
-      case Some(doc) => showThisPageOrGoToNextAllowed(doc, request)
+      case Some(doc) =>
+        val updatedRequest = new RefNumRequest[AnyContent](request.refNum, request.addAttr(variantAttr, variant), request.messagesApi)
+        showThisPageOrGoToNextAllowed(doc, updatedRequest)
       case None =>
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         throw new BadRequestException("Could not find document in current session")
@@ -170,4 +175,7 @@ object ForDataCapturePage {
       .orElse(fs.get("update_button").map(_ => Update))
       .getOrElse(Unknown)
   } getOrElse(Unknown)
+
+  val variantAttr: TypedKey[Int] = TypedKey("variant")
+
 }

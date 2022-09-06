@@ -113,7 +113,7 @@
             </div>
         }
         @if(showSection){
-            <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", ""), numberOfSteps)</span>
+            <span class="govuk-caption-m" id="section-x-of-y">@messages("label.section", request.path.replaceFirst(".*/page/", "").split("/").head, numberOfSteps)</span>
         }
         @if(showH1){
             <h1 class="govuk-heading-l">@pageHeading</h1>
