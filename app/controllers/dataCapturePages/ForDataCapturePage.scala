@@ -115,7 +115,9 @@ abstract class ForDataCapturePage[T] (audit: Audit,
   private def auditFormSubmission(formData: T, summary: Summary)(implicit request: RefNumRequest[AnyContent]): Unit = { //TODO maybe future?? or fire&forget
     //Get only form data, not additional POST data like CSRF token.
     val json = Json.toJson(emptyForm.fill(formData).data).as[JsObject] ++
-      Json.obj(Audit.referenceNumber -> request.refNum) ++ Addresses.addressJson(summary)
+      Json.obj(Audit.referenceNumber -> request.refNum) ++
+      request.body.asFormUrlEncoded.flatMap(_.get("variant").map(_.headOption)).fold(Json.obj())(variant => Json.obj("variant" -> variant)) ++
+      Addresses.addressJson(summary)
 
     audit.sendExplicitAudit("ContinueNextPage", json)
   }
