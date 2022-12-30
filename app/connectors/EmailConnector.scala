@@ -22,7 +22,7 @@ import play.api.i18n.Messages
 import play.api.libs.json._
 
 import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
@@ -44,7 +44,7 @@ class EmailConnector @Inject()(config: ServicesConfig, http: ForHttp)(implicit e
         )),
         "force" -> JsBoolean(false)
       )
-      http.POST(s"$emailUrl/send-templated-email/", json).map( _ => ())
-    } getOrElse Future.successful(())
+      http.POST[JsObject, HttpResponse](s"$emailUrl/send-templated-email/", json).map( _ => ())
+    } getOrElse Future.unit
   }
 }

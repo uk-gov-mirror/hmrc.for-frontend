@@ -87,13 +87,14 @@ class LoginController @Inject()(
     val refNumJson = Json.obj(Audit.referenceNumber -> refNum)
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    hc.sessionId.map(sessionId =>
-      documentRepo.findById(sessionId.value, refNum).flatMap {
-        case Some(doc) => refNumJson ++ Addresses.addressJson(SummaryBuilder.build(doc))
-        case None => refNumJson
-      }.map(jsObject => audit.sendExplicitAudit("Logout", jsObject))
-    ).getOrElse {
-      audit.sendExplicitAudit("Logout", refNumJson)
+    hc.sessionId match {
+      case Some(sessionId) =>
+        documentRepo.findById(sessionId.value, refNum).map {
+          case Some(doc) => refNumJson ++ Addresses.addressJson(SummaryBuilder.build(doc))
+          case None => refNumJson
+        }.map(jsObject => audit.sendExplicitAudit("Logout", jsObject))
+      case None =>
+        audit.sendExplicitAudit("Logout", refNumJson)
     }
 
     Redirect(routes.LoginController.show).withNewSession
