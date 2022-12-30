@@ -21,14 +21,6 @@
 
 @(p2: CustomerDetails, summary: Summary)(implicit requestHeader: RequestHeader, messages: Messages)
 
-@underReview = @{
-    if(summary.isUnderReview) {
-        "<br />" + messages("label.underReview")
-    } else {
-        ""
-    }
-}
-
 <h2 class="govuk-heading-m">@messages("section2.heading")</h2>
 <dl class="govuk-summary-list">
     @summaryBlock(messages("label.fullName"), 2, "fullName") {

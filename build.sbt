@@ -23,8 +23,8 @@ val scoverageSettings = {
 
 val compileDeps = Seq(
   filters,
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "7.11.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "3.33.0-play-28",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "7.12.0",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "5.3.0-play-28",
   "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "0.74.0",
   "uk.gov.hmrc" %% "http-caching-client" % "10.0.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.3.0-play-28",
@@ -49,17 +49,19 @@ def testDeps(scope: String) = Seq(
   "com.vladsch.flexmark" % "flexmark-all" % flexMarkVersion % scope // for scalatest 3.2.x
 )
 
+ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
+
 lazy val root = (project in file("."))
   .settings(scalaSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
     name := "for-frontend",
-    scalaVersion := "2.13.8",
+    scalaVersion := "2.13.10",
     DefaultBuildSettings.targetJvm := "jvm-11",
+    scalacOptions += "-Wconf:src=routes/.*:s",
+    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
-    resolvers += Resolver.bintrayRepo("hmrc", "releases"),
-    resolvers += Resolver.jcenterRepo,
     libraryDependencies ++= compileDeps ++ testDeps("test,it"),
     publishingSettings,
     scoverageSettings,
@@ -72,7 +74,7 @@ lazy val root = (project in file("."))
     DefaultBuildSettings.integrationTestSettings()
   )
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
-  .disablePlugins(plugins.JUnitXmlReportPlugin)
+  .disablePlugins(JUnitXmlReportPlugin)
   .settings(
     Concat.groups := Seq(
       "javascripts/app.js" -> group(Seq(
