@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,8 +60,8 @@ class ForHttpClient @Inject() (val config: Configuration,
 
     super.doGet(url, headers2)(ec).map { res =>
       res.status match {
-        case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.allHeaders)
-        case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.allHeaders)
+        case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.headers)
+        case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.headers)
         case _ => res
       }
     }(ec)

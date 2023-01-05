@@ -1,5 +1,5 @@
 @*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@
 @main_template(pageHeading = heading, showH1 = false) {
 
     @formWithCSRF(action = dataCapturePages.routes.PageController.savePage(0),
-        args = 'class -> "section0", 'id -> "myFormId", 'novalidate -> "novalidate") {
+        args = Symbol("class") -> "section0", Symbol("id") -> "myFormId", Symbol("novalidate") -> "novalidate") {
 
         @includes.summaryErrors(theForm, govukErrorSummary)
 

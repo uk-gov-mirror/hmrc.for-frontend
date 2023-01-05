@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig,
     override def read(method: String, url: String, response: HttpResponse): HttpResponse = {
       response.status match {
         case 400 => throw new BadRequestException(response.body)
-        case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.allHeaders)
+        case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.headers)
         case 409 => throw new Upstream4xxResponse(response.body, 409, 409, response.headers)
         case _ => HttpReads.Implicits.readRaw.read(method, url, response)
       }
