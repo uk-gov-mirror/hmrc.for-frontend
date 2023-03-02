@@ -494,6 +494,9 @@ error.rentResultOfReview.year.required = Mae’n rhaid llenwi hwn
 error.date_before_1900.rentResultOfReview = Mae’n rhaid i hwn fod o 1900 ymlaen
 error.date_must_be_in_past.rentResultOfReview = Mae’n rhaid i’r dyddiad fod yn y gorffennol
 
+error.lastReviewDate.isBeforeStart = Rhaid i ddyddiad yr adolygiad rhent diwethaf fod ar ôl y dyddiad y dechreuodd y cytundeb presennol
+error.whenWasRentReview.isBeforeStart = The date of the rent review must be after the date the current agreement started
+
 #SECTION 8
 ###############################
 section8.heading=Sut cafodd y rhent ei bennu

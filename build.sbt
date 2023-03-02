@@ -3,7 +3,6 @@ import com.typesafe.sbt.uglify.Import._
 import net.ground5hark.sbt.concat.Import._
 import play.core.PlayVersion
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
 import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
@@ -63,7 +62,6 @@ lazy val root = (project in file("."))
     PlayKeys.playDefaultPort := 9521,
     javaOptions += "-Xmx1G",
     libraryDependencies ++= compileDeps ++ testDeps("test,it"),
-    publishingSettings,
     scoverageSettings,
     routesGenerator := InjectedRoutesGenerator,
     majorVersion := 3

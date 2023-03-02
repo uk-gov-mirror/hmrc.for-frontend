@@ -19,7 +19,9 @@ package models.pages
 import models.RoughDate
 import models.serviceContracts.submissions.{MonthsYearDuration, RentReviewResultDetails, ReviewIntervalType}
 
-case class PageSeven(leaseContainsRentReviews: Boolean, pageSevenDetails: Option[PageSevenDetails])
+import java.time.LocalDate
+
+case class PageSeven(leaseContainsRentReviews: Boolean, pageSevenDetails: Option[PageSevenDetails], agreementStartDate: Option[LocalDate] = None)
 
 case class PageSevenDetails(reviewIntervalType: ReviewIntervalType,
                             reviewIntervalTypeSpecify: Option[MonthsYearDuration],

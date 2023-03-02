@@ -479,6 +479,9 @@ error.rentResultOfReview.year.required = Enter the year of the rent review
 error.date_before_1900.rentResultOfReview = The rent review date must be between January 1900 and today
 error.date_must_be_in_past.rentResultOfReview = The rent review date must be between January 1900 and today
 
+error.lastReviewDate.isBeforeStart = The date of the last rent review must be after the date the current agreement started
+error.whenWasRentReview.isBeforeStart = The date of the rent review must be after the date the current agreement started
+
 #SECTION 8
 ###############################
 section8.heading=How the rent was fixed
