@@ -122,10 +122,14 @@ object DateMappings {
   }, (my: MonthsYearDuration) => (my.months.toString, my.years.toString))
 
   def dateIsBeforeAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String, errorMsgKey: String): Mapping[RoughDate] =
-    DateIsBeforeAnotherDate(roughDateMapping, anotherDateKey, errorMsgKey)
+    CompareWithAnotherDate(roughDateMapping, anotherDateKey, _.isBefore(_), errorMsgKey)
 
-  case class DateIsBeforeAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String, errorMsgKey: String,
-                                     additionalConstraints: Seq[Constraint[RoughDate]] = Nil) extends Mapping[RoughDate] {
+  def dateIsAfterAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String, errorMsgKey: String): Mapping[RoughDate] =
+    CompareWithAnotherDate(roughDateMapping, anotherDateKey, _.isAfter(_), errorMsgKey)
+
+  case class CompareWithAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String,
+                                    compare: (java.time.LocalDate, java.time.LocalDate) => Boolean, errorMsgKey: String,
+                                    additionalConstraints: Seq[Constraint[RoughDate]] = Nil) extends Mapping[RoughDate] {
 
     override val format: Option[(String, Seq[Any])] = roughDateMapping.format
 
@@ -139,7 +143,7 @@ object DateMappings {
     def bind(data: Map[String, String]): Either[Seq[FormError], RoughDate] = {
       val anotherDateOpt = data.get(anotherDateKey).map(java.time.LocalDate.parse)
       roughDateMapping.bind(data).flatMap { date =>
-        if (anotherDateOpt.exists(anotherDate => date.toLocalDate.isBefore(anotherDate))) {
+        if (anotherDateOpt.exists(anotherDate => compare(date.toLocalDate, anotherDate))) {
           Left(Seq(FormError(key, errorMsgKey)))
         } else {
           Right(date)
