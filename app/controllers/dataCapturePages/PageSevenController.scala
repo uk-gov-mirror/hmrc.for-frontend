@@ -19,14 +19,22 @@ package controllers.dataCapturePages
 import actions.{RefNumAction, RefNumRequest}
 import connectors.Audit
 import form.PageSevenForm.pageSevenForm
+import form.PageSixForm.pageSixForm
 import form.persistence.FormDocumentRepository
 
 import javax.inject.Inject
 import models._
-import models.pages.{PageSeven, Summary}
+import models.pages.{PageSeven, PageSix, Summary}
+import models.serviceContracts.submissions.LeaseAgreementTypesVerbal
 import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
+import playconfig.SessionId
+
+import java.time.LocalDate
+import scala.concurrent.Await
+import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 class PageSevenController @Inject() (audit: Audit,
                                      formDocumentRepository: FormDocumentRepository,
@@ -39,7 +47,25 @@ class PageSevenController @Inject() (audit: Audit,
   val pageNumber: Int = 7
 
   def template(form: Form[PageSeven], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    part7(form, summary)
+    val updatedForm: Form[PageSeven] = Await.result(repository.findById(SessionId(hc), request.refNum).map { docOpt =>
+      (for {
+        doc <- docOpt
+        page6 <- doc.page(6)
+        pageSix <- pageSixForm.bindFromRequest(page6.fields).value
+        agreementStartDate <- getAgreementStartDate(pageSix)
+      } yield {
+        form.copy(data = form.data + ("agreementStartDate" -> agreementStartDate.toString))
+      }).getOrElse(form)
+    }, 20 seconds)
+
+    part7(updatedForm, summary)
   }
+
+  private def getAgreementStartDate(pageSix: PageSix): Option[LocalDate] =
+    if (pageSix.leaseAgreementType == LeaseAgreementTypesVerbal) {
+      pageSix.verbalAgreementDetails.startDate.map(_.toLocalDate)
+    } else {
+      pageSix.writtenAgreementDetails.map(_.startDate.toLocalDate)
+    }
 
 }

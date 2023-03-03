@@ -60,6 +60,10 @@ action = dataCapturePages.routes.PageController.savePage(7),
 args = Symbol("class") -> "myForm", Symbol("id") -> "myFormId"
   ) {
 
+    @theForm("agreementStartDate").value.map { agreementStartDate =>
+      <input type="hidden" name="agreementStartDate" value="@agreementStartDate"/>
+    }
+
      <!-- Does your lease or agreement contain rent reviews? -->
     @govukRadios(
       Radios(

@@ -78,7 +78,8 @@ object Errors {
   val isRentResultOfReviewRequired = "error.isRentResultOfReview.required"
   val rentWasAgreedBetweenRequired = "error.rentWasAgreedBetween.required"
   val rentFixedByRequired = "error.rentWasFixedBy.required"
-  val rentBaseTypeRequired = "error.rentBaseOn.required"
+  val lastReviewDateIsBeforeStartDate = "error.lastReviewDate.isBeforeStart"
+  val rentReviewDateIsBeforeStartDate = "error.whenWasRentReview.isBeforeStart"
 
   //page 8
   val wasTheRentFixedBetweenRequired = "error.wasTheRentFixedBetween.required"
