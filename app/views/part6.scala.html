@@ -332,6 +332,7 @@
                   data-hidden-by="writtenAgreement.agreementIsStepped"
                   data-hides-this="true"
                   data-show-when-value-equals="true"
+                  data-min-size="2"
                   data-limit="7">
 
 
@@ -346,6 +347,8 @@
                 @multiFieldErrorWrapper(fields = Seq(steppedDetail("year"), steppedDetail("amount")), id = s"writtenAgreement.steppedDetails_$idx", false, classes = "multi-fields-group") {
 
                 <h3 class="govuk-heading-m section-heading stepped-rent">@messages(s"heading.steppedRent${idx + 1}")</h3>
+
+                  <input type="hidden" name="writtenAgreement.steppedDetails[@idx].indexSizeHolder" value="x">
 
                   @includes.dateFields(
                     form= theForm,
