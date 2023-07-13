@@ -45,7 +45,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
         bind[Audit].toInstance(audit),
         bind[FormDocumentRepository].toInstance(documentRepository)
       )
-      .configure(Map("auditing.enabled" -> false))
+      .configure(Map("auditing.enabled" -> false, "metrics.enabled" -> true))
       .build()
   }
 
