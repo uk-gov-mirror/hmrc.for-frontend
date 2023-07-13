@@ -17,14 +17,20 @@
 package form.persistence
 
 import java.util.UUID
-
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.Json
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import MongoSessionRepositorySpecData._
+import controllers.StubSubmitBRI
 import org.scalatest.OptionValues
+import play.api.Application
+import play.api.inject.bind
+import play.api.inject.guice.GuiceApplicationBuilder
+import useCases.SubmitBusinessRentalInformation
+import utils.stubs.StubFormDocumentRepoProvider
 
+import javax.inject.Singleton
 import scala.concurrent.ExecutionContext
 
 class MongoSessionRepositorySpec extends PlaySpec with OptionValues  with FutureAwaits
@@ -33,6 +39,9 @@ class MongoSessionRepositorySpec extends PlaySpec with OptionValues  with Future
   def mongoSessionrepository() = app.injector.instanceOf[MongoSessionRepository]
 
   implicit def ec = app.injector.instanceOf[ExecutionContext]
+
+  override def fakeApplication(): Application = new GuiceApplicationBuilder()
+    .configure(Map("metrics.enabled" -> true)).build()
 
 
   "Mongo session repository" should {
