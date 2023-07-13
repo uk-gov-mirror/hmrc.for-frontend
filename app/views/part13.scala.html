@@ -58,8 +58,8 @@
         name = "propertyAlterations",
         idPrefix = Option("propertyAlterations"),
         items = Seq(
-          "true" -> messages(if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydw")),
-          "false" -> messages(if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydw"))
+          "true" -> (if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydy")),
+          "false" -> (if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydy"))
         ).map(radioItem => {
           RadioItem(
             content = Text(radioItem._2),

@@ -174,8 +174,8 @@
                 idPrefix = Option("propertyOwnedByYou"),
                 classes = "radio-button-that-show-hides govuk-radios--inline",
                 items = Seq(
-                    "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw")),
-                    "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw"))
+                    "true" -> (if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydw")),
+                    "false" -> (if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydw"))
                 ).map( radioItem => RadioItem (
                     content = Text(radioItem._2),
                     checked = radioItem._1.equals(theForm("propertyOwnedByYou").value.getOrElse("")),
@@ -207,8 +207,8 @@
                     idPrefix = Option("propertyRentedByYou"),
                     classes = "radio-button-that-show-hides govuk-radios--inline",
                     items = Seq(
-                        "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydw")  else  messages("label.yes.ydw")),
-                        "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydw")  else  messages("label.no.nac.ydw"))
+                        "true" -> (if(summary.isAgent) messages("label.yes.ydy") else messages("label.yes.ydw")),
+                        "false" -> (if(summary.isAgent) messages("label.no.nac.ydy") else messages("label.no.nac.ydw"))
                     ).map( radioItem => RadioItem (
                         content = Text(radioItem._2),
                         checked = radioItem._1.equals(theForm("propertyRentedByYou").value.getOrElse("")),

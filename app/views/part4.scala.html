@@ -68,8 +68,8 @@
                 name = "propertyIsSublet",
                 idPrefix = Option("propertyIsSublet"),
                 items = Seq(
-                    "true" ->  messages(if(summary.isAgent)  messages("label.yes.ydy")  else  messages("label.yes.ydw")),
-                    "false" -> messages(if(summary.isAgent)  messages("label.no.nac.ydy")  else  messages("label.no.nac.ydw"))
+                    "true" -> messages("label.yes.ydy"),
+                    "false" -> messages("label.no.nac.ydy")
                 ).map(radioItem => {
                     RadioItem(
                         content = Text(radioItem._2),
