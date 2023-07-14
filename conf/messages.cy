@@ -1167,4 +1167,4 @@ index.help.p2=Gallwch ddod o hyd i’r manylion cyswllt yn y llythyr a anfonwyd.
 #CONFIRMATION INFORMATION
 emailAddress.confirmation=Rydym wedi anfon e-bost cardarnhau at
 print.link=Argraffu copi o’ch ffurflen
-print.link.cantPrintLater=(ni fyddwch yn gallu argraffu copi yn ddiweddarach)
+print.link.cantPrintLater=Os hoffech argraffu copi, dylech wneud hynny nawr gan na fyddwch yn gallu ei argraffu nes ymlaen.

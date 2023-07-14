@@ -46,10 +46,7 @@
             }
         </p>
 
-        <p class="govuk-!-display-none-print govuk-body">
-            <a href="javascript:window.print();"
-               class="govuk-link print-link">@messages("print.link")</a> @messages("print.link.cantPrintLater")
-        </p>
+        @includes.printConfirmation()
 
         <h2 class="govuk-heading-m">@messages("label.whatNext")</h2>
         <p class="govuk-body">@messages("confirm.copy.list.1")</p>
