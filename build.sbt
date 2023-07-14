@@ -22,9 +22,9 @@ val scoverageSettings = {
 
 val compileDeps = Seq(
   filters,
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "7.15.0",
-  "uk.gov.hmrc" %% "play-frontend-hmrc" % "7.9.0-play-28",
-  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "1.2.0",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "7.19.0",
+  "uk.gov.hmrc" %% "play-frontend-hmrc" % "7.14.0-play-28",
+  "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28" % "1.3.0",
   "uk.gov.hmrc" %% "http-caching-client" % "10.0.0-play-28",
   "uk.gov.hmrc" %% "play-partials" % "8.4.0-play-28",
   "com.typesafe.play" %% "play-json-joda" % "2.9.4",
@@ -39,7 +39,7 @@ val compileDeps = Seq(
 val scalatestPlusPlayVersion = "5.1.0"
 val scalatestVersion = "3.2.16"
 val mockitoScalaVersion = "1.17.14"
-val flexMarkVersion = "0.64.6"
+val flexMarkVersion = "0.64.8"
 
 def testDeps(scope: String) = Seq(
   "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
