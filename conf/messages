@@ -1177,4 +1177,4 @@ index.help.p2=You can find their contact details on the letter sent by the VOA.
 #CONFIRMATION INFORMATION
 emailAddress.confirmation=We have sent a confirmation email to
 print.link=Print a copy of your form
-print.link.cantPrintLater=(you will not be able to print a copy later)
+print.link.cantPrintLater=If you want to print a copy, you should do it now as you will not be able to print it later.
