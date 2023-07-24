@@ -1,6 +1,6 @@
 
-import com.typesafe.sbt.uglify.Import._
-import net.ground5hark.sbt.concat.Import._
+import com.typesafe.sbt.uglify.Import.*
+import net.ground5hark.sbt.concat.Import.*
 import play.core.PlayVersion
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
@@ -52,8 +52,8 @@ def testDeps(scope: String) = Seq(
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
 
 lazy val root = (project in file("."))
-  .settings(scalaSettings: _*)
-  .settings(defaultSettings(): _*)
+  .settings(scalaSettings *)
+  .settings(defaultSettings() *)
   .settings(
     name := "for-frontend",
     scalaVersion := "2.13.11",
