@@ -76,7 +76,7 @@ lazy val root = (project in file("."))
   .settings(
     Concat.groups := Seq(
       "javascripts/app.js" -> group(Seq(
-        "javascripts/application.js", "javascripts/common.js", "javascripts/feedback.js", "javascripts/intelAlerts.js",
+        "javascripts/application.js", "javascripts/common.js", "javascripts/intelAlerts.js",
         "javascripts/messages.js", "javascripts/radioToggle.js", "javascripts/voaFor.js"
       ))
     ),
