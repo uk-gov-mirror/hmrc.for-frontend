@@ -73,19 +73,6 @@ trait ForHttp extends WSHttp {
 
 }
 
-object FormPartialProvider extends FormPartialRetriever {
-
-  override val httpGet = Play.current.injector.instanceOf[ForHttp]
-  override def crypto = encrypt
-
-  private def encrypt(value: String): String = {
-    val sessionCrypto = Play.current.injector.instanceOf[SessionCookieCrypto]
-    sessionCrypto.crypto.encrypt(PlainText(value)).value
-  }
-
-}
-
-
 object SessionCrypto {
   val applicationCrypto = new ApplicationCrypto(Play.current.configuration.underlying)
   val crypto = new SessionCookieCryptoFilter(applicationCrypto)
