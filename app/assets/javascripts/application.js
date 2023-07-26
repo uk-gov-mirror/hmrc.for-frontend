@@ -33,6 +33,9 @@ var ref;
         VoaFor.doYouOwnTheProperty();
         VoaFor.setHelpGDSClasses();
 
+        //feedback.js
+        VoaFeedback.helpForm();
+
         //intelAlerts.js
         VoaAlerts.intelAlert();
 

@@ -16,18 +16,20 @@
 
 @import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 @import scala.concurrent.ExecutionContext
+@import play.api.mvc.Request
+@import play.api.i18n.Messages
 
 @this(servicesConfig: ServicesConfig)
 
 @()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
-@reportTechnicalProblemContactUrl = @{
-    val contactFrontendBaseUrl = servicesConfig.baseUrl("contact-frontend")
-    val forFrontendBaseUrl = servicesConfig.baseUrl("for-frontend")
-    val serviceIdentifier = "RALD"
-    s"$contactFrontendBaseUrl/contact/report-technical-problem?service=$serviceIdentifier&referrerUrl=$forFrontendBaseUrl${request.uri}"
+@reportProblemContactFrontendUrl = @{
+    val serviceId = "RALD"
+    val contactFrontendBase = servicesConfig.baseUrl("contact-frontend")
+    val protocol = servicesConfig.getConfString(s"for-hod-adapter.protocol", "http")
+    s"$contactFrontendBase/contact/report-technical-problem?service=$serviceId&referrerUrl=$protocol://${request.host}${request.uri}"
 }
 
 <p class="govuk-body">
-    <a class="govuk-link" href="@reportTechnicalProblemContactUrl" target="helpForm">@messages("label.help.link")</a>
+    <a id="helpFormLink" class="govuk-link" href="@reportProblemContactFrontendUrl" target="helpForm">@messages("label.help.link")</a>
 </p>
