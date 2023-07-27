@@ -18,16 +18,24 @@
 @import scala.concurrent.ExecutionContext
 @import play.api.mvc.Request
 @import play.api.i18n.Messages
+@import play.api.Configuration
 
-@this(servicesConfig: ServicesConfig)
+@this(servicesConfig: ServicesConfig, configuration: Configuration)
 
 @()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @reportProblemContactFrontendUrl = @{
     val serviceId = "RALD"
-    val contactFrontendBase = servicesConfig.baseUrl("contact-frontend")
+    val contactFrontendUrl = servicesConfig.baseUrl("contact-frontend")
     val protocol = servicesConfig.getConfString(s"for-hod-adapter.protocol", "http")
-    s"$contactFrontendBase/contact/report-technical-problem?service=$serviceId&referrerUrl=$protocol://${request.host}${request.uri}"
+
+    val platformFrontendHost = configuration
+            .getOptional[String]("platform.frontend.host")
+            .getOrElse(s"$protocol://${request.host}")
+
+    val contactPublicBase = Option(contactFrontendUrl).filter(_.contains("localhost")).getOrElse("")
+
+    s"$contactPublicBase/contact/report-technical-problem?service=$serviceId&referrerUrl=$platformFrontendHost${request.uri}"
 }
 
 <p class="govuk-body">
