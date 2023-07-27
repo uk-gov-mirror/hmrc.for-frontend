@@ -34,7 +34,6 @@ var ref;
         VoaFor.setHelpGDSClasses();
 
         //feedback.js
-        VoaFeedback.toggleHelp();
         VoaFeedback.helpForm();
 
         //intelAlerts.js

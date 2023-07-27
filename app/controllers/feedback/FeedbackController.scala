@@ -33,7 +33,6 @@ import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
-import uk.gov.hmrc.play.partials._
 import views.html.{feedbackForm, feedbackThx}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -47,7 +46,7 @@ class FeedbackController @Inject()(cc: MessagesControllerComponents,
                                    override val servicesConfig: ServicesConfig,
                                    feedbackThankyouView :feedbackThx,
                                    feedbackFormView: feedbackForm
-                        )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact with HeaderCarrierForPartialsConverter  {
+                        )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact  {
 
   //override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
   val log = Logger(this.getClass)
@@ -109,7 +108,6 @@ trait HMRCContact {
   val feedbackUrl = controllers.feedback.routes.FeedbackController.feedback.url
   val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
   val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
-  val hmrcHelpWithPageFormUrl = s"$contactFrontendPartialBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
 
 
   // The default HTTPReads will wrap the response in an exception and make the body inaccessible
