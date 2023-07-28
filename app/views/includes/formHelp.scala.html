@@ -14,30 +14,39 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
+@import uk.gov.hmrc.hmrcfrontend.views.Aliases.{Cy, En}
 @import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 @import scala.concurrent.ExecutionContext
 @import play.api.mvc.Request
 @import play.api.i18n.Messages
 @import play.api.Configuration
 
-@this(servicesConfig: ServicesConfig, configuration: Configuration)
+@this(servicesConfig: ServicesConfig, contactFrontendConfig: ContactFrontendConfig, configuration: Configuration)
+
 
 @()(implicit request: Request[_], messages: Messages, ec: ExecutionContext)
 
 @reportProblemContactFrontendUrl = @{
-    val serviceId = "RALD"
-    val contactFrontendUrl = servicesConfig.baseUrl("contact-frontend")
-    val protocol = servicesConfig.getConfString(s"for-hod-adapter.protocol", "http")
+    val serviceId = contactFrontendConfig.serviceId.getOrElse("RALD")
+    val protocol = servicesConfig.getConfString(s"contact-frontend.protocol", "http")
 
     val platformFrontendHost = configuration
             .getOptional[String]("platform.frontend.host")
             .getOrElse(s"$protocol://${request.host}")
 
-    val contactPublicBase = Option(contactFrontendUrl).filter(_.contains("localhost")).getOrElse("")
+    val referrerUrl = if(request.uri.contains("http")) {
+        request.uri
+    } else {
+        s"$platformFrontendHost${request.uri}"
+    }
 
-    s"$contactPublicBase/contact/report-technical-problem?service=$serviceId&referrerUrl=$platformFrontendHost${request.uri}"
+    val contactPublicBase = Option(servicesConfig.baseUrl("contact-frontend")).filter(_.contains("localhost")).getOrElse("")
+
+    s"$contactPublicBase/contact/report-technical-problem?service=$serviceId&referrerUrl=$referrerUrl"
 }
 
 <p class="govuk-body">
-    <a id="helpFormLink" class="govuk-link" href="@reportProblemContactFrontendUrl" target="helpForm">@messages("label.help.link")</a>
+    <a id="helpFormLink" hreflang="@messages.lang.code" class="govuk-link hmrc-report-technical-issue"
+    href="@reportProblemContactFrontendUrl" target="helpForm">@messages("label.help.link")</a>
 </p>
