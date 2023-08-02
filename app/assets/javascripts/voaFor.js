@@ -26,7 +26,7 @@
             event.preventDefault();
 
             // Overcome to Save as PDF in Chrome in full-screen mode on Mac
-            const userAgent = navigator.userAgent
+            const userAgent = navigator.userAgent;
             if (userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Mac OS') !== -1) {
                 window.scrollBy(0, VoaFor.scrollDirection * 100);
                 VoaFor.scrollDirection = -VoaFor.scrollDirection;
