@@ -21,6 +21,7 @@ var ref;
         /** Init functions **/
         //voaFor.js
         VoaFor.showHistoryBackLink();
+        VoaFor.printLinkSetup();
         VoaFor.printPageShouldPrintOnLoad();
         VoaFor.addField();
         VoaFor.removeField();
