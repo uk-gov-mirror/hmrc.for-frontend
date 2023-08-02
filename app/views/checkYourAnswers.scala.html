@@ -36,7 +36,7 @@
         <a id="continue" href="@routes.ApplicationController.declaration" class="govuk-button" role="link">@messages("button.label.continue")</a>
         <a href="@routes.SaveForLaterController.saveForLater(request.path)" class="govuk-button govuk-button--secondary" role="link">@messages("button.label.save")</a>
     </div>
-    <a class="govuk-link print-link" href="" onclick="javascript:window.print();return false;">@messages("label.print.printorsave")</a>
+    <a class="govuk-link print-link" href="javascript:VoaFor.printPage();">@messages("label.print.printorsave")</a>
 
 
     @views.html.includes.signFooter(summary)
