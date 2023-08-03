@@ -21,25 +21,33 @@
 
     VoaFor.scrollDirection = 1;
 
+    VoaFor.isChromeOnMac = function() {
+        return navigator.userAgent.indexOf('Chrome') !== -1 && navigator.userAgent.indexOf('Mac OS') !== -1;
+    };
+
     VoaFor.printLinkSetup = function () {
         $('.print-link').on('click', function (event) {
             event.preventDefault();
 
             // Overcome to Save as PDF in Chrome in full-screen mode on Mac
-            const userAgent = navigator.userAgent;
-            if (userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Mac OS') !== -1) {
-                window.scrollBy(0, VoaFor.scrollDirection * 100);
-                VoaFor.scrollDirection = -VoaFor.scrollDirection;
-            }
+            if (VoaFor.isChromeOnMac()) {
+                const direction =
+                    window.scrollY < 150 ? 1 : (window.scrollY > $('#main-content').innerHeight() - 350 ? -1 : VoaFor.scrollDirection);
+                window.scrollBy(0, direction * 150);
+                VoaFor.scrollDirection = -direction;
 
-            setTimeout(function () {
-                if (window.document.queryCommandSupported('print')) {
-                    window.document.execCommand('print', false, null);
-                } else {
-                    window.focus();
-                    window.print();
-                }
-            }, 1000);
+                setTimeout(function () {
+                    if (document.queryCommandSupported('print')) {
+                        document.execCommand('print', true, null);
+                    } else {
+                        window.focus();
+                        window.print();
+                    }
+                }, 1500);
+            } else {
+                window.focus();
+                window.print();
+            }
         });
     };
 
