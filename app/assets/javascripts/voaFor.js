@@ -19,15 +19,28 @@
         $helpFormWrapper.find('h2, p').remove();
     };
 
-    VoaFor.printPage = function () {
-        setTimeout(function () {
-            if (window.document.queryCommandSupported('print')) {
-                window.document.execCommand('print', false, null);
-            } else {
-                window.focus();
-                window.print();
+    VoaFor.scrollDirection = 1;
+
+    VoaFor.printLinkSetup = function () {
+        $('.print-link').on('click', function (event) {
+            event.preventDefault();
+
+            // Overcome to Save as PDF in Chrome in full-screen mode on Mac
+            const userAgent = navigator.userAgent;
+            if (userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Mac OS') !== -1) {
+                window.scrollBy(0, VoaFor.scrollDirection * 100);
+                VoaFor.scrollDirection = -VoaFor.scrollDirection;
             }
-        }, 1000);
+
+            setTimeout(function () {
+                if (window.document.queryCommandSupported('print')) {
+                    window.document.execCommand('print', false, null);
+                } else {
+                    window.focus();
+                    window.print();
+                }
+            }, 1000);
+        });
     };
 
     VoaFor.printPageShouldPrintOnLoad = function(){
