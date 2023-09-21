@@ -35,7 +35,7 @@ class LoginToHODSpec extends UnitTest {
     "a user has previously saved a document for later" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
       val l = LoginToHOD(
-        respondWith(ref1, ref2, postcode)(loginResponse),
+        respondWith(refNum, postcode)(loginResponse),
         respondWith(auth, refNum)(Some(savedDoc)),
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
@@ -53,7 +53,7 @@ class LoginToHODSpec extends UnitTest {
     "there is no previously stored document" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
       val l = LoginToHOD(
-        respondWith(ref1, ref2, postcode)(loginResponse),
+        respondWith(refNum, postcode)(loginResponse),
         none,
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
