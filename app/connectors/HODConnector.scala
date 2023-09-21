@@ -50,8 +50,8 @@ class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(impli
     }
   }
 
-  override def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
-    val credentials = Credentials(ref1 + ref2, postcode)
+  override def verifyCredentials(referenceNumber: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
+    val credentials = Credentials(referenceNumber, postcode)
     val wrtCredentials = implicitly[Writes[Credentials]]
     http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials)(wrtCredentials, readsHack, hc, ec)
   }
@@ -131,7 +131,7 @@ class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(impli
 
 @ImplementedBy(classOf[DefaultHODConnector])
 trait HODConnector {
-  def verifyCredentials(ref1: String, ref2: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse]
+  def verifyCredentials(referenceNumber: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse]
   def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit]
   def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]]
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue]

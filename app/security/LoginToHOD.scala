@@ -35,7 +35,7 @@ object LoginToHOD {
   type SessionID = String
   type AuthToken = String
   type LoginToHOD = (Ref1, Ref2, Postcode, StartTime) => Future[LoginResult]
-  type VerifyCredentials = (Ref1, Ref2, Postcode) => Future[FORLoginResponse]
+  type VerifyCredentials = (ReferenceNumber, Postcode) => Future[FORLoginResponse]
   type LoadSavedForLaterDocument = (AuthToken, ReferenceNumber) => Future[Option[Document]]
   type StoreDocumentWithCredentialsInSession = (FORLoginResponse, ReferenceNumber) => Future[Unit]
 
@@ -43,7 +43,7 @@ object LoginToHOD {
            (r1: Ref1, r2: Ref2, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[LoginResult] =
     for {
       rn <- ref(r1, r2)
-      lr <- v(r1, r2, pc)
+      lr <- v(rn, pc)
       _ <- u(hc, rn, doc(rn, lr.address, st))
       sd <- l(lr.forAuthToken, rn)
     } yield sd map { dps(_, lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
