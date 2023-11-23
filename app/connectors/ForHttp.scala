@@ -46,26 +46,37 @@ class ForHttpClient @Inject() (val config: Configuration,
                                override protected val actorSystem: ActorSystem,
                                override val wsClient: WSClient)  extends ForHttp {
 
-  lazy val useDummyIp = forConfig.useDummyIp
+  private val useDummyIp = forConfig.useDummyIp
   override val hooks: Seq[HttpHook] = Seq.empty
 
-  // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
-  // An IP address needs to be injected because of the lockout mechanism
-  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
-    val headers2 = if(useDummyIp) {
-      (trueClientIp, "") +: (headers.filterNot(x => x._1.toLowerCase == trueClientIp.toLowerCase))
-    }else {
+  private def useDummyIPInTrueClientIPHeader(headers: Seq[(String, String)]): Seq[(String, String)] =
+    if (useDummyIp) {
+      (trueClientIp, "") +: headers.filterNot(x => x._1.toLowerCase == trueClientIp.toLowerCase)
+    } else {
       headers
     }
 
-    super.doGet(url, headers2)(ec).map { res =>
+  override def doPost[A](
+                          url: String,
+                          body: A,
+                          headers: Seq[(String, String)]
+                        )(
+                          implicit rds: Writes[A],
+                          ec: ExecutionContext
+                        ): Future[HttpResponse] = {
+    super.doPost(url, body, useDummyIPInTrueClientIPHeader(headers))(rds, ec)
+  }
+
+  // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
+  // An IP address needs to be injected because of the lockout mechanism
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] =
+    super.doGet(url, useDummyIPInTrueClientIPHeader(headers))(ec).map { res =>
       res.status match {
         case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.headers)
         case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.headers)
         case _ => res
       }
     }(ec)
-  }
 
   override def doPut[A](url: String,
                         body: A,
