@@ -14,6 +14,12 @@
  * limitations under the License.
  *@
 
-@(d: java.time.LocalDate)
+@this()
 
-@{s"${d.getDayOfMonth}/${d.getMonthValue}/${d.getYear}"}
+@(contentBlock: Html)
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @contentBlock
+    </div>
+</div>
