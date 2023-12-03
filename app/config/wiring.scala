@@ -18,6 +18,7 @@ package playconfig
 
 import com.google.inject.ImplementedBy
 import connectors.HODConnector
+import crypto.MongoHasher
 import form.persistence.FormDocumentRepository
 
 import javax.inject.{Inject, Singleton}
@@ -50,7 +51,7 @@ object SaveForLater {
 }
 
 object ContinueWithSavedSubmission {
-  def apply()(implicit hc: HeaderCarrier, ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
+  def apply()(implicit hc: HeaderCarrier, ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository, mongoHasher: MongoHasher): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
     LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply,
     SummaryBuilder.build, Journey.pageToResumeAt, () => nowInUK
   )

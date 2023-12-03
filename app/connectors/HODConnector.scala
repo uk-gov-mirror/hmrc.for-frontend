@@ -18,6 +18,7 @@ package connectors
 
 import com.google.inject.ImplementedBy
 import controllers.toFut
+import crypto.MongoHasher
 
 import javax.inject.{Inject, Singleton}
 import models.{Credentials, FORLoginResponse}
@@ -30,7 +31,12 @@ import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResp
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) extends HODConnector  {
+class DefaultHODConnector @Inject()(
+  config: ServicesConfig,
+  http: ForHttp,
+  mongoHasher: MongoHasher
+)(implicit ec: ExecutionContext) extends HODConnector {
+
   implicit val f: Format[Document] = Document.formats
 
   lazy val serviceUrl = config.baseUrl("for-hod-adapter")
@@ -56,8 +62,10 @@ class DefaultHODConnector @Inject()(config: ServicesConfig, http: ForHttp)(impli
     http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials)(wrtCredentials, readsHack, hc, ec)
   }
 
-  override def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] =
-    http.PUT(url(s"savedforlater/${d.referenceNumber}"), d) map { _ => () }
+  override def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = {
+    val document = d.copy(saveForLaterPassword = d.saveForLaterPassword.map(mongoHasher.hash))
+    http.PUT(url(s"savedforlater/${document.referenceNumber}"), document) map { _ => () }
+  }
 
   override def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
     http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress).map(removeAlterationDescription) recoverWith {

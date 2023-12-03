@@ -81,5 +81,5 @@ lazy val root = (project in file("."))
     ),
     Assets / pipelineStages := Seq(concat, digest),
     // Include only final files for assets fingerprinting
-    digest / includeFilter := GlobFilter("app.js") || GlobFilter("app.min.css")
+    digest / includeFilter := GlobFilter("app.js") || GlobFilter("*polyfill.js") || GlobFilter("*.min.js") || GlobFilter("app.min.css")
   )

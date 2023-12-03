@@ -17,7 +17,6 @@
 package security
 
 import connectors.Document
-import controllers.toFut
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
 import useCases.ReferenceNumber
@@ -29,32 +28,26 @@ import uk.gov.hmrc.http.HeaderCarrier
 import java.time.ZonedDateTime
 
 object LoginToHOD {
-  type Ref1 = String
-  type Ref2 = String
   type Postcode = String
   type StartTime = ZonedDateTime
-  type SessionID = String
   type AuthToken = String
-  type LoginToHOD = (Ref1, Ref2, Postcode, StartTime) => Future[LoginResult]
+  type LoginToHOD = (ReferenceNumber, Postcode, StartTime) => Future[LoginResult]
   type VerifyCredentials = (ReferenceNumber, Postcode) => Future[FORLoginResponse]
   type LoadSavedForLaterDocument = (AuthToken, ReferenceNumber) => Future[Option[Document]]
-  type StoreDocumentWithCredentialsInSession = (FORLoginResponse, ReferenceNumber) => Future[Unit]
 
   def apply(v: VerifyCredentials, l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession)
-           (r1: Ref1, r2: Ref2, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[LoginResult] =
+           (referenceNumber: ReferenceNumber, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[LoginResult] =
     for {
-      rn <- ref(r1, r2)
-      lr <- v(rn, pc)
-      _ <- u(hc, rn, doc(rn, lr.address, st))
-      sd <- l(lr.forAuthToken, rn)
-    } yield sd map { dps(_, lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
+      lr <- v(referenceNumber, pc)
+      _ <- u(hc, referenceNumber, doc(referenceNumber, lr.address, st))
+      sd <- l(lr.forAuthToken, referenceNumber)
+    } yield sd map { _ => dps(lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
 
-  private def ref(r1: Ref1, r2: Ref2): Future[String] = s"$r1$r2"
   private def doc(r: ReferenceNumber, a: Address, d: StartTime) = Document(r, d, address = Some(a))
   private def dps = DocumentPreviouslySaved.apply _
   private def ned = NoExistingDocument.apply _
 }
 
 sealed trait LoginResult
-case class DocumentPreviouslySaved(doc: Document, token: String, address: Address) extends LoginResult
+case class DocumentPreviouslySaved(token: String, address: Address) extends LoginResult
 case class NoExistingDocument(token: String, address: Address) extends LoginResult
