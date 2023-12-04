@@ -26,9 +26,10 @@ import play.api.libs.json.{JsObject, Json}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import playconfig.LoginToHODAction
-import security.LoginToHOD.{Postcode, Ref1, Ref2, StartTime}
+import security.LoginToHOD.{Postcode, StartTime}
 import security.NoExistingDocument
 import uk.gov.hmrc.http.HeaderCarrier
+import useCases.ReferenceNumber
 import util.DateUtil.nowInUK
 import utils.Helpers.fakeRequest2MessageRequest
 import views.html.{login, loginFailed}
@@ -46,9 +47,8 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginToHodFunction = (ref1: Ref1, ref2: Ref2, postcode: Postcode, start:StartTime) =>{
-      assert(ref1.equals("01234567"))
-      assert(ref2.equals("000"))
+    val loginToHodFunction = (referenceNumber: ReferenceNumber, postcode: Postcode, start: StartTime) => {
+      assert(referenceNumber.equals("01234567000"))
       Future.successful(NoExistingDocument("token", testAddress))
     }
 

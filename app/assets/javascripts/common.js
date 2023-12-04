@@ -23,9 +23,6 @@
                     } else {
                         var html = input.find('input, textarea').val();
                         input.find('input, textarea').focus().val('').val(html);
-                        if (input.find('input').hasClass('typeahead')) {
-                            input.find('input.typeahead').val(input.closest('.form-group').find('input.typeahead:first').attr('value'));
-                        }
                     }
                 }, 100);
             } else if (input.hasClass('multi-fields-group')) {

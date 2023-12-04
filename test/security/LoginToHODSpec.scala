@@ -39,10 +39,10 @@ class LoginToHODSpec extends UnitTest {
         respondWith(auth, refNum)(Some(savedDoc)),
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
-      val r = await(l(ref1, ref2, postcode, now))
+      val r = await(l(refNum, postcode, now))
 
       "return the saved document" in {
-        assert(r.leftSideValue === DocumentPreviouslySaved(savedDoc, loginResponse.forAuthToken, loginResponse.address))
+        assert(r.leftSideValue === DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address))
       }
 
       "loads an empty document with the retrieved credentials and the current time as the journey start time into the session in case the user cannot login or wants to start again" in {
@@ -57,7 +57,7 @@ class LoginToHODSpec extends UnitTest {
         none,
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
-      val r = await(l(ref1, ref2, postcode, now))
+      val r = await(l(refNum, postcode, now))
 
       "indicate there is no saved document" in {
          assert(r.leftSideValue === NoExistingDocument(loginResponse.forAuthToken, loginResponse.address))
@@ -70,9 +70,7 @@ class LoginToHODSpec extends UnitTest {
   }
 
   object TestData {
-    val ref1 = "1111111"
-    val ref2 = "899"
-    val refNum = s"$ref1$ref2"
+    val refNum = "1111111899"
     val password = "aljsljdf"
     val postcode = "CV24 5RR"
     val testAddress = Address("123", None, None, postcode)

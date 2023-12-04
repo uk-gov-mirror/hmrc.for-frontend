@@ -18,8 +18,10 @@ package useCases
 
 import _root_.utils.UnitTest
 import connectors.Document
+import crypto.MongoHasher
 import models.journeys.SummaryPage
 import models.pages.Summary
+import play.api.Configuration
 import uk.gov.hmrc.http.{Authorization, HeaderCarrier}
 import util.DateUtil.nowInUK
 
@@ -28,7 +30,9 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 class ContinueWithSavedSubmissionSpec extends UnitTest {
 
-   "Continue with saved submission" when {
+  private implicit val mongoHasher: MongoHasher = new MongoHasher(Configuration("oneway.hash.key" -> "UkFMRCBTYXZlRm9yTGF0ZXIgcGFzd29yZCB2ZXJ5IGNvb2wgYW5kIHNlY3JldCBvbmUgd2F5IGhhc2gga2V5"))
+
+  "Continue with saved submission" when {
      val pwd = "anicepassword"
      val ref = "11122233344"
      val now = ZonedDateTime.of(2015, 3, 5, 12, 25, 0, 0, ZoneOffset.UTC)
@@ -49,7 +53,7 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
       }
 
       "load the saved document into the current session updating the journey resumptions with the current date and time" in {
-        val docWithNowResumption = doc.copy(journeyResumptions = doc.journeyResumptions :+ now)
+        val docWithNowResumption = doc.copy(saveForLaterPassword = None, journeyResumptions = doc.journeyResumptions :+ now)
         assert(updated === ((hc, ref, docWithNowResumption)))
       }
     }
@@ -84,5 +88,7 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
         assert(updated === null)
       }
     }
+
   }
+
 }

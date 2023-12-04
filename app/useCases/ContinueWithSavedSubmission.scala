@@ -17,6 +17,7 @@
 package useCases
 
 import connectors.Document
+import crypto.MongoHasher
 import models.journeys.TargetPage
 import models.pages.Summary
 import security.LoginToHOD.LoadSavedForLaterDocument
@@ -32,7 +33,7 @@ object ContinueWithSavedSubmission {
   type GetNextPageOfJourney = Summary => TargetPage
 
   def apply(l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession, b: BuildSummary, j: GetNextPageOfJourney, n: Now)
-           (p: SaveForLaterPassword, r: ReferenceNumber)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[SaveForLaterLoginResult] =
+           (p: SaveForLaterPassword, r: ReferenceNumber)(implicit hc: HeaderCarrier, ec: ExecutionContext, mongoHasher: MongoHasher): Future[SaveForLaterLoginResult] =
     l(auth, r) map {
       case Some(doc) if matches(doc.saveForLaterPassword, p) => u(hc, r, record(doc, n())); PasswordsMatch(j(b(doc)))
       case Some(_) => IncorrectPassword
@@ -41,9 +42,11 @@ object ContinueWithSavedSubmission {
 
   private def auth(implicit hc: HeaderCarrier) = hc.authorization.map(_.value).getOrElse(throw AuthorizationTokenMissing)
 
-  private def matches(p1: Option[SaveForLaterPassword], p2: SaveForLaterPassword) = p1.contains(p2)
+  private def matches(savedHash: Option[SaveForLaterPassword], password: SaveForLaterPassword)(implicit mongoHasher: MongoHasher) =
+    savedHash.exists(mongoHasher.verify(password, _)) ||
+      savedHash.contains(password)  // TODO: Remove by task VOA-3539 Remove encryption and leave only one-way hash (90 days after VOA-3527 production deployment)
 
-  private def record(d: Document, n: ZonedDateTime) = d.copy(journeyResumptions = d.journeyResumptions :+ n)
+  private def record(d: Document, n: ZonedDateTime) = d.copy(saveForLaterPassword = None, journeyResumptions = d.journeyResumptions :+ n)
 }
 
 sealed trait SaveForLaterLoginResult

@@ -113,24 +113,22 @@ class LoginController @Inject()(
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
     val cleanedRefNumber = referenceNumber.replaceAll("[^0-9]", "")
-    val (ref1, ref2) = cleanedRefNumber.splitAt(cleanedRefNumber.length - 3)
     var cleanPostcode = postcode.replaceAll("[^\\w\\d]", "")
     cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
-    //TODO - refactor
-    loginToHOD(hc2, ec)(ref1, ref2, cleanPostcode, startTime).flatMap {
-      case DocumentPreviouslySaved(doc, token, address) =>
-        auditLogin(ref1 + ref2, true, address)(hc2)
-        withNewSession(Redirect(routes.SaveForLaterController.login), token, s"$ref1$ref2", sessionId)
+    loginToHOD(hc2, ec)(cleanedRefNumber, cleanPostcode, startTime).flatMap {
+      case DocumentPreviouslySaved(token, address) =>
+        auditLogin(cleanedRefNumber, returnUser = true, address)(hc2)
+        withNewSession(Redirect(routes.SaveForLaterController.login), token, cleanedRefNumber, sessionId)
       case NoExistingDocument(token, address) =>
-        auditLogin(ref1 + ref2, false, address)(hc2)
-        withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, s"$ref1$ref2", sessionId)
+        auditLogin(cleanedRefNumber, returnUser = false, address)(hc2)
+        withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, cleanedRefNumber, sessionId)
     }.recover {
       case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
       case Upstream4xxResponse(_, 403, _, _) => Conflict(errorView(403))
       case Upstream4xxResponse(body, 401, _, _) =>
         val failed = Json.parse(body).as[FailedLoginResponse]
         val remainingAttempts = failed.numberOfRemainingTriesUntilIPLockout
-        logger.warn(s"Failed login: RefNum: $ref1$ref2 Attempts remaining: $remainingAttempts")
+        logger.warn(s"Failed login: RefNum: $cleanedRefNumber Attempts remaining: $remainingAttempts")
         if (remainingAttempts < 1) {
           val clientIP = r.headers.get(trueClientIp).getOrElse("")
           auditLockedOut(cleanedRefNumber, postcode, cleanPostcode, clientIP)(hc2)

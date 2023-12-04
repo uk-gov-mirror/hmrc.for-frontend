@@ -19,6 +19,7 @@ package controllers
 import actions.RefNumAction
 import connectors.{Audit, EmailConnector, HODConnector}
 import controllers.dataCapturePages.{RedirectTo, UrlFor}
+import crypto.MongoHasher
 import form.CustomUserPasswordForm
 import form.persistence.FormDocumentRepository
 import models.Addresses
@@ -30,14 +31,13 @@ import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import views.html.{customPasswordSaveForLater, saveForLaterLogin, saveForLaterLoginFailed, savedForLater}
+import views.html.{customPasswordSaveForLater, saveForLaterLogin, savedForLater}
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import useCases.ContinueWithSavedSubmission.ContinueWithSavedSubmission
-import useCases.SaveInProgressSubmissionForLater.SaveInProgressSubmissionForLater
 import useCases.{ErrorRetrievingSavedDocument, IncorrectPassword, PasswordsMatch}
 
 import java.time.LocalDate
@@ -53,24 +53,21 @@ class SaveForLaterController @Inject()
   audit: Audit, refNumAction: RefNumAction,
   emailConnector: EmailConnector, config: Configuration,
   saveForLaterLogin: saveForLaterLogin,
-  saveForLaterLoginFailed: saveForLaterLoginFailed,
   savedForLater:savedForLater,
   customPasswordSaveForLaterView: customPasswordSaveForLater,
  errorView: views.html.error.error
-)
-(implicit ec: ExecutionContext, hodConnector: HODConnector, repository: FormDocumentRepository) extends FrontendController(cc) {
+)(implicit ec: ExecutionContext, hodConnector: HODConnector, repository: FormDocumentRepository, mongoHasher: MongoHasher)
+  extends FrontendController(cc) {
 
   import SaveForLaterController._
 
-  val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
-
-  lazy val s4l: SaveInProgressSubmissionForLater = playconfig.SaveForLater()
+  private val expiryDateInDays = config.get[String]("savedForLaterExpiryDays").toInt
 
   def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission()
 
   def saveForLater(exitPath: String) = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
-      case Some(doc) => {
+      case Some(doc) =>
         val sum = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           if (doc.saveForLaterPassword.isDefined) {
@@ -85,7 +82,6 @@ class SaveForLaterController @Inject()
           } else {
             Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword, exitPath)) //TODO - pass path
           }
-      }
       case None =>
         InternalServerError(errorView(500))
     }
@@ -93,7 +89,7 @@ class SaveForLaterController @Inject()
 
   def customPasswordSaveForLater(exitPath: String) = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).flatMap {
-        case Some(doc) => {
+        case Some(doc) =>
           val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
           val sum = SummaryBuilder.build(doc)
           CustomUserPasswordForm.customUserPassword.bindFromRequest().fold(
@@ -112,7 +108,6 @@ class SaveForLaterController @Inject()
               }
             }
           )
-        }
         case None =>
           InternalServerError(errorView(500))
       }
@@ -163,7 +158,7 @@ class SaveForLaterController @Inject()
     }
   }
 
-  lazy val saveForLaterForm = Form(mapping(
+  private val saveForLaterForm: Form[SaveForLaterLogin] = Form(mapping(
     "password" -> nonEmptyText
   )(SaveForLaterLogin.apply)(SaveForLaterLogin.unapply))
 
