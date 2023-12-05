@@ -43,8 +43,7 @@ object ContinueWithSavedSubmission {
   private def auth(implicit hc: HeaderCarrier) = hc.authorization.map(_.value).getOrElse(throw AuthorizationTokenMissing)
 
   private def matches(savedHash: Option[SaveForLaterPassword], password: SaveForLaterPassword)(implicit mongoHasher: MongoHasher) =
-    savedHash.exists(mongoHasher.verify(password, _)) ||
-      savedHash.contains(password)  // TODO: Remove by task VOA-3539 Remove encryption and leave only one-way hash (90 days after VOA-3527 production deployment)
+    savedHash.exists(mongoHasher.verify(password, _))
 
   private def record(d: Document, n: ZonedDateTime) = d.copy(saveForLaterPassword = None, journeyResumptions = d.journeyResumptions :+ n)
 }
