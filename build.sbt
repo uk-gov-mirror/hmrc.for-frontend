@@ -1,9 +1,10 @@
 
 import net.ground5hark.sbt.concat.Import.*
+import org.irundaia.sass.Minified
 import play.core.PlayVersion
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.{DefaultBuildSettings, SbtAutoBuildPlugin}
-import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings}
 
 val scoverageSettings = {
   Seq(
@@ -51,8 +52,8 @@ def testDeps(scope: String) = Seq(
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
 
 lazy val root = (project in file("."))
-  .settings(scalaSettings *)
-  .settings(defaultSettings() *)
+  .settings(scalaSettings)
+  .settings(defaultSettings())
   .settings(
     name := "for-frontend",
     scalaVersion := "2.13.12",
@@ -67,11 +68,13 @@ lazy val root = (project in file("."))
     majorVersion := 3
   )
   .configs(IntegrationTest)
-  .settings(
-    DefaultBuildSettings.integrationTestSettings()
-  )
+  .settings(integrationTestSettings())
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
+  .settings(
+    SassKeys.generateSourceMaps := false,
+    SassKeys.cssStyle := Minified
+  )
   .settings(
     Concat.groups := Seq(
       "javascripts/app.js" -> group(Seq(
