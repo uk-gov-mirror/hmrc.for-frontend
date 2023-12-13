@@ -20,7 +20,7 @@ val scoverageSettings = {
   )
 }
 
-val bootstrapVersion = "8.1.0"
+val bootstrapVersion = "8.2.0"
 val playFrontendVersion = "8.1.0"
 val mongoVersion = "1.6.0"
 
