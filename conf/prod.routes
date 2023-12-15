@@ -1,3 +1,5 @@
 # Add all the application app.routes to the app.app.routes file
 ->         /sending-rental-information     app.Routes
-->         /                       					health.Routes
+->         /                               health.Routes
+
+GET        /                               controllers.RootRedirectController.rootRedirect
