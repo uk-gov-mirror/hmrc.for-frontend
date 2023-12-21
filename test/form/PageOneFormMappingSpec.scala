@@ -23,13 +23,10 @@ class PageOneFormMappingSpec extends AnyFlatSpec with should.Matchers {
   import TestData._
   import form.PageOneForm._
   import utils.MappingSpecs._
-  
 
   "page one mapping" should "validate the address fields following the standard address convention for this application" in {
-    val formData: Map[String, String] = Map(errorKey.addressBuildingName -> "buildingNameText",
-      errorKey.addressPostcode -> "AA11 1AA",
-      "street1" -> "street1",
-      "street2" -> "street2")
+    val formData: Map[String, String] =
+      Map(errorKey.addressBuildingName -> "buildingNameText", errorKey.addressPostcode -> "AA11 1AA", "street1" -> "street1", "street2" -> "street2")
 
     validateAddress(pageOneForm, formData)
   }
@@ -37,10 +34,11 @@ class PageOneFormMappingSpec extends AnyFlatSpec with should.Matchers {
   "page one mapping" should "map to fully populated data object if all form fields are present and isAddresCorrect is false" in {
     val formData: Map[String, String] = Map(
       errorKey.addressBuildingName -> "buildingNameText",
-      errorKey.addressPostcode -> "AA11 1AA",
-      "street1" -> "street1",
-      "street2" -> "street2")
-    val boundForm = pageOneForm.bind(formData).convertGlobalToFieldErrors()
+      errorKey.addressPostcode     -> "AA11 1AA",
+      "street1"                    -> "street1",
+      "street2"                    -> "street2"
+    )
+    val boundForm                     = pageOneForm.bind(formData).convertGlobalToFieldErrors()
 
     boundForm.hasErrors should be(false)
 
@@ -49,16 +47,19 @@ class PageOneFormMappingSpec extends AnyFlatSpec with should.Matchers {
     val pageOneData = boundForm.value.get
 
     pageOneData.buildingNameNumber should be("buildingNameText")
-    pageOneData.street1 should be(Some("street1"))
-    pageOneData.street2 should be(Some("street2"))
-    pageOneData.postcode should be("AA11 1AA")
+    pageOneData.street1            should be(Some("street1"))
+    pageOneData.street2            should be(Some("street2"))
+    pageOneData.postcode           should be("AA11 1AA")
   }
 
   object TestData {
-    val errorKey = new {
-    val addressBuildingName: String = "buildingNameNumber"
-    val addressPostcode: String = "postcode"
-  }
-  
+
+    val errorKey: errorKey = new errorKey
+
+    class errorKey extends {
+      val addressBuildingName: String = "buildingNameNumber"
+      val addressPostcode: String     = "postcode"
+    }
+
   }
 }

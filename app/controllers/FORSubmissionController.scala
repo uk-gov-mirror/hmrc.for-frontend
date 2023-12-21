@@ -28,15 +28,18 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
-                                         refNumberAction: RefNumAction,
-                                         submitBusinessRentalInformation: SubmitBusinessRentalInformation,
-                                         errorView: views.html.error.error
-                                        )(implicit ec: ExecutionContext) extends FrontendController(cc) with Logging {
+class FORSubmissionController @Inject() (
+  cc: MessagesControllerComponents,
+  refNumberAction: RefNumAction,
+  submitBusinessRentalInformation: SubmitBusinessRentalInformation,
+  errorView: views.html.error.error
+)(implicit ec: ExecutionContext
+) extends FrontendController(cc)
+  with Logging {
 
   lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation.url
 
-  def submit: Action[AnyContent] = refNumberAction.async { implicit request:RefNumRequest[AnyContent] =>
+  def submit: Action[AnyContent] = refNumberAction.async { implicit request: RefNumRequest[AnyContent] =>
     request.body.asFormUrlEncoded.flatMap { body =>
       body.get("declaration").map { agree =>
         if (agree.headOption.exists(_.toBoolean)) submit(request.refNum) else rejectSubmission
@@ -48,11 +51,10 @@ class FORSubmissionController @Inject() (cc: MessagesControllerComponents,
     val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     for {
       _ <- submitBusinessRentalInformation(refNum)(hc, request)
-    } yield {
-      // Metrics.submissions.mark() //TODO - Solve metrics
-      Found(confirmationUrl)
-    }
-  }recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409)) }
+    } yield
+    // Metrics.submissions.mark() //TODO - Solve metrics
+    Found(confirmationUrl)
+  } recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409)) }
 
   private def rejectSubmission = Future.successful {
     Found(routes.ApplicationController.declarationError.url)

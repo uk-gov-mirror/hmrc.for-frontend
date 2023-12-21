@@ -41,7 +41,7 @@ trait Audit extends AuditConnector {
 
   def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val tags = hc.toAuditTags()
-    val de = DataEvent(auditSource = AUDIT_SOURCE, auditType = event, tags = tags, detail = detail)
+    val de   = DataEvent(auditSource = AUDIT_SOURCE, auditType = event, tags = tags, detail = detail)
     sendEvent(de)
   }
 
@@ -66,7 +66,7 @@ trait Audit extends AuditConnector {
 
   def apply(event: String, submission: Submission)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val sub = implicitly[OWrites[Submission]].writes(submission)
-    val de = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = event, detail = sub)
+    val de  = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = event, detail = sub)
     sendExtendedEvent(de)
   }
 
@@ -74,9 +74,9 @@ trait Audit extends AuditConnector {
 
 object Audit {
   val referenceNumber = "referenceNumber"
-  val address = "address"
-  val updatedAddress = "updatedAddress"
-  val language = "language"
+  val address         = "address"
+  val updatedAddress  = "updatedAddress"
+  val language        = "language"
 
   def languageJson(implicit messages: Messages): JsObject =
     Json.obj(Audit.language -> messages.lang.language)
@@ -84,8 +84,9 @@ object Audit {
 }
 
 @Singleton
-class ForAuditConnector @Inject() (val auditingConfig: AuditingConfig,
-                                   val auditChannel: AuditChannel,
-                                   val datastreamMetrics: DatastreamMetrics
-                                  )(implicit val ec: ExecutionContext) extends Audit {
-}
+class ForAuditConnector @Inject() (
+  val auditingConfig: AuditingConfig,
+  val auditChannel: AuditChannel,
+  val datastreamMetrics: DatastreamMetrics
+)(implicit val ec: ExecutionContext
+) extends Audit {}

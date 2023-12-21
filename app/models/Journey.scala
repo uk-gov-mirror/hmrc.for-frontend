@@ -16,7 +16,6 @@
 
 package models
 
-
 sealed trait Journey extends NamedEnum {
   val key = "journeyType"
 }
@@ -30,5 +29,5 @@ object NotConnectedJourney extends Journey {
 }
 
 object JourneyTypes extends NamedEnumSupport[Journey] {
-  val all = List(NormalJourney, NotConnectedJourney)
+  val all: List[Journey] = List(NormalJourney, NotConnectedJourney)
 }

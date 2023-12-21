@@ -41,23 +41,41 @@ trait SummaryBuilder {
 object SummaryBuilder extends SummaryBuilder {
 
   def build(doc: Document): Summary = {
-    val p0 = findPage(doc, 0, pageZeroForm)
-    val p1 = findPage(doc, 1, pageOneForm)
-    val p2 = findPage(doc, 2, pageTwoForm)
-    val p3 = findPage(doc, 3, pageThreeForm)
-    val p4 = findPage(doc, 4, pageFourForm)
-    val p5 = findPage(doc, 5, pageFiveForm)
-    val p6 = findPage(doc, 6, pageSixForm)
-    val p7 = findPage(doc, 7, pageSevenForm)
-    val p8 = findPage(doc, 8, pageEightForm)
-    val p9 = findPage(doc, 9, pageNineForm)
+    val p0  = findPage(doc, 0, pageZeroForm)
+    val p1  = findPage(doc, 1, pageOneForm)
+    val p2  = findPage(doc, 2, pageTwoForm)
+    val p3  = findPage(doc, 3, pageThreeForm)
+    val p4  = findPage(doc, 4, pageFourForm)
+    val p5  = findPage(doc, 5, pageFiveForm)
+    val p6  = findPage(doc, 6, pageSixForm)
+    val p7  = findPage(doc, 7, pageSevenForm)
+    val p8  = findPage(doc, 8, pageEightForm)
+    val p9  = findPage(doc, 9, pageNineForm)
     val p10 = findPage(doc, 10, pageTenForm)
     val p11 = findPage(doc, 11, pageElevenForm)
     val p12 = findPage(doc, 12, pageTwelveForm)
     val p13 = findPage(doc, 13, pageThirteenForm)
     val p14 = findPage(doc, 14, pageFourteenForm)
-    Summary(doc.referenceNumber, doc.journeyStarted, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14,
-      address = doc.address, journeyResumptions = doc.journeyResumptions
+    Summary(
+      doc.referenceNumber,
+      doc.journeyStarted,
+      p0,
+      p1,
+      p2,
+      p3,
+      p4,
+      p5,
+      p6,
+      p7,
+      p8,
+      p9,
+      p10,
+      p11,
+      p12,
+      p13,
+      p14,
+      address = doc.address,
+      journeyResumptions = doc.journeyResumptions
     )
   }
 

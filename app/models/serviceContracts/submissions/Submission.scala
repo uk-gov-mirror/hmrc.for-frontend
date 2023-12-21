@@ -31,4 +31,5 @@ case class Submission(
   responsibilities: Option[Responsibilities],
   alterations: Option[PropertyAlterations],
   otherFactors: Option[OtherFactors],
-  referenceNumber: Option[String] = None)
+  referenceNumber: Option[String] = None
+)

@@ -31,21 +31,21 @@ class ChainedConditions extends AnyFlatSpec with should.Matchers {
 
   it should "apply mappings if all of the chained criteria are satisfied" in {
     val data = Map("name" -> "Francoise", "age" -> "21")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "favouriteColour")
   }
 
   it should "not apply mappings if any part of the chained critieria is not satisfied" in {
     val data = Map("name" -> "Francoise", "age" -> "20")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.isEmpty)
   }
 
   lazy val form = Form(mapping(
-    "name" -> nonEmptyText,
-    "age" -> number,
+    "name"            -> nonEmptyText,
+    "age"             -> number,
     "favouriteColour" -> mandatoryIf(
       isEqual("name", "Francoise") and isEqual("age", "21"),
       nonEmptyText

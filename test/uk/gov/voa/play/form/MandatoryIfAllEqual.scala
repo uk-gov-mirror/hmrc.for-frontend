@@ -31,7 +31,7 @@ class MandatoryIfAllEqual extends AnyFlatSpec with should.Matchers {
 
   it should "mandate the target field if all of the source fields match their required value" in {
     val data = Map("s1" -> "s1val", "s2" -> "s2val", "s3" -> "s3val")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "target")
   }
@@ -40,17 +40,17 @@ class MandatoryIfAllEqual extends AnyFlatSpec with should.Matchers {
     val data = Map("s1" -> "s1val", "s2" -> "s2val", "s3" -> "s3val")
     Seq("s1", "s2", "s3") foreach { f =>
       val data2 = data.updated(f, "notrequiredvalue")
-      val res = form.bind(data2)
+      val res   = form.bind(data2)
 
       assert(res.errors.isEmpty)
     }
 
   }
 
-  lazy val form = Form(mapping(
-    "s1" -> nonEmptyText,
-    "s2" -> nonEmptyText,
-    "s3" -> nonEmptyText,
+  lazy val form: Form[Model] = Form(mapping(
+    "s1"     -> nonEmptyText,
+    "s2"     -> nonEmptyText,
+    "s3"     -> nonEmptyText,
     "target" -> mandatoryIfAllEqual(Seq("s1" -> "s1val", "s2" -> "s2val", "s3" -> "s3val"), nonEmptyText)
   )(Model.apply)(Model.unapply))
 

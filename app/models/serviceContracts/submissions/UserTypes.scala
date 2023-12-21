@@ -18,12 +18,14 @@ package models.serviceContracts.submissions
 
 import models.{NamedEnum, NamedEnumSupport}
 
-sealed trait UserType extends NamedEnum{
+sealed trait UserType extends NamedEnum {
   val key = "userType"
 }
+
 object UserTypeOccupier extends UserType {
   val name = "occupier"
 }
+
 object UserTypeOwner extends UserType {
   val name = "owner"
 }
@@ -31,12 +33,15 @@ object UserTypeOwner extends UserType {
 object UserTypeOccupiersAgent extends UserType {
   val name = "occupiersAgent"
 }
+
 object UserTypeOwnersAgent extends UserType {
   val name = "ownersAgent"
 }
+
 object UserTypeVacated extends UserType {
   val name = "vacated"
 }
+
 object UserTypes extends NamedEnumSupport[UserType] {
-  val all = List(UserTypeOccupier, UserTypeOwner, UserTypeOccupiersAgent, UserTypeOwnersAgent)
+  val all: List[UserType] = List(UserTypeOccupier, UserTypeOwner, UserTypeOccupiersAgent, UserTypeOwnersAgent)
 }

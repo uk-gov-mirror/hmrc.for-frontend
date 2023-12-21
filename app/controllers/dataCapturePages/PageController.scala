@@ -22,68 +22,65 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 @Singleton
-class PageController @Inject() (cc: MessagesControllerComponents,
-                                application: ApplicationController,
-                                pageZeroController: PageZeroController,
-                                pageOneController: PageOneController,
-                                pageTwoController: PageTwoController,
-                                pageThreeController: PageThreeController,
-                                pageFourController: PageFourController,
-                                pageFiveController: PageFiveController,
-                                pageSixController: PageSixController,
-                                pageSevenController: PageSevenController,
-                                pageEightController: PageEightController,
-                                pageNineController: PageNineController,
-                                pageTenController: PageTenController,
-                                pageElevenController: PageElevenController,
-                                pageTwelveController: PageTwelveController,
-                                pageThirteenController: PageThirteenController,
-                                pageFourteenController: PageFourteenController
-
-                               )
-
-  extends FrontendController(cc) {
+class PageController @Inject() (
+  cc: MessagesControllerComponents,
+  application: ApplicationController,
+  pageZeroController: PageZeroController,
+  pageOneController: PageOneController,
+  pageTwoController: PageTwoController,
+  pageThreeController: PageThreeController,
+  pageFourController: PageFourController,
+  pageFiveController: PageFiveController,
+  pageSixController: PageSixController,
+  pageSevenController: PageSevenController,
+  pageEightController: PageEightController,
+  pageNineController: PageNineController,
+  pageTenController: PageTenController,
+  pageElevenController: PageElevenController,
+  pageTwelveController: PageTwelveController,
+  pageThirteenController: PageThirteenController,
+  pageFourteenController: PageFourteenController
+) extends FrontendController(cc) {
 
   def showPage(pageNumber: Int): Action[AnyContent] = showPageVariant(pageNumber, 0)
 
   def showPageVariant(pageNumber: Int, variant: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => pageZeroController.show
-      case 1 => pageOneController.show
-      case 2 => pageTwoController.show
-      case 3 => pageThreeController.show
-      case 4 => pageFourController.show
-      case 5 => pageFiveController.show
-      case 6 => pageSixController.show(variant)
-      case 7 => pageSevenController.show
-      case 8 => pageEightController.show
-      case 9 => pageNineController.show
+      case 0  => pageZeroController.show
+      case 1  => pageOneController.show
+      case 2  => pageTwoController.show
+      case 3  => pageThreeController.show
+      case 4  => pageFourController.show
+      case 5  => pageFiveController.show
+      case 6  => pageSixController.show(variant)
+      case 7  => pageSevenController.show
+      case 8  => pageEightController.show
+      case 9  => pageNineController.show
       case 10 => pageTenController.show
       case 11 => pageElevenController.show
       case 12 => pageTwelveController.show
       case 13 => pageThirteenController.show
       case 14 => pageFourteenController.show
-      case _ => application.index
+      case _  => application.index
     }
-
 
   def savePage(pageNumber: Int): Action[AnyContent] =
     pageNumber match {
-      case 0 => pageZeroController.save
-      case 1 => pageOneController.save
-      case 2 => pageTwoController.save
-      case 3 => pageThreeController.save
-      case 4 => pageFourController.save
-      case 5 => pageFiveController.save
-      case 6 => pageSixController.save
-      case 7 => pageSevenController.save
-      case 8 => pageEightController.save
-      case 9 => pageNineController.save
+      case 0  => pageZeroController.save
+      case 1  => pageOneController.save
+      case 2  => pageTwoController.save
+      case 3  => pageThreeController.save
+      case 4  => pageFourController.save
+      case 5  => pageFiveController.save
+      case 6  => pageSixController.save
+      case 7  => pageSevenController.save
+      case 8  => pageEightController.save
+      case 9  => pageNineController.save
       case 10 => pageTenController.save
       case 11 => pageElevenController.save
       case 12 => pageTwelveController.save
       case 13 => pageThirteenController.save
       case 14 => pageFourteenController.save
-      case _ => application.index
+      case _  => application.index
     }
 }

@@ -17,11 +17,10 @@
 package models.serviceContracts.submissions
 
 case class Address(buildingNameNumber: String, street1: Option[String], street2: Option[String], postcode: String) {
-  def singleLine: String = {
-    List(Some(buildingNameNumber), street1, street2, Some(postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$", "$1 $2"))).flatten.mkString(", ")
-  }
 
-  def multiLine: String = {
+  def singleLine: String =
+    List(Some(buildingNameNumber), street1, street2, Some(postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$", "$1 $2"))).flatten.mkString(", ")
+
+  def multiLine: String =
     List(Some(buildingNameNumber), street1, street2, Some(postcode.replaceAll("^(\\S+?)\\s*?(\\d\\w\\w)$", "$1 $2"))).flatten.mkString("<br /> ")
-  }
 }

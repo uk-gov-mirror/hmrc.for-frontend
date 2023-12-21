@@ -21,13 +21,19 @@ import play.api.libs.json._
 
 import java.time.ZonedDateTime
 
-case class Document(referenceNumber: String, journeyStarted: ZonedDateTime,  pages: Seq[Page] = Seq(), address: Option[Address] = None,
-                    saveForLaterPassword: Option[String] = None, journeyResumptions: Seq[ZonedDateTime] = Seq.empty) {
+case class Document(
+  referenceNumber: String,
+  journeyStarted: ZonedDateTime,
+  pages: Seq[Page] = Seq(),
+  address: Option[Address] = None,
+  saveForLaterPassword: Option[String] = None,
+  journeyResumptions: Seq[ZonedDateTime] = Seq.empty
+) {
   def page(pageNumber: Int): Option[Page] = pages.find(_.pageNumber == pageNumber)
 
   def add(page: Page): Document = {
     val newPages = (pages.filterNot(_.pageNumber == page.pageNumber) :+ page).sortBy(_.pageNumber)
-    this.copy(pages =  newPages)
+    this.copy(pages = newPages)
   }
 }
 

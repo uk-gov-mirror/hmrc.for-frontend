@@ -44,89 +44,97 @@ import scala.concurrent.{ExecutionContext, Future}
 case class LoginDetails(referenceNumber: String, postcode: String, startTime: ZonedDateTime)
 
 object LoginController {
-  val loginForm = Form(
+
+  val loginForm: Form[LoginDetails] = Form(
     mapping(
-      //format of reference number should be 7 or 8 digits then / then 3 digits
-      "referenceNumber" -> text.verifying(Errors.invalidRefNum, x => {
-        val cleanRefNumber = x.replaceAll("\\D+", "")
-        cleanRefNumber.length > 9 && cleanRefNumber.length < 12
-      }),
-      "postcode" -> text.verifying(Errors.invalidPostcodeOnLetter, pc => {
-        var cleanPostcode = pc.replaceAll("[^\\w\\d]", "")
-        cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 3, " ", 0).toUpperCase
-        cleanPostcode.matches(MappingSupport.postcodeRegex)
-      }),
-      "start-time" -> default(
+      // format of reference number should be 7 or 8 digits then / then 3 digits
+      "referenceNumber" -> text.verifying(
+        Errors.invalidRefNum,
+        x => {
+          val cleanRefNumber = x.replaceAll("\\D+", "")
+          cleanRefNumber.length > 9 && cleanRefNumber.length < 12
+        }
+      ),
+      "postcode"        -> text.verifying(
+        Errors.invalidPostcodeOnLetter,
+        pc => {
+          var cleanPostcode = pc.replaceAll("[^\\w\\d]", "")
+          cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 3, " ", 0).toUpperCase
+          cleanPostcode.matches(MappingSupport.postcodeRegex)
+        }
+      ),
+      "start-time"      -> default(
         localDateTime("yyyy-MM-dd'T'HH:mm:ss.SSS")
           .transform[ZonedDateTime](_.atZone(ZoneOffset.UTC), _.toLocalDateTime),
-        nowInUK)
-    )(LoginDetails.apply)(LoginDetails.unapply))
+        nowInUK
+      )
+    )(LoginDetails.apply)(LoginDetails.unapply)
+  )
 }
 
-
-class LoginController @Inject()(
+class LoginController @Inject() (
   audit: Audit,
   documentRepo: FormDocumentRepository,
   loginToHOD: LoginToHODAction,
   cc: MessagesControllerComponents,
-  login: login, 
+  login: login,
   errorView: views.html.error.error,
   loginFailedView: loginFailed,
   lockedOutView: views.html.lockedOut
-)
-(implicit ec: ExecutionContext) extends FrontendController(cc) with Logging {
+)(implicit ec: ExecutionContext
+) extends FrontendController(cc)
+  with Logging {
 
   import LoginController.loginForm
 
-
-  def show = Action { implicit request =>
+  def show: Action[AnyContent] = Action { implicit request =>
     Ok(login(loginForm.fill(LoginDetails("", "", nowInUK))))
   }
 
-  def logout = Action { implicit request =>
-    val refNum = request.session.get("refNum").getOrElse("-")
-    val refNumJson = Json.obj(Audit.referenceNumber -> refNum)
+  def logout: Action[AnyContent] = Action { implicit request =>
+    val refNum                     = request.session.get("refNum").getOrElse("-")
+    val refNumJson                 = Json.obj(Audit.referenceNumber -> refNum)
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     hc.sessionId match {
       case Some(sessionId) =>
         documentRepo.findById(sessionId.value, refNum).map {
           case Some(doc) => refNumJson ++ Addresses.addressJson(SummaryBuilder.build(doc))
-          case None => refNumJson
+          case None      => refNumJson
         }.map(jsObject => audit.sendExplicitAudit("Logout", jsObject))
-      case None =>
+      case None            =>
         audit.sendExplicitAudit("Logout", refNumJson)
     }
 
     Redirect(routes.LoginController.show).withNewSession
   }
 
-  def submit = Action.async { implicit request =>
+  def submit: Action[AnyContent] = Action.async { implicit request =>
     loginForm.bindFromRequest().fold(
       formWithErrors => Future.successful(BadRequest(login(formWithErrors))),
       loginData => verifyLogin(loginData.referenceNumber, loginData.postcode, loginData.startTime)
     )
   }
 
-  def verifyLogin(referenceNumber: String, postcode: String, startTime: ZonedDateTime)(implicit r: MessagesRequest[AnyContent]) = {
-    val sessionId = java.util.UUID.randomUUID().toString //TODO - Why new session? Why manually?
+  def verifyLogin(referenceNumber: String, postcode: String, startTime: ZonedDateTime)(implicit r: MessagesRequest[AnyContent]): Future[Result] = {
+    val sessionId = java.util.UUID.randomUUID().toString // TODO - Why new session? Why manually?
 
     implicit val hc2: HeaderCarrier = hc.copy(sessionId = Some(SessionId(sessionId)))
-    val cleanedRefNumber = referenceNumber.replaceAll("[^0-9]", "")
-    var cleanPostcode = postcode.replaceAll("[^\\w\\d]", "")
+    val cleanedRefNumber            = referenceNumber.replaceAll("[^0-9]", "")
+    var cleanPostcode               = postcode.replaceAll("[^\\w\\d]", "")
     cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
     loginToHOD(hc2, ec)(cleanedRefNumber, cleanPostcode, startTime).flatMap {
       case DocumentPreviouslySaved(token, address) =>
         auditLogin(cleanedRefNumber, returnUser = true, address)(hc2)
         withNewSession(Redirect(routes.SaveForLaterController.login), token, cleanedRefNumber, sessionId)
-      case NoExistingDocument(token, address) =>
+      case NoExistingDocument(token, address)      =>
         auditLogin(cleanedRefNumber, returnUser = false, address)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, cleanedRefNumber, sessionId)
     }.recover {
-      case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
-      case Upstream4xxResponse(_, 403, _, _) => Conflict(errorView(403))
+      case Upstream4xxResponse(_, 409, _, _)    => Conflict(errorView(409))
+      case Upstream4xxResponse(_, 403, _, _)    => Conflict(errorView(403))
       case Upstream4xxResponse(body, 401, _, _) =>
-        val failed = Json.parse(body).as[FailedLoginResponse]
+        val failed            = Json.parse(body).as[FailedLoginResponse]
         val remainingAttempts = failed.numberOfRemainingTriesUntilIPLockout
         logger.warn(s"Failed login: RefNum: $cleanedRefNumber Attempts remaining: $remainingAttempts")
         if (remainingAttempts < 1) {
@@ -148,26 +156,25 @@ class LoginController @Inject()(
   private def auditLockedOut(refNumber: String, postcode: String, postcodeCleaned: String, lockedIP: String)(implicit hc: HeaderCarrier): Unit = {
     val detailJson = Json.obj(
       Audit.referenceNumber -> refNumber,
-      "postcode" -> postcode,
-      "postcodeCleaned" -> postcodeCleaned,
-      "lockedIP" -> lockedIP
+      "postcode"            -> postcode,
+      "postcodeCleaned"     -> postcodeCleaned,
+      "lockedIP"            -> lockedIP
     )
     audit.sendExplicitAudit("LockedOut", detailJson)
   }
 
-  def lockedOut = Action { implicit request =>
+  def lockedOut: Action[AnyContent] = Action { implicit request =>
     Unauthorized(lockedOutView())
   }
 
-  def loginFailed(attemptsRemaining: Int) = Action { implicit request =>
+  def loginFailed(attemptsRemaining: Int): Action[AnyContent] = Action { implicit request =>
     Unauthorized(loginFailedView(attemptsRemaining))
   }
 
-  private def withNewSession(r: Result, token: String, ref: String, sessionId: String)(implicit req: Request[AnyContent]) = {
+  private def withNewSession(r: Result, token: String, ref: String, sessionId: String)(implicit req: Request[AnyContent]) =
     r.withSession(
       (req.session.data ++ Seq(SessionKeys.sessionId -> sessionId, SessionKeys.authToken -> token, "refNum" -> ref)).toSeq: _*
     )
-  }
 }
 
 object FailedLoginResponse {

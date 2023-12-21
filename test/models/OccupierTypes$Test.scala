@@ -24,16 +24,14 @@ import play.api.libs.json.{JsResult, JsSuccess, Json}
 class OccupierTypes$Test extends AnyFlatSpec with should.Matchers {
 
   val jsonIndividual = """"individuals""""
-  val jsonCompany = """"company""""
-  val jsonNobody = """"nobody""""
+  val jsonCompany    = """"company""""
+  val jsonNobody     = """"nobody""""
 
-  def toJson(data: OccupierType): String = {
+  def toJson(data: OccupierType): String =
     Json.toJson(data).toString
-  }
 
-  def fromJson(json: String): JsResult[OccupierType] = {
+  def fromJson(json: String): JsResult[OccupierType] =
     Json.fromJson[OccupierType](Json.parse(json))
-  }
 
   "OccupierType reader for 'individual' " should "map to OccupierTypeIndividual" in {
     toJson(OccupierTypeIndividuals) should be(jsonIndividual)

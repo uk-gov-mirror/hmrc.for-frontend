@@ -23,10 +23,10 @@ import org.scalatest.matchers.should
 
 class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
-  val baseDate = Map (
-    "fullName" -> "John Doe",
-    "email" -> "john@example.com",
-    "phoneNumber" -> "078333232211",
+  val baseDate: Map[String, String] = Map(
+    "fullName"              -> "John Doe",
+    "email"                 -> "john@example.com",
+    "phoneNumber"           -> "078333232211",
     "additionalInformation" -> "Some additional information"
   )
 
@@ -36,8 +36,8 @@ class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
     formWithData.errors shouldBe empty
 
-    formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnected(
+    formWithData.value       shouldBe defined
+    formWithData.value.value shouldBe (NotConnected(
       "John Doe",
       Some("john@example.com"),
       Some("078333232211"),
@@ -52,8 +52,8 @@ class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
     formWithData.errors shouldBe empty
 
-    formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnected(
+    formWithData.value       shouldBe defined
+    formWithData.value.value shouldBe (NotConnected(
       "John Doe",
       None,
       Some("078333232211"),
@@ -68,8 +68,8 @@ class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
     formWithData.errors shouldBe empty
 
-    formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnected(
+    formWithData.value       shouldBe defined
+    formWithData.value.value shouldBe (NotConnected(
       "John Doe",
       Some("john@example.com"),
       None,
@@ -84,8 +84,8 @@ class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
     formWithData.errors shouldBe empty
 
-    formWithData.value shouldBe defined
-    formWithData.value.value shouldBe(NotConnected(
+    formWithData.value       shouldBe defined
+    formWithData.value.value shouldBe (NotConnected(
       "John Doe",
       Some("john@example.com"),
       Some("078333232211"),
@@ -99,7 +99,7 @@ class NotConnectedPropertyFormSpec extends AnyFlatSpec with should.Matchers {
 
     formWithData.value shouldBe None
 
-    formWithData.errors should have size(2)
+    formWithData.errors should have size 2
 
   }
 

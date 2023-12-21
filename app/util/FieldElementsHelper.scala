@@ -22,10 +22,8 @@ object FieldElementsHelper {
 
   implicit class FieldLabelHelper(elements: views.html.helper.FieldElements) {
 
-    def raldLabel: Any = {
+    def raldLabel: Any =
       elements.args.get(Symbol("_label")).filter(_.isInstanceOf[Html]).getOrElse(elements.label)
-    }
-
 
   }
 

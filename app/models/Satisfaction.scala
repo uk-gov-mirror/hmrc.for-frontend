@@ -22,30 +22,30 @@ sealed trait Satisfaction extends NamedEnum {
 }
 
 object VerySatisfied extends Satisfaction {
-  val name = "verySatisfied"
+  val name   = "verySatisfied"
   val rating = 5
 }
 
 object Satisfied extends Satisfaction {
-  val name = "satisfied"
+  val name   = "satisfied"
   val rating = 4
 }
 
 object Neither extends Satisfaction {
-  val name = "neither"
+  val name   = "neither"
   val rating = 3
 }
 
 object Dissatisfied extends Satisfaction {
-  val name = "dissatisfied"
+  val name   = "dissatisfied"
   val rating = 2
 }
 
 object VeryDissatisfied extends Satisfaction {
-  val name = "veryDissatisfied"
+  val name   = "veryDissatisfied"
   val rating = 1
 }
 
 object SatisfactionTypes extends NamedEnumSupport[Satisfaction] {
-  val all = List(VerySatisfied, Satisfied, Neither, Dissatisfied, VeryDissatisfied)
+  val all: List[Satisfaction] = List(VerySatisfied, Satisfied, Neither, Dissatisfied, VeryDissatisfied)
 }

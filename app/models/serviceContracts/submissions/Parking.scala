@@ -18,6 +18,11 @@ package models.serviceContracts.submissions
 
 import models.RoughDate
 
-case class Parking(rentIncludesParking: Boolean, rentIncludedParkingDetails: Option[ParkingDetails],
-  rentHasSeparateParking: Boolean, rentSeparateParkingDetails: Option[ParkingDetails],
-  annualSeparateParkingAmount: Option[BigDecimal], annualSeparateParkingFixedDate: Option[RoughDate])
+case class Parking(
+  rentIncludesParking: Boolean,
+  rentIncludedParkingDetails: Option[ParkingDetails],
+  rentHasSeparateParking: Boolean,
+  rentSeparateParkingDetails: Option[ParkingDetails],
+  annualSeparateParkingAmount: Option[BigDecimal],
+  annualSeparateParkingFixedDate: Option[RoughDate]
+)

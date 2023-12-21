@@ -39,12 +39,11 @@ class StubSubmissionConnector extends SubmissionConnector with should.Matchers {
     Future.unit
   }
 
-  def verifyWasSubmitted(refNum: String, sub: Submission): Unit = {
+  def verifyWasSubmitted(refNum: String, sub: Submission): Unit =
     submissions.get(refNum) match {
-      case None => fail(s"No submission for $refNum")
+      case None    => fail(s"No submission for $refNum")
       case Some(x) => assert(x === sub)
     }
-  }
 
   override def submitNotConnected(refNumber: String, submission: NotConnectedSubmission)(implicit hc: HeaderCarrier): Future[Unit] = ???
 }
@@ -54,7 +53,7 @@ object StubSubmissionBuilder { def apply() = new StubSubmissionBuilder() }
 class StubSubmissionBuilder extends SubmissionBuilder {
   private var stubs: Map[Document, Submission] = Map.empty
 
-  def stubBuild(doc: Document, sub: Submission) = stubs = stubs.updated(doc, sub)
+  def stubBuild(doc: Document, sub: Submission): Unit = stubs = stubs.updated(doc, sub)
 
   def build(doc: Document): Submission = stubs.get(doc).getOrElse(throw new Exception(s"No stub for $doc. Stubs: $stubs"))
 }
@@ -64,6 +63,7 @@ class StubFormDocumentRepoProvider extends Provider[StubFormDocumentRepo] {
 }
 
 case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormDocumentRepository {
+
   override def findById(documentId: String, referenceNumber: String): Future[Option[Document]] = {
     val doc = docs.find(d => d._1 == documentId && d._2 == referenceNumber).map(_._3)
     Future.successful(doc)
@@ -72,7 +72,7 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
   var storedPages: Seq[(String, String, Page)] = Seq.empty
 
   override def updatePage(documentId: String, referenceNumber: String, page: Page): Future[Unit] = {
-    storedPages = storedPages :+((documentId, referenceNumber, page))
+    storedPages = storedPages :+ ((documentId, referenceNumber, page))
     Future.unit
   }
 

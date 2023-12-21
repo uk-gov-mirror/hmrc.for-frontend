@@ -18,28 +18,33 @@ package models.serviceContracts.submissions
 
 import models.{NamedEnum, NamedEnumSupport}
 
-sealed trait RentBasisType extends NamedEnum{
-  val key  = "rentBasisType"
+sealed trait RentBasisType extends NamedEnum {
+  val key = "rentBasisType"
 }
+
 object RentBasisTypeOpenMarketValue extends RentBasisType {
   val name = "openMarketValue"
 }
+
 object RentBasisTypePercentageOpenMarketValue extends RentBasisType {
   val name = "percentageOfOpenMarketValue"
 }
+
 object RentBasisTypePercentageOfTurnover extends RentBasisType {
   val name = "percentageOfTurnover"
 }
+
 object RentBasisTypeIndexation extends RentBasisType {
   val name = "indexation"
 }
+
 object RentBasisTypeOther extends RentBasisType {
   val name = "other"
 }
 
-object RentBasisTypes extends NamedEnumSupport[RentBasisType]{
+object RentBasisTypes extends NamedEnumSupport[RentBasisType] {
 
-  val all = List(
+  val all: List[RentBasisType] = List(
     RentBasisTypeOpenMarketValue,
     RentBasisTypePercentageOpenMarketValue,
     RentBasisTypePercentageOfTurnover,

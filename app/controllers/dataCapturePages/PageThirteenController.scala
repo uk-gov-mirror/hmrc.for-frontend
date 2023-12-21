@@ -30,17 +30,17 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part13
 
-class PageThirteenController @Inject()(audit: Audit,
-                                       formDocumentRepository: FormDocumentRepository,
-                                       refNumAction: RefNumAction,
-                                       cc: MessagesControllerComponents,
-                                       part13: part13)
-  extends ForDataCapturePage[PropertyAlterations](audit, formDocumentRepository, refNumAction, cc) {
-  val format = palf
-  val emptyForm = pageThirteenForm
+class PageThirteenController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part13: part13
+) extends ForDataCapturePage[PropertyAlterations](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = palf
+  val emptyForm       = pageThirteenForm
   val pageNumber: Int = 13
 
-  def template(form: Form[PropertyAlterations], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[PropertyAlterations], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part13(form, summary)
-  }
 }

@@ -29,31 +29,31 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import TestData._
 
-  "A fully populated form " should "bind to PageThreeData" in {
-    mustBind(bind(formData1)) { x => assert(x === data1) }
+  "A fully populated form "                                          should "bind to PageThreeData" in {
+    mustBind(bind(formData1))(x => assert(x === data1))
   }
   "If occupier type is Company and no company name is supplied then" should "error" in {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.occupierCompanyName
-    val bound = bind(dataMap).convertGlobalToFieldErrors()
+    val bound   = bind(dataMap).convertGlobalToFieldErrors()
 
     mustContainError(keys.occupierCompanyName, "error.companyName.required", bound)
   }
 
   "If occupier type is Company and no first occupation date is supplied the" should "error" in {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.firstOccupationDateMonth - keys.firstOccupationDateYear
-    val form = bind(dataMap)
+    val form    = bind(dataMap)
 
     mustContainError(keys.firstOccupationDateMonth, "error.firstOccupationDate.month.required", form)
-    mustContainError(keys.firstOccupationDateYear, "error.firstOccupationDate.year.required",form)
+    mustContainError(keys.firstOccupationDateYear, "error.firstOccupationDate.year.required", form)
     form.errors.size should be(2)
   }
 
   "If occupier type is Individual and no first occupation date is supplied then" should "error" in {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeIndividuals.name) - keys.firstOccupationDateMonth - keys.firstOccupationDateYear
-    val form = bind(dataMap)
+    val form    = bind(dataMap)
 
     mustContainError(keys.firstOccupationDateMonth, "error.firstOccupationDate.month.required", form)
-    mustContainError(keys.firstOccupationDateYear, "error.firstOccupationDate.year.required",form)
+    mustContainError(keys.firstOccupationDateYear, "error.firstOccupationDate.year.required", form)
   }
 
   "Page Three mapping" should "allow up to 100 letters, numbers, spaces, and special characters for 'Other' property type details" in {
@@ -114,23 +114,26 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "ignore leading and trailling whitespace in date fields" in {
     val data = formData1.updated(keys.firstOccupationDateMonth, " 3 ")
-                        .updated(keys.firstOccupationDateYear, " 2011 ")
-    mustBind(bind(data)) { _ => () }
+      .updated(keys.firstOccupationDateYear, " 2011 ")
+    mustBind(bind(data))(_ => ())
   }
 
   object TestData {
-    val keys = new {
-      val occupierCompanyName = "occupierCompanyName"
-      val occupierCompanyContact = "occupierCompanyContact"
-      val occupierType = "occupierType"
-      val otherPropertyType = "otherPropertyType"
-      val propertyOwnedByYou = "propertyOwnedByYou"
-      val propertyRentedByYou = "propertyRentedByYou"
-      val propertyType = "propertyType"
+
+    val keys: keys = new keys
+
+    class keys extends {
+      val occupierCompanyName      = "occupierCompanyName"
+      val occupierCompanyContact   = "occupierCompanyContact"
+      val occupierType             = "occupierType"
+      val otherPropertyType        = "otherPropertyType"
+      val propertyOwnedByYou       = "propertyOwnedByYou"
+      val propertyRentedByYou      = "propertyRentedByYou"
+      val propertyType             = "propertyType"
       val firstOccupationDateMonth = "firstOccupationDate.month"
-      val firstOccupationDateYear = "firstOccupationDate.year"
-      val mainOccupierName = "mainOccupierName"
-      val noRentDetails = "noRentDetails"
+      val firstOccupationDateYear  = "firstOccupationDate.year"
+      val mainOccupierName         = "mainOccupierName"
+      val noRentDetails            = "noRentDetails"
     }
 
     def bind(dataMap: Map[String, String]) = {
@@ -138,18 +141,19 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
       bound.convertGlobalToFieldErrors()
     }
 
-    val formData1 = Map(
-      keys.occupierCompanyName -> "Some Company",
-      keys.occupierCompanyContact -> "Some Company Contact",
-      keys.occupierType -> OccupierTypeCompany.name,
-      keys.otherPropertyType -> "other property type",
-      keys.propertyOwnedByYou -> "false",
-      keys.propertyRentedByYou -> "true",
-      keys.propertyType -> "Stud farm",
+    val formData1: Map[String, String] = Map(
+      keys.occupierCompanyName      -> "Some Company",
+      keys.occupierCompanyContact   -> "Some Company Contact",
+      keys.occupierType             -> OccupierTypeCompany.name,
+      keys.otherPropertyType        -> "other property type",
+      keys.propertyOwnedByYou       -> "false",
+      keys.propertyRentedByYou      -> "true",
+      keys.propertyType             -> "Stud farm",
       keys.firstOccupationDateMonth -> "2",
-      keys.firstOccupationDateYear -> "2015")
+      keys.firstOccupationDateYear  -> "2015"
+    )
 
-    val data1 = PageThree(
+    val data1: PageThree = PageThree(
       propertyType = "Stud farm",
       occupierType = OccupierTypeCompany,
       occupierCompanyName = Some("Some Company"),
@@ -158,7 +162,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
       None,
       propertyOwnedByYou = false,
       propertyRentedByYou = Some(true),
-      noRentDetails = None)
+      noRentDetails = None
+    )
   }
 
 }

@@ -36,14 +36,14 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "successfully bind to a full complement of valid just being no improvements or alterations" in {
     val testData = Map(keys.propertyAlterations -> "false")
-    val form = bind(testData)
+    val form     = bind(testData)
 
     doesNotContainErrors(form)
   }
 
   it should "return a required error when no value for whether work was required is entered" in {
     val testData = baseData - keys.alterationsRequired
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(keys.alterationsRequired, Errors.tenantWasRequiredToMakeAlterationsRequired, form)
 
@@ -55,14 +55,14 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
       .updated(indexedKey(0).alterationDetailsDateMonth, "")
       .updated(indexedKey(0).alterationDetailsDateYear, "")
       .updated(indexedKey(0).alterationDetailsCost, "")
-    val form = bind(testData)
+    val form     = bind(testData)
 
     doesNotContainErrors(form)
   }
 
   it should "return a required error when no value for alterations and improvements is selected in the form data" in {
     val testData: Map[String, String] = Map.empty
-    val form = bind(testData)
+    val form                          = bind(testData)
 
     mustContainError(keys.propertyAlterations, Errors.hasTenantDonePropertyAlterationsRequired, form)
 
@@ -70,7 +70,7 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "return an error and not bind when no value for any of the details for the alterations or improvements is input" in {
     val testData = Map("propertyAlterations" -> "true")
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(keys.alterationsRequired, Errors.tenantWasRequiredToMakeAlterationsRequired, form)
 
@@ -78,21 +78,21 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "return an error and not bind when no value for the cost of alterations or improvements is input" in {
     val testData = baseData - indexedKey(0).alterationDetailsCost
-    val form = bind(testData)
+    val form     = bind(testData)
 
-    mustContainError(indexedKey(0).alterationDetailsCost, "error.required.alternationCost",  form)
+    mustContainError(indexedKey(0).alterationDetailsCost, "error.required.alternationCost", form)
   }
 
   it should "return an error and not bind when no value for the alterationType of alterations or improvements is input" in {
     val testData = baseData - indexedKey(0).alterationDetailsAlterationType
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(indexedKey(0).alterationDetailsAlterationType, Errors.whichWorksWereDoneRequired, form)
   }
 
   it should "return an error and not bind when no value for the date of alterations or improvements is input" in {
     val testData = baseData - indexedKey(0).alterationDetailsDateMonth - indexedKey(0).alterationDetailsDateYear
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(indexedKey(0).alterationDetailsDateYear, "error.alternationCost.year.required", form)
   }
@@ -101,17 +101,17 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
     val testData = baseData ++
       Map(
         indexedKey(1).alterationDetailsAlterationType -> "",
-        indexedKey(1).alterationDetailsCost -> "15.50",
-        indexedKey(1).alterationDetailsDateMonth -> "7",
-        indexedKey(1).alterationDetailsDateYear -> "1912"
+        indexedKey(1).alterationDetailsCost           -> "15.50",
+        indexedKey(1).alterationDetailsDateMonth      -> "7",
+        indexedKey(1).alterationDetailsDateYear       -> "1912"
       )
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(indexedKey(1).alterationDetailsAlterationType, Errors.whichWorksWereDoneRequired, form)
   }
 
   it should "allow upto 10 alterations" in {
-    mustBind(bind(addAlterations(9, baseData))) { x => assert(x === with10Alterations) }
+    mustBind(bind(addAlterations(9, baseData)))(x => assert(x === with10Alterations))
 
     val form = bind(addAlterations(10, baseData))
     mustContainError("propertyAlterationsDetails", Errors.tooManyAlterations, form)
@@ -134,57 +134,63 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   object TestData {
-    val keys = new {
-    val propertyAlterations = "propertyAlterations"
-    val propertyAlterationsDetails = "propertyAlterationsDetails"
-    val alterationsRequired = "requiredAnyWorks"
+
+    val keys: keys = new keys
+
+    class keys extends {
+      val propertyAlterations        = "propertyAlterations"
+      val propertyAlterationsDetails = "propertyAlterationsDetails"
+      val alterationsRequired        = "requiredAnyWorks"
+    }
+
+    def bind(data: Map[String, String]) = pageThirteenForm.bind(data).convertGlobalToFieldErrors()
+
+    def indexedKey(idx: Int): indexedKey = new indexedKey(idx)
+
+    class indexedKey(idx: Int) extends {
+      val alterationDetailsAlterationType: String = s"propertyAlterationsDetails[$idx].alterationType"
+      val alterationDetailsCost: String           = s"propertyAlterationsDetails[$idx].cost"
+      val alterationDetailsDateMonth: String      = s"propertyAlterationsDetails[$idx].date.month"
+      val alterationDetailsDateYear: String       = s"propertyAlterationsDetails[$idx].date.year"
+    }
+
+    val baseData: Map[String, String] = Map(
+      keys.propertyAlterations                      -> "true",
+      indexedKey(0).alterationDetailsAlterationType -> "extension",
+      indexedKey(0).alterationDetailsCost           -> "5.50",
+      indexedKey(0).alterationDetailsDateMonth      -> "6",
+      indexedKey(0).alterationDetailsDateYear       -> "1902",
+      keys.alterationsRequired                      -> "false"
+    )
+
+    val dataWithSecondAlteration: Map[String, String] = baseData.updated(indexedKey(1).alterationDetailsAlterationType, "extension").updated(
+      indexedKey(1).alterationDetailsCost,
+      "100"
+    ).updated(indexedKey(1).alterationDetailsDateMonth, "1").updated(indexedKey(1).alterationDetailsDateYear, "2015")
   }
 
-  def bind(data: Map[String, String]) = pageThirteenForm.bind(data).convertGlobalToFieldErrors()
-
-  def indexedKey(idx: Int) = new {
-    val alterationDetailsAlterationType = s"propertyAlterationsDetails[$idx].alterationType"
-    val alterationDetailsCost = s"propertyAlterationsDetails[$idx].cost"
-    val alterationDetailsDateMonth = s"propertyAlterationsDetails[$idx].date.month"
-    val alterationDetailsDateYear = s"propertyAlterationsDetails[$idx].date.year"
-  }
-
-  val baseData = Map(keys.propertyAlterations -> "true",
-    indexedKey(0).alterationDetailsAlterationType -> "extension",
-    indexedKey(0).alterationDetailsCost -> "5.50",
-    indexedKey(0).alterationDetailsDateMonth -> "6",
-    indexedKey(0).alterationDetailsDateYear -> "1902",
-    keys.alterationsRequired -> "false"
-  )
-
-  val dataWithSecondAlteration = baseData.
-    updated(indexedKey(1).alterationDetailsAlterationType, "extension").
-    updated(indexedKey(1).alterationDetailsCost, "100").
-    updated(indexedKey(1).alterationDetailsDateMonth, "1").
-    updated(indexedKey(1).alterationDetailsDateYear, "2015")
-  }
-
-  def addAlterations(n: Int, data: Map[String, String]) = {
+  def addAlterations(n: Int, data: Map[String, String]): Map[String, String] =
     (1 to n).foldLeft(data) { (s, v) =>
       s.updated(s"propertyAlterationsDetails[$v].alterationType", "addLift")
-       .updated(s"propertyAlterationsDetails[$v].cost", "25")
-       .updated(s"propertyAlterationsDetails[$v].date.month", "05")
-       .updated(s"propertyAlterationsDetails[$v].date.year", "2011")
+        .updated(s"propertyAlterationsDetails[$v].cost", "25")
+        .updated(s"propertyAlterationsDetails[$v].date.month", "05")
+        .updated(s"propertyAlterationsDetails[$v].date.year", "2011")
     }
-  }
 
-  val with10Alterations = PropertyAlterations(
-    true, List(
-      PropertyAlterationsDetails(RoughDate(None,  Some(6), 1902), AlterationSetByTypeExtension, 5.5),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25),
-      PropertyAlterationsDetails(RoughDate(None,  Some(5), 2011), AlterationSetByTypeAddLift, 25)
-    ), Some(false)
+  val with10Alterations: PropertyAlterations = PropertyAlterations(
+    true,
+    List(
+      PropertyAlterationsDetails(RoughDate(None, Some(6), 1902), AlterationSetByTypeExtension, 5.5),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25),
+      PropertyAlterationsDetails(RoughDate(None, Some(5), 2011), AlterationSetByTypeAddLift, 25)
+    ),
+    Some(false)
   )
 }

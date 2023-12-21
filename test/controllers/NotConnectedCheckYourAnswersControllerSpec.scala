@@ -35,18 +35,27 @@ class NotConnectedCheckYourAnswersControllerSpec extends AnyFlatSpec with should
   "NotConnectedCheckYourAnswersController" should "Audit submission" in {
 
     val formDocumentRepository = mock[FormDocumentRepository]
-    val submissionConnector = mock[SubmissionConnector]
-    val cache = mock[MongoSessionRepository]
-    val audit = mock[Audit]
+    val submissionConnector    = mock[SubmissionConnector]
+    val cache                  = mock[MongoSessionRepository]
+    val audit                  = mock[Audit]
 
-    val controller = new NotConnectedCheckYourAnswersController(formDocumentRepository, submissionConnector, refNumAction(), cache, audit,
-      stubMessagesControllerComponents(), mock[notConnectedCheckYourAnswers], mock[confirmNotConnected], mock[views.html.error.error])
+    val controller = new NotConnectedCheckYourAnswersController(
+      formDocumentRepository,
+      submissionConnector,
+      refNumAction(),
+      cache,
+      audit,
+      stubMessagesControllerComponents(),
+      mock[notConnectedCheckYourAnswers],
+      mock[confirmNotConnected],
+      mock[views.html.error.error]
+    )
 
     val request = FakeRequest()
 
     val response = controller.onPageSubmit().apply(request)
 
-    status(response) shouldBe(SEE_OTHER)
+    status(response) shouldBe SEE_OTHER
   }
 
 }

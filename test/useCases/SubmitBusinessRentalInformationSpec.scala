@@ -37,11 +37,11 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers with MockitoSugar {
-	import TestData._
-  implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
+  import TestData._
+  implicit val hc: HeaderCarrier         = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
   implicit val request: RefNumRequest[_] = new RefNumRequest("refNum", FakeRequest(), new DefaultMessagesApi)
 
-  private val audit = mock[Audit]
+  private val audit          = mock[Audit]
   private val auditAddresses = mock[AddressAuditing]
 
   "Assuming a complete, valid document (representing FOR submission details) exists for a refNum" when {
@@ -61,7 +61,7 @@ class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matche
 
   "An error is returned when a document for the refNum does not exist" in {
     val invalidRefNum = "adlkjfalsjd"
-    val ex = intercept[RentalInformationCouldNotBeRetrieved] {
+    val ex            = intercept[RentalInformationCouldNotBeRetrieved] {
       val submit = new SubmitBusinessRentalInformationToBackendApi(StubFormDocumentRepo(), builder, subConnector, audit, auditAddresses)
       Await.result(submit(invalidRefNum), 10 seconds)
     }
@@ -69,12 +69,13 @@ class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matche
   }
 
   object TestData {
-    val submission = Submission(
+
+    val submission: Submission = Submission(
       None,
       Some(CustomerDetails("fn", UserTypeOccupier, ContactDetails("01234567890", "abc@mailinator.com"))),
       Some(TheProperty("Stuff", OccupierTypeIndividuals, None, None, false, None, None)),
       Some(Sublet(false, List.empty)),
-      Some(Landlord(Some("abc"), Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
+      Some(Landlord("abc", Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
       Some(LeaseOrAgreement(LeaseAgreementTypesVerbal, Some(false), None, Some(false), List.empty, Some(RoughDate(None, None, 2011)), Some(false), None)),
       Some(RentReviews(false, None)),
       Some(RentAgreement(false, None, RentSetByTypeNewLease)),
@@ -83,16 +84,17 @@ class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matche
       Some(IncentivesAndPayments(false, None, true, None, true, None)),
       Some(Responsibilities(ResponsibleLandlord, ResponsibleLandlord, ResponsibleLandlord, false, true, false, List.empty)),
       Some(PropertyAlterations(false, List.empty, None)),
-      Some(OtherFactors(false, Some("xyz"))))
+      Some(OtherFactors(false, Some("xyz")))
+    )
 
     val refNum = "a3akdfjas"
 
-    val pages = Seq.empty[Page]
-    val document = Document(refNum, nowInUK, pages)
+    val pages: Seq[Page]   = Nil
+    val document: Document = Document(refNum, nowInUK, pages)
 
-    val subConnector = StubSubmissionConnector()
-    val builder = StubSubmissionBuilder()
-    val sessionId =  "sdfjasdljfasldjfasd"
+    val subConnector: StubSubmissionConnector = StubSubmissionConnector()
+    val builder: StubSubmissionBuilder        = StubSubmissionBuilder()
+    val sessionId                             = "sdfjasdljfasldjfasd"
   }
 
 }

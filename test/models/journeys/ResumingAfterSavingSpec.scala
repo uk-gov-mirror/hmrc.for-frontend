@@ -20,36 +20,38 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import utils.SummaryBuilder._
+import models.pages.Summary
+import org.scalatest.prop.{TableFor1, TableFor2}
 
 class ResumingAfterSavingSpec extends AnyFlatSpec with should.Matchers with TableDrivenPropertyChecks {
-	import TestData._
+  import TestData._
 
-	behavior of "Page to resume at"
+  behavior of "Page to resume at"
 
-	it should "return summary page when resuming complete but undeclared submissions" in {
-		forAll(completeJourneys) { cj => 
-			assert(Journey.pageToResumeAt(cj) === SummaryPage) 
-		}
-	}
+  it should "return summary page when resuming complete but undeclared submissions" in {
+    forAll(completeJourneys) { cj =>
+      assert(Journey.pageToResumeAt(cj) === SummaryPage)
+    }
+  }
 
-	it should "return earliest incomplete page when resuming journeys for incomplete submissions" in {
-		forAll(incompleteJourneys) { case (journey, page) =>
-			assert(Journey.pageToResumeAt(journey) === PageToGoTo(page))
-		}
-	}
+  it should "return earliest incomplete page when resuming journeys for incomplete submissions" in {
+    forAll(incompleteJourneys) { case (journey, page) =>
+      assert(Journey.pageToResumeAt(journey) === PageToGoTo(page))
+    }
+  }
 
-	it should "return to page one when it has been made invalid by editing when resuming complete but undeclared submissions" in {
-		assert(Journey.pageToResumeAt(completeShortPathJourneyWithEditedPageOne) === PageToGoTo(1))
-	}
+  it should "return to page one when it has been made invalid by editing when resuming complete but undeclared submissions" in {
+    assert(Journey.pageToResumeAt(completeShortPathJourneyWithEditedPageOne) === PageToGoTo(1))
+  }
 
-	object TestData {
-		val completeJourneys = Table("journey", completeShortPathJourney, completeFullPathJourney)
-	
-		val incompleteJourneys = Table(
-			("journey", "earliest incomplete page"),
-			(incompletePageOneJourney, 1),
-			(incompletePageFourJourney, 4),
-			(incompletePageFourteenJourney, 14)
-		)
-	}
+  object TestData {
+    val completeJourneys: TableFor1[Summary] = Table("journey", completeShortPathJourney, completeFullPathJourney)
+
+    val incompleteJourneys: TableFor2[Summary, Int] = Table(
+      ("journey", "earliest incomplete page"),
+      (incompletePageOneJourney, 1),
+      (incompletePageFourJourney, 4),
+      (incompletePageFourteenJourney, 14)
+    )
+  }
 }

@@ -30,23 +30,28 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 class ContinueWithSavedSubmissionSpec extends UnitTest {
 
-  private implicit val mongoHasher: MongoHasher = new MongoHasher(Configuration("oneway.hash.key" -> "UkFMRCBTYXZlRm9yTGF0ZXIgcGFzd29yZCB2ZXJ5IGNvb2wgYW5kIHNlY3JldCBvbmUgd2F5IGhhc2gga2V5"))
+  implicit private val mongoHasher: MongoHasher =
+    new MongoHasher(Configuration("oneway.hash.key" -> "UkFMRCBTYXZlRm9yTGF0ZXIgcGFzd29yZCB2ZXJ5IGNvb2wgYW5kIHNlY3JldCBvbmUgd2F5IGhhc2gga2V5"))
 
   "Continue with saved submission" when {
-     val pwd = "anicepassword"
-     val ref = "11122233344"
-     val now = ZonedDateTime.of(2015, 3, 5, 12, 25, 0, 0, ZoneOffset.UTC)
-     val doc = Document(ref, nowInUK, saveForLaterPassword = Some(pwd), journeyResumptions = Seq(now.minusDays(1)))
-     val tok = "BASIC abcdefg=="
-     implicit val hc: HeaderCarrier = HeaderCarrier(authorization = Some(Authorization(tok)))
-     val sum = Summary(ref, nowInUK, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
+    val pwd                        = "anicepassword"
+    val ref                        = "11122233344"
+    val now                        = ZonedDateTime.of(2015, 3, 5, 12, 25, 0, 0, ZoneOffset.UTC)
+    val doc                        = Document(ref, nowInUK, saveForLaterPassword = Some(pwd), journeyResumptions = Seq(now.minusDays(1)))
+    val tok                        = "BASIC abcdefg=="
+    implicit val hc: HeaderCarrier = HeaderCarrier(authorization = Some(Authorization(tok)))
+    val sum                        = Summary(ref, nowInUK, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
 
     "a document has been saved and the passwords match" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c = ContinueWithSavedSubmission(
-        respondWith(tok, ref)(Some(doc)), set(updated = _), doc => sum, sum => SummaryPage, () => now
+      val c                                                   = ContinueWithSavedSubmission(
+        respondWith(tok, ref)(Some(doc)),
+        set(updated = _),
+        _ => sum,
+        _ => SummaryPage,
+        () => now
       ) _
-      val r = await(c(pwd, ref))
+      val r                                                   = await(c(pwd, ref))
 
       "return the next page to go to" in {
         assert(r === PasswordsMatch(SummaryPage))
@@ -60,8 +65,12 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
 
     "a document has been saved but the passwords do no match" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c = ContinueWithSavedSubmission(
-        respondWith(tok, ref)(Some(doc)), set(updated = _), doc => sum, sum => SummaryPage, () => now
+      val c                                                   = ContinueWithSavedSubmission(
+        respondWith(tok, ref)(Some(doc)),
+        set(updated = _),
+        _ => sum,
+        _ => SummaryPage,
+        () => now
       ) _
 
       val r = await(c("invalidPassword", ref))
@@ -77,8 +86,8 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
 
     "there is no matching document" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c = ContinueWithSavedSubmission(none, set(updated = _), doc => sum, sum => SummaryPage, () => now) _
-      val r = await(c(pwd, ref))
+      val c                                                   = ContinueWithSavedSubmission(none, set(updated = _), _ => sum, _ => SummaryPage, () => now) _
+      val r                                                   = await(c(pwd, ref))
 
       "a retrieval error is returned" in {
         assert(r === ErrorRetrievingSavedDocument)

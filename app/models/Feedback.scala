@@ -16,12 +16,12 @@
 
 package models
 
-
 case class Feedback(
-                     rating: Option[String],
-                     name: String,
-                     email: String,
-                     service: String,
-                     referrer: String,
-                     journey: Journey,
-                     comments: Option[String])
+  rating: Option[String],
+  name: String,
+  email: String,
+  service: String,
+  referrer: String,
+  journey: Journey,
+  comments: Option[String]
+)

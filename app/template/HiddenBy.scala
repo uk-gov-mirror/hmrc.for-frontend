@@ -16,11 +16,9 @@
 
 package template
 
-class HiddenBy(hiddenByField: String,showWhenValueIn: Seq[String] ) {
+class HiddenBy(hiddenByField: String, showWhenValueIn: Seq[String]) {
 
-  override def toString: String = {
-    return "data-hidden-by=" + hiddenByField  + " data-show-when-value-equals=" + showWhenValueIn.mkString("|")
-  }
+  override def toString: String =
+    "data-hidden-by=" + hiddenByField + " data-show-when-value-equals=" + showWhenValueIn.mkString("|")
 
 }
-

@@ -21,21 +21,26 @@ import models.{NamedEnum, NamedEnumSupport}
 sealed trait ReviewIntervalType extends NamedEnum {
   val key = "reviewIntervalType"
 }
+
 object ReviewIntervalTypeEvery3Years extends ReviewIntervalType {
   val name = "every3Years"
 }
+
 object ReviewIntervalTypeEvery5Years extends ReviewIntervalType {
   val name = "every5Years"
 }
+
 object ReviewIntervalTypeEvery7Years extends ReviewIntervalType {
   val name = "every7Years"
 }
+
 object ReviewIntervalTypeOther extends ReviewIntervalType {
   val name = "other"
 }
+
 object ReviewIntervalTypes extends NamedEnumSupport[ReviewIntervalType] {
 
-  val all = List(ReviewIntervalTypeEvery3Years,ReviewIntervalTypeEvery5Years,ReviewIntervalTypeEvery7Years,ReviewIntervalTypeOther)
+  val all: List[ReviewIntervalType] = List(ReviewIntervalTypeEvery3Years, ReviewIntervalTypeEvery5Years, ReviewIntervalTypeEvery7Years, ReviewIntervalTypeOther)
 
   val key = all.head.key
 

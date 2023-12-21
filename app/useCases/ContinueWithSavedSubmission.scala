@@ -29,22 +29,33 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object ContinueWithSavedSubmission {
   type ContinueWithSavedSubmission = (SaveForLaterPassword, ReferenceNumber) => Future[SaveForLaterLoginResult]
-  type BuildSummary = Document => Summary
-  type GetNextPageOfJourney = Summary => TargetPage
+  type BuildSummary                = Document => Summary
+  type GetNextPageOfJourney        = Summary => TargetPage
 
-  def apply(l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession, b: BuildSummary, j: GetNextPageOfJourney, n: Now)
-           (p: SaveForLaterPassword, r: ReferenceNumber)(implicit hc: HeaderCarrier, ec: ExecutionContext, mongoHasher: MongoHasher): Future[SaveForLaterLoginResult] =
+  def apply(
+    l: LoadSavedForLaterDocument,
+    u: UpdateDocumentInCurrentSession,
+    b: BuildSummary,
+    j: GetNextPageOfJourney,
+    n: Now
+  )(
+    p: SaveForLaterPassword,
+    r: ReferenceNumber
+  )(implicit hc: HeaderCarrier,
+    ec: ExecutionContext,
+    mongoHasher: MongoHasher
+  ): Future[SaveForLaterLoginResult] =
     l(auth, r) map {
       case Some(doc) if matches(doc.saveForLaterPassword, p) => u(hc, r, record(doc, n())); PasswordsMatch(j(b(doc)))
-      case Some(_) => IncorrectPassword
-      case None => ErrorRetrievingSavedDocument
+      case Some(_)                                           => IncorrectPassword
+      case None                                              => ErrorRetrievingSavedDocument
     }
 
   private def auth(implicit hc: HeaderCarrier) = hc.authorization.map(_.value).getOrElse(throw AuthorizationTokenMissing)
 
   private def matches(savedHash: Option[SaveForLaterPassword], password: SaveForLaterPassword)(implicit mongoHasher: MongoHasher) =
     savedHash.exists(mongoHasher.verify(password, _)) ||
-      savedHash.contains(password)  // TODO: Remove by task VOA-3539 Remove encryption and leave only one-way hash (90 days after VOA-3527 production deployment)
+      savedHash.contains(password) // TODO: Remove by task VOA-3539 Remove encryption and leave only one-way hash (90 days after VOA-3527 production deployment)
 
   private def record(d: Document, n: ZonedDateTime) = d.copy(saveForLaterPassword = None, journeyResumptions = d.journeyResumptions :+ n)
 }

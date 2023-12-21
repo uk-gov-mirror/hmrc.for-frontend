@@ -26,6 +26,6 @@ object PageOneForm {
 
   val basePageOneMapping = addressMapping
 
-  val pageOneForm = Form(basePageOneMapping)
+  val pageOneForm: Form[Address] = Form(basePageOneMapping)
 
 }

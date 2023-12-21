@@ -21,13 +21,12 @@ package util
  */
 object Constant {
 
-  val PAGETWO = 2
+  val PAGETWO        = 2
   val OWNER_OCCUPIER = "ownerOccupier"
-  val USER_TYPE = "userType"
-  val OWNER = "owner"
+  val USER_TYPE      = "userType"
+  val OWNER          = "owner"
 
   val ZERO = 0
-  val TWO = 2
-
+  val TWO  = 2
 
 }

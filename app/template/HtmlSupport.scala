@@ -26,8 +26,7 @@ object HtmlSupport {
     args ++ extras
   }
 
-  def getErrors(fields: Seq[Field]): Seq[FormError] = {
-    fields.map { _.errors } reduce (_ ++ _)
-  }
+  def getErrors(fields: Seq[Field]): Seq[FormError] =
+    fields.map(_.errors) reduce (_ ++ _)
 
 }

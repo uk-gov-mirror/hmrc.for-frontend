@@ -34,17 +34,17 @@ class PreviouslyConnectedControllerSpec extends AnyFlatSpec with should.Matchers
 
   "PreviouslyConnectedController" should "redirect after form submission" in {
 
-    val cache = mock[MongoSessionRepository]
+    val cache                  = mock[MongoSessionRepository]
     val formDocumentRepository = mock[FormDocumentRepository]
 
-    val controller = new PreviouslyConnectedController(stubMessagesControllerComponents(), cache, formDocumentRepository,
-      refNumAction(), mock[previouslyConnected], mock[error])
+    val controller =
+      new PreviouslyConnectedController(stubMessagesControllerComponents(), cache, formDocumentRepository, refNumAction(), mock[previouslyConnected], mock[error])
 
     val request = FakeRequest()
 
     val response = controller.onPageSubmit().apply(request)
 
-    status(response) shouldBe(SEE_OTHER)
+    status(response) shouldBe SEE_OTHER
 
   }
 

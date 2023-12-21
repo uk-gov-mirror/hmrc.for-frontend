@@ -26,28 +26,25 @@ import play.api.mvc.Results._
 import scala.concurrent.Future
 
 @Singleton
-class ErrorHandler @Inject() (val messagesApi: MessagesApi,
-                              errorView:views.html.error.error) extends FrontendErrorHandler {
+class ErrorHandler @Inject() (val messagesApi: MessagesApi, errorView: views.html.error.error) extends FrontendErrorHandler {
 
   override def onServerError(header: RequestHeader, exception: Throwable): Future[Result] = {
 
-    implicit val request: Request[_] = Request( header,  "")
+    implicit val request: Request[_] = Request(header, "")
     exception.getCause match {
-      case e: BadRequestException => BadRequest(errorView(500))
+      case _: BadRequestException            => BadRequest(errorView(500))
       case Upstream4xxResponse(_, 404, _, _) => NotFound(errorView(404))
       case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(errorView(408))
       case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
       case Upstream4xxResponse(_, 410, _, _) => Gone(errorView(410))
-      case e: NotFoundException => NotFound(errorView(404))
-      case _ => super.resolveError(header, exception)
+      case _: NotFoundException              => NotFound(errorView(404))
+      case _                                 => super.resolveError(header, exception)
     }
   }
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
     errorView(500)
-  }
 
-  override def notFoundTemplate(implicit request: Request[_]): Html = {
+  override def notFoundTemplate(implicit request: Request[_]): Html =
     errorView(404)
-  }
 }

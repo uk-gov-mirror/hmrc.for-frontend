@@ -41,10 +41,11 @@ class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val s = summaryWithPropertyAddress(Some(propertyAddress), Some(oneLineChanged))
     TestAddressAuditing(s, FakeRequest())
 
-    StubAuditer.mustHaveSentAudit("manualAddressSubmitted",
+    StubAuditer.mustHaveSentAudit(
+      "manualAddressSubmitted",
       Map(
-        "submittedLine1" -> oneLineChanged.buildingNameNumber,
-        "submittedLine2" -> oneLineChanged.street1.getOrElse(""),
+        "submittedLine1"    -> oneLineChanged.buildingNameNumber,
+        "submittedLine2"    -> oneLineChanged.street1.getOrElse(""),
         "submittedPostcode" -> oneLineChanged.postcode
       )
     )
@@ -54,38 +55,71 @@ class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val s = summaryWithSubletAddress(Some(propertyAddress), oneLineChanged)
     TestAddressAuditing(s, FakeRequest())
 
-    StubAuditer.mustHaveSentAudit("manualAddressSubmitted",
+    StubAuditer.mustHaveSentAudit(
+      "manualAddressSubmitted",
       Map(
-        "submittedLine1" -> oneLineChanged.buildingNameNumber,
-        "submittedLine2" -> oneLineChanged.street1.getOrElse(""),
+        "submittedLine1"    -> oneLineChanged.buildingNameNumber,
+        "submittedLine2"    -> oneLineChanged.street1.getOrElse(""),
         "submittedPostcode" -> oneLineChanged.postcode
       )
     )
   }
 
-  private def summaryWithPropertyAddress(voaAddress: Option[Address], corrected: Option[Address]): Summary = {
-    Summary("1234567890", nowInUK,
-      Some(AddressConnectionTypeYesChangeAddress), corrected,
-      None, None, None, None, None, None, None, None, None, None, None, None, None,
-      voaAddress, Nil
+  private def summaryWithPropertyAddress(voaAddress: Option[Address], corrected: Option[Address]): Summary =
+    Summary(
+      "1234567890",
+      nowInUK,
+      Some(AddressConnectionTypeYesChangeAddress),
+      corrected,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      voaAddress,
+      Nil
     )
-  }
 
-  private def summaryWithSubletAddress(voaAddress: Option[Address], submitted: Address): Summary = {
-    Summary("123467890", nowInUK, None, None, None, None,
+  private def summaryWithSubletAddress(voaAddress: Option[Address], submitted: Address): Summary =
+    Summary(
+      "123467890",
+      nowInUK,
+      None,
+      None,
+      None,
+      None,
       Some(PageFour(true, List(SubletDetails("Mr Tenant", submitted, SubletPart, Option("Something"), "Stuff", BigDecimal(0.01), RoughDate(None, Some(1), 2011))))),
-      None, None, None, None, None, None, None, None, None, None, voaAddress, Nil)
-  }
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      voaAddress,
+      Nil
+    )
 
 }
 
 object TestData {
-  val propertyAddress = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
-  val unchanged = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
-  val manual = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
-  val oneLineChanged = Address("1A The Road", Some("The Town"), None, "AA11 1AA")
-  val twoLinesChanged = Address("1 The Other Road", Some("The Other Town"), None, "AA11 1AA")
-  val overseas = Address("1 The Road", Some("Atlantis"), None, "The Sea")
+  val propertyAddress: Address = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
+  val unchanged: Address       = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
+  val manual: Address          = Address("1 The Road", Some("The Town"), None, "AA11 1AA")
+  val oneLineChanged: Address  = Address("1A The Road", Some("The Town"), None, "AA11 1AA")
+  val twoLinesChanged: Address = Address("1 The Other Road", Some("The Other Town"), None, "AA11 1AA")
+  val overseas: Address        = Address("1 The Road", Some("Atlantis"), None, "The Sea")
 }
 
 object TestAddressAuditing extends AddressAuditing(StubAuditer) {
@@ -96,21 +130,21 @@ object StubAuditer extends Audit with should.Matchers with MockitoSugar {
   private case class AuditEvent(event: String, detail: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
-  override def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier) = {
+  override def apply(event: String, detail: Map[String, String])(implicit hc: HeaderCarrier): Future[Disabled.type] = {
     lastSentAudit = AuditEvent(event, detail)
     Future.successful(Disabled)
   }
 
-  def mustHaveSentAudit(event: String, detail: Map[String, String]) = {
-    lastSentAudit should not equal(null)
-    lastSentAudit.event should equal (event)
+  def mustHaveSentAudit(event: String, detail: Map[String, String]): Unit = {
+    lastSentAudit       should not equal null
+    lastSentAudit.event should equal(event)
     detail foreach { d =>
-      lastSentAudit.detail should contain (d)
+      lastSentAudit.detail should contain(d)
     }
     lastSentAudit = null
   }
 
-  override implicit def ec: ExecutionContext = ExecutionContext.Implicits.global
+  implicit override def ec: ExecutionContext = ExecutionContext.Implicits.global
 
   override def auditingConfig: AuditingConfig = mock[AuditingConfig]
 

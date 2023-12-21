@@ -37,7 +37,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class ApplicationController @Inject()(
+class ApplicationController @Inject() (
   cc: MessagesControllerComponents,
   refNumAction: RefNumAction,
   repository: FormDocumentRepository,
@@ -50,47 +50,50 @@ class ApplicationController @Inject()(
   configuration: Configuration,
   audit: Audit,
   forConfig: ForConfig
-)(implicit ec: ExecutionContext) extends FrontendController(cc) {
+)(implicit ec: ExecutionContext
+) extends FrontendController(cc) {
 
   private def updatePath(hc: HeaderCarrier, path: String): HeaderCarrier = {
-    val otherHeaders = hc.otherHeaders.map(x => if(x._1 == "path")("path", path)else x)
+    val otherHeaders = hc.otherHeaders.map(x => if (x._1 == "path") ("path", path) else x)
     hc.copy(otherHeaders = otherHeaders)
   }
 
-  def declaration = refNumAction.async { implicit request =>
+  def declaration: Action[AnyContent] = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
-        val summary = SummaryBuilder.build(doc)
+        val summary  = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
 
         val json = Json.obj(Audit.referenceNumber -> request.refNum) ++ Addresses.addressJson(summary)
         audit.sendExplicitAudit("ContinueNextPage", json)(
-          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"), ec)
+          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"),
+          ec
+        )
 
         Ok(declarationView(Form(("", text)), fullName, userType, summary: Summary))
-      case None => InternalServerError(errorView(500))
+      case None      => InternalServerError(errorView(500))
     }
   }
 
-  def declarationError = refNumAction.async { implicit request =>
+  def declarationError: Action[AnyContent] = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
-        val summary = SummaryBuilder.build(doc)
+        val summary  = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
         val userType = summary.customerDetails.map(_.userType.name).getOrElse("")
         Ok(declarationView(Form(("", text)).withError("declaration", Errors.declaration), fullName, userType, summary))
-      case None => InternalServerError(errorView(500))
+      case None      => InternalServerError(errorView(500))
     }
   }
 
-  def startAgain = refNumAction.async { implicit request =>
+  def startAgain: Action[AnyContent] = refNumAction.async { implicit request =>
     repository.clear(SessionId(hc), request.refNum) map { _ =>
       Redirect(dataCapturePages.routes.PageController.showPage(0))
     }
   }
 
-  def index = Action { implicit request =>
+  def index: Action[AnyContent] = Action { implicit request =>
     if (forConfig.startPageRedirect) {
       Redirect(forConfig.govukStartPage)
     } else {
@@ -98,42 +101,42 @@ class ApplicationController @Inject()(
     }
   }
 
-  def sessionTimeout = Action { implicit request => Ok(sessionTimeoutView()) }
+  def sessionTimeout: Action[AnyContent] = Action(implicit request => Ok(sessionTimeoutView()))
 
-  def error404 = Action { implicit request =>
+  def error404: Action[AnyContent] = Action { implicit request =>
     Ok(errorView(404))
   }
 
-  def error408 = Action { implicit request =>
+  def error408: Action[AnyContent] = Action { implicit request =>
     Ok(errorView(408))
   }
 
-  def error409 = Action { implicit request =>
+  def error409: Action[AnyContent] = Action { implicit request =>
     Ok(errorView(409))
   }
 
-  def error410 = Action { implicit request =>
+  def error410: Action[AnyContent] = Action { implicit request =>
     Ok(errorView(410))
   }
 
-  def error500 = Action { implicit request =>
+  def error500: Action[AnyContent] = Action { implicit request =>
     Ok(errorView(500))
   }
 
-  def checkYourAnswers = refNumAction.async { implicit request =>
+  def checkYourAnswers: Action[AnyContent] = refNumAction.async { implicit request =>
     repository.findById(SessionId(hc), request.refNum).map {
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
         Ok(checkYourAnswersView(sub))
-      case None =>
+      case None      =>
         InternalServerError(errorView(500))
     }
   }
 
-  def importantInformation = Action { implicit request =>
-    if(configuration.get[Boolean]("bannerNotice.enabled")){
+  def importantInformation: Action[AnyContent] = Action { implicit request =>
+    if (configuration.get[Boolean]("bannerNotice.enabled")) {
       Ok(importantInformationView())
-    }else{
+    } else {
       Redirect(routes.LoginController.show)
     }
   }

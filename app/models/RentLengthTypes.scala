@@ -16,23 +16,26 @@
 
 package models
 
-sealed trait RentLengthType extends NamedEnum{
-  val key  = "rentLengthTypes"
+sealed trait RentLengthType extends NamedEnum {
+  val key = "rentLengthTypes"
 }
+
 object RentLengthTypeAnnually extends RentLengthType {
   val name = "annual"
 }
+
 object RentLengthTypeQuarterly extends RentLengthType {
   val name = "quarterly"
 }
+
 object RentLengthTypeMonthly extends RentLengthType {
   val name = "monthly"
 }
+
 object RentLengthTypeWeekly extends RentLengthType {
   val name = "weekly"
 }
 
-
-object RentLengthTypes extends NamedEnumSupport[RentLengthType]{
-  val all = List(RentLengthTypeAnnually, RentLengthTypeQuarterly, RentLengthTypeMonthly, RentLengthTypeWeekly)
+object RentLengthTypes extends NamedEnumSupport[RentLengthType] {
+  val all: List[RentLengthType] = List(RentLengthTypeAnnually, RentLengthTypeQuarterly, RentLengthTypeMonthly, RentLengthTypeWeekly)
 }

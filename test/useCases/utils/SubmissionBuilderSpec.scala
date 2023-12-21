@@ -28,6 +28,7 @@ import useCases.DefaultSubmissionBuilder
 import util.DateUtil.nowInUK
 
 import java.time.LocalDate
+import org.scalatest.prop.TableFor2
 
 class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
 
@@ -51,7 +52,7 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
     assert(new DefaultSubmissionBuilder().build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
   }
 
-/*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
+  /*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
     val sub = SubmissionBuilder.build(docWithWeeklyRent)
     val annualRent = sub.rent.flatMap(_.annualRentExcludingVat).value
     assert(annualRent === 5200)
@@ -70,7 +71,7 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
   }*/
 
   it should "create ndr and water charges services if their details are supplied" in {
-    val sub = new DefaultSubmissionBuilder().build(docWithNdrChargesAndWaterCharges)
+    val sub      = new DefaultSubmissionBuilder().build(docWithNdrChargesAndWaterCharges)
     val services = sub.responsibilities.get.includedServicesDetails
     assert(services.exists(s => s.chargeDescription == "Non-domestic Rates" && s.chargeCost == 41.23))
     assert(services.exists(s => s.chargeDescription == "Water Charges" && s.chargeCost == 456.76))
@@ -82,33 +83,33 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "set occupier name as 'Nobody' if the property is not occupied" in {
-    val ks = PageThreeForm.keys
-    val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeNobody.name))
+    val ks  = PageThreeForm.keys
+    val p3  = page3FormData.updated(ks.occupierType, Seq(OccupierTypeNobody.name))
     val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Nobody")
   }
 
   it should "set occupier name as first 50 chars of (company name + contact name) if a company occupies the property" in {
-    val ks = PageThreeForm.keys
-    val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeCompany.name))
-    .updated(ks.occupierCompanyName, Seq("Jimmy Choo Enterprise Integration Ventures"))
-    .updated(ks.occupierCompanyContact, Seq("Kyle Kingsbury"))
+    val ks  = PageThreeForm.keys
+    val p3  = page3FormData.updated(ks.occupierType, Seq(OccupierTypeCompany.name))
+      .updated(ks.occupierCompanyName, Seq("Jimmy Choo Enterprise Integration Ventures"))
+      .updated(ks.occupierCompanyContact, Seq("Kyle Kingsbury"))
     val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Jimmy Choo Enterprise Integration Ventures - Kyle ")
   }
 
   it should "set occupier name as main occupier's name if 'one or more individuals' occupies the property" in {
-    val ks = PageThreeForm.keys
-    val p3 = page3FormData.updated(ks.occupierType, Seq(OccupierTypeIndividuals.name))
-    .updated(ks.mainOccupierName, Seq("Jimmy Choo"))
+    val ks  = PageThreeForm.keys
+    val p3  = page3FormData.updated(ks.occupierType, Seq(OccupierTypeIndividuals.name))
+      .updated(ks.mainOccupierName, Seq("Jimmy Choo"))
     val sub = new DefaultSubmissionBuilder().build(doc1.add(Page(3, p3)))
     assert(sub.theProperty.flatMap(_.occupierName).value === "Jimmy Choo")
   }
 
   it should "remove all non-short path information if the user is on the short path (they may have previoysly been on a different path)" in {
-    val fullSubmission = doc1
+    val fullSubmission       = doc1
     val convertedToShortPath = fullSubmission.add(Page(3, page3ShortPath))
-    val sub = new DefaultSubmissionBuilder().build(convertedToShortPath)
+    val sub                  = new DefaultSubmissionBuilder().build(convertedToShortPath)
     assert(sub.landlord.isEmpty)
     assert(sub.lease.isEmpty)
     assert(sub.rentReviews.isEmpty)
@@ -122,9 +123,12 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
   }
 
   object TestData {
-    lazy val tenantsPropertyAddress = Address("1", Some("The Street"), Some("worthing"), "AA11 1AA")
-    lazy val doc1 = Document(
-      "refNum1", nowInUK, Seq(
+    lazy val tenantsPropertyAddress: Address = Address("1", Some("The Street"), Some("worthing"), "AA11 1AA")
+
+    lazy val doc1: Document = Document(
+      "refNum1",
+      nowInUK,
+      Seq(
         Page(1, page1FormData),
         Page(2, page2FormData),
         Page(3, page3FormData),
@@ -138,11 +142,15 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
         Page(11, page11FormData),
         Page(12, page12FormData),
         Page(13, page13FormData),
-        Page(14, page14FormData)),
+        Page(14, page14FormData)
+      ),
       address = Some(defaultAddress)
     )
-    lazy val docWithVerbalAgreement = Document(
-      "refNum1", nowInUK, Seq(
+
+    lazy val docWithVerbalAgreement: Document = Document(
+      "refNum1",
+      nowInUK,
+      Seq(
         Page(1, page1FormData),
         Page(2, page2FormData),
         Page(3, page3FormData),
@@ -156,347 +164,445 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
         Page(11, page11FormData),
         Page(12, page12FormData),
         Page(13, page13FormData),
-        Page(14, page14FormData)),
+        Page(14, page14FormData)
+      ),
       address = Some(defaultAddress)
     )
-    lazy val docWithWeeklyRent = doc1.add(Page(9, page9WeeklyRentData))
-    lazy val docWithMonthlyRent = doc1.add(Page(9, page9MonthlyRentData))
-    lazy val docWithQuarterlyRent = doc1.add(Page(9, page9QuarterlyRentData))
+    lazy val docWithWeeklyRent: Document      = doc1.add(Page(9, page9WeeklyRentData))
+    lazy val docWithMonthlyRent: Document     = doc1.add(Page(9, page9MonthlyRentData))
+    lazy val docWithQuarterlyRent: Document   = doc1.add(Page(9, page9QuarterlyRentData))
 
-    lazy val docWithNdrChargesAndWaterCharges = doc1.add(Page(12, page12NdrAndWaterChargesData))
-    lazy val docWithTenantsPropertyAddressAndOverridenMainAddress = doc1.add(Page(1, page1AlternativeAddressData))
-    .add(Page(4, page4TenantsPropertyAddressData))
-    lazy val docWithTenantsPropertyAddressAndNoOverridenMainAddress = doc1.add(Page(4, page4TenantsPropertyAddressData))
-    lazy val submission1 = Submission(
-      propertyAddress, Some(customerDetails), Some(theProperty), Some(sublet), Some(landlord),
-      Some(leaseOrAgreement), Some(rentReviews), Some(rentAgreement), Some(rent), Some(whatRentIncludes),
-      Some(incentivesAndPayments), Some(responsibilities), Some(propertyAlterations), Some(otherFactors),
-      referenceNumber = Some("refNum1"))
-    lazy val submissionWithVerbalAgreement = submission1.copy(lease = Some(verbalLease))
-    lazy val doc2 = doc1.copy(pages = doc1.pages.take(10))
-    lazy val submission2 = submission1.copy(
-      incentives = None, responsibilities = None, alterations = None, otherFactors = None, referenceNumber = Some("refNum1")
+    lazy val docWithNdrChargesAndWaterCharges: Document = doc1.add(Page(12, page12NdrAndWaterChargesData))
+
+    lazy val docWithTenantsPropertyAddressAndOverridenMainAddress: Document   = doc1.add(Page(1, page1AlternativeAddressData))
+      .add(Page(4, page4TenantsPropertyAddressData))
+    lazy val docWithTenantsPropertyAddressAndNoOverridenMainAddress: Document = doc1.add(Page(4, page4TenantsPropertyAddressData))
+
+    lazy val submission1: Submission                   = Submission(
+      propertyAddress,
+      Some(customerDetails),
+      Some(theProperty),
+      Some(sublet),
+      Some(landlord),
+      Some(leaseOrAgreement),
+      Some(rentReviews),
+      Some(rentAgreement),
+      Some(rent),
+      Some(whatRentIncludes),
+      Some(incentivesAndPayments),
+      Some(responsibilities),
+      Some(propertyAlterations),
+      Some(otherFactors),
+      referenceNumber = Some("refNum1")
     )
-    lazy val doc3 = Document(
-      "refNum1", nowInUK, Seq(
-        Page(1,  page1FormData),
+    lazy val submissionWithVerbalAgreement: Submission = submission1.copy(lease = Some(verbalLease))
+    lazy val doc2: Document                            = doc1.copy(pages = doc1.pages.take(10))
+
+    lazy val submission2: Submission = submission1.copy(
+      incentives = None,
+      responsibilities = None,
+      alterations = None,
+      otherFactors = None,
+      referenceNumber = Some("refNum1")
+    )
+
+    lazy val doc3: Document                          = Document(
+      "refNum1",
+      nowInUK,
+      Seq(
+        Page(1, page1FormData),
         Page(11, page11FormData),
-        Page(3,  page3FormData),
-        Page(4,  page4FormData),
-        Page(5,  page5FormData),
-        Page(7,  page7FormData),
-        Page(8,  page8FormData),
-        Page(2,  page2FormData),
-        Page(9,  page9FormData),
+        Page(3, page3FormData),
+        Page(4, page4FormData),
+        Page(5, page5FormData),
+        Page(7, page7FormData),
+        Page(8, page8FormData),
+        Page(2, page2FormData),
+        Page(9, page9FormData),
         Page(10, page10FormData),
         Page(12, page12FormData),
         Page(13, page13FormData),
-        Page(6,  page6FormData),
-        Page(14, page14FormData)),
+        Page(6, page6FormData),
+        Page(14, page14FormData)
+      ),
       address = Some(defaultAddress)
     )
-    lazy val page1FormData = Map("isAddressCorrect" -> Seq("true"))
+    lazy val page1FormData: Map[String, Seq[String]] = Map("isAddressCorrect" -> Seq("true"))
 
-    lazy val page1AlternativeAddressData = Map(
-      "isAddressCorrect" -> Seq("false"),
-	 "address.buildingNameNumber" -> Seq("1"),
-      "address.street1" -> Seq("The Street"),
-	 "address.street2" -> Seq("worthing"),
-	 "address.postcode" -> Seq("AA11 1AA")
+    lazy val page1AlternativeAddressData: Map[String, Seq[String]] = Map(
+      "isAddressCorrect"           -> Seq("false"),
+      "address.buildingNameNumber" -> Seq("1"),
+      "address.street1"            -> Seq("The Street"),
+      "address.street2"            -> Seq("worthing"),
+      "address.postcode"           -> Seq("AA11 1AA")
     )
 
-    lazy val page2FormData = Map(
-      "fullName" -> Seq("fn"),
-      "userType" -> Seq("occupier"),
+    lazy val page2FormData: Map[String, Seq[String]] = Map(
+      "fullName"              -> Seq("fn"),
+      "userType"              -> Seq("occupier"),
       "contactDetails.email1" -> Seq("abc@mailinator.com"),
-      "contactDetails.phone" -> Seq("01234567890")
+      "contactDetails.phone"  -> Seq("01234567890")
     )
 
     val p3ks = PageThreeForm.keys
-    lazy val page3FormData = Map(
-	p3ks.propertyType -> Seq("Stuff"),
-      p3ks.occupierType -> Seq("individuals"),
-      p3ks.mainOccupierName -> Seq("Mike Ington"),
-      p3ks.occupierCompanyName -> Seq("company name"),
- p3ks.firstOccupationDate + ".month" -> Seq("7"),
-      p3ks.firstOccupationDate + ".year" -> Seq("2013"),
-	 p3ks.propertyOwnedByYou -> Seq("false"),
-      p3ks.propertyRentedByYou -> Seq("true"),
-	 p3ks.noRentDetails -> Seq("Coz I live with my rents!"))
 
-    lazy val page3ShortPath = Map(
-      p3ks.propertyType -> Seq("Stuff"),
-      p3ks.occupierType -> Seq("individuals"),
-      p3ks.mainOccupierName -> Seq("Mike Ington"),
-      p3ks.occupierCompanyName -> Seq("company name"),
+    lazy val page3FormData: Map[String, Seq[String]] = Map(
+      p3ks.propertyType                   -> Seq("Stuff"),
+      p3ks.occupierType                   -> Seq("individuals"),
+      p3ks.mainOccupierName               -> Seq("Mike Ington"),
+      p3ks.occupierCompanyName            -> Seq("company name"),
       p3ks.firstOccupationDate + ".month" -> Seq("7"),
-      p3ks.firstOccupationDate + ".year" -> Seq("2013"),
-      p3ks.propertyOwnedByYou -> Seq("false"),
-      p3ks.propertyRentedByYou -> Seq("false"),
-      p3ks.noRentDetails -> Seq("Coz I live with my rents!"))
+      p3ks.firstOccupationDate + ".year"  -> Seq("2013"),
+      p3ks.propertyOwnedByYou             -> Seq("false"),
+      p3ks.propertyRentedByYou            -> Seq("true"),
+      p3ks.noRentDetails                  -> Seq("Coz I live with my rents!")
+    )
 
-    lazy val page4FormData = Map(
-      "propertyIsSublet" -> Seq("true"),
-      "sublet[0].tenantFullName" -> Seq("Jake Smythe"),
+    lazy val page3ShortPath: Map[String, Seq[String]] = Map(
+      p3ks.propertyType                   -> Seq("Stuff"),
+      p3ks.occupierType                   -> Seq("individuals"),
+      p3ks.mainOccupierName               -> Seq("Mike Ington"),
+      p3ks.occupierCompanyName            -> Seq("company name"),
+      p3ks.firstOccupationDate + ".month" -> Seq("7"),
+      p3ks.firstOccupationDate + ".year"  -> Seq("2013"),
+      p3ks.propertyOwnedByYou             -> Seq("false"),
+      p3ks.propertyRentedByYou            -> Seq("false"),
+      p3ks.noRentDetails                  -> Seq("Coz I live with my rents!")
+    )
+
+    lazy val page4FormData: Map[String, Seq[String]] = Map(
+      "propertyIsSublet"                           -> Seq("true"),
+      "sublet[0].tenantFullName"                   -> Seq("Jake Smythe"),
       "sublet[0].tenantAddress.buildingNameNumber" -> Seq("Some Company"),
-      "sublet[0].tenantAddress.street1" -> Seq("Some Road"),
-      "sublet[0].tenantAddress.street2" -> Seq(""),
-      "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
-      "sublet[0].subletType" -> Seq("part"),
-      "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
-      "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
-      "sublet[0].annualRent" -> Seq("200"),
-      "sublet[0].rentFixedDate.month" -> Seq("2"),
-      "sublet[0].rentFixedDate.year" -> Seq("2011")
+      "sublet[0].tenantAddress.street1"            -> Seq("Some Road"),
+      "sublet[0].tenantAddress.street2"            -> Seq(""),
+      "sublet[0].tenantAddress.postcode"           -> Seq("AA11 1AA"),
+      "sublet[0].subletType"                       -> Seq("part"),
+      "sublet[0].subletPropertyPartDescription"    -> Seq("basement"),
+      "sublet[0].subletPropertyReasonDescription"  -> Seq("commercial"),
+      "sublet[0].annualRent"                       -> Seq("200"),
+      "sublet[0].rentFixedDate.month"              -> Seq("2"),
+      "sublet[0].rentFixedDate.year"               -> Seq("2011")
     )
 
-    lazy val page4WeeklySubletRentData = Map(
-      "propertyIsSublet" -> Seq("true"),
-      "sublet[0].tenantFullName" -> Seq("Jake Smythe"),
+    lazy val page4WeeklySubletRentData: Map[String, Seq[String]] = Map(
+      "propertyIsSublet"                           -> Seq("true"),
+      "sublet[0].tenantFullName"                   -> Seq("Jake Smythe"),
       "sublet[0].tenantAddress.buildingNameNumber" -> Seq("Some Company"),
-      "sublet[0].tenantAddress.street1" -> Seq("Some Road"),
-      "sublet[0].tenantAddress.street2" -> Seq(""),
-      "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
-      "sublet[0].subletType" -> Seq("part"),
-      "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
-      "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
-      "sublet[0].annualRent" -> Seq("480"),
-      "sublet[0].rentFixedDate.month" -> Seq("2"),
-      "sublet[0].rentFixedDate.year" -> Seq("2011")
+      "sublet[0].tenantAddress.street1"            -> Seq("Some Road"),
+      "sublet[0].tenantAddress.street2"            -> Seq(""),
+      "sublet[0].tenantAddress.postcode"           -> Seq("AA11 1AA"),
+      "sublet[0].subletType"                       -> Seq("part"),
+      "sublet[0].subletPropertyPartDescription"    -> Seq("basement"),
+      "sublet[0].subletPropertyReasonDescription"  -> Seq("commercial"),
+      "sublet[0].annualRent"                       -> Seq("480"),
+      "sublet[0].rentFixedDate.month"              -> Seq("2"),
+      "sublet[0].rentFixedDate.year"               -> Seq("2011")
     )
 
-    lazy val page4TenantsPropertyAddressData = Map(
-      "propertyIsSublet" -> Seq("true"),
-      "sublet[0].tenantFullName" -> Seq("Jake Smythe"),
-      "sublet[0].tenantAddress.buildingNameNumber" ->  Seq("1"),
-      "sublet[0].tenantAddress.street1" -> Seq("The Street"),
-      "sublet[0].tenantAddress.street2"-> Seq("worthing"),
-      "sublet[0].tenantAddress.postcode" -> Seq("AA11 1AA"),
-      "sublet[0].subletType" -> Seq("part"),
-      "sublet[0].subletPropertyPartDescription" -> Seq("basement"),
-      "sublet[0].subletPropertyReasonDescription" -> Seq("commercial"),
-      "sublet[0].annualRent" -> Seq("480"),
-      "sublet[0].rentFixedDate.month" -> Seq("2"),
-      "sublet[0].rentFixedDate.year" -> Seq("2011")
+    lazy val page4TenantsPropertyAddressData: Map[String, Seq[String]] = Map(
+      "propertyIsSublet"                           -> Seq("true"),
+      "sublet[0].tenantFullName"                   -> Seq("Jake Smythe"),
+      "sublet[0].tenantAddress.buildingNameNumber" -> Seq("1"),
+      "sublet[0].tenantAddress.street1"            -> Seq("The Street"),
+      "sublet[0].tenantAddress.street2"            -> Seq("worthing"),
+      "sublet[0].tenantAddress.postcode"           -> Seq("AA11 1AA"),
+      "sublet[0].subletType"                       -> Seq("part"),
+      "sublet[0].subletPropertyPartDescription"    -> Seq("basement"),
+      "sublet[0].subletPropertyReasonDescription"  -> Seq("commercial"),
+      "sublet[0].annualRent"                       -> Seq("480"),
+      "sublet[0].rentFixedDate.month"              -> Seq("2"),
+      "sublet[0].rentFixedDate.year"               -> Seq("2011")
     )
 
-
-    lazy val page5FormData = Map(
-      "landlordFullName" -> Seq("Graham Goose"),
+    lazy val page5FormData: Map[String, Seq[String]] = Map(
+      "landlordFullName"                   -> Seq("Graham Goose"),
       "landlordAddress.buildingNameNumber" -> Seq("Some Company"),
-      "landlordAddress.street1" -> Seq("Some Road"),
-      "landlordAddress.street2" -> Seq(""),
-      "landlordAddress.postcode" -> Seq("AA11 1AA"),
-      "overseas" -> Seq("false"),
-      "landlordConnectType" -> Seq("other"),
-      "landlordConnectText" -> Seq("magic")
+      "landlordAddress.street1"            -> Seq("Some Road"),
+      "landlordAddress.street2"            -> Seq(""),
+      "landlordAddress.postcode"           -> Seq("AA11 1AA"),
+      "overseas"                           -> Seq("false"),
+      "landlordConnectType"                -> Seq("other"),
+      "landlordConnectText"                -> Seq("magic")
     )
 
-    lazy val page6FormData = Map(
-      "leaseAgreementType" -> Seq("leaseTenancy"),
-      "writtenAgreement.leaseAgreementHasBreakClause" -> Seq("true"),
-      "writtenAgreement.breakClauseDetails" -> Seq("adjf asdklfj a;sdljfa dsflk"),
-      "writtenAgreement.agreementIsStepped" -> Seq("true"),
-      "writtenAgreement.steppedDetails[0].stepTo.day" -> Seq("9"),
-      "writtenAgreement.steppedDetails[0].stepTo.month" -> Seq("12"),
-      "writtenAgreement.steppedDetails[0].stepTo.year" -> Seq("2011"),
-      "writtenAgreement.steppedDetails[0].stepFrom.day" -> Seq("8"),
+    lazy val page6FormData: Map[String, Seq[String]] = Map(
+      "leaseAgreementType"                                -> Seq("leaseTenancy"),
+      "writtenAgreement.leaseAgreementHasBreakClause"     -> Seq("true"),
+      "writtenAgreement.breakClauseDetails"               -> Seq("adjf asdklfj a;sdljfa dsflk"),
+      "writtenAgreement.agreementIsStepped"               -> Seq("true"),
+      "writtenAgreement.steppedDetails[0].stepTo.day"     -> Seq("9"),
+      "writtenAgreement.steppedDetails[0].stepTo.month"   -> Seq("12"),
+      "writtenAgreement.steppedDetails[0].stepTo.year"    -> Seq("2011"),
+      "writtenAgreement.steppedDetails[0].stepFrom.day"   -> Seq("8"),
       "writtenAgreement.steppedDetails[0].stepFrom.month" -> Seq("11"),
-      "writtenAgreement.steppedDetails[0].stepFrom.year" -> Seq("2010"),
-      "writtenAgreement.steppedDetails[0].amount" -> Seq("500"),
-      "writtenAgreement.startDate.month" -> Seq("3"),
-      "writtenAgreement.startDate.year" -> Seq("2011"),
-      "writtenAgreement.rentOpenEnded" -> Seq("false"),
-      "writtenAgreement.leaseLength.years" -> Seq("10"),
-      "writtenAgreement.leaseLength.months" -> Seq("2")
+      "writtenAgreement.steppedDetails[0].stepFrom.year"  -> Seq("2010"),
+      "writtenAgreement.steppedDetails[0].amount"         -> Seq("500"),
+      "writtenAgreement.startDate.month"                  -> Seq("3"),
+      "writtenAgreement.startDate.year"                   -> Seq("2011"),
+      "writtenAgreement.rentOpenEnded"                    -> Seq("false"),
+      "writtenAgreement.leaseLength.years"                -> Seq("10"),
+      "writtenAgreement.leaseLength.months"               -> Seq("2")
     )
 
-    lazy val page6VerbalData = Map(
-      "leaseAgreementType" -> Seq("verbal"),
-      "verbalAgreement.startDate.month" -> Seq("5"),
-      "verbalAgreement.startDate.year" -> Seq("2011"),
-      "verbalAgreement.rentOpenEnded" -> Seq("false"),
-      "verbalAgreement.leaseLength.years" -> Seq("10"),
+    lazy val page6VerbalData: Map[String, Seq[String]] = Map(
+      "leaseAgreementType"                 -> Seq("verbal"),
+      "verbalAgreement.startDate.month"    -> Seq("5"),
+      "verbalAgreement.startDate.year"     -> Seq("2011"),
+      "verbalAgreement.rentOpenEnded"      -> Seq("false"),
+      "verbalAgreement.leaseLength.years"  -> Seq("10"),
       "verbalAgreement.leaseLength.months" -> Seq("2")
     )
 
-    lazy val page7FormData = Map(
-      "leaseContainsRentReviews" -> Seq("true"),
-      "rentReviewDetails.reviewIntervalType" -> Seq("every3Years"),
-      "rentReviewDetails.reviewIntervalTypeSpecify.years" -> Seq(""),
-      "rentReviewDetails.reviewIntervalTypeSpecify.months" -> Seq(""),
-      "rentReviewDetails.lastReviewDate.month" -> Seq("4"),
-      "rentReviewDetails.lastReviewDate.year" -> Seq("2013"),
-      "rentReviewDetails.canRentReduced" -> Seq("true"),
-      "rentReviewDetails.rentResultOfRentReview" -> Seq("true"),
+    lazy val page7FormData: Map[String, Seq[String]] = Map(
+      "leaseContainsRentReviews"                                           -> Seq("true"),
+      "rentReviewDetails.reviewIntervalType"                               -> Seq("every3Years"),
+      "rentReviewDetails.reviewIntervalTypeSpecify.years"                  -> Seq(""),
+      "rentReviewDetails.reviewIntervalTypeSpecify.months"                 -> Seq(""),
+      "rentReviewDetails.lastReviewDate.month"                             -> Seq("4"),
+      "rentReviewDetails.lastReviewDate.year"                              -> Seq("2013"),
+      "rentReviewDetails.canRentReduced"                                   -> Seq("true"),
+      "rentReviewDetails.rentResultOfRentReview"                           -> Seq("true"),
       "rentReviewDetails.rentReviewResultsDetails.whenWasRentReview.month" -> Seq("7"),
-      "rentReviewDetails.rentReviewResultsDetails.whenWasRentReview.year" -> Seq("2012"),
-      "rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween" -> Seq("false"),
-"rentReviewDetails.rentReviewResultsDetails.rentFixedBy" -> Seq("independent")
+      "rentReviewDetails.rentReviewResultsDetails.whenWasRentReview.year"  -> Seq("2012"),
+      "rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween"       -> Seq("false"),
+      "rentReviewDetails.rentReviewResultsDetails.rentFixedBy"             -> Seq("independent")
     )
 
-    lazy val page8FormData = Map(
-	"wasRentFixedBetween" -> Seq("true"),
-	 "rentSetByType" -> Seq("renewedLease"))
+    lazy val page8FormData: Map[String, Seq[String]] = Map(
+      "wasRentFixedBetween" -> Seq("true"),
+      "rentSetByType"       -> Seq("renewedLease")
+    )
 
-    lazy val page9FormData = Map(
-      "totalRent.rentLengthType" -> Seq("monthly"),
+    lazy val page9FormData: Map[String, Seq[String]] = Map(
+      "totalRent.rentLengthType"         -> Seq("monthly"),
       "totalRent.annualRentExcludingVat" -> Seq("15588"),
-      "rent-paid" -> Seq(""),
-      "rentBecomePayable.day" -> Seq("1"),
-      "rentBecomePayable.month" -> Seq("11"),
-      "rentBecomePayable.year" -> Seq("2013"),
-      "rentActuallyAgreed.day" -> Seq("1"),
-      "rentActuallyAgreed.month" -> Seq("11"),
-      "rentActuallyAgreed.year" -> Seq("2013"),
-      "negotiatingNewRent" -> Seq("true"),
-      "rentBasedOn" -> Seq("other"),
-      "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on")
+      "rent-paid"                        -> Seq(""),
+      "rentBecomePayable.day"            -> Seq("1"),
+      "rentBecomePayable.month"          -> Seq("11"),
+      "rentBecomePayable.year"           -> Seq("2013"),
+      "rentActuallyAgreed.day"           -> Seq("1"),
+      "rentActuallyAgreed.month"         -> Seq("11"),
+      "rentActuallyAgreed.year"          -> Seq("2013"),
+      "negotiatingNewRent"               -> Seq("true"),
+      "rentBasedOn"                      -> Seq("other"),
+      "rentBasedOnDetails"               -> Seq("here are some details about what the rent is based on")
     )
 
-    lazy val page9WeeklyRentData = Map(
-      "totalRent.rentLengthType" -> Seq("weekly"),
+    lazy val page9WeeklyRentData: Map[String, Seq[String]] = Map(
+      "totalRent.rentLengthType"         -> Seq("weekly"),
       "totalRent.annualRentExcludingVat" -> Seq("100"),
-      "rent-paid" -> Seq(""),
-      "rentBecomePayable.day" -> Seq("1"),
-      "rentBecomePayable.month" -> Seq("11"),
-      "rentBecomePayable.year" -> Seq("2013"),
-      "rentActuallyAgreed.day" -> Seq("1"),
-      "rentActuallyAgreed.month" -> Seq("11"),
-      "rentActuallyAgreed.year" -> Seq("2013"),
-      "negotiatingNewRent" -> Seq("true"),
-      "rentBasedOn" -> Seq("other"),
-      "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on")
+      "rent-paid"                        -> Seq(""),
+      "rentBecomePayable.day"            -> Seq("1"),
+      "rentBecomePayable.month"          -> Seq("11"),
+      "rentBecomePayable.year"           -> Seq("2013"),
+      "rentActuallyAgreed.day"           -> Seq("1"),
+      "rentActuallyAgreed.month"         -> Seq("11"),
+      "rentActuallyAgreed.year"          -> Seq("2013"),
+      "negotiatingNewRent"               -> Seq("true"),
+      "rentBasedOn"                      -> Seq("other"),
+      "rentBasedOnDetails"               -> Seq("here are some details about what the rent is based on")
     )
 
-    lazy val page9MonthlyRentData = Map(
-      "totalRent.rentLengthType" -> Seq("monthly"),
+    lazy val page9MonthlyRentData: Map[String, Seq[String]] = Map(
+      "totalRent.rentLengthType"         -> Seq("monthly"),
       "totalRent.annualRentExcludingVat" -> Seq("5000"),
-      "rent-paid" -> Seq(""),
-      "rentBecomePayable.day" -> Seq("1"),
-      "rentBecomePayable.month" -> Seq("11"),
-      "rentBecomePayable.year" -> Seq("2013"),
-      "rentActuallyAgreed.day" -> Seq("1"),
-      "rentActuallyAgreed.month" -> Seq("11"),
-      "rentActuallyAgreed.year" -> Seq("2013"),
-      "negotiatingNewRent" -> Seq("true"),
-      "rentBasedOn" -> Seq("other"),
-      "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on")
+      "rent-paid"                        -> Seq(""),
+      "rentBecomePayable.day"            -> Seq("1"),
+      "rentBecomePayable.month"          -> Seq("11"),
+      "rentBecomePayable.year"           -> Seq("2013"),
+      "rentActuallyAgreed.day"           -> Seq("1"),
+      "rentActuallyAgreed.month"         -> Seq("11"),
+      "rentActuallyAgreed.year"          -> Seq("2013"),
+      "negotiatingNewRent"               -> Seq("true"),
+      "rentBasedOn"                      -> Seq("other"),
+      "rentBasedOnDetails"               -> Seq("here are some details about what the rent is based on")
     )
 
-    lazy val page9QuarterlyRentData = Map(
-      "totalRent.rentLengthType" -> Seq("quarterly"),
+    lazy val page9QuarterlyRentData: Map[String, Seq[String]] = Map(
+      "totalRent.rentLengthType"         -> Seq("quarterly"),
       "totalRent.annualRentExcludingVat" -> Seq("250"),
-      "rent-paid" -> Seq(""),
-      "rentBecomePayable.day" -> Seq("1"),
-      "rentBecomePayable.month" -> Seq("11"),
-      "rentBecomePayable.year" -> Seq("2013"),
-      "rentActuallyAgreed.day" -> Seq("1"),
-      "rentActuallyAgreed.month" -> Seq("11"),
-      "rentActuallyAgreed.year" -> Seq("2013"),
-      "negotiatingNewRent" -> Seq("true"),
-      "rentBasedOn" -> Seq("other"),
-      "rentBasedOnDetails" -> Seq("here are some details about what the rent is based on")
+      "rent-paid"                        -> Seq(""),
+      "rentBecomePayable.day"            -> Seq("1"),
+      "rentBecomePayable.month"          -> Seq("11"),
+      "rentBecomePayable.year"           -> Seq("2013"),
+      "rentActuallyAgreed.day"           -> Seq("1"),
+      "rentActuallyAgreed.month"         -> Seq("11"),
+      "rentActuallyAgreed.year"          -> Seq("2013"),
+      "negotiatingNewRent"               -> Seq("true"),
+      "rentBasedOn"                      -> Seq("other"),
+      "rentBasedOnDetails"               -> Seq("here are some details about what the rent is based on")
     )
 
-    lazy val page10FormData = Map(
-      "parking.annualSeparateParkingDate.month" -> Seq("6"),
-      "parking.annualSeparateParkingDate.year" -> Seq("2012"),
+    lazy val page10FormData: Map[String, Seq[String]] = Map(
+      "parking.annualSeparateParkingDate.month"      -> Seq("6"),
+      "parking.annualSeparateParkingDate.year"       -> Seq("2012"),
       "parking.rentIncludeParkingDetails.openSpaces" -> Seq("2"),
-      "parking.rentIncludeParking" -> Seq("true"),
-      "parking.rentSeparateParkingDetails.garages" -> Seq("9"),
-      "parking.annualSeparateParking" -> Seq("599.84"),
-      "parking.rentSeparateParking" -> Seq("true"),
-      "landOnly" -> Seq("true"),
-      "shellUnit" -> Seq("true"),
-      "parking.rentIncludeParkingDetails" -> Seq("2"),
-      "rentDetails" -> Seq("RENT DETAILS"),
-      "annualSeparateParking" -> Seq("599.84"),
-      "partRent" -> Seq("true"),
-      "livingAccommodation" -> Seq("true"),
-      "partRentDetails" -> Seq("PART RENT DETAILS"),
-      "otherProperty" -> Seq("true")
+      "parking.rentIncludeParking"                   -> Seq("true"),
+      "parking.rentSeparateParkingDetails.garages"   -> Seq("9"),
+      "parking.annualSeparateParking"                -> Seq("599.84"),
+      "parking.rentSeparateParking"                  -> Seq("true"),
+      "landOnly"                                     -> Seq("true"),
+      "shellUnit"                                    -> Seq("true"),
+      "parking.rentIncludeParkingDetails"            -> Seq("2"),
+      "rentDetails"                                  -> Seq("RENT DETAILS"),
+      "annualSeparateParking"                        -> Seq("599.84"),
+      "partRent"                                     -> Seq("true"),
+      "livingAccommodation"                          -> Seq("true"),
+      "partRentDetails"                              -> Seq("PART RENT DETAILS"),
+      "otherProperty"                                -> Seq("true")
     )
 
-    lazy val page11FormData = Map(
-      "rentFreePeriod" -> Seq("true"),
-      "rentFreePeriodDetails.rentFreePeriodLength" -> Seq("36"),
+    lazy val page11FormData: Map[String, Seq[String]] = Map(
+      "rentFreePeriod"                              -> Seq("true"),
+      "rentFreePeriodDetails.rentFreePeriodLength"  -> Seq("36"),
       "rentFreePeriodDetails.rentFreePeriodDetails" -> Seq("REnt free period alsjfd lasdjf lasjdf la;sdjf lasdjf lasjd flasd jflsa df"),
-      "payCapitalSum" -> Seq("true"),
-      "capitalPaidDetails.capitalSum" -> Seq("4000"),
-      "capitalPaidDetails.paymentDate.month" -> Seq("4"),
-      "capitalPaidDetails.paymentDate.year" -> Seq("2010"),
-      "receiveCapitalSum" -> Seq("true"),
-      "capitalReceivedDetails.receivedSum" -> Seq("200"),
-      "capitalReceivedDetails.paymentDate.month" -> Seq("3"),
-      "capitalReceivedDetails.paymentDate.year" -> Seq("2010")
+      "payCapitalSum"                               -> Seq("true"),
+      "capitalPaidDetails.capitalSum"               -> Seq("4000"),
+      "capitalPaidDetails.paymentDate.month"        -> Seq("4"),
+      "capitalPaidDetails.paymentDate.year"         -> Seq("2010"),
+      "receiveCapitalSum"                           -> Seq("true"),
+      "capitalReceivedDetails.receivedSum"          -> Seq("200"),
+      "capitalReceivedDetails.paymentDate.month"    -> Seq("3"),
+      "capitalReceivedDetails.paymentDate.year"     -> Seq("2010")
     )
 
-    lazy val page12FormData = Map(
-      "responsibleOutsideRepairs" -> Seq("both"),
-      "responsibleInsideRepairs" -> Seq("both"),
-      "responsibleBuildingInsurance" -> Seq("both"),
-      "ndrCharges" -> Seq("false"),
-      "waterCharges" -> Seq("false"),
-      "includedServices" -> Seq("true"),
+    lazy val page12FormData: Map[String, Seq[String]] = Map(
+      "responsibleOutsideRepairs"                    -> Seq("both"),
+      "responsibleInsideRepairs"                     -> Seq("both"),
+      "responsibleBuildingInsurance"                 -> Seq("both"),
+      "ndrCharges"                                   -> Seq("false"),
+      "waterCharges"                                 -> Seq("false"),
+      "includedServices"                             -> Seq("true"),
       "includedServicesDetails[0].chargeDescription" -> Seq("lkjfsdlfj"),
-      "includedServicesDetails[0].chargeCost" -> Seq("78")
+      "includedServicesDetails[0].chargeCost"        -> Seq("78")
     )
 
-    lazy val page12NdrAndWaterChargesData = Map(
-      "responsibleOutsideRepairs" -> Seq("both"),
-      "responsibleInsideRepairs" -> Seq("both"),
-      "responsibleBuildingInsurance" -> Seq("both"),
-      "ndrCharges" -> Seq("true"),
-      "ndrDetails" -> Seq("41.23"),
-      "waterCharges" -> Seq("true"),
-      "waterChargesCost" -> Seq("456.76"),
-      "includedServices" -> Seq("true"),
+    lazy val page12NdrAndWaterChargesData: Map[String, Seq[String]] = Map(
+      "responsibleOutsideRepairs"                    -> Seq("both"),
+      "responsibleInsideRepairs"                     -> Seq("both"),
+      "responsibleBuildingInsurance"                 -> Seq("both"),
+      "ndrCharges"                                   -> Seq("true"),
+      "ndrDetails"                                   -> Seq("41.23"),
+      "waterCharges"                                 -> Seq("true"),
+      "waterChargesCost"                             -> Seq("456.76"),
+      "includedServices"                             -> Seq("true"),
       "includedServicesDetails[0].chargeDescription" -> Seq("lkjfsdlfj"),
-      "includedServicesDetails[0].chargeCost" -> Seq("78")
+      "includedServicesDetails[0].chargeCost"        -> Seq("78")
     )
 
-    lazy val page13FormData = Map(
-      "propertyAlterations" -> Seq("false"),
+    lazy val page13FormData: Map[String, Seq[String]] = Map(
+      "propertyAlterations"                       -> Seq("false"),
       "propertyAlterationsDetails[0].description" -> Seq("sdfasadsf"),
-      "propertyAlterationsDetails[0].cost" -> Seq(""),
-      "propertyAlterationsDetails[0].date.month" -> Seq(""),
-      "propertyAlterationsDetails[0].date.year" -> Seq("")
+      "propertyAlterationsDetails[0].cost"        -> Seq(""),
+      "propertyAlterationsDetails[0].date.month"  -> Seq(""),
+      "propertyAlterationsDetails[0].date.year"   -> Seq("")
     )
 
-    lazy val page14FormData = Map(
-      "anyOtherFactors" -> Seq("false"),
+    lazy val page14FormData: Map[String, Seq[String]] = Map(
+      "anyOtherFactors"        -> Seq("false"),
       "anyOtherFactorsDetails" -> Seq("")
     )
 
-    val propertyAddress = Option.empty[Address]
-    val alternatePropertyAddress = Some(tenantsPropertyAddress)
-    val customerDetails = CustomerDetails("fn", UserTypeOccupier, ContactDetails("01234567890", "abc@mailinator.com"))
-    val theProperty = TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
-    val sublet = Sublet(true, List(SubletData("Jake Smythe", Address("Some Company", Some("Some Road"), None, "AA11 1AA"), SubletPart, Option("basement"), "commercial", Some(200), RoughDate(None, Some(2), 2011))))
-    val landlord = Landlord(Some("Graham Goose"), Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
-    val leaseOrAgreement = LeaseOrAgreement(
-      LeaseAgreementTypesLeaseTenancy, Some(true), Some("adjf asdklfj a;sdljfa dsflk"), Some(true), List(SteppedDetails(LocalDate.of(2010, 11, 8), LocalDate.of(2011, 12, 9),500)), Some(RoughDate(None, Some(3), 2011)), Some(false), Some(MonthsYearDuration(2, 10))
+    val propertyAddress: Option[Address]        = None
+    val alternatePropertyAddress: Some[Address] = Some(tenantsPropertyAddress)
+    val customerDetails: CustomerDetails        = CustomerDetails("fn", UserTypeOccupier, ContactDetails("01234567890", "abc@mailinator.com"))
+
+    val theProperty: TheProperty =
+      TheProperty("Stuff", OccupierTypeIndividuals, Some("Mike Ington"), Some(RoughDate(None, Some(7), 2013)), false, Some(true), None)
+
+    val sublet: Sublet = Sublet(
+      true,
+      List(SubletData(
+        "Jake Smythe",
+        Address("Some Company", Some("Some Road"), None, "AA11 1AA"),
+        SubletPart,
+        Option("basement"),
+        "commercial",
+        Some(200),
+        RoughDate(None, Some(2), 2011)
+      ))
     )
-    val rentReviews = RentReviews(
-      true, Some(RentReviewDetails(Some(MonthsYearDuration(0, 3)), Some(RoughDate(None, Some(4), 2013)), true, true,
-        Some(RentReviewResultDetails(RoughDate(None, Some(7), 2012), false, Some(RentFixedTypeIndependent))))))
-    val rentAgreement = RentAgreement(true, None, RentSetByTypeRenewedLease)
-    val rent = Rent(Some(15588), LocalDate.of(2013, 11, 1), LocalDate.of(2013, 11, 1), true, RentBaseTypeOther, Some("here are some details about what the rent is based on"))
-    val whatRentIncludes = WhatRentIncludes(true, true, true, true, true, Some("RENT DETAILS"), Parking(true, Some(ParkingDetails(2, 0, 0)), true, Some(ParkingDetails(0, 0, 9)), Some(599.84), Some(RoughDate(None, Some(6), 2012))))
-    val incentivesAndPayments = IncentivesAndPayments(
-      true, Some(FreePeriodDetails(36, "REnt free period alsjfd lasdjf lasjdf la;sdjf lasdjf lasjd flasd jflsa df")), true,
-      Some(CapitalDetails(4000, RoughDate(None, Some(4), 2010))), true, Some(CapitalDetails(200, RoughDate(None, Some(3), 2010))))
-    val responsibilities = Responsibilities(
-      ResponsibleBoth, ResponsibleBoth, ResponsibleBoth, false, false, true,
-      List(ChargeDetails("lkjfsdlfj", 78)))
-    val propertyAlterations = PropertyAlterations(false, List(), None)
-    val otherFactors = OtherFactors(false, None)
-    val verbalLease = LeaseOrAgreement(
-      LeaseAgreementTypesVerbal, None, None, None, List.empty, Some(RoughDate(None, Some(5), 2011)), Some(false), Some(MonthsYearDuration(2, 10))
+
+    val landlord: Landlord =
+      Landlord("Graham Goose", Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
+
+    val leaseOrAgreement: LeaseOrAgreement = LeaseOrAgreement(
+      LeaseAgreementTypesLeaseTenancy,
+      Some(true),
+      Some("adjf asdklfj a;sdljfa dsflk"),
+      Some(true),
+      List(SteppedDetails(LocalDate.of(2010, 11, 8), LocalDate.of(2011, 12, 9), 500)),
+      Some(RoughDate(None, Some(3), 2011)),
+      Some(false),
+      Some(MonthsYearDuration(2, 10))
     )
-    val defaultAddress = Address("45", Some("Default Street"), Some("Goring-by-sea"), "AA11 1AA")
-    val docsAndSubmissions = Table(
+
+    val rentReviews: RentReviews     = RentReviews(
+      true,
+      Some(RentReviewDetails(
+        Some(MonthsYearDuration(0, 3)),
+        Some(RoughDate(None, Some(4), 2013)),
+        true,
+        true,
+        Some(RentReviewResultDetails(RoughDate(None, Some(7), 2012), false, Some(RentFixedTypeIndependent)))
+      ))
+    )
+    val rentAgreement: RentAgreement = RentAgreement(true, None, RentSetByTypeRenewedLease)
+
+    val rent: Rent = Rent(
+      Some(15588),
+      LocalDate.of(2013, 11, 1),
+      LocalDate.of(2013, 11, 1),
+      true,
+      RentBaseTypeOther,
+      Some("here are some details about what the rent is based on")
+    )
+
+    val whatRentIncludes: WhatRentIncludes = WhatRentIncludes(
+      true,
+      true,
+      true,
+      true,
+      true,
+      Some("RENT DETAILS"),
+      Parking(true, Some(ParkingDetails(2, 0, 0)), true, Some(ParkingDetails(0, 0, 9)), Some(599.84), Some(RoughDate(None, Some(6), 2012)))
+    )
+
+    val incentivesAndPayments: IncentivesAndPayments = IncentivesAndPayments(
+      true,
+      Some(FreePeriodDetails(36, "REnt free period alsjfd lasdjf lasjdf la;sdjf lasdjf lasjd flasd jflsa df")),
+      true,
+      Some(CapitalDetails(4000, RoughDate(None, Some(4), 2010))),
+      true,
+      Some(CapitalDetails(200, RoughDate(None, Some(3), 2010)))
+    )
+
+    val responsibilities: Responsibilities       = Responsibilities(
+      ResponsibleBoth,
+      ResponsibleBoth,
+      ResponsibleBoth,
+      false,
+      false,
+      true,
+      List(ChargeDetails("lkjfsdlfj", 78))
+    )
+    val propertyAlterations: PropertyAlterations = PropertyAlterations(false, List(), None)
+    val otherFactors: OtherFactors               = OtherFactors(false, None)
+
+    val verbalLease: LeaseOrAgreement = LeaseOrAgreement(
+      LeaseAgreementTypesVerbal,
+      None,
+      None,
+      None,
+      List.empty,
+      Some(RoughDate(None, Some(5), 2011)),
+      Some(false),
+      Some(MonthsYearDuration(2, 10))
+    )
+    val defaultAddress: Address       = Address("45", Some("Default Street"), Some("Goring-by-sea"), "AA11 1AA")
+
+    val docsAndSubmissions: TableFor2[Document, Submission] = Table(
       ("doc", "submission"),
       (doc1, submission1),
       (doc2, submission2)

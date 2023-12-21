@@ -20,7 +20,7 @@ import models.RoughDate
 
 import java.time.LocalDate
 
-case class LeaseOrAgreement (
+case class LeaseOrAgreement(
   leaseAgreementType: LeaseAgreementType,
   leaseAgreementHasBreakClause: Option[Boolean],
   breakClauseDetails: Option[String],
@@ -28,6 +28,7 @@ case class LeaseOrAgreement (
   steppedDetails: List[SteppedDetails] = List(),
   startDate: Option[RoughDate],
   rentOpenEnded: Option[Boolean],
-  leaseLength: Option[MonthsYearDuration])
+  leaseLength: Option[MonthsYearDuration]
+)
 
 case class SteppedDetails(stepFrom: LocalDate, stepTo: LocalDate, amount: BigDecimal)

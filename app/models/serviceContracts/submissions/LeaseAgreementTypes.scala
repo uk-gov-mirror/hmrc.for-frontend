@@ -18,21 +18,22 @@ package models.serviceContracts.submissions
 
 import models.{NamedEnum, NamedEnumSupport}
 
-
-sealed trait LeaseAgreementType extends NamedEnum{
-  val key  = "leaseAgreementTypes"
+sealed trait LeaseAgreementType extends NamedEnum {
+  val key = "leaseAgreementTypes"
 }
+
 object LeaseAgreementTypesVerbal extends LeaseAgreementType {
   val name = "verbal"
 }
+
 object LeaseAgreementTypesLeaseTenancy extends LeaseAgreementType {
   val name = "leaseTenancy"
 }
+
 object LeaseAgreementTypesLicenceOther extends LeaseAgreementType {
   val name = "licenceOther"
 }
 
-
-object LeaseAgreementTypes extends NamedEnumSupport[LeaseAgreementType]{
-  val all = List(LeaseAgreementTypesLeaseTenancy, LeaseAgreementTypesLicenceOther, LeaseAgreementTypesVerbal )
+object LeaseAgreementTypes extends NamedEnumSupport[LeaseAgreementType] {
+  val all: List[LeaseAgreementType] = List(LeaseAgreementTypesLeaseTenancy, LeaseAgreementTypesLicenceOther, LeaseAgreementTypesVerbal)
 }

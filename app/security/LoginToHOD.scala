@@ -28,24 +28,33 @@ import uk.gov.hmrc.http.HeaderCarrier
 import java.time.ZonedDateTime
 
 object LoginToHOD {
-  type Postcode = String
-  type StartTime = ZonedDateTime
-  type AuthToken = String
-  type LoginToHOD = (ReferenceNumber, Postcode, StartTime) => Future[LoginResult]
-  type VerifyCredentials = (ReferenceNumber, Postcode) => Future[FORLoginResponse]
+  type Postcode                  = String
+  type StartTime                 = ZonedDateTime
+  type AuthToken                 = String
+  type LoginToHOD                = (ReferenceNumber, Postcode, StartTime) => Future[LoginResult]
+  type VerifyCredentials         = (ReferenceNumber, Postcode) => Future[FORLoginResponse]
   type LoadSavedForLaterDocument = (AuthToken, ReferenceNumber) => Future[Option[Document]]
 
-  def apply(v: VerifyCredentials, l: LoadSavedForLaterDocument, u: UpdateDocumentInCurrentSession)
-           (referenceNumber: ReferenceNumber, pc: Postcode, st: StartTime)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[LoginResult] =
+  def apply(
+    v: VerifyCredentials,
+    l: LoadSavedForLaterDocument,
+    u: UpdateDocumentInCurrentSession
+  )(
+    referenceNumber: ReferenceNumber,
+    pc: Postcode,
+    st: StartTime
+  )(implicit hc: HeaderCarrier,
+    ec: ExecutionContext
+  ): Future[LoginResult] =
     for {
       lr <- v(referenceNumber, pc)
-      _ <- u(hc, referenceNumber, doc(referenceNumber, lr.address, st))
+      _  <- u(hc, referenceNumber, doc(referenceNumber, lr.address, st))
       sd <- l(lr.forAuthToken, referenceNumber)
     } yield sd map { _ => dps(lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
 
   private def doc(r: ReferenceNumber, a: Address, d: StartTime) = Document(r, d, address = Some(a))
-  private def dps = DocumentPreviouslySaved.apply _
-  private def ned = NoExistingDocument.apply _
+  private def dps                                               = DocumentPreviouslySaved.apply _
+  private def ned                                               = NoExistingDocument.apply _
 }
 
 sealed trait LoginResult

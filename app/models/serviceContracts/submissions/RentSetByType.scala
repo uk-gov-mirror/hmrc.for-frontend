@@ -18,8 +18,8 @@ package models.serviceContracts.submissions
 
 import models.{NamedEnum, NamedEnumSupport}
 
-sealed trait RentSetByType extends NamedEnum{
-  val key  = "rentSetByTypes"
+sealed trait RentSetByType extends NamedEnum {
+  val key = "rentSetByTypes"
 }
 
 object RentSetByTypeSurrender extends RentSetByType {
@@ -38,6 +38,6 @@ object RentSetByTypeRenewedLease extends RentSetByType {
   val name = "renewedLease"
 }
 
-object RentSetByTypes extends NamedEnumSupport[RentSetByType]{
-  val all = List(RentSetByTypeNewLease,RentSetByTypeRenewedLease,RentSetByTypeLeaseback,RentSetByTypeSurrender)
+object RentSetByTypes extends NamedEnumSupport[RentSetByType] {
+  val all: List[RentSetByType] = List(RentSetByTypeNewLease, RentSetByTypeRenewedLease, RentSetByTypeLeaseback, RentSetByTypeSurrender)
 }
