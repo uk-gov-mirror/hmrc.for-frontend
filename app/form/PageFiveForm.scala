@@ -25,15 +25,18 @@ import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 import uk.gov.voa.play.form.ConditionalMappings._
 
 object PageFiveForm {
-  val pageFiveForm = Form(mapping(
-    "landlordFullName" -> default(text, "").verifying(
+
+  val pageFiveForm: Form[PageFive] = Form(mapping(
+    "landlordFullName"    -> default(text, "").verifying(
       nonEmpty(errorMessage = "error.landlordFullName.required"),
       maxLength(50, "error.landlordFullName.maxLength")
     ).transform[Option[String]](Option(_), _.getOrElse("")),
-    "landlordAddress" -> optional(optionalAddressMapping("landlordAddress")),
+    "landlordAddress"     -> optional(optionalAddressMapping("landlordAddress")),
     "landlordConnectType" -> landlordConnectionType,
     "landlordConnectText" -> mandatoryIfEqual(
-      "landlordConnectType", LandlordConnectionTypeOther.name, default(text, "").verifying(
+      "landlordConnectType",
+      LandlordConnectionTypeOther.name,
+      default(text, "").verifying(
         nonEmpty(errorMessage = "error.landlordConnectText.required"),
         maxLength(100, "error.landlordConnectText.maxLength")
       )

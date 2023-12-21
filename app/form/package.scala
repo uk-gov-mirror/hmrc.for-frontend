@@ -25,15 +25,15 @@ import play.api.data.Form
 package object form {
 
   def getMappingErrors[T](dataOpt: Option[T], mapping: Mapping[T], prefix: String): ValidationResult = {
-    val form = Form(mapping.withPrefix(prefix))
-    val populatedForm = dataOpt match {
+    val form                            = Form(mapping.withPrefix(prefix))
+    val populatedForm                   = dataOpt match {
       case Some(data) => form.fill(data)
       case None       => form
     }
-    val dataMap = populatedForm.data
-    val result: Seq[FormError] = form.bind(dataMap).convertGlobalToFieldErrors().fold(formWithErrors => formWithErrors.errors, success => Seq())
+    val dataMap                         = populatedForm.data
+    val result: Seq[FormError]          = form.bind(dataMap).convertGlobalToFieldErrors().fold(formWithErrors => formWithErrors.errors, _ => Seq())
     val valErrors: Seq[ValidationError] = result flatMap {
-      case FormError(key, messages, args) => messages.map { message => createFieldValidationError(key, message, args: _*) }
+      case FormError(key, messages, args) => messages.map(message => createFieldValidationError(key, message, args: _*))
     }
     if (valErrors.isEmpty) {
       Valid
@@ -41,42 +41,41 @@ package object form {
       Invalid(valErrors)
     }
   }
+
   implicit class ValidationResultHelper(validationResult: ValidationResult) {
 
     def and(constraint: => ValidationResult): ValidationResult = validationResult match {
-      case Valid => constraint
+      case Valid                      => constraint
       case invalid @ Invalid(errors1) => constraint match {
-        case Valid                       => invalid
-        case invalid2 @ Invalid(errors2) => Invalid(errors1 ++ errors2)
-      }
+          case Valid            => invalid
+          case Invalid(errors2) => Invalid(errors1 ++ errors2)
+        }
     }
 
     def or(constraint: => ValidationResult): ValidationResult = validationResult match {
-      case Valid => Valid
-      case invalid @ Invalid(errors1) => constraint match {
-        case Valid                       => Valid
-        case invalid2 @ Invalid(errors2) => Invalid(errors1 ++ errors2)
-      }
+      case Valid            => Valid
+      case Invalid(errors1) => constraint match {
+          case Valid            => Valid
+          case Invalid(errors2) => Invalid(errors1 ++ errors2)
+        }
     }
   }
 
-  def checkFieldConstraint(cond: => Boolean, field: String, code: String): ValidationResult = {
+  def checkFieldConstraint(cond: => Boolean, field: String, code: String): ValidationResult =
     if (cond) {
       Valid
     } else {
       Invalid(Seq(createFieldValidationError(field, code)))
     }
-  }
 
-  def createFieldValidationError(field: String, code: String, args: Any*): ValidationError = {
+  def createFieldValidationError(field: String, code: String, args: Any*): ValidationError =
     ValidationError(s"fieldError|$field|$code", args: _*)
-  }
 
-  def createFieldConstraintFor(cond: Boolean, code: String, fields: Seq[String]): ValidationResult = {
+  def createFieldConstraintFor(cond: Boolean, code: String, fields: Seq[String]): ValidationResult =
     fields.map(field => checkFieldConstraint(cond, field, code)).reduce(_.and(_))
-  }
 
   implicit class FormErrorSupport(formError: FormError) {
+
     def convert(): FormError =
       formError.message.split('|') match {
         case Array("fieldError", path, code) =>
@@ -86,7 +85,7 @@ package object form {
             formError.key + "." + path
           }
           FormError(newPath, newPath + "." + code, formError.args)
-        case _ => formError
+        case _                               => formError
       }
 
   }
@@ -95,7 +94,7 @@ package object form {
 
     lazy val keys: Seq[String] = {
       val childKeys: Set[Seq[String]] = mapping.mappings.filter(_ != mapping).map(_.keys).toSet
-      val res: Seq[String] = if (childKeys.isEmpty) {
+      val res: Seq[String]            = if (childKeys.isEmpty) {
         Seq(mapping.key)
       } else {
         childKeys.reduce(_ ++ _).distinct
@@ -106,16 +105,17 @@ package object form {
   }
 
   implicit class FormHelper[T](form: Form[T]) {
-    def convertGlobalToFieldErrors(): Form[T] = {
+
+    def convertGlobalToFieldErrors(): Form[T] =
       form.copy(errors = form.errors map (_.convert()))
-    }
+
     def getConstrainedFieldNamesStartingWith(prefix: String): Seq[String] = {
       val prefixDot = s"$prefix."
-      val keys = form.mapping.keys
+      val keys      = form.mapping.keys
       keys.filter(_.startsWith(prefixDot))
     }
-    def setFormData(formData: Map[String, String]): Form[T] = {
+
+    def setFormData(formData: Map[String, String]): Form[T] =
       new Form(mapping = form.mapping, data = formData, errors = form.errors, value = form.value)
-    }
   }
 }

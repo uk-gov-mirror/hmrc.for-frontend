@@ -40,39 +40,44 @@ trait SubmitBusinessRentalInformation {
 }
 
 @Singleton
-class SubmitBusinessRentalInformationToBackendApi @Inject()(
-                                                             repository: FormDocumentRepository,
-                                                             builder: SubmissionBuilder,
-                                                             subConnector: SubmissionConnector,
-                                                             audit: connectors.Audit,
-                                                             auditAddresses: AddressAuditing
-                                                           )(implicit ec: ExecutionContext)
-  extends SubmitBusinessRentalInformation with Logging {
+class SubmitBusinessRentalInformationToBackendApi @Inject() (
+  repository: FormDocumentRepository,
+  builder: SubmissionBuilder,
+  subConnector: SubmissionConnector,
+  audit: connectors.Audit,
+  auditAddresses: AddressAuditing
+)(implicit ec: ExecutionContext
+) extends SubmitBusinessRentalInformation
+  with Logging {
 
-  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[_]): Future[Submission] = {
+  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[_]): Future[Submission] =
     repository.findById(SessionId(hc), refNum).flatMap {
       case someDoc @ Some(doc) =>
         val submission = builder.build(doc)
-        subConnector.submit(refNum, submission).map(
-          _ => {
+        subConnector.submit(refNum, submission).map {
+          _ =>
             auditFormSubmissionAndAddress(success = true, submission, someDoc)
             submission
-          }
-        ).recoverWith {
-          case ex: Throwable =>
-            logger.error("Error on form submission", ex)
-            auditFormSubmissionAndAddress(success = false, submission, someDoc)
-            Future.failed(ex)
         }
-      case None =>
+          .recoverWith {
+            case ex: Throwable =>
+              logger.error("Error on form submission", ex)
+              auditFormSubmissionAndAddress(success = false, submission, someDoc)
+              Future.failed(ex)
+          }
+      case None                =>
         logger.error(s"Rental information could not be retrieved for reference: $refNum")
         auditFormSubmissionAndAddress(success = false, JsObject.empty.as[Submission], None)
         Future.failed(RentalInformationCouldNotBeRetrieved(refNum))
     }
-  }
 
-  private def auditFormSubmissionAndAddress[T](success: Boolean, submission: Submission, docOpt: Option[Document])
-                                              (implicit hc: HeaderCarrier, request: RefNumRequest[T]): Future[Unit] = {
+  private def auditFormSubmissionAndAddress[T](
+    success: Boolean,
+    submission: Submission,
+    docOpt: Option[Document]
+  )(implicit hc: HeaderCarrier,
+    request: RefNumRequest[T]
+  ): Future[Unit] = {
     val auditType = if (success) {
       "FormSubmission"
     } else {
@@ -109,60 +114,114 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
 
   private def buildShortSubmission(summary: Summary, doc: Document) = {
     implicit val s: Summary = summary
-    Submission(s.propertyAddress, s.customerDetails, s.theProperty.map(toTheProperty), s.sublet.map(toSublet), None,
-      None, None, None, None, None, None, None, None, None, Some(doc.referenceNumber))
+    Submission(
+      s.propertyAddress,
+      s.customerDetails,
+      s.theProperty.map(toTheProperty),
+      s.sublet.map(toSublet),
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      Some(doc.referenceNumber)
+    )
   }
 
   private def buildSubmission(summary: Summary, doc: Document) = {
     implicit val s: Summary = summary
-    Submission(s.propertyAddress, s.customerDetails, s.theProperty.map(toTheProperty), s.sublet.map(toSublet), s.landlord.map(toLandlord),
-      s.lease.map(toLeaseOrAgreement), s.rentReviews.map(toRentReviews), s.rentAgreement,
-      s.rent.map(toRent), s.rentIncludes, s.incentives, s.responsibilities.map(toResponsibilities),
-      s.alterations, s.otherFactors,
+    Submission(
+      s.propertyAddress,
+      s.customerDetails,
+      s.theProperty.map(toTheProperty),
+      s.sublet.map(toSublet),
+      s.landlord.map(toLandlord),
+      s.lease.map(toLeaseOrAgreement),
+      s.rentReviews.map(toRentReviews),
+      s.rentAgreement,
+      s.rent.map(toRent),
+      s.rentIncludes,
+      s.incentives,
+      s.responsibilities.map(toResponsibilities),
+      s.alterations,
+      s.otherFactors,
       referenceNumber = Some(doc.referenceNumber)
     )
   }
 
   private def toTheProperty(p3: PageThree) = TheProperty(
-    p3.propertyType, p3.occupierType, occupierNameFor(p3), p3.firstOccupationDate, p3.propertyOwnedByYou,
-    if(p3.propertyOwnedByYou) None else p3.propertyRentedByYou, p3.noRentDetails
+    p3.propertyType,
+    p3.occupierType,
+    occupierNameFor(p3),
+    p3.firstOccupationDate,
+    p3.propertyOwnedByYou,
+    if (p3.propertyOwnedByYou) None else p3.propertyRentedByYou,
+    p3.noRentDetails
   )
 
   private def occupierNameFor(p3: PageThree) = p3.occupierType match {
-    case OccupierTypeNobody => Some("Nobody")
+    case OccupierTypeNobody      => Some("Nobody")
     case OccupierTypeIndividuals => Some(p3.mainOccupierName.getOrElse(""))
-    case OccupierTypeCompany =>
+    case OccupierTypeCompany     =>
       Some(Seq(p3.occupierCompanyName, p3.occupierCompanyContact).flatten.mkString(" - ").take(50))
-    case _ => None
+    case _                       => None
   }
 
   private def toSublet(p4: PageFour)(implicit sum: Summary) = Sublet(p4.propertyIsSublet, p4.sublet.map(toSubletData))
 
   private def toSubletData(s: SubletDetails)(implicit sum: Summary) = SubletData(
-    s.tenantFullName, tenantsAddress(s, sum), s.subletType, s.subletPropertyPartDescription, s.subletPropertyReasonDescription,
-    Some(s.annualRent), s.rentFixedDate
+    s.tenantFullName,
+    tenantsAddress(s, sum),
+    s.subletType,
+    s.subletPropertyPartDescription,
+    s.subletPropertyReasonDescription,
+    Some(s.annualRent),
+    s.rentFixedDate
   )
 
-  private def tenantsAddress(s: SubletDetails, sum: Summary) = Address (
-    s.tenantAddress.buildingNameNumber, s.tenantAddress.street1, s.tenantAddress.street2, s.tenantAddress.postcode
+  private def tenantsAddress(s: SubletDetails, sum: Summary) = Address(
+    s.tenantAddress.buildingNameNumber,
+    s.tenantAddress.street1,
+    s.tenantAddress.street2,
+    s.tenantAddress.postcode
   )
 
   private def toLandlord(p5: PageFive) = Landlord(
-    p5.landlordFullName, p5.landlordAddress, p5.landlordConnectionType, p5.landlordConnectText
+    p5.landlordFullName,
+    p5.landlordAddress,
+    p5.landlordConnectionType,
+    p5.landlordConnectText
   )
 
   private def toLeaseOrAgreement(p6: PageSix) = p6 match {
     case PageSix(LeaseAgreementTypesVerbal, _, verbal, _, _) =>
       LeaseOrAgreement(
-        p6.leaseAgreementType, None, None, None, List.empty, verbal.startDate, verbal.rentOpenEnded,
+        p6.leaseAgreementType,
+        None,
+        None,
+        None,
+        List.empty,
+        verbal.startDate,
+        verbal.rentOpenEnded,
         verbal.leaseLength
       )
-    case PageSix(_, Some(written), _, _, _) =>
+    case PageSix(_, Some(written), _, _, _)                  =>
       LeaseOrAgreement(
-        p6.leaseAgreementType, Some(written.leaseAgreementHasBreakClause), written.breakClauseDetails, Some(written.agreementIsStepped),
-        written.steppedDetails, Some(written.startDate), Some(written.rentOpenEnded), written.leaseLength
+        p6.leaseAgreementType,
+        Some(written.leaseAgreementHasBreakClause),
+        written.breakClauseDetails,
+        Some(written.agreementIsStepped),
+        written.steppedDetails,
+        Some(written.startDate),
+        Some(written.rentOpenEnded),
+        written.leaseLength
       )
-    case _ =>
+    case _                                                   =>
       LeaseOrAgreement(p6.leaseAgreementType, None, None, None, List.empty, None, None, None)
   }
 
@@ -173,23 +232,36 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
       case ReviewIntervalTypeEvery3Years => Some(MonthsYearDuration(0, 3))
       case ReviewIntervalTypeEvery5Years => Some(MonthsYearDuration(0, 5))
       case ReviewIntervalTypeEvery7Years => Some(MonthsYearDuration(0, 7))
-      case ReviewIntervalTypeOther => p7d.reviewIntervalTypeSpecify
-    }, p7d.lastReviewDate, p7d.canRentReduced, p7d.rentResultOfRentReview, p7d.reviewDetails
+      case ReviewIntervalTypeOther       => p7d.reviewIntervalTypeSpecify
+    },
+    p7d.lastReviewDate,
+    p7d.canRentReduced,
+    p7d.rentResultOfRentReview,
+    p7d.reviewDetails
   )
 
   private def toRent(p9: PageNine) = Rent(
-    Some(p9.totalRent.amount), p9.rentBecomePayable, p9.rentActuallyAgreed,
-    p9.negotiatingNewRent, p9.rentBasis, p9.rentBasisOtherDetails
+    Some(p9.totalRent.amount),
+    p9.rentBecomePayable,
+    p9.rentActuallyAgreed,
+    p9.negotiatingNewRent,
+    p9.rentBasis,
+    p9.rentBasisOtherDetails
   )
 
   private def toResponsibilities(p12: PageTwelve) = Responsibilities(
-    p12.responsibleOutsideRepairs, p12.responsibleInsideRepairs, p12.responsibleBuildingInsurance,
-    p12.ndrCharges, p12.waterCharges, p12.includedServices, p12.includedServicesDetails ++ ndrAndWaterServices(p12)
+    p12.responsibleOutsideRepairs,
+    p12.responsibleInsideRepairs,
+    p12.responsibleBuildingInsurance,
+    p12.ndrCharges,
+    p12.waterCharges,
+    p12.includedServices,
+    p12.includedServicesDetails ++ ndrAndWaterServices(p12)
   )
 
   private def ndrAndWaterServices(p12: PageTwelve): Seq[ChargeDetails] = {
-    val ndr = p12.ndrDetails.map { ChargeDetails("Non-domestic Rates", _) }
-    val water = p12.waterChargesCost.map { ChargeDetails("Water Charges", _) }
+    val ndr   = p12.ndrDetails.map(ChargeDetails("Non-domestic Rates", _))
+    val water = p12.waterChargesCost.map(ChargeDetails("Water Charges", _))
     Seq(ndr, water).flatten
   }
 }

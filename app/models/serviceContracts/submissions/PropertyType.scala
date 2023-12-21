@@ -18,8 +18,8 @@ package models.serviceContracts.submissions
 
 import models.NamedEnum
 
-sealed trait PropertyType extends NamedEnum{
-  val key  = "propertyTypes"
+sealed trait PropertyType extends NamedEnum {
+  val key = "propertyTypes"
 }
 
 object PropertyTypesWarehouse extends PropertyType {

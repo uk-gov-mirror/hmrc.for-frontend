@@ -24,35 +24,38 @@ import uk.gov.voa.play.form._
 
 import DateMappings._
 import MappingSupport._
+import play.api.data.Mapping
 
 object PageThirteenForm {
 
-  val pageThirteenForm = Form(mapping(
-    keys.propertyAlterations -> mandatoryBooleanWithError(Errors.hasTenantDonePropertyAlterationsRequired),
+  val pageThirteenForm: Form[PropertyAlterations] = Form(mapping(
+    keys.propertyAlterations        -> mandatoryBooleanWithError(Errors.hasTenantDonePropertyAlterationsRequired),
     keys.propertyAlterationsDetails -> onlyIfTrue(
       keys.propertyAlterations,
       IndexedMapping("propertyAlterationsDetails", propertyAlterationsDetailsMapping).verifying(Errors.tooManyAlterations, _.length <= 10)
     ),
-    keys.alterationsRequired -> mandatoryBooleanIfTrue(
+    keys.alterationsRequired        -> mandatoryBooleanIfTrue(
       keys.propertyAlterations,
       mandatoryBooleanWithError(Errors.tenantWasRequiredToMakeAlterationsRequired)
     )
-  ) (PropertyAlterations.apply)(PropertyAlterations.unapply))
+  )(PropertyAlterations.apply)(PropertyAlterations.unapply))
 
-  lazy val propertyAlterationsDetailsMapping = (indexed: String) => mapping(
-    s"$indexed.date" -> monthYearRoughDateMapping(s"$indexed.date", ".alternationCost"),
-    s"$indexed.alterationType" -> alterationSetByTypeMapping,
-    s"$indexed.cost" -> currencyMapping(".alternationCost")
+  lazy val propertyAlterationsDetailsMapping: String => Mapping[PropertyAlterationsDetails] = (indexed: String) =>
+    mapping(
+      s"$indexed.date"           -> monthYearRoughDateMapping(s"$indexed.date", ".alternationCost"),
+      s"$indexed.alterationType" -> alterationSetByTypeMapping,
+      s"$indexed.cost"           -> currencyMapping(".alternationCost")
+    )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)
 
-  )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)
+  lazy val keys: keys = new keys
 
-  lazy val keys = new {
-    val propertyAlterations = "propertyAlterations"
-    val propertyAlterationsDetails = "propertyAlterationsDetails"
+  class keys extends {
+    val propertyAlterations          = "propertyAlterations"
+    val propertyAlterationsDetails   = "propertyAlterationsDetails"
     val alterationDetailsDescription = "propertyAlterationsDetails.description"
-    val alterationDetailsCost = "propertyAlterationsDetails.cost"
-    val alterationDetailsDateMonth = "propertyAlterationsDetails.date.month"
-    val alterationDetailsDateYear = "propertyAlterationsDetails.date.year"
-    val alterationsRequired = "requiredAnyWorks"
+    val alterationDetailsCost        = "propertyAlterationsDetails.cost"
+    val alterationDetailsDateMonth   = "propertyAlterationsDetails.date.month"
+    val alterationDetailsDateYear    = "propertyAlterationsDetails.date.year"
+    val alterationsRequired          = "requiredAnyWorks"
   }
 }

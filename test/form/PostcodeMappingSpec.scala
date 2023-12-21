@@ -21,10 +21,12 @@ import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import play.api.data.FormError
+import org.scalatest.prop.TableFor2
+import play.api.data.Mapping
 
 class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherValues with TableDrivenPropertyChecks {
 
-  val positiveTestData = Table(
+  val positiveTestData: TableFor2[String, String] = Table(
     ("raw postcode", "formated postcode"),
     ("   ML7 +++\n  8LQ   ++", "ML7 8LQ"),
     ("ML7 8LQ", "ML7 8LQ"),
@@ -36,24 +38,24 @@ class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherVa
     ("m l 7 +\n  8 l q ", "ML7 8LQ")
   )
 
-  val negativeTestData = Table(
+  val negativeTestData: TableFor2[String, Seq[FormError]] = Table(
     ("raw postcode", "Error message"),
     ("ML +++\n  8LQ   ++", Seq(FormError("", "postcode.format", Seq("ML +++\n  8LQ   ++")))),
     ("+", Seq(FormError("", "postcode.format", Seq("+")))),
     ("", Seq(FormError("", "postcode.missing")))
   )
 
-  val postcode = PostcodeMapping.postcode("postcode.missing", "postcode.format")
+  val postcode: Mapping[String] = PostcodeMapping.postcode("postcode.missing", "postcode.format")
 
   "PostcodeMapper" should "Map correct postcode" in {
     val formData = Map("" -> "BN12 4AX")
-    postcode.bind(formData).value shouldBe("BN12 4AX")
+    postcode.bind(formData).value shouldBe "BN12 4AX"
   }
 
   it should "sucessfully format and validate all correct postcodes" in {
     forAll(positiveTestData) { (rawPostcode: String, formattedPostcode: String) =>
       postcode.bind(Map("" -> rawPostcode))
-        .value shouldBe(formattedPostcode)
+        .value shouldBe formattedPostcode
     }
   }
 
@@ -63,8 +65,6 @@ class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherVa
         .left.value should contain only (postcodeError: _*)
     }
 
-
   }
-
 
 }

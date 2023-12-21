@@ -30,19 +30,19 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part1
 
-class PageOneController @Inject()(audit: Audit,
-                                  formDocumentRepository: FormDocumentRepository,
-                                  refNumAction: RefNumAction,
-                                  cc: MessagesControllerComponents,
-                                  part1: part1)
-  extends ForDataCapturePage[Address](audit, formDocumentRepository, refNumAction, cc) {
+class PageOneController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part1: part1
+) extends ForDataCapturePage[Address](audit, formDocumentRepository, refNumAction, cc) {
 
-  val format = addressFormat
-  val emptyForm = pageOneForm
+  val format          = addressFormat
+  val emptyForm       = pageOneForm
   val pageNumber: Int = 1
 
-  def template(form: Form[Address], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[Address], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part1(form, summary)
-  }
 
 }

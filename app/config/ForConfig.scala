@@ -23,14 +23,14 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class ForConfig @Inject() (config: Configuration) {
 
-  lazy val useDummyIp = getBoolean("useDummyTrueIP")
-  lazy val startPageRedirect = getBoolean("startPageRedirect")
-  lazy val govukStartPage = getString("govukStartPage")
-  lazy val agentApiEnabled = getBoolean("agentApi.enabled")
-  lazy val apiTestAccountsOnly = getBoolean("agentApi.testAccountsOnly")
-  lazy val apiTestAccountPrefix = getString("agentApi.testAccountPrefix")
+  lazy val useDummyIp: Boolean          = getBoolean("useDummyTrueIP")
+  lazy val startPageRedirect: Boolean   = getBoolean("startPageRedirect")
+  lazy val govukStartPage: String       = getString("govukStartPage")
+  lazy val agentApiEnabled: Boolean     = getBoolean("agentApi.enabled")
+  lazy val apiTestAccountsOnly: Boolean = getBoolean("agentApi.testAccountsOnly")
+  lazy val apiTestAccountPrefix: String = getString("agentApi.testAccountPrefix")
 
-  private def getString(key: String): String = config.getOptional[String](key).getOrElse(throw ConfigSettingMissing(key))
+  private def getString(key: String): String   = config.getOptional[String](key).getOrElse(throw ConfigSettingMissing(key))
   private def getBoolean(key: String): Boolean = config.getOptional[Boolean](key).getOrElse(throw ConfigSettingMissing(key))
 
 }

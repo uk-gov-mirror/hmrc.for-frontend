@@ -26,14 +26,14 @@ class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   "page fourteen form" should "accept the simple answer no for binding form data" in {
     val testData = Map("anyOtherFactors" -> "false")
-    val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
+    val results  = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
     doesNotContainErrors(results)
   }
-  
+
   it should "not accept when there is no value for other factors, and no binding for form data" in {
     val testData: Map[String, String] = Map.empty
-    val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
+    val results                       = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
     mustContainError("anyOtherFactors", Errors.anyOtherFactorsRequired, results)
 
@@ -41,20 +41,23 @@ class PageFourteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "not accept form data when the other factors is selected, but no details given" in {
     val testData = Map("anyOtherFactors" -> "true")
-    val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
+    val results  = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
-    mustContainError("anyOtherFactorsDetails","error.anyOtherFactorsDetailsText.required", results)
+    mustContainError("anyOtherFactorsDetails", "error.anyOtherFactorsDetailsText.required", results)
   }
 
   it should " accept form data when the other factors is selected, and bind details given" in {
     val testData = Map("anyOtherFactors" -> "true", "anyOtherFactorsDetails" -> "dry rot in ceiling")
-    val results = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
+    val results  = pageFourteenForm.bind(testData).convertGlobalToFieldErrors()
 
     doesNotContainErrors(results)
   }
 
   "Page Fourteen Mapping" should "validate the other factors details" in {
-    val testData = Map("anyOtherFactors" -> "true", "anyOtherFactorsDetails" -> "This is exactly 125 characters long. This is to make sure that the code and unit tests validity checks run smoothly. Great!!!")
+    val testData = Map(
+      "anyOtherFactors"        -> "true",
+      "anyOtherFactorsDetails" -> "This is exactly 125 characters long. This is to make sure that the code and unit tests validity checks run smoothly. Great!!!"
+    )
 
     validateLettersNumsSpecCharsUptoLength("anyOtherFactorsDetails", 124, pageFourteenForm, testData, Some("error.anyOtherFactorsDetailsText.maxLength"))
   }

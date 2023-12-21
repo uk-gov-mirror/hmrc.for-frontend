@@ -24,7 +24,8 @@ case class IncentivesAndPayments(
   payCapitalSum: Boolean,
   capitalPaidDetails: Option[CapitalDetails],
   receiveCapitalSum: Boolean,
-  capitalReceivedDetails: Option[CapitalDetails])
+  capitalReceivedDetails: Option[CapitalDetails]
+)
 
 case class FreePeriodDetails(lengthInMonths: Int, description: String)
 

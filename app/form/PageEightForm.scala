@@ -24,9 +24,9 @@ import MappingSupport._
 
 object PageEightForm {
 
-  val pageEightForm = Form(mapping(
+  val pageEightForm: Form[RentAgreement] = Form(mapping(
     "wasRentFixedBetween" -> mandatoryBooleanWithError(Errors.wasTheRentFixedBetweenRequired),
-    "notReviewRentFixed" -> mandatoryIfFalse("wasRentFixedBetween", notReviewRentFixedTypeMapping),
-    "rentSetByType" -> rentSetByTypeMapping
+    "notReviewRentFixed"  -> mandatoryIfFalse("wasRentFixedBetween", notReviewRentFixedTypeMapping),
+    "rentSetByType"       -> rentSetByTypeMapping
   )(RentAgreement.apply)(RentAgreement.unapply))
 }

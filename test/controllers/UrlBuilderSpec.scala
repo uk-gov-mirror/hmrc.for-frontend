@@ -28,7 +28,7 @@ class UrlBuilderSpec extends AnyFlatSpec with should.Matchers {
 
   it should "add the anchor of the element the user was last editing if the user is in edit mode" in {
     val refererHeader = FakeHeaders(Seq(("referer", "http://localhost/page1?edit=anAnchor")))
-    val url = UrlFor(SummaryPage, refererHeader)      
+    val url           = UrlFor(SummaryPage, refererHeader)
     assert(url === routes.ApplicationController.checkYourAnswers.url + "#anAnchor")
   }
 

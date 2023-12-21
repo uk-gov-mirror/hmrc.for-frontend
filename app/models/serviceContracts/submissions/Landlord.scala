@@ -20,4 +20,5 @@ case class Landlord(
   landlordFullName: Option[String], // TODO: Change to landlordFullName: String in 2 months after deploying to production for-frontend 3.595.0 (VOA-3413 RALD – Section 5 - Landlord’s name to become a mandatory field)
   landlordAddress: Option[Address],
   landlordConnectionType: LandlordConnectionType,
-  landlordConnectText: Option[String])
+  landlordConnectText: Option[String]
+)

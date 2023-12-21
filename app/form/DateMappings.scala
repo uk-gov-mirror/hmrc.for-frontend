@@ -33,8 +33,8 @@ object DateMappings {
   private val nineteenHundred = LocalDateTime.of(1900, 1, 1, 0, 0)
 
   private def dateIsInPastAndAfter1900(fieldErrorPart: String): Constraint[(String, String)] = Constraint("dateInPastAndAfter1900") { x =>
-    val month = x._1.trim.toInt
-    val year = x._2.trim.toInt
+    val month                   = x._1.trim.toInt
+    val year                    = x._2.trim.toInt
     val lastDayOfSpecifiedMonth = LocalDateTime.of(year, month, 1, 0, 0)
     if (!lastDayOfSpecifiedMonth.isBefore(nowInUK.toLocalDateTime))
       Invalid(Errors.dateMustBeInPast + fieldErrorPart)
@@ -45,9 +45,9 @@ object DateMappings {
   }
 
   private def fullDateIsAfter1900(fieldErrorPart: String): Constraint[(String, String, String)] = Constraint("fullDateIsAfter1900") { x =>
-    val day = x._1.trim.toInt
+    val day   = x._1.trim.toInt
     val month = x._2.trim.toInt
-    val year = x._3.trim.toInt
+    val year  = x._3.trim.toInt
 
     if (Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure)
       Invalid(Errors.invalidDate + fieldErrorPart)
@@ -58,11 +58,11 @@ object DateMappings {
   }
 
   private def fullDateIsInPastAndAfter1900(fieldErrorPart: String): Constraint[(String, String, String)] = Constraint("fullDateIsInPastAndAfter1900") { x =>
-    val day = x._1.trim.toInt
+    val day   = x._1.trim.toInt
     val month = x._2.trim.toInt
-    val year = x._3.trim.toInt
+    val year  = x._3.trim.toInt
 
-    if(Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure)
+    if (Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure)
       Invalid(Errors.invalidDate + fieldErrorPart)
     else {
       val date = LocalDateTime.of(year, month, day, 23, 59)
@@ -77,51 +77,65 @@ object DateMappings {
 
   def monthYearRoughDateMapping(prefix: String, fieldErrorPart: String = ""): Mapping[RoughDate] = tuple(
     "month" -> nonEmptyTextOr(
-      prefix + ".month", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12),
+      prefix + ".month",
+      text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12),
       s"error$fieldErrorPart.month.required"
     ),
-    "year" -> nonEmptyTextOr(
-      prefix + ".year", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4),
+    "year"  -> nonEmptyTextOr(
+      prefix + ".year",
+      text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4),
       s"error$fieldErrorPart.year.required"
-    )).verifying(
-      dateIsInPastAndAfter1900(fieldErrorPart)
-    ).transform({
-      case (month, year) => new RoughDate(month.trim.toInt, year.trim.toInt)},
+    )
+  ).verifying(
+    dateIsInPastAndAfter1900(fieldErrorPart)
+  ).transform(
+    {
+      case (month, year) => new RoughDate(month.trim.toInt, year.trim.toInt)
+    },
     (date: RoughDate) => (date.month.getOrElse(1).toString, date.year.toString)
   )
 
   //  for precise dates, where all fields must be present and accurate
   def dateFieldsMapping(prefix: String, allowFutureDates: Boolean = false, fieldErrorPart: String = ""): Mapping[LocalDate] = tuple(
-    "day" -> nonEmptyTextOr(
-      prefix + ".day", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 31),
+    "day"   -> nonEmptyTextOr(
+      prefix + ".day",
+      text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 31),
       s"error$fieldErrorPart.day.required"
     ),
     "month" -> nonEmptyTextOr(
-      prefix + ".month", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12),
+      prefix + ".month",
+      text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 1 && x.trim.toInt <= 12),
       s"error$fieldErrorPart.month.required"
     ),
-    "year" -> nonEmptyTextOr(
-      prefix + ".year", text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4),
+    "year"  -> nonEmptyTextOr(
+      prefix + ".year",
+      text.verifying(Errors.invalidDate, x => x.trim.forall(Character.isDigit) && x.trim.length == 4),
       s"error$fieldErrorPart.year.required"
-    )).verifying(
-      if (allowFutureDates) fullDateIsAfter1900(fieldErrorPart) else fullDateIsInPastAndAfter1900(fieldErrorPart)
-    ).transform(
-  { case (day, month, year) => LocalDate.of(year.trim.toInt, month.trim.toInt, day.trim.toInt) },
-  (date: LocalDate) => (date.getDayOfMonth.toString, date.getMonthValue.toString, date.getYear.toString)
+    )
+  ).verifying(
+    if (allowFutureDates) fullDateIsAfter1900(fieldErrorPart) else fullDateIsInPastAndAfter1900(fieldErrorPart)
+  ).transform(
+    { case (day, month, year) => LocalDate.of(year.trim.toInt, month.trim.toInt, day.trim.toInt) },
+    (date: LocalDate) => (date.getDayOfMonth.toString, date.getMonthValue.toString, date.getYear.toString)
   )
 
   def monthsYearDurationMapping(prefix: String, fieldErrorPart: String = ""): Mapping[MonthsYearDuration] = tuple(
-    "years" -> nonEmptyTextOr(
-      prefix + ".years", text.verifying(Errors.invalidDurationYears, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 0 && x.trim.toInt <= 999),
+    "years"  -> nonEmptyTextOr(
+      prefix + ".years",
+      text.verifying(Errors.invalidDurationYears, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 0 && x.trim.toInt <= 999),
       s"error$fieldErrorPart.years.required"
     ),
     "months" -> nonEmptyTextOr(
-      prefix + ".months", text.verifying(Errors.invalidDurationMonths, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 0 && x.trim.toInt <= 12),
+      prefix + ".months",
+      text.verifying(Errors.invalidDurationMonths, x => x.trim.forall(Character.isDigit) && x.trim.toInt >= 0 && x.trim.toInt <= 12),
       s"error$fieldErrorPart.months.required"
     )
-  ).transform({
-    case (years, months) => MonthsYearDuration(months.trim.toInt, years.trim.toInt)
-  }, (my: MonthsYearDuration) => (my.months.toString, my.years.toString))
+  ).transform(
+    {
+      case (years, months) => MonthsYearDuration(months.trim.toInt, years.trim.toInt)
+    },
+    (my: MonthsYearDuration) => (my.months.toString, my.years.toString)
+  )
 
   def dateIsBeforeAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String, errorMsgKey: String): Mapping[RoughDate] =
     CompareWithAnotherDate(roughDateMapping, anotherDateKey, _.isBefore(_), errorMsgKey)
@@ -129,9 +143,13 @@ object DateMappings {
   def dateIsAfterAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String, errorMsgKey: String): Mapping[RoughDate] =
     CompareWithAnotherDate(roughDateMapping, anotherDateKey, _.isAfter(_), errorMsgKey)
 
-  case class CompareWithAnotherDate(roughDateMapping: Mapping[RoughDate], anotherDateKey: String,
-                                    compare: (java.time.LocalDate, java.time.LocalDate) => Boolean, errorMsgKey: String,
-                                    additionalConstraints: Seq[Constraint[RoughDate]] = Nil) extends Mapping[RoughDate] {
+  case class CompareWithAnotherDate(
+    roughDateMapping: Mapping[RoughDate],
+    anotherDateKey: String,
+    compare: (java.time.LocalDate, java.time.LocalDate) => Boolean,
+    errorMsgKey: String,
+    additionalConstraints: Seq[Constraint[RoughDate]] = Nil
+  ) extends Mapping[RoughDate] {
 
     override val format: Option[(String, Seq[Any])] = roughDateMapping.format
 
@@ -159,9 +177,8 @@ object DateMappings {
     def unbindAndValidate(value: RoughDate): (Map[String, String], Seq[FormError]) =
       roughDateMapping.unbindAndValidate(value)
 
-    def withPrefix(prefix: String): Mapping[RoughDate] = {
+    def withPrefix(prefix: String): Mapping[RoughDate] =
       copy(roughDateMapping = roughDateMapping.withPrefix(prefix))
-    }
 
     val mappings: Seq[Mapping[_]] = roughDateMapping.mappings :+ this
 

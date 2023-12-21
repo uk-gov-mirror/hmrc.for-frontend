@@ -19,5 +19,11 @@ package models.serviceContracts.submissions
 import models.RoughDate
 
 case class TheProperty(
-  propertyType: String,  occupierType: OccupierType, occupierName: Option[String], firstOccupationDate: Option[RoughDate],
-  propertyOwnedByYou: Boolean, propertyRentedByYou: Option[Boolean], noRentDetails: Option[String])
+  propertyType: String,
+  occupierType: OccupierType,
+  occupierName: Option[String],
+  firstOccupationDate: Option[RoughDate],
+  propertyOwnedByYou: Boolean,
+  propertyRentedByYou: Option[Boolean],
+  noRentDetails: Option[String]
+)

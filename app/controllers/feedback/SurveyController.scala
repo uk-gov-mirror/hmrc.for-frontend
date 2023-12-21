@@ -31,70 +31,74 @@ import playconfig.SessionId
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.mvc
 
 object Survey {
-  val completedFeedbackForm = Form(mapping(
+
+  val completedFeedbackForm: Form[SurveyFeedback] = Form(mapping(
     "satisfaction" -> Forms.of[Satisfaction],
-    "details" -> text(maxLength = 1200),
-    "journey" -> Forms.of[Journey],
-    "surveyUrl" -> text(maxLength = 20)
+    "details"      -> text(maxLength = 1200),
+    "journey"      -> Forms.of[Journey],
+    "surveyUrl"    -> text(maxLength = 20)
   )(SurveyFeedback.apply)(SurveyFeedback.unapply))
 
 }
 
-
 @Singleton
 class SurveyController @Inject() (
-                                   cc: MessagesControllerComponents,
-                                   repository: FormDocumentRepository,
-                                   refNumAction: RefNumAction,
-                                   audit: Audit,
-                                   confirmationView: views.html.confirm,
-                                   errorView: views.html.error.error,
-                                   feedbackThxView: views.html.feedbackThx,
-                                   surveyView: views.html.survey
-                                 )(implicit ec: ExecutionContext) extends FrontendController(cc) {
+  cc: MessagesControllerComponents,
+  repository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  audit: Audit,
+  confirmationView: views.html.confirm,
+  errorView: views.html.error.error,
+  feedbackThxView: views.html.feedbackThx,
+  surveyView: views.html.survey
+)(implicit ec: ExecutionContext
+) extends FrontendController(cc) {
   import Survey._
 
-  val completedFeedbackFormNormalJourney = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
+  val completedFeedbackFormNormalJourney: Form[SurveyFeedback] = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
 
-  def onPageView(journey: String) = refNumAction { implicit request =>
+  def onPageView(journey: String): mvc.Action[AnyContent] = refNumAction { implicit request =>
     val form = completedFeedbackForm.copy(data = Map("journey" -> journey, "surveyUrl" -> "survey"))
     Ok(surveyView(form))
   }
 
-  def confirmation = refNumAction.async { implicit request =>
+  def confirmation: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
     viewConfirmationPage(request.refNum)
   }
 
-  def formCompleteFeedback = refNumAction.async { implicit request =>
+  def formCompleteFeedback: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
     completedFeedbackForm.bindFromRequest().fold(
       formWithErrors => Future.successful(BadRequest(surveyView(formWithErrors))),
-      success => {
+      success =>
         sendFeedback(success, request.refNum) map { _ => Redirect(routes.FeedbackController.feedbackThankyou) }
-      }
     )
   }
 
-  private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit request:RefNumRequest[AnyContent] ) =
+  private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit request: RefNumRequest[AnyContent]) =
     repository.findById(SessionId(hc), refNum) map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationView(
-          form.getOrElse(completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "survey")).discardingErrors), refNum,
+          form.getOrElse(completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "survey")).discardingErrors),
+          refNum,
           summary.customerDetails.map(_.contactDetails.email),
-          summary))
-      case None => InternalServerError(errorView(500))
+          summary
+        ))
+      case None      => InternalServerError(errorView(500))
     }
 
-  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) = {
-    audit("SurveySatisfaction", Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum,
-      "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl )).flatMap { _ =>
+  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) =
+    audit(
+      "SurveySatisfaction",
+      Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl)
+    ).flatMap { _ =>
       audit("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
     }
-  }
 
-  def surveyThankyou = Action { implicit request =>
+  def surveyThankyou: mvc.Action[AnyContent] = Action { implicit request =>
     Ok(feedbackThxView()).withNewSession
   }
 }

@@ -25,16 +25,14 @@ import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class CustomLanguageController @Inject()(configuration: Configuration,
-                                         languageUtils: LanguageUtils,
-                                         cc: ControllerComponents)(implicit ec: ExecutionContext)
+class CustomLanguageController @Inject() (configuration: Configuration, languageUtils: LanguageUtils, cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends LanguageController(languageUtils, cc) {
 
-  def showEnglish = Action.async { implicit request =>
+  def showEnglish: Action[AnyContent] = Action.async { implicit request =>
     switchToLanguage("english")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show.url))
   }
 
-  def showWelsh = Action.async { implicit request =>
+  def showWelsh: Action[AnyContent] = Action.async { implicit request =>
     switchToLanguage("cymraeg")(request).map(_.withHeaders(LOCATION -> routes.LoginController.show.url))
   }
 
@@ -44,6 +42,5 @@ class CustomLanguageController @Inject()(configuration: Configuration,
 }
 
 object CustomLanguageController {
-  val languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
-    "cymraeg" -> Lang("cy"))
+  val languageMap: Map[String, Lang] = Map("english" -> Lang("en"), "cymraeg" -> Lang("cy"))
 }

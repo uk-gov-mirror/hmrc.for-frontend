@@ -28,19 +28,18 @@ object Journey {
   def pageToResumeAt(summary: Summary): TargetPage = {
     val path = Paths.pathFor(summary)
     path.firstIncompletePageFor(summary) match {
-      case None =>
+      case None       =>
         SummaryPage
       case Some(page) =>
         nextPageAllowable(page, summary)
     }
   }
 
-  def nextPageAllowable(targetPage: Int, summary: Summary, currentPage: Option[Int] = None): TargetPage = {
+  def nextPageAllowable(targetPage: Int, summary: Summary, currentPage: Option[Int] = None): TargetPage =
     pageToShow(targetPage, summary, currentPage) match {
       case 16 => SummaryPage
-      case n => PageToGoTo(n)
+      case n  => PageToGoTo(n)
     }
-  }
 
   private def pageToShow(target: Int, summary: Summary, current: Option[Int]): Int = {
     val path = Paths.pathFor(summary)
@@ -57,9 +56,8 @@ object Journey {
 
   private def movingBackwards(target: Int, current: Option[Int]) = current.map(_ > target) getOrElse false
 
-  def pageIsNotApplicable(target: Int, summary: Summary): Boolean = {
+  def pageIsNotApplicable(target: Int, summary: Summary): Boolean =
     !Paths.pathFor(summary).contains(target)
-  }
 
   def lastPageFor(summary: Summary): Int = pathFor(summary).lastPage
 }

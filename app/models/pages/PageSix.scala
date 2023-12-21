@@ -21,7 +21,7 @@ import models.serviceContracts.submissions.{LeaseAgreementType, MonthsYearDurati
 
 import java.time.LocalDate
 
-case class PageSix (
+case class PageSix(
   leaseAgreementType: LeaseAgreementType,
   writtenAgreementDetails: Option[WrittenAgreement],
   verbalAgreementDetails: VerbalAgreement,
@@ -30,11 +30,16 @@ case class PageSix (
 )
 
 case class WrittenAgreement(
-  startDate: RoughDate, rentOpenEnded: Boolean, leaseLength: Option[MonthsYearDuration],
-  leaseAgreementHasBreakClause: Boolean, breakClauseDetails: Option[String] = None,
-  agreementIsStepped: Boolean, steppedDetails: List[SteppedDetails] = List())
+  startDate: RoughDate,
+  rentOpenEnded: Boolean,
+  leaseLength: Option[MonthsYearDuration],
+  leaseAgreementHasBreakClause: Boolean,
+  breakClauseDetails: Option[String] = None,
+  agreementIsStepped: Boolean,
+  steppedDetails: List[SteppedDetails] = List()
+)
 
-case class VerbalAgreement (
+case class VerbalAgreement(
   startDate: Option[RoughDate] = None,
   rentOpenEnded: Option[Boolean] = None,
   leaseLength: Option[MonthsYearDuration] = None

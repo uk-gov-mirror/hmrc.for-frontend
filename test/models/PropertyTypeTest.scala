@@ -23,19 +23,17 @@ import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 class PropertyTypeTest extends AnyFlatSpec with should.Matchers {
 
-  val jsonShop = """"shop""""
-  val jsonFactory = """"factory""""
-  val jsonOffice = """"office""""
+  val jsonShop      = """"shop""""
+  val jsonFactory   = """"factory""""
+  val jsonOffice    = """"office""""
   val jsonWarehouse = """"warehouse""""
-  val jsonOther = """"other""""
+  val jsonOther     = """"other""""
 
-  def toJson(data: PropertyType): String = {
+  def toJson(data: PropertyType): String =
     Json.toJson(data).toString
-  }
 
-  def fromJson(json: String): JsResult[PropertyType] = {
+  def fromJson(json: String): JsResult[PropertyType] =
     Json.fromJson[PropertyType](Json.parse(json))
-  }
 
   "PropertyTypes reader for 'shop' " should "map to PropertyTypesShop" in {
     toJson(PropertyTypesShop) should be(jsonShop)

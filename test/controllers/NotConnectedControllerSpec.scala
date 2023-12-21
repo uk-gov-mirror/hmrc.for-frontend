@@ -33,19 +33,24 @@ class NotConnectedControllerSpec extends AnyFlatSpec with should.Matchers with M
 
   "NotConnectedController" should "move to check your answers" in {
 
-    val cache = mock[MongoSessionRepository]
+    val cache                  = mock[MongoSessionRepository]
     val formDocumentRepository = mock[FormDocumentRepository]
 
-    val controller = new NotConnectedController(formDocumentRepository, refNumAction(), cache,
-      stubMessagesControllerComponents(), mock[notConnected], mock[views.html.error.error])
+    val controller = new NotConnectedController(
+      formDocumentRepository,
+      refNumAction(),
+      cache,
+      stubMessagesControllerComponents(),
+      mock[notConnected],
+      mock[views.html.error.error]
+    )
 
     val fakeRequest = FakeRequest()
 
     val result = controller.onPageSubmit().apply(fakeRequest)
 
-    status(result) shouldBe(SEE_OTHER)
+    status(result) shouldBe SEE_OTHER
 
   }
-
 
 }

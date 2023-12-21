@@ -28,12 +28,12 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class MongoSessionRepository @Inject()(
-                                   config: Configuration,
-                                   mongo: MongoComponent,
-                                   timestampSupport: TimestampSupport
-                                 )(implicit ec: ExecutionContext)
-  extends MongoCacheRepository(
+class MongoSessionRepository @Inject() (
+  config: Configuration,
+  mongo: MongoComponent,
+  timestampSupport: TimestampSupport
+)(implicit ec: ExecutionContext
+) extends MongoCacheRepository(
     mongoComponent = mongo,
     collectionName = "sessionFormData",
     ttl = Duration(config.get[Long]("session.timeoutSeconds"), SECONDS),

@@ -30,17 +30,17 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part2
 
-class PageTwoController @Inject() (audit: Audit,
-                                   formDocumentRepository: FormDocumentRepository,
-                                   refNumAction: RefNumAction,
-                                   cc: MessagesControllerComponents,
-                                   part2View:part2)
-  extends ForDataCapturePage[CustomerDetails](audit, formDocumentRepository, refNumAction, cc)  {
-  val format = cdf
-  val emptyForm = pageTwoForm
+class PageTwoController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part2View: part2
+) extends ForDataCapturePage[CustomerDetails](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = cdf
+  val emptyForm       = pageTwoForm
   val pageNumber: Int = 2
 
-  def template(form: Form[CustomerDetails], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[CustomerDetails], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part2View(form, summary)
-  }
 }

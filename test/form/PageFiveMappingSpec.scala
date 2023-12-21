@@ -28,7 +28,7 @@ class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
   import utils.MappingSpecs._
 
   "PageFive form" should "bind with the fields and not return issues" in {
-    mustBind(bind(baseData)) { _ => () }
+    mustBind(bind(baseData))(_ => ())
   }
 
   it should "require the field landlordFulName" in {
@@ -44,9 +44,8 @@ class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "allow address to be optional" in {
     val data = baseData -- addressFields
-    mustBind(bind(data)) { x => assert(x.landlordAddress.isDefined === false) }
+    mustBind(bind(data))(x => assert(x.landlordAddress.isDefined === false))
   }
-
 
   it should "allow letters, numbers, spaced and special chars up to 100 chars for connection details" in {
     validateLettersNumsSpecCharsUptoLength("landlordConnectText", 100, pageFiveForm, baseData, Some("error.landlordConnectText.maxLength"))
@@ -91,22 +90,22 @@ class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   object TestData {
-    lazy val landlordFullName = "landlordFullName" -> "Some Geezer"
-    lazy val addressBuildingName = "landlordAddress.buildingNameNumber" -> "Our House"
-    lazy val addressStreet1 = "landlordAddress.street1" -> "Middle of Our street"
-    lazy val addressStreet2 = "landlordAddress.street2" -> "Our House"
-    lazy val addressPostcode = "landlordAddress.postcode" -> "AA11 1AA"
-    lazy val landlordConnType = "landlordConnectType" -> LandlordConnectionTypeOther.name
-    lazy val landlordConnText = "landlordConnectText" -> "Fraternal bonds"
+    lazy val landlordFullName: (String, String)    = "landlordFullName"                   -> "Some Geezer"
+    lazy val addressBuildingName: (String, String) = "landlordAddress.buildingNameNumber" -> "Our House"
+    lazy val addressStreet1: (String, String)      = "landlordAddress.street1"            -> "Middle of Our street"
+    lazy val addressStreet2: (String, String)      = "landlordAddress.street2"            -> "Our House"
+    lazy val addressPostcode: (String, String)     = "landlordAddress.postcode"           -> "AA11 1AA"
+    lazy val landlordConnType: (String, String)    = "landlordConnectType"                -> LandlordConnectionTypeOther.name
+    lazy val landlordConnText: (String, String)    = "landlordConnectText"                -> "Fraternal bonds"
 
-    val addressFields = Seq(
+    val addressFields: Seq[String] = Seq(
       "landlordAddress.buildingNameNumber",
       "landlordAddress.street1",
       "landlordAddress.street2",
       "landlordAddress.postcode"
     )
 
-    val baseData = Map(
+    val baseData: Map[String, String] = Map(
       landlordFullName,
       addressBuildingName,
       addressStreet1,
@@ -116,9 +115,8 @@ class PageFiveMappingSpec extends AnyFlatSpec with should.Matchers {
       landlordConnText
     )
 
-    def bind(formData: Map[String, String]) = {
+    def bind(formData: Map[String, String]) =
       pageFiveForm.bind(formData).convertGlobalToFieldErrors()
-    }
   }
 
 }

@@ -47,25 +47,34 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginToHodFunction = (referenceNumber: ReferenceNumber, postcode: Postcode, start: StartTime) => {
+    val loginToHodFunction = (referenceNumber: ReferenceNumber, _: Postcode, _: StartTime) => {
       assert(referenceNumber.equals("01234567000"))
       Future.successful(NoExistingDocument("token", testAddress))
     }
 
     val loginToHod = mock[LoginToHODAction]
-    val time = nowInUK
+    val time       = nowInUK
     when(loginToHod.apply(any[HeaderCarrier], any[ExecutionContext])).thenReturn(loginToHodFunction)
 
-    val loginController = new LoginController(audit, documentRepo, loginToHod, stubMessagesControllerComponents(),
-      mock[login], mock[views.html.error.error], mock[loginFailed], mock[views.html.lockedOut])
+    val loginController = new LoginController(
+      audit,
+      documentRepo,
+      loginToHod,
+      stubMessagesControllerComponents(),
+      mock[login],
+      mock[views.html.error.error],
+      mock[loginFailed],
+      mock[views.html.lockedOut]
+    )
 
     val fakeRequest = FakeRequest()
-    //should strip out all non digits then split string 3 from end to create ref1/ref2
-    val response = loginController.verifyLogin("01234567/*ok blah 000", "BN12 1AB", time)(fakeRequest)
+    // should strip out all non digits then split string 3 from end to create ref1/ref2
+    val response    = loginController.verifyLogin("01234567/*ok blah 000", "BN12 1AB", time)(fakeRequest)
 
-    status(response) shouldBe(SEE_OTHER)
+    status(response) shouldBe SEE_OTHER
 
-    verify(audit).sendExplicitAudit(eqTo("UserLogin"),
+    verify(audit).sendExplicitAudit(
+      eqTo("UserLogin"),
       eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false, "address" -> testAddress))
     )(any[HeaderCarrier], any[ExecutionContext])
 
@@ -75,17 +84,24 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
     val audit = mock[Audit]
     doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
-    val loginController = new LoginController(audit, documentRepo, null, stubMessagesControllerComponents(),
-      mock[login], mock[views.html.error.error], mock[loginFailed], mock[views.html.lockedOut])
+    val loginController = new LoginController(
+      audit,
+      documentRepo,
+      null,
+      stubMessagesControllerComponents(),
+      mock[login],
+      mock[views.html.error.error],
+      mock[loginFailed],
+      mock[views.html.lockedOut]
+    )
 
     val fakeRequest = FakeRequest()
 
     val response = loginController.logout().apply(fakeRequest)
 
-    status(response) shouldBe(SEE_OTHER)
+    status(response) shouldBe SEE_OTHER
 
-    verify(audit).sendExplicitAudit(eqTo("Logout"), eqTo(Json.obj(Audit.referenceNumber -> "-"))
-    )(any[HeaderCarrier], any[ExecutionContext])
+    verify(audit).sendExplicitAudit(eqTo("Logout"), eqTo(Json.obj(Audit.referenceNumber -> "-")))(any[HeaderCarrier], any[ExecutionContext])
 
   }
 

@@ -25,7 +25,7 @@ import javax.inject.{Inject, Singleton}
  * @author Yuriy Tumakha
  */
 @Singleton
-class RootRedirectController @Inject()(cc: MessagesControllerComponents) extends FrontendController(cc) {
+class RootRedirectController @Inject() (cc: MessagesControllerComponents) extends FrontendController(cc) {
 
   def rootRedirect: Action[AnyContent] = Action {
     Redirect(routes.ApplicationController.index)

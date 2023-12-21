@@ -16,4 +16,4 @@
 
 package models.serviceContracts.submissions
 
-case class OtherFactors(anyOtherFactors:Boolean, anyOtherFactorsDetails: Option[String])
+case class OtherFactors(anyOtherFactors: Boolean, anyOtherFactorsDetails: Option[String])

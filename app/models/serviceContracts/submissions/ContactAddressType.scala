@@ -35,5 +35,5 @@ object ContactAddressTypeMain extends ContactAddressType {
 }
 
 object ContactAddressTypes extends NamedEnumSupport[ContactAddressType] {
-  val all = List(ContactAddressTypeMain, ContactAddressTypeAlternativeAddress, ContactAddressTypeAlternativeContact)
+  val all: List[ContactAddressType] = List(ContactAddressTypeMain, ContactAddressTypeAlternativeAddress, ContactAddressTypeAlternativeContact)
 }

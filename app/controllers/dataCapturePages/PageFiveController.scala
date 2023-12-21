@@ -28,18 +28,19 @@ import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part5
+import play.api.libs.json.OFormat
 
-class PageFiveController @Inject() (audit: Audit,
-                                    formDocumentRepository: FormDocumentRepository,
-                                    refNumAction: RefNumAction,
-                                    cc: MessagesControllerComponents,
-                                    part5:part5)
-  extends ForDataCapturePage[PageFive] (audit, formDocumentRepository, refNumAction, cc)  {
-  val format = Json.format[PageFive]
-  val emptyForm = pageFiveForm
-  val pageNumber: Int = 5
+class PageFiveController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part5: part5
+) extends ForDataCapturePage[PageFive](audit, formDocumentRepository, refNumAction, cc) {
+  val format: OFormat[PageFive] = Json.format[PageFive]
+  val emptyForm                 = pageFiveForm
+  val pageNumber: Int           = 5
 
-  def template(form: Form[PageFive], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[PageFive], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part5(form, summary)
-  }
 }

@@ -18,8 +18,8 @@ package models.serviceContracts.submissions
 
 import models.{NamedEnum, NamedEnumSupport}
 
-sealed trait RentFixedType extends NamedEnum{
-  val key  = "rentFixedTypes"
+sealed trait RentFixedType extends NamedEnum {
+  val key = "rentFixedTypes"
 }
 
 object RentFixedTypeIndependent extends RentFixedType {
@@ -30,7 +30,7 @@ object RentFixedTypeArbitrator extends RentFixedType {
   val name = "arbitrator"
 }
 
-object RentFixedTypes extends NamedEnumSupport[RentFixedType]{
-  val all = List(RentFixedTypeArbitrator,RentFixedTypeIndependent)
-  val key = all.head.key
+object RentFixedTypes extends NamedEnumSupport[RentFixedType] {
+  val all: List[RentFixedType] = List(RentFixedTypeArbitrator, RentFixedTypeIndependent)
+  val key                      = all.head.key
 }

@@ -32,29 +32,28 @@ import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part0
 
-class PageZeroController @Inject() (audit: Audit,
-                                    formDocumentRepository: FormDocumentRepository,
-                                    refNumAction: RefNumAction,
-                                    cc: MessagesControllerComponents,
-                                    part0: part0)
-  extends ForDataCapturePage[AddressConnectionType](audit, formDocumentRepository, refNumAction, cc) {
+class PageZeroController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part0: part0
+) extends ForDataCapturePage[AddressConnectionType](audit, formDocumentRepository, refNumAction, cc) {
 
-  override implicit val format: Format[AddressConnectionType] = formatAddressConnection
+  implicit override val format: Format[AddressConnectionType] = formatAddressConnection
 
-  val emptyForm = pageZeroForm
+  val emptyForm       = pageZeroForm
   val pageNumber: Int = 0
 
-  override def template(form: Form[AddressConnectionType], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  override def template(form: Form[AddressConnectionType], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part0(form, summary)
-  }
 
-  override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) = {
+  override def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) =
     action match {
       case ForDataCapturePage.Continue => summary.addressConnection match {
-        case Some(AddressConnectionTypeNo) => Redirect(controllers.routes.PreviouslyConnectedController.onPageView)
-        case _ => super.goToNextPage(action, summary, savedFields)
-       }
-      case _ => super.goToNextPage(action, summary, savedFields)
+          case Some(AddressConnectionTypeNo) => Redirect(controllers.routes.PreviouslyConnectedController.onPageView)
+          case _                             => super.goToNextPage(action, summary, savedFields)
+        }
+      case _                           => super.goToNextPage(action, summary, savedFields)
     }
-  }
 }

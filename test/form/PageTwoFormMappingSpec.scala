@@ -31,7 +31,7 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
 
   "page two mapping" should "show required errors for fullName, userType, email and phone when given empty data" in {
     val formData: Map[String, String] = Map()
-    val form = pageTwoForm.bind(formData)
+    val form                          = pageTwoForm.bind(formData)
 
     mustContainRequiredErrorFor(errorKey.fullName, form)
     mustContainError(errorKey.userType, Errors.userTypeRequired, form)
@@ -41,21 +41,21 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
 
   it should "error if fullName is missing " in {
     val formData = baseFormData - errorKey.fullName
-    val form = pageTwoForm.bind(formData)
+    val form     = pageTwoForm.bind(formData)
 
     mustContainRequiredErrorFor(errorKey.fullName, form)
   }
 
   it should "error if userType is missing" in {
     val formData = baseFormData - errorKey.userType
-    val form = pageTwoForm.bind(formData)
+    val form     = pageTwoForm.bind(formData)
 
     mustContainError(errorKey.userType, Errors.userTypeRequired, form)
   }
 
   it should "error if invalid userType is provided" in {
     val formData = baseFormData.updated("userType", "owner1")
-    val form = pageTwoForm.bind(formData)
+    val form     = pageTwoForm.bind(formData)
 
     mustContainError(errorKey.userType, Errors.userTypeRequired, form)
   }
@@ -63,7 +63,7 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
   it should "error if email adress is longer than 50 characters" in {
     val formData: Map[String, String] = baseFormData
       .updated("contactDetails.email1", tooLongEmail)
-    val form = pageTwoForm.bind(formData).convertGlobalToFieldErrors()
+    val form                          = pageTwoForm.bind(formData).convertGlobalToFieldErrors()
 
     mustContainError(errorKey.email1, errorKey.email1TooLong, form)
   }
@@ -81,28 +81,38 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
   }
 
   object TestData {
-    val errorKey = new {
-      val fullName: String = "fullName"
-      val userType: String = "userType"
-      val phone = "contactDetails.phone"
-      val email1 = "contactDetails.email1"
-      val email1TooLong = "contactDetails.email1.email.tooLong"
+
+    val errorKey: errorKey = new errorKey
+
+    class errorKey extends {
+      val fullName: String    = "fullName"
+      val userType: String    = "userType"
+      val phone               = "contactDetails.phone"
+      val email1              = "contactDetails.email1"
+      val email1TooLong       = "contactDetails.email1.email.tooLong"
       val contactDetailsPhone = "contactDetails.phone"
     }
 
-    val formErrors = new {
-      val required = new {
-        val fullName = FormError(errorKey.fullName, Errors.required)
+    val formErrors: formErrors = new formErrors
+
+    class formErrors extends {
+
+      val required: required = new required
+
+      class required extends {
+        val fullName: FormError = FormError(errorKey.fullName, Errors.required)
       }
     }
 
     val tooLongEmail = "email_too_long_for_validation_againt_business_rules_specify_but_DB_constraints@something.co.uk"
+
     val baseFormData: Map[String, String] = Map(
-      "userType" -> "owner",
-      "contactDetails.phone" -> "12345678901",
-      "contactDetails.phone" -> "01234 123123",
+      "userType"              -> "owner",
+      "contactDetails.phone"  -> "12345678901",
+      "contactDetails.phone"  -> "01234 123123",
       "contactDetails.email1" -> "blah.blah@test.com",
-      "fullName" -> "Mr John Smith")
+      "fullName"              -> "Mr John Smith"
+    )
   }
 
 }

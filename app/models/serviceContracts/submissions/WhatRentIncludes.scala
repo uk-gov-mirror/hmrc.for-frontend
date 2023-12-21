@@ -17,6 +17,11 @@
 package models.serviceContracts.submissions
 
 case class WhatRentIncludes(
-  partRent: Boolean, otherProperty: Boolean, livingAccommodation: Boolean,
-  landOnly: Boolean, shellUnit: Boolean, rentDetails: Option[String],
-  parking: Parking)
+  partRent: Boolean,
+  otherProperty: Boolean,
+  livingAccommodation: Boolean,
+  landOnly: Boolean,
+  shellUnit: Boolean,
+  rentDetails: Option[String],
+  parking: Parking
+)

@@ -23,17 +23,17 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, Injecting}
 
 /**
-  * @author Yuriy Tumakha
-  */
+ * @author Yuriy Tumakha
+ */
 class RootRedirectControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with Injecting {
 
   private val fakeRequest = FakeRequest("GET", "/")
-  private val controller = inject[RootRedirectController]
+  private val controller  = inject[RootRedirectController]
 
   "RootRedirectController" should {
     "return redirect to start page" in {
       val result = controller.rootRedirect(fakeRequest)
-      status(result) shouldBe SEE_OTHER
+      status(result)           shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(routes.ApplicationController.index.url)
     }
   }

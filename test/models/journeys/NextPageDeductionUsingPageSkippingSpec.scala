@@ -31,7 +31,8 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
 
   "nextPageAllowable for page four" should "return summary when you say you own property and do not sublet" in {
     val pageFourData = PageFour(false, List.empty)
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(propertyOwned), sublet = Some(pageFourData))
+    val doc          =
+      summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(propertyOwned), sublet = Some(pageFourData))
     nextPageAllowable(5, doc, Some(4)) shouldBe SummaryPage
   }
 
@@ -50,7 +51,8 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       None
     )
 
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),customerDetails= Some(pageTwoData),theProperty = Some(pageThreeData), sublet = Some(pageFourData))
+    val doc =
+      summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData), sublet = Some(pageFourData))
 
     nextPageAllowable(5, doc, Some(4)) shouldBe SummaryPage
   }
@@ -69,63 +71,92 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       propertyRentedByYou = Some(true),
       None
     )
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),customerDetails= Some(pageTwoData),theProperty = Some(pageThreeData), sublet = Some(pageFourData))
+    val doc           =
+      summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData), sublet = Some(pageFourData))
 
     nextPageAllowable(5, doc, Some(4)) shouldBe PageToGoTo(5)
   }
 
   it should "return summary when you sublet while being the owner" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),customerDetails= Some(pageTwoData),theProperty = Some(propertyOwned), sublet = Some(pageFourData))
+    val doc =
+      summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(propertyOwned), sublet = Some(pageFourData))
 
     nextPageAllowable(5, doc, Some(4)) shouldBe SummaryPage
   }
 
   "nextPageAllowable for page six" should "return 8 when the lease agreement is verbal" in {
-    val p6 = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(p6))
+    val p6  = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(p6)
+    )
 
     nextPageAllowable(7, doc, Some(6)) shouldBe PageToGoTo(8)
   }
 
   it should "return 7 when the lease agreement is not verbal" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData),lease = Some(pageSixData))
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixData)
+    )
 
     nextPageAllowable(7, doc, Some(6)) shouldBe PageToGoTo(7)
   }
 
   it should "display page eight when the lease agreement is verbal" in {
-    val p6 = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(p6))
+    val p6  = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(p6)
+    )
 
     nextPageAllowable(8, doc) shouldBe PageToGoTo(8)
   }
 
   "nextPageAllowable for page seven" should "return eight when there is no rent reviews" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData),lease = Some(pageSixNoVerbal), rentReviews = Some(pageSevenData))
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixNoVerbal),
+      rentReviews = Some(pageSevenData)
+    )
     nextPageAllowable(8, doc, Some(7)) shouldBe PageToGoTo(8)
 
   }
   it should "return nine when there are rent reviews" in {
-     val p7 = PageSeven(true, None)
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(pageSixNoVerbal),rentReviews = Some(p7))
+    val p7  = PageSeven(true, None)
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixNoVerbal),
+      rentReviews = Some(p7)
+    )
 
     nextPageAllowable(8, doc, Some(7)) shouldBe PageToGoTo(9)
   }
 
   it should "return page nine when pages nine and ten are already completed and there is a rent review" in {
-    val p7 = PageSeven(true, None)
+    val p7          = PageSeven(true, None)
     val pageTenData = WhatRentIncludes(false, false, false, false, false, None, Parking(false, None, false, None, None, None))
-    val doc = summaryBuilder(
+    val doc         = summaryBuilder(
       addressConnection = Some(pageZeroData),
       customerDetails = Some(pageTwoData),
       theProperty = Some(pageThreeData),
@@ -137,7 +168,7 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       includes = Some(pageTenData)
     )
 
-    nextPageAllowable(8, doc, Some(7)) should be (PageToGoTo(9))
+    nextPageAllowable(8, doc, Some(7)) should be(PageToGoTo(9))
   }
 
   it should "not permit skipping ahead to page 13 when pages 10 through 12 are not completed" in {
@@ -152,14 +183,19 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       rent = Some(pageNineData)
     )
 
-    nextPageAllowable(13, doc, Some(9)) should be (PageToGoTo(10))
+    nextPageAllowable(13, doc, Some(9)) should be(PageToGoTo(10))
   }
 
   "nextPageAllowable for page eight" should "return six when page seven is requested when there is a verbal agreement" in {
-    val p6 = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(p6))
+    val p6  = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(p6)
+    )
 
     nextPageAllowable(7, doc, Some(8)) shouldBe PageToGoTo(6)
   }
@@ -167,39 +203,64 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
   it should "return four when eight is not an applicable page due to short path being chosen" in {
     val pageFourData = PageFour(false, List.empty)
 
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(propertyOwned), sublet = Some(pageFourData))
+    val doc =
+      summaryBuilder(addressConnection = Some(pageZeroData), customerDetails = Some(pageTwoData), theProperty = Some(propertyOwned), sublet = Some(pageFourData))
     nextPageAllowable(8, doc) shouldBe SummaryPage
   }
 
   it should "return page seven when page seven is requested and there is not a verbal agreement" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(pageSixData))
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixData)
+    )
 
     nextPageAllowable(7, doc, Some(8)) shouldBe PageToGoTo(7)
   }
 
   "nextPageAllowable for page nine" should "return seven when page eight is requested when there are rent reviews" in {
-    val p7 = PageSeven(true, None)
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(pageSixNoVerbal),rentReviews = Some(p7))
+    val p7  = PageSeven(true, None)
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixNoVerbal),
+      rentReviews = Some(p7)
+    )
 
     nextPageAllowable(8, doc, Some(9)) shouldBe PageToGoTo(7)
   }
 
   it should "return page eight when page eight is requested and there are no rent reviews" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(pageSixNoVerbal),rentReviews = Some(pageSevenData))
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixNoVerbal),
+      rentReviews = Some(pageSevenData)
+    )
 
     nextPageAllowable(8, doc, Some(9)) shouldBe PageToGoTo(8)
   }
 
   it should "return page ten when a verbal agreement has been chosen on page six and fill in page nine" in {
-    val doc = summaryBuilder(addressConnection = Some(pageZeroData),
-      customerDetails = Some(pageTwoData), theProperty = Some(pageThreeData),
-      sublet = Some(pageFourData), landlord = Some(pageFiveData), lease = Some(pageSixData), rentAgreement = Some(pageEightData), rent = Some(pageNineData))
+    val doc = summaryBuilder(
+      addressConnection = Some(pageZeroData),
+      customerDetails = Some(pageTwoData),
+      theProperty = Some(pageThreeData),
+      sublet = Some(pageFourData),
+      landlord = Some(pageFiveData),
+      lease = Some(pageSixData),
+      rentAgreement = Some(pageEightData),
+      rent = Some(pageNineData)
+    )
     nextPageAllowable(10, doc, Some(9)) shouldBe PageToGoTo(10)
   }
 
@@ -212,7 +273,8 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       landlord = Some(pageFiveData),
       lease = Some(pageSixData),
       rentAgreement = Some(pageEightData),
-      rent = Some(pageNineData))
+      rent = Some(pageNineData)
+    )
     nextPageAllowable(10, doc) shouldBe PageToGoTo(10)
   }
 
@@ -225,7 +287,8 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       landlord = Some(pageFiveData),
       lease = Some(pageSixData),
       rentReviews = Some(hasRentReviews),
-      rent = Some(pageNineData))
+      rent = Some(pageNineData)
+    )
     nextPageAllowable(10, doc) shouldBe PageToGoTo(10)
   }
 
@@ -239,7 +302,8 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       lease = Some(pageSixData),
       rentReviews = Some(hasNoRentReviews),
       rentAgreement = Some(pageEightData),
-      rent = Some(pageNineData))
+      rent = Some(pageNineData)
+    )
     nextPageAllowable(10, doc) shouldBe PageToGoTo(10)
   }
 
@@ -250,11 +314,11 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
 
   lazy val pageZeroData = AddressConnectionTypeYes
 
-  lazy val pageOneData = Option.empty[Address]
+  lazy val pageOneData: Option[Address] = None
 
-  lazy val pageTwoData = CustomerDetails("name", UserTypeOwner, ContactDetails("01234567890", "abc@mailinator.com"))
+  lazy val pageTwoData: CustomerDetails = CustomerDetails("name", UserTypeOwner, ContactDetails("01234567890", "abc@mailinator.com"))
 
-  lazy val pageThreeData = PageThree(
+  lazy val pageThreeData: PageThree = PageThree(
     propertyType = "property type",
     occupierType = OccupierTypeCompany,
     occupierCompanyName = Some("Some Company"),
@@ -266,7 +330,7 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
     None
   )
 
-  lazy val propertyOwned = PageThree(
+  lazy val propertyOwned: PageThree = PageThree(
     propertyType = "property type",
     occupierType = OccupierTypeCompany,
     occupierCompanyName = Some("Some Company"),
@@ -278,39 +342,63 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
     noRentDetails = None
   )
 
-  lazy val pageFourData = PageFour(
-    true, List(SubletDetails(
-      "Something", Address("Street address", None, Some("City"), "Postcode"), SubletPart, Option("Description"), "Reason", BigDecimal(1.0), RoughDate(None, Some(12), 1980))
-    )
+  lazy val pageFourData: PageFour = PageFour(
+    true,
+    List(SubletDetails(
+      "Something",
+      Address("Street address", None, Some("City"), "Postcode"),
+      SubletPart,
+      Option("Description"),
+      "Reason",
+      BigDecimal(1.0),
+      RoughDate(None, Some(12), 1980)
+    ))
   )
 
-  lazy val pageFiveData = PageFive(Some("name"), Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
-  lazy val pageSixData = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
-  lazy val pageSixNoVerbal = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
-  lazy val pageSixVerbal = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false)))
-  lazy val pageSevenData = PageSeven(false, None)
-  lazy val pageEightData = RentAgreement(true, None, RentSetByTypeNewLease)
-  lazy val hasNoRentReviews = PageSeven(false, None)
-  lazy val hasRentReviews = PageSeven(true, None)
-  lazy val pageNineData = PageNine(AnnualRent(8.99), rentBecomePayable = LocalDate.of(2010, 2, 27), rentActuallyAgreed = LocalDate.of(2005, 4, 2), negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None)
+  lazy val pageFiveData: PageFive = PageFive(Some("name"), Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
 
+  lazy val pageSixData: PageSix =
+    PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
 
-  private def summaryBuilder( addressConnection: Option[AddressConnectionType] = None,
-                                propertyAddress: Option[Address] = None,
-                                customerDetails: Option[CustomerDetails] = None,
-                                theProperty: Option[PageThree] = None,
-                                sublet: Option[PageFour] = None,
-                                landlord: Option[PageFive] = None,
-                                lease: Option[PageSix] = None,
-                                rentReviews: Option[PageSeven] = None,
-                                rentAgreement: Option[RentAgreement] = None,
-                                rent: Option[PageNine] = None,
-                                includes: Option[WhatRentIncludes] = None,
-                                incentives: Option[IncentivesAndPayments] = None,
-                                responsibilities: Option[PageTwelve] = None,
-                                alterations: Option[PropertyAlterations] = None,
-                                otherFactors: Option[OtherFactors] = None) = {
-    Summary("", nowInUK, addressConnection, propertyAddress,
+  lazy val pageSixNoVerbal: PageSix     =
+    PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
+  lazy val pageSixVerbal: PageSix       = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false)))
+  lazy val pageSevenData: PageSeven     = PageSeven(false, None)
+  lazy val pageEightData: RentAgreement = RentAgreement(true, None, RentSetByTypeNewLease)
+  lazy val hasNoRentReviews: PageSeven  = PageSeven(false, None)
+  lazy val hasRentReviews: PageSeven    = PageSeven(true, None)
+
+  lazy val pageNineData: PageNine = PageNine(
+    AnnualRent(8.99),
+    rentBecomePayable = LocalDate.of(2010, 2, 27),
+    rentActuallyAgreed = LocalDate.of(2005, 4, 2),
+    negotiatingNewRent = true,
+    rentBasis = RentBaseTypeOpenMarket,
+    None
+  )
+
+  private def summaryBuilder(
+    addressConnection: Option[AddressConnectionType] = None,
+    propertyAddress: Option[Address] = None,
+    customerDetails: Option[CustomerDetails] = None,
+    theProperty: Option[PageThree] = None,
+    sublet: Option[PageFour] = None,
+    landlord: Option[PageFive] = None,
+    lease: Option[PageSix] = None,
+    rentReviews: Option[PageSeven] = None,
+    rentAgreement: Option[RentAgreement] = None,
+    rent: Option[PageNine] = None,
+    includes: Option[WhatRentIncludes] = None,
+    incentives: Option[IncentivesAndPayments] = None,
+    responsibilities: Option[PageTwelve] = None,
+    alterations: Option[PropertyAlterations] = None,
+    otherFactors: Option[OtherFactors] = None
+  ) =
+    Summary(
+      "",
+      nowInUK,
+      addressConnection,
+      propertyAddress,
       customerDetails,
       theProperty,
       sublet,
@@ -323,6 +411,6 @@ class NextPageDeductionUsingPageSkippingSpec extends AnyFlatSpec with should.Mat
       incentives,
       responsibilities,
       alterations,
-      otherFactors)
-  }
+      otherFactors
+    )
 }

@@ -22,9 +22,9 @@ import play.api.libs.json.{Json, OFormat}
  * @author Yuriy Tumakha
  */
 case class Credentials(
-                        referenceNumber: String,
-                        postcode: String
-                      )
+  referenceNumber: String,
+  postcode: String
+)
 
 object Credentials {
 

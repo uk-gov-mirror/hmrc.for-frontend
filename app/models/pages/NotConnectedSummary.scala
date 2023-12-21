@@ -21,7 +21,5 @@ import models.serviceContracts.submissions.{NotConnected, PreviouslyConnected}
 case class NotConnectedSummary(
   summary: Summary,
   previouslyConnected: Option[PreviouslyConnected],
-  notConnected: Option[NotConnected])
-{
-
-}
+  notConnected: Option[NotConnected]
+) {}

@@ -33,7 +33,7 @@ class onlyIfAny extends AnyFlatSpec with should.Matchers {
   it should "apply the mapping to the target field if any of the source fields have their required value" in {
     val data = Map("s1" -> "abc", "s2" -> "abc", "s3" -> "abc", "target" -> "magic")
     Seq("s1", "s2", "s3") foreach { f =>
-      val d = data.updated(f, "magicValue")
+      val d   = data.updated(f, "magicValue")
       val res = form.bind(d)
 
       assert(res.value.value.target.value === "magic")
@@ -42,15 +42,15 @@ class onlyIfAny extends AnyFlatSpec with should.Matchers {
 
   it should "not apply the mapping to the target field neither of the source fields have the required value" in {
     val data = Map("s1" -> "abc", "s2" -> "abc", "s3" -> "abc", "target" -> "magic")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.value.value.target === None)
   }
 
   lazy val form = Form(mapping(
-    "s1" -> nonEmptyText,
-    "s2" -> nonEmptyText,
-    "s3" -> nonEmptyText,
+    "s1"     -> nonEmptyText,
+    "s2"     -> nonEmptyText,
+    "s3"     -> nonEmptyText,
     "target" -> onlyIfAny(Seq("s1" -> "magicValue", "s2" -> "magicValue", "s3" -> "magicValue"), optional(nonEmptyText))
   )(Model.apply)(Model.unapply))
 

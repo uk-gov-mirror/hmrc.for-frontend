@@ -31,33 +31,33 @@ import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResp
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class DefaultHODConnector @Inject()(
+class DefaultHODConnector @Inject() (
   config: ServicesConfig,
   http: ForHttp,
   mongoHasher: MongoHasher
-)(implicit ec: ExecutionContext) extends HODConnector {
+)(implicit ec: ExecutionContext
+) extends HODConnector {
 
   implicit val f: Format[Document] = Document.formats
 
-  lazy val serviceUrl = config.baseUrl("for-hod-adapter")
-  lazy val emailUrl = config.baseUrl("email")
+  lazy val serviceUrl: String = config.baseUrl("for-hod-adapter")
+  lazy val emailUrl: String   = config.baseUrl("email")
 
   private def url(path: String) = s"$serviceUrl/for/$path"
 
-  def readsHack(implicit httpReads: HttpReads[FORLoginResponse]) = {
+  def readsHack(implicit httpReads: HttpReads[FORLoginResponse]): HttpReads[FORLoginResponse] =
     new HttpReads[FORLoginResponse] {
-      override def read(method: String, url: String, response: HttpResponse): FORLoginResponse = {
+
+      override def read(method: String, url: String, response: HttpResponse): FORLoginResponse =
         response.status match {
           case 400 => throw new BadRequestException(response.body)
           case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.headers)
-          case _ => httpReads.read(method, url, response)
+          case _   => httpReads.read(method, url, response)
         }
-      }
     }
-  }
 
   override def verifyCredentials(referenceNumber: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
-    val credentials = Credentials(referenceNumber, postcode)
+    val credentials    = Credentials(referenceNumber, postcode)
     val wrtCredentials = implicitly[Writes[Credentials]]
     http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials)(wrtCredentials, readsHack, hc, ec)
   }
@@ -67,34 +67,32 @@ class DefaultHODConnector @Inject()(
     http.PUT(url(s"savedforlater/${document.referenceNumber}"), document) map { _ => () }
   }
 
-  override def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] = {
+  override def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] =
     http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress).map(removeAlterationDescription) recoverWith {
-      case n: NotFoundException => None
+      case _: NotFoundException => None
     }
-  }
-
 
   def splitAddress(maybeDocument: Option[Document]): Option[Document] = {
-    val fixedDocument = for {
-      doc <- maybeDocument
-      page1 <- doc.page(1)
-      isAddressCorrect <- page1.fields.get("isAddressCorrect")
-    } yield {
-      if(isAddressCorrect.contains("false")) {
-        updateChangedAddresToNewModel(doc, page1)
-      }else {
-        val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.view.mapValues(Seq(_)).toMap )
-        updateDocWithPageZeroAndRemovePageOne(doc, page0)
-      }
-    }
+    val fixedDocument =
+      for {
+        doc              <- maybeDocument
+        page1            <- doc.page(1)
+        isAddressCorrect <- page1.fields.get("isAddressCorrect")
+      } yield
+        if (isAddressCorrect.contains("false")) {
+          updateChangedAddresToNewModel(doc, page1)
+        } else {
+          val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.view.mapValues(Seq(_)).toMap)
+          updateDocWithPageZeroAndRemovePageOne(doc, page0)
+        }
     fixedDocument.orElse(maybeDocument)
   }
 
   def updateChangedAddresToNewModel(document: Document, page1: Page): Document = {
     val page1Data = page1.fields.map { case (key, value) =>
-      if(key.startsWith("address.")) {
+      if (key.startsWith("address.")) {
         (key.replace("address.", ""), value)
-      }else {
+      } else {
         (key, value)
       }
     }.view.filterKeys(_ != "isAddressCorrect").toMap
@@ -109,32 +107,30 @@ class DefaultHODConnector @Inject()(
 
   }
 
-  def updateDocWithPageZeroAndRemovePageOne(document: Document, page0:Page) = {
+  def updateDocWithPageZeroAndRemovePageOne(document: Document, page0: Page): Document = {
     val newPages = page0 +: (document.pages.filterNot(x => x.pageNumber == 0 || x.pageNumber == 1))
     document.copy(pages = newPages)
   }
 
-  def removeAlterationDescription(maybeDocument: Option[Document]):Option[Document] = {
+  def removeAlterationDescription(maybeDocument: Option[Document]): Option[Document] = {
     val alternationDescriptionPattern = """^propertyAlterationsDetails\[\d{0,2}\]\.description$""".r
 
     val maybeAlteredDocumment = for {
       document <- maybeDocument
-      page13 <- document.page(13)
-    }yield {
-      val newFields = page13.fields.filterNot(x => alternationDescriptionPattern.unapplySeq(x._1).isDefined )
+      page13   <- document.page(13)
+    } yield {
+      val newFields = page13.fields.filterNot(x => alternationDescriptionPattern.unapplySeq(x._1).isDefined)
 
       val newPage13 = page13.copy(fields = newFields)
-      val pages = (newPage13 +: document.pages.filterNot(_.pageNumber == 13)).sortBy(_.pageNumber)
+      val pages     = (newPage13 +: document.pages.filterNot(_.pageNumber == 13)).sortBy(_.pageNumber)
       document.copy(pages = pages)
     }
 
-    maybeAlteredDocumment.orElse(maybeDocument) //Return altered document or original document.
+    maybeAlteredDocumment.orElse(maybeDocument) // Return altered document or original document.
   }
 
-
-  def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] = {
+  def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] =
     http.GET[JsValue](url(s"schema/$schemaName"))
-  }
 }
 
 @ImplementedBy(classOf[DefaultHODConnector])

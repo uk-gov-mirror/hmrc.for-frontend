@@ -40,11 +40,13 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import scala.jdk.CollectionConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class ForDataCapturePage[T] (audit: Audit,
-                                      formDocumentRepository: FormDocumentRepository,
-                                      refNumAction: RefNumAction,
-                                      override val controllerComponents: MessagesControllerComponents)
-  extends FrontendController(controllerComponents) with Logging {
+abstract class ForDataCapturePage[T](
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  override val controllerComponents: MessagesControllerComponents
+) extends FrontendController(controllerComponents)
+  with Logging {
 
   implicit val format: Format[T]
   implicit val ec: ExecutionContext = controllerComponents.executionContext
@@ -66,7 +68,7 @@ abstract class ForDataCapturePage[T] (audit: Audit,
       case Some(doc) =>
         val updatedRequest = new RefNumRequest[AnyContent](request.refNum, request.addAttr(variantAttr, variant), request.messagesApi)
         showThisPageOrGoToNextAllowed(doc, updatedRequest)
-      case None =>
+      case None      =>
         logger.error(s"Could not find document in current session - ${request.refNum} - ${hc.sessionId}")
         throw new BadRequestException("Could not find document in current session")
     }
@@ -76,7 +78,7 @@ abstract class ForDataCapturePage[T] (audit: Audit,
     val sub = SummaryBuilder.build(doc)
     Journey.nextPageAllowable(pageNumber, sub) match {
       case PageToGoTo(page) if isThisPage(page) => displayForm(BuildForm(doc, page, emptyForm), sub, request)
-      case p => RedirectTo(p, request.headers)
+      case p                                    => RedirectTo(p, request.headers)
     }
   }
 
@@ -85,35 +87,33 @@ abstract class ForDataCapturePage[T] (audit: Audit,
   def save: Action[AnyContent] = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
     saveForm(request.body.asFormUrlEncoded, SessionId(hc), request.refNum, pageNumber) flatMap {
       case Some((savedFields, summary)) => goToNextPage(extractAction(request.body.asFormUrlEncoded), summary, savedFields)
-      case None => throw new BadRequestException("go to error page")
+      case None                         => throw new BadRequestException("go to error page")
     }
   }
 
-  def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])
-    (implicit request: RefNumRequest[AnyContent]) = {
+  def goToNextPage(action: FormAction, summary: Summary, savedFields: Map[String, Seq[String]])(implicit request: RefNumRequest[AnyContent]) =
     action match {
       case controllers.dataCapturePages.ForDataCapturePage.Continue => bindForm(savedFields).fold(
-        formWithErrors => displayForm(formWithErrors, summary, request),
-        pageData => {
-          auditFormSubmission(pageData, summary)
-          getPage(pageNumber + 1, summary, request)
-        }
-      )
-      case controllers.dataCapturePages.ForDataCapturePage.Update => bindForm(savedFields).fold(
-        formWithErrors => displayForm(formWithErrors, summary, request),
-        pageData => {
-          auditFormSubmission(pageData, summary)
-          RedirectTo(Journey.pageToResumeAt(summary), request.headers)
-        }
-      )
-      case controllers.dataCapturePages.ForDataCapturePage.Save => Redirect(controllers.routes.SaveForLaterController.saveForLater(request.path)) //TODO capture page number
-      case controllers.dataCapturePages.ForDataCapturePage.Back => getPage(pageNumber - 1, summary, request)
-      case controllers.dataCapturePages.ForDataCapturePage.Unknown => redirectToPage(pageNumber)
+          formWithErrors => displayForm(formWithErrors, summary, request),
+          pageData => {
+            auditFormSubmission(pageData, summary)
+            getPage(pageNumber + 1, summary, request)
+          }
+        )
+      case controllers.dataCapturePages.ForDataCapturePage.Update   => bindForm(savedFields).fold(
+          formWithErrors => displayForm(formWithErrors, summary, request),
+          pageData => {
+            auditFormSubmission(pageData, summary)
+            RedirectTo(Journey.pageToResumeAt(summary), request.headers)
+          }
+        )
+      case controllers.dataCapturePages.ForDataCapturePage.Save     => Redirect(controllers.routes.SaveForLaterController.saveForLater(request.path)) // TODO capture page number
+      case controllers.dataCapturePages.ForDataCapturePage.Back     => getPage(pageNumber - 1, summary, request)
+      case controllers.dataCapturePages.ForDataCapturePage.Unknown  => redirectToPage(pageNumber)
     }
-  }
 
-  private def auditFormSubmission(formData: T, summary: Summary)(implicit request: RefNumRequest[AnyContent]): Unit = { //TODO maybe future?? or fire&forget
-    //Get only form data, not additional POST data like CSRF token.
+  private def auditFormSubmission(formData: T, summary: Summary)(implicit request: RefNumRequest[AnyContent]): Unit = { // TODO maybe future?? or fire&forget
+    // Get only form data, not additional POST data like CSRF token.
     val json = Json.toJson(emptyForm.fill(formData).data).as[JsObject] ++
       Json.obj(Audit.referenceNumber -> request.refNum) ++
       request.body.asFormUrlEncoded.flatMap(_.get("variant").map(_.headOption)).fold(Json.obj())(variant => Json.obj("variant" -> variant)) ++
@@ -126,9 +126,9 @@ abstract class ForDataCapturePage[T] (audit: Audit,
 
   private def displayForm(form: Form[T], summary: Summary, request: RefNumRequest[AnyContent]) =
     request.flash.get(SaveForLaterController.s4lIndicator) match {
-      case Some(_) => Ok(template(form.copy(errors = Seq.empty), summary)(request))
+      case Some(_)             => Ok(template(form.copy(errors = Seq.empty), summary)(request))
       case _ if form.hasErrors => BadRequest(template(form, summary)(request))
-      case _ => Ok(template(form, summary)(request))
+      case _                   => Ok(template(form, summary)(request))
     }
 
   private def getPage(nextPage: Int, summary: Summary, request: RefNumRequest[AnyContent]) = {
@@ -153,7 +153,7 @@ object UrlFor {
 
   private def actionFor(p: TargetPage) = p match {
     case PageToGoTo(p) => dataCapturePages.routes.PageController.showPage(p)
-    case SummaryPage => controllers.routes.ApplicationController.checkYourAnswers
+    case SummaryPage   => controllers.routes.ApplicationController.checkYourAnswers
   }
 }
 
@@ -176,7 +176,7 @@ object ForDataCapturePage {
       .orElse(fs.get("back_button").map(_ => Back))
       .orElse(fs.get("update_button").map(_ => Update))
       .getOrElse(Unknown)
-  } getOrElse(Unknown)
+  } getOrElse Unknown
 
   val variantAttr: TypedKey[Int] = TypedKey("variant")
 

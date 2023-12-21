@@ -22,10 +22,10 @@ import uk.gov.hmrc.crypto.{Hasher, OnewayCryptoFactory, PlainText, Scrambled, Ve
 import javax.inject.{Inject, Singleton}
 
 /**
-  * @author Yuriy Tumakha
-  */
+ * @author Yuriy Tumakha
+ */
 @Singleton
-class MongoHasher @Inject()(configuration: Configuration) extends Hasher with Verifier {
+class MongoHasher @Inject() (configuration: Configuration) extends Hasher with Verifier {
 
   private val hasherCrypto = OnewayCryptoFactory.shaCryptoFromConfig("oneway.hash", configuration.underlying)
 

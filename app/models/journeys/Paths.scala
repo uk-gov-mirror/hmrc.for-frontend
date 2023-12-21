@@ -22,42 +22,40 @@ import models.serviceContracts.submissions.{AddressConnectionTypeYesChangeAddres
 import play.api.Logger
 
 object Paths {
-  val standardPath = new Path(0 to 14)
-  val shortPath = new Path(0 to 4)
+  val standardPath        = new Path(0 to 14)
+  val shortPath           = new Path(0 to 4)
   val verbalAgreementPath = new Path((0 to 14).filterNot(_ == 7))
-  val rentReviewPaths = new Path((0 to 14).filterNot(_ == 8))
-  val vacatedPath = new Path((0 to 2))
+  val rentReviewPaths     = new Path((0 to 14).filterNot(_ == 8))
+  val vacatedPath         = new Path(0 to 2)
 
-  val log = Logger(this.getClass)
+  val log: Logger = Logger(this.getClass)
 
   def pathFor(summary: Summary): Path = {
     val removePage1 = summary.addressConnection.map {
-      case AddressConnectionTypeYes => true
+      case AddressConnectionTypeYes              => true
       case AddressConnectionTypeYesChangeAddress => false
-      case AddressConnectionTypeNo => false
+      case AddressConnectionTypeNo               => false
     }.getOrElse(false)
 
-    if(removePage1) {
+    if (removePage1) {
       new Path(buildPath(summary).pages.filterNot(_ == 1))
-    }else {
+    } else {
       buildPath(summary)
     }
   }
 
-
-  private def buildPath(summary: Summary): Path = {
+  private def buildPath(summary: Summary): Path =
     if (isShortPath(summary)) shortPath
     else if (summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal) verbalAgreementPath
     else if (summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews) rentReviewPaths
-    else if(summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserTypeVacated) vacatedPath
+    else if (summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserTypeVacated) vacatedPath
     else standardPath
-  }
 
   def isShortPath(summary: Summary): Boolean = {
-    val page4IsComplete = summary.sublet.isDefined
-    val page3IsComplete = summary.theProperty.isDefined
+    val page4IsComplete               = summary.sublet.isDefined
+    val page3IsComplete               = summary.theProperty.isDefined
     lazy val propertyIsNotRentedByYou = !summary.theProperty.get.propertyRentedByYou.getOrElse(false)
-    lazy val propertyIsOwnedByYou = summary.theProperty.get.propertyOwnedByYou
+    lazy val propertyIsOwnedByYou     = summary.theProperty.get.propertyOwnedByYou
     page3IsComplete && page4IsComplete && (propertyIsNotRentedByYou || propertyIsOwnedByYou)
   }
 }
@@ -79,12 +77,11 @@ class Path(val pages: Seq[Int]) {
     pages.dropWhile(p => p == 0 || (summaryList(p).isDefined && p < page)).headOption
   }
 
-  def previousPageIsComplete(page: Int, summary: Summary): Boolean = {
+  def previousPageIsComplete(page: Int, summary: Summary): Boolean =
     page match {
       case 0 => true
       case _ => summaryAsList(summary)(previousPage(page)).isDefined
     }
-  }
 
   private def summaryAsList(summary: Summary): List[Option[_]] = List(
     summary.addressConnection,

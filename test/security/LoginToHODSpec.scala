@@ -34,12 +34,12 @@ class LoginToHODSpec extends UnitTest {
 
     "a user has previously saved a document for later" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val l = LoginToHOD(
+      val l                                                   = LoginToHOD(
         respondWith(refNum, postcode)(loginResponse),
         respondWith(auth, refNum)(Some(savedDoc)),
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
-      val r = await(l(refNum, postcode, now))
+      val r                                                   = await(l(refNum, postcode, now))
 
       "return the saved document" in {
         assert(r.leftSideValue === DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address))
@@ -52,32 +52,32 @@ class LoginToHODSpec extends UnitTest {
 
     "there is no previously stored document" should {
       var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val l = LoginToHOD(
+      val l                                                   = LoginToHOD(
         respondWith(refNum, postcode)(loginResponse),
         none,
         set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
       ) _
-      val r = await(l(refNum, postcode, now))
+      val r                                                   = await(l(refNum, postcode, now))
 
       "indicate there is no saved document" in {
-         assert(r.leftSideValue === NoExistingDocument(loginResponse.forAuthToken, loginResponse.address))
-       }
+        assert(r.leftSideValue === NoExistingDocument(loginResponse.forAuthToken, loginResponse.address))
+      }
 
-       "loads an empty document with the retrieved credentials into the session" in {
-         assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
-       }
-     }
+      "loads an empty document with the retrieved credentials into the session" in {
+        assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
+      }
+    }
   }
 
   object TestData {
-    val refNum = "1111111899"
-    val password = "aljsljdf"
-    val postcode = "CV24 5RR"
-    val testAddress = Address("123", None, None, postcode)
-    val auth = "YouAreLoggedInNow"
-    val loginResponse = FORLoginResponse(auth, testAddress)
-    val now = ZonedDateTime.of(2015, 3, 2, 13, 20, 0, 0, ZoneOffset.UTC)
-    val savedDoc = Document("savedDocument", now)
+    val refNum                          = "1111111899"
+    val password                        = "aljsljdf"
+    val postcode                        = "CV24 5RR"
+    val testAddress: Address            = Address("123", None, None, postcode)
+    val auth                            = "YouAreLoggedInNow"
+    val loginResponse: FORLoginResponse = FORLoginResponse(auth, testAddress)
+    val now: ZonedDateTime              = ZonedDateTime.of(2015, 3, 2, 13, 20, 0, 0, ZoneOffset.UTC)
+    val savedDoc: Document              = Document("savedDocument", now)
   }
 }
 

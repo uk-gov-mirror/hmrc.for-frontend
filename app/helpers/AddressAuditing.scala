@@ -27,9 +27,8 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import scala.concurrent.Future
 
-
 @Singleton
-class AddressAuditing @Inject() (audit: Audit)  {
+class AddressAuditing @Inject() (audit: Audit) {
 
   def apply(s: Summary, request: Request[_]): Future[Unit] = {
     if (s.propertyAddress.isDefined) auditManualAddress(s.referenceNumber, s.addressUserBelievesIsCorrect, request)
@@ -43,11 +42,11 @@ class AddressAuditing @Inject() (audit: Audit)  {
       "manualAddressSubmitted",
       detail = Map(
         Audit.referenceNumber -> referenceNumber,
-        "submittedLine1" -> address.buildingNameNumber,
-        "submittedLine2" -> address.street1.getOrElse(""),
-        "submittedLine3" -> address.street2.getOrElse(""),
-        "submittedPostcode" -> address.postcode,
-        "transactionName" -> "sending_rental_information"
+        "submittedLine1"      -> address.buildingNameNumber,
+        "submittedLine2"      -> address.street1.getOrElse(""),
+        "submittedLine3"      -> address.street2.getOrElse(""),
+        "submittedPostcode"   -> address.postcode,
+        "transactionName"     -> "sending_rental_information"
       )
     )(hc)
   }

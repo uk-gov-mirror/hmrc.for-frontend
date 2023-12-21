@@ -34,12 +34,12 @@ import views.html.part0
 
 class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with MockitoSugar {
 
-  private val testRefNum = "1234567890"
-  private val sessionId = java.util.UUID.randomUUID().toString
+  private val testRefNum         = "1234567890"
+  private val sessionId          = java.util.UUID.randomUUID().toString
   private val documentRepository = StubFormDocumentRepo((sessionId, testRefNum, Document(testRefNum, nowInUK)))
-  private val audit = mock[Audit]
+  private val audit              = mock[Audit]
 
-  override def fakeApplication(): play.api.Application = {
+  override def fakeApplication(): play.api.Application =
     new GuiceApplicationBuilder()
       .overrides(
         bind[Audit].toInstance(audit),
@@ -47,7 +47,6 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
       )
       .configure(Map("auditing.enabled" -> false, "metrics.enabled" -> false))
       .build()
-  }
 
   "Page zero controller" should {
     "redirect to page 1 if user want to change address" in {
@@ -57,7 +56,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
         .withHeaders(HeaderNames.xSessionId -> sessionId)
         .withSession("refNum" -> testRefNum)
         .withFormUrlEncodedBody(
-          "isRelated" -> "yes-change-address",
+          "isRelated"       -> "yes-change-address",
           "continue_button" -> ""
         )
 
@@ -75,7 +74,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
         .withHeaders(HeaderNames.xSessionId -> sessionId)
         .withSession("refNum" -> testRefNum)
         .withFormUrlEncodedBody(
-          "isRelated" -> "yes",
+          "isRelated"       -> "yes",
           "continue_button" -> ""
         )
 
@@ -86,7 +85,6 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
 
     }
 
-
     "redirect to not connected page if user is not connected with property " in {
       val pageZeroController = new PageZeroController(audit, documentRepository, refNumAction(), stubMessagesControllerComponents(), mock[part0])
 
@@ -94,7 +92,7 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
         .withHeaders(HeaderNames.xSessionId -> sessionId)
         .withSession("refNum" -> testRefNum)
         .withFormUrlEncodedBody(
-          "isRelated" -> "no",
+          "isRelated"       -> "no",
           "continue_button" -> ""
         )
 
@@ -105,7 +103,6 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
     }
 
   }
-
 
   /*
 

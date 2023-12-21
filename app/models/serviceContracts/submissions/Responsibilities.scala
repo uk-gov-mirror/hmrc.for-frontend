@@ -16,12 +16,14 @@
 
 package models.serviceContracts.submissions
 
-case class Responsibilities(responsibleOutsideRepairs: ResponsibleType,
+case class Responsibilities(
+  responsibleOutsideRepairs: ResponsibleType,
   responsibleInsideRepairs: ResponsibleType,
   responsibleBuildingInsurance: ResponsibleType,
   ndrCharges: Boolean,
   waterCharges: Boolean,
   includedServices: Boolean,
-  includedServicesDetails: List[ChargeDetails])
+  includedServicesDetails: List[ChargeDetails]
+)
 
 case class ChargeDetails(chargeDescription: String, chargeCost: BigDecimal)

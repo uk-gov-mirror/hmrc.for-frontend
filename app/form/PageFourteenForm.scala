@@ -24,11 +24,15 @@ import MappingSupport._
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 
 object PageFourteenForm {
-  val pageFourteenForm = Form(mapping(
-    "anyOtherFactors" -> mandatoryBooleanWithError(Errors.anyOtherFactorsRequired),
-    "anyOtherFactorsDetails" -> mandatoryIfTrue("anyOtherFactors", default(text, "").verifying(
-      nonEmpty(errorMessage = "error.anyOtherFactorsDetailsText.required"),
-      maxLength(124, "error.anyOtherFactorsDetailsText.maxLength")
-    ))
+
+  val pageFourteenForm: Form[OtherFactors] = Form(mapping(
+    "anyOtherFactors"        -> mandatoryBooleanWithError(Errors.anyOtherFactorsRequired),
+    "anyOtherFactorsDetails" -> mandatoryIfTrue(
+      "anyOtherFactors",
+      default(text, "").verifying(
+        nonEmpty(errorMessage = "error.anyOtherFactorsDetailsText.required"),
+        maxLength(124, "error.anyOtherFactorsDetailsText.maxLength")
+      )
+    )
   )(OtherFactors.apply)(OtherFactors.unapply))
 }

@@ -26,10 +26,10 @@ class SummaryBuilderSpec extends AnyFlatSpec with should.Matchers {
   behavior of "Summary builder"
 
   it should "map the reference number number, journey started date, and journey resumptions" in {
-    val now = nowInUK.minusDays(5)
+    val now         = nowInUK.minusDays(5)
     val resumptions = Seq(nowInUK.minusDays(4), nowInUK.minusDays(3), nowInUK.minusDays(2))
-    val d = Document("11122233344", now, Seq.empty, None, Some("secretPassword"), journeyResumptions = resumptions)
-    val s = SummaryBuilder.build(d)
+    val d           = Document("11122233344", now, Seq.empty, None, Some("secretPassword"), journeyResumptions = resumptions)
+    val s           = SummaryBuilder.build(d)
     assert(s.referenceNumber === "11122233344")
     assert(s.journeyStarted === now)
     assert(s.journeyResumptions === resumptions)

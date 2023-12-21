@@ -39,13 +39,17 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet" in {
-    validateLettersNumsSpecCharsUptoLength(keys.subletPropertyPartDescription, 100, pageFourForm, fullData,
-      Some("error.subletPropertyPartDescription.maxLength"))
+    validateLettersNumsSpecCharsUptoLength(keys.subletPropertyPartDescription, 100, pageFourForm, fullData, Some("error.subletPropertyPartDescription.maxLength"))
   }
 
   it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet reason" in {
-    validateLettersNumsSpecCharsUptoLength(keys.subletPropertyReasonDescription, 100, pageFourForm, fullData,
-      Some("error.subletPropertyReasonDescription.maxLength"))
+    validateLettersNumsSpecCharsUptoLength(
+      keys.subletPropertyReasonDescription,
+      100,
+      pageFourForm,
+      fullData,
+      Some("error.subletPropertyReasonDescription.maxLength")
+    )
   }
 
   it should "validate the annual rent as a valid annual rent" in {
@@ -92,13 +96,14 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "bind to a PageFourData with no sublet information when the property is not sublet" in {
     val expectedData = PageFour(propertyIsSublet = false, List.empty)
-    val form = bind(fullData.updated(keys.propertyIsSublet, "false"))
+    val form         = bind(fullData.updated(keys.propertyIsSublet, "false"))
 
-    mustBind(form) { data => data should be(expectedData) }
+    mustBind(form)(data => data should be(expectedData))
   }
 
   it should "bind to a PageFourData with full sublet information when the property is sublet" in {
-    val expectedSubletData = SubletDetails(tenantFullName = "Korky the Cat",
+    val expectedSubletData = SubletDetails(
+      tenantFullName = "Korky the Cat",
       tenantAddress = Address("12", Some("Some Street"), Some("Some Place"), "AA11 1AA"),
       subletPropertyPartDescription = Option("basement flat"),
       subletPropertyReasonDescription = "residential",
@@ -111,131 +116,132 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
 
     val form = bind(fullData.updated(keys.propertyIsSublet, "true"))
 
-    mustBind(form) { data => data should be(expectedData) }
+    mustBind(form)(data => data should be(expectedData))
   }
 
   it should "return a required error for tenant full name when property is sublet but tenant full name is missing" in {
     val submittedData = fullData - keys.tenantFullName
-    val form = bind(submittedData)
+    val form          = bind(submittedData)
 
     mustContainError(keys.tenantFullName, "error.sublet.tenantFullName.required", form)
   }
 
   it should "result in a validation error when the part of property is sublet but Property Part Description is missing" in {
     val submittedData = fullData - keys.subletPropertyPartDescription
-    val res = bind(submittedData)
+    val res           = bind(submittedData)
 
     res.errors should not be empty
-    res.errors should have size(1)
+    res.errors should have size 1
 
     hasError(res.errors, keys.subletPropertyPartDescription, Errors.required)
     res.value.isDefined should be(false)
-    res.data should be(submittedData)
+    res.data            should be(submittedData)
   }
 
   it should "result in a validation error when the property is sublet but Property Reason Description is missing" in {
     val submittedData = fullData - keys.subletPropertyReasonDescription
-    val res = bind(submittedData)
+    val res           = bind(submittedData)
 
     res.errors.isEmpty should be(false)
-    res.errors.size should be(1)
+    res.errors.size    should be(1)
 
     hasError(res.errors, keys.subletPropertyReasonDescription, Errors.required)
     res.value.isDefined should be(false)
-    res.data should be(submittedData)
+    res.data            should be(submittedData)
   }
 
   it should "return a required error for annual rent when the property is sublet and rent length type is supplied but annual rent is missing" in {
     val submittedData = fullData - keys.annualRentExcludingVat
-    val form = bind(submittedData)
+    val form          = bind(submittedData)
 
     mustContainError(keys.annualRentExcludingVat, "error.required.sublet.annualRent", form)
   }
 
   it should "result in a single validation error when the property is sublet but both rent fixed fields are missing" in {
     val submittedData = fullData - keys.rentFixedDateMonth - keys.rentFixedDateYear
-    val res = bind(submittedData)
+    val res           = bind(submittedData)
 
     res.errors.isEmpty should be(false)
-    res.errors.size should be(2)
+    res.errors.size    should be(2)
 
     hasError(res.errors, keys.rentFixedDateYear, Errors.required)
     res.value.isDefined should be(false)
-    res.data should be(submittedData)
+    res.data            should be(submittedData)
   }
 
   it should "not allow more than 5 sublets" in {
     val with5SteppedRents = addSublets(4, fullData)
-    mustBind(bind(with5SteppedRents)) { _ => () }
+    mustBind(bind(with5SteppedRents))(_ => ())
 
     val with6SteppedRents = addSublets(5, fullData)
-    val form = bind(with6SteppedRents)
+    val form              = bind(with6SteppedRents)
     mustOnlyContainError("sublet", Errors.tooManySublets, form)
   }
 
   object TestData {
-    val keys = new {
-      val propertyIsSublet = "propertyIsSublet"
-      val addrBuildingNameNumber = "sublet[0].tenantAddress.buildingNameNumber"
-      val addrStreet1 = "sublet[0].tenantAddress.street1"
-      val addrStreet2 = "sublet[0].tenantAddress.street2"
-      val addrPostcode = "sublet[0].tenantAddress.postcode"
-      val tenantFullName = "sublet[0].tenantFullName"
-      val subletType = "sublet[0].subletType"
-      val subletPropertyPartDescription = "sublet[0].subletPropertyPartDescription"
+
+    val keys: keys = new keys
+
+    class keys extends {
+      val propertyIsSublet                = "propertyIsSublet"
+      val addrBuildingNameNumber          = "sublet[0].tenantAddress.buildingNameNumber"
+      val addrStreet1                     = "sublet[0].tenantAddress.street1"
+      val addrStreet2                     = "sublet[0].tenantAddress.street2"
+      val addrPostcode                    = "sublet[0].tenantAddress.postcode"
+      val tenantFullName                  = "sublet[0].tenantFullName"
+      val subletType                      = "sublet[0].subletType"
+      val subletPropertyPartDescription   = "sublet[0].subletPropertyPartDescription"
       val subletPropertyReasonDescription = "sublet[0].subletPropertyReasonDescription"
-      val annualRentExcludingVat = "sublet[0].annualRent"
-      val rentFixedDate = "sublet[0].rentFixedDate"
-      val rentFixedDateMonth = "sublet[0].rentFixedDate.month"
-      val rentFixedDateYear = "sublet[0].rentFixedDate.year"
+      val annualRentExcludingVat          = "sublet[0].annualRent"
+      val rentFixedDate                   = "sublet[0].rentFixedDate"
+      val rentFixedDateMonth              = "sublet[0].rentFixedDate.month"
+      val rentFixedDateYear               = "sublet[0].rentFixedDate.year"
     }
 
-    val mandatoryAddressFields = Seq(keys.addrBuildingNameNumber, keys.addrPostcode, keys.tenantFullName)
-    val allAddressFields = mandatoryAddressFields ++ Seq(keys.addrStreet1, keys.addrStreet2)
+    val mandatoryAddressFields: Seq[String] = Seq(keys.addrBuildingNameNumber, keys.addrPostcode, keys.tenantFullName)
+    val allAddressFields: Seq[String]       = mandatoryAddressFields ++ Seq(keys.addrStreet1, keys.addrStreet2)
 
     def bind(dataMap: Map[String, String]) = {
       val bound = pageFourForm.bind(dataMap)
       bound.convertGlobalToFieldErrors()
     }
 
-    val fullData = Map(
-      keys.propertyIsSublet -> "true",
-      keys.addrBuildingNameNumber -> "12",
-      keys.addrStreet1 -> "Some Street",
-      keys.addrStreet2 -> "Some Place",
-      keys.addrPostcode -> "AA11 1AA",
-      keys.subletType -> "part",
-      keys.tenantFullName -> "Korky the Cat",
-      keys.subletPropertyPartDescription -> "basement flat",
+    val fullData: Map[String, String] = Map(
+      keys.propertyIsSublet                -> "true",
+      keys.addrBuildingNameNumber          -> "12",
+      keys.addrStreet1                     -> "Some Street",
+      keys.addrStreet2                     -> "Some Place",
+      keys.addrPostcode                    -> "AA11 1AA",
+      keys.subletType                      -> "part",
+      keys.tenantFullName                  -> "Korky the Cat",
+      keys.subletPropertyPartDescription   -> "basement flat",
       keys.subletPropertyReasonDescription -> "residential",
-      keys.annualRentExcludingVat -> "123.45",
-      keys.rentFixedDateMonth -> "2",
-      keys.rentFixedDateYear -> "2015"
-      )
+      keys.annualRentExcludingVat          -> "123.45",
+      keys.rentFixedDateMonth              -> "2",
+      keys.rentFixedDateYear               -> "2015"
+    )
 
-    def addSublets(amount: Int, data: Map[String, String]): Map[String, String] = {
+    def addSublets(amount: Int, data: Map[String, String]): Map[String, String] =
       (1 to amount).foldLeft(data) { (d, n) =>
         d.updated(keys.addrBuildingNameNumber.replace("[0]", s"[$n]"), data(keys.addrBuildingNameNumber))
-         .updated(keys.addrStreet1.replace("[0]", s"[$n]"), data(keys.addrStreet1))
-         .updated(keys.addrStreet2.replace("[0]", s"[$n]"), data(keys.addrStreet2))
-         .updated(keys.addrPostcode.replace("[0]", s"[$n]"), data(keys.addrPostcode))
-         .updated(keys.tenantFullName.replace("[0]", s"[$n]"), data(keys.tenantFullName))
+          .updated(keys.addrStreet1.replace("[0]", s"[$n]"), data(keys.addrStreet1))
+          .updated(keys.addrStreet2.replace("[0]", s"[$n]"), data(keys.addrStreet2))
+          .updated(keys.addrPostcode.replace("[0]", s"[$n]"), data(keys.addrPostcode))
+          .updated(keys.tenantFullName.replace("[0]", s"[$n]"), data(keys.tenantFullName))
           .updated(keys.subletType.replace("[0]", s"[$n]"), data(keys.subletType))
-         .updated(keys.subletPropertyPartDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyPartDescription))
-         .updated(keys.subletPropertyReasonDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyReasonDescription))
-         .updated(keys.annualRentExcludingVat.replace("[0]", s"[$n]"), data(keys.annualRentExcludingVat))
-         .updated(keys.rentFixedDateMonth.replace("[0]", s"[$n]"), data(keys.rentFixedDateMonth))
-         .updated(keys.rentFixedDateYear.replace("[0]", s"[$n]"), data(keys.rentFixedDateYear))
+          .updated(keys.subletPropertyPartDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyPartDescription))
+          .updated(keys.subletPropertyReasonDescription.replace("[0]", s"[$n]"), data(keys.subletPropertyReasonDescription))
+          .updated(keys.annualRentExcludingVat.replace("[0]", s"[$n]"), data(keys.annualRentExcludingVat))
+          .updated(keys.rentFixedDateMonth.replace("[0]", s"[$n]"), data(keys.rentFixedDateMonth))
+          .updated(keys.rentFixedDateYear.replace("[0]", s"[$n]"), data(keys.rentFixedDateYear))
 
       }
-    }
-    def hasError(errors: Seq[FormError], matcher: FormError => Boolean): Boolean = {
-      errors.exists(matcher)
-    }
 
-    def hasError(errors: Seq[FormError], key: String, message: String) = {
-      errors.exists { err => err.key == key && err.messages.contains(message) }
-    }
+    def hasError(errors: Seq[FormError], matcher: FormError => Boolean): Boolean =
+      errors.exists(matcher)
+
+    def hasError(errors: Seq[FormError], key: String, message: String): Boolean =
+      errors.exists(err => err.key == key && err.messages.contains(message))
   }
 
 }

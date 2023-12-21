@@ -23,18 +23,19 @@ import play.api.libs.json.{JsObject, Json}
 
 object Addresses {
 
-  def getAddress(summary: Summary): Address = {
+  def getAddress(summary: Summary): Address =
     summary.propertyAddress orElse summary.address match {
       case Some(a) => a
-      case None => throw new AddressMissing(summary.referenceNumber)
+      case None    => throw new AddressMissing(summary.referenceNumber)
     }
-  }
 
   def addressJson(summary: Summary): JsObject =
     summary.address.fold(Json.obj())(address => Json.obj(Audit.address -> address)) ++
       summary.propertyAddress
-        .filter(newAddress => summary.addressConnection.contains(AddressConnectionTypeYesChangeAddress)
-          && !summary.address.contains(newAddress))
+        .filter(newAddress =>
+          summary.addressConnection.contains(AddressConnectionTypeYesChangeAddress)
+            && !summary.address.contains(newAddress)
+        )
         .fold(Json.obj())(newAddress => Json.obj(Audit.updatedAddress -> newAddress))
 
 }

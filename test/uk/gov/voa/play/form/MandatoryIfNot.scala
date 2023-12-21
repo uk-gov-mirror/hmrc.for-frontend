@@ -29,19 +29,19 @@ class MandatoryIfNot extends AnyFlatSpec with should.Matchers {
 
   it should "mandate the target field if the source field DOES not match the specified value" in {
     val data = Map("source" -> "NotTheMagicValue")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "target")
   }
 
   it should "not mandate the target field if the source field DOES NOT match the specified value" in {
     val data = Map("source" -> "magicValue")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.isEmpty)
   }
 
-  lazy val form = Form(mapping(
+  lazy val form: Form[Model] = Form(mapping(
     "source" -> nonEmptyText,
     "target" -> mandatoryIfNot("source", "magicValue", nonEmptyText)
   )(Model.apply)(Model.unapply))
