@@ -45,7 +45,7 @@ lazy val microservice = Project("for-frontend", file("."))
   )
   .settings(
     scalafmtFailOnErrors := true,
-    // Test / test := ((Test / test) dependsOn formatAll).value,
+    Test / test := ((Test / test) dependsOn formatAll).value,
     formatAll := Def
       .sequential(
         scalafmtAll,
