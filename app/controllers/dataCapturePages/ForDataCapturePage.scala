@@ -107,9 +107,12 @@ abstract class ForDataCapturePage[T](
             RedirectTo(Journey.pageToResumeAt(summary), request.headers)
           }
         )
-      case controllers.dataCapturePages.ForDataCapturePage.Save     => Redirect(controllers.routes.SaveForLaterController.saveForLater(request.path)) // TODO capture page number
-      case controllers.dataCapturePages.ForDataCapturePage.Back     => getPage(pageNumber - 1, summary, request)
-      case controllers.dataCapturePages.ForDataCapturePage.Unknown  => redirectToPage(pageNumber)
+      case controllers.dataCapturePages.ForDataCapturePage.Save     =>
+        Redirect(controllers.routes.SaveForLaterController.saveForLater(request.path)) // TODO capture page number
+      case controllers.dataCapturePages.ForDataCapturePage.Back     =>
+        getPage(pageNumber - 1, summary, request)
+      case controllers.dataCapturePages.ForDataCapturePage.Unknown  =>
+        redirectToPage(pageNumber)
     }
 
   private def auditFormSubmission(formData: T, summary: Summary)(implicit request: RefNumRequest[AnyContent]): Unit = { // TODO maybe future?? or fire&forget

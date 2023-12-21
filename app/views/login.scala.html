@@ -19,12 +19,10 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
-@import util.DateUtil.nowInUK
 
 @this(main_template: pageLayout,
         govukInput: GovukInput,
         govukButton: GovukButton,
-        govukErrorSummary: GovukErrorSummary,
         formWithCSRF: FormWithCSRF)
 
 @(theForm: Form[LoginDetails],  failedLoginError: Option[String] = None)(implicit request: Request[_], messages: Messages)

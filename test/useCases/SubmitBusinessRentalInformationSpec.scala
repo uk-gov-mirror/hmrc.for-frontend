@@ -75,7 +75,7 @@ class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matche
       Some(CustomerDetails("fn", UserTypeOccupier, ContactDetails("01234567890", "abc@mailinator.com"))),
       Some(TheProperty("Stuff", OccupierTypeIndividuals, None, None, false, None, None)),
       Some(Sublet(false, List.empty)),
-      Some(Landlord(Some("abc"), Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
+      Some(Landlord("abc", Some(Address("abc", None, Some("xyz"), "blah")), LandlordConnectionTypeNone, None)),
       Some(LeaseOrAgreement(LeaseAgreementTypesVerbal, Some(false), None, Some(false), List.empty, Some(RoughDate(None, None, 2011)), Some(false), None)),
       Some(RentReviews(false, None)),
       Some(RentAgreement(false, None, RentSetByTypeNewLease)),

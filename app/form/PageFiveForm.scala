@@ -30,7 +30,7 @@ object PageFiveForm {
     "landlordFullName"    -> default(text, "").verifying(
       nonEmpty(errorMessage = "error.landlordFullName.required"),
       maxLength(50, "error.landlordFullName.maxLength")
-    ).transform[Option[String]](Option(_), _.getOrElse("")),
+    ),
     "landlordAddress"     -> optional(optionalAddressMapping("landlordAddress")),
     "landlordConnectType" -> landlordConnectionType,
     "landlordConnectText" -> mandatoryIfEqual(

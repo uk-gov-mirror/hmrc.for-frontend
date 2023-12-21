@@ -525,7 +525,7 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
     )
 
     val landlord: Landlord =
-      Landlord(Some("Graham Goose"), Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
+      Landlord("Graham Goose", Some(Address("Some Company", Some("Some Road"), None, "AA11 1AA")), LandlordConnectionTypeOther, Some("magic"))
 
     val leaseOrAgreement: LeaseOrAgreement = LeaseOrAgreement(
       LeaseAgreementTypesLeaseTenancy,

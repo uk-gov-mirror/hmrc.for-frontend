@@ -124,7 +124,7 @@ object SummaryBuilder {
   )
 
   private lazy val pageFiveData = PageFive(
-    Some("name"),
+    "name",
     Some(Address("line1", None, Some("city"), "postcode")),
     LandlordConnectionTypeNone,
     None

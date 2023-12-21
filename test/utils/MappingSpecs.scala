@@ -324,12 +324,12 @@ trait DurationMappingSpecs { this: CommonSpecs =>
     containError(prefix + ".years", s"error$fieldErrorPart.years.required", form, formData)
     containError(prefix + ".months", s"error$fieldErrorPart.months.required", form, formData)
     monthDurationCanOnlyBeUpTo12(prefix, form, formData)
-    yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
+    yearDurationCanOnlyBe3Digits(prefix, form, formData)
   }
 
   def validatesDurationMonths[T](prefix: String, form: Form[T], formData: Map[String, String]): Unit = {
     cannotBeEmptyString(prefix, form, formData)
-    yearDurationCanOnlyBe3Digits(prefix, 3, form, formData)
+    yearDurationCanOnlyBe3Digits(prefix, form, formData)
   }
 
   private def monthDurationCanOnlyBeUpTo12[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
@@ -343,7 +343,7 @@ trait DurationMappingSpecs { this: CommonSpecs =>
     validateNoError(field, valid, form, data)
   }
 
-  private def yearDurationCanOnlyBe3Digits[T](prefix: String, n: Int, form: Form[T], formData: Map[String, String]): Unit = {
+  private def yearDurationCanOnlyBe3Digits[T](prefix: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key     = prefix + ".years"
     val invalid = Seq("abc", "1234", "-100")
     validateError(key, invalid, Errors.invalidDurationYears, form, formData)

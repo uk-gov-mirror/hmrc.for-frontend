@@ -62,15 +62,16 @@ object PageSixForm {
     case (stepFrom, stepTo) =>
       val maxFutureDate = stepFrom.plusYears(10)
 
-      if (stepTo.isBefore(maxFutureDate.plusDays(1)))
+      if (stepTo.isBefore(maxFutureDate.plusDays(1))) {
         Valid
-      else
+      } else {
         Invalid(Seq(createFieldValidationError(
           s"${keys.to}.day",
           Errors.toDateToFarFuture,
           fullDateFormatter.format(stepFrom.plusDays(1)),
           fullDateFormatter.format(maxFutureDate)
         )))
+      }
   }
 
   def noOverlappingSteps: Constraint[WrittenAgreement] = Constraint("constraints.steppedDetails.overlappingSteps") { writtenAgreement =>
