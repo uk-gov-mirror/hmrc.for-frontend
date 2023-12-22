@@ -45,7 +45,7 @@ lazy val microservice = Project("for-frontend", file("."))
   )
   .settings(
     scalafmtFailOnErrors := true,
-    coverageAggregate := (coverageAggregate dependsOn formatAll).value,
+    commands += Command.command("coverage")(state => "formatAll" :: "set ThisBuild / coverageEnabled := true" :: state),
     formatAll := Def
       .sequential(
         scalafmtAll,
