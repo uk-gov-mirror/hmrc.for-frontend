@@ -26,45 +26,41 @@ import org.scalatest.OptionValues
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 
-
-class MongoSessionRepositorySpec extends PlaySpec with OptionValues  with FutureAwaits
-  with DefaultAwaitTimeout with GuiceOneAppPerSuite {
+class MongoSessionRepositorySpec extends PlaySpec with OptionValues with FutureAwaits with DefaultAwaitTimeout with GuiceOneAppPerSuite {
 
   def mongoSessionrepository() = app.injector.instanceOf[MongoSessionRepository]
 
   override def fakeApplication(): Application = new GuiceApplicationBuilder()
     .configure(Map("metrics.enabled" -> false)).build()
 
-
   "Mongo session repository" should {
     "Store data in mongo" in {
 
-      val cacheId = UUID.randomUUID().toString
-      val formId = "formId"
+      val cacheId    = UUID.randomUUID().toString
+      val formId     = "formId"
       val testObject = MongoSessionRepositorySpecData(name = "John", buildingNumber = 100)
 
       await(mongoSessionrepository().cache(cacheId, formId, testObject)(format))
 
       val res = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, formId)(format))
-      res.value mustBe(testObject)
+      res.value mustBe testObject
 
     }
 
     "store multiple pages in mongo not afection other" in {
-      val cacheId = UUID.randomUUID().toString
-      val page1 = "page1"
-      val page2 = "page2"
+      val cacheId     = UUID.randomUUID().toString
+      val page1       = "page1"
+      val page2       = "page2"
       val testObject1 = MongoSessionRepositorySpecData(name = "John", buildingNumber = 100)
       val testObject2 = MongoSessionRepositorySpecData(name = "Peter", buildingNumber = -200)
 
       await(mongoSessionrepository().cache(cacheId, page1, testObject1)(format))
       await(mongoSessionrepository().cache(cacheId, page2, testObject2)(format))
 
-
       val testObjectFromDatabase1 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page1)(format))
-      testObjectFromDatabase1.value mustBe(testObject1)
+      testObjectFromDatabase1.value mustBe testObject1
       val testObjectFromDatabase2 = await(mongoSessionrepository().fetchAndGetEntry[MongoSessionRepositorySpecData](cacheId, page2)(format))
-      testObjectFromDatabase2.value mustBe(testObject2)
+      testObjectFromDatabase2.value mustBe testObject2
     }
   }
 
