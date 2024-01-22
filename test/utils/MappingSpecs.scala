@@ -183,7 +183,7 @@ trait DateMappingSpecs { this: CommonSpecs =>
 
   private def monthCanOnlyBe1to12[T](field: String, form: Form[T], formData: Map[String, String]): Unit = {
     val key  = field + ".month"
-    val data = formData.updated(field + ".year", "2014")
+    val data = formData.updated(field + ".year", nowInUK.minusYears(8).getYear.toString)
 
     val invalid = Seq("-1", "0", "13", "25", "200", "2000000", "erkjl")
     validateError(key, invalid, Errors.invalidDate, form, data)

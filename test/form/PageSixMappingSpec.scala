@@ -41,7 +41,7 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
         breakClauseDetails = Some("BREAK CLAUSE DETAILS"),
         agreementIsStepped = true,
         steppedDetails = List(SteppedDetails(stepFrom = LocalDate.of(2000, 12, 2), stepTo = LocalDate.of(2001, 2, 12), amount = 123.45)),
-        startDate = new RoughDate(month = 3, year = 2013),
+        startDate = new RoughDate(month = 3, year = nowInUK.minusYears(8).getYear),
         rentOpenEnded = false,
         leaseLength = Some(MonthsYearDuration(months = 4, years = 3))
       )),
@@ -302,7 +302,7 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
       getKeyStepped(0).stepTo + ".year"    -> "2001",
       getKeyStepped(0).amount              -> "123.45",
       writtenStartDate + ".month"          -> "3",
-      writtenStartDate + ".year"           -> "2013",
+      writtenStartDate + ".year"           -> nowInUK.minusYears(8).getYear.toString,
       writtenRentOpenEnded                 -> "false",
       writtenLeaseLength + ".years"        -> "3",
       writtenLeaseLength + ".months"       -> "4"
