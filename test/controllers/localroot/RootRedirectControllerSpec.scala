@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.localroot
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -34,7 +34,7 @@ class RootRedirectControllerSpec extends AnyWordSpec with Matchers with GuiceOne
     "return redirect to start page" in {
       val result = controller.rootRedirect(fakeRequest)
       status(result)           shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(routes.ApplicationController.index.url)
+      redirectLocation(result) shouldBe Some(controllers.routes.ApplicationController.index.url)
     }
   }
 
