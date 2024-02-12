@@ -26,7 +26,6 @@ import util.DateUtil.nowInUK
 
 import java.time.LocalDate
 
-
 class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageSixForm._
@@ -34,7 +33,7 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
   import utils.FormBindingTestAssertions._
   import utils.MappingSpecs._
 
- "A page six form" should "bind to page six with a written agreement" in {
+  "A page six form" should "bind to page six with a written agreement" in {
     val p6 = PageSix(
       LeaseAgreementTypesLicenceOther,
       Some(WrittenAgreement(
@@ -42,14 +41,14 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
         breakClauseDetails = Some("BREAK CLAUSE DETAILS"),
         agreementIsStepped = true,
         steppedDetails = List(SteppedDetails(stepFrom = LocalDate.of(2000, 12, 2), stepTo = LocalDate.of(2001, 2, 12), amount = 123.45)),
-        startDate = new RoughDate(month = 3, year = 2013),
+        startDate = new RoughDate(month = 3, year = nowInUK.minusYears(8).getYear),
         rentOpenEnded = false,
         leaseLength = Some(MonthsYearDuration(months = 4, years = 3))
       )),
       VerbalAgreement()
     )
 
-    mustBind(bind(fullData)) { x => assert(x === p6)}
+    mustBind(bind(fullData))(x => assert(x === p6))
   }
 
   it should "always require a lease agreement type" in {
@@ -62,28 +61,28 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
   it should "allow all fields to be optional when the agreement is verbal or written" in {
     val data = Map(keys.leaseAgreementType -> LeaseAgreementTypesVerbal.name)
 
-    mustBind(bind(data)) { x => assert(x === PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())) }
+    mustBind(bind(data))(x => assert(x === PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement())))
   }
 
   it should "allow a start and open ended value if there is a verbal agreement or one in writing" in {
-    val data = Map(
-      keys.leaseAgreementType -> LeaseAgreementTypesVerbal.name,
-      s"$verbalStartDate.month" -> "5",
-      s"$verbalStartDate.year" -> "2011",
-      verbalRentOpenEnded -> "false",
-      s"$verbalLeaseLength.years" -> "3",
+    val data   = Map(
+      keys.leaseAgreementType      -> LeaseAgreementTypesVerbal.name,
+      s"$verbalStartDate.month"    -> "5",
+      s"$verbalStartDate.year"     -> "2011",
+      verbalRentOpenEnded          -> "false",
+      s"$verbalLeaseLength.years"  -> "3",
       s"$verbalLeaseLength.months" -> "4"
     )
     val verbal = VerbalAgreement(Some(RoughDate(None, Some(5), 2011)), Some(false), Some(MonthsYearDuration(months = 4, years = 3)))
-    val lease = PageSix(LeaseAgreementTypesVerbal, None, verbal)
+    val lease  = PageSix(LeaseAgreementTypesVerbal, None, verbal)
 
-    mustBind(bind(data)) { x => assert(x === lease)}
+    mustBind(bind(data))(x => assert(x === lease))
   }
 
   it should "require a lease length if the agreement is not open ended for a written contract" in {
     val data = Map(
       keys.leaseAgreementType -> LeaseAgreementTypesLeaseTenancy.name,
-      writtenRentOpenEnded -> "false"
+      writtenRentOpenEnded    -> "false"
     )
     val form = bind(data)
 
@@ -94,7 +93,7 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
   it should "require a lease length if the agreement is not open ended for a verbal contract" in {
     val data = Map(
       keys.leaseAgreementType -> LeaseAgreementTypesVerbal.name,
-      verbalRentOpenEnded -> "false"
+      verbalRentOpenEnded     -> "false"
     )
     val form = bind(data)
 
@@ -126,20 +125,26 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "return an break clause required error when 'has break clause' is true and there are no break clause details" in {
     val testData = fullData.updated(keys.leaseAgreementType, LeaseAgreementTypesLicenceOther.name) - writtenBreakClauseDetails
-    val form = bind(testData)
+    val form     = bind(testData)
 
     mustContainError(writtenBreakClauseDetails, "error.writtenAgreement.breakClauseDetails.required", form)
   }
 
   it should "return a stepped details error when 'has stepped agreement' is true but there are no stepped agreement details" in {
-    val testData = fullData.updated(writtenAgreementIsStepped, "true") - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day" - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.month" - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.year"
+    val testData = fullData.updated(
+      writtenAgreementIsStepped,
+      "true"
+    ) - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day" - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.month" - s"${keys.writtenAgreement}.steppedDetails[0].stepTo.year"
 
     val res = bind(testData)
     res.errors.size should be(3)
   }
 
   it should "return a stepped details error when 'has stepped agreement' is true and stepped agreement details are missing" in {
-    val testData = fullData.updated(writtenAgreementIsStepped, "true") - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.day" - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.month" - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.year"
+    val testData = fullData.updated(
+      writtenAgreementIsStepped,
+      "true"
+    ) - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.day" - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.month" - s"${keys.writtenAgreement}.steppedDetails[0].stepFrom.year"
 
     val res = bind(testData)
     res.errors.size should be(3)
@@ -181,13 +186,12 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
     validatesDuration(writtenLeaseLength, pageSixForm, fullData, ".writtenAgreement.leaseLength")
   }
 
-    it should "validate the break clause details as free text" in {
-    validateLettersNumsSpecCharsUptoLength(writtenBreakClauseDetails, 124, pageSixForm, fullData,
-      Some("error.writtenAgreement.breakClauseDetails.maxLength"))
+  it should "validate the break clause details as free text" in {
+    validateLettersNumsSpecCharsUptoLength(writtenBreakClauseDetails, 124, pageSixForm, fullData, Some("error.writtenAgreement.breakClauseDetails.maxLength"))
   }
 
   it should "validate stepped rent amount as currency allowing non-negative amounts" in {
-    validateCurrency(getKeyStepped(0).amount, pageSixForm, fullData,".writtenAgreement.steppedDetails.amount")
+    validateCurrency(getKeyStepped(0).amount, pageSixForm, fullData, ".writtenAgreement.steppedDetails.amount")
   }
 
   it should "validate stepped rent from date as a date" in {
@@ -202,142 +206,143 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "not allow more than 7 stepped rents" in {
     val with7SteppedRents = addSteppedRents(6, fullData)
-    mustBind(bind(with7SteppedRents)) { _ => () }
+    mustBind(bind(with7SteppedRents))(_ => ())
 
     val with8SteppedRents = addSteppedRents(7, fullData)
-    val form = bind(with8SteppedRents)
+    val form              = bind(with8SteppedRents)
     mustOnlyContainError(s"${keys.writtenAgreement}.steppedDetails", Errors.tooManySteppedRents, form)
   }
 
   it should "validate the step to date is not before the step from date" in {
-    val data = fullDataWithNoOverlap.updated(getKeyStepped(0).stepFrom +".year", "2019")
-    val f = bind(data)
-    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day",Errors.toDateIsAfterFromDate,f)
+    val data = fullDataWithNoOverlap.updated(getKeyStepped(0).stepFrom + ".year", "2019")
+    val f    = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day", Errors.toDateIsAfterFromDate, f)
   }
 
   it should "validate the stepped rent dates do not overlap" in {
-    val data = fullDataWithNoOverlap.updated(getKeyStepped(1).stepFrom +".year", "2020")
-    val f = bind(data)
-    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[1].stepTo.day",Errors.toDateIsAfterFromDate,f)
+    val data = fullDataWithNoOverlap.updated(getKeyStepped(1).stepFrom + ".year", "2020")
+    val f    = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[1].stepTo.day", Errors.toDateIsAfterFromDate, f)
   }
 
   it should "validate that step to rent year is no more than 10 years ahead" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".year", "2011")
-    val f = bind(data)
-    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day",Errors.toDateToFarFuture,f)
+    val f    = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day", Errors.toDateToFarFuture, f)
   }
 
   it should "validate that step to rent month is no more than 10 years ahead" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".month", "2")
-    val f = bind(data)
-    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day",Errors.toDateToFarFuture,f)
+    val f    = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day", Errors.toDateToFarFuture, f)
   }
 
   it should "validate that step to rent day is no more than 10 years ahead" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".day", "31")
-    val f = bind(data)
-    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day",Errors.toDateToFarFuture,f)
+    val f    = bind(data)
+    mustContainPrefixedError(s"${keys.writtenAgreement}.steppedDetails[0].stepTo.day", Errors.toDateToFarFuture, f)
   }
 
   it should "not provide an error when the stepped from and stepped to day is within 10 years" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".day", "1")
-    val f = bind(data)
+    val f    = bind(data)
     doesNotContainErrors(f)
   }
 
   it should "not provide an error when the stepped from and stepped to month is within 10 years" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".month", "1")
-    val f = bind(data)
+    val f    = bind(data)
     doesNotContainErrors(f)
   }
 
   it should "not provide an error when the stepped from and stepped to years are within 10 years" in {
     val data = dataOverTenYears.updated(getKeyStepped(0).stepTo + ".year", "2005")
-    val f = bind(data)
+    val f    = bind(data)
     doesNotContainErrors(f)
   }
 
   object TestData {
-    val writtenLeaseYears = s"${keys.writtenAgreement}.${keys.leaseLength}.years"
-    val writtenLeaseMonths = s"${keys.writtenAgreement}.${keys.leaseLength}.months"
-    val writtenStartDate = s"${keys.writtenAgreement}.${keys.startDate}"
-    val writtenLeaseAgreementHasBreakClause = s"${keys.writtenAgreement}.${keys.leaseAgreementHasBreakClause}"
-    val writtenAgreementIsStepped = s"${keys.writtenAgreement}.${keys.agreementIsStepped}"
-    val writtenLeaseLength = s"${keys.writtenAgreement}.${keys.leaseLength}"
-    val writtenBreakClauseDetails = s"${keys.writtenAgreement}.${keys.breakClauseDetails}"
-    val writtenRentOpenEnded = s"${keys.writtenAgreement}.${keys.rentOpenEnded}"
-    val verbalRentOpenEnded = s"${keys.verbalAgreement}.${keys.rentOpenEnded}"
-    val verbalStartDate = s"${keys.verbalAgreement}.${keys.startDate}"
-    val verbalLeaseLength = s"${keys.verbalAgreement}.${keys.leaseLength}"
-    val verbalLeaseYears = s"${keys.verbalAgreement}.${keys.leaseLength}.years"
-    val verbalLeaseMonths = s"${keys.verbalAgreement}.${keys.leaseLength}.months"
+    val writtenLeaseYears: String                   = s"${keys.writtenAgreement}.${keys.leaseLength}.years"
+    val writtenLeaseMonths: String                  = s"${keys.writtenAgreement}.${keys.leaseLength}.months"
+    val writtenStartDate: String                    = s"${keys.writtenAgreement}.${keys.startDate}"
+    val writtenLeaseAgreementHasBreakClause: String = s"${keys.writtenAgreement}.${keys.leaseAgreementHasBreakClause}"
+    val writtenAgreementIsStepped: String           = s"${keys.writtenAgreement}.${keys.agreementIsStepped}"
+    val writtenLeaseLength: String                  = s"${keys.writtenAgreement}.${keys.leaseLength}"
+    val writtenBreakClauseDetails: String           = s"${keys.writtenAgreement}.${keys.breakClauseDetails}"
+    val writtenRentOpenEnded: String                = s"${keys.writtenAgreement}.${keys.rentOpenEnded}"
+    val verbalRentOpenEnded: String                 = s"${keys.verbalAgreement}.${keys.rentOpenEnded}"
+    val verbalStartDate: String                     = s"${keys.verbalAgreement}.${keys.startDate}"
+    val verbalLeaseLength: String                   = s"${keys.verbalAgreement}.${keys.leaseLength}"
+    val verbalLeaseYears: String                    = s"${keys.verbalAgreement}.${keys.leaseLength}.years"
+    val verbalLeaseMonths: String                   = s"${keys.verbalAgreement}.${keys.leaseLength}.months"
 
     def bind(dataMap: Map[String, String]): Form[PageSix] = {
       val bound = pageSixForm.bind(dataMap)
       bound.convertGlobalToFieldErrors()
     }
 
-    def getKeyStepped(idx: Int) = new {
-      val stepFrom = s"${keys.writtenAgreement}.steppedDetails[$idx].stepFrom"
-      val stepTo = s"${keys.writtenAgreement}.steppedDetails[$idx].stepTo"
-      val amount = s"${keys.writtenAgreement}.steppedDetails[$idx].amount"
+    def getKeyStepped(idx: Int): getKeyStepped = new getKeyStepped(idx)
+
+    class getKeyStepped(idx: Int) extends {
+      val stepFrom: String = s"${keys.writtenAgreement}.steppedDetails[$idx].stepFrom"
+      val stepTo: String   = s"${keys.writtenAgreement}.steppedDetails[$idx].stepTo"
+      val amount: String   = s"${keys.writtenAgreement}.steppedDetails[$idx].amount"
     }
 
     val fullData: Map[String, String] = Map(
-      keys.leaseAgreementType -> LeaseAgreementTypesLicenceOther.name,
-      writtenLeaseAgreementHasBreakClause -> "true",
-      writtenBreakClauseDetails -> "BREAK CLAUSE DETAILS",
-      writtenAgreementIsStepped -> "true",
-      getKeyStepped(0).stepFrom + ".day" -> "2",
+      keys.leaseAgreementType              -> LeaseAgreementTypesLicenceOther.name,
+      writtenLeaseAgreementHasBreakClause  -> "true",
+      writtenBreakClauseDetails            -> "BREAK CLAUSE DETAILS",
+      writtenAgreementIsStepped            -> "true",
+      getKeyStepped(0).stepFrom + ".day"   -> "2",
       getKeyStepped(0).stepFrom + ".month" -> "12",
-      getKeyStepped(0).stepFrom + ".year" -> "2000",
-      getKeyStepped(0).stepTo + ".day" -> "12",
-      getKeyStepped(0).stepTo + ".month" -> "2",
-      getKeyStepped(0).stepTo + ".year" -> "2001",
-      getKeyStepped(0).amount -> "123.45",
-      writtenStartDate + ".month" -> "3",
-      writtenStartDate + ".year" -> "2013",
-      writtenRentOpenEnded -> "false",
-      writtenLeaseLength + ".years" -> "3",
-      writtenLeaseLength + ".months" -> "4")
+      getKeyStepped(0).stepFrom + ".year"  -> "2000",
+      getKeyStepped(0).stepTo + ".day"     -> "12",
+      getKeyStepped(0).stepTo + ".month"   -> "2",
+      getKeyStepped(0).stepTo + ".year"    -> "2001",
+      getKeyStepped(0).amount              -> "123.45",
+      writtenStartDate + ".month"          -> "3",
+      writtenStartDate + ".year"           -> nowInUK.minusYears(8).getYear.toString,
+      writtenRentOpenEnded                 -> "false",
+      writtenLeaseLength + ".years"        -> "3",
+      writtenLeaseLength + ".months"       -> "4"
+    )
 
-    val fullDataWithSecondRentStep = fullData.
-      updated(getKeyStepped(1).amount, "456.78").
-      updated(getKeyStepped(1).stepFrom + ".day", "1").
-      updated(getKeyStepped(1).stepFrom + ".month", "1").
-      updated(getKeyStepped(1).stepFrom + ".year", "2020").
-      updated(getKeyStepped(1).stepTo + ".day", "1").
-      updated(getKeyStepped(1).stepTo + ".month", "1").
-      updated(getKeyStepped(1).stepTo + ".year", "2019")
+    val fullDataWithSecondRentStep: Map[String, String] =
+      fullData.updated(getKeyStepped(1).amount, "456.78").updated(getKeyStepped(1).stepFrom + ".day", "1").updated(
+        getKeyStepped(1).stepFrom + ".month",
+        "1"
+      ).updated(getKeyStepped(1).stepFrom + ".year", "2020").updated(getKeyStepped(1).stepTo + ".day", "1").updated(
+        getKeyStepped(1).stepTo + ".month",
+        "1"
+      ).updated(getKeyStepped(1).stepTo + ".year", "2019")
 
-    val fullDataWithNoOverlap = fullData.
-      updated(getKeyStepped(1).amount, "456.78").
-      updated(getKeyStepped(1).stepFrom + ".day", "1").
-      updated(getKeyStepped(1).stepFrom + ".month", "1").
-      updated(getKeyStepped(1).stepFrom + ".year", "2012").
-      updated(getKeyStepped(1).stepTo + ".day", "1").
-      updated(getKeyStepped(1).stepTo + ".month", "1").
-      updated(getKeyStepped(1).stepTo + ".year", "2019")
+    val fullDataWithNoOverlap: Map[String, String] =
+      fullData.updated(getKeyStepped(1).amount, "456.78").updated(getKeyStepped(1).stepFrom + ".day", "1").updated(
+        getKeyStepped(1).stepFrom + ".month",
+        "1"
+      ).updated(getKeyStepped(1).stepFrom + ".year", "2012").updated(getKeyStepped(1).stepTo + ".day", "1").updated(
+        getKeyStepped(1).stepTo + ".month",
+        "1"
+      ).updated(getKeyStepped(1).stepTo + ".year", "2019")
 
-    val dataOverTenYears = fullData.
-      updated(getKeyStepped(0).amount, "456.78").
-      updated(getKeyStepped(0).stepFrom + ".day", "1").
-      updated(getKeyStepped(0).stepFrom + ".month", "1").
-      updated(getKeyStepped(0).stepFrom + ".year", "2000").
-      updated(getKeyStepped(0).stepTo + ".day", "1").
-      updated(getKeyStepped(0).stepTo + ".month", "1").
-      updated(getKeyStepped(0).stepTo + ".year", "2010")
+    val dataOverTenYears: Map[String, String] = fullData.updated(getKeyStepped(0).amount, "456.78").updated(getKeyStepped(0).stepFrom + ".day", "1").updated(
+      getKeyStepped(0).stepFrom + ".month",
+      "1"
+    ).updated(getKeyStepped(0).stepFrom + ".year", "2000").updated(getKeyStepped(0).stepTo + ".day", "1").updated(
+      getKeyStepped(0).stepTo + ".month",
+      "1"
+    ).updated(getKeyStepped(0).stepTo + ".year", "2010")
 
-    def addSteppedRents(n: Int, data: Map[String, String]): Map[String, String] = {
+    def addSteppedRents(n: Int, data: Map[String, String]): Map[String, String] =
       (1 to n).foldLeft(data) { (s, v) =>
         s.updated(getKeyStepped(v).amount, "456.78")
-         .updated(getKeyStepped(v).stepFrom + ".day", "1")
-         .updated(getKeyStepped(v).stepFrom + ".month", "1")
-         .updated(getKeyStepped(v).stepFrom + ".year", (v + 2021).toString)
-         .updated(getKeyStepped(v).stepTo + ".day", "1")
-         .updated(getKeyStepped(v).stepTo + ".month", "1")
-         .updated(getKeyStepped(v).stepTo + ".year", (v + 2022).toString)
+          .updated(getKeyStepped(v).stepFrom + ".day", "1")
+          .updated(getKeyStepped(v).stepFrom + ".month", "1")
+          .updated(getKeyStepped(v).stepFrom + ".year", (v + 2021).toString)
+          .updated(getKeyStepped(v).stepTo + ".day", "1")
+          .updated(getKeyStepped(v).stepTo + ".month", "1")
+          .updated(getKeyStepped(v).stepTo + ".year", (v + 2022).toString)
       }
-    }
   }
 }

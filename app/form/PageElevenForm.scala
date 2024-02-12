@@ -23,11 +23,12 @@ import uk.gov.voa.play.form.ConditionalMappings._
 import MappingSupport._
 import DateMappings._
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
+import play.api.data.Mapping
 
 object PageElevenForm {
 
-  val freePeriodDetailsMapping = mapping(
-    "rentFreePeriodLength" -> intMapping(),
+  val freePeriodDetailsMapping: Mapping[FreePeriodDetails] = mapping(
+    "rentFreePeriodLength"  -> intMapping(),
     "rentFreePeriodDetails" -> default(text, "").verifying(
       nonEmpty(errorMessage = "error.rentFreePeriod.required"),
       maxLength(250, "error.rentFreePeriod.maxLength")
@@ -35,21 +36,23 @@ object PageElevenForm {
   )(FreePeriodDetails.apply)(FreePeriodDetails.unapply)
 
   private def capitalDetailsMapping(prefix: String) = mapping(
-    "capitalSum" -> currencyMapping(".paid"),
-    "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".made"))(CapitalDetails.apply)(CapitalDetails.unapply)
+    "capitalSum"  -> currencyMapping(".paid"),
+    "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".made")
+  )(CapitalDetails.apply)(CapitalDetails.unapply)
 
   private def capitalDetailsReceivedMapping(prefix: String) = mapping(
     "receivedSum" -> currencyMapping(".received"),
-    "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".received"))(CapitalDetails.apply)(CapitalDetails.unapply)
+    "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".received")
+  )(CapitalDetails.apply)(CapitalDetails.unapply)
 
-  val pageElevenMapping = mapping(
-    "rentFreePeriod" -> mandatoryBooleanWithError(Errors.rentFreePeriodRequired),
-    "rentFreePeriodDetails" -> mandatoryIfTrue("rentFreePeriod", freePeriodDetailsMapping),
-    "payCapitalSum" -> mandatoryBooleanWithError(Errors.paidCapitalSumRequired),
-    "capitalPaidDetails" -> mandatoryIfTrue("payCapitalSum", capitalDetailsMapping("capitalPaidDetails")),
-    "receiveCapitalSum" -> mandatoryBooleanWithError(Errors.receivedCapitalSumRequired),
+  val pageElevenMapping: Mapping[IncentivesAndPayments] = mapping(
+    "rentFreePeriod"         -> mandatoryBooleanWithError(Errors.rentFreePeriodRequired),
+    "rentFreePeriodDetails"  -> mandatoryIfTrue("rentFreePeriod", freePeriodDetailsMapping),
+    "payCapitalSum"          -> mandatoryBooleanWithError(Errors.paidCapitalSumRequired),
+    "capitalPaidDetails"     -> mandatoryIfTrue("payCapitalSum", capitalDetailsMapping("capitalPaidDetails")),
+    "receiveCapitalSum"      -> mandatoryBooleanWithError(Errors.receivedCapitalSumRequired),
     "capitalReceivedDetails" -> mandatoryIfTrue("receiveCapitalSum", capitalDetailsReceivedMapping("capitalReceivedDetails"))
-    )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
+  )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
 
-  val pageElevenForm = Form(pageElevenMapping)
+  val pageElevenForm: Form[IncentivesAndPayments] = Form(pageElevenMapping)
 }

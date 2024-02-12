@@ -28,18 +28,18 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageThreeController  @Inject() (audit: Audit,
-                                      formDocumentRepository: FormDocumentRepository,
-                                      refNumAction: RefNumAction,
-                                      cc: MessagesControllerComponents,
-                                      part3: views.html.part3)
-  extends ForDataCapturePage[PageThree](audit, formDocumentRepository, refNumAction, cc) {
-  val format = p3f
-  val emptyForm = pageThreeForm
+class PageThreeController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part3: views.html.part3
+) extends ForDataCapturePage[PageThree](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = p3f
+  val emptyForm       = pageThreeForm
   val pageNumber: Int = 3
 
-  def template(form: Form[PageThree], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[PageThree], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part3(form, summary)
-  }
 
 }

@@ -23,20 +23,18 @@ import org.scalatest.matchers.should
 
 class PreviouslyConnectedFormSpec extends AnyFlatSpec with should.Matchers with OptionValues {
 
-  val formData = Map(
+  val formData: Map[String, String] = Map(
     "haveYouBeenConnected" -> "true"
   )
 
-
-
-  "Form mapping" should "map form with all values"  in {
+  "Form mapping" should "map form with all values" in {
     val formWithData = PreviouslyConnectedForm.formMapping.bind(formData)
 
     formWithData.errors shouldBe empty
 
     formWithData.value shouldBe defined
 
-    formWithData.value.value shouldBe(PreviouslyConnected(true))
+    formWithData.value.value shouldBe (PreviouslyConnected(true))
 
   }
 
@@ -47,9 +45,8 @@ class PreviouslyConnectedFormSpec extends AnyFlatSpec with should.Matchers with 
 
     formWithData.errors should not be empty
 
-    formWithData.errors should have size(1)
+    formWithData.errors should have size 1
 
   }
-
 
 }

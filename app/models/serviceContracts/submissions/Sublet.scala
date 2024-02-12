@@ -20,10 +20,12 @@ import models.RoughDate
 
 case class Sublet(propertyIsSublet: Boolean, sublets: List[SubletData])
 
-case class SubletData(tenantFullName: String,
+case class SubletData(
+  tenantFullName: String,
   tenantAddress: Address,
   subletType: SubletType,
   subletPropertyPartDescription: Option[String],
   subletPropertyReasonDescription: String,
   annualRentExcludingVat: Option[BigDecimal],
-  rentFixedDate: RoughDate)
+  rentFixedDate: RoughDate
+)

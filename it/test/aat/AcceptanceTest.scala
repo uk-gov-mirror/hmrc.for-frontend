@@ -54,71 +54,90 @@ trait AcceptanceTest extends AnyFlatSpec with should.Matchers with GuiceOneServe
     .build()
 }
 
-class TestHttpClient @Inject()(val configuration: Config, val actorSystem: ActorSystem) extends ForHttp {
+class TestHttpClient @Inject() (val configuration: Config, val actorSystem: ActorSystem) extends ForHttp {
   import views.html.helper.urlEncode
   import AcceptanceTest.noHeaders
 
   private val baseForUrl = "http://localhost:9522/for"
   type Headers = Seq[(String, String)]
 
-  private var stubbedGets: Seq[(String, Headers, HttpResponse)] = Nil // scalastyle:ignore
+  private var stubbedGets: Seq[(String, Headers, HttpResponse)]      = Nil // scalastyle:ignore
   private var stubbedPuts: Seq[(String, Any, Headers, HttpResponse)] = Nil // scalastyle:ignore
 
-  def stubGet(url: String, headers: Seq[(String, String)], response: HttpResponse) = {
+  def stubGet(url: String, headers: Seq[(String, String)], response: HttpResponse) =
     stubbedGets :+= ((url, headers, response))
-  }
 
-  def stubPut[A](url: String, body: A, headers: Seq[(String, String)], response: HttpResponse) = {
+  def stubPut[A](url: String, body: A, headers: Seq[(String, String)], response: HttpResponse) =
     stubbedPuts :+= ((url, body, headers, response))
-  }
 
-  def stubValidCredentials(ref1: String, ref2: String, postcode: String) = {
-    stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      200, Json.toJson(FORLoginResponse("token", Address("1", None, None, "AA11 1AA"))), noHeaders
-    ))
-  }
+  def stubValidCredentials(ref1: String, ref2: String, postcode: String) =
+    stubGet(
+      s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
+      Nil,
+      HttpResponse(
+        200,
+        Json.toJson(FORLoginResponse("token", Address("1", None, None, "AA11 1AA"))),
+        noHeaders
+      )
+    )
 
-  def stubInvalidCredentials(ref1: String, ref2: String, postcode: String) = {
-    stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      401, Json.parse("""{"numberOfRemainingTriesUntilIPLockout":4}"""), noHeaders
-    ))
-  }
+  def stubInvalidCredentials(ref1: String, ref2: String, postcode: String) =
+    stubGet(
+      s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
+      Nil,
+      HttpResponse(
+        401,
+        Json.parse("""{"numberOfRemainingTriesUntilIPLockout":4}"""),
+        noHeaders
+      )
+    )
 
-  def stubConflictingCredentials(ref1: String, ref2: String, postcode: String) = {
-    stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      409, Json.parse("{\"error\":\"Duplicate submission. 1234567890\"}"), noHeaders
-    ))
-  }
+  def stubConflictingCredentials(ref1: String, ref2: String, postcode: String) =
+    stubGet(
+      s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
+      Nil,
+      HttpResponse(
+        409,
+        Json.parse("{\"error\":\"Duplicate submission. 1234567890\"}"),
+        noHeaders
+      )
+    )
 
-  def stubIPLockout(ref1: String, ref2: String, postcode: String) = {
-    stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      401, Json.parse("""{"numberOfRemainingTriesUntilIPLockout":0}"""), noHeaders
-    ))
-  }
+  def stubIPLockout(ref1: String, ref2: String, postcode: String) =
+    stubGet(
+      s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
+      Nil,
+      HttpResponse(
+        401,
+        Json.parse("""{"numberOfRemainingTriesUntilIPLockout":0}"""),
+        noHeaders
+      )
+    )
 
-  def stubInternalServerError(ref1: String, ref2: String, postcode: String) = {
-    stubGet(s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify", Nil, HttpResponse(
-      500, ""
-    ))
-  }
+  def stubInternalServerError(ref1: String, ref2: String, postcode: String) =
+    stubGet(
+      s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
+      Nil,
+      HttpResponse(
+        500,
+        ""
+      )
+    )
 
-  def stubSubmission(refNum: String, submission: JsValue, headers: Seq[(String, String)], response: HttpResponse) = {
+  def stubSubmission(refNum: String, submission: JsValue, headers: Seq[(String, String)], response: HttpResponse) =
     stubPut(s"$baseForUrl/submissions/$refNum", submission, headers, response)
-  }
 
-  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
+  override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] =
     stubbedGets.find(x => x._1 == url && x._2.forall(y => headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, res)) => Future.successful(res)
-      case _ => throw new HttpRequestNotStubbed(url, headers)
+      case _                 => throw new HttpRequestNotStubbed(url, headers)
     }
-  }
 
-  override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], ec: ExecutionContext): Future[HttpResponse] = {
+  override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], ec: ExecutionContext): Future[HttpResponse] =
     stubbedPuts.find(x => x._1 == url && x._2 == body && x._3.forall(y => headers.exists(h => h._1 == y._1 && h._2 == y._2))) match {
       case Some((_, _, _, res)) => Future.successful(res)
-      case _ => throw new HttpRequestNotStubbed(url, headers)
+      case _                    => throw new HttpRequestNotStubbed(url, headers)
     }
-  }
 
   override def doPutString(url: String, body: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] = {
     Thread.sleep(100000000L)
@@ -131,4 +150,4 @@ class TestHttpClient @Inject()(val configuration: Config, val actorSystem: Actor
 }
 
 class HttpRequestNotStubbed[A](url: String, headers: Seq[(String, String)], data: Option[A] = None)
-  extends Exception(s"Request not stubbed: $url - ${headers} ${data.map { d => s"- $d" }.getOrElse("")}")
+  extends Exception(s"Request not stubbed: $url - $headers ${data.map(d => s"- $d").getOrElse("")}")

@@ -29,26 +29,26 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
   import utils.MappingSpecs._
 
   "Page Twelve Mapping" should "bind with the fields and not return issues" in {
-    mustBind(bind(baseData)) { _ => () }
+    mustBind(bind(baseData))(_ => ())
   }
 
   it should "bind with the fields and return no errors, when the unnecessary details for ndr are not there" in {
     val data = baseData.updated("ndrCharges", "false") - "ndrDetails"
 
-    mustBind(bind(data)) { _ => () }
+    mustBind(bind(data))(_ => ())
   }
 
   it should "bind with the fields and return errors, when the cost for ndr services and costs is not there" in {
     val data = baseData - "ndrDetails"
     val form = bind(data).convertGlobalToFieldErrors()
 
-    mustContainError("ndrDetails", "error.required.businessRatesPerYear"  ,form)
+    mustContainError("ndrDetails", "error.required.businessRatesPerYear", form)
   }
 
   it should "bind with the fields and return no errors, when the unnecessary details for other included services are not there" in {
     val data = baseData.updated("includedServices", "false") - "includedServices.chargeDescription" - "includedServices.chargeCost"
 
-    mustBind(bind(data)) { _ => () }
+    mustBind(bind(data))(_ => ())
   }
 
   it should "bind with the fields and return errors, when the necessary cost details for other included services are not there" in {
@@ -67,7 +67,7 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "allow upto 8 services" in {
     val d = addServices(7, baseData)
-    mustBind(bind(d)) { x => assert(x === responsibilitiesWith8Services) }
+    mustBind(bind(d))(x => assert(x === responsibilitiesWith8Services))
 
     val form = bind(addServices(8, baseData))
     mustContainError("includedServicesDetails", Errors.tooManyServices, form)
@@ -110,7 +110,7 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   it should "bind with the fields and return errors, when the necessary cost details for water charges are not there" in {
     val data = baseData - "waterChargesCost"
-    val res = bind(data).convertGlobalToFieldErrors()
+    val res  = bind(data).convertGlobalToFieldErrors()
 
     mustContainError("waterChargesCost", "error.required.waterChargesPerYear", res)
   }
@@ -148,26 +148,30 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   object TestData {
-    def getKeyService(idx: Int) = new {
-      val description = s"includedServicesDetails[$idx].chargeDescription"
-      val cost = s"includedServicesDetails[$idx].chargeCost"
-      val parentFieldName = s"includedServicesDetails[$idx]"
+
+    def getKeyService(idx: Int): getKeyService = new getKeyService(idx)
+
+    class getKeyService(idx: Int) extends {
+      val description: String     = s"includedServicesDetails[$idx].chargeDescription"
+      val cost: String            = s"includedServicesDetails[$idx].chargeCost"
+      val parentFieldName: String = s"includedServicesDetails[$idx]"
     }
 
     def bind(data: Map[String, String]) = pageTwelveForm.bind(data).convertGlobalToFieldErrors()
 
-    val responsibleOutsideRepairs = "responsibleOutsideRepairs" -> "tenant"
-    val responsibleInsideRepairs = "responsibleInsideRepairs" -> "tenant"
-    val responsibleBuildingInsurance = "responsibleBuildingInsurance" -> "tenant"
-    val ndrCharges = "ndrCharges" -> "true"
-    val ndrDetail = "ndrDetails" -> "99.99"
-    val waterCharges = "waterCharges" -> "true"
-    val waterChargesCost = "waterChargesCost" -> "120"
-    val includedServices = "includedServices" -> "true"
-    val service1Description = getKeyService(0).description -> "security"
-    val service1Cost = getKeyService(0).cost -> "200"
+    val responsibleOutsideRepairs: (String, String)    = "responsibleOutsideRepairs"    -> "tenant"
+    val responsibleInsideRepairs: (String, String)     = "responsibleInsideRepairs"     -> "tenant"
+    val responsibleBuildingInsurance: (String, String) = "responsibleBuildingInsurance" -> "tenant"
+    val ndrCharges: (String, String)                   = "ndrCharges"                   -> "true"
+    val ndrDetail: (String, String)                    = "ndrDetails"                   -> "99.99"
+    val waterCharges: (String, String)                 = "waterCharges"                 -> "true"
+    val waterChargesCost: (String, String)             = "waterChargesCost"             -> "120"
+    val includedServices: (String, String)             = "includedServices"             -> "true"
+    val service1Description: (String, String)          = getKeyService(0).description   -> "security"
+    val service1Cost: (String, String)                 = getKeyService(0).cost          -> "200"
 
-    val baseData = Map(responsibleOutsideRepairs,
+    val baseData: Map[String, String] = Map(
+      responsibleOutsideRepairs,
       responsibleInsideRepairs,
       responsibleBuildingInsurance,
       ndrCharges,
@@ -176,24 +180,35 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
       waterChargesCost,
       includedServices,
       service1Description,
-      service1Cost)
+      service1Cost
+    )
 
-    val dataWithSecondService = baseData.
-      updated(getKeyService(1).description, "insecurity").
-      updated(getKeyService(1).cost, "250")
+    val dataWithSecondService: Map[String, String] = baseData.updated(getKeyService(1).description, "insecurity").updated(getKeyService(1).cost, "250")
 
-    def addServices(n: Int, data: Map[String, String]) = {
+    def addServices(n: Int, data: Map[String, String]): Map[String, String] =
       (1 to n).foldLeft(data) { (s, v) =>
         s.updated(s"includedServicesDetails[$v].chargeDescription", "blah blah blah")
-         .updated(s"includedServicesDetails[$v].chargeCost", "45")
+          .updated(s"includedServicesDetails[$v].chargeCost", "45")
       }
-    }
 
-    val responsibilitiesWith8Services = PageTwelve(
-      ResponsibleTenant, ResponsibleTenant, ResponsibleTenant, true, Some(99.99), true, Some(120), true, List(
-        ChargeDetails("security", 200), ChargeDetails("blah blah blah", 45), ChargeDetails("blah blah blah", 45),
-        ChargeDetails("blah blah blah", 45), ChargeDetails("blah blah blah", 45), ChargeDetails("blah blah blah", 45),
-        ChargeDetails("blah blah blah", 45), ChargeDetails("blah blah blah", 45)
+    val responsibilitiesWith8Services: PageTwelve = PageTwelve(
+      ResponsibleTenant,
+      ResponsibleTenant,
+      ResponsibleTenant,
+      true,
+      Some(99.99),
+      true,
+      Some(120),
+      true,
+      List(
+        ChargeDetails("security", 200),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45),
+        ChargeDetails("blah blah blah", 45)
       )
     )
 

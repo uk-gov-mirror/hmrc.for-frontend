@@ -55,7 +55,7 @@ class OnlyIfTrue extends AnyFlatSpec with should.Matchers {
   }
 
   it should "apply a mapping with value FALSE is string in not a case-variation of TRUE or FALSE" in {
-    isTrue("source")(Map("source" -> "non-sensical")) should be(false)
+    isTrue("source")(Map("source" -> "non-sensical"))  should be(false)
     isFalse("source")(Map("source" -> "non-sensical")) should be(false)
   }
 
@@ -63,21 +63,21 @@ class OnlyIfTrue extends AnyFlatSpec with should.Matchers {
 
   it should "apply the mapping to the target field if the source field is true" in {
     val data = Map("source" -> "true", "target" -> "Bonjour")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.value.value === Model(true, Some("Bonjour")))
   }
 
   it should "ignore the mapping and set the default value if the source field is not true" in {
     val data = Map("source" -> "false", "target" -> "Bonjour")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.value.value === Model(false, None))
   }
 
   it should "not mandate the target field even if the source field is true" in {
     val data = Map("source" -> "true")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.isEmpty)
   }

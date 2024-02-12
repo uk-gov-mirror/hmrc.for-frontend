@@ -21,23 +21,31 @@ import models.{NamedEnum, NamedEnumSupport}
 sealed trait RentBaseType extends NamedEnum {
   val key = "rentBaseTypes"
 }
+
 object RentBaseTypeOpenMarket extends RentBaseType {
   val name = "openMarket"
 }
+
 object RentBaseTypePercentageOpenMarket extends RentBaseType {
   val name = "percentageOpenMarket"
 }
+
 object RentBaseTypePercentageTurnover extends RentBaseType {
   val name = "percentageTurnover"
 }
+
 object RentBaseTypeIndexation extends RentBaseType {
   val name = "indexation"
 }
+
 object RentBaseTypeOther extends RentBaseType {
   val name = "other"
 }
+
 object RentBaseTypes extends NamedEnumSupport[RentBaseType] {
-  val all = List(RentBaseTypeOpenMarket, RentBaseTypePercentageOpenMarket,  RentBaseTypePercentageTurnover, RentBaseTypeIndexation, RentBaseTypeOther)
-  val key = all.head.key
+
+  val all: List[RentBaseType] =
+    List(RentBaseTypeOpenMarket, RentBaseTypePercentageOpenMarket, RentBaseTypePercentageTurnover, RentBaseTypeIndexation, RentBaseTypeOther)
+  val key                     = all.head.key
 
 }

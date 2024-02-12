@@ -17,7 +17,7 @@
 import java.time.ZonedDateTime
 
 package object useCases {
-  type Now = () => ZonedDateTime
-  type ReferenceNumber = String
+  type Now                  = () => ZonedDateTime
+  type ReferenceNumber      = String
   type SaveForLaterPassword = String
 }

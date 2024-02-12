@@ -20,6 +20,13 @@ import models.RoughDate
 import models.serviceContracts.submissions.OccupierType
 
 case class PageThree(
-                      propertyType: String, occupierType: OccupierType, occupierCompanyName: Option[String],
-                      occupierCompanyContact: Option[String], firstOccupationDate: Option[RoughDate], mainOccupierName: Option[String],
-                      propertyOwnedByYou: Boolean, propertyRentedByYou: Option[Boolean], noRentDetails: Option[String])
+  propertyType: String,
+  occupierType: OccupierType,
+  occupierCompanyName: Option[String],
+  occupierCompanyContact: Option[String],
+  firstOccupationDate: Option[RoughDate],
+  mainOccupierName: Option[String],
+  propertyOwnedByYou: Boolean,
+  propertyRentedByYou: Option[Boolean],
+  noRentDetails: Option[String]
+)

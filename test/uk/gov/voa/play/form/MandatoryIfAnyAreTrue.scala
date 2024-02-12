@@ -32,7 +32,7 @@ class MandatoryIfAnyAreTrue extends AnyFlatSpec with should.Matchers {
   it should "mandate the target field if any of the source fields are true" in {
     Seq("f1", "f2", "f3") foreach { f =>
       val data = Map(f -> "true")
-      val res = form.bind(data)
+      val res  = form.bind(data)
 
       assert(res.errors.head.key === "target")
     }
@@ -43,10 +43,10 @@ class MandatoryIfAnyAreTrue extends AnyFlatSpec with should.Matchers {
     assert(res.errors.isEmpty)
   }
 
-  lazy val form = Form(mapping(
-    "f1" -> boolean,
-    "f2" -> boolean,
-    "f3" -> boolean,
+  lazy val form: Form[Model] = Form(mapping(
+    "f1"     -> boolean,
+    "f2"     -> boolean,
+    "f3"     -> boolean,
     "target" -> mandatoryIfAnyAreTrue(Seq("f1", "f2", "f3"), nonEmptyText)
   )(Model.apply)(Model.unapply))
 

@@ -16,7 +16,6 @@
 
 package form
 
-
 import form.MappingSupport._
 import models.serviceContracts.submissions._
 import play.api.data.Form
@@ -24,12 +23,12 @@ import play.api.data.Forms.{mapping, nonEmptyText}
 
 object PageTwoForm {
 
-  val ownerAndOccupier = Seq(UserTypeOwner.name, UserTypeOccupier.name)
-  val agents = Seq(UserTypeOccupiersAgent.name, UserTypeOwnersAgent.name)
+  val ownerAndOccupier: Seq[String] = Seq(UserTypeOwner.name, UserTypeOccupier.name)
+  val agents: Seq[String]           = Seq(UserTypeOccupiersAgent.name, UserTypeOwnersAgent.name)
 
   val pageTwoForm: Form[CustomerDetails] = Form(mapping(
-    "fullName" -> nonEmptyText(maxLength = 50),
-    "userType" -> userType,
+    "fullName"       -> nonEmptyText(maxLength = 50),
+    "userType"       -> userType,
     "contactDetails" -> contactDetailsMapping
   )(CustomerDetails.apply)(CustomerDetails.unapply))
 }

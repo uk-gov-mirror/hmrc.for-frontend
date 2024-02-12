@@ -36,7 +36,7 @@ object AddressConnectionTypeYesChangeAddress extends AddressConnectionType {
 
 object AddressConnectionTypes extends NamedEnumSupport[AddressConnectionType] {
 
-  override def all = List(AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress)
+  override def all: List[AddressConnectionType] = List(AddressConnectionTypeYes, AddressConnectionTypeNo, AddressConnectionTypeYesChangeAddress)
 
   val key = all.head.key
 

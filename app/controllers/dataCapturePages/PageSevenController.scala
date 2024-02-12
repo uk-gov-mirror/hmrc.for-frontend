@@ -36,27 +36,29 @@ import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-class PageSevenController @Inject() (audit: Audit,
-                                     formDocumentRepository: FormDocumentRepository,
-                                     refNumAction: RefNumAction,
-                                     cc: MessagesControllerComponents,
-                                     part7:views.html.part7)
-  extends ForDataCapturePage[PageSeven](audit, formDocumentRepository, refNumAction, cc) {
-  val format = p7f
-  val emptyForm = pageSevenForm
+class PageSevenController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part7: views.html.part7
+) extends ForDataCapturePage[PageSeven](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = p7f
+  val emptyForm       = pageSevenForm
   val pageNumber: Int = 7
 
   def template(form: Form[PageSeven], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    val updatedForm: Form[PageSeven] = Await.result(repository.findById(SessionId(hc), request.refNum).map { docOpt =>
-      (for {
-        doc <- docOpt
-        page6 <- doc.page(6)
-        pageSix <- pageSixForm.bindFromRequest(page6.fields).value
-        agreementStartDate <- getAgreementStartDate(pageSix)
-      } yield {
-        form.copy(data = form.data + ("agreementStartDate" -> agreementStartDate.toString))
-      }).getOrElse(form)
-    }, 20 seconds)
+    val updatedForm: Form[PageSeven] = Await.result(
+      repository.findById(SessionId(hc), request.refNum).map { docOpt =>
+        (for {
+          doc                <- docOpt
+          page6              <- doc.page(6)
+          pageSix            <- pageSixForm.bindFromRequest(page6.fields).value
+          agreementStartDate <- getAgreementStartDate(pageSix)
+        } yield form.copy(data = form.data + ("agreementStartDate" -> agreementStartDate.toString))).getOrElse(form)
+      },
+      20 seconds
+    )
 
     part7(updatedForm, summary)
   }

@@ -25,15 +25,14 @@ class PageEightMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import PageEightForm._
 
-  val wasFixedBetween = "wasRentFixedBetween" -> "false"
-  val notReviewRentFixed = "notReviewRentFixed" -> "interim"
-  val rentSetBy = "rentSetByType" -> "newLease"
+  val wasFixedBetween: (String, String)    = "wasRentFixedBetween" -> "false"
+  val notReviewRentFixed: (String, String) = "notReviewRentFixed"  -> "interim"
+  val rentSetBy: (String, String)          = "rentSetByType"       -> "newLease"
 
-  val baseData = Map(wasFixedBetween, notReviewRentFixed, rentSetBy)
+  val baseData: Map[String, String] = Map(wasFixedBetween, notReviewRentFixed, rentSetBy)
 
-  def bind(formData: Map[String, String]) = {
+  def bind(formData: Map[String, String]) =
     pageEightForm.bind(formData).convertGlobalToFieldErrors()
-  }
 
   def containsError(errors: Seq[FormError], key: String, message: String): Boolean = {
     val exists = errors.exists { err =>
@@ -50,30 +49,30 @@ class PageEightMappingSpec extends AnyFlatSpec with should.Matchers {
 
   "PageEightData" should "bind with the fields and return no issues when no value input for the way that rent was fixed, when it is between yourself and landlord" in {
     val data = baseData.updated("wasRentFixedBetween", "true") - "notReviewRentFixed"
-    val res = bind(data)
+    val res  = bind(data)
     res.errors.isEmpty should be(true)
-    res.errors.size should be(0)
+    res.errors.size    should be(0)
   }
 
   "PageEightData" should "bind with the fields and return issues when no selection is chosen for if the rent was fixed between you and landlord" in {
     val data = baseData - "wasRentFixedBetween"
-    val res = bind(data)
+    val res  = bind(data)
     res.errors.isEmpty should be(false)
-    res.errors.size should be(1)
+    res.errors.size    should be(1)
     containsError(res.errors, "wasRentFixedBetween", Errors.wasTheRentFixedBetweenRequired)
   }
 
   "PageEightData" should "not bind with the fields and return issues when no value input for the way that rent was fixed, when not between yourself and landlord" in {
     val data = baseData - "notReviewRentFixed"
-    val res = bind(data).convertGlobalToFieldErrors()
+    val res  = bind(data).convertGlobalToFieldErrors()
     mustContainError("notReviewRentFixed", Errors.whoWasTheRentFixedBetweenRequired, res)
   }
 
   "PageEightData" should "bind with the fields and return issues when no value input for the way that rent was set" in {
     val data = baseData - "rentSetByType"
-    val res = bind(data)
+    val res  = bind(data)
     res.errors.isEmpty should be(false)
-    res.errors.size should be(1)
+    res.errors.size    should be(1)
     containsError(res.errors, "rentSetByType", Errors.isThisRentRequired)
   }
 }

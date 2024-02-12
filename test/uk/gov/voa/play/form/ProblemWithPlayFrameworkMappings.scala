@@ -30,7 +30,7 @@ class ProblemWithPlayFrameworkMappings extends AnyFlatSpec with should.Matchers 
 
   it should "not contain an error for the conditional validation when there is a field-level error" in {
     val data = Map("nonUkResident" -> "true")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.length == 1)
     assert(res.errors.head.key === "email")
@@ -38,16 +38,16 @@ class ProblemWithPlayFrameworkMappings extends AnyFlatSpec with should.Matchers 
 
   it should "not allow an field-level error message for a conditional validation" in {
     val data = Map("nonUkResident" -> "true", "email" -> "abc@gov.uk")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.length == 1)
     assert(res.errors.head.key === "")
   }
 
-  lazy val form = Form(mapping(
+  lazy val form: Form[Model] = Form(mapping(
     "nonUkResident" -> boolean,
-    "country" -> optional(nonEmptyText),
-    "email" -> nonEmptyText
+    "country"       -> optional(nonEmptyText),
+    "email"         -> nonEmptyText
   )(Model.apply)(Model.unapply).verifying("Error.countryRequired", x => x.nonUkResident && x.country.isDefined))
 
 }
@@ -61,16 +61,16 @@ class SolutionUsingConditionalMappings extends AnyFlatSpec with should.Matchers 
 
   it should "contain a field level errors for the field and conditional mappings" in {
     val data = Map("nonUkResident" -> "true")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.length == 2)
     assert(res.errors.head.key === "country")
     assert(res.errors.tail.head.key === "email")
   }
 
-  lazy val form = Form(mapping(
+  lazy val form: Form[Model] = Form(mapping(
     "nonUkResident" -> boolean,
-    "country" -> mandatoryIfTrue("nonUkResident", nonEmptyText),
-    "email" -> nonEmptyText
+    "country"       -> mandatoryIfTrue("nonUkResident", nonEmptyText),
+    "email"         -> nonEmptyText
   )(Model.apply)(Model.unapply))
 }

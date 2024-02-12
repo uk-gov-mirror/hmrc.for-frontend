@@ -18,6 +18,6 @@ package models.serviceContracts.submissions
 
 import models.NamedEnumSupport
 
-object PropertyTypes extends NamedEnumSupport[PropertyType]{
-  val all = List(PropertyTypesShop, PropertyTypesOffice, PropertyTypesFactory, PropertyTypesWarehouse, PropertyTypesOther)
+object PropertyTypes extends NamedEnumSupport[PropertyType] {
+  val all: List[PropertyType] = List(PropertyTypesShop, PropertyTypesOffice, PropertyTypesFactory, PropertyTypesWarehouse, PropertyTypesOther)
 }

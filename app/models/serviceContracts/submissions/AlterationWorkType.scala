@@ -54,11 +54,16 @@ object AlterationSetByTypeFittingOut extends AlterationSetByType {
   val name = "fittingOut"
 }
 
-
 object AlterationSetByType extends NamedEnumSupport[AlterationSetByType] {
-  val all = List(AlterationSetByTypeExtension, AlterationSetByTypeDemolition,
-    AlterationSetByTypeAddedMezzanineFloor, AlterationSetByTypeRemovedWall,
-    AlterationSetByTypeAddLift, AlterationSetByTypeAddedParking, AlterationSetByTypeAddedAirCondition,
+
+  val all: List[AlterationSetByType] = List(
+    AlterationSetByTypeExtension,
+    AlterationSetByTypeDemolition,
+    AlterationSetByTypeAddedMezzanineFloor,
+    AlterationSetByTypeRemovedWall,
+    AlterationSetByTypeAddLift,
+    AlterationSetByTypeAddedParking,
+    AlterationSetByTypeAddedAirCondition,
     AlterationSetByTypeFittingOut
   )
 }

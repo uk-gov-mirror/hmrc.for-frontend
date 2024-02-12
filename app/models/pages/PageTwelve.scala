@@ -18,7 +18,8 @@ package models.pages
 
 import models.serviceContracts.submissions._
 
-case class PageTwelve(responsibleOutsideRepairs: ResponsibleType,
+case class PageTwelve(
+  responsibleOutsideRepairs: ResponsibleType,
   responsibleInsideRepairs: ResponsibleType,
   responsibleBuildingInsurance: ResponsibleType,
   ndrCharges: Boolean,
@@ -26,4 +27,5 @@ case class PageTwelve(responsibleOutsideRepairs: ResponsibleType,
   waterCharges: Boolean,
   waterChargesCost: Option[BigDecimal],
   includedServices: Boolean,
-  includedServicesDetails: List[ChargeDetails])
+  includedServicesDetails: List[ChargeDetails]
+)

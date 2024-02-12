@@ -18,11 +18,11 @@ package models.serviceContracts.submissions
 
 import java.time.LocalDate
 
-
 case class Rent(
   annualRentExcludingVat: Option[BigDecimal],
   rentBecomePayable: LocalDate,
   rentActuallyAgreed: LocalDate,
   negotiatingNewRent: Boolean,
   rentBasis: RentBaseType,
-  rentBasisOtherDetails: Option[String])
+  rentBasisOtherDetails: Option[String]
+)

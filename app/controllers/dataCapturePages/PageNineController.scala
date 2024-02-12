@@ -28,17 +28,17 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 
-class PageNineController @Inject() (audit: Audit,
-                                    formDocumentRepository: FormDocumentRepository,
-                                    refNumAction: RefNumAction,
-                                    cc: MessagesControllerComponents,
-                                    part9 : views.html.part9)
-  extends ForDataCapturePage[PageNine] (audit, formDocumentRepository, refNumAction, cc) {
-  val format = p9f
-  val emptyForm = pageNineForm
+class PageNineController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part9: views.html.part9
+) extends ForDataCapturePage[PageNine](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = p9f
+  val emptyForm       = pageNineForm
   val pageNumber: Int = 9
 
-  def template(form: Form[PageNine], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
+  def template(form: Form[PageNine], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html =
     part9(form, summary)
-  }
 }

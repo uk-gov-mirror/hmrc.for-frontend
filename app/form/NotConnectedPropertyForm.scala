@@ -27,17 +27,13 @@ import play.api.libs.json.{Json, OFormat}
 
 import scala.util.matching.Regex
 
-case class NotConnectedPropertyForm( fullName: String,
-                                     email: Option[String],
-                                     phoneNumber: Option[String],
-                                     additionalInformation: Option[String]
-                                   )
-
+case class NotConnectedPropertyForm(fullName: String, email: Option[String], phoneNumber: Option[String], additionalInformation: Option[String])
 
 object NotConnectedPropertyForm {
-  def atLeastOneKeyFormatter(anotherKey: String):Formatter[Option[String]] = new Formatter[Option[String]] {
 
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
+  def atLeastOneKeyFormatter(anotherKey: String): Formatter[Option[String]] = new Formatter[Option[String]] {
+
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] =
       if (data.get(key).exists(!_.isBlank)) {
         Right(data.get(key).map(_.trim))
       } else {
@@ -47,7 +43,6 @@ object NotConnectedPropertyForm {
           Left(Seq(FormError(key, "notConnected.emailOrPhone")))
         }
       }
-    }
 
     override def unbind(key: String, value: Option[String]): Map[String, String] = value.map(x => Map(key -> x))
       .getOrElse(Map.empty[String, String])
@@ -57,7 +52,7 @@ object NotConnectedPropertyForm {
     def optConstraint[T](constraint: Constraint[T]): Constraint[Option[T]] = Constraint[Option[T]] { (parameter: Option[T]) =>
       parameter match {
         case Some(value) => constraint(value)
-        case None => Valid
+        case None        => Valid
       }
     }
     FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
@@ -65,11 +60,11 @@ object NotConnectedPropertyForm {
 
   private val fullNameRegex: Regex = """^[A-Za-z\-.,()'"\s]+$""".r
 
-  val form = Form(
+  val form: Form[NotConnected] = Form(
     mapping(
-      "fullName" -> nonEmptyText.verifying(Constraints.pattern(fullNameRegex, error = "notConnected.error.nameInvalid")),
-      "email" -> atLeastOneMapping("phoneNumber", emailAddress),
-      "phoneNumber" -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints:_*),
+      "fullName"              -> nonEmptyText.verifying(Constraints.pattern(fullNameRegex, error = "notConnected.error.nameInvalid")),
+      "email"                 -> atLeastOneMapping("phoneNumber", emailAddress),
+      "phoneNumber"           -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints: _*),
       "additionalInformation" -> optional(text)
     )(NotConnected.apply)(NotConnected.unapply)
   )

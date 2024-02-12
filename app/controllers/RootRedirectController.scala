@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import play.api.Configuration
-@import views.html.includes.javascripts
+package controllers
 
-@this(configuration: Configuration, javascripts: javascripts)
+import play.api.mvc._
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
-@()
+import javax.inject.{Inject, Singleton}
 
-@javascripts()
+/**
+ * @author Yuriy Tumakha
+ */
+@Singleton
+class RootRedirectController @Inject() (cc: MessagesControllerComponents) extends FrontendController(cc) {
+
+  def rootRedirect: Action[AnyContent] = Action {
+    Redirect(routes.ApplicationController.index)
+  }
+
+}

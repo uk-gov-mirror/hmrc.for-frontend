@@ -24,16 +24,18 @@ import uk.gov.voa.play.form.ConditionalMappings._
 import DateMappings._
 import MappingSupport._
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
+import play.api.data.Mapping
 
 object PageNineForm {
 
-  val pageNineMaping = mapping(
-    "totalRent" -> annualRent,
-    "rentBecomePayable" -> dateFieldsMapping("rentBecomePayable", fieldErrorPart = ".rentBecomePayable"),
+  val pageNineMaping: Mapping[PageNine] = mapping(
+    "totalRent"          -> annualRent,
+    "rentBecomePayable"  -> dateFieldsMapping("rentBecomePayable", fieldErrorPart = ".rentBecomePayable"),
     "rentActuallyAgreed" -> dateFieldsMapping("rentActuallyAgreed", fieldErrorPart = ".rentActuallyAgreed"),
     "negotiatingNewRent" -> mandatoryBooleanWithError(Errors.negotiatingNewRentRequired),
-    "rentBasedOn" -> rentBaseTypeMapping,
-    "rentBasedOnDetails" -> mandatoryAndOnlyIfAnyOf("rentBasedOn",
+    "rentBasedOn"        -> rentBaseTypeMapping,
+    "rentBasedOnDetails" -> mandatoryAndOnlyIfAnyOf(
+      "rentBasedOn",
       Seq(RentBaseTypePercentageOpenMarket.name, RentBaseTypePercentageTurnover.name, RentBaseTypeOther.name),
       default(text, "").verifying(
         nonEmpty(errorMessage = "error.rentBasedOnDetails.required"),
@@ -42,5 +44,5 @@ object PageNineForm {
     )
   )(PageNine.apply)(PageNine.unapply)
 
-  val pageNineForm = Form(pageNineMaping)
+  val pageNineForm: Form[PageNine] = Form(pageNineMaping)
 }

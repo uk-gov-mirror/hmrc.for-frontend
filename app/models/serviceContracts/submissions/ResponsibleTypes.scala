@@ -21,15 +21,19 @@ import models.{NamedEnum, NamedEnumSupport}
 sealed trait ResponsibleType extends NamedEnum {
   val key = "responsibleType"
 }
+
 object ResponsibleLandlord extends ResponsibleType {
   val name = "landlord"
 }
+
 object ResponsibleTenant extends ResponsibleType {
   val name = "tenant"
 }
+
 object ResponsibleBoth extends ResponsibleType {
   val name = "both"
 }
+
 object ResponsibleTypes extends NamedEnumSupport[ResponsibleType] {
-  val all = List(ResponsibleLandlord,ResponsibleTenant,ResponsibleBoth)
+  val all: List[ResponsibleType] = List(ResponsibleLandlord, ResponsibleTenant, ResponsibleBoth)
 }

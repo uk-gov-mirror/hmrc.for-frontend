@@ -27,24 +27,23 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class EmailConnector @Inject()(config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) {
+class EmailConnector @Inject() (config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) {
 
   private val emailUrl = config.baseUrl("email")
 
-  def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, messages: Messages) = {
+  def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, messages: Messages): Future[Unit] =
     email.map { e =>
       val formattedExpiryDate = fullDateFormatter.format(expiryDate)
-      val json = Json.obj(
-        "to" -> JsArray(Seq(JsString(e))),
+      val json                = Json.obj(
+        "to"         -> JsArray(Seq(JsString(e))),
         "templateId" -> JsString("rald_alert"),
         "parameters" -> JsObject(Seq(
           "referenceNumber" -> JsString(s"""${Messages("saveForLater.refNum")}: $refNumber"""),
-          "postcode" -> JsString(s"""${Messages("saveForLater.postcode")}: $postcode"""),
-          "expiryDate" -> JsString(s"""${Messages("saveForLater.paragraph")} $formattedExpiryDate""")
+          "postcode"        -> JsString(s"""${Messages("saveForLater.postcode")}: $postcode"""),
+          "expiryDate"      -> JsString(s"""${Messages("saveForLater.paragraph")} $formattedExpiryDate""")
         )),
-        "force" -> JsBoolean(false)
+        "force"      -> JsBoolean(false)
       )
-      http.POST[JsObject, HttpResponse](s"$emailUrl/send-templated-email/", json).map( _ => ())
+      http.POST[JsObject, HttpResponse](s"$emailUrl/send-templated-email/", json).map(_ => ())
     } getOrElse Future.unit
-  }
 }

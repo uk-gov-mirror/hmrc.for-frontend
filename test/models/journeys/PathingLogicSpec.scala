@@ -80,32 +80,64 @@ class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "return false for page 7 when the lease agreement type is not verbal" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
-      page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyRented),
+      page4 = Some(propertyNotSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(leaseAgreementTenancy)
+    )
     pageIsNotApplicable(7, sub) should be(false)
   }
 
   it should "return true for page 7 when the lease agreement type is verbal" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
-      page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(pageSixVerbal))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyRented),
+      page4 = Some(propertyNotSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(pageSixVerbal)
+    )
     pageIsNotApplicable(7, sub) should be(true)
   }
 
   it should "return true for page 7 when the property is owned and not sublet, even if the lease agreement type is not verbal" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
-      page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyOwned),
+      page4 = Some(propertyNotSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(leaseAgreementTenancy)
+    )
     pageIsNotApplicable(7, sub) should be(true)
   }
 
   it should "return false for page 8 when there is no rent review" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
-      page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasNoRentReviews))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyRented),
+      page4 = Some(propertyNotSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(leaseAgreementTenancy),
+      page7 = Some(hasNoRentReviews)
+    )
     pageIsNotApplicable(8, sub) should be(false)
   }
 
   it should "return true for page 8 when there are rent reviews" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyOwned),
-      page4 = Some(propertyNotSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasRentReviews))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyOwned),
+      page4 = Some(propertyNotSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(leaseAgreementTenancy),
+      page7 = Some(hasRentReviews)
+    )
     pageIsNotApplicable(8, sub) should be(true)
   }
 
@@ -125,26 +157,39 @@ class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "return 15 for rent reviews path" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
-      page4 = Some(propertyIsSublet), page5 = Some(pageFiveData), page6 = Some(leaseAgreementTenancy), page7 = Some(hasRentReviews))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyRented),
+      page4 = Some(propertyIsSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(leaseAgreementTenancy),
+      page7 = Some(hasRentReviews)
+    )
 
     lastPageFor(sub) shouldBe 14
   }
 
   it should "return 15 for verbal agreement path" in {
-    val sub = summaryBuilder(page0 = Some(pageZeroData), page2 = Some(pageTwoData), page3 = Some(propertyRented),
-      page4 = Some(propertyIsSublet), page5 = Some(pageFiveData), page6 = Some(pageSixVerbal))
+    val sub = summaryBuilder(
+      page0 = Some(pageZeroData),
+      page2 = Some(pageTwoData),
+      page3 = Some(propertyRented),
+      page4 = Some(propertyIsSublet),
+      page5 = Some(pageFiveData),
+      page6 = Some(pageSixVerbal)
+    )
 
     lastPageFor(sub) shouldBe 14
   }
-  
+
   lazy val pageZeroData = AddressConnectionTypeYes
 
-  lazy val pageOneData = Option.empty[Address]
+  lazy val pageOneData: Option[Address] = None
 
-  lazy val pageTwoData = CustomerDetails("name", UserTypeOwner, ContactDetails("01234567890", "abc@mailinator.com"))
+  lazy val pageTwoData: CustomerDetails = CustomerDetails("name", UserTypeOwner, ContactDetails("01234567890", "abc@mailinator.com"))
 
-  lazy val propertyOwned = PageThree(
+  lazy val propertyOwned: PageThree = PageThree(
     propertyType = "property type",
     occupierType = OccupierTypeCompany,
     occupierCompanyName = Some("Some Company"),
@@ -156,7 +201,7 @@ class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
     noRentDetails = None
   )
 
-  lazy val propertyRented = PageThree(
+  lazy val propertyRented: PageThree = PageThree(
     propertyType = "property type",
     occupierType = OccupierTypeCompany,
     occupierCompanyName = Some("Some Company"),
@@ -168,7 +213,7 @@ class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
     noRentDetails = None
   )
 
-  lazy val propertyNotOwnedOrRented = PageThree(
+  lazy val propertyNotOwnedOrRented: PageThree = PageThree(
     propertyType = "property type",
     occupierType = OccupierTypeCompany,
     occupierCompanyName = Some("Some Company"),
@@ -180,24 +225,46 @@ class PathingLogicSpec extends AnyFlatSpec with should.Matchers {
     noRentDetails = None
   )
 
-  lazy val propertyNotSublet = PageFour(
-    false, List.empty
+  lazy val propertyNotSublet: PageFour = PageFour(
+    false,
+    List.empty
   )
 
-  lazy val propertyIsSublet = PageFour(
-    true, List(SubletDetails(
-      "Something",Address("Street address", None, Some("City"), "Postcode"), SubletPart, Option("Description"), "Reason", BigDecimal(1.33), RoughDate(None, Some(12), 1980))
-    )
+  lazy val propertyIsSublet: PageFour = PageFour(
+    true,
+    List(SubletDetails(
+      "Something",
+      Address("Street address", None, Some("City"), "Postcode"),
+      SubletPart,
+      Option("Description"),
+      "Reason",
+      BigDecimal(1.33),
+      RoughDate(None, Some(12), 1980)
+    ))
   )
 
-  lazy val pageFiveData = PageFive(Some("name"), Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
-  lazy val pageSixData = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
-  lazy val pageSixNoVerbal = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
-  lazy val leaseAgreementTenancy = PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
-  lazy val pageSixVerbal = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false)))
-  lazy val pageSevenData = PageSeven(false, None)
-  lazy val pageEightData = RentAgreement(true, None, RentSetByTypeNewLease)
-  lazy val hasNoRentReviews = PageSeven(false, None)
-  lazy val hasRentReviews = PageSeven(true, None)
-  lazy val pageNineData = PageNine(AnnualRent(8.99), rentBecomePayable = LocalDate.of(2010, 2, 27), rentActuallyAgreed = LocalDate.of(2005, 4, 2), negotiatingNewRent = true, rentBasis = RentBaseTypeOpenMarket, None)
+  lazy val pageFiveData: PageFive = PageFive("name", Some(Address("line1", None, Some("city"), "postcode")), LandlordConnectionTypeNone, None)
+
+  lazy val pageSixData: PageSix =
+    PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
+
+  lazy val pageSixNoVerbal: PageSix =
+    PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
+
+  lazy val leaseAgreementTenancy: PageSix =
+    PageSix(LeaseAgreementTypesLeaseTenancy, Some(WrittenAgreement(RoughDate(None, None, 1), false, None, false, None, false, Nil)), VerbalAgreement())
+  lazy val pageSixVerbal: PageSix         = PageSix(LeaseAgreementTypesVerbal, None, VerbalAgreement(Some(RoughDate(None, None, 1)), Some(false)))
+  lazy val pageSevenData: PageSeven       = PageSeven(false, None)
+  lazy val pageEightData: RentAgreement   = RentAgreement(true, None, RentSetByTypeNewLease)
+  lazy val hasNoRentReviews: PageSeven    = PageSeven(false, None)
+  lazy val hasRentReviews: PageSeven      = PageSeven(true, None)
+
+  lazy val pageNineData: PageNine = PageNine(
+    AnnualRent(8.99),
+    rentBecomePayable = LocalDate.of(2010, 2, 27),
+    rentActuallyAgreed = LocalDate.of(2005, 4, 2),
+    negotiatingNewRent = true,
+    rentBasis = RentBaseTypeOpenMarket,
+    None
+  )
 }

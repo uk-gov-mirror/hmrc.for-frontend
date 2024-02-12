@@ -29,5 +29,5 @@ object TenantsAddressTypeMain extends TenantsAddressType {
 }
 
 object TenantsAddressTypes extends NamedEnumSupport[TenantsAddressType] {
-  val all = List(TenantsAddressTypeMain, TenantsAddressTypeDifferentAddress)
+  val all: List[TenantsAddressType] = List(TenantsAddressTypeMain, TenantsAddressTypeDifferentAddress)
 }

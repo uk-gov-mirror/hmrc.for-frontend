@@ -23,21 +23,19 @@ import play.api.libs.json.{JsResult, JsSuccess, Json}
 
 class UserTypeTest extends AnyFlatSpec with should.Matchers {
 
-  val jsonOccupier = "\"occupier\""
-  val jsonOccupiersAgent = "\"occupiersAgent\""
-  val jsonLeaseholder = "\"leaseholder\""
+  val jsonOccupier          = "\"occupier\""
+  val jsonOccupiersAgent    = "\"occupiersAgent\""
+  val jsonLeaseholder       = "\"leaseholder\""
   val jsonLeaseholdersAgent = "\"leaseholdersAgent\""
-  val jsonOwner = "\"owner\""
-  val jsonOwnersAgent = "\"ownersAgent\""
-  val jsonOwnerOccupier = "\"ownerOccupier\""
+  val jsonOwner             = "\"owner\""
+  val jsonOwnersAgent       = "\"ownersAgent\""
+  val jsonOwnerOccupier     = "\"ownerOccupier\""
 
-  def toJson(data: UserType): String = {
+  def toJson(data: UserType): String =
     Json.toJson(data).toString
-  }
 
-  def fromJson(json: String): JsResult[UserType] = {
+  def fromJson(json: String): JsResult[UserType] =
     Json.fromJson[UserType](Json.parse(json))
-  }
 
   "UserType reader for 'occupier' " should "map to UserTypeOccupier" in {
     toJson(UserTypeOccupier) should be(jsonOccupier)
@@ -54,7 +52,7 @@ class UserTypeTest extends AnyFlatSpec with should.Matchers {
   "UserTypeOccupiersAgent" should "map to user type occupiersAgent" in {
     fromJson(jsonOccupiersAgent) should be(JsSuccess(UserTypeOccupiersAgent))
   }
- 
+
   "UserType reader for 'owner' " should "map to UserTypeOwner" in {
     toJson(UserTypeOwner) should be(jsonOwner)
   }

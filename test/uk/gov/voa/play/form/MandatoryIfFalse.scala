@@ -31,7 +31,7 @@ class MandatoryIfFalse extends AnyFlatSpec with should.Matchers {
 
   it should "mandate the target field if the source field is false, with field-level errors" in {
     val data = Map("source" -> "false")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "target")
   }
@@ -42,7 +42,7 @@ class MandatoryIfFalse extends AnyFlatSpec with should.Matchers {
     assert(res.errors.isEmpty)
   }
 
-  lazy val form = Form(mapping(
+  lazy val form: Form[Model] = Form(mapping(
     "source" -> boolean,
     "target" -> mandatoryIfFalse("source", nonEmptyText)
   )(Model.apply)(Model.unapply))

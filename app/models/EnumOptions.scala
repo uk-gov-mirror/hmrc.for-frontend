@@ -21,13 +21,12 @@ import play.api.i18n.Messages
 
 object EnumOptions {
 
-  def options[E <: NamedEnum](e: NamedEnumSupport[E])(implicit messages: Messages): Seq[(String, String)] = {
+  def options[E <: NamedEnum](e: NamedEnumSupport[E])(implicit messages: Messages): Seq[(String, String)] =
     e.all.map { ut =>
       (ut.name, Messages(ut.msgKey))
     }
-  }
 
-  def contactAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] = {
+  def contactAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] =
     ContactAddressTypes.all.map { ut =>
       val base = (ut.name, Messages(ut.msgKey))
       if (ut == ContactAddressTypeMain) {
@@ -36,9 +35,8 @@ object EnumOptions {
         base
       }
     }
-  }
 
-  def originalContactAddressTypeOptions(address: String)(implicit messages: Messages): List[(String, String)] = {
+  def originalContactAddressTypeOptions(address: String)(implicit messages: Messages): List[(String, String)] =
     ContactAddressTypes.all.map { ut =>
       val base = (ut.name, Messages(ut.msgKey))
       if (ut == ContactAddressTypeMain) {
@@ -47,9 +45,8 @@ object EnumOptions {
         base
       }
     }
-  }
 
-  def isTenantsAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] = {
+  def isTenantsAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] =
     TenantsAddressTypes.all.map { ut =>
       val base = (ut.name, Messages(ut.msgKey))
       if (ut == TenantsAddressTypeMain) {
@@ -58,9 +55,8 @@ object EnumOptions {
         base
       }
     }
-  }
 
-  def isTenantsAddressTypeOptionsOriginal(address: String)(implicit messages: Messages): Seq[(String, String)] = {
+  def isTenantsAddressTypeOptionsOriginal(address: String)(implicit messages: Messages): Seq[(String, String)] =
     TenantsAddressTypes.all.map { ut =>
       val base = (ut.name, Messages(ut.msgKey))
       if (ut == TenantsAddressTypeMain) {
@@ -69,5 +65,4 @@ object EnumOptions {
         base
       }
     }
-  }
 }

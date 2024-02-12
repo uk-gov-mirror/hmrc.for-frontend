@@ -54,29 +54,29 @@ class FORSubmissionControllerSpec extends AnyFlatSpec with should.Matchers with 
 
   "When a submission is received and the declaration has been agreed to" should
     "A 302 response redirecting to the confirmation page is returned" in {
-      val request = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
+      val request  =
+        FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "true").withHeaders(HeaderNames.xSessionId -> sessionId)
       val response = Await.result(controller.submit()(request), 5 seconds)
 
       response.header.status should equal(302)
       assert(response.header.headers("Location") === confirmationUrl)
 
-
       And("The Business rental information submission process is initiated")
       submit.assertBRISubmittedFor(refNum)
-  }
+    }
 
   "When a submission is received and the declaration has not been agreed to" should
     "A redirect to the declaration error page is returned" in {
 
-      val request = FakeRequest().withSession(("refNum" -> refNum)).withFormUrlEncodedBody(("declaration" -> "false"))
+      val request  = FakeRequest().withSession("refNum" -> refNum).withFormUrlEncodedBody("declaration" -> "false")
       val response = Await.result(controller.submit()(request), 5 seconds)
 
       response.header.status should equal(302)
       assert(response.header.headers("Location") === declarationErrorUrl)
-  }
+    }
 
   object TestData {
-    lazy val refNum = "adfiwerq08342kfad"
+    lazy val refNum    = "adfiwerq08342kfad"
     lazy val sessionId = "sessionid"
 
     lazy val confirmationUrl = controllers.feedback.routes.SurveyController.confirmation.url
@@ -94,21 +94,34 @@ object StubSubmitBRI {
 class StubSubmitBRI extends SubmitBusinessRentalInformation with should.Matchers {
 
   lazy val stubSubmission: Submission = Submission(
-    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None
   )
 
   var submittedRefNums: Seq[String] = Seq.empty
 
   def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[_]): Future[Submission] = {
-    Console.println(s"=== called apply with : ${refNum} ===")
+    Console.println(s"=== called apply with : $refNum ===")
     Future.successful {
       submittedRefNums = submittedRefNums :+ refNum;
       stubSubmission
     }
   }
 
-  def assertBRISubmittedFor(refNum: String): Unit = {
+  def assertBRISubmittedFor(refNum: String): Unit =
     submittedRefNums should equal(Seq(refNum))
-  }
 
 }

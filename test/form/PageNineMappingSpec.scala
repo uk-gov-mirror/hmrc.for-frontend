@@ -24,7 +24,7 @@ import org.scalatest.matchers.should
 import play.api.data.FormError
 
 import java.time.LocalDate
-
+import org.scalatest.Assertion
 
 class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
 
@@ -40,7 +40,8 @@ class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
       rentActuallyAgreed = LocalDate.of(2001, 5, 1),
       negotiatingNewRent = false,
       rentBasis = RentBaseTypeOther,
-      rentBasisOtherDetails = Some("oneTwoThree"))
+      rentBasisOtherDetails = Some("oneTwoThree")
+    )
 
     val res = bind(fullData)
 
@@ -59,11 +60,11 @@ class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
   checkMissingField(keys.rentBecomePayableYear, "error.rentBecomePayable.year.required")
   checkMissingField(keys.rentBecomePayableMonth, "error.rentBecomePayable.month.required")
 
-  RentBaseTypes.all.filter(x => (x != RentBaseTypeOpenMarket && x != RentBaseTypeIndexation) ).foreach { rentBasis =>
+  RentBaseTypes.all.filter(x => x != RentBaseTypeOpenMarket && x != RentBaseTypeIndexation).foreach { rentBasis =>
     "A form with 'rent basis' of '" + rentBasis.name + "' but a missing 'rent basis other' field" should "return required error for rent based on details" in {
       val testData = fullData.updated(keys.rentBasedOn, rentBasis.name) - keys.rentBasedOnDetails
-      val res = bind(testData)
-      
+      val res      = bind(testData)
+
       mustContainError("rentBasedOnDetails", "error.rentBasedOnDetails.required", res)
     }
   }
@@ -92,55 +93,56 @@ class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
   }
 
   object TestData {
-    val keys = new {
-      val totalRent = "totalRent"
-      val rentLengthType = "totalRent.rentLengthType"
-      val annualRentExcludingVat = "totalRent.annualRentExcludingVat"
-      val rentBecomePayableDay = "rentBecomePayable.day"
-      val rentBecomePayableMonth = "rentBecomePayable.month"
-      val rentBecomePayableYear = "rentBecomePayable.year"
 
-      val rentActuallyAgreedDay = "rentActuallyAgreed.day"
+    val keys: keys = new keys
+
+    class keys extends {
+      val totalRent              = "totalRent"
+      val rentLengthType         = "totalRent.rentLengthType"
+      val annualRentExcludingVat = "totalRent.annualRentExcludingVat"
+      val rentBecomePayableDay   = "rentBecomePayable.day"
+      val rentBecomePayableMonth = "rentBecomePayable.month"
+      val rentBecomePayableYear  = "rentBecomePayable.year"
+
+      val rentActuallyAgreedDay   = "rentActuallyAgreed.day"
       val rentActuallyAgreedMonth = "rentActuallyAgreed.month"
-      val rentActuallyAgreedYear = "rentActuallyAgreed.year"
+      val rentActuallyAgreedYear  = "rentActuallyAgreed.year"
 
       val negotiatingNewRent = "negotiatingNewRent"
-      val rentBasedOn = "rentBasedOn"
+      val rentBasedOn        = "rentBasedOn"
       val rentBasedOnDetails = "rentBasedOnDetails"
     }
 
     val fullData: Map[String, String] = Map(
-      keys.rentLengthType -> RentLengthTypeQuarterly.name,
-      keys.annualRentExcludingVat -> "123.45",
-      keys.rentBecomePayableDay -> "1",
-      keys.rentBecomePayableMonth -> "5",
-      keys.rentBecomePayableYear -> "2001",
-
-      keys.rentActuallyAgreedDay -> "1",
+      keys.rentLengthType          -> RentLengthTypeQuarterly.name,
+      keys.annualRentExcludingVat  -> "123.45",
+      keys.rentBecomePayableDay    -> "1",
+      keys.rentBecomePayableMonth  -> "5",
+      keys.rentBecomePayableYear   -> "2001",
+      keys.rentActuallyAgreedDay   -> "1",
       keys.rentActuallyAgreedMonth -> "5",
-      keys.rentActuallyAgreedYear -> "2001",
-
-      keys.negotiatingNewRent -> "false",
-      keys.rentBasedOn -> RentBasisTypeOther.name,
-      keys.rentBasedOnDetails -> "oneTwoThree")
+      keys.rentActuallyAgreedYear  -> "2001",
+      keys.negotiatingNewRent      -> "false",
+      keys.rentBasedOn             -> RentBasisTypeOther.name,
+      keys.rentBasedOnDetails      -> "oneTwoThree"
+    )
 
     def bind(dataMap: Map[String, String]) = {
       val bound = pageNineForm.bind(dataMap)
       bound.convertGlobalToFieldErrors()
     }
 
-    def hasError(errors: Seq[FormError], key: String, message: String) = {
-      val res = errors.exists { err => err.key == key && err.messages.contains(message) }
+    def hasError(errors: Seq[FormError], key: String, message: String): Assertion = {
+      val res = errors.exists(err => err.key == key && err.messages.contains(message))
       res should be(true)
     }
 
-    def checkMissingField(key: String, code: String = Errors.required) = {
+    def checkMissingField(key: String, code: String = Errors.required): Unit =
       "a  form missing the " + key + " field" should "bind result in 1 validation error" in {
         val testData = fullData - key
-        val res = bind(testData)
+        val res      = bind(testData)
         mustContainError(key, code, res)
       }
-    }
   }
 
 }

@@ -38,63 +38,73 @@ import views.html.{feedbackForm, feedbackThx}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class FeedbackController @Inject()(cc: MessagesControllerComponents,
-                                   http: ForHttp,
-                                   sessionCookieCrypto: SessionCookieCrypto,
-                                   repository: FormDocumentRepository,
-                                   refNumAction: RefNumAction,
-                                   override val servicesConfig: ServicesConfig,
-                                   feedbackThankyouView :feedbackThx,
-                                   feedbackFormView: feedbackForm
-                        )(implicit ec: ExecutionContext) extends FrontendController(cc) with HMRCContact  {
+class FeedbackController @Inject() (
+  cc: MessagesControllerComponents,
+  http: ForHttp,
+  sessionCookieCrypto: SessionCookieCrypto,
+  repository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  override val servicesConfig: ServicesConfig,
+  feedbackThankyouView: feedbackThx,
+  feedbackFormView: feedbackForm
+)(implicit ec: ExecutionContext
+) extends FrontendController(cc)
+  with HMRCContact {
 
-  //override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
-  val log = Logger(this.getClass)
+  // override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
+  val log: Logger = Logger(this.getClass)
 
-  object FeedbackFormMapper{
-    val feedbackForm = Form(
+  object FeedbackFormMapper {
+
+    val feedbackForm: Form[Feedback] = Form(
       mapping(
-        "feedback-rating" -> optional(text).verifying("feedback.rating.required", _.isDefined),
-        "feedback-name" -> text,
-        "feedback-email" -> text,
-        "service" -> text,
-        "referrer" -> text,
-        "journey" -> Forms.of[Journey],
-        "feedback-comments" -> optional(text).verifying("feedback.commments.maxLength", it => {
-          it.getOrElse("").length < 1200
-        })
+        "feedback-rating"   -> optional(text).verifying("feedback.rating.required", _.isDefined),
+        "feedback-name"     -> text,
+        "feedback-email"    -> text,
+        "service"           -> text,
+        "referrer"          -> text,
+        "journey"           -> Forms.of[Journey],
+        "feedback-comments" -> optional(text).verifying(
+          "feedback.commments.maxLength",
+          it =>
+            it.getOrElse("").length < 1200
+        )
       )(Feedback.apply)(Feedback.unapply)
     )
   }
 
   import FeedbackFormMapper.feedbackForm
 
-  def handleFeedbackSubmit = Action.async { implicit request =>
+  def handleFeedbackSubmit: Action[AnyContent] = Action.async { implicit request =>
     val formUrlEncoded = request.body.asFormUrlEncoded
     feedbackForm.bindFromRequest().fold(
-      formWithErrors => Future.successful({
-        BadRequest(feedbackFormView(formWithErrors))
-      }),
-      validForm => {
-        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token"-> "nocheck")
-        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec ) map { res => res.status match {
-          case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
-          case _ => log.error (s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: ${headerCarrier}")
-        }
+      formWithErrors =>
+        Future.successful {
+          BadRequest(feedbackFormView(formWithErrors))
+        },
+      _ => {
+        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec) map { res =>
+          res.status match {
+            case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
+            case _                     =>
+              log.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: $headerCarrier")
+          }
         }
         Redirect(controllers.feedback.routes.FeedbackController.feedbackThankyou)
       }
     )
   }
 
-  def feedback = Action { implicit request =>
+  def feedback: Action[AnyContent] = Action { implicit request =>
     Ok(feedbackFormView(feedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors))
   }
-  def notConnectedFeedback = Action { implicit request =>
+
+  def notConnectedFeedback: Action[AnyContent] = Action { implicit request =>
     Ok(feedbackFormView(feedbackForm.bind(Map("journey" -> NotConnectedJourney.name)).discardingErrors))
   }
 
-  def feedbackThankyou = Action { implicit request =>
+  def feedbackThankyou: Action[AnyContent] = Action { implicit request =>
     Ok(feedbackThankyouView())
   }
 }
@@ -103,12 +113,11 @@ trait HMRCContact {
 
   def servicesConfig: ServicesConfig
 
-  val contactFrontendPartialBaseUrl = servicesConfig.baseUrl("contact-frontend")
-  val serviceIdentifier = "RALD"
-  val feedbackUrl = controllers.feedback.routes.FeedbackController.feedback.url
-  val contactFrontendFeedbackPostUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
-  val hmrcSubmitFeedbackUrl = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
-
+  val contactFrontendPartialBaseUrl: String  = servicesConfig.baseUrl("contact-frontend")
+  val serviceIdentifier                      = "RALD"
+  val feedbackUrl                            = controllers.feedback.routes.FeedbackController.feedback.url
+  val contactFrontendFeedbackPostUrl: String = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
+  val hmrcSubmitFeedbackUrl: String          = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
 
   // The default HTTPReads will wrap the response in an exception and make the body inaccessible
   implicit val readPartialsForm: HttpReads[HttpResponse] = new HttpReads[HttpResponse] {

@@ -24,28 +24,33 @@ import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.voa.play.form._
 import MappingSupport._
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
+import play.api.data.Mapping
 
 object PageTwelveForm {
-  val chargeDetailsMapping = (index: String) => mapping(
-    s"$index.chargeDescription" -> default(text, "").verifying(
-      nonEmpty(errorMessage = "error.detailsOfService.required"),
-      maxLength(50, "error.detailsOfService.maxLength")
-    ),
-    s"$index.chargeCost" -> currencyMapping(".serviceChargesPerYear"))(ChargeDetails.apply)(ChargeDetails.unapply)
 
-  val pageTwelveMapping = mapping(
-    "responsibleOutsideRepairs" -> responsibleTypeMapping,
-    "responsibleInsideRepairs" -> responsibleTypeMapping,
+  val chargeDetailsMapping: String => Mapping[ChargeDetails] = (index: String) =>
+    mapping(
+      s"$index.chargeDescription" -> default(text, "").verifying(
+        nonEmpty(errorMessage = "error.detailsOfService.required"),
+        maxLength(50, "error.detailsOfService.maxLength")
+      ),
+      s"$index.chargeCost"        -> currencyMapping(".serviceChargesPerYear")
+    )(ChargeDetails.apply)(ChargeDetails.unapply)
+
+  val pageTwelveMapping: Mapping[PageTwelve] = mapping(
+    "responsibleOutsideRepairs"    -> responsibleTypeMapping,
+    "responsibleInsideRepairs"     -> responsibleTypeMapping,
     "responsibleBuildingInsurance" -> responsibleTypeMapping,
-    "ndrCharges" -> mandatoryBooleanWithError(Errors.businessRatesRequired),
-    "ndrDetails" -> mandatoryIfTrue("ndrCharges", currencyMapping(".businessRatesPerYear")),
-    "waterCharges" -> mandatoryBooleanWithError(Errors.waterChargesIncludedRequired),
-    "waterChargesCost" -> mandatoryIfTrue("waterCharges", currencyMapping(".waterChargesPerYear")),
-    "includedServices" -> mandatoryBooleanWithError(Errors.serviceChargesIncludedRequired),
-    "includedServicesDetails" -> onlyIfTrue(
-      "includedServices", IndexedMapping("includedServicesDetails" , chargeDetailsMapping).verifying(Errors.tooManyServices, _.length <= 8)
+    "ndrCharges"                   -> mandatoryBooleanWithError(Errors.businessRatesRequired),
+    "ndrDetails"                   -> mandatoryIfTrue("ndrCharges", currencyMapping(".businessRatesPerYear")),
+    "waterCharges"                 -> mandatoryBooleanWithError(Errors.waterChargesIncludedRequired),
+    "waterChargesCost"             -> mandatoryIfTrue("waterCharges", currencyMapping(".waterChargesPerYear")),
+    "includedServices"             -> mandatoryBooleanWithError(Errors.serviceChargesIncludedRequired),
+    "includedServicesDetails"      -> onlyIfTrue(
+      "includedServices",
+      IndexedMapping("includedServicesDetails", chargeDetailsMapping).verifying(Errors.tooManyServices, _.length <= 8)
     )
-    )(PageTwelve.apply)(PageTwelve.unapply)
+  )(PageTwelve.apply)(PageTwelve.unapply)
 
-  val pageTwelveForm = Form(pageTwelveMapping)
+  val pageTwelveForm: Form[PageTwelve] = Form(pageTwelveMapping)
 }

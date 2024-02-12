@@ -22,10 +22,10 @@ import models.serviceContracts.submissions.RentBaseType
 import java.time.LocalDate
 
 case class PageNine(
-     totalRent: AnnualRent,
-     rentBecomePayable: LocalDate,
-     rentActuallyAgreed: LocalDate,
-     negotiatingNewRent: Boolean,
-     rentBasis: RentBaseType,
-     rentBasisOtherDetails: Option[String]
+  totalRent: AnnualRent,
+  rentBecomePayable: LocalDate,
+  rentActuallyAgreed: LocalDate,
+  negotiatingNewRent: Boolean,
+  rentBasis: RentBaseType,
+  rentBasisOtherDetails: Option[String]
 )

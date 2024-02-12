@@ -21,10 +21,12 @@ import models.serviceContracts.submissions._
 
 case class PageFour(propertyIsSublet: Boolean, sublet: List[SubletDetails])
 
-case class SubletDetails(tenantFullName: String,
+case class SubletDetails(
+  tenantFullName: String,
   tenantAddress: Address,
   subletType: SubletType,
   subletPropertyPartDescription: Option[String],
   subletPropertyReasonDescription: String,
   annualRent: BigDecimal,
-  rentFixedDate: RoughDate)
+  rentFixedDate: RoughDate
+)

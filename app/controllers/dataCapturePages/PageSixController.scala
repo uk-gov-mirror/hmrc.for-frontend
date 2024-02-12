@@ -33,26 +33,28 @@ import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-class PageSixController @Inject()(audit: Audit,
-                                  formDocumentRepository: FormDocumentRepository,
-                                  refNumAction: RefNumAction,
-                                  cc: MessagesControllerComponents,
-                                  part6: views.html.part6)
-  extends ForDataCapturePage[PageSix](audit, formDocumentRepository, refNumAction, cc) {
-  val format = p6f
-  val emptyForm = pageSixForm
+class PageSixController @Inject() (
+  audit: Audit,
+  formDocumentRepository: FormDocumentRepository,
+  refNumAction: RefNumAction,
+  cc: MessagesControllerComponents,
+  part6: views.html.part6
+) extends ForDataCapturePage[PageSix](audit, formDocumentRepository, refNumAction, cc) {
+  val format          = p6f
+  val emptyForm       = pageSixForm
   val pageNumber: Int = 6
 
   def template(form: Form[PageSix], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
-    val updatedForm: Form[PageSix] = Await.result(repository.findById(SessionId(hc), request.refNum).map { docOpt =>
-      (for {
-        doc <- docOpt
-        page7 <- doc.page(7)
-        pageSeven <- pageSevenForm.bindFromRequest(page7.fields).value
-      } yield {
-        form.copy(data = form.data ++ getReviewDatesFromPage7(pageSeven))
-      }).getOrElse(form)
-    }, 20 seconds)
+    val updatedForm: Form[PageSix] = Await.result(
+      repository.findById(SessionId(hc), request.refNum).map { docOpt =>
+        (for {
+          doc       <- docOpt
+          page7     <- doc.page(7)
+          pageSeven <- pageSevenForm.bindFromRequest(page7.fields).value
+        } yield form.copy(data = form.data ++ getReviewDatesFromPage7(pageSeven))).getOrElse(form)
+      },
+      20 seconds
+    )
 
     // Min 2 steps are required in stepped rent
     val finalForm: Form[PageSix] = updatedForm.copy(data =

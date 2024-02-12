@@ -35,5 +35,5 @@ object LandlordConnectionTypeOther extends LandlordConnectionType {
 }
 
 object LandlordConnectionTypes extends NamedEnumSupport[LandlordConnectionType] {
-  val all = List(LandlordConnectionTypeNone, LandlordConnectionTypeFamily, LandlordConnectionTypeOther)
+  val all: List[LandlordConnectionType] = List(LandlordConnectionTypeNone, LandlordConnectionTypeFamily, LandlordConnectionTypeOther)
 }

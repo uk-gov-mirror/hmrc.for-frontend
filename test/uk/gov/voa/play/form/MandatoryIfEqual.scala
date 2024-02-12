@@ -31,21 +31,21 @@ class MandatoryIfEqual extends AnyFlatSpec with should.Matchers {
 
   it should "mandate the target field if the source has the required value" in {
     val data = Map("country" -> "England")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "town")
   }
 
   it should "not mandate the target field if the source field does not have the required value" in {
     val data = Map("country" -> "Scotland")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.isEmpty)
   }
 
-  lazy val form = Form(mapping(
+  lazy val form: Form[Model] = Form(mapping(
     "country" -> nonEmptyText,
-    "town" -> mandatoryIfEqual("country", "England", nonEmptyText)
+    "town"    -> mandatoryIfEqual("country", "England", nonEmptyText)
   )(Model.apply)(Model.unapply))
 
   case class Model(country: String, town: Option[String])

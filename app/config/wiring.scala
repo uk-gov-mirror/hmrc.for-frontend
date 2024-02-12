@@ -33,30 +33,46 @@ import util.DateUtil.nowInUK
 
 import scala.concurrent.ExecutionContext
 
-
 object SessionId {
   def apply(implicit hc: HeaderCarrier): String = hc.sessionId.map(_.value).getOrElse(throw SessionIdMissing())
 }
 case class SessionIdMissing() extends Exception
 
 object SaveForLater {
-  def apply()(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
-    Generate7LengthLowercaseAlphaNumPassword(), StoreInProgressSubmissionFor90Days.apply _,
-    UpdateDocumentInCurrentSession.apply _
-  )
-  def apply(pwd: String)(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): SaveInProgressSubmissionForLater = implicit hc => SaveInProgressSubmissionForLater(
-    UseUserAlphaNumPassword(pwd), StoreInProgressSubmissionFor90Days.apply _,
-    UpdateDocumentInCurrentSession.apply _
-  )
+
+  def apply()(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository): SaveInProgressSubmissionForLater =
+    implicit hc =>
+      SaveInProgressSubmissionForLater(
+        Generate7LengthLowercaseAlphaNumPassword(),
+        StoreInProgressSubmissionFor90Days.apply _,
+        UpdateDocumentInCurrentSession.apply _
+      )
+
+  def apply(pwd: String)(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository)
+    : SaveInProgressSubmissionForLater = implicit hc =>
+    SaveInProgressSubmissionForLater(
+      UseUserAlphaNumPassword(pwd),
+      StoreInProgressSubmissionFor90Days.apply _,
+      UpdateDocumentInCurrentSession.apply _
+    )
 }
 
 object ContinueWithSavedSubmission {
-  def apply()(implicit hc: HeaderCarrier, ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository, mongoHasher: MongoHasher): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
-    LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply,
-    SummaryBuilder.build, Journey.pageToResumeAt, () => nowInUK
+
+  def apply(
+  )(implicit hc: HeaderCarrier,
+    ec: ExecutionContext,
+    hodConnector: HODConnector,
+    formDocumentRepository: FormDocumentRepository,
+    mongoHasher: MongoHasher
+  ): ContinueWithSavedSubmission = useCases.ContinueWithSavedSubmission(
+    LoadSavedForLaterDocument.apply,
+    UpdateDocumentInCurrentSession.apply,
+    SummaryBuilder.build,
+    Journey.pageToResumeAt,
+    () => nowInUK
   )
 }
-
 
 /**
  * Temporal solution before we move all login logic to separate service class.
@@ -71,6 +87,8 @@ trait LoginToHODAction {
 class DefaultLoginToHodAction @Inject() (implicit hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository) extends LoginToHODAction {
 
   override def apply(implicit hc: HeaderCarrier, ec: ExecutionContext): LoginToHOD = security.LoginToHOD(
-    hodConnector.verifyCredentials, LoadSavedForLaterDocument.apply, UpdateDocumentInCurrentSession.apply
+    hodConnector.verifyCredentials,
+    LoadSavedForLaterDocument.apply,
+    UpdateDocumentInCurrentSession.apply
   )
 }

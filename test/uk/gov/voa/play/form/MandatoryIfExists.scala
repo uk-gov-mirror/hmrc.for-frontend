@@ -31,7 +31,7 @@ class MandatoryIfExists extends AnyFlatSpec with should.Matchers {
 
   it should "mandate the target field if any value for the source field is supplied" in {
     val data = Map("source" -> "anyrandomvalue")
-    val res = form.bind(data)
+    val res  = form.bind(data)
 
     assert(res.errors.head.key === "target")
   }
@@ -42,8 +42,8 @@ class MandatoryIfExists extends AnyFlatSpec with should.Matchers {
     assert(res.errors.isEmpty)
   }
 
-  lazy val form = Form(mapping(
-    "source" ->  optional(nonEmptyText),
+  lazy val form: Form[Model] = Form(mapping(
+    "source" -> optional(nonEmptyText),
     "target" -> mandatoryIfExists("source", nonEmptyText)
   )(Model.apply)(Model.unapply))
 

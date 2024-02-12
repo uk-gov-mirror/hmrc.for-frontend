@@ -23,9 +23,11 @@ import java.time.LocalDate
 
 case class PageSeven(leaseContainsRentReviews: Boolean, pageSevenDetails: Option[PageSevenDetails], agreementStartDate: Option[LocalDate] = None)
 
-case class PageSevenDetails(reviewIntervalType: ReviewIntervalType,
-                            reviewIntervalTypeSpecify: Option[MonthsYearDuration],
-                            lastReviewDate: Option[RoughDate],
-                            canRentReduced: Boolean,
-                            rentResultOfRentReview: Boolean,
-                            reviewDetails: Option[RentReviewResultDetails])
+case class PageSevenDetails(
+  reviewIntervalType: ReviewIntervalType,
+  reviewIntervalTypeSpecify: Option[MonthsYearDuration],
+  lastReviewDate: Option[RoughDate],
+  canRentReduced: Boolean,
+  rentResultOfRentReview: Boolean,
+  reviewDetails: Option[RentReviewResultDetails]
+)
