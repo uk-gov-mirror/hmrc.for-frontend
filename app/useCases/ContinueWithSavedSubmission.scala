@@ -53,7 +53,7 @@ object ContinueWithSavedSubmission {
 
   private def auth(implicit hc: HeaderCarrier) = hc.authorization.map(_.value).getOrElse(throw AuthorizationTokenMissing)
 
-  private def matches(savedHash: Option[SaveForLaterPassword], password: SaveForLaterPassword)(implicit mongoHasher: MongoHasher) =
+  private def matches(savedHash: Option[SaveForLaterPassword], password: SaveForLaterPassword)(implicit mongoHasher: MongoHasher): Boolean =
     savedHash.exists(mongoHasher.verify(password, _))
 
   private def record(d: Document, n: ZonedDateTime) = d.copy(saveForLaterPassword = None, journeyResumptions = d.journeyResumptions :+ n)

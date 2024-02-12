@@ -37,7 +37,7 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
     val pwd                        = "anicepassword"
     val ref                        = "11122233344"
     val now                        = ZonedDateTime.of(2015, 3, 5, 12, 25, 0, 0, ZoneOffset.UTC)
-    val doc                        = Document(ref, nowInUK, saveForLaterPassword = Some(pwd), journeyResumptions = Seq(now.minusDays(1)))
+    val doc                        = Document(ref, nowInUK, saveForLaterPassword = Some(mongoHasher.hash(pwd)), journeyResumptions = Seq(now.minusDays(1)))
     val tok                        = "BASIC abcdefg=="
     implicit val hc: HeaderCarrier = HeaderCarrier(authorization = Some(Authorization(tok)))
     val sum                        = Summary(ref, nowInUK, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
