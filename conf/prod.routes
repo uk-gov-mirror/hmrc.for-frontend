@@ -2,4 +2,4 @@
 ->         /sending-rental-information     app.Routes
 ->         /                               health.Routes
 
-GET        /                               controllers.RootRedirectController.rootRedirect
+GET        /                               controllers.localroot.RootRedirectController.rootRedirect

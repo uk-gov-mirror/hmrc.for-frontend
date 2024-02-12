@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.localroot
 
 import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -28,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 class RootRedirectController @Inject() (cc: MessagesControllerComponents) extends FrontendController(cc) {
 
   def rootRedirect: Action[AnyContent] = Action {
-    Redirect(routes.ApplicationController.index)
+    Redirect(controllers.routes.ApplicationController.index)
   }
 
 }
