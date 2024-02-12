@@ -78,7 +78,8 @@
             @includes.summaryErrors(theForm = theForm, govukErrorSummary = govukErrorSummary)
         }
 
-        @if(showBanner && configuration.get[Boolean]("bannerNotice.enabled") && (theForm == null || theForm.errors.isEmpty) ){
+        @if(showBanner && configuration.get[Boolean]("bannerNotice.enabled") && (theForm == null || theForm.errors.isEmpty)
+                && configuration.get[String]("bannerNotice." + messages.lang.code + ".body").nonEmpty) {
 
             <div    class="govuk-notification-banner" role="region"
                     aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
