@@ -15,14 +15,14 @@
  *@
 
 @import models.pages.Summary
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukButton, GovukWarningText,GovukPanel}
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.warningtext.WarningText
 @import util.DateUtil.fullDateFormatter
 
 @import java.time.LocalDate
 
-@this(main_template: pageLayout, govukWarningText: GovukWarningText, govukButton: GovukButton, govukPanel: GovukPanel, formHelp: includes.formHelp)
+@this(main_template: pageLayout, govukWarningText: GovukWarningText, formHelp: includes.formHelp)
 
 @(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
 

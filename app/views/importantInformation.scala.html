@@ -15,12 +15,12 @@
  *@
 
 @import play.api.Configuration
-@import uk.gov.hmrc.govukfrontend.views.html.components._
 
 
-@this( layout: pageLayout,
-        govukPanel:GovukPanel,
-        configuration:Configuration)
+@this(
+        layout: pageLayout,
+        configuration: Configuration
+)
 
 @()(implicit request: Request[_],  messages: Messages)
 

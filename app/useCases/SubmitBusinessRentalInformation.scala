@@ -174,9 +174,9 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
 
   private def toSublet(p4: PageFour)(implicit sum: Summary) = Sublet(p4.propertyIsSublet, p4.sublet.map(toSubletData))
 
-  private def toSubletData(s: SubletDetails)(implicit sum: Summary) = SubletData(
+  private def toSubletData(s: SubletDetails) = SubletData(
     s.tenantFullName,
-    tenantsAddress(s, sum),
+    tenantsAddress(s),
     s.subletType,
     s.subletPropertyPartDescription,
     s.subletPropertyReasonDescription,
@@ -184,7 +184,7 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
     s.rentFixedDate
   )
 
-  private def tenantsAddress(s: SubletDetails, sum: Summary) = Address(
+  private def tenantsAddress(s: SubletDetails) = Address(
     s.tenantAddress.buildingNameNumber,
     s.tenantAddress.street1,
     s.tenantAddress.street2,

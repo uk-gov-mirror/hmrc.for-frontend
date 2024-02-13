@@ -25,6 +25,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import org.scalatestplus.play.guice._
 import play.api.Application
+import play.api.http.Status.{NOT_FOUND, OK}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.libs.ws.WSClient
@@ -64,35 +65,35 @@ class TestHttpClient @Inject() (val configuration: Config, val actorSystem: Acto
   private var stubbedGets: Seq[(String, Headers, HttpResponse)]      = Nil // scalastyle:ignore
   private var stubbedPuts: Seq[(String, Any, Headers, HttpResponse)] = Nil // scalastyle:ignore
 
-  def stubGet(url: String, headers: Seq[(String, String)], response: HttpResponse) =
+  def stubGet(url: String, headers: Seq[(String, String)], response: HttpResponse): Unit =
     stubbedGets :+= ((url, headers, response))
 
-  def stubPut[A](url: String, body: A, headers: Seq[(String, String)], response: HttpResponse) =
+  def stubPut[A](url: String, body: A, headers: Seq[(String, String)], response: HttpResponse): Unit =
     stubbedPuts :+= ((url, body, headers, response))
 
-  def stubValidCredentials(ref1: String, ref2: String, postcode: String) =
+  def stubValidCredentials(ref1: String, ref2: String, postcode: String): Unit =
     stubGet(
       s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
       Nil,
       HttpResponse(
-        200,
+        OK,
         Json.toJson(FORLoginResponse("token", Address("1", None, None, "AA11 1AA"))),
         noHeaders
       )
     )
 
-  def stubInvalidCredentials(ref1: String, ref2: String, postcode: String) =
+  def stubInvalidCredentials(ref1: String, ref2: String, postcode: String): Unit =
     stubGet(
       s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
       Nil,
       HttpResponse(
-        401,
+        NOT_FOUND,
         Json.parse("""{"numberOfRemainingTriesUntilIPLockout":4}"""),
         noHeaders
       )
     )
 
-  def stubConflictingCredentials(ref1: String, ref2: String, postcode: String) =
+  def stubConflictingCredentials(ref1: String, ref2: String, postcode: String): Unit =
     stubGet(
       s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
       Nil,
@@ -103,7 +104,7 @@ class TestHttpClient @Inject() (val configuration: Config, val actorSystem: Acto
       )
     )
 
-  def stubIPLockout(ref1: String, ref2: String, postcode: String) =
+  def stubIPLockout(ref1: String, ref2: String, postcode: String): Unit =
     stubGet(
       s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
       Nil,
@@ -114,7 +115,7 @@ class TestHttpClient @Inject() (val configuration: Config, val actorSystem: Acto
       )
     )
 
-  def stubInternalServerError(ref1: String, ref2: String, postcode: String) =
+  def stubInternalServerError(ref1: String, ref2: String, postcode: String): Unit =
     stubGet(
       s"$baseForUrl/$ref1/$ref2/${urlEncode(postcode)}/verify",
       Nil,
@@ -124,7 +125,7 @@ class TestHttpClient @Inject() (val configuration: Config, val actorSystem: Acto
       )
     )
 
-  def stubSubmission(refNum: String, submission: JsValue, headers: Seq[(String, String)], response: HttpResponse) =
+  def stubSubmission(refNum: String, submission: JsValue, headers: Seq[(String, String)], response: HttpResponse): Unit =
     stubPut(s"$baseForUrl/submissions/$refNum", submission, headers, response)
 
   override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] =

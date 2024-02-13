@@ -24,11 +24,8 @@
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
-        govukInput:  GovukInput,
         govukDateInput:GovukDateInput,
         hmrcCurrencyInput : HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
-        govukDetails:GovukDetails,
         formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
@@ -93,7 +90,7 @@
 
 
         <div  class="multi-fields-group"
-              id=@(s"propertyAlterationsDetails_description_div_${idx}")>
+              id=@(s"propertyAlterationsDetails_description_div_$idx")>
 
           <h3 class="govuk-heading-m section-heading">@messages("alteration.section.heading") <span>@{idx + 1}</span></h3>
 
@@ -125,7 +122,7 @@
 
           @includes.dateFields(
             form = theForm,
-            field = s"propertyAlterationsDetails[${idx}].date",
+            field = s"propertyAlterationsDetails[$idx].date",
             label = "label.propertyAlterationsDetails",
             govukDate = govukDateInput
           )

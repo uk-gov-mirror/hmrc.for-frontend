@@ -28,13 +28,13 @@ object ConditionalMappings {
 
   def isFalse(field: String): Condition = _.get(field).flatMap(v => Try(!v.toBoolean).toOption).getOrElse(false)
 
-  def isEqual(field: String, value: String): Condition = _.get(field).map(_ == value).getOrElse(false)
+  def isEqual(field: String, value: String): Condition = _.get(field).exists(_ == value)
 
-  def isNotEqual(field: String, value: String): Condition = _.get(field).map(_ != value).getOrElse(false)
+  def isNotEqual(field: String, value: String): Condition = _.get(field).exists(_ != value)
 
-  def isAnyOf(field: String, values: Seq[String]): Condition = _.get(field).map(values.contains).getOrElse(false)
+  def isAnyOf(field: String, values: Seq[String]): Condition = _.get(field).exists(values.contains)
 
-  def isNotAnyOf(field: String, values: Seq[String]): Condition = _.get(field).map(values.contains).exists(_ == false)
+  def isNotAnyOf(field: String, values: Seq[String]): Condition = _.get(field).exists(v => !values.contains(v))
 
   def onlyIf[T](c: Condition, mapping: Mapping[T])(implicit nonMapValue: T): Mapping[T] =
     ConditionalMapping(c, mapping, nonMapValue)

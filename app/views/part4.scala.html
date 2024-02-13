@@ -25,11 +25,9 @@
 @this(  layout: pageLayout,
         govukRadios: GovukRadios,
         govukButton: GovukButton,
-        govukInput:  GovukInput,
-        govukDateInput:GovukDateInput,
-        hmrcCurrencyInput : HmrcCurrencyInput,
-        govukTextarea: GovukTextarea,
-        govukDetails:GovukDetails,
+        govukInput: GovukInput,
+        govukDateInput: GovukDateInput,
+        hmrcCurrencyInput: HmrcCurrencyInput,
         formWithCSRF: FormWithCSRF,
         formHelp: includes.formHelp)
 
@@ -101,11 +99,11 @@
 
         @_root_.template.repeatWithIndex(theForm("sublet"), max = 5) { (sublet, idx) =>
 
-          <div class="multi-fields-group" id=@(s"sublet_description_div_${idx}")>
+          <div class="multi-fields-group" id=@(s"sublet_description_div_$idx")>
 
               <h3 class="govuk-heading-m section-heading">@messages("label.sublet.section.heading") <span>@{idx + 1}</span></h3>
 
-              <fieldset id=@(s"sublet[${idx}].sublet")>
+              <fieldset id=@(s"sublet[$idx].sublet")>
 
               @govukInput(
                   Input(

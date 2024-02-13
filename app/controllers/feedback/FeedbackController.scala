@@ -18,11 +18,9 @@ package controllers.feedback
 
 import java.net.URLEncoder
 
-import actions.RefNumAction
 import connectors.ForHttp
 import controllers._
 import form.Formats._
-import form.persistence.FormDocumentRepository
 import javax.inject.{Inject, Singleton}
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
 import play.api.data.{Form, Forms}
@@ -32,7 +30,6 @@ import play.api.Logger
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
 import views.html.{feedbackForm, feedbackThx}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -41,9 +38,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class FeedbackController @Inject() (
   cc: MessagesControllerComponents,
   http: ForHttp,
-  sessionCookieCrypto: SessionCookieCrypto,
-  repository: FormDocumentRepository,
-  refNumAction: RefNumAction,
   override val servicesConfig: ServicesConfig,
   feedbackThankyouView: feedbackThx,
   feedbackFormView: feedbackForm
