@@ -20,12 +20,13 @@ import _root_.utils.UnitTest
 import connectors.Document
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import testutils._
+import testutils.*
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import java.security.SecureRandom
+import scala.collection.immutable.StringOps
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
 
@@ -75,9 +76,9 @@ class Generate7LengthLowercaseAlphaNumPasswordSpec extends AnyFlatSpec with shou
 
   it should "Generate a password consisting of unambiguous lowercase chars and numbers with a length of 7" in {
     (1 to 100) foreach { _ =>
-      val pw = Generate7LengthLowercaseAlphaNumPassword(): String
+      val pw = Generate7LengthLowercaseAlphaNumPassword()
       assert(pw.length === 7)
-      pw.foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
+      StringOps(pw).foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
     }
   }
 
