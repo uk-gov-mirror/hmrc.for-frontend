@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,17 @@ import com.google.inject.ImplementedBy
 import connectors.{Audit, Document, SubmissionConnector}
 import form.persistence.FormDocumentRepository
 import helpers.AddressAuditing
-import models.Addresses
-
-import javax.inject.{Inject, Singleton}
+import models.*
 import models.journeys.Paths
-import models.pages._
-import models.serviceContracts.submissions._
+import models.pages.*
+import models.serviceContracts.submissions.*
 import play.api.Logging
 import play.api.libs.json.{JsObject, Json}
 import playconfig.SessionId
-
-import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[SubmitBusinessRentalInformationToBackendApi])
 trait SubmitBusinessRentalInformation {
@@ -86,7 +85,7 @@ class SubmitBusinessRentalInformationToBackendApi @Inject() (
 
     val submissionJson = Json.toJson(submission).as[JsObject]
 
-    val jsObject = docOpt.map {
+    val jsObject: JsObject = docOpt.map {
       doc =>
         val summary = SummaryBuilder.build(doc)
         auditAddresses(summary, request)
@@ -172,7 +171,7 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
     case _                       => None
   }
 
-  private def toSublet(p4: PageFour)(implicit sum: Summary) = Sublet(p4.propertyIsSublet, p4.sublet.map(toSubletData))
+  private def toSublet(p4: PageFour) = Sublet(p4.propertyIsSublet, p4.sublet.map(toSubletData))
 
   private def toSubletData(s: SubletDetails) = SubletData(
     s.tenantFullName,

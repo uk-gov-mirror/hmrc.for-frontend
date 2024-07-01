@@ -3,9 +3,8 @@ import uk.gov.hmrc.DefaultBuildSettings.itSettings
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
 
+ThisBuild / scalaVersion := "3.3.3"
 ThisBuild / majorVersion := 3
-ThisBuild / scalaVersion := "2.13.12"
-ThisBuild / scalafixScalaBinaryVersion := "2.13"
 
 lazy val microservice = Project("for-frontend", file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
@@ -14,7 +13,6 @@ lazy val microservice = Project("for-frontend", file("."))
     PlayKeys.playDefaultPort := 9521,
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-    javaOptions += "-Xmx1G",
     libraryDependencies ++= AppDependencies.appDependencies
   )
   .settings(

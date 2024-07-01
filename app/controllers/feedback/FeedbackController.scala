@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,17 @@
 package controllers.feedback
 
 import java.net.URLEncoder
-
 import connectors.ForHttp
-import controllers._
-import form.Formats._
+import controllers.*
+import form.Formats.*
+
 import javax.inject.{Inject, Singleton}
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
 import play.api.data.{Form, Forms}
 import play.api.data.Forms.{mapping, optional, text}
-import play.api.mvc._
+import play.api.mvc.*
 import play.api.Logger
-import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{feedbackForm, feedbackThx}
@@ -63,7 +63,7 @@ class FeedbackController @Inject() (
           it =>
             it.getOrElse("").length < 1200
         )
-      )(Feedback.apply)(Feedback.unapply)
+      )(Feedback.apply)(o => Some(Tuple.fromProductTyped(o)))
     )
   }
 
@@ -77,8 +77,10 @@ class FeedbackController @Inject() (
           BadRequest(feedbackFormView(formWithErrors))
         },
       _ => {
-        implicit val headerCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
-        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get)(readPartialsForm, headerCarrier, ec) map { res =>
+
+        implicit val headerCarrier: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
+
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
           res.status match {
             case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
             case _                     =>

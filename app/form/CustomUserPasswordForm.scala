@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ object CustomUserPasswordForm {
   val customUserPassword: Form[CustomUserPassword] = Form(mapping(
     "password"        -> nonEmptyText(minLength = 7),
     "confirmPassword" -> nonEmptyText
-  )(CustomUserPassword.apply)(CustomUserPassword.unapply)
+  )(CustomUserPassword.apply)(o => Some(Tuple.fromProductTyped(o)))
     .verifying(
       "saveForLater.passwordsDontMatch",
       data =>

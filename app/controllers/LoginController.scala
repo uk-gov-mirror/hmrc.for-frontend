@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,26 +19,25 @@ package controllers
 import connectors.Audit
 import form.persistence.FormDocumentRepository
 import form.{Errors, MappingSupport}
-import models.Addresses
+import models.*
 import models.pages.SummaryBuilder
 import models.serviceContracts.submissions.Address
-
-import javax.inject.Inject
 import play.api.Logging
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.*
 import play.api.libs.json.{Format, Json}
-import play.api.mvc._
+import play.api.mvc.*
 import playconfig.LoginToHODAction
 import security.{DocumentPreviouslySaved, NoExistingDocument}
 import uk.gov.hmrc.http.HeaderNames.trueClientIp
-import uk.gov.hmrc.http.{HeaderCarrier, SessionId, SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionId, SessionKeys, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import util.DateUtil.nowInUK
 import views.html.{login, loginFailed}
 
 import java.time.{ZoneOffset, ZonedDateTime}
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 case class LoginDetails(referenceNumber: String, postcode: String, startTime: ZonedDateTime)
@@ -68,7 +67,7 @@ object LoginController {
           .transform[ZonedDateTime](_.atZone(ZoneOffset.UTC), _.toLocalDateTime),
         nowInUK
       )
-    )(LoginDetails.apply)(LoginDetails.unapply)
+    )(LoginDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 }
 
@@ -131,9 +130,9 @@ class LoginController @Inject() (
         auditLogin(cleanedRefNumber, returnUser = false, address)(hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, cleanedRefNumber, sessionId)
     }.recover {
-      case Upstream4xxResponse(_, 409, _, _)    => Conflict(errorView(409))
-      case Upstream4xxResponse(_, 403, _, _)    => Conflict(errorView(403))
-      case Upstream4xxResponse(body, 401, _, _) =>
+      case UpstreamErrorResponse(_, 409, _, _)    => Conflict(errorView(409))
+      case UpstreamErrorResponse(_, 403, _, _)    => Conflict(errorView(403))
+      case UpstreamErrorResponse(body, 401, _, _) =>
         val failed            = Json.parse(body).as[FailedLoginResponse]
         val remainingAttempts = failed.numberOfRemainingTriesUntilIPLockout
         logger.warn(s"Failed login: RefNum: $cleanedRefNumber Attempts remaining: $remainingAttempts")
@@ -149,7 +148,7 @@ class LoginController @Inject() (
   }
 
   private def auditLogin(refNumber: String, returnUser: Boolean, address: Address)(implicit hc: HeaderCarrier): Unit = {
-    val json = Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber, Audit.address -> address)
+    val json = Json.obj("returningUser" -> returnUser, Audit.referenceNumber -> refNumber, Audit.address -> Json.toJsObject(address))
     audit.sendExplicitAudit("UserLogin", json)
   }
 

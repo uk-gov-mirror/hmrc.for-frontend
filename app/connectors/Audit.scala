@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,18 @@
 package connectors
 
 import com.google.inject.ImplementedBy
-import models.Addresses
+import models.*
 import models.pages.Summary
-
-import javax.inject.{Inject, Singleton}
 import models.serviceContracts.submissions.Submission
 import play.api.i18n.Messages
 import play.api.libs.json.{JsObject, Json, OWrites}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.audit.AuditExtensions.*
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, AuditConnector, AuditResult, DatastreamMetrics}
 import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
-import uk.gov.hmrc.play.audit.AuditExtensions._
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[ForAuditConnector])
@@ -51,7 +50,7 @@ trait Audit extends AuditConnector {
    * it is constructed manually when is deserialized from session or DB.
    */
   private val summaryWriter = {
-    import play.api.libs.json._
+    import play.api.libs.json.*
     Json.writes[Summary]
   }
 

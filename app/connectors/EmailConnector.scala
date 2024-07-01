@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,6 @@ class EmailConnector @Inject() (config: ServicesConfig, http: ForHttp)(implicit 
         )),
         "force"      -> JsBoolean(false)
       )
-      http.POST[JsObject, HttpResponse](s"$emailUrl/send-templated-email/", json).map(_ => ())
+      http.POST[JsObject, HttpResponse](s"$emailUrl/send-templated-email/", json, Seq.empty).map(_ => ())
     } getOrElse Future.unit
 }

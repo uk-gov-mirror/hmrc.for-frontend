@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@ package form
 
 import models.serviceContracts.submissions.{PropertyAlterations, PropertyAlterationsDetails}
 import play.api.data.Form
-import play.api.data.Forms._
-import uk.gov.voa.play.form.ConditionalMappings._
-import uk.gov.voa.play.form._
-
-import DateMappings._
-import MappingSupport._
+import play.api.data.Forms.*
+import uk.gov.voa.play.form.ConditionalMappings.*
+import uk.gov.voa.play.form.*
+import DateMappings.*
+import MappingSupport.*
 import play.api.data.Mapping
 
 object PageThirteenForm {
@@ -38,18 +37,18 @@ object PageThirteenForm {
       keys.propertyAlterations,
       mandatoryBooleanWithError(Errors.tenantWasRequiredToMakeAlterationsRequired)
     )
-  )(PropertyAlterations.apply)(PropertyAlterations.unapply))
+  )(PropertyAlterations.apply)(o => Some(Tuple.fromProductTyped(o))))
 
   lazy val propertyAlterationsDetailsMapping: String => Mapping[PropertyAlterationsDetails] = (indexed: String) =>
     mapping(
       s"$indexed.date"           -> monthYearRoughDateMapping(s"$indexed.date", ".alternationCost"),
       s"$indexed.alterationType" -> alterationSetByTypeMapping,
       s"$indexed.cost"           -> currencyMapping(".alternationCost")
-    )(PropertyAlterationsDetails.apply)(PropertyAlterationsDetails.unapply)
+    )(PropertyAlterationsDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
-  lazy val keys: keys = new keys
+  val keys: Keys = new Keys
 
-  class keys extends {
+  class Keys {
     val propertyAlterations          = "propertyAlterations"
     val propertyAlterationsDetails   = "propertyAlterationsDetails"
     val alterationDetailsDescription = "propertyAlterationsDetails.description"

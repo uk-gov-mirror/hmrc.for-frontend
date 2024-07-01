@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,15 @@ package connectors
 import com.google.inject.ImplementedBy
 import controllers.toFut
 import crypto.MongoHasher
-
-import javax.inject.{Inject, Singleton}
-import models.{Credentials, FORLoginResponse}
 import models.serviceContracts.submissions.{AddressConnectionTypeYes, AddressConnectionTypeYesChangeAddress}
+import models.{Credentials, FORLoginResponse}
 import play.api.libs.json.{Format, JsValue, Writes}
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, NotFoundException, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import useCases.ReferenceNumber
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, NotFoundException, Upstream4xxResponse}
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
 class DefaultHODConnector @Inject() (
@@ -51,7 +50,7 @@ class DefaultHODConnector @Inject() (
       override def read(method: String, url: String, response: HttpResponse): FORLoginResponse =
         response.status match {
           case 400 => throw new BadRequestException(response.body)
-          case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.headers)
+          case 401 => throw new UpstreamErrorResponse(response.body, 401, 401, response.headers)
           case _   => httpReads.read(method, url, response)
         }
     }
@@ -59,18 +58,20 @@ class DefaultHODConnector @Inject() (
   override def verifyCredentials(referenceNumber: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val credentials    = Credentials(referenceNumber, postcode)
     val wrtCredentials = implicitly[Writes[Credentials]]
-    http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials)(wrtCredentials, readsHack, hc, ec)
+    http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials, Seq.empty)(wrtCredentials, readsHack, hc, ec)
   }
 
   override def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = {
     val document = d.copy(saveForLaterPassword = d.saveForLaterPassword.map(mongoHasher.hash))
-    http.PUT(url(s"savedforlater/${document.referenceNumber}"), document) map { _ => () }
+    http.PUT(url(s"savedforlater/${document.referenceNumber}"), document, Seq.empty) map { _ => () }
   }
 
   override def loadSavedDocument(r: ReferenceNumber)(implicit hc: HeaderCarrier): Future[Option[Document]] =
-    http.GET[Document](url(s"savedforlater/$r")).map(Some.apply).map(splitAddress).map(removeAlterationDescription) recoverWith {
-      case _: NotFoundException => None
-    }
+    http.GET[Document](url(s"savedforlater/$r"), Seq.empty, Seq.empty)
+      .map(Some(_)).map(splitAddress).map(removeAlterationDescription)
+      .recoverWith {
+        case _: NotFoundException => None
+      }
 
   def splitAddress(maybeDocument: Option[Document]): Option[Document] = {
     val fixedDocument =
@@ -130,7 +131,7 @@ class DefaultHODConnector @Inject() (
   }
 
   def getSchema(schemaName: String)(implicit hc: HeaderCarrier): Future[JsValue] =
-    http.GET[JsValue](url(s"schema/$schemaName"))
+    http.GET[JsValue](url(s"schema/$schemaName"), Seq.empty, Seq.empty)
 }
 
 @ImplementedBy(classOf[DefaultHODConnector])

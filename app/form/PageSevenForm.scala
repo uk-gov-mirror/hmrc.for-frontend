@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ object PageSevenForm {
     ),
     "rentAgreedBetween" -> mandatoryBooleanWithError(Errors.rentWasAgreedBetweenRequired),
     "rentFixedBy"       -> mandatoryIfFalse("rentReviewDetails.rentReviewResultsDetails.rentAgreedBetween", rentFixedByTypeMapping)
-  )(RentReviewResultDetails.apply)(RentReviewResultDetails.unapply)
+  )(RentReviewResultDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val rentReviewDetailsMapping: Mapping[PageSevenDetails] = mapping(
     "reviewIntervalType"        -> reviewIntervalTypeMapping,
@@ -55,14 +55,14 @@ object PageSevenForm {
     "canRentReduced"            -> mandatoryBooleanWithError(Errors.rentCanBeReducedOnReviewRequired),
     "rentResultOfRentReview"    -> mandatoryBooleanWithError(Errors.isRentResultOfReviewRequired),
     "rentReviewResultsDetails"  -> mandatoryIfTrue("rentReviewDetails.rentResultOfRentReview", rentReviewResultsDetailsMapping)
-  )(PageSevenDetails.apply)(PageSevenDetails.unapply)
+  )(PageSevenDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageSevenForm: Form[PageSeven] = Form(
     mapping(
       "leaseContainsRentReviews" -> mandatoryBooleanWithError(rentReviewDetailsRequired),
       "rentReviewDetails"        -> mandatoryIfTrue("leaseContainsRentReviews", rentReviewDetailsMapping),
       "agreementStartDate"       -> optional(localDate)
-    )(PageSeven.apply)(PageSeven.unapply)
+    )(PageSeven.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

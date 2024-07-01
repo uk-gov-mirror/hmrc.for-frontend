@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
 
 package connectors
 
+import models.*
 import models.serviceContracts.submissions.Address
-import play.api.libs.json._
+import play.api.libs.json.*
 
 import java.time.ZonedDateTime
 
@@ -38,5 +39,5 @@ case class Document(
 }
 
 object Document {
-  implicit val formats: OFormat[Document] = Json.format[Document]
+  implicit val formats: OFormat[Document] = Json.format
 }
