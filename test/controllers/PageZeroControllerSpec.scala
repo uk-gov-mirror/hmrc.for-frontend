@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@ package controllers
 import connectors.{Audit, Document}
 import controllers.dataCapturePages.PageZeroController
 import form.persistence.FormDocumentRepository
-import org.mockito.scalatest.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.http.HeaderNames
 import util.DateUtil.nowInUK
 import utils.Helpers.refNumAction
@@ -104,67 +104,4 @@ class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with Mock
 
   }
 
-  /*
-
-
-
-  "When the user still has a relationship with the property" - {
-     "And want to change address" - {
-       "Then they are directed to page one of the form" in {
-         running(app) {
-           val request = addToken(FakeRequest()
-             .withHeaders(HeaderNames.xSessionId -> sessionId)
-             .withSession("refNum" -> testRefNum)
-             .withFormUrlEncodedBody(
-               "isRelated" -> "yes-change-address",
-               "continue_button" -> ""
-             ))
-
-           val res = await(pageZeroController.save()(request))
-
-           status(res) mustBe SEE_OTHER
-           header("location", res).value mustBe "/sending-rental-information/page/1"
-         }
-       }
-     }
-    "And doesn't want to change address" - {
-      "Then they are directed to page two skipping address change on page one" in {
-        running(app) {
-          val request = addToken(FakeRequest()
-            .withHeaders(HeaderNames.xSessionId -> sessionId)
-            .withSession("refNum" -> testRefNum)
-            .withFormUrlEncodedBody(
-              "isRelated" -> "yes",
-              "continue_button" -> ""
-            ))
-
-          val res = await(pageZeroController.save()(request))
-
-          status(res) mustBe SEE_OTHER
-          header("location", res).value mustBe "/sending-rental-information/page/2"
-        }
-      }
-    }
-  }
-
-  "When the user no longer has a relationship with the property" - {
-    "Then they are redirected to a not connected form" in {
-      running(app) {
-        val request = addToken(FakeRequest()
-          .withHeaders(HeaderNames.xSessionId -> sessionId)
-          .withSession("refNum" -> testRefNum)
-          .withFormUrlEncodedBody(
-            "isRelated" -> "no",
-            "continue_button" -> ""
-          ))
-
-        val res = await(pageZeroController.save()(request))
-
-        status(res) mustBe SEE_OTHER
-        header("location", res).value mustBe "/sending-rental-information/previously-connected"
-      }
-    }
-  }
-
-   */
 }

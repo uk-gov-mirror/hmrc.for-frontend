@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ class ChainedConditions extends AnyFlatSpec with should.Matchers {
       isEqual("name", "Francoise") and isEqual("age", "21"),
       nonEmptyText
     )
-  )(Model.apply)(Model.unapply))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))
 
   case class Model(name: String, age: Int, favouriteColour: Option[String])
 }

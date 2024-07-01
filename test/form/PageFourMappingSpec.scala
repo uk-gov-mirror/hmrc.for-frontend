@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -180,9 +180,9 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
 
   object TestData {
 
-    val keys: keys = new keys
+    val keys: Keys = new Keys
 
-    class keys extends {
+    class Keys {
       val propertyIsSublet                = "propertyIsSublet"
       val addrBuildingNameNumber          = "sublet[0].tenantAddress.buildingNameNumber"
       val addrStreet1                     = "sublet[0].tenantAddress.street1"

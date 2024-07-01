@@ -27,6 +27,18 @@ import play.api.data.Mapping
 
 object PageThirteenForm {
 
+  val keys: Keys = new Keys
+
+  class Keys {
+    val propertyAlterations          = "propertyAlterations"
+    val propertyAlterationsDetails   = "propertyAlterationsDetails"
+    val alterationDetailsDescription = "propertyAlterationsDetails.description"
+    val alterationDetailsCost        = "propertyAlterationsDetails.cost"
+    val alterationDetailsDateMonth   = "propertyAlterationsDetails.date.month"
+    val alterationDetailsDateYear    = "propertyAlterationsDetails.date.year"
+    val alterationsRequired          = "requiredAnyWorks"
+  }
+
   val pageThirteenForm: Form[PropertyAlterations] = Form(mapping(
     keys.propertyAlterations        -> mandatoryBooleanWithError(Errors.hasTenantDonePropertyAlterationsRequired),
     keys.propertyAlterationsDetails -> onlyIfTrue(
@@ -46,15 +58,4 @@ object PageThirteenForm {
       s"$indexed.cost"           -> currencyMapping(".alternationCost")
     )(PropertyAlterationsDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
-  val keys: Keys = new Keys
-
-  class Keys {
-    val propertyAlterations          = "propertyAlterations"
-    val propertyAlterationsDetails   = "propertyAlterationsDetails"
-    val alterationDetailsDescription = "propertyAlterationsDetails.description"
-    val alterationDetailsCost        = "propertyAlterationsDetails.cost"
-    val alterationDetailsDateMonth   = "propertyAlterationsDetails.date.month"
-    val alterationDetailsDateYear    = "propertyAlterationsDetails.date.year"
-    val alterationsRequired          = "requiredAnyWorks"
-  }
 }

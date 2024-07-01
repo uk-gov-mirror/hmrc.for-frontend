@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,16 @@ package controllers
 
 import connectors.Audit
 import form.persistence.FormDocumentRepository
+import models.*
 import models.serviceContracts.submissions.Address
-import org.mockito.scalatest.MockitoSugar
+import org.mockito.ArgumentMatchers.{any, anyString, eq => eqTo}
+import org.mockito.Mockito.{doNothing, verify, when}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.{JsObject, Json}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import playconfig.LoginToHODAction
 import security.LoginToHOD.{Postcode, StartTime}
 import security.NoExistingDocument
@@ -34,8 +37,8 @@ import util.DateUtil.nowInUK
 import utils.Helpers.fakeRequest2MessageRequest
 import views.html.{login, loginFailed}
 
+import scala.concurrent.ExecutionContext.Implicits.*
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.ExecutionContext.Implicits._
 
 class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
   private val documentRepo = mock[FormDocumentRepository]
@@ -45,7 +48,7 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
   "login controller" should "Audit successful login" in {
 
     val audit = mock[Audit]
-    doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
+    doNothing.when(audit).sendExplicitAudit(anyString, any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
 
     val loginToHodFunction = (referenceNumber: ReferenceNumber, _: Postcode, _: StartTime) => {
       assert(referenceNumber.equals("01234567000"))
@@ -75,7 +78,7 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
 
     verify(audit).sendExplicitAudit(
       eqTo("UserLogin"),
-      eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false, "address" -> testAddress))
+      eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false, "address" -> Json.toJsObject(testAddress)))
     )(any[HeaderCarrier], any[ExecutionContext])
 
   }
@@ -97,7 +100,7 @@ class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoS
 
     val fakeRequest = FakeRequest()
 
-    val response = loginController.logout().apply(fakeRequest)
+    val response = loginController.logout(fakeRequest)
 
     status(response) shouldBe SEE_OTHER
 

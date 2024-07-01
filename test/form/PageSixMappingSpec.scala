@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -281,9 +281,9 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
       bound.convertGlobalToFieldErrors()
     }
 
-    def getKeyStepped(idx: Int): getKeyStepped = new getKeyStepped(idx)
+    def getKeyStepped(idx: Int): GetKeyStepped = new GetKeyStepped(idx)
 
-    class getKeyStepped(idx: Int) extends {
+    class GetKeyStepped(idx: Int) {
       val stepFrom: String = s"${keys.writtenAgreement}.steppedDetails[$idx].stepFrom"
       val stepTo: String   = s"${keys.writtenAgreement}.steppedDetails[$idx].stepTo"
       val amount: String   = s"${keys.writtenAgreement}.steppedDetails[$idx].amount"

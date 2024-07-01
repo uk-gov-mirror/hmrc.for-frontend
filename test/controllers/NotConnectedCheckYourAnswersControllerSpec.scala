@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,11 @@ package controllers
 
 import connectors.{Audit, SubmissionConnector}
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
-import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.Helpers.refNumAction
 import views.html.{confirmNotConnected, notConnectedCheckYourAnswers}
 
@@ -53,7 +53,7 @@ class NotConnectedCheckYourAnswersControllerSpec extends AnyFlatSpec with should
 
     val request = FakeRequest()
 
-    val response = controller.onPageSubmit().apply(request)
+    val response = controller.onPageSubmit(request)
 
     status(response) shouldBe SEE_OTHER
   }

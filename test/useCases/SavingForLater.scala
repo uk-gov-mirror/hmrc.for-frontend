@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ class Generate7LengthLowercaseAlphaNumPasswordSpec extends AnyFlatSpec with shou
 
   it should "Generate a password consisting of unambiguous lowercase chars and numbers with a length of 7" in {
     (1 to 100) foreach { _ =>
-      val pw = Generate7LengthLowercaseAlphaNumPassword()
+      val pw = Generate7LengthLowercaseAlphaNumPassword(): String
       assert(pw.length === 7)
       pw.foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class MandatoryIfNot extends AnyFlatSpec with should.Matchers {
   lazy val form: Form[Model] = Form(mapping(
     "source" -> nonEmptyText,
     "target" -> mandatoryIfNot("source", "magicValue", nonEmptyText)
-  )(Model.apply)(Model.unapply))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))
 
   case class Model(source: String, target: Option[String])
 }

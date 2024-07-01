@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ class PageOneFormMapping2Spec extends AnyFlatSpec with should.Matchers {
       "street1"            -> optional(text),
       "street2"            -> optional(text),
       "postcode"           -> choose(nonEmptyText, default(nonEmptyText, ""))
-    )(Address.apply)(Address.unapply)
+    )(Address.apply)(a => Some(Tuple.fromProductTyped(a)))
   }
 
   val fullyPopulated: Address   = Address("15", Some("street1"), Some("street2, Dundee"), "AB1 2AX")

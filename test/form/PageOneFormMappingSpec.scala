@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,9 +54,9 @@ class PageOneFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   object TestData {
 
-    val errorKey: errorKey = new errorKey
+    val errorKey: ErrorKey = new ErrorKey
 
-    class errorKey extends {
+    class ErrorKey {
       val addressBuildingName: String = "buildingNameNumber"
       val addressPostcode: String     = "postcode"
     }

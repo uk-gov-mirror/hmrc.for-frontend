@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,9 +149,9 @@ class PageTwelveMappingSpec extends AnyFlatSpec with should.Matchers {
 
   object TestData {
 
-    def getKeyService(idx: Int): getKeyService = new getKeyService(idx)
+    def getKeyService(idx: Int): GetKeyService = new GetKeyService(idx)
 
-    class getKeyService(idx: Int) extends {
+    class GetKeyService(idx: Int) {
       val description: String     = s"includedServicesDetails[$idx].chargeDescription"
       val cost: String            = s"includedServicesDetails[$idx].chargeCost"
       val parentFieldName: String = s"includedServicesDetails[$idx]"

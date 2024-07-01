@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ class MandatoryIfAnyAreTrue extends AnyFlatSpec with should.Matchers {
     "f2"     -> boolean,
     "f3"     -> boolean,
     "target" -> mandatoryIfAnyAreTrue(Seq("f1", "f2", "f3"), nonEmptyText)
-  )(Model.apply)(Model.unapply))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))
 
   case class Model(f1: Boolean, f2: Boolean, f3: Boolean, target: Option[String])
 }
