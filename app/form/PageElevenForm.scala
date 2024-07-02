@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,17 +33,17 @@ object PageElevenForm {
       nonEmpty(errorMessage = "error.rentFreePeriod.required"),
       maxLength(250, "error.rentFreePeriod.maxLength")
     )
-  )(FreePeriodDetails.apply)(FreePeriodDetails.unapply)
+  )(FreePeriodDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   private def capitalDetailsMapping(prefix: String) = mapping(
     "capitalSum"  -> currencyMapping(".paid"),
     "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".made")
-  )(CapitalDetails.apply)(CapitalDetails.unapply)
+  )(CapitalDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   private def capitalDetailsReceivedMapping(prefix: String) = mapping(
     "receivedSum" -> currencyMapping(".received"),
     "paymentDate" -> monthYearRoughDateMapping(s"$prefix.paymentDate", ".received")
-  )(CapitalDetails.apply)(CapitalDetails.unapply)
+  )(CapitalDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageElevenMapping: Mapping[IncentivesAndPayments] = mapping(
     "rentFreePeriod"         -> mandatoryBooleanWithError(Errors.rentFreePeriodRequired),
@@ -52,7 +52,7 @@ object PageElevenForm {
     "capitalPaidDetails"     -> mandatoryIfTrue("payCapitalSum", capitalDetailsMapping("capitalPaidDetails")),
     "receiveCapitalSum"      -> mandatoryBooleanWithError(Errors.receivedCapitalSumRequired),
     "capitalReceivedDetails" -> mandatoryIfTrue("receiveCapitalSum", capitalDetailsReceivedMapping("capitalReceivedDetails"))
-  )(IncentivesAndPayments.apply)(IncentivesAndPayments.unapply)
+  )(IncentivesAndPayments.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageElevenForm: Form[IncentivesAndPayments] = Form(pageElevenMapping)
 }

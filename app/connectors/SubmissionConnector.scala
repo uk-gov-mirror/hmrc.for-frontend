@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,19 @@
 
 package connectors
 
+import com.google.inject.ImplementedBy
+import models.*
+import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import org.apache.pekko.stream.scaladsl.Source
 import org.apache.pekko.util.ByteString
-import com.google.inject.ImplementedBy
-import javax.inject.{Inject, Singleton}
-import models.serviceContracts.submissions.{NotConnectedSubmission, Submission}
 import play.api.http.HttpEntity
 import play.api.libs.json.JsValue
 import play.api.mvc.{ResponseHeader, Result}
-
-import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, Upstream4xxResponse}
+import uk.gov.hmrc.http.{BadRequestException, HeaderCarrier, HttpReads, HttpResponse, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class HodSubmissionConnector @Inject() (config: ServicesConfig, http: ForHttp)(implicit ec: ExecutionContext) extends SubmissionConnector {
@@ -36,13 +37,13 @@ class HodSubmissionConnector @Inject() (config: ServicesConfig, http: ForHttp)(i
   implicit def httpReads: HttpReads[HttpResponse] = (method: String, url: String, response: HttpResponse) =>
     response.status match {
       case 400 => throw new BadRequestException(response.body)
-      case 401 => throw new Upstream4xxResponse(response.body, 401, 401, response.headers)
-      case 409 => throw new Upstream4xxResponse(response.body, 409, 409, response.headers)
+      case 401 => throw new UpstreamErrorResponse(response.body, 401, 401, response.headers)
+      case 409 => throw new UpstreamErrorResponse(response.body, 409, 409, response.headers)
       case _   => HttpReads.Implicits.readRaw.read(method, url, response)
     }
 
   def submit(refNum: String, submission: Submission)(implicit hc: HeaderCarrier): Future[Unit] =
-    http.PUT(s"$serviceUrl/for/submissions/$refNum", submission).map(_ => ())
+    http.PUT(s"$serviceUrl/for/submissions/$refNum", submission, Seq.empty).map(_ => ())
 
   def submit(refNum: String, submission: JsValue)(implicit hc: HeaderCarrier): Future[Result] =
     http.PUT(s"$serviceUrl/for/submissions/$refNum", submission) map { r =>

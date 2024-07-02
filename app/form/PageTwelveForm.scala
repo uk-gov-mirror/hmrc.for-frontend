@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ object PageTwelveForm {
         maxLength(50, "error.detailsOfService.maxLength")
       ),
       s"$index.chargeCost"        -> currencyMapping(".serviceChargesPerYear")
-    )(ChargeDetails.apply)(ChargeDetails.unapply)
+    )(ChargeDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageTwelveMapping: Mapping[PageTwelve] = mapping(
     "responsibleOutsideRepairs"    -> responsibleTypeMapping,
@@ -50,7 +50,7 @@ object PageTwelveForm {
       "includedServices",
       IndexedMapping("includedServicesDetails", chargeDetailsMapping).verifying(Errors.tooManyServices, _.length <= 8)
     )
-  )(PageTwelve.apply)(PageTwelve.unapply)
+  )(PageTwelve.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageTwelveForm: Form[PageTwelve] = Form(pageTwelveMapping)
 }

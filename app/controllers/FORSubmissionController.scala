@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package controllers
 
 import actions.{RefNumAction, RefNumRequest}
 import play.api.Logging
-import play.api.mvc._
-import uk.gov.hmrc.http.Upstream4xxResponse
+import play.api.mvc.*
+import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import useCases.SubmitBusinessRentalInformation
@@ -54,7 +54,7 @@ class FORSubmissionController @Inject() (
     } yield
     // Metrics.submissions.mark() //TODO - Solve metrics
     Found(confirmationUrl)
-  } recoverWith { case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409)) }
+  } recoverWith { case UpstreamErrorResponse(_, 409, _, _) => Conflict(errorView(409)) }
 
   private def rejectSubmission = Future.successful {
     Found(routes.ApplicationController.declarationError.url)

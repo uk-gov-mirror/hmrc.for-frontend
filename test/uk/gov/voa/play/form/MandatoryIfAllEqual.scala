@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ class MandatoryIfAllEqual extends AnyFlatSpec with should.Matchers {
     "s2"     -> nonEmptyText,
     "s3"     -> nonEmptyText,
     "target" -> mandatoryIfAllEqual(Seq("s1" -> "s1val", "s2" -> "s2val", "s3" -> "s3val"), nonEmptyText)
-  )(Model.apply)(Model.unapply))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))
 
   case class Model(s1: String, s2: String, s3: String, target: Option[String])
 }

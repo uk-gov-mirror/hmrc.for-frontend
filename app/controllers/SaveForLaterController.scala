@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,9 +165,11 @@ class SaveForLaterController @Inject() (
     }
   }
 
-  private val saveForLaterForm: Form[SaveForLaterLogin] = Form(mapping(
-    "password" -> nonEmptyText
-  )(SaveForLaterLogin.apply)(SaveForLaterLogin.unapply))
+  private val saveForLaterForm: Form[SaveForLaterLogin] = Form(
+    mapping(
+      "password" -> nonEmptyText
+    )(SaveForLaterLogin.apply)(o => Some(o.password))
+  )
 
 }
 

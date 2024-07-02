@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,9 +135,9 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
   object TestData {
 
-    val keys: keys = new keys
+    val keys: Keys = new Keys
 
-    class keys extends {
+    class Keys {
       val propertyAlterations        = "propertyAlterations"
       val propertyAlterationsDetails = "propertyAlterationsDetails"
       val alterationsRequired        = "requiredAnyWorks"
@@ -145,9 +145,9 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
 
     def bind(data: Map[String, String]) = pageThirteenForm.bind(data).convertGlobalToFieldErrors()
 
-    def indexedKey(idx: Int): indexedKey = new indexedKey(idx)
+    def indexedKey(idx: Int): IndexedKey = new IndexedKey(idx)
 
-    class indexedKey(idx: Int) extends {
+    class IndexedKey(idx: Int) {
       val alterationDetailsAlterationType: String = s"propertyAlterationsDetails[$idx].alterationType"
       val alterationDetailsCost: String           = s"propertyAlterationsDetails[$idx].cost"
       val alterationDetailsDateMonth: String      = s"propertyAlterationsDetails[$idx].date.month"

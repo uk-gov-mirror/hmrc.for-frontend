@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,9 +82,9 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
 
   object TestData {
 
-    val errorKey: errorKey = new errorKey
+    val errorKey: ErrorKey = new ErrorKey
 
-    class errorKey extends {
+    class ErrorKey {
       val fullName: String    = "fullName"
       val userType: String    = "userType"
       val phone               = "contactDetails.phone"
@@ -93,13 +93,13 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
       val contactDetailsPhone = "contactDetails.phone"
     }
 
-    val formErrors: formErrors = new formErrors
+    val formErrors: FormErrors = new FormErrors
 
-    class formErrors extends {
+    class FormErrors {
 
-      val required: required = new required
+      val required: Required = new Required
 
-      class required extends {
+      class Required {
         val fullName: FormError = FormError(errorKey.fullName, Errors.required)
       }
     }

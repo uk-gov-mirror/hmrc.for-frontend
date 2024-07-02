@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ object PreviouslyConnectedForm {
 
   private val previouslyConnectedMandatoryBoolean = optional(boolean)
     .verifying("previously-connected.mandatory", _.isDefined)
-    .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
+    .transform(_.getOrElse(false), Some(_))
 
   private val fieldMapping = mapping(
     "haveYouBeenConnected" -> previouslyConnectedMandatoryBoolean
-  )(PreviouslyConnected.apply)(PreviouslyConnected.unapply)
+  )(PreviouslyConnected.apply)(pc => Some(pc.previouslyConnected))
 
   val formMapping: Form[PreviouslyConnected] = Form(fieldMapping)
 

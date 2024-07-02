@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 @import uk.gov.hmrc.govukfrontend.views.Aliases._
 @import uk.gov.hmrc.govukfrontend.views.html.components.GovukDateInput
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.FormGroup
 @import util.DateUtil
 
 @(  form: Form[_],
@@ -84,7 +85,9 @@
     @govukDate(
         DateInput(
             id = field,
-            formGroupClasses = (if(form.errors.exists(e => e.key.contains(field))) "govuk-form-group--error" else ""),
+            formGroup = FormGroup(
+                classes = if (form.errors.exists(_.key.contains(field))) Some("govuk-form-group--error") else None
+            ),
             items = dateInputItems,
             hint = Hint(
                 content = HtmlContent(helpText.getOrElse(

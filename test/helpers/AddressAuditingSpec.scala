@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@
 package helpers
 
 import connectors.Audit
+import models.RoughDate
 import models.pages.{PageFour, SubletDetails, Summary}
 import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesChangeAddress, SubletPart}
-import models.RoughDate
-import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
@@ -33,7 +33,7 @@ import util.DateUtil.nowInUK
 import scala.concurrent.{ExecutionContext, Future}
 
 class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
-  import TestData._
+  import TestData.*
 
   behavior of "Address Auditing"
 

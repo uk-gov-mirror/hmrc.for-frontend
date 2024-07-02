@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +33,9 @@ import java.time.LocalDate
 
 object PageSixForm {
 
-  val keys: keys = new keys
+  val keys: Keys = new Keys
 
-  class keys extends {
+  class Keys {
     val leaseAgreementType           = "leaseAgreementType"
     val writtenAgreement             = "writtenAgreement"
     val verbalAgreement              = "verbalAgreement"
@@ -130,7 +130,7 @@ object PageSixForm {
     ),
     keys.agreementIsStepped           -> mandatoryBooleanWithError(Errors.leaseAgreementIsSteppedRequired),
     keys.steppedDetails               -> onlyIfTrue(s"$written.${keys.agreementIsStepped}", steppedDetailsListMapping)
-  )(WrittenAgreement.apply)(WrittenAgreement.unapply).verifying(noOverlappingSteps)
+  )(WrittenAgreement.apply)(o => Some(Tuple.fromProductTyped(o))).verifying(noOverlappingSteps)
 
   val verbal = keys.verbalAgreement
 
@@ -148,7 +148,7 @@ object PageSixForm {
     ),
     keys.rentOpenEnded -> optional(mandatoryBooleanWithError(Errors.leaseAgreementOpenEndedRequired)),
     keys.leaseLength   -> mandatoryIfFalse(s"$verbal.${keys.rentOpenEnded}", monthsYearDurationMapping(s"$verbal.${keys.leaseLength}"))
-  )(VerbalAgreement.apply)(VerbalAgreement.unapply)
+  )(VerbalAgreement.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val writtenAgreements: Seq[String] = Seq(LeaseAgreementTypesLeaseTenancy.name, LeaseAgreementTypesLicenceOther.name)
 
@@ -158,7 +158,7 @@ object PageSixForm {
     keys.verbalAgreement    -> onlyIf(isEqual(keys.leaseAgreementType, LeaseAgreementTypesVerbal.name), verbalAgreementMapping)(VerbalAgreement()),
     "lastReviewDate"        -> optional(localDate),
     "rentReviewDate"        -> optional(localDate)
-  )(PageSix.apply)(PageSix.unapply)
+  )(PageSix.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageSixForm: Form[PageSix] = Form(pageSixMapping)
 }

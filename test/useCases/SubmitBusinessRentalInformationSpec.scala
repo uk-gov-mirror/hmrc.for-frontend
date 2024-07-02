@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,15 @@
 
 package useCases
 
-import _root_.utils.stubs._
+import _root_.utils.stubs.*
 import actions.RefNumRequest
 import connectors.{Audit, Document, Page}
 import helpers.AddressAuditing
-import models._
-import models.serviceContracts.submissions._
-import org.mockito.scalatest.MockitoSugar
+import models.*
+import models.serviceContracts.submissions.*
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.DefaultMessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
@@ -33,11 +33,11 @@ import util.DateUtil.nowInUK
 import java.time.LocalDate
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import scala.language.postfixOps
 
 class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers with MockitoSugar {
-  import TestData._
+  import TestData.*
   implicit val hc: HeaderCarrier         = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
   implicit val request: RefNumRequest[_] = new RefNumRequest("refNum", FakeRequest(), new DefaultMessagesApi)
 

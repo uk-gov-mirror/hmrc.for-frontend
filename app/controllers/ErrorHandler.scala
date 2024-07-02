@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,35 +16,49 @@
 
 package controllers
 
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
+import play.api.mvc.Results.*
 import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
-import uk.gov.hmrc.http.{BadRequestException, NotFoundException, Upstream4xxResponse}
+import uk.gov.hmrc.http.{BadRequestException, NotFoundException, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import play.api.mvc.Results._
-import scala.concurrent.Future
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ErrorHandler @Inject() (val messagesApi: MessagesApi, errorView: views.html.error.error) extends FrontendErrorHandler {
+class ErrorHandler @Inject() (
+  val messagesApi: MessagesApi,
+  errorView: views.html.error.error
+)(implicit val ec: ExecutionContext
+) extends FrontendErrorHandler {
 
   override def onServerError(header: RequestHeader, exception: Throwable): Future[Result] = {
 
     implicit val request: Request[_] = Request(header, "")
+
     exception.getCause match {
-      case _: BadRequestException            => BadRequest(errorView(500))
-      case Upstream4xxResponse(_, 404, _, _) => NotFound(errorView(404))
-      case Upstream4xxResponse(_, 408, _, _) => RequestTimeout(errorView(408))
-      case Upstream4xxResponse(_, 409, _, _) => Conflict(errorView(409))
-      case Upstream4xxResponse(_, 410, _, _) => Gone(errorView(410))
-      case _: NotFoundException              => NotFound(errorView(404))
-      case _                                 => super.resolveError(header, exception)
+      case _: BadRequestException              => BadRequest(errorView(500))
+      case UpstreamErrorResponse(_, 404, _, _) => NotFound(errorView(404))
+      case UpstreamErrorResponse(_, 408, _, _) => RequestTimeout(errorView(408))
+      case UpstreamErrorResponse(_, 409, _, _) => Conflict(errorView(409))
+      case UpstreamErrorResponse(_, 410, _, _) => Gone(errorView(410))
+      case _: NotFoundException                => NotFound(errorView(404))
+      case _                                   => super.resolveError(header, exception)
     }
   }
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    errorView(500)
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: RequestHeader): Future[Html] =
+    render { implicit request =>
+      errorView(500)
+    }
 
-  override def notFoundTemplate(implicit request: Request[_]): Html =
-    errorView(404)
+  override def notFoundTemplate(implicit request: RequestHeader): Future[Html] =
+    render { implicit request =>
+      errorView(404)
+    }
+
+  private def render(template: Request[_] => Html)(implicit rh: RequestHeader): Future[Html] =
+    Future.successful(template(Request(rh, "")))
+
 }

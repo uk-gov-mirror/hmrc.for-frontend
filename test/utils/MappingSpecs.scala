@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -355,7 +355,9 @@ trait DurationMappingSpecs { this: CommonSpecs =>
 
 trait AddressMappingSpecs extends PostcodeMappingSpecs { this: CommonSpecs =>
 
-  private val addressKeys = new {
+  private val addressKeys: AddressKeys = new AddressKeys
+
+  class AddressKeys {
     val buildingNameOrNumber = "buildingNameNumber"
     val street1              = "street1"
     val street2              = "street2"

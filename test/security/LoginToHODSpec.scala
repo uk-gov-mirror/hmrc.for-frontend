@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class LoginToHODSpec extends UnitTest {
       val r                                                   = await(l(refNum, postcode, now))
 
       "return the saved document" in {
-        assert(r.leftSideValue === DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address))
+        r shouldBe DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address)
       }
 
       "loads an empty document with the retrieved credentials and the current time as the journey start time into the session in case the user cannot login or wants to start again" in {
@@ -60,7 +60,7 @@ class LoginToHODSpec extends UnitTest {
       val r                                                   = await(l(refNum, postcode, now))
 
       "indicate there is no saved document" in {
-        assert(r.leftSideValue === NoExistingDocument(loginResponse.forAuthToken, loginResponse.address))
+        r shouldBe NoExistingDocument(loginResponse.forAuthToken, loginResponse.address)
       }
 
       "loads an empty document with the retrieved credentials into the session" in {

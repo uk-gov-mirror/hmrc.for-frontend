@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
 
 package connectors
 
-import org.apache.pekko.actor.ActorSystem
 import com.google.inject.ImplementedBy
 import com.typesafe.config.Config
 import config.ForConfig
-
-import javax.inject.{Inject, Singleton}
+import org.apache.pekko.actor.ActorSystem
 import play.api.Configuration
 import play.api.libs.json.Writes
 import play.api.libs.ws.WSClient
 import uk.gov.hmrc.http.HeaderNames.trueClientIp
-import uk.gov.hmrc.http._
+import uk.gov.hmrc.http.*
 import uk.gov.hmrc.http.hooks.HttpHook
-import uk.gov.hmrc.play.http.ws._
+import uk.gov.hmrc.play.http.ws.*
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 /*
@@ -70,8 +69,8 @@ class ForHttpClient @Inject() (
   override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] =
     super.doGet(url, useDummyIPInTrueClientIPHeader(headers))(ec).map { res =>
       res.status match {
-        case 401 => throw Upstream4xxResponse(res.body, 401, 401, res.headers)
-        case 409 => throw Upstream4xxResponse(res.body, 409, 409, res.headers)
+        case 401 => throw UpstreamErrorResponse(res.body, 401, 401, res.headers)
+        case 409 => throw UpstreamErrorResponse(res.body, 409, 409, res.headers)
         case _   => res
       }
     }(ec)

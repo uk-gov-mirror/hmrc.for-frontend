@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 package controllers
 
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
-import org.mockito.scalatest.MockitoSugar
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.Helpers.refNumAction
 import views.html.notConnected
 
@@ -47,7 +47,7 @@ class NotConnectedControllerSpec extends AnyFlatSpec with should.Matchers with M
 
     val fakeRequest = FakeRequest()
 
-    val result = controller.onPageSubmit().apply(fakeRequest)
+    val result = controller.onPageSubmit(fakeRequest)
 
     status(result) shouldBe SEE_OTHER
 

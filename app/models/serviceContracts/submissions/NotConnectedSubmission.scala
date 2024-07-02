@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@
 
 package models.serviceContracts.submissions
 
-import java.time.Instant
+import models.*
+import play.api.libs.json.*
 
-import play.api.libs.json._
+import java.time.Instant
 
 case class NotConnectedSubmission(
   id: String,
@@ -33,7 +34,5 @@ case class NotConnectedSubmission(
 )
 
 object NotConnectedSubmission {
-
-  implicit val format: OFormat[NotConnectedSubmission] = Json.format[NotConnectedSubmission]
-
+  implicit val format: OFormat[NotConnectedSubmission] = Json.format
 }

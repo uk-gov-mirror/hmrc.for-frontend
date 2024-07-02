@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ object PageFourForm {
       ),
       s"$index.annualRent"                      -> currencyMapping(".sublet.annualRent"),
       s"$index.rentFixedDate"                   -> monthYearRoughDateMapping(s"$index.rentFixedDate", ".sublet.rentFixedDate")
-    )(SubletDetails.apply)(SubletDetails.unapply)
+    )(SubletDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageFourMapping: Mapping[PageFour] = mapping(
     "propertyIsSublet" -> mandatoryBooleanWithError(Errors.propertyIsSublet),
@@ -60,7 +60,7 @@ object PageFourForm {
       "propertyIsSublet",
       IndexedMapping("sublet", subletMapping, allowEmpty = false, alwaysValidateFirstIndex = true).verifying(Errors.tooManySublets, _.length <= 5)
     )
-  )(PageFour.apply)(PageFour.unapply)
+  )(PageFour.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageFourForm: Form[PageFour] = Form(pageFourMapping)
 

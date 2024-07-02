@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,16 +30,17 @@ import scala.util.matching.Regex
 
 object MappingSupport {
 
-  private val strictEmailConstraint = Constraint[String] { value: String =>
-    Try(new InternetAddress(value, true)) match {
-      case Success(_) => Valid
-      case _          => Invalid(ValidationError("error.email"))
-    }
+  private val strictEmailConstraint = Constraint[String] {
+    value =>
+      Try(new InternetAddress(value, true)) match {
+        case Success(_) => Valid
+        case _          => Invalid(ValidationError("error.email"))
+      }
   }
 
   val positiveBigDecimal: Mapping[BigDecimal] = bigDecimal
     .verifying("error.BigDecimal_negative", _ >= 0.0000)
-    .transform({ s: BigDecimal => s.abs }, { v: BigDecimal => v })
+    .transform(_.abs, v => v)
 
   val decimalRegex          = """^[0-9]{1,10}\.?[0-9]{0,2}$"""
   val cdbMaxCurrencyAmount  = 9999999.99
@@ -48,29 +49,28 @@ object MappingSupport {
 
   lazy val annualRent: Mapping[AnnualRent] = mapping(
     "annualRentExcludingVat" -> currencyMapping(".annualRentExcludingVat")
-  )(AnnualRent.apply)(AnnualRent.unapply).verifying(Errors.maxCurrencyAmountExceeded, _.amount <= cdbMaxCurrencyAmount)
+  )(AnnualRent.apply)(rent => Some(rent.amount)).verifying(Errors.maxCurrencyAmountExceeded, _.amount <= cdbMaxCurrencyAmount)
 
   val currency: Mapping[BigDecimal] = currencyMapping()
 
   def currencyMapping(fieldErrorPart: String = ""): Mapping[BigDecimal] = default(text, "")
     .verifying(nonEmpty(errorMessage = Errors.required + fieldErrorPart))
     .verifying(Errors.invalidCurrency + fieldErrorPart, x => x == "" || ((x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000))
-    .transform({ s: String => BigDecimal(s.replace(",", "")) }, { v: BigDecimal => v.toString })
+    .transform(s => BigDecimal(s.replace(",", "")), _.toString)
     .verifying(Errors.maxCurrencyAmountExceeded + fieldErrorPart, _ <= cdbMaxCurrencyAmount)
 
   val nonNegativeCurrency: Mapping[BigDecimal] = text
     .verifying(Errors.invalidCurrency, x => (x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000)
-    .transform({ s: String => BigDecimal(s.replace(",", "")) }, { v: BigDecimal => v.toString })
+    .transform(s => BigDecimal(s.replace(",", "")), _.toString)
     .verifying(Errors.maxCurrencyAmountExceeded, _ <= cdbMaxCurrencyAmount)
 
-  val mandatoryBoolean: Mapping[Boolean] = optional(boolean)
-    .verifying(Errors.booleanMissing, _.isDefined)
-    .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
+  val mandatoryBoolean: Mapping[Boolean] =
+    mandatoryBooleanWithError(Errors.booleanMissing)
 
   def mandatoryBooleanWithError(message: String): Mapping[Boolean] =
     optional(boolean)
       .verifying(message, _.isDefined)
-      .transform({ s: Option[Boolean] => s.get }, { v: Boolean => Some(v) })
+      .transform(_.getOrElse(false), Some(_))
 
   import Formats._ // scalastyle:ignore
 
@@ -108,7 +108,7 @@ object MappingSupport {
     "street1"            -> optional(text(maxLength = 50)),
     "street2"            -> optional(text(maxLength = 50)),
     "postcode"           -> nonEmptyTextOr("postcode", postcode, "error.postcode.required")
-  )(Address.apply)(Address.unapply)
+  )(Address.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   def addressMapping(prefix: String): Mapping[Address] = mapping(
     "buildingNameNumber" -> default(text, "").verifying(
@@ -118,7 +118,7 @@ object MappingSupport {
     "street1"            -> optional(text(maxLength = 50)),
     "street2"            -> optional(text(maxLength = 50)),
     "postcode"           -> nonEmptyTextOr(s"$prefix.postcode", postcode, "error.postcode.required")
-  )(Address.apply)(Address.unapply)
+  )(Address.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   def optionalAddressMapping(prefix: String): Mapping[Address] = mapping(
     "buildingNameNumber" -> default(
@@ -135,7 +135,7 @@ object MappingSupport {
       postcode.verifying(maxLength(10, "error.postcode.maxLength")),
       ""
     )
-  )(Address.apply)(Address.unapply)
+  )(Address.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val contactDetailsMapping: Mapping[ContactDetails] =
     mapping(
@@ -150,13 +150,13 @@ object MappingSupport {
         maxLength(50, "contactDetails.email1.email.tooLong"),
         strictEmailConstraint
       )
-    )(ContactDetails.apply)(ContactDetails.unapply)
+    )(ContactDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   def parkingDetailsMapping(key: String): Mapping[ParkingDetails] = mapping(
     "openSpaces"    -> spacesOrGaragesMapping(key, "openSpaces"),
     "coveredSpaces" -> spacesOrGaragesMapping(key, "coveredSpaces"),
     "garages"       -> spacesOrGaragesMapping(key, "garages")
-  )(ParkingDetails.apply)(ParkingDetails.unapply) verifying atLeastOneParkingDetailRequired(key)
+  )(ParkingDetails.apply)(o => Some(Tuple.fromProductTyped(o))) verifying atLeastOneParkingDetailRequired(key)
 
   private def spacesOrGaragesMapping(key: String, field: String): Mapping[Int] = default(text, "0")
     .verifying(s"${Errors.invalidNumber}.$key.$field", x => x == "0" || spacesIntRegex.findFirstIn(x).isDefined)

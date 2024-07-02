@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,13 @@ import _root_.utils.UnitTest
 import connectors.Document
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import testutils._
+import testutils.*
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import java.security.SecureRandom
+import scala.collection.immutable.StringOps
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
 
@@ -77,7 +78,7 @@ class Generate7LengthLowercaseAlphaNumPasswordSpec extends AnyFlatSpec with shou
     (1 to 100) foreach { _ =>
       val pw = Generate7LengthLowercaseAlphaNumPassword()
       assert(pw.length === 7)
-      pw.foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
+      StringOps(pw).foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
     }
   }
 

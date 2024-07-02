@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,15 @@ import actions.{RefNumAction, RefNumRequest}
 import connectors.Audit
 import form.PageFiveForm.pageFiveForm
 import form.persistence.FormDocumentRepository
-
-import javax.inject.Inject
+import models.*
 import models.pages.{PageFive, Summary}
 import play.api.data.Form
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import views.html.part5
-import play.api.libs.json.OFormat
+
+import javax.inject.Inject
 
 class PageFiveController @Inject() (
   audit: Audit,
@@ -37,7 +37,7 @@ class PageFiveController @Inject() (
   cc: MessagesControllerComponents,
   part5: part5
 ) extends ForDataCapturePage[PageFive](audit, formDocumentRepository, refNumAction, cc) {
-  val format: OFormat[PageFive] = Json.format[PageFive]
+  val format: OFormat[PageFive] = Json.format
   val emptyForm                 = pageFiveForm
   val pageNumber: Int           = 5
 

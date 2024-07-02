@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ object NotConnectedPropertyForm {
       "email"                 -> atLeastOneMapping("phoneNumber", emailAddress),
       "phoneNumber"           -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints: _*),
       "additionalInformation" -> optional(text)
-    )(NotConnected.apply)(NotConnected.unapply)
+    )(NotConnected.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
   implicit val format: OFormat[NotConnectedPropertyForm] = Json.format[NotConnectedPropertyForm]

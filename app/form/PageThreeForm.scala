@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,22 @@
 
 package form
 
-import form.DateMappings._
+import form.DateMappings.*
 import models.pages.PageThree
 import models.serviceContracts.submissions.{OccupierTypeCompany, OccupierTypeIndividuals}
 import play.api.data.Form
-import play.api.data.Forms._
-import uk.gov.voa.play.form.ConditionalMappings._
-import uk.gov.voa.play.form._
-import MappingSupport._
+import play.api.data.Forms.*
+import uk.gov.voa.play.form.ConditionalMappings.*
+import uk.gov.voa.play.form.*
+import MappingSupport.*
 import form.Errors.{propertyOwnedByYouRequired, propertyRentedByYouRequired}
 import play.api.data.validation.Constraints.{maxLength, nonEmpty}
 
 object PageThreeForm {
 
-  val keys: keys = new keys
+  val keys: Keys = new Keys
 
-  class keys extends {
+  class Keys {
     val propertyType           = "propertyType"
     val occupierType           = "occupierType"
     val occupierCompanyName    = "occupierCompanyName"
@@ -87,7 +87,7 @@ object PageThreeForm {
         maxLength(249, "error.noRentDetails.maxLength")
       )
     )
-  )(PageThree.apply)(PageThree.unapply)
+  )(PageThree.apply)(o => Some(Tuple.fromProductTyped(o)))
 
   val pageThreeForm: Form[PageThree] = Form(basePageThreeMapping)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ class ProblemWithPlayFrameworkMappings extends AnyFlatSpec with should.Matchers 
     "nonUkResident" -> boolean,
     "country"       -> optional(nonEmptyText),
     "email"         -> nonEmptyText
-  )(Model.apply)(Model.unapply).verifying("Error.countryRequired", x => x.nonUkResident && x.country.isDefined))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))).verifying("Error.countryRequired", x => x.nonUkResident && x.country.isDefined))
 
 }
 
@@ -72,5 +72,5 @@ class SolutionUsingConditionalMappings extends AnyFlatSpec with should.Matchers 
     "nonUkResident" -> boolean,
     "country"       -> mandatoryIfTrue("nonUkResident", nonEmptyText),
     "email"         -> nonEmptyText
-  )(Model.apply)(Model.unapply))
+  )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))
 }
