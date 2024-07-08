@@ -22,7 +22,7 @@ import play.api.inject.{Binding, Module}
 
 class ForModule extends Module {
 
-  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[?]] = Seq(
     bind[uk.gov.hmrc.http.HttpClient].to[AnotherHttpClient]
   )
 }

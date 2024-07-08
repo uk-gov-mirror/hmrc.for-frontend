@@ -90,7 +90,7 @@ class SurveyController @Inject() (
       case None      => InternalServerError(errorView(500))
     }
 
-  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[_]) =
+  private def sendFeedback(f: SurveyFeedback, refNum: String)(implicit request: Request[?]) =
     audit(
       "SurveySatisfaction",
       Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl)

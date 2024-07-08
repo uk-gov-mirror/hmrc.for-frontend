@@ -53,8 +53,8 @@ object LoginToHOD {
     } yield sd map { _ => dps(lr.forAuthToken, lr.address) } getOrElse ned(lr.forAuthToken, lr.address)
 
   private def doc(r: ReferenceNumber, a: Address, d: StartTime) = Document(r, d, address = Some(a))
-  private def dps                                               = DocumentPreviouslySaved.apply _
-  private def ned                                               = NoExistingDocument.apply _
+  private def dps                                               = DocumentPreviouslySaved.apply
+  private def ned                                               = NoExistingDocument.apply
 }
 
 sealed trait LoginResult

@@ -39,7 +39,7 @@
 )
 
 
-@(theForm: Form[PageThree], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[PageThree], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 

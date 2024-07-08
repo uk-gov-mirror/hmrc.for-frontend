@@ -30,7 +30,7 @@
     formHelp: includes.formHelp)
 
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_], messages: Messages)
+@(theForm: Form[?], summary: Summary)(implicit request: Request[?], messages: Messages)
 
 @heading = @{if(summary.isAgent){ messages("section8.heading.agent") }else{ messages("section8.heading")}}
 @previousPage = @{

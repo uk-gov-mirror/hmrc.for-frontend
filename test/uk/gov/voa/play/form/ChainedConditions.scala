@@ -47,7 +47,7 @@ class ChainedConditions extends AnyFlatSpec with should.Matchers {
     "name"            -> nonEmptyText,
     "age"             -> number,
     "favouriteColour" -> mandatoryIf(
-      isEqual("name", "Francoise") and isEqual("age", "21"),
+      isEqual("name", "Francoise") `and` isEqual("age", "21"),
       nonEmptyText
     )
   )(Model.apply)(o => Some(Tuple.fromProductTyped(o))))

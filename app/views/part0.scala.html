@@ -32,7 +32,7 @@
 )
 
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[?], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @heading = @{messages("section0.intro.text", summary.address.map(_.singleLine).getOrElse(""))}
 

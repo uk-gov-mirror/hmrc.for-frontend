@@ -35,7 +35,7 @@
         formHelp: includes.formHelp)
 
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_], messages: Messages)
+@(theForm: Form[?], summary: Summary)(implicit request: Request[?], messages: Messages)
 
 @previousPage = @{
     if(summary.rentReviews.getOrElse(PageSeven(leaseContainsRentReviews=false, None)).leaseContainsRentReviews) 7

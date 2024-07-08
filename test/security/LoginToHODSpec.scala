@@ -19,12 +19,14 @@ package security
 import connectors.Document
 import models.FORLoginResponse
 import models.serviceContracts.submissions.Address
+import security.LoginToHOD.{Postcode, StartTime}
 import uk.gov.hmrc.http.HeaderCarrier
 import useCases.ReferenceNumber
 import utils.UnitTest
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class LoginToHODSpec extends UnitTest {
   import TestData._
@@ -33,13 +35,14 @@ class LoginToHODSpec extends UnitTest {
     implicit val hc = HeaderCarrier()
 
     "a user has previously saved a document for later" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val l                                                   = LoginToHOD(
-        respondWith(refNum, postcode)(loginResponse),
-        respondWith(auth, refNum)(Some(savedDoc)),
-        set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
-      ) _
-      val r                                                   = await(l(refNum, postcode, now))
+      var updated: (HeaderCarrier, ReferenceNumber, Document)              = null
+      val l: (ReferenceNumber, Postcode, StartTime) => Future[LoginResult] =
+        LoginToHOD.apply(
+          respondWith(refNum, postcode)(loginResponse),
+          respondWith(auth, refNum)(Some(savedDoc)),
+          set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
+        )
+      val r                                                                = await(l.apply(refNum, postcode, now))
 
       "return the saved document" in {
         r shouldBe DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address)
@@ -51,13 +54,14 @@ class LoginToHODSpec extends UnitTest {
     }
 
     "there is no previously stored document" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val l                                                   = LoginToHOD(
-        respondWith(refNum, postcode)(loginResponse),
-        none,
-        set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
-      ) _
-      val r                                                   = await(l(refNum, postcode, now))
+      var updated: (HeaderCarrier, ReferenceNumber, Document)              = null
+      val l: (ReferenceNumber, Postcode, StartTime) => Future[LoginResult] =
+        LoginToHOD.apply(
+          respondWith(refNum, postcode)(loginResponse),
+          none,
+          set[HeaderCarrier, ReferenceNumber, Document, Unit](updated = _)
+        )
+      val r                                                                = await(l.apply(refNum, postcode, now))
 
       "indicate there is no saved document" in {
         r shouldBe NoExistingDocument(loginResponse.forAuthToken, loginResponse.address)

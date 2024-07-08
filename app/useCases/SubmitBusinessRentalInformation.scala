@@ -35,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[SubmitBusinessRentalInformationToBackendApi])
 trait SubmitBusinessRentalInformation {
-  def apply(refNum: String)(implicit hs: HeaderCarrier, request: RefNumRequest[_]): Future[Submission]
+  def apply(refNum: String)(implicit hs: HeaderCarrier, request: RefNumRequest[?]): Future[Submission]
 }
 
 @Singleton
@@ -49,7 +49,7 @@ class SubmitBusinessRentalInformationToBackendApi @Inject() (
 ) extends SubmitBusinessRentalInformation
   with Logging {
 
-  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[_]): Future[Submission] =
+  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[?]): Future[Submission] =
     repository.findById(SessionId(hc), refNum).flatMap {
       case someDoc @ Some(doc) =>
         val submission = builder.build(doc)

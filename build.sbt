@@ -3,7 +3,7 @@ import uk.gov.hmrc.DefaultBuildSettings.itSettings
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
 
-ThisBuild / scalaVersion := "3.3.3"
+ThisBuild / scalaVersion := "3.4.2"
 ThisBuild / majorVersion := 3
 
 lazy val microservice = Project("for-frontend", file("."))

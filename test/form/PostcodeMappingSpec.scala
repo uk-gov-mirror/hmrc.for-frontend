@@ -62,7 +62,7 @@ class PostcodeMappingSpec extends AnyFlatSpec with should.Matchers with EitherVa
   it should "reject all incorrect postcodes" in {
     forAll(negativeTestData) { (rawPostcode: String, postcodeError: Seq[FormError]) =>
       postcode.bind(Map("" -> rawPostcode))
-        .left.value should contain.only(postcodeError: _*)
+        .left.value should contain.only(postcodeError*)
     }
 
   }

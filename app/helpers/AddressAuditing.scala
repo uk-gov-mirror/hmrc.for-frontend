@@ -30,13 +30,13 @@ import scala.concurrent.Future
 @Singleton
 class AddressAuditing @Inject() (audit: Audit) {
 
-  def apply(s: Summary, request: Request[_]): Future[Unit] = {
+  def apply(s: Summary, request: Request[?]): Future[Unit] = {
     if (s.propertyAddress.isDefined) auditManualAddress(s.referenceNumber, s.addressUserBelievesIsCorrect, request)
     s.sublet.foreach(p4 => p4.sublet.foreach(sub => auditManualAddress(s.referenceNumber, sub.tenantAddress, request)))
     Future.successful(())
   }
 
-  private def auditManualAddress(referenceNumber: String, address: Address, request: Request[_]): Future[AuditResult] = {
+  private def auditManualAddress(referenceNumber: String, address: Address, request: Request[?]): Future[AuditResult] = {
     val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     audit(
       "manualAddressSubmitted",

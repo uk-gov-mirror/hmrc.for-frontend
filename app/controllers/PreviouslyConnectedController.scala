@@ -50,7 +50,7 @@ class PreviouslyConnectedController @Inject() (
 ) extends FrontendController(cc) {
   val logger: Logger = Logger(this.getClass)
 
-  def findSummary(implicit request: RefNumRequest[_]): Future[Option[Summary]] =
+  def findSummary(implicit request: RefNumRequest[?]): Future[Option[Summary]] =
     repository.findById(SessionId(hc), request.refNum) flatMap {
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None      => None
@@ -62,7 +62,7 @@ class PreviouslyConnectedController @Inject() (
       case None    => None
     }
 
-  def findNotConnectedSummary(implicit request: RefNumRequest[_], hc: HeaderCarrier): Future[Option[NotConnectedSummary]] =
+  def findNotConnectedSummary(implicit request: RefNumRequest[?], hc: HeaderCarrier): Future[Option[NotConnectedSummary]] =
     findSummary.flatMap { summary =>
       getPreviouslyConnectedFromCache().flatMap { previouslyConnected =>
         Option(NotConnectedSummary(summary.get, previouslyConnected, None))

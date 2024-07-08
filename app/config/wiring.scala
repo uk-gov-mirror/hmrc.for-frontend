@@ -44,16 +44,16 @@ object SaveForLater {
     implicit hc =>
       SaveInProgressSubmissionForLater(
         Generate7LengthLowercaseAlphaNumPassword(),
-        StoreInProgressSubmissionFor90Days.apply _,
-        UpdateDocumentInCurrentSession.apply _
+        StoreInProgressSubmissionFor90Days.apply,
+        UpdateDocumentInCurrentSession.apply
       )
 
   def apply(pwd: String)(implicit ec: ExecutionContext, hodConnector: HODConnector, formDocumentRepository: FormDocumentRepository)
     : SaveInProgressSubmissionForLater = implicit hc =>
     SaveInProgressSubmissionForLater(
       UseUserAlphaNumPassword(pwd),
-      StoreInProgressSubmissionFor90Days.apply _,
-      UpdateDocumentInCurrentSession.apply _
+      StoreInProgressSubmissionFor90Days.apply,
+      UpdateDocumentInCurrentSession.apply
     )
 }
 

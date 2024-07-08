@@ -30,7 +30,7 @@
         govukErrorSummary: GovukErrorSummary,
         formWithCSRF: FormWithCSRF)
 
-@(theForm: Form[PreviouslyConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[PreviouslyConnected], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @layout(
     backLinkUrl = dataCapturePages.routes.PageController.showPage(0).url,

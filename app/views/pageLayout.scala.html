@@ -41,7 +41,7 @@
 @(
     pageTitle: Option[String] = None,
     pageHeading: String,
-    theForm: Form[_] = null,
+    theForm: Form[?] = null,
     showBanner: Boolean = false,
     showH1: Boolean = true,
     showSection: Boolean = false,
@@ -52,7 +52,7 @@
     showHistoryBack: Boolean = false,
     withTimeoutDialog: Boolean = true,
     fullWidth: Boolean = false
-)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+)(contentBlock: Html)(implicit request: Request[?], messages: Messages)
 
 @beforeBLock = {
     @hmrcLanguageSelectHelper()

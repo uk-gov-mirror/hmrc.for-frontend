@@ -27,6 +27,7 @@ import util.DateUtil.nowInUK
 import java.security.SecureRandom
 import scala.collection.immutable.StringOps
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class SaveInProgressSubmissionForLaterSpec extends UnitTest {
 
@@ -41,9 +42,10 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
     val savedDoc = doc.copy(saveForLaterPassword = Some(pas))
 
     "saving a document for a reference number that has not previously saved for later" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val s                                                   = SaveInProgressSubmissionForLater(() => pas, expect(savedDoc), (a, b, c) => updated = (a, b, c)) _
-      val r                                                   = await(s(doc, hc))
+      var updated: (HeaderCarrier, ReferenceNumber, Document)     = null
+      val s: (Document, HeaderCarrier) => Future[ReferenceNumber] =
+        SaveInProgressSubmissionForLater.apply(() => pas, expect(savedDoc), (a, b, c) => updated = (a, b, c))
+      val r                                                       = await(s.apply(doc, hc))
 
       "generate a password using the password generator, and store the document with the generated password" in {
         assert(r === pas)
@@ -62,9 +64,10 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
       var savedDoc: Document = null
 
       "use the existing password if a document already has a save for later password" in {
-        var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-        val s                                                   = SaveInProgressSubmissionForLater(() => newP, set[Document, Unit](savedDoc = _), (a, b, c) => updated = (a, b, c)) _
-        assert(await(s(doc, hc)) === oldP)
+        var updated: (HeaderCarrier, ReferenceNumber, Document)     = null
+        val s: (Document, HeaderCarrier) => Future[ReferenceNumber] =
+          SaveInProgressSubmissionForLater.apply(() => newP, set[Document, Unit](savedDoc = _), (a, b, c) => updated = (a, b, c))
+        assert(await(s.apply(doc, hc)) === oldP)
       }
     }
   }

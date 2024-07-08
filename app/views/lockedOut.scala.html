@@ -16,7 +16,7 @@
 
 @this( layout: pageLayout)
 
-@()(implicit request: Request[_],  messages: Messages)
+@()(implicit request: Request[?],  messages: Messages)
 
 @layout(pageHeading = messages("heading.login.lockedOut")){
     <p class="govuk-body">@messages("error.login.lockedOut")</p>
