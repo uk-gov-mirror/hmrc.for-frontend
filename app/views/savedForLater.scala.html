@@ -24,7 +24,7 @@
 
 @this(main_template: pageLayout, govukWarningText: GovukWarningText, formHelp: includes.formHelp)
 
-@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[_],  messages: Messages)
+@(summary: Summary, password: String, expiryDate: LocalDate, hasTimedOut: Boolean = false)(implicit request: Request[?],  messages: Messages)
 
 @title = @{
     if(!hasTimedOut) {

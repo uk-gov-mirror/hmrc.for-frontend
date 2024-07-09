@@ -64,7 +64,7 @@ object NotConnectedPropertyForm {
     mapping(
       "fullName"              -> nonEmptyText.verifying(Constraints.pattern(fullNameRegex, error = "notConnected.error.nameInvalid")),
       "email"                 -> atLeastOneMapping("phoneNumber", emailAddress),
-      "phoneNumber"           -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints: _*),
+      "phoneNumber"           -> atLeastOneMapping("email", MappingSupport.phoneNumber.constraints*),
       "additionalInformation" -> optional(text)
     )(NotConnected.apply)(o => Some(Tuple.fromProductTyped(o)))
   )

@@ -33,7 +33,7 @@ package object form {
     val dataMap                         = populatedForm.data
     val result: Seq[FormError]          = form.bind(dataMap).convertGlobalToFieldErrors().fold(formWithErrors => formWithErrors.errors, _ => Seq())
     val valErrors: Seq[ValidationError] = result flatMap {
-      case FormError(key, messages, args) => messages.map(message => createFieldValidationError(key, message, args: _*))
+      case FormError(key, messages, args) => messages.map(message => createFieldValidationError(key, message, args*))
     }
     if (valErrors.isEmpty) {
       Valid
@@ -69,7 +69,7 @@ package object form {
     }
 
   def createFieldValidationError(field: String, code: String, args: Any*): ValidationError =
-    ValidationError(s"fieldError|$field|$code", args: _*)
+    ValidationError(s"fieldError|$field|$code", args*)
 
   def createFieldConstraintFor(cond: Boolean, code: String, fields: Seq[String]): ValidationResult =
     fields.map(field => checkFieldConstraint(cond, field, code)).reduce(_.and(_))

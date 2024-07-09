@@ -34,7 +34,7 @@
         formWithCSRF: FormWithCSRF
 )
 
-@(theForm: Form[SurveyFeedback])(implicit request: Request[_], messages: Messages)
+@(theForm: Form[SurveyFeedback])(implicit request: Request[?], messages: Messages)
 
 @layout(pageHeading = messages("label.feedback.heading"), showFeedback = false) {
 

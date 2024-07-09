@@ -84,6 +84,6 @@ case class StubFormDocumentRepo(docs: (String, String, Document)*) extends FormD
 }
 
 object StubAddressAuditing extends AddressAuditing(null) {
-  override def apply(s: Summary, r: Request[_]): Future[Unit] = Future.successful(())
+  override def apply(s: Summary, r: Request[?]): Future[Unit] = Future.successful(())
 
 }

@@ -34,7 +34,7 @@
         formHelp: includes.formHelp)
 
 
-@(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[CustomerDetails], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @layout(
     pageHeading = messages("section2.heading"),

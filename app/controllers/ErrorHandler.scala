@@ -35,7 +35,7 @@ class ErrorHandler @Inject() (
 
   override def onServerError(header: RequestHeader, exception: Throwable): Future[Result] = {
 
-    implicit val request: Request[_] = Request(header, "")
+    implicit val request: Request[?] = Request(header, "")
 
     exception.getCause match {
       case _: BadRequestException              => BadRequest(errorView(500))
@@ -58,7 +58,7 @@ class ErrorHandler @Inject() (
       errorView(404)
     }
 
-  private def render(template: Request[_] => Html)(implicit rh: RequestHeader): Future[Html] =
+  private def render(template: Request[?] => Html)(implicit rh: RequestHeader): Future[Html] =
     Future.successful(template(Request(rh, "")))
 
 }

@@ -22,7 +22,7 @@
         configuration: Configuration
 )
 
-@()(implicit request: Request[_],  messages: Messages)
+@()(implicit request: Request[?],  messages: Messages)
 
 
 @layout(pageHeading = configuration.get[String]("importantInformation."+ messages.lang.code + ".title"),

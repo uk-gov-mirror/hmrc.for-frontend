@@ -30,7 +30,7 @@
         govukButton: GovukButton,
         formWithCSRF: FormWithCSRF)
 
-@(theForm: Form[NotConnected], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[NotConnected], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @layout(
     pageHeading = messages("notConnected.heading"),

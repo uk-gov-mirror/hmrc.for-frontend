@@ -83,7 +83,7 @@ class Path(val pages: Seq[Int]) {
       case _ => summaryAsList(summary)(previousPage(page)).isDefined
     }
 
-  private def summaryAsList(summary: Summary): List[Option[_]] = List(
+  private def summaryAsList(summary: Summary): List[Option[?]] = List(
     summary.addressConnection,
     summary.propertyAddress,
     summary.customerDetails,

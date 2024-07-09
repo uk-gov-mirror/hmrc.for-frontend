@@ -31,7 +31,7 @@
         formHelp: includes.formHelp)
 
 
-@(theForm: Form[Address], summary: Summary)(implicit request: Request[_],  messages: Messages)
+@(theForm: Form[Address], summary: Summary)(implicit request: Request[?],  messages: Messages)
 
 @getAddressFieldValueOrDefaultUnlessErrors(field:String, defaultAddressValue: String) = @{
     if(theForm.hasErrors) {

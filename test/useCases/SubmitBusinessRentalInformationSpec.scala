@@ -39,7 +39,7 @@ import scala.language.postfixOps
 class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers with MockitoSugar {
   import TestData.*
   implicit val hc: HeaderCarrier         = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
-  implicit val request: RefNumRequest[_] = new RefNumRequest("refNum", FakeRequest(), new DefaultMessagesApi)
+  implicit val request: RefNumRequest[?] = new RefNumRequest("refNum", FakeRequest(), new DefaultMessagesApi)
 
   private val audit          = mock[Audit]
   private val auditAddresses = mock[AddressAuditing]

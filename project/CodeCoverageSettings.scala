@@ -5,16 +5,14 @@ object CodeCoverageSettings extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  private val excludedPackages: Seq[String] = Seq(
-    ".*\\.Reverse.*",
-    ".*Routes",
-    ".*RoutesPrefix",
-    "views\\..*"
-  )
+  private val excludedPackages: Seq[String] = Seq(".*Reverse.*")
+
+  private val excludedFiles: Seq[String] = Seq(".*Routes.*")
 
   override lazy val projectSettings: Seq[Setting[?]] = Seq(
     ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
-    ScoverageKeys.coverageMinimumStmtTotal := 16.4,
+    ScoverageKeys.coverageExcludedFiles := excludedFiles.mkString(";"),
+    ScoverageKeys.coverageMinimumStmtTotal := 17.3,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true
   )

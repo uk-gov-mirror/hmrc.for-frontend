@@ -22,7 +22,7 @@
         govukButton: GovukButton,
         formWithCSRF: FormWithCSRF)
 
-@(notConnectedSummary: NotConnectedSummary)(implicit request: Request[_],  messages: Messages)
+@(notConnectedSummary: NotConnectedSummary)(implicit request: Request[?],  messages: Messages)
 
 @layout(
     pageHeading = messages("heading.summary"),

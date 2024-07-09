@@ -180,7 +180,7 @@ object DateMappings {
     def withPrefix(prefix: String): Mapping[RoughDate] =
       copy(roughDateMapping = roughDateMapping.withPrefix(prefix))
 
-    val mappings: Seq[Mapping[_]] = roughDateMapping.mappings :+ this
+    val mappings: Seq[Mapping[?]] = roughDateMapping.mappings :+ this
 
   }
 

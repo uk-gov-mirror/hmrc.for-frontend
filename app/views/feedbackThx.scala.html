@@ -16,7 +16,7 @@
 
 @this(layout:pageLayout)
 
-@()(implicit requestHeader: Request[_],  messages: Messages)
+@()(implicit requestHeader: Request[?],  messages: Messages)
 
 @layout(pageHeading = messages("copy.feedback.thankyou"), showFeedback=false) {
 

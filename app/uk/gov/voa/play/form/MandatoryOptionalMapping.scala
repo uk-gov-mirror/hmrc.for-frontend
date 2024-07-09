@@ -45,5 +45,5 @@ case class MandatoryOptionalMapping[T](wrapped: Mapping[T], constraints: Seq[Con
   def withPrefix(prefix: String): Mapping[Option[T]] =
     copy(wrapped = wrapped.withPrefix(prefix))
 
-  val mappings: Seq[Mapping[_]] = wrapped.mappings
+  val mappings: Seq[Mapping[?]] = wrapped.mappings
 }

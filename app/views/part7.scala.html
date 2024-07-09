@@ -32,7 +32,7 @@
         formHelp: includes.formHelp)
 
 
-@(theForm: Form[_], summary: Summary)(implicit request: Request[_], messages: Messages)
+@(theForm: Form[?], summary: Summary)(implicit request: Request[?], messages: Messages)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
 @verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}

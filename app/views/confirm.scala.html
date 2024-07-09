@@ -25,7 +25,7 @@
         govukCharacterCount: GovukCharacterCount,
         formWithCSRF: FormWithCSRF)
 
-@(theForm: Form[_], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[_], messages: Messages)
+@(theForm: Form[?], referenceNumber: String, email: Option[String], summary: Summary)(implicit request: Request[?], messages: Messages)
 
     @layout(
         pageHeading = messages("label.confirm.heading"),

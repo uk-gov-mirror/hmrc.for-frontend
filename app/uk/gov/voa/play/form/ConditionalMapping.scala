@@ -41,5 +41,5 @@ case class ConditionalMapping[T](condition: Condition, wrapped: Mapping[T], defa
 
   def withPrefix(prefix: String): Mapping[T] = copy(wrapped = wrapped.withPrefix(prefix))
 
-  val mappings: Seq[Mapping[_]] = wrapped.mappings :+ this
+  val mappings: Seq[Mapping[?]] = wrapped.mappings :+ this
 }

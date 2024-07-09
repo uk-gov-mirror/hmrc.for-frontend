@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ import uk.gov.hmrc.http.{Authorization, HeaderCarrier}
 import util.DateUtil.nowInUK
 
 import java.time.{ZoneOffset, ZonedDateTime}
-import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.ExecutionContext.Implicits.*
+import scala.concurrent.Future
 
 class ContinueWithSavedSubmissionSpec extends UnitTest {
 
@@ -43,15 +44,16 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
     val sum                        = Summary(ref, nowInUK, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
 
     "a document has been saved and the passwords match" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c                                                   = ContinueWithSavedSubmission(
-        respondWith(tok, ref)(Some(doc)),
-        set(updated = _),
-        _ => sum,
-        _ => SummaryPage,
-        () => now
-      ) _
-      val r                                                   = await(c(pwd, ref))
+      var updated: (HeaderCarrier, ReferenceNumber, Document)                           = null
+      val c: (SaveForLaterPassword, ReferenceNumber) => Future[SaveForLaterLoginResult] =
+        ContinueWithSavedSubmission.apply(
+          respondWith(tok, ref)(Some(doc)),
+          set(updated = _),
+          _ => sum,
+          _ => SummaryPage,
+          () => now
+        )
+      val r                                                                             = await(c.apply(pwd, ref))
 
       "return the next page to go to" in {
         assert(r === PasswordsMatch(SummaryPage))
@@ -64,16 +66,17 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
     }
 
     "a document has been saved but the passwords do no match" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c                                                   = ContinueWithSavedSubmission(
-        respondWith(tok, ref)(Some(doc)),
-        set(updated = _),
-        _ => sum,
-        _ => SummaryPage,
-        () => now
-      ) _
+      var updated: (HeaderCarrier, ReferenceNumber, Document)                           = null
+      val c: (SaveForLaterPassword, ReferenceNumber) => Future[SaveForLaterLoginResult] =
+        ContinueWithSavedSubmission.apply(
+          respondWith(tok, ref)(Some(doc)),
+          set(updated = _),
+          _ => sum,
+          _ => SummaryPage,
+          () => now
+        )
 
-      val r = await(c("invalidPassword", ref))
+      val r = await(c.apply("invalidPassword", ref))
 
       "return a failed login" in {
         assert(r === IncorrectPassword)
@@ -85,9 +88,10 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
     }
 
     "there is no matching document" should {
-      var updated: (HeaderCarrier, ReferenceNumber, Document) = null
-      val c                                                   = ContinueWithSavedSubmission(none, set(updated = _), _ => sum, _ => SummaryPage, () => now) _
-      val r                                                   = await(c(pwd, ref))
+      var updated: (HeaderCarrier, ReferenceNumber, Document)                           = null
+      val c: (SaveForLaterPassword, ReferenceNumber) => Future[SaveForLaterLoginResult] =
+        ContinueWithSavedSubmission(none, set(updated = _), _ => sum, _ => SummaryPage, () => now)
+      val r                                                                             = await(c.apply(pwd, ref))
 
       "a retrieval error is returned" in {
         assert(r === ErrorRetrievingSavedDocument)

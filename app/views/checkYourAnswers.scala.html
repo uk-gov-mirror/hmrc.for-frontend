@@ -19,7 +19,7 @@
 @this(  layout: pageLayout, formHelp: includes.formHelp)
 
 
-@(summary: models.pages.Summary)(implicit request: Request[_],  messages: Messages)
+@(summary: models.pages.Summary)(implicit request: Request[?],  messages: Messages)
 
 @layout(
     backLinkUrl = dataCapturePages.routes.PageController.showPage(Journey.lastPageFor(summary)).url,

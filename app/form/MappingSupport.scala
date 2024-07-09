@@ -55,12 +55,12 @@ object MappingSupport {
 
   def currencyMapping(fieldErrorPart: String = ""): Mapping[BigDecimal] = default(text, "")
     .verifying(nonEmpty(errorMessage = Errors.required + fieldErrorPart))
-    .verifying(Errors.invalidCurrency + fieldErrorPart, x => x == "" || ((x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000))
+    .verifying(Errors.invalidCurrency + fieldErrorPart, x => x == "" || ((x.replace(",", "").matches(decimalRegex)) && BigDecimal(x.replace(",", "")) >= 0.000))
     .transform(s => BigDecimal(s.replace(",", "")), _.toString)
     .verifying(Errors.maxCurrencyAmountExceeded + fieldErrorPart, _ <= cdbMaxCurrencyAmount)
 
   val nonNegativeCurrency: Mapping[BigDecimal] = text
-    .verifying(Errors.invalidCurrency, x => (x.replace(",", "") matches decimalRegex) && BigDecimal(x.replace(",", "")) >= 0.000)
+    .verifying(Errors.invalidCurrency, x => (x.replace(",", "").matches(decimalRegex)) && BigDecimal(x.replace(",", "")) >= 0.000)
     .transform(s => BigDecimal(s.replace(",", "")), _.toString)
     .verifying(Errors.maxCurrencyAmountExceeded, _ <= cdbMaxCurrencyAmount)
 
@@ -95,7 +95,7 @@ object MappingSupport {
   val rentLengthType: Mapping[RentLengthType]                  = Forms.of[RentLengthType]
   val postcode: Mapping[String]                                = PostcodeMapping.postcode()
   val loginPostcode: Mapping[String]                           = PostcodeMapping.postcode(Errors.invalidPostcodeOnLetter, Errors.invalidPostcodeOnLetter)
-  val phoneNumber: Mapping[String]                             = nonEmptyText(maxLength = 20).verifying(Errors.invalidPhone, _ matches phoneRegex)
+  val phoneNumber: Mapping[String]                             = nonEmptyText(maxLength = 20).verifying(Errors.invalidPhone, _.matches(phoneRegex))
   val addressConnectionType: Mapping[AddressConnectionType]    = Forms.of[AddressConnectionType]
   val alterationSetByTypeMapping: Mapping[AlterationSetByType] = Forms.of[AlterationSetByType]
   val subletTypeMapping: Mapping[SubletType]                   = Forms.of[SubletType]
@@ -193,7 +193,7 @@ object MappingSupport {
       all.distinct.sorted
     }
 
-    override val mappings: Seq[Mapping[_]] = wrapped(s"$key[0]").mappings
+    override val mappings: Seq[Mapping[?]] = wrapped(s"$key[0]").mappings
 
     override def verifying(addConstraints: Constraint[List[T]]*): Mapping[List[T]] =
       this.copy[T](constraints = constraints ++ addConstraints.toSeq)

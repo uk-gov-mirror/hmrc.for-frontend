@@ -53,7 +53,7 @@ class NotConnectedCheckYourAnswersController @Inject() (
 
   val logger: Logger = Logger(classOf[NotConnectedCheckYourAnswersController])
 
-  def findSummary(implicit request: RefNumRequest[_]): Future[Option[Summary]] =
+  def findSummary(implicit request: RefNumRequest[?]): Future[Option[Summary]] =
     repository.findById(SessionId(hc), request.refNum) flatMap {
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None      => None
@@ -66,7 +66,7 @@ class NotConnectedCheckYourAnswersController @Inject() (
       }
     }
 
-  def removeSession(implicit request: RefNumRequest[_]): Future[Unit] =
+  def removeSession(implicit request: RefNumRequest[?]): Future[Unit] =
     repository.remove(SessionId(hc))
 
   def onPageView: mvc.Action[AnyContent] = refNumAction.async { implicit request =>

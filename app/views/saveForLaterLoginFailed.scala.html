@@ -16,7 +16,7 @@
 
 @this(main_template: pageLayout, formHelp: includes.formHelp)
 
-@()(implicit request: Request[_], messages: Messages)
+@()(implicit request: Request[?], messages: Messages)
 
 @main_template(pageHeading = messages("saveForLater.invalidPassword")) {
 

@@ -49,7 +49,7 @@ class NotConnectedController @Inject() (
 
   val logger: Logger = Logger(classOf[NotConnectedController])
 
-  def findSummary(implicit request: RefNumRequest[_]): Future[Option[Summary]] =
+  def findSummary(implicit request: RefNumRequest[?]): Future[Option[Summary]] =
     repository.findById(SessionId(hc), request.refNum) flatMap {
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None      => None
@@ -61,7 +61,7 @@ class NotConnectedController @Inject() (
       case None    => None
     }
 
-  def findNotConnectedSummary(implicit request: RefNumRequest[_], hc: HeaderCarrier): Future[Option[NotConnectedSummary]] =
+  def findNotConnectedSummary(implicit request: RefNumRequest[?], hc: HeaderCarrier): Future[Option[NotConnectedSummary]] =
     findSummary.flatMap { summary =>
       getNotConnectedFromCache().flatMap { notConnected =>
         Option(NotConnectedSummary(summary.get, None, notConnected))

@@ -21,11 +21,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
 @(  summary: Summary,
-    theForm: Form[_],
+    theForm: Form[?],
     govukButton: GovukButton,
     govukCharacterCount: GovukCharacterCount,
     govukRadios: GovukRadios,
-    formWithCSRF:FormWithCSRF)(implicit requestHeader: Request[_], messages: Messages)
+    formWithCSRF:FormWithCSRF)(implicit requestHeader: Request[?], messages: Messages)
 
 
 

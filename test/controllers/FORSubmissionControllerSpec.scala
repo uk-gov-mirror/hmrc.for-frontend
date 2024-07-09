@@ -113,7 +113,7 @@ class StubSubmitBRI extends SubmitBusinessRentalInformation with should.Matchers
 
   var submittedRefNums: Seq[String] = Seq.empty
 
-  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[_]): Future[Submission] = {
+  def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[?]): Future[Submission] = {
     Console.println(s"=== called apply with : $refNum ===")
     Future.successful {
       submittedRefNums = submittedRefNums :+ refNum;
