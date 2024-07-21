@@ -214,14 +214,13 @@ object MappingSupport {
 
     override def bind(data: Map[String, String]): Either[Seq[FormError], List[T]] = {
       val bound = for { index <- indexes(data) } yield wrapped(indexedKey(index)).bind(data)
-      if (bound.forall(_.isRight)) {
-        if (bound.isEmpty && !allowEmpty)
+      if bound.forall(_.isRight) then
+        if bound.isEmpty && !allowEmpty then
           bind(allEmptyFieldsForIndexZero)
         else
           Right(bound.map(_.toOption.get)).flatMap(applyConstraints)
-      } else {
+      else
         Left(bound.collect { case Left(errors) => errors }.flatten)
-      }
     }
 
     private def allEmptyFieldsForIndexZero = wrapped(s"$key[0]").mappings.flatMap(_.keys).map((_, "")).toMap

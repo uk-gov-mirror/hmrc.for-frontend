@@ -17,6 +17,7 @@
 package connectors
 
 import com.google.inject.ImplementedBy
+import controllers.feedback.Survey.SurveyFeedback
 import models.*
 import models.pages.Summary
 import models.serviceContracts.submissions.Submission
@@ -30,6 +31,7 @@ import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 @ImplementedBy(classOf[ForAuditConnector])
 trait Audit extends AuditConnector {
@@ -45,10 +47,10 @@ trait Audit extends AuditConnector {
   }
 
   /**
-   * Don't use this in the rest of application(unless you know what are you doing).
-   * Summary doesn't have defined formatter,
-   * it is constructed manually when is deserialized from session or DB.
-   */
+    * Don't use this in the rest of application(unless you know what are you doing).
+    * Summary doesn't have defined formatter,
+    * it is constructed manually when is deserialized from session or DB.
+    */
   private val summaryWriter = {
     import play.api.libs.json.*
     Json.writes[Summary]
@@ -57,7 +59,7 @@ trait Audit extends AuditConnector {
   def sendSavedForLater(summary: Summary, exitPath: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val json = Json.toJson(summary)(summaryWriter).as[JsObject] ++ Addresses.addressJson(summary)
 
-    val tags = hc.toAuditTags().+("exitPath" -> exitPath)
+    val tags = hc.toAuditTags().updated("exitPath", exitPath)
 
     val dataEvent = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = "SavedForLater", tags = tags, detail = json)
     sendExtendedEvent(dataEvent)
@@ -67,6 +69,22 @@ trait Audit extends AuditConnector {
     val sub = implicitly[OWrites[Submission]].writes(submission)
     val de  = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = event, detail = sub)
     sendExtendedEvent(de)
+  }
+
+  def sendSurveyFeedback(f: SurveyFeedback, refNum: String)(implicit hc: HeaderCarrier): Future[AuditResult] =
+    apply(
+      "SurveySatisfaction",
+      Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl)
+    ).flatMap { _ =>
+      apply("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
+    }
+
+  def sendFeedback(f: Feedback, refNumOpt: Option[String], referrerUrl: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
+    val refNum         = refNumOpt.getOrElse("")
+    val rating: Int    = f.rating.flatMap(r => Try(r.toInt).toOption).getOrElse(0)
+    val satisfaction   = SatisfactionTypes.all.find(_.rating == rating).getOrElse(Satisfied)
+    val surveyFeedback = SurveyFeedback(satisfaction, f.comments.getOrElse(""), FeedbackPageJourney, referrerUrl)
+    sendSurveyFeedback(surveyFeedback, refNum)
   }
 
 }

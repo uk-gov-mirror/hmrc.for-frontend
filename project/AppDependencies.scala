@@ -5,7 +5,7 @@ import sbt.*
 object AppDependencies {
 
   val bootstrapVersion    = "9.0.0"
-  val playFrontendVersion = "10.3.0"
+  val playFrontendVersion = "10.5.0"
   val mongoVersion        = "2.1.0"
 
   // Test dependencies

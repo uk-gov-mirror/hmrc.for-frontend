@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,24 @@
  * limitations under the License.
  */
 
-package useCases.utils
+package useCases
 
 import connectors.{Document, Page}
 import form.PageThreeForm
-import models._
-import models.serviceContracts.submissions._
-import org.scalatest.OptionValues._
-import org.scalatest.prop.TableDrivenPropertyChecks._
+import models.*
+import models.serviceContracts.submissions.*
+import org.scalatest.OptionValues.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import useCases.DefaultSubmissionBuilder
+import org.scalatest.prop.TableDrivenPropertyChecks.*
+import org.scalatest.prop.TableFor2
 import util.DateUtil.nowInUK
 
 import java.time.LocalDate
-import org.scalatest.prop.TableFor2
 
 class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
 
-  import TestData._
+  import TestData.*
 
   behavior of "Submission builder"
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,9 +36,9 @@ object DateMappings {
     val month                   = x._1.trim.toInt
     val year                    = x._2.trim.toInt
     val lastDayOfSpecifiedMonth = LocalDateTime.of(year, month, 1, 0, 0)
-    if (!lastDayOfSpecifiedMonth.isBefore(nowInUK.toLocalDateTime))
+    if !lastDayOfSpecifiedMonth.isBefore(nowInUK.toLocalDateTime) then
       Invalid(Errors.dateMustBeInPast + fieldErrorPart)
-    else if (lastDayOfSpecifiedMonth.isBefore(nineteenHundred))
+    else if lastDayOfSpecifiedMonth.isBefore(nineteenHundred) then
       Invalid(Errors.dateBefore1900 + fieldErrorPart)
     else
       Valid
@@ -49,9 +49,9 @@ object DateMappings {
     val month = x._2.trim.toInt
     val year  = x._3.trim.toInt
 
-    if (Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure)
+    if Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure then
       Invalid(Errors.invalidDate + fieldErrorPart)
-    else if (LocalDateTime.of(year, month, day, 23, 59).isBefore(nineteenHundred))
+    else if LocalDateTime.of(year, month, day, 23, 59).isBefore(nineteenHundred) then
       Invalid(Errors.dateBefore1900 + fieldErrorPart)
     else
       Valid
@@ -62,13 +62,13 @@ object DateMappings {
     val month = x._2.trim.toInt
     val year  = x._3.trim.toInt
 
-    if (Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure)
+    if Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure then
       Invalid(Errors.invalidDate + fieldErrorPart)
     else {
       val date = LocalDateTime.of(year, month, day, 23, 59)
-      if (date.isAfter(nowInUK.toLocalDateTime))
+      if date.isAfter(nowInUK.toLocalDateTime) then
         Invalid(Errors.dateMustBeInPast + fieldErrorPart)
-      else if (date.isBefore(nineteenHundred))
+      else if date.isBefore(nineteenHundred) then
         Invalid(Errors.dateBefore1900 + fieldErrorPart)
       else
         Valid

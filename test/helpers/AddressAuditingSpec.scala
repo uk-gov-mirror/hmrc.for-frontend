@@ -16,6 +16,7 @@
 
 package helpers
 
+import base.TestBaseSpec
 import connectors.Audit
 import models.RoughDate
 import models.pages.{PageFour, SubletDetails, Summary}
@@ -32,7 +33,7 @@ import util.DateUtil.nowInUK
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddressAuditingSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
+class AddressAuditingSpec extends TestBaseSpec {
   import TestData.*
 
   behavior of "Address Auditing"

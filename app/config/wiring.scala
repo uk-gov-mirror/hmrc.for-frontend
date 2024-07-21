@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,9 +75,9 @@ object ContinueWithSavedSubmission {
 }
 
 /**
- * Temporal solution before we move all login logic to separate service class.
- * This allow us to test login controller without starting google guice.
- */
+  * Temporal solution before we move all login logic to separate service class.
+  * This allow us to test login controller without starting google guice.
+  */
 @ImplementedBy(classOf[DefaultLoginToHodAction])
 trait LoginToHODAction {
   def apply(implicit hc: HeaderCarrier, ec: ExecutionContext): LoginToHOD

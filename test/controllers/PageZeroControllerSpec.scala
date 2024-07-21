@@ -16,10 +16,10 @@
 
 package controllers
 
+import base.MockitoExtendedSugar
 import connectors.{Audit, Document}
 import controllers.dataCapturePages.PageZeroController
 import form.persistence.FormDocumentRepository
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
@@ -32,7 +32,7 @@ import utils.Helpers.refNumAction
 import utils.stubs.StubFormDocumentRepo
 import views.html.part0
 
-class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with MockitoSugar {
+class PageZeroControllerSpec extends PlaySpec with GuiceOneAppPerSuite with MockitoExtendedSugar {
 
   private val testRefNum         = "1234567890"
   private val sessionId          = java.util.UUID.randomUUID().toString

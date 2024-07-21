@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import javax.inject.{Inject, Singleton}
 
 /**
- * Delete after upgrade to bootstrap-frontend-play-xx
- * @param config
- * @param httpAuditing
- * @param wsClient
- * @param actorSystem
- */
+  * Delete after upgrade to bootstrap-frontend-play-xx
+  * @param config
+  * @param httpAuditing
+  * @param wsClient
+  * @param actorSystem
+  */
 @Singleton()
 class AnotherHttpClient @Inject() (
   val config: Configuration,
