@@ -81,7 +81,7 @@ trait Audit extends AuditConnector {
   def sendSurveyFeedback(f: SurveyFeedback, refNum: String)(implicit hc: HeaderCarrier, request: RequestHeader): Future[AuditResult] =
     apply(
       "SurveySatisfaction",
-      Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> f.surveyUrl)
+      Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> toAbsoluteUrl(f.surveyUrl))
     ).flatMap { _ =>
       apply("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
     }
@@ -101,8 +101,12 @@ trait Audit extends AuditConnector {
       .getOrElse(s"$protocol://${request.host}")
   }
 
+  private def toAbsoluteUrl(urlOrPath: String)(implicit request: RequestHeader): String =
+    if urlOrPath.contains("http") then urlOrPath else s"$platformFrontendHost$urlOrPath"
+
+
   private def getReferrerUrl(implicit request: RequestHeader): String =
-    if request.uri.contains("http") then request.uri else s"$platformFrontendHost${request.uri}"
+    toAbsoluteUrl(request.uri)
 
 }
 
