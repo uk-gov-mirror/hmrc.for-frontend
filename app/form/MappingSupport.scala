@@ -171,11 +171,10 @@ object MappingSupport {
 
   def atLeastOneParkingDetailRequired(key: String): Constraint[ParkingDetails] =
     Constraint[ParkingDetails]("constraints.parkingDetails") { pd =>
-      if (pd.openSpaces > 0 || pd.coveredSpaces > 0 || pd.garages > 0) {
+      if pd.openSpaces > 0 || pd.coveredSpaces > 0 || pd.garages > 0 then
         Valid
-      } else {
+      else
         Invalid(ValidationError(s"${Errors.required}.$key"))
-      }
     }
 
   case class IndexedMapping[T](
@@ -189,7 +188,7 @@ object MappingSupport {
     def indexes(data: Map[String, String]): List[Int] = {
       val keyPattern    = ("""^""" + key + """\[(\d+)\].*$""").r
       val indicesInData = data.toList.collect { case (keyPattern(index), _) => index.toInt }
-      val all           = if (alwaysValidateFirstIndex) indicesInData :+ 0 else indicesInData
+      val all           = if alwaysValidateFirstIndex then indicesInData :+ 0 else indicesInData
       all.distinct.sorted
     }
 
@@ -213,7 +212,7 @@ object MappingSupport {
     private def indexedKey(index: Int) = s"$key[$index]"
 
     override def bind(data: Map[String, String]): Either[Seq[FormError], List[T]] = {
-      val bound = for { index <- indexes(data) } yield wrapped(indexedKey(index)).bind(data)
+      val bound = for index <- indexes(data) yield wrapped(indexedKey(index)).bind(data)
       if bound.forall(_.isRight) then
         if bound.isEmpty && !allowEmpty then
           bind(allEmptyFieldsForIndexZero)

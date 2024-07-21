@@ -20,9 +20,6 @@ import play.api.data.Mapping
 
 import scala.util.Try
 
-// TODO: Remove package uk.gov.voa.play.form if library uk.gov.hmrc:play-conditional-form-mapping_2.13 for Scala 2.13 released
-// https://artefacts.tax.service.gov.uk/ui/packages?name=%2Aplay-conditional-form-mapping%2A&type=packages
-
 object ConditionalMappings {
   def isTrue(field: String): Condition = _.get(field).flatMap(v => Try(v.toBoolean).toOption).getOrElse(false)
 
@@ -96,7 +93,7 @@ object ConditionalMappings {
     showNestedErrors: Boolean = true,
     error: Option[String] = None
   ): Mapping[Option[T]] = {
-    val condition: Condition = x => (for (pair <- pairs) yield x.get(pair._1).contains(pair._2)).forall(b => b)
+    val condition: Condition = x => (for pair <- pairs yield x.get(pair._1).contains(pair._2)).forall(b => b)
     ConditionalMapping(condition, MandatoryOptionalMapping(mapping, Nil), None, Seq.empty)
   }
 

@@ -35,11 +35,7 @@ package object form {
     val valErrors: Seq[ValidationError] = result flatMap {
       case FormError(key, messages, args) => messages.map(message => createFieldValidationError(key, message, args*))
     }
-    if (valErrors.isEmpty) {
-      Valid
-    } else {
-      Invalid(valErrors)
-    }
+    if valErrors.isEmpty then Valid else Invalid(valErrors)
   }
 
   implicit class ValidationResultHelper(validationResult: ValidationResult) {
@@ -62,11 +58,10 @@ package object form {
   }
 
   def checkFieldConstraint(cond: => Boolean, field: String, code: String): ValidationResult =
-    if (cond) {
+    if cond then
       Valid
-    } else {
+    else
       Invalid(Seq(createFieldValidationError(field, code)))
-    }
 
   def createFieldValidationError(field: String, code: String, args: Any*): ValidationError =
     ValidationError(s"fieldError|$field|$code", args*)
@@ -79,11 +74,7 @@ package object form {
     def convert(): FormError =
       formError.message.split('|') match {
         case Array("fieldError", path, code) =>
-          val newPath = if (formError.key.isEmpty) {
-            path
-          } else {
-            formError.key + "." + path
-          }
+          val newPath = if formError.key.isEmpty then path else formError.key + "." + path
           FormError(newPath, newPath + "." + code, formError.args)
         case _                               => formError
       }
@@ -94,11 +85,12 @@ package object form {
 
     lazy val keys: Seq[String] = {
       val childKeys: Set[Seq[String]] = mapping.mappings.filter(_ != mapping).map(_.keys).toSet
-      val res: Seq[String]            = if (childKeys.isEmpty) {
+
+      val res: Seq[String] = if childKeys.isEmpty then
         Seq(mapping.key)
-      } else {
+      else
         childKeys.reduce(_ ++ _).distinct
-      }
+
       res.sorted.sortBy(_.contains("."))
     }
 

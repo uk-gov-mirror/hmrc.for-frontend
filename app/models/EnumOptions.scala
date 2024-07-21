@@ -28,41 +28,33 @@ object EnumOptions {
 
   def contactAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] =
     ContactAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey))
-      if (ut == ContactAddressTypeMain) {
+      if ut == ContactAddressTypeMain then
         (ut.name, address.singleLine)
-      } else {
-        base
-      }
+      else
+        (ut.name, Messages(ut.msgKey))
     }
 
   def originalContactAddressTypeOptions(address: String)(implicit messages: Messages): List[(String, String)] =
     ContactAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey))
-      if (ut == ContactAddressTypeMain) {
+      if ut == ContactAddressTypeMain then
         (ut.name, address)
-      } else {
-        base
-      }
+      else
+        (ut.name, Messages(ut.msgKey))
     }
 
   def isTenantsAddressTypeOptions(address: Address)(implicit messages: Messages): Seq[(String, String)] =
     TenantsAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey))
-      if (ut == TenantsAddressTypeMain) {
+      if ut == TenantsAddressTypeMain then
         (ut.name, address.singleLine)
-      } else {
-        base
-      }
+      else
+        (ut.name, Messages(ut.msgKey))
     }
 
   def isTenantsAddressTypeOptionsOriginal(address: String)(implicit messages: Messages): Seq[(String, String)] =
     TenantsAddressTypes.all.map { ut =>
-      val base = (ut.name, Messages(ut.msgKey))
-      if (ut == TenantsAddressTypeMain) {
+      if ut == TenantsAddressTypeMain then
         (ut.name, address)
-      } else {
-        base
-      }
+      else
+        (ut.name, Messages(ut.msgKey))
     }
 }

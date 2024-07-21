@@ -64,7 +64,7 @@ object DateMappings {
 
     if Try(LocalDateTime.of(year, month, day, 23, 59)).isFailure then
       Invalid(Errors.invalidDate + fieldErrorPart)
-    else {
+    else
       val date = LocalDateTime.of(year, month, day, 23, 59)
       if date.isAfter(nowInUK.toLocalDateTime) then
         Invalid(Errors.dateMustBeInPast + fieldErrorPart)
@@ -72,7 +72,6 @@ object DateMappings {
         Invalid(Errors.dateBefore1900 + fieldErrorPart)
       else
         Valid
-    }
   }
 
   def monthYearRoughDateMapping(prefix: String, fieldErrorPart: String = ""): Mapping[RoughDate] = tuple(
@@ -113,7 +112,7 @@ object DateMappings {
       s"error$fieldErrorPart.year.required"
     )
   ).verifying(
-    if (allowFutureDates) fullDateIsAfter1900(fieldErrorPart) else fullDateIsInPastAndAfter1900(fieldErrorPart)
+    if allowFutureDates then fullDateIsAfter1900(fieldErrorPart) else fullDateIsInPastAndAfter1900(fieldErrorPart)
   ).transform(
     { case (day, month, year) => LocalDate.of(year.trim.toInt, month.trim.toInt, day.trim.toInt) },
     (date: LocalDate) => (date.getDayOfMonth.toString, date.getMonthValue.toString, date.getYear.toString)
@@ -163,11 +162,10 @@ object DateMappings {
     def bind(data: Map[String, String]): Either[Seq[FormError], RoughDate] = {
       val anotherDateOpt = data.get(anotherDateKey).map(java.time.LocalDate.parse)
       roughDateMapping.bind(data).flatMap { date =>
-        if (anotherDateOpt.exists(anotherDate => compare(date.toLocalDate, anotherDate))) {
+        if anotherDateOpt.exists(anotherDate => compare(date.toLocalDate, anotherDate)) then
           Left(Seq(FormError(key, errorMsgKey)))
-        } else {
+        else
           Right(date)
-        }
       }
     }
 

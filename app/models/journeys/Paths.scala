@@ -31,17 +31,15 @@ object Paths {
   val log: Logger = Logger(this.getClass)
 
   def pathFor(summary: Summary): Path = {
-    val removePage1 = summary.addressConnection.map {
-      case AddressConnectionTypeYes              => true
-      case AddressConnectionTypeYesChangeAddress => false
-      case AddressConnectionTypeNo               => false
-    }.getOrElse(false)
-
-    if (removePage1) {
-      new Path(buildPath(summary).pages.filterNot(_ == 1))
-    } else {
-      buildPath(summary)
+    val removePage1 = summary.addressConnection.exists {
+      case AddressConnectionTypeYes                                        => true
+      case AddressConnectionTypeYesChangeAddress | AddressConnectionTypeNo => false
     }
+
+    if removePage1 then
+      new Path(buildPath(summary).pages.filterNot(_ == 1))
+    else
+      buildPath(summary)
   }
 
   private def buildPath(summary: Summary): Path =

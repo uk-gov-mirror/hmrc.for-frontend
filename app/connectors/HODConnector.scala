@@ -80,12 +80,11 @@ class DefaultHODConnector @Inject() (
         page1            <- doc.page(1)
         isAddressCorrect <- page1.fields.get("isAddressCorrect")
       } yield
-        if (isAddressCorrect.contains("false")) {
+        if isAddressCorrect.contains("false") then
           updateChangedAddresToNewModel(doc, page1)
-        } else {
+        else
           val page0 = Page(0, form.PageZeroForm.pageZeroForm.fill(AddressConnectionTypeYes).data.view.mapValues(Seq(_)).toMap)
           updateDocWithPageZeroAndRemovePageOne(doc, page0)
-        }
     fixedDocument.orElse(maybeDocument)
   }
 

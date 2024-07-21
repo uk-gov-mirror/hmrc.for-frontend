@@ -34,15 +34,12 @@ object NotConnectedPropertyForm {
   def atLeastOneKeyFormatter(anotherKey: String): Formatter[Option[String]] = new Formatter[Option[String]] {
 
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] =
-      if (data.get(key).exists(!_.isBlank)) {
+      if data.get(key).exists(!_.isBlank) then
         Right(data.get(key).map(_.trim))
-      } else {
-        if (data.get(anotherKey).exists(!_.isBlank)) {
-          Right(None)
-        } else {
-          Left(Seq(FormError(key, "notConnected.emailOrPhone")))
-        }
-      }
+      else if data.get(anotherKey).exists(!_.isBlank) then
+        Right(None)
+      else
+        Left(Seq(FormError(key, "notConnected.emailOrPhone")))
 
     override def unbind(key: String, value: Option[String]): Map[String, String] = value.map(x => Map(key -> x))
       .getOrElse(Map.empty[String, String])

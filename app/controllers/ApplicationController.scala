@@ -54,7 +54,7 @@ class ApplicationController @Inject() (
 ) extends FrontendController(cc) {
 
   private def updatePath(hc: HeaderCarrier, path: String): HeaderCarrier = {
-    val otherHeaders = hc.otherHeaders.map(x => if (x._1 == "path") ("path", path) else x)
+    val otherHeaders = hc.otherHeaders.map(x => if x._1 == "path" then ("path", path) else x)
     hc.copy(otherHeaders = otherHeaders)
   }
 
@@ -94,11 +94,10 @@ class ApplicationController @Inject() (
   }
 
   def index: Action[AnyContent] = Action { implicit request =>
-    if (forConfig.startPageRedirect) {
+    if forConfig.startPageRedirect then
       Redirect(forConfig.govukStartPage)
-    } else {
+    else
       Ok(indexView())
-    }
   }
 
   def sessionTimeout: Action[AnyContent] = Action(implicit request => Ok(sessionTimeoutView()))

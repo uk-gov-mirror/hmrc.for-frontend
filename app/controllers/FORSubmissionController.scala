@@ -42,7 +42,7 @@ class FORSubmissionController @Inject() (
   def submit: Action[AnyContent] = refNumberAction.async { implicit request: RefNumRequest[AnyContent] =>
     request.body.asFormUrlEncoded.flatMap { body =>
       body.get("declaration").map { agree =>
-        if (agree.headOption.exists(_.toBoolean)) submit(request.refNum) else rejectSubmission
+        if agree.headOption.exists(_.toBoolean) then submit(request.refNum) else rejectSubmission
       }
     } getOrElse rejectSubmission
   }

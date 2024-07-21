@@ -77,11 +77,7 @@ class SubmitBusinessRentalInformationToBackendApi @Inject() (
   )(implicit hc: HeaderCarrier,
     request: RefNumRequest[T]
   ): Future[Unit] = {
-    val auditType = if (success) {
-      "FormSubmission"
-    } else {
-      "FormSubmissionFailed"
-    }
+    val auditType = if success then "FormSubmission" else "FormSubmissionFailed"
 
     val submissionJson = Json.toJson(submission).as[JsObject]
 
@@ -107,8 +103,8 @@ trait SubmissionBuilder {
 class DefaultSubmissionBuilder extends SubmissionBuilder {
 
   def build(doc: Document): Submission = {
-    val s: Summary = SummaryBuilder.build(doc)
-    if (Paths.isShortPath(s)) buildShortSubmission(s, doc) else buildSubmission(s, doc)
+    val summary = SummaryBuilder.build(doc)
+    if Paths.isShortPath(summary) then buildShortSubmission(summary, doc) else buildSubmission(summary, doc)
   }
 
   private def buildShortSubmission(summary: Summary, doc: Document) = {
@@ -159,7 +155,7 @@ class DefaultSubmissionBuilder extends SubmissionBuilder {
     occupierNameFor(p3),
     p3.firstOccupationDate,
     p3.propertyOwnedByYou,
-    if (p3.propertyOwnedByYou) None else p3.propertyRentedByYou,
+    if p3.propertyOwnedByYou then None else p3.propertyRentedByYou,
     p3.noRentDetails
   )
 
