@@ -40,7 +40,7 @@ object Survey {
     "satisfaction" -> Forms.of[Satisfaction],
     "details"      -> text(maxLength = 1200),
     "journey"      -> Forms.of[Journey],
-    "surveyUrl"    -> text(maxLength = 20)
+    "surveyUrl"    -> text(maxLength = 2000)
   )(SurveyFeedback.apply)(o => Some(Tuple.fromProductTyped(o))))
 
 }
@@ -62,7 +62,7 @@ class SurveyController @Inject() (
   val completedFeedbackFormNormalJourney: Form[SurveyFeedback] = completedFeedbackForm.bind(Map("journey" -> NormalJourney.name)).discardingErrors
 
   def onPageView(journey: String): mvc.Action[AnyContent] = refNumAction { implicit request =>
-    val form = completedFeedbackForm.copy(data = Map("journey" -> journey, "surveyUrl" -> "survey"))
+    val form = completedFeedbackForm.copy(data = Map("journey" -> journey, "surveyUrl" -> request.uri))
     Ok(surveyView(form))
   }
 
@@ -85,7 +85,7 @@ class SurveyController @Inject() (
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationView(
-          form.getOrElse(completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> "survey")).discardingErrors),
+          form.getOrElse(completedFeedbackFormNormalJourney.bind(Map("surveyUrl" -> request.uri)).discardingErrors),
           refNum,
           summary.customerDetails.map(_.contactDetails.email),
           summary

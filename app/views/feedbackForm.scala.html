@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  *@
 
 @import controllers.feedback.routes
-@import play.api.data._
+@import play.api.data.*
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{Fieldset, Legend, Text}
-@import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components.*
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.button.Button
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
@@ -41,7 +41,7 @@
     <p class="govuk-body">@messages("label.feedback.p1")</p>
 
     @formWithCSRF(
-        action = routes.FeedbackController.handleFeedbackSubmit,
+        action = routes.FeedbackController.handleFeedbackSubmit.copy(url = request.uri),
         args = Symbol("novalidate") -> "novalidate" ) {
 
         <input type="hidden" name="feedback-name" value="Anonymous user"/>

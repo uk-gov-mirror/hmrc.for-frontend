@@ -20,24 +20,23 @@ import connectors.{Audit, ForHttp}
 import controllers.*
 import form.Formats.*
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
+import play.api.Logging
 import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.{Form, Forms}
 import play.api.mvc.*
-import play.api.{Configuration, Logging}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{feedbackForm, feedbackThx}
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class FeedbackController @Inject() (
   audit: Audit,
   cc: MessagesControllerComponents,
   http: ForHttp,
-  configuration: Configuration,
   override val servicesConfig: ServicesConfig,
   feedbackThankyouView: feedbackThx,
   feedbackFormView: feedbackForm
@@ -66,32 +65,22 @@ class FeedbackController @Inject() (
   import FeedbackFormMapper.feedbackForm
 
   def handleFeedbackSubmit: Action[AnyContent] = Action.async { implicit request =>
-    val formUrlEncoded = request.body.asFormUrlEncoded
     feedbackForm.bindFromRequest().fold(
-      formWithErrors =>
-        Future.successful {
-          BadRequest(feedbackFormView(formWithErrors))
-        },
+      formWithErrors => BadRequest(feedbackFormView(formWithErrors)),
       feedback => {
+        val urlEncodedForm = request.body.asFormUrlEncoded.get
 
-        implicit val headerCarrier: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
+        implicit val headerCarrier: HeaderCarrier = hc.copy(authorization = None).withExtraHeaders("Csrf-Token" -> "nocheck")
 
-        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, urlEncodedForm, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
           res.status match {
             case 200 | 201 | 202 | 204 => logger.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
             case _                     =>
-              logger.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: $headerCarrier")
+              logger.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: $urlEncodedForm, \nheaderCarrier: $headerCarrier")
           }
         }
 
-        val protocol = servicesConfig.getConfString("for-hod-adapter.protocol", "http")
-
-        val platformFrontendHost = configuration.getOptional[String]("platform.frontend.host")
-          .getOrElse(s"$protocol://${request.host}")
-
-        val referrerUrl = if request.uri.contains("http") then request.uri else s"$platformFrontendHost${request.uri}"
-
-        audit.sendFeedback(feedback, request.session.get("refNum"), referrerUrl).map {
+        audit.sendFeedback(feedback, request.session.get("refNum")).map {
           _ => Redirect(controllers.feedback.routes.FeedbackController.feedbackThankyou)
         }
       }
