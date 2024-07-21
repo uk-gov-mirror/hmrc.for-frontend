@@ -104,7 +104,6 @@ trait Audit extends AuditConnector {
   private def toAbsoluteUrl(urlOrPath: String)(implicit request: RequestHeader): String =
     if urlOrPath.contains("http") then urlOrPath else s"$platformFrontendHost$urlOrPath"
 
-
   private def getReferrerUrl(implicit request: RequestHeader): String =
     toAbsoluteUrl(request.uri)
 
