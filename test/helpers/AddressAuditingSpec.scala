@@ -24,11 +24,13 @@ import models.serviceContracts.submissions.{Address, AddressConnectionTypeYesCha
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Configuration
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.AuditResult.Disabled
 import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, DatastreamMetrics}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import util.DateUtil.nowInUK
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -42,7 +44,7 @@ class AddressAuditingSpec extends TestBaseSpec {
     val s = summaryWithPropertyAddress(Some(propertyAddress), Some(oneLineChanged))
     TestAddressAuditing(s, FakeRequest())
 
-    StubAuditer.mustHaveSentAudit(
+    StubAuditor.mustHaveSentAudit(
       "manualAddressSubmitted",
       Map(
         "submittedLine1"    -> oneLineChanged.buildingNameNumber,
@@ -56,7 +58,7 @@ class AddressAuditingSpec extends TestBaseSpec {
     val s = summaryWithSubletAddress(Some(propertyAddress), oneLineChanged)
     TestAddressAuditing(s, FakeRequest())
 
-    StubAuditer.mustHaveSentAudit(
+    StubAuditor.mustHaveSentAudit(
       "manualAddressSubmitted",
       Map(
         "submittedLine1"    -> oneLineChanged.buildingNameNumber,
@@ -123,11 +125,11 @@ object TestData {
   val overseas: Address        = Address("1 The Road", Some("Atlantis"), None, "The Sea")
 }
 
-object TestAddressAuditing extends AddressAuditing(StubAuditer) {
-  protected val audit = StubAuditer
+object TestAddressAuditing extends AddressAuditing(StubAuditor) {
+  protected val audit = StubAuditor
 }
 
-object StubAuditer extends Audit with should.Matchers with MockitoSugar {
+object StubAuditor extends Audit with should.Matchers with MockitoSugar {
   private case class AuditEvent(event: String, detail: Map[String, String])
   private var lastSentAudit: AuditEvent = null
 
@@ -152,5 +154,9 @@ object StubAuditer extends Audit with should.Matchers with MockitoSugar {
   override def auditChannel: AuditChannel = mock[AuditChannel]
 
   override def datastreamMetrics: DatastreamMetrics = mock[DatastreamMetrics]
+
+  override def configuration: Configuration = mock[Configuration]
+
+  override def servicesConfig: ServicesConfig = mock[ServicesConfig]
 
 }
