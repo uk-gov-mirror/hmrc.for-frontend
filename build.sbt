@@ -1,8 +1,6 @@
 import org.irundaia.sass.Minified
 import uk.gov.hmrc.DefaultBuildSettings.itSettings
 
-ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always // Resolves versions conflict
-
 ThisBuild / scalaVersion := "3.4.2"
 ThisBuild / majorVersion := 3
 

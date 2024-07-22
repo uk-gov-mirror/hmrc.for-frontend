@@ -31,7 +31,14 @@ class EmailConnector @Inject() (config: ServicesConfig, http: ForHttp)(implicit 
 
   private val emailUrl = config.baseUrl("email")
 
-  def sendEmail(refNumber: String, postcode: String, email: Option[String], expiryDate: LocalDate)(implicit hc: HeaderCarrier, messages: Messages): Future[Unit] =
+  def sendEmail(
+    refNumber: String,
+    postcode: String,
+    email: Option[String],
+    expiryDate: LocalDate
+  )(implicit hc: HeaderCarrier,
+    messages: Messages
+  ): Future[Unit] =
     email.map { e =>
       val formattedExpiryDate = fullDateFormatter.format(expiryDate)
       val json                = Json.obj(

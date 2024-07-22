@@ -16,15 +16,12 @@
 
 package controllers
 
+import base.TestBaseSpec
 import connectors.Audit
 import form.persistence.FormDocumentRepository
 import models.*
 import models.serviceContracts.submissions.Address
-import org.mockito.ArgumentMatchers.{any, anyString, eq => eqTo}
-import org.mockito.Mockito.{doNothing, verify, when}
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
-import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.{JsObject, Json}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
@@ -40,7 +37,7 @@ import views.html.{login, loginFailed}
 import scala.concurrent.ExecutionContext.Implicits.*
 import scala.concurrent.{ExecutionContext, Future}
 
-class LoginControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
+class LoginControllerSpec extends TestBaseSpec {
   private val documentRepo = mock[FormDocumentRepository]
 
   private val testAddress = Address("13", Some("Street"), Some("City"), "AA11 1AA")

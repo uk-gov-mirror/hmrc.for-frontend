@@ -49,11 +49,10 @@ class ForHttpClient @Inject() (
   override val hooks: Seq[HttpHook] = Seq.empty
 
   private def useDummyIPInTrueClientIPHeader(headers: Seq[(String, String)]): Seq[(String, String)] =
-    if (useDummyIp) {
+    if useDummyIp then
       (trueClientIp, "") +: headers.filterNot(x => x._1.toLowerCase == trueClientIp.toLowerCase)
-    } else {
+    else
       headers
-    }
 
   override def doPost[A](
     url: String,
@@ -77,7 +76,7 @@ class ForHttpClient @Inject() (
 
   override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], ec: ExecutionContext): Future[HttpResponse] =
     super.doPut(url, body, headers)(rds, ec).map { res =>
-      if (res.status == 400) throw new BadRequestException(res.body) else res
+      if res.status == 400 then throw new BadRequestException(res.body) else res
     }(ec)
 
   override protected def configuration: Config = config.underlying

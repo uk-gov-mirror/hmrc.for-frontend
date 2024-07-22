@@ -17,24 +17,33 @@
 package connectors
 
 import com.google.inject.ImplementedBy
+import controllers.feedback.Survey.SurveyFeedback
 import models.*
 import models.pages.Summary
 import models.serviceContracts.submissions.Submission
+import play.api.Configuration
 import play.api.i18n.Messages
 import play.api.libs.json.{JsObject, Json, OWrites}
+import play.api.mvc.RequestHeader
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.AuditExtensions.*
 import uk.gov.hmrc.play.audit.http.config.AuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, AuditConnector, AuditResult, DatastreamMetrics}
 import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 @ImplementedBy(classOf[ForAuditConnector])
 trait Audit extends AuditConnector {
 
   implicit def ec: ExecutionContext
+
+  def configuration: Configuration
+
+  def servicesConfig: ServicesConfig
 
   private val AUDIT_SOURCE = "for-frontend"
 
@@ -45,10 +54,10 @@ trait Audit extends AuditConnector {
   }
 
   /**
-   * Don't use this in the rest of application(unless you know what are you doing).
-   * Summary doesn't have defined formatter,
-   * it is constructed manually when is deserialized from session or DB.
-   */
+    * Don't use this in the rest of application(unless you know what are you doing).
+    * Summary doesn't have defined formatter,
+    * it is constructed manually when is deserialized from session or DB.
+    */
   private val summaryWriter = {
     import play.api.libs.json.*
     Json.writes[Summary]
@@ -57,7 +66,7 @@ trait Audit extends AuditConnector {
   def sendSavedForLater(summary: Summary, exitPath: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
     val json = Json.toJson(summary)(summaryWriter).as[JsObject] ++ Addresses.addressJson(summary)
 
-    val tags = hc.toAuditTags().+("exitPath" -> exitPath)
+    val tags = hc.toAuditTags().updated("exitPath", exitPath)
 
     val dataEvent = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = "SavedForLater", tags = tags, detail = json)
     sendExtendedEvent(dataEvent)
@@ -68,6 +77,35 @@ trait Audit extends AuditConnector {
     val de  = ExtendedDataEvent(auditSource = AUDIT_SOURCE, auditType = event, detail = sub)
     sendExtendedEvent(de)
   }
+
+  def sendSurveyFeedback(f: SurveyFeedback, refNum: String)(implicit hc: HeaderCarrier, request: RequestHeader): Future[AuditResult] =
+    apply(
+      "SurveySatisfaction",
+      Map("satisfaction" -> f.satisfaction.rating.toString, "referenceNumber" -> refNum, "journey" -> f.journey.name, "surveyUrl" -> toAbsoluteUrl(f.surveyUrl))
+    ).flatMap { _ =>
+      apply("SurveyFeedback", Map("feedback" -> f.details, "referenceNumber" -> refNum, "journey" -> f.journey.name))
+    }
+
+  def sendFeedback(f: Feedback, refNumOpt: Option[String])(implicit hc: HeaderCarrier, request: RequestHeader): Future[AuditResult] = {
+    val refNum         = refNumOpt.getOrElse("")
+    val rating: Int    = f.rating.flatMap(r => Try(r.toInt).toOption).getOrElse(0)
+    val satisfaction   = SatisfactionTypes.all.find(_.rating == rating).getOrElse(Satisfied)
+    val surveyFeedback = SurveyFeedback(satisfaction, f.comments.getOrElse(""), FeedbackPageJourney, getReferrerUrl)
+    sendSurveyFeedback(surveyFeedback, refNum)
+  }
+
+  private def platformFrontendHost(implicit request: RequestHeader): String = {
+    val protocol = servicesConfig.getConfString("for-hod-adapter.protocol", "http")
+
+    configuration.getOptional[String]("platform.frontend.host")
+      .getOrElse(s"$protocol://${request.host}")
+  }
+
+  private def toAbsoluteUrl(urlOrPath: String)(implicit request: RequestHeader): String =
+    if urlOrPath.contains("http") then urlOrPath else s"$platformFrontendHost$urlOrPath"
+
+  private def getReferrerUrl(implicit request: RequestHeader): String =
+    toAbsoluteUrl(request.uri)
 
 }
 
@@ -84,6 +122,8 @@ object Audit {
 
 @Singleton
 class ForAuditConnector @Inject() (
+  val configuration: Configuration,
+  val servicesConfig: ServicesConfig,
   val auditingConfig: AuditingConfig,
   val auditChannel: AuditChannel,
   val datastreamMetrics: DatastreamMetrics

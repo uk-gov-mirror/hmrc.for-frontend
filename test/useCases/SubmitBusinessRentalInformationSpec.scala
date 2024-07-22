@@ -16,19 +16,19 @@
 
 package useCases
 
-import _root_.utils.stubs.*
 import actions.RefNumRequest
+import base.MockitoExtendedSugar
 import connectors.{Audit, Document, Page}
 import helpers.AddressAuditing
 import models.*
 import models.serviceContracts.submissions.*
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.DefaultMessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
+import utils.stubs.*
 
 import java.time.LocalDate
 import scala.concurrent.Await
@@ -36,7 +36,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.*
 import scala.language.postfixOps
 
-class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers with MockitoSugar {
+class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matchers with MockitoExtendedSugar {
   import TestData.*
   implicit val hc: HeaderCarrier         = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
   implicit val request: RefNumRequest[?] = new RefNumRequest("refNum", FakeRequest(), new DefaultMessagesApi)

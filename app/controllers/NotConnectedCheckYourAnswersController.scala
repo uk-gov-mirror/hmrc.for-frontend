@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@ import actions.{RefNumAction, RefNumRequest}
 import connectors.{Audit, SubmissionConnector}
 import controllers.feedback.Survey
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
-import models.{Addresses, NotConnectedJourney}
 import models.pages.{NotConnectedSummary, Summary, SummaryBuilder}
 import models.serviceContracts.submissions.{NotConnected, NotConnectedSubmission, PreviouslyConnected}
-import play.api.libs.json.Json
-import play.api.mvc.MessagesControllerComponents
-import play.api.Logger
+import models.{Addresses, NotConnectedJourney}
 import play.api.i18n.Messages
+import play.api.libs.json.Json
+import play.api.{Logger, mvc}
+import play.api.mvc.{AnyContent, MessagesControllerComponents}
 import playconfig.SessionId
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -34,8 +34,6 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import java.time.Instant
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.mvc
-import play.api.mvc.AnyContent
 
 @Singleton
 class NotConnectedCheckYourAnswersController @Inject() (
@@ -101,7 +99,7 @@ class NotConnectedCheckYourAnswersController @Inject() (
 
   def onConfirmationView: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
     val feedbackForm = Survey.completedFeedbackForm.bind(
-      Map("journey" -> NotConnectedJourney.name)
+      Map("journey" -> NotConnectedJourney.name, "surveyUrl" -> request.uri)
     ).discardingErrors
 
     findSummary.flatMap { summary =>

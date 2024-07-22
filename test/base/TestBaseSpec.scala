@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package models
+package base
 
-sealed trait Journey extends NamedEnum {
-  val key = "journeyType"
-}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.{EitherValues, OptionValues}
 
-object NormalJourney extends Journey {
-  val name = "normal-journey"
-}
-
-object NotConnectedJourney extends Journey {
-  val name = "not-connected"
-}
-
-object FeedbackPageJourney extends Journey {
-  val name = "feedback-page"
-}
-
-object JourneyTypes extends NamedEnumSupport[Journey] {
-  val all: List[Journey] = List(NormalJourney, NotConnectedJourney)
-}
+/**
+  * @author Yuriy Tumakha
+  */
+trait TestBaseSpec extends AnyFlatSpec with should.Matchers with MockitoExtendedSugar with OptionValues with EitherValues

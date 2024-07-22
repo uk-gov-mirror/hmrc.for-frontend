@@ -19,9 +19,6 @@ package uk.gov.voa.play.form
 import play.api.data.validation.Constraint
 import play.api.data.{FormError, Mapping}
 
-// TODO: Remove package uk.gov.voa.play.form if library uk.gov.hmrc:play-conditional-form-mapping_2.13 for Scala 2.13 released
-// https://artefacts.tax.service.gov.uk/ui/packages?name=%2Aplay-conditional-form-mapping%2A&type=packages
-
 case class MandatoryOptionalMapping[T](wrapped: Mapping[T], constraints: Seq[Constraint[Option[T]]] = Nil) extends Mapping[Option[T]] {
 
   override val format: Option[(String, Seq[Any])] = wrapped.format

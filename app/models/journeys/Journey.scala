@@ -43,18 +43,17 @@ object Journey {
 
   private def pageToShow(target: Int, summary: Summary, current: Option[Int]): Int = {
     val path = Paths.pathFor(summary)
-    if (target == 0) {
+    if target == 0 then
       target
-    } else if (path.contains(target) && path.previousPageIsComplete(target, summary)) {
+    else if path.contains(target) && path.previousPageIsComplete(target, summary) then
       target
-    } else if (movingBackwards(target, current)) {
+    else if movingBackwards(target, current) then
       path.previousPage(target)
-    } else {
+    else
       path.nextPage(target, summary) getOrElse 16
-    }
   }
 
-  private def movingBackwards(target: Int, current: Option[Int]) = current.map(_ > target) getOrElse false
+  private def movingBackwards(target: Int, current: Option[Int]) = current.exists(_ > target)
 
   def pageIsNotApplicable(target: Int, summary: Summary): Boolean =
     !Paths.pathFor(summary).contains(target)

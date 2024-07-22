@@ -16,11 +16,10 @@
 
 package controllers
 
+import base.TestBaseSpec
 import connectors.{Audit, SubmissionConnector}
 import form.persistence.{FormDocumentRepository, MongoSessionRepository}
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
-import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import utils.Helpers.refNumAction
@@ -28,7 +27,7 @@ import views.html.{confirmNotConnected, notConnectedCheckYourAnswers}
 
 import scala.concurrent.ExecutionContext
 
-class NotConnectedCheckYourAnswersControllerSpec extends AnyFlatSpec with should.Matchers with MockitoSugar {
+class NotConnectedCheckYourAnswersControllerSpec extends TestBaseSpec {
 
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 

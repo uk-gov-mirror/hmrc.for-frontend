@@ -16,26 +16,25 @@
 
 package controllers.feedback
 
-import java.net.URLEncoder
-import connectors.ForHttp
+import connectors.{Audit, ForHttp}
 import controllers.*
 import form.Formats.*
-
-import javax.inject.{Inject, Singleton}
 import models.{Feedback, Journey, NormalJourney, NotConnectedJourney}
-import play.api.data.{Form, Forms}
+import play.api.Logging
 import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.{Form, Forms}
 import play.api.mvc.*
-import play.api.Logger
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{feedbackForm, feedbackThx}
 
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class FeedbackController @Inject() (
+  audit: Audit,
   cc: MessagesControllerComponents,
   http: ForHttp,
   override val servicesConfig: ServicesConfig,
@@ -43,10 +42,8 @@ class FeedbackController @Inject() (
   feedbackFormView: feedbackForm
 )(implicit ec: ExecutionContext
 ) extends FrontendController(cc)
-  with HMRCContact {
-
-  // override lazy val crypto = (value: String) => sessionCookieCrypto.crypto.encrypt(PlainText(value)).value
-  val log: Logger = Logger(this.getClass)
+  with HMRCContact
+  with Logging {
 
   object FeedbackFormMapper {
 
@@ -58,10 +55,8 @@ class FeedbackController @Inject() (
         "service"           -> text,
         "referrer"          -> text,
         "journey"           -> Forms.of[Journey],
-        "feedback-comments" -> optional(text).verifying(
-          "feedback.commments.maxLength",
-          it =>
-            it.getOrElse("").length < 1200
+        "feedback-comments" -> optional(
+          text.verifying("feedback.commments.maxLength", _.length <= 1200)
         )
       )(Feedback.apply)(o => Some(Tuple.fromProductTyped(o)))
     )
@@ -70,24 +65,24 @@ class FeedbackController @Inject() (
   import FeedbackFormMapper.feedbackForm
 
   def handleFeedbackSubmit: Action[AnyContent] = Action.async { implicit request =>
-    val formUrlEncoded = request.body.asFormUrlEncoded
     feedbackForm.bindFromRequest().fold(
-      formWithErrors =>
-        Future.successful {
-          BadRequest(feedbackFormView(formWithErrors))
-        },
-      _ => {
+      formWithErrors => BadRequest(feedbackFormView(formWithErrors)),
+      feedback => {
+        val urlEncodedForm = request.body.asFormUrlEncoded.get
 
-        implicit val headerCarrier: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
+        implicit val headerCarrier: HeaderCarrier = hc.copy(authorization = None).withExtraHeaders("Csrf-Token" -> "nocheck")
 
-        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, formUrlEncoded.get, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, urlEncodedForm, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
           res.status match {
-            case 200 | 201 | 202 | 204 => log.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
+            case 200 | 201 | 202 | 204 => logger.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
             case _                     =>
-              log.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: ${formUrlEncoded.get}, \nheaderCarrier: $headerCarrier")
+              logger.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: $urlEncodedForm, \nheaderCarrier: $headerCarrier")
           }
         }
-        Redirect(controllers.feedback.routes.FeedbackController.feedbackThankyou)
+
+        audit.sendFeedback(feedback, request.session.get("refNum")).map {
+          _ => Redirect(controllers.feedback.routes.FeedbackController.feedbackThankyou)
+        }
       }
     )
   }
@@ -103,6 +98,7 @@ class FeedbackController @Inject() (
   def feedbackThankyou: Action[AnyContent] = Action { implicit request =>
     Ok(feedbackThankyouView())
   }
+
 }
 
 trait HMRCContact {
@@ -113,12 +109,10 @@ trait HMRCContact {
   val serviceIdentifier                      = "RALD"
   val feedbackUrl                            = controllers.feedback.routes.FeedbackController.feedback.url
   val contactFrontendFeedbackPostUrl: String = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/submit-unauthenticated"
-  val hmrcSubmitFeedbackUrl: String          = s"$contactFrontendPartialBaseUrl/contact/beta-feedback/form?resubmitUrl=${urlEncode(feedbackUrl)}"
 
   // The default HTTPReads will wrap the response in an exception and make the body inaccessible
   implicit val readPartialsForm: HttpReads[HttpResponse] = new HttpReads[HttpResponse] {
     def read(method: String, url: String, response: HttpResponse) = response
   }
 
-  private def urlEncode(value: String) = URLEncoder.encode(value, "UTF-8")
 }

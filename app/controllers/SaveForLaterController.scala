@@ -77,7 +77,7 @@ class SaveForLaterController @Inject() (
       case Some(doc) =>
         val sum        = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
-        if (doc.saveForLaterPassword.isDefined) {
+        if doc.saveForLaterPassword.isDefined then
           val saveSubmissionForLater = playconfig.SaveForLater(doc.saveForLaterPassword.get)
           saveSubmissionForLater(hc)(doc, hc).flatMap { pw =>
             audit.sendSavedForLater(sum, exitPath)
@@ -86,9 +86,8 @@ class SaveForLaterController @Inject() (
 
             Ok(savedForLater(sum, pw, expiryDate))
           }
-        } else {
+        else
           Ok(customPasswordSaveForLaterView(sum, expiryDate, CustomUserPasswordForm.customUserPassword, exitPath)) // TODO - pass path
-        }
       case None      =>
         InternalServerError(errorView(500))
     }

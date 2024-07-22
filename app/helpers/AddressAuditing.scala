@@ -31,7 +31,7 @@ import scala.concurrent.Future
 class AddressAuditing @Inject() (audit: Audit) {
 
   def apply(s: Summary, request: Request[?]): Future[Unit] = {
-    if (s.propertyAddress.isDefined) auditManualAddress(s.referenceNumber, s.addressUserBelievesIsCorrect, request)
+    if s.propertyAddress.isDefined then auditManualAddress(s.referenceNumber, s.addressUserBelievesIsCorrect, request)
     s.sublet.foreach(p4 => p4.sublet.foreach(sub => auditManualAddress(s.referenceNumber, sub.tenantAddress, request)))
     Future.successful(())
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,24 +31,22 @@ object Paths {
   val log: Logger = Logger(this.getClass)
 
   def pathFor(summary: Summary): Path = {
-    val removePage1 = summary.addressConnection.map {
-      case AddressConnectionTypeYes              => true
-      case AddressConnectionTypeYesChangeAddress => false
-      case AddressConnectionTypeNo               => false
-    }.getOrElse(false)
-
-    if (removePage1) {
-      new Path(buildPath(summary).pages.filterNot(_ == 1))
-    } else {
-      buildPath(summary)
+    val removePage1 = summary.addressConnection.exists {
+      case AddressConnectionTypeYes                                        => true
+      case AddressConnectionTypeYesChangeAddress | AddressConnectionTypeNo => false
     }
+
+    if removePage1 then
+      new Path(buildPath(summary).pages.filterNot(_ == 1))
+    else
+      buildPath(summary)
   }
 
   private def buildPath(summary: Summary): Path =
-    if (isShortPath(summary)) shortPath
-    else if (summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal) verbalAgreementPath
-    else if (summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews) rentReviewPaths
-    else if (summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserTypeVacated) vacatedPath
+    if isShortPath(summary) then shortPath
+    else if summary.lease.isDefined && summary.lease.get.leaseAgreementType == LeaseAgreementTypesVerbal then verbalAgreementPath
+    else if summary.rentReviews.isDefined && summary.rentReviews.get.leaseContainsRentReviews then rentReviewPaths
+    else if summary.customerDetails.isDefined && summary.customerDetails.get.userType == UserTypeVacated then vacatedPath
     else standardPath
 
   def isShortPath(summary: Summary): Boolean = {
