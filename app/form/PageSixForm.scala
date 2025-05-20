@@ -154,7 +154,7 @@ object PageSixForm {
   val pageSixMapping: Mapping[PageSix] = mapping(
     keys.leaseAgreementType -> leaseAgreementTypeMapping,
     keys.writtenAgreement   -> mandatoryIfAnyOf(keys.leaseAgreementType, writtenAgreements, writtenAgreementMapping),
-    keys.verbalAgreement    -> onlyIf(isEqual(keys.leaseAgreementType, LeaseAgreementTypesVerbal.name), verbalAgreementMapping)(VerbalAgreement()),
+    keys.verbalAgreement    -> onlyIf(isEqual(keys.leaseAgreementType, LeaseAgreementTypesVerbal.name), verbalAgreementMapping)(using VerbalAgreement()),
     "lastReviewDate"        -> optional(localDate),
     "rentReviewDate"        -> optional(localDate)
   )(PageSix.apply)(o => Some(Tuple.fromProductTyped(o)))

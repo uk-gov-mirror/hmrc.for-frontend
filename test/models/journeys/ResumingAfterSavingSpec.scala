@@ -28,21 +28,18 @@ class ResumingAfterSavingSpec extends AnyFlatSpec with should.Matchers with Tabl
 
   behavior of "Page to resume at"
 
-  it should "return summary page when resuming complete but undeclared submissions" in {
+  it should "return summary page when resuming complete but undeclared submissions" in
     forAll(completeJourneys) { cj =>
       assert(Journey.pageToResumeAt(cj) === SummaryPage)
     }
-  }
 
-  it should "return earliest incomplete page when resuming journeys for incomplete submissions" in {
+  it should "return earliest incomplete page when resuming journeys for incomplete submissions" in
     forAll(incompleteJourneys) { case (journey, page) =>
       assert(Journey.pageToResumeAt(journey) === PageToGoTo(page))
     }
-  }
 
-  it should "return to page one when it has been made invalid by editing when resuming complete but undeclared submissions" in {
+  it should "return to page one when it has been made invalid by editing when resuming complete but undeclared submissions" in
     assert(Journey.pageToResumeAt(completeShortPathJourneyWithEditedPageOne) === PageToGoTo(1))
-  }
 
   object TestData {
     val completeJourneys: TableFor1[Summary] = Table("journey", completeShortPathJourney, completeFullPathJourney)

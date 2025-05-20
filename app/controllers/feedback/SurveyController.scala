@@ -81,7 +81,7 @@ class SurveyController @Inject() (
   }
 
   private def viewConfirmationPage(refNum: String, form: Option[Form[SurveyFeedback]] = None)(implicit request: RefNumRequest[AnyContent]) =
-    repository.findById(SessionId(hc), refNum) map {
+    repository.findById(SessionId(using hc), refNum) map {
       case Some(doc) =>
         val summary = SummaryBuilder.build(doc)
         Ok(confirmationView(

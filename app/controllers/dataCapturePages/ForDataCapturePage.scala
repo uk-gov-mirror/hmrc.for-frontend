@@ -64,7 +64,7 @@ abstract class ForDataCapturePage[T](
   def show: Action[AnyContent] = show(0)
 
   def show(variant: Int): Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum) flatMap {
+    repository.findById(SessionId(using hc), request.refNum) flatMap {
       case Some(doc) =>
         val updatedRequest = new RefNumRequest[AnyContent](request.refNum, request.addAttr(variantAttr, variant), request.messagesApi)
         showThisPageOrGoToNextAllowed(doc, updatedRequest)
@@ -85,7 +85,7 @@ abstract class ForDataCapturePage[T](
   private def isThisPage(page: Int) = page == pageNumber
 
   def save: Action[AnyContent] = refNumAction.async { implicit request: RefNumRequest[AnyContent] =>
-    saveForm(request.body.asFormUrlEncoded, SessionId(hc), request.refNum, pageNumber) flatMap {
+    saveForm(request.body.asFormUrlEncoded, SessionId(using hc), request.refNum, pageNumber) flatMap {
       case Some((savedFields, summary)) => goToNextPage(extractAction(request.body.asFormUrlEncoded), summary, savedFields)
       case None                         => throw new BadRequestException("go to error page")
     }
@@ -129,9 +129,9 @@ abstract class ForDataCapturePage[T](
 
   private def displayForm(form: Form[T], summary: Summary, request: RefNumRequest[AnyContent]) =
     request.flash.get(SaveForLaterController.s4lIndicator) match {
-      case Some(_)             => Ok(template(form.copy(errors = Seq.empty), summary)(request))
-      case _ if form.hasErrors => BadRequest(template(form, summary)(request))
-      case _                   => Ok(template(form, summary)(request))
+      case Some(_)             => Ok(template(form.copy(errors = Seq.empty), summary)(using request))
+      case _ if form.hasErrors => BadRequest(template(form, summary)(using request))
+      case _                   => Ok(template(form, summary)(using request))
     }
 
   private def getPage(nextPage: Int, summary: Summary, request: RefNumRequest[AnyContent]) = {

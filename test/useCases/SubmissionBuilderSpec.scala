@@ -35,21 +35,17 @@ class SubmissionBuilderSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "Submission builder"
 
-  it should "build submissions from in-progress documents" in {
+  it should "build submissions from in-progress documents" in
     assert(new DefaultSubmissionBuilder().build(doc1) === submission1)
-  }
 
-  it should "leave pages as none where there is no data for them" in {
+  it should "leave pages as none where there is no data for them" in
     assert(new DefaultSubmissionBuilder().build(doc2) === submission2)
-  }
 
-  it should "assign the correct data to the correct page, no matter what order the pages are supplied in" in {
+  it should "assign the correct data to the correct page, no matter what order the pages are supplied in" in
     assert(new DefaultSubmissionBuilder().build(doc3) === submission1)
-  }
 
-  it should "parse a verbal lease agreement when page six is a verbal agreement" in {
+  it should "parse a verbal lease agreement when page six is a verbal agreement" in
     assert(new DefaultSubmissionBuilder().build(docWithVerbalAgreement) === submissionWithVerbalAgreement)
-  }
 
   /*  it should "calculate an annual rent from a weekly rent when mapping rent" in {
     val sub = SubmissionBuilder.build(docWithWeeklyRent)

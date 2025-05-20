@@ -33,8 +33,8 @@ import javax.inject.{Inject, Singleton}
   */
 @Singleton()
 class AnotherHttpClient @Inject() (
-  val config: Configuration,
-  override val httpAuditing: HttpAuditing,
+  config: Configuration,
+  httpAuditing: HttpAuditing,
   override val wsClient: WSClient,
   override protected val actorSystem: ActorSystem
 ) extends DefaultHttpClient(config, httpAuditing, wsClient, actorSystem)

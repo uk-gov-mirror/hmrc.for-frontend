@@ -59,7 +59,7 @@ class ApplicationController @Inject() (
   }
 
   def declaration: Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
+    repository.findById(SessionId(using hc), request.refNum).map {
       case Some(doc) =>
         val summary  = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
@@ -67,7 +67,7 @@ class ApplicationController @Inject() (
 
         val json = Json.obj(Audit.referenceNumber -> request.refNum) ++ Addresses.addressJson(summary)
         audit.sendExplicitAudit("ContinueNextPage", json)(
-          updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"),
+          using updatePath(implicitly[HeaderCarrier], "/sending-rental-information/check-your-answers"),
           ec
         )
 
@@ -77,7 +77,7 @@ class ApplicationController @Inject() (
   }
 
   def declarationError: Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
+    repository.findById(SessionId(using hc), request.refNum).map {
       case Some(doc) =>
         val summary  = SummaryBuilder.build(doc)
         val fullName = summary.customerDetails.map(_.fullName).getOrElse("")
@@ -88,7 +88,7 @@ class ApplicationController @Inject() (
   }
 
   def startAgain: Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.clear(SessionId(hc), request.refNum) map { _ =>
+    repository.clear(SessionId(using hc), request.refNum) map { _ =>
       Redirect(dataCapturePages.routes.PageController.showPage(0))
     }
   }
@@ -123,7 +123,7 @@ class ApplicationController @Inject() (
   }
 
   def checkYourAnswers: Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).map {
+    repository.findById(SessionId(using hc), request.refNum).map {
       case Some(doc) =>
         val sub = SummaryBuilder.build(doc)
         Ok(checkYourAnswersView(sub))

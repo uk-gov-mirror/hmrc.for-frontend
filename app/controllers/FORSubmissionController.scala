@@ -50,10 +50,10 @@ class FORSubmissionController @Inject() (
   private def submit[T](refNum: String)(implicit request: RefNumRequest[T]): Future[Result] = {
     val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     for {
-      _ <- submitBusinessRentalInformation(refNum)(hc, request)
+      _ <- submitBusinessRentalInformation(refNum)(using hc, request)
     } yield
-    // Metrics.submissions.mark() //TODO - Solve metrics
-    Found(confirmationUrl)
+      // Metrics.submissions.mark() //TODO - Solve metrics
+      Found(confirmationUrl)
   } recoverWith { case UpstreamErrorResponse(_, 409, _, _) => Conflict(errorView(409)) }
 
   private def rejectSubmission = Future.successful {

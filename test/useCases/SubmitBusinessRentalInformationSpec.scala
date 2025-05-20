@@ -52,9 +52,8 @@ class SubmitBusinessRentalInformationSpec extends AnyWordSpec with should.Matche
       val submit = new SubmitBusinessRentalInformationToBackendApi(repo, builder, subConnector, audit, auditAddresses)
       Await.result(submit(refNum), 10 seconds)
 
-      "The information will be formatted using the submission schema and posted to the back-end" in {
+      "The information will be formatted using the submission schema and posted to the back-end" in
         subConnector.verifyWasSubmitted(refNum, submission)
-      }
     }
 
   }

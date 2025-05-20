@@ -24,11 +24,9 @@ class FormatRefNumSpec extends AnyFlatSpec with should.Matchers {
 
   behavior of "format ref num"
 
-  it should "display an 8-digit-prefix ref number as xxxxxxxx/xxx" in {
+  it should "display an 8-digit-prefix ref number as xxxxxxxx/xxx" in
     assert(FormatRefNum("12345678900") === "12345678/900")
-  }
 
-  it should "display a 7-digit-prefix ref number as xxxxxxx/xxx" in {
+  it should "display a 7-digit-prefix ref number as xxxxxxx/xxx" in
     assert(FormatRefNum("1234567890") === "1234567/890")
-  }
 }

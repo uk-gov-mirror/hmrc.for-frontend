@@ -72,7 +72,7 @@ class FeedbackController @Inject() (
 
         implicit val headerCarrier: HeaderCarrier = hc.copy(authorization = None).withExtraHeaders("Csrf-Token" -> "nocheck")
 
-        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, urlEncodedForm, Seq.empty)(readPartialsForm, headerCarrier, ec) map { res =>
+        http.POSTForm[HttpResponse](contactFrontendFeedbackPostUrl, urlEncodedForm, Seq.empty)(using readPartialsForm, headerCarrier, ec) map { res =>
           res.status match {
             case 200 | 201 | 202 | 204 => logger.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
             case _                     =>

@@ -18,7 +18,6 @@ package base
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import org.scalatest.matchers.should.Matchers
 import org.scalatest.{EitherValues, OptionValues}
 
 /**

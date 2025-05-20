@@ -48,7 +48,7 @@ class AddressAuditing @Inject() (audit: Audit) {
         "submittedPostcode"   -> address.postcode,
         "transactionName"     -> "sending_rental_information"
       )
-    )(hc)
+    )(using hc)
   }
 
 }

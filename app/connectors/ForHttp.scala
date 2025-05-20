@@ -61,23 +61,23 @@ class ForHttpClient @Inject() (
   )(implicit rds: Writes[A],
     ec: ExecutionContext
   ): Future[HttpResponse] =
-    super.doPost(url, body, useDummyIPInTrueClientIPHeader(headers))(rds, ec)
+    super.doPost(url, body, useDummyIPInTrueClientIPHeader(headers))(using rds, ec)
 
   // By default HTTP Verbs does not provide access to the pure response body of a 4XX and we need it
   // An IP address needs to be injected because of the lockout mechanism
   override def doGet(url: String, headers: Seq[(String, String)])(implicit ec: ExecutionContext): Future[HttpResponse] =
-    super.doGet(url, useDummyIPInTrueClientIPHeader(headers))(ec).map { res =>
+    super.doGet(url, useDummyIPInTrueClientIPHeader(headers))(using ec).map { res =>
       res.status match {
         case 401 => throw UpstreamErrorResponse(res.body, 401, 401, res.headers)
         case 409 => throw UpstreamErrorResponse(res.body, 409, 409, res.headers)
         case _   => res
       }
-    }(ec)
+    }(using ec)
 
   override def doPut[A](url: String, body: A, headers: Seq[(String, String)])(implicit rds: Writes[A], ec: ExecutionContext): Future[HttpResponse] =
-    super.doPut(url, body, headers)(rds, ec).map { res =>
+    super.doPut(url, body, headers)(using rds, ec).map { res =>
       if res.status == 400 then throw new BadRequestException(res.body) else res
-    }(ec)
+    }(using ec)
 
   override protected def configuration: Config = config.underlying
 }

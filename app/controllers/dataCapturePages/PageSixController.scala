@@ -46,7 +46,7 @@ class PageSixController @Inject() (
 
   def template(form: Form[PageSix], summary: Summary)(implicit request: RefNumRequest[AnyContent]): Html = {
     val updatedForm: Form[PageSix] = Await.result(
-      repository.findById(SessionId(hc), request.refNum).map { docOpt =>
+      repository.findById(SessionId(using hc), request.refNum).map { docOpt =>
         (for {
           doc       <- docOpt
           page7     <- doc.page(7)

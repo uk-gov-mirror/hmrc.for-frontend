@@ -76,21 +76,17 @@ class PageNineMappingSpec extends AnyFlatSpec with should.Matchers {
     doesNotContainErrors(form)
   }
 
-  "Page Nine mapping" should "validate the rent start date" in {
+  "Page Nine mapping" should "validate the rent start date" in
     validateFullDateInPast("rentBecomePayable", pageNineForm, fullData, ".rentBecomePayable")
-  }
 
-  it should "validate the rent agreed date" in {
+  it should "validate the rent agreed date" in
     validateFullDateInPast("rentActuallyAgreed", pageNineForm, fullData, ".rentActuallyAgreed")
-  }
 
-  it should "validate the annual rent" in {
+  it should "validate the annual rent" in
     validateAnnualRent(keys.totalRent, pageNineForm, fullData, ".annualRentExcludingVat")
-  }
 
-  it should "validate the rent based on ... details" in {
+  it should "validate the rent based on ... details" in
     validateLettersNumsSpecCharsUptoLength(keys.rentBasedOnDetails, 250, pageNineForm, fullData, Some("error.rentBasedOnDetails.maxLength"))
-  }
 
   object TestData {
 

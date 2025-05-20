@@ -68,13 +68,13 @@ object StoreInProgressSubmissionFor90Days {
 object LoadSavedForLaterDocument {
 
   def apply(a: AuthToken, r: ReferenceNumber)(implicit hc: HeaderCarrier, hodConnector: HODConnector): Future[Option[Document]] =
-    hodConnector.loadSavedDocument(r)(hc.copy(authorization = Some(Authorization(a))))
+    hodConnector.loadSavedDocument(r)(using hc.copy(authorization = Some(Authorization(a))))
 }
 
 object UpdateDocumentInCurrentSession {
 
   def apply(h: HeaderCarrier, r: ReferenceNumber, d: Document)(implicit formDocumentRepository: FormDocumentRepository): Future[Unit] =
-    formDocumentRepository.store(SessionId(h), r, d)
+    formDocumentRepository.store(SessionId(using h), r, d)
 }
 
 object Generate7LengthLowercaseAlphaNumPassword {

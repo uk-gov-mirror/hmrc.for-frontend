@@ -30,19 +30,16 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
   import utils.FormBindingTestAssertions._
   import utils.MappingSpecs._
 
-  "Page four mapping" should "validate sublet tenant address when sublet is true and is tenants address" in {
+  "Page four mapping" should "validate sublet tenant address when sublet is true and is tenants address" in
     validateAddress(pageFourForm, fullData, "sublet[0].tenantAddress")
-  }
 
-  it should "allow letters, numbers, spaces and special chars with upto 50 chars for a name" in {
+  it should "allow letters, numbers, spaces and special chars with upto 50 chars for a name" in
     validateFullName(pageFourForm, fullData, keys.tenantFullName, Some("error.sublet.tenantFullName.maxLength"))
-  }
 
-  it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet" in {
+  it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet" in
     validateLettersNumsSpecCharsUptoLength(keys.subletPropertyPartDescription, 100, pageFourForm, fullData, Some("error.subletPropertyPartDescription.maxLength"))
-  }
 
-  it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet reason" in {
+  it should "allow letters, numbers, spaced and special chars upto 100 chars for property part sublet reason" in
     validateLettersNumsSpecCharsUptoLength(
       keys.subletPropertyReasonDescription,
       100,
@@ -50,15 +47,12 @@ class PageFourMappingSpec extends AnyFlatSpec with should.Matchers {
       fullData,
       Some("error.subletPropertyReasonDescription.maxLength")
     )
-  }
 
-  it should "validate the annual rent as a valid annual rent" in {
+  it should "validate the annual rent as a valid annual rent" in
     validateCurrency(keys.annualRentExcludingVat, pageFourForm, fullData, ".sublet.annualRent")
-  }
 
-  it should "only allow valid dates for the rent fixed date" in {
+  it should "only allow valid dates for the rent fixed date" in
     validatePastDate(keys.rentFixedDate, pageFourForm, fullData, ".sublet.rentFixedDate")
-  }
 
   it should "return a required error for sublet type" in {
     val data = fullData - keys.subletType

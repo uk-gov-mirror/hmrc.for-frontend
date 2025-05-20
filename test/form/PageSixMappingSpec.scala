@@ -178,21 +178,17 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
     doesNotContainErrors(bind(d))
   }
 
-  it should "validate the lease agreement start date as a date in the past" in {
+  it should "validate the lease agreement start date as a date in the past" in
     validatePastDate(writtenStartDate, pageSixForm, fullData, ".writtenAgreement.startDate")
-  }
 
-  it should "validate the lease duration" in {
+  it should "validate the lease duration" in
     validatesDuration(writtenLeaseLength, pageSixForm, fullData, ".writtenAgreement.leaseLength")
-  }
 
-  it should "validate the break clause details as free text" in {
+  it should "validate the break clause details as free text" in
     validateLettersNumsSpecCharsUptoLength(writtenBreakClauseDetails, 124, pageSixForm, fullData, Some("error.writtenAgreement.breakClauseDetails.maxLength"))
-  }
 
-  it should "validate stepped rent amount as currency allowing non-negative amounts" in {
+  it should "validate stepped rent amount as currency allowing non-negative amounts" in
     validateCurrency(getKeyStepped(0).amount, pageSixForm, fullData, ".writtenAgreement.steppedDetails.amount")
-  }
 
   it should "validate stepped rent from date as a date" in {
     val formData = fullData + (getKeyStepped(0).stepTo + ".year" -> nowInUK.plusYears(1).getYear.toString)
@@ -200,9 +196,8 @@ class PageSixMappingSpec extends AnyFlatSpec with should.Matchers {
     validateDate(fieldSeq, pageSixForm, formData, ".writtenAgreement.steppedDetails.stepFrom")
   }
 
-  it should "validate the second stepped rent step amount as currency" in {
+  it should "validate the second stepped rent step amount as currency" in
     validateCurrency(getKeyStepped(0).amount, pageSixForm, fullDataWithNoOverlap, ".writtenAgreement.steppedDetails.amount")
-  }
 
   it should "not allow more than 7 stepped rents" in {
     val with7SteppedRents = addSteppedRents(6, fullData)

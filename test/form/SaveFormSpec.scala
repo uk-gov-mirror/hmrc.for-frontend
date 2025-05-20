@@ -43,13 +43,11 @@ class SaveFormSpec extends AnyWordSpec with should.Matchers {
       val s         = new SaveFormInRepository(r, StubSummaryBuilder())
       val x         = Await.result(s(Some(testData), sessionId, refNumWithNoDoc, 1), 5 seconds)
 
-      "not save anything" in {
+      "not save anything" in
         assert(r.storedPages.isEmpty)
-      }
 
-      "return none" in {
+      "return none" in
         assert(x === None)
-      }
     }
 
     "a document exists" should {
@@ -59,9 +57,8 @@ class SaveFormSpec extends AnyWordSpec with should.Matchers {
       val s         = new SaveFormInRepository(r, b)
       val x         = Await.result(s(Some(testData), sessionId, refNumWithDoc, 1), 5 seconds)
 
-      "add a new page to the document with the supplied fields as a flat Json object" in {
+      "add a new page to the document with the supplied fields as a flat Json object" in
         assert(r.storedPages.last._3 === page1WithTestData)
-      }
 
       "return the trimmed fields that were saved and the updated summary" in {
         assert(x.get._1 === testDataTrimmed - "csrfToken")

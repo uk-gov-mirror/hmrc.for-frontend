@@ -50,13 +50,13 @@ class NotConnectedController @Inject() (
   val logger: Logger = Logger(classOf[NotConnectedController])
 
   def findSummary(implicit request: RefNumRequest[?]): Future[Option[Summary]] =
-    repository.findById(SessionId(hc), request.refNum) flatMap {
+    repository.findById(SessionId(using hc), request.refNum) flatMap {
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None      => None
     }
 
   def getNotConnectedFromCache()(implicit hc: HeaderCarrier): Future[Option[NotConnected]] =
-    cache.fetchAndGetEntry[NotConnected](SessionId(hc), NotConnectedController.cacheKey).flatMap {
+    cache.fetchAndGetEntry[NotConnected](SessionId(using hc), NotConnectedController.cacheKey).flatMap {
       case Some(x) => Some(x)
       case None    => None
     }
@@ -90,7 +90,7 @@ class NotConnectedController @Inject() (
           formWithErrors =>
             Future.successful(Ok(notConnectedView(formWithErrors, summary))),
           formWithData =>
-            cache.cache(SessionId(hc), cacheKey, formWithData).map { _ =>
+            cache.cache(SessionId(using hc), cacheKey, formWithData).map { _ =>
               Redirect(routes.NotConnectedCheckYourAnswersController.onPageView)
             }
         )

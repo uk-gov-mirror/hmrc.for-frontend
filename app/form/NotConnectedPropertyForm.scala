@@ -52,7 +52,7 @@ object NotConnectedPropertyForm {
         case None        => Valid
       }
     }
-    FieldMapping(key = "", constraints.map(optConstraint(_)))(atLeastOneKeyFormatter(anotherKey))
+    FieldMapping(key = "", constraints.map(optConstraint(_)))(using atLeastOneKeyFormatter(anotherKey))
   }
 
   private val fullNameRegex: Regex = """^[A-Za-z\-.,()'"\s]+$""".r

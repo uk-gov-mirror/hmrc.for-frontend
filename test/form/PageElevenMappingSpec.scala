@@ -129,9 +129,8 @@ class PageElevenMappingSpec extends AnyFlatSpec with should.Matchers {
     mustContainError("capitalPaidDetails.capitalSum", "error.required.paid", res)
   }
 
-  it should "validate the rent free period details" in {
+  it should "validate the rent free period details" in
     validateLettersNumsSpecCharsUptoLength("rentFreePeriodDetails.rentFreePeriodDetails", 250, pageElevenForm, baseData, Some("error.rentFreePeriod.maxLength"))
-  }
 
   it should "not bind and return errors when rent free duration has 'a' entered" in {
     val testData = baseData.updated("rentFreePeriodDetails.rentFreePeriodLength", "a")
@@ -151,19 +150,15 @@ class PageElevenMappingSpec extends AnyFlatSpec with should.Matchers {
     containsError(res.errors, "rentFreePeriodDetails.rentFreePeriodLength", "error.maxValueRentFreeIsBlank.required")
   }
 
-  it should "validate the capital sum paid" in {
+  it should "validate the capital sum paid" in
     validateCurrency("capitalPaidDetails.capitalSum", pageElevenForm, baseData, ".paid")
-  }
 
-  it should "validate the capital sum payment date" in {
+  it should "validate the capital sum payment date" in
     validatePastDate("capitalPaidDetails.paymentDate", pageElevenForm, baseData, ".made")
-  }
 
-  it should "validate the capital sum received" in {
+  it should "validate the capital sum received" in
     validateCurrency("capitalReceivedDetails.receivedSum", pageElevenForm, baseData, ".received")
-  }
 
-  it should "validate the capital sum received date" in {
+  it should "validate the capital sum received date" in
     validatePastDate("capitalReceivedDetails.paymentDate", pageElevenForm, baseData, ".received")
-  }
 }

@@ -115,17 +115,14 @@ class PageSevenMappingSpec extends AnyFlatSpec with should.Matchers {
     mustContainError("rentReviewDetails.rentReviewResultsDetails.rentFixedBy", Errors.rentFixedByRequired, res)
   }
 
-  "Page Seven Mapping" should "validate the Rent Interval duration" in {
+  "Page Seven Mapping" should "validate the Rent Interval duration" in
     validatesDuration("rentReviewDetails.reviewIntervalTypeSpecify", pageSevenForm, baseData, ".rentReviewIntervalOther")
-  }
 
-  it should "validate the last review date" in {
+  it should "validate the last review date" in
     validatePastDate("rentReviewDetails.lastReviewDate", pageSevenForm, baseData, ".lastRentReviewDate")
-  }
 
-  it should "validate the rent review date" in {
+  it should "validate the rent review date" in
     validatePastDate("rentReviewDetails.rentReviewResultsDetails.whenWasRentReview", pageSevenForm, baseData, ".rentResultOfReview")
-  }
 
   it should "not validate the rent interval duration when only leaseContainsRentReviews is specified" in {
     val data = Map(leaseContainsRentReviews)

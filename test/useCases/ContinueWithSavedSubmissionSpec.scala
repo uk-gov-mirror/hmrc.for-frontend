@@ -55,9 +55,8 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
         )
       val r                                                                             = await(c.apply(pwd, ref))
 
-      "return the next page to go to" in {
+      "return the next page to go to" in
         assert(r === PasswordsMatch(SummaryPage))
-      }
 
       "load the saved document into the current session updating the journey resumptions with the current date and time" in {
         val docWithNowResumption = doc.copy(saveForLaterPassword = None, journeyResumptions = doc.journeyResumptions :+ now)
@@ -78,13 +77,11 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
 
       val r = await(c.apply("invalidPassword", ref))
 
-      "return a failed login" in {
+      "return a failed login" in
         assert(r === IncorrectPassword)
-      }
 
-      "not update the document in the current session" in {
+      "not update the document in the current session" in
         assert(updated === null)
-      }
     }
 
     "there is no matching document" should {
@@ -93,13 +90,11 @@ class ContinueWithSavedSubmissionSpec extends UnitTest {
         ContinueWithSavedSubmission(none, set(updated = _), _ => sum, _ => SummaryPage, () => now)
       val r                                                                             = await(c.apply(pwd, ref))
 
-      "a retrieval error is returned" in {
+      "a retrieval error is returned" in
         assert(r === ErrorRetrievingSavedDocument)
-      }
 
-      "the current session is not modified" in {
+      "the current session is not modified" in
         assert(updated === null)
-      }
     }
 
   }

@@ -94,9 +94,8 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
     mustContainError(rentIncludedParkingDetailsPrefix, "error.required.parking.rentIncludeParkingDetails", form)
   }
 
-  it should "allow up to 249 letters, numbers, spaces, and special characters for rent details" in {
+  it should "allow up to 249 letters, numbers, spaces, and special characters for rent details" in
     validateLettersNumsSpecCharsUptoLength(Keys.rentDetails, 249, pageTenForm, fullData, Some("error.rentDetails.maxLength"))
-  }
 
   it should "allow upto 4 digits for all car parking quantities" in {
     validateUptoNDigits(
@@ -150,13 +149,11 @@ class PageTenMappingSpec extends AnyFlatSpec with should.Matchers {
     )
   }
 
-  it should "validate annual payment as 9 digits and 2 decimals" in {
+  it should "validate annual payment as 9 digits and 2 decimals" in
     validateCurrency(annualSeparateParking, pageTenForm, fullData, ".annualSeparateParkingAmount")
-  }
 
-  it should "validate annual separate parking date as a date in the past" in {
+  it should "validate annual separate parking date as a date in the past" in
     validatePastDate(annualSeparateParkingPaymentFixedDate, pageTenForm, fullData, ".annualSeparateParkingDate")
-  }
 
   it should "return a required error when rent details are required but not given" in {
     val fields = Seq(Keys.partRent, Keys.otherProperty, Keys.livingAccommodation, Keys.landOnly, Keys.shellUnit)
