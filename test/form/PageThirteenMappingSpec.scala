@@ -117,21 +117,17 @@ class PageThirteenMappingSpec extends AnyFlatSpec with should.Matchers {
     mustContainError("propertyAlterationsDetails", Errors.tooManyAlterations, form)
   }
 
-  it should "validate the date of the first property alteration" in {
+  it should "validate the date of the first property alteration" in
     validatePastDate("propertyAlterationsDetails[0].date", pageThirteenForm, baseData, ".alternationCost")
-  }
 
-  it should "validate the cost of the first property alteration" in {
+  it should "validate the cost of the first property alteration" in
     validateCurrency("propertyAlterationsDetails[0].cost", pageThirteenForm, baseData, ".alternationCost")
-  }
 
-  it should "validate the date of the second property alteration" in {
+  it should "validate the date of the second property alteration" in
     validatePastDate("propertyAlterationsDetails[1].date", pageThirteenForm, dataWithSecondAlteration, ".alternationCost")
-  }
 
-  it should "validate the cost of the second property alteration" in {
+  it should "validate the cost of the second property alteration" in
     validateCurrency(indexedKey(1).alterationDetailsCost, pageThirteenForm, dataWithSecondAlteration, ".alternationCost")
-  }
 
   object TestData {
 

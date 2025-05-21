@@ -48,9 +48,8 @@ class LoginToHODSpec extends UnitTest {
         r shouldBe DocumentPreviouslySaved(loginResponse.forAuthToken, loginResponse.address)
       }
 
-      "loads an empty document with the retrieved credentials and the current time as the journey start time into the session in case the user cannot login or wants to start again" in {
+      "loads an empty document with the retrieved credentials and the current time as the journey start time into the session in case the user cannot login or wants to start again" in
         assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
-      }
     }
 
     "there is no previously stored document" should {
@@ -67,9 +66,8 @@ class LoginToHODSpec extends UnitTest {
         r shouldBe NoExistingDocument(loginResponse.forAuthToken, loginResponse.address)
       }
 
-      "loads an empty document with the retrieved credentials into the session" in {
+      "loads an empty document with the retrieved credentials into the session" in
         assert(updated === ((hc, refNum, Document(refNum, now, address = Some(loginResponse.address)))))
-      }
     }
   }
 

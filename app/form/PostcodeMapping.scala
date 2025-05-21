@@ -23,7 +23,7 @@ import scala.util.matching.Regex
 object PostcodeMapping {
 
   def postcode(missingError: String = form.Errors.invalidPostcode, formatError: String = form.Errors.invalidPostcode): Mapping[String] =
-    Forms.of[String](postcodeFormatter(missingError, formatError))
+    Forms.of[String](using postcodeFormatter(missingError, formatError))
 
   val allowedChars: Regex = """[^a-zA-Z0-9]""".r
 

@@ -73,7 +73,7 @@ class SaveForLaterController @Inject() (
   def continue(implicit hc: HeaderCarrier): ContinueWithSavedSubmission = playconfig.ContinueWithSavedSubmission()
 
   def saveForLater(exitPath: String): mvc.Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).flatMap {
+    repository.findById(SessionId(using hc), request.refNum).flatMap {
       case Some(doc) =>
         val sum        = SummaryBuilder.build(doc)
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
@@ -94,7 +94,7 @@ class SaveForLaterController @Inject() (
   }
 
   def customPasswordSaveForLater(exitPath: String): mvc.Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).flatMap {
+    repository.findById(SessionId(using hc), request.refNum).flatMap {
       case Some(doc) =>
         val expiryDate = LocalDate.now.plusDays(expiryDateInDays)
         val sum        = SummaryBuilder.build(doc)
@@ -126,7 +126,7 @@ class SaveForLaterController @Inject() (
     saveForLaterForm.bindFromRequest().fold(
       formWithErrors => BadRequest(saveForLaterLogin(formWithErrors)),
       s4l =>
-        continue(hc)(s4l.password, request.refNum) flatMap {
+        continue(using hc)(s4l.password, request.refNum) flatMap {
           case PasswordsMatch(pageToResumeAt) => RedirectTo(pageToResumeAt, request.headers).flashing((s4lIndicator, s4lIndicator))
           case IncorrectPassword              =>
             val formWithLoginErrors = saveForLaterForm.withError("password", Messages("saveForLater.invalidPassword"))
@@ -137,7 +137,7 @@ class SaveForLaterController @Inject() (
   }
 
   def immediateResume: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(SessionId(hc), request.refNum).flatMap {
+    repository.findById(SessionId(using hc), request.refNum).flatMap {
       case Some(doc) =>
         val sum = SummaryBuilder.build(doc)
         Redirect(UrlFor(Journey.pageToResumeAt(sum), request.headers)).flashing((s4lIndicator, s4lIndicator))
@@ -147,7 +147,7 @@ class SaveForLaterController @Inject() (
   }
 
   def timeout: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
-    repository.findById(playconfig.SessionId(hc), request.refNum).flatMap {
+    repository.findById(playconfig.SessionId(using hc), request.refNum).flatMap {
       case Some(doc) =>
         val saveSubmissionForLater = doc.saveForLaterPassword.fold(playconfig.SaveForLater())(playconfig.SaveForLater(_))
         saveSubmissionForLater(hc)(doc, hc).flatMap { pw =>

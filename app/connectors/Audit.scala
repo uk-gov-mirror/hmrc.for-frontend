@@ -64,7 +64,7 @@ trait Audit extends AuditConnector {
   }
 
   def sendSavedForLater(summary: Summary, exitPath: String)(implicit hc: HeaderCarrier): Future[AuditResult] = {
-    val json = Json.toJson(summary)(summaryWriter).as[JsObject] ++ Addresses.addressJson(summary)
+    val json = Json.toJson(summary)(using summaryWriter).as[JsObject] ++ Addresses.addressJson(summary)
 
     val tags = hc.toAuditTags().updated("exitPath", exitPath)
 

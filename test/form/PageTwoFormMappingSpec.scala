@@ -76,9 +76,8 @@ class PageTwoFormMappingSpec extends AnyFlatSpec with should.Matchers with Commo
     mustContainError(errorKey.phone, Errors.contactPhoneRequired, form)
   }
 
-  it should "validate full name" in {
+  it should "validate full name" in
     validateLettersNumsSpecCharsUptoLength(errorKey.fullName, 50, pageTwoForm, baseFormData)
-  }
 
   object TestData {
 

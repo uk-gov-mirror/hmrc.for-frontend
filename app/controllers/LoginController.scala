@@ -122,12 +122,12 @@ class LoginController @Inject() (
     val cleanedRefNumber            = referenceNumber.replaceAll("[^0-9]", "")
     var cleanPostcode               = postcode.replaceAll("[^\\w\\d]", "")
     cleanPostcode = cleanPostcode.patch(cleanPostcode.length - 4, " ", 0)
-    loginToHOD(hc2, ec)(cleanedRefNumber, cleanPostcode, startTime).flatMap {
+    loginToHOD(using hc2, ec)(cleanedRefNumber, cleanPostcode, startTime).flatMap {
       case DocumentPreviouslySaved(token, address) =>
-        auditLogin(cleanedRefNumber, returnUser = true, address)(hc2)
+        auditLogin(cleanedRefNumber, returnUser = true, address)(using hc2)
         withNewSession(Redirect(routes.SaveForLaterController.login), token, cleanedRefNumber, sessionId)
       case NoExistingDocument(token, address)      =>
-        auditLogin(cleanedRefNumber, returnUser = false, address)(hc2)
+        auditLogin(cleanedRefNumber, returnUser = false, address)(using hc2)
         withNewSession(Redirect(dataCapturePages.routes.PageController.showPage(0)), token, cleanedRefNumber, sessionId)
     }.recover {
       case UpstreamErrorResponse(_, 409, _, _)    => Conflict(errorView(409))
@@ -138,7 +138,7 @@ class LoginController @Inject() (
         logger.warn(s"Failed login: RefNum: $cleanedRefNumber Attempts remaining: $remainingAttempts")
         if (remainingAttempts < 1) {
           val clientIP = r.headers.get(trueClientIp).getOrElse("")
-          auditLockedOut(cleanedRefNumber, postcode, cleanPostcode, clientIP)(hc2)
+          auditLockedOut(cleanedRefNumber, postcode, cleanPostcode, clientIP)(using hc2)
 
           Redirect(routes.LoginController.lockedOut)
         } else {

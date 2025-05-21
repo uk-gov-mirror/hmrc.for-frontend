@@ -58,7 +58,7 @@ class DefaultHODConnector @Inject() (
   override def verifyCredentials(referenceNumber: String, postcode: String)(implicit hc: HeaderCarrier): Future[FORLoginResponse] = {
     val credentials    = Credentials(referenceNumber, postcode)
     val wrtCredentials = implicitly[Writes[Credentials]]
-    http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials, Seq.empty)(wrtCredentials, readsHack, hc, ec)
+    http.POST[Credentials, FORLoginResponse](url("authenticate"), credentials, Seq.empty)(using wrtCredentials, readsHack, hc, ec)
   }
 
   override def saveForLater(d: Document)(implicit hc: HeaderCarrier): Future[Unit] = {

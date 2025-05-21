@@ -30,7 +30,12 @@ HTTPS
 https://github.com/hmrc/for-frontend.git
 ```
 
-##first start service manager
+### Running RALD on your local machine
+
+https://confluence.tools.tax.service.gov.uk/display/VOAO/Running+RALD+-+Rent+And+Lease+Details+on+your+local+machine
+
+
+## first start service manager
 virtualenv --python=/usr/bin/python2.7 servicemanager
 source ~/servicemanager/bin/activate
 

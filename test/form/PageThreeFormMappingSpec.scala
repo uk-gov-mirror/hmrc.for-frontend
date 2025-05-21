@@ -29,9 +29,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
 
   import TestData._
 
-  "A fully populated form "                                          should "bind to PageThreeData" in {
+  "A fully populated form "                                          should "bind to PageThreeData" in
     mustBind(bind(formData1))(x => assert(x === data1))
-  }
   "If occupier type is Company and no company name is supplied then" should "error" in {
     val dataMap = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.occupierCompanyName
     val bound   = bind(dataMap).convertGlobalToFieldErrors()
@@ -56,9 +55,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     mustContainError(keys.firstOccupationDateYear, "error.firstOccupationDate.year.required", form)
   }
 
-  "Page Three mapping" should "allow up to 100 letters, numbers, spaces, and special characters for 'Other' property type details" in {
+  "Page Three mapping" should "allow up to 100 letters, numbers, spaces, and special characters for 'Other' property type details" in
     validateLettersNumsSpecCharsUptoLength(keys.propertyType, 100, pageThreeForm, formData1, Some("error.propertyType.maxLength"))
-  }
 
   it should "validate the first occupation date when the occupier type is individuals" in {
     val formData = formData1.updated(keys.occupierType, OccupierTypeIndividuals.name).updated(keys.mainOccupierName, "Jimmy Choo")
@@ -70,9 +68,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     validatePastDate("firstOccupationDate", pageThreeForm, formData, ".firstOccupationDate")
   }
 
-  it should "allow up to 50 letters, numbers, spaces, and special characters for Company name" in {
+  it should "allow up to 50 letters, numbers, spaces, and special characters for Company name" in
     validateLettersNumsSpecCharsUptoLength(keys.occupierCompanyName, 50, pageThreeForm, formData1, Some("error.companyName.maxLength"))
-  }
 
   it should "require occupier company contact for selected occupier type Company" in {
     val data = formData1.updated(keys.occupierType, OccupierTypeCompany.name) - keys.occupierCompanyContact
@@ -88,9 +85,8 @@ class PageThreeFormMappingSpec extends AnyFlatSpec with should.Matchers {
     mustNotContainErrorFor(keys.occupierCompanyContact, form)
   }
 
-  it should "allow up to 50 letters, numbers, spaces, and special characters for occupier company contact" in {
+  it should "allow up to 50 letters, numbers, spaces, and special characters for occupier company contact" in
     validateLettersNumsSpecCharsUptoLength(keys.occupierCompanyContact, 50, pageThreeForm, formData1, Some("error.occupierCompanyContact.maxLength"))
-  }
 
   it should "require an answer to property is rented by you, when specifying property not owned by you" in {
     val data = formData1.updated(keys.propertyOwnedByYou, "false") - keys.propertyRentedByYou

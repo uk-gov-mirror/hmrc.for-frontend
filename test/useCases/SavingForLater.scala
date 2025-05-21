@@ -25,7 +25,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
 
 import java.security.SecureRandom
-import scala.collection.immutable.StringOps
+import scala.collection.StringOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -47,13 +47,11 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
         SaveInProgressSubmissionForLater.apply(() => pas, expect(savedDoc), (a, b, c) => updated = (a, b, c))
       val r                                                       = await(s.apply(doc, hc))
 
-      "generate a password using the password generator, and store the document with the generated password" in {
+      "generate a password using the password generator, and store the document with the generated password" in
         assert(r === pas)
-      }
 
-      "update the document in the current session with the password" in {
+      "update the document in the current session with the password" in
         assert(updated === ((hc, ref, savedDoc)))
-      }
     }
 
     "saving a new document for a reference number that has already saved a document" should {
@@ -81,7 +79,8 @@ class Generate7LengthLowercaseAlphaNumPasswordSpec extends AnyFlatSpec with shou
     (1 to 100) foreach { _ =>
       val pw = Generate7LengthLowercaseAlphaNumPassword()
       assert(pw.length === 7)
-      StringOps(pw).foreach(c => assert(isAllowed(c) === true, s"$c is not a valid character for passwords"))
+      for (c <- StringOps(pw))
+        assert(isAllowed(c) === true, s"$c is not a valid character for passwords")
     }
   }
 

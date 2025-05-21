@@ -4,9 +4,9 @@ import sbt.*
 
 object AppDependencies {
 
-  val bootstrapVersion    = "9.0.0"
-  val playFrontendVersion = "10.5.0"
-  val mongoVersion        = "2.1.0"
+  val bootstrapVersion    = "9.12.0"
+  val playFrontendVersion = "12.1.0"
+  val mongoVersion        = "2.6.0"
 
   // Test dependencies
   val scalatestPlusPlayVersion    = "7.0.1"
@@ -19,11 +19,8 @@ object AppDependencies {
     "uk.gov.hmrc"               %% "bootstrap-frontend-play-30" % bootstrapVersion,
     "uk.gov.hmrc"               %% "play-frontend-hmrc-play-30" % playFrontendVersion,
     "uk.gov.hmrc.mongo"         %% "hmrc-mongo-play-30"         % mongoVersion,
-    "org.xhtmlrenderer"          % "flying-saucer-pdf-itext5"   % "9.7.1",
-    "nu.validator"               % "htmlparser"                 % "1.4.16",
     "org.webjars"                % "jquery"                     % "3.7.1",
-    "com.github.java-json-tools" % "json-schema-validator"      % "2.2.14", // must be the same version as in "for-hod-adapter"
-    "org.webjars.bower"          % "compass-mixins"             % "1.0.2"
+    "com.github.java-json-tools" % "json-schema-validator"      % "2.2.14" // must be the same version as in "for-hod-adapter"
   )
 
   private val test = Seq(

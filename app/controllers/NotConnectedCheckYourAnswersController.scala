@@ -52,7 +52,7 @@ class NotConnectedCheckYourAnswersController @Inject() (
   val logger: Logger = Logger(classOf[NotConnectedCheckYourAnswersController])
 
   def findSummary(implicit request: RefNumRequest[?]): Future[Option[Summary]] =
-    repository.findById(SessionId(hc), request.refNum) flatMap {
+    repository.findById(SessionId(using hc), request.refNum) flatMap {
       case Some(doc) => Option(SummaryBuilder.build(doc))
       case None      => None
     }
@@ -65,7 +65,7 @@ class NotConnectedCheckYourAnswersController @Inject() (
     }
 
   def removeSession(implicit request: RefNumRequest[?]): Future[Unit] =
-    repository.remove(SessionId(hc))
+    repository.remove(SessionId(using hc))
 
   def onPageView: mvc.Action[AnyContent] = refNumAction.async { implicit request =>
     findSummary.flatMap { summary =>
@@ -112,13 +112,13 @@ class NotConnectedCheckYourAnswersController @Inject() (
   }
 
   def getPreviouslyConnectedFromCache()(implicit hc: HeaderCarrier): Future[PreviouslyConnected] =
-    cache.fetchAndGetEntry[PreviouslyConnected](SessionId(hc), PreviouslyConnectedController.cacheKey).flatMap {
+    cache.fetchAndGetEntry[PreviouslyConnected](SessionId(using hc), PreviouslyConnectedController.cacheKey).flatMap {
       case Some(x) => Future.successful(x)
       case None    => Future.failed(new RuntimeException("Unable to find record in cache for previously connected"))
     }
 
   def getNotConnectedFromCache()(implicit hc: HeaderCarrier): Future[NotConnected] =
-    cache.fetchAndGetEntry[NotConnected](SessionId(hc), NotConnectedController.cacheKey).flatMap {
+    cache.fetchAndGetEntry[NotConnected](SessionId(using hc), NotConnectedController.cacheKey).flatMap {
       case Some(x) => Future.successful(x)
       case None    => Future.failed(new RuntimeException("Unable to find record in cache for not connected"))
     }

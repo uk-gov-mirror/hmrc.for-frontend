@@ -45,7 +45,7 @@ class LoginControllerSpec extends TestBaseSpec {
   "login controller" should "Audit successful login" in {
 
     val audit = mock[Audit]
-    doNothing.when(audit).sendExplicitAudit(anyString, any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
+    doNothing.when(audit).sendExplicitAudit(anyString, any[JsObject])(using any[HeaderCarrier], any[ExecutionContext])
 
     val loginToHodFunction = (referenceNumber: ReferenceNumber, _: Postcode, _: StartTime) => {
       assert(referenceNumber.equals("01234567000"))
@@ -54,7 +54,7 @@ class LoginControllerSpec extends TestBaseSpec {
 
     val loginToHod = mock[LoginToHODAction]
     val time       = nowInUK
-    when(loginToHod.apply(any[HeaderCarrier], any[ExecutionContext])).thenReturn(loginToHodFunction)
+    when(loginToHod.apply(using any[HeaderCarrier], any[ExecutionContext])).thenReturn(loginToHodFunction)
 
     val loginController = new LoginController(
       audit,
@@ -69,20 +69,20 @@ class LoginControllerSpec extends TestBaseSpec {
 
     val fakeRequest = FakeRequest()
     // should strip out all non digits then split string 3 from end to create ref1/ref2
-    val response    = loginController.verifyLogin("01234567/*ok blah 000", "BN12 1AB", time)(fakeRequest)
+    val response    = loginController.verifyLogin("01234567/*ok blah 000", "BN12 1AB", time)(using fakeRequest)
 
     status(response) shouldBe SEE_OTHER
 
     verify(audit).sendExplicitAudit(
       eqTo("UserLogin"),
       eqTo(Json.obj(Audit.referenceNumber -> "01234567000", "returningUser" -> false, "address" -> Json.toJsObject(testAddress)))
-    )(any[HeaderCarrier], any[ExecutionContext])
+    )(using any[HeaderCarrier], any[ExecutionContext])
 
   }
 
   "Login Controller" should "Audit logout event" in {
     val audit = mock[Audit]
-    doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(any[HeaderCarrier], any[ExecutionContext])
+    doNothing.when(audit).sendExplicitAudit(any[String], any[JsObject])(using any[HeaderCarrier], any[ExecutionContext])
 
     val loginController = new LoginController(
       audit,
@@ -101,7 +101,7 @@ class LoginControllerSpec extends TestBaseSpec {
 
     status(response) shouldBe SEE_OTHER
 
-    verify(audit).sendExplicitAudit(eqTo("Logout"), eqTo(Json.obj(Audit.referenceNumber -> "-")))(any[HeaderCarrier], any[ExecutionContext])
+    verify(audit).sendExplicitAudit(eqTo("Logout"), eqTo(Json.obj(Audit.referenceNumber -> "-")))(using any[HeaderCarrier], any[ExecutionContext])
 
   }
 

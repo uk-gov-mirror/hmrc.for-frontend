@@ -50,7 +50,7 @@ class SubmitBusinessRentalInformationToBackendApi @Inject() (
   with Logging {
 
   def apply(refNum: String)(implicit hc: HeaderCarrier, request: RefNumRequest[?]): Future[Submission] =
-    repository.findById(SessionId(hc), refNum).flatMap {
+    repository.findById(SessionId(using hc), refNum).flatMap {
       case someDoc @ Some(doc) =>
         val submission = builder.build(doc)
         subConnector.submit(refNum, submission).map {

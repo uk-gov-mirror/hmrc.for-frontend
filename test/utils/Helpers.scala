@@ -28,7 +28,7 @@ object Helpers {
   def refNumAction(): RefNumAction = {
     val cc = play.api.test.Helpers.stubControllerComponents()
 
-    new RefNumAction(new play.api.mvc.BodyParsers.Default(cc.parsers), cc.messagesApi)(cc.executionContext)
+    new RefNumAction(new play.api.mvc.BodyParsers.Default(cc.parsers), cc.messagesApi)(using cc.executionContext)
   }
 
 }
