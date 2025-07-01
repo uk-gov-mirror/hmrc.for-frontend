@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,6 @@
 @(theForm: Form[?], summary: Summary)(implicit request: Request[?], messages: Messages)
 
 @labelSuffix  = @{ if(summary.isAgent) ".agent" else "" }
-@verbalLeaseDate = {@summary.lease.flatMap {d=>@d.verbalAgreementDetails.startDate.map { x => @displayRoughDate(x)}}}
-@writtenLeaseDate = {@summary.lease.flatMap {d=>@d.writtenAgreementDetails.flatMap { x => @displayRoughDate(x.startDate)}}}
 @agreementType = {@summary.lease.flatMap {d=>@d.leaseAgreementType.name}}
 
 @layout(
