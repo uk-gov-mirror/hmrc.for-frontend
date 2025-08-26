@@ -22,6 +22,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
+import utils.toFut
 
 import java.security.SecureRandom
 import scala.collection.StringOps
