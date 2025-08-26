@@ -1,7 +1,7 @@
 import org.irundaia.sass.Minified
 import uk.gov.hmrc.DefaultBuildSettings.itSettings
 
-ThisBuild / scalaVersion := "3.7.1"
+ThisBuild / scalaVersion := "3.7.2"
 ThisBuild / majorVersion := 3
 
 lazy val microservice = Project("for-frontend", file("."))
@@ -13,6 +13,7 @@ lazy val microservice = Project("for-frontend", file("."))
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:msg=Flag .* set repeatedly:s",
     scalacOptions += "-Wconf:msg=Implicit parameters should be provided with a \\`using\\` clause&src=views/.*:s",
+    scalacOptions += "-feature",
     javaOptions += "-XX:+EnableDynamicAgentLoading",
     libraryDependencies ++= AppDependencies.appDependencies
   )

@@ -18,7 +18,6 @@ package utils
 
 import org.scalatest.matchers.should
 import security.ArgumentsDidNotMatch
-import testutils._
 
 import scala.concurrent.Future
 

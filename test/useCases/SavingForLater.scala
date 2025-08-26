@@ -20,9 +20,9 @@ import _root_.utils.UnitTest
 import connectors.Document
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import testutils.*
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import util.DateUtil.nowInUK
+import utils.toFut
 
 import java.security.SecureRandom
 import scala.collection.StringOps
@@ -51,7 +51,7 @@ class SaveInProgressSubmissionForLaterSpec extends UnitTest {
         assert(r === pas)
 
       "update the document in the current session with the password" in
-        assert(updated === ((hc, ref, savedDoc)))
+        assert(updated === (hc, ref, savedDoc))
     }
 
     "saving a new document for a reference number that has already saved a document" should {

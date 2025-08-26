@@ -17,8 +17,10 @@
 package utils
 
 import actions.RefNumAction
-import play.api.mvc._
+import play.api.mvc.*
 import play.api.test.FakeRequest
+
+import scala.language.implicitConversions
 
 object Helpers {
 
