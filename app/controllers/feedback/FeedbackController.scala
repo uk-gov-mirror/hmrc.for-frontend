@@ -76,7 +76,7 @@ class FeedbackController @Inject() (
           res.status match {
             case 200 | 201 | 202 | 204 => logger.info(s"Feedback successful: ${res.status} response from $contactFrontendFeedbackPostUrl")
             case _                     =>
-              logger.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nparams: $urlEncodedForm, \nheaderCarrier: $headerCarrier")
+              logger.error(s"Feedback FAILED: ${res.status} response from $contactFrontendFeedbackPostUrl, \nheaderCarrier: $headerCarrier")
           }
         }
 
