@@ -38,7 +38,7 @@ import views.html.{login, loginFailed}
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import java.util.UUID
-import javax.inject.Inject
+import jakarta.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 case class LoginDetails(referenceNumber: String, postcode: String, startTime: ZonedDateTime)

@@ -21,7 +21,7 @@ import java.util.Base64
 import com.google.inject.ImplementedBy
 import connectors.{Document, Page}
 import controllers.toFut
-import javax.inject.{Inject, Singleton}
+import jakarta.inject.{Inject, Singleton}
 import play.api.libs.json.{Format, Json}
 
 import scala.concurrent.{ExecutionContext, Future}

@@ -30,7 +30,7 @@ import uk.gov.hmrc.play.audit.http.connector.{AuditChannel, AuditConnector, Audi
 import uk.gov.hmrc.play.audit.model.{DataEvent, ExtendedDataEvent}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-import javax.inject.{Inject, Singleton}
+import jakarta.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[ForAuditConnector])

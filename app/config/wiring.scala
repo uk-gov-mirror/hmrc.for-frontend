@@ -21,7 +21,7 @@ import connectors.HODConnector
 import crypto.MongoHasher
 import form.persistence.FormDocumentRepository
 
-import javax.inject.{Inject, Singleton}
+import jakarta.inject.{Inject, Singleton}
 import models.journeys.Journey
 import models.pages.SummaryBuilder
 import security.LoginToHOD.*
