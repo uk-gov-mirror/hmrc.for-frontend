@@ -174,6 +174,6 @@ class LoginController @Inject() (
     )
 
 object FailedLoginResponse:
-  implicit val f: Format[FailedLoginResponse] = Json.format[FailedLoginResponse]
+  implicit val f: Format[FailedLoginResponse] = Json.format
 
 case class FailedLoginResponse(numberOfRemainingTriesUntilIPLockout: Int)

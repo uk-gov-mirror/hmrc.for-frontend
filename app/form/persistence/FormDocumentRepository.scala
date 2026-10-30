@@ -85,6 +85,6 @@ class SessionScopedFormDocumentRepository @Inject() (cache: MongoSessionReposito
     cache.removeCache(documentId)
 
 object DocumentWrapper:
-  implicit val f: Format[DocumentWrapper] = Json.format[DocumentWrapper]
+  implicit val f: Format[DocumentWrapper] = Json.format
 
 case class DocumentWrapper(b64JsonBlob: String)
